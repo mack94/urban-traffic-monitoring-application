@@ -1,0 +1,24 @@
+{
+  "routes": [
+    {
+      "id": "1",
+      "origin": "Kremerowska 11, Kraków",
+      "destination": "Racławicka 2, Kraków"
+    },
+    {
+      "id": "2",
+      "origin": "Racławicka 2, Kraków",
+      "destination": "Kawiory 21, Kraków"
+    },
+    {
+      "id": "3",
+      "origin": "Kawiory 21, Kraków",
+      "destination": "Tischnera 1, Kraków"
+    },
+    {
+      "id": "4",
+      "origin": "Tischnera 1, Kraków",
+      "destination": "most Nowohucki, Kraków"
+    }
+  ]
+}

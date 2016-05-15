@@ -1,9 +1,9 @@
 .idea/
-out/
-*.iml
-workspace/
 build/
-.gradle/
+*.iml
 *.log
-*.ipr
-*.iws
+*.db
+gradlew
+gradlew.bat
+gradle/
+.gradle/
