@@ -1,10 +1,9 @@
 import ch.qos.logback.classic.Logger;
 import com.google.maps.DirectionsApiRequest;
-import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.DirectionsRoute;
-import com.google.maps.model.DistanceMatrix;
-import com.google.maps.model.DistanceMatrixElement;
+import com.google.maps.model.*;
 import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
 
 /**
  * Created by Maciej on 14.05.2016.
@@ -58,8 +57,17 @@ public class Route {
     }
 
     private String buildResult(DistanceMatrixElement me_element, DirectionsRoute[] routes) {
-        String me_result = String.format("\"me_result\": {\"Distance\": \"%s\", \"Duration\": \"%s\", \"DurationInTraffic\": \"%s\", \"Fare\": \"%s\", \"Status\": \"%s\"}",
-                me_element.distance, me_element.duration.inSeconds, me_element.durationInTraffic.inSeconds, me_element.fare, me_element.status);
+
+        String me_result = "\"me_result\": \"Result not found\"";
+
+        if (me_element.status.toString().compareTo("NOT_FOUND") != 0) {
+            String duration = String.valueOf(me_element.duration.inSeconds);
+            String durationInTraffic = String.valueOf(me_element.durationInTraffic.inSeconds);
+
+            me_result = String.format("\"me_result\": {\"Distance\": \"%s\", \"Duration\": \"%s\", \"DurationInTraffic\": \"%s\", \"Status\": \"%s\"}",
+                    me_element.distance, duration, durationInTraffic, me_element.status);
+        }
+
 //        String r_result = "";
 //        int route_id = 0;
 //        for (DirectionsRoute route : routes){
