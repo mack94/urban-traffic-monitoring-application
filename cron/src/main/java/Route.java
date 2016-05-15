@@ -38,7 +38,7 @@ public class Route {
     private void loadRouteInfo() throws Exception {
 
 //        DirectionsResult directionsResult = directionsApi.await();
-//        DirectionsRoute[] routes = directionsResult.routes;
+        DirectionsRoute[] routes = null;
 //
 //
 //        for (DirectionsRoute route : routes) {
@@ -47,8 +47,8 @@ public class Route {
 //            //System.out.println(route.legs[0].steps[0].startLocation);
 //
 //        }
-//
-//        result = buildResult(distanceMatrix.rows[0].elements[0], routes);
+
+        result = buildResult(distanceMatrix.rows[0].elements[0], routes);
 //        for (DistanceMatrixRow row: distanceMatrix.rows) {
 //            for (DistanceMatrixElement element: row.elements) {
 //                result = buildResult(element, routes);
