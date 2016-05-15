@@ -11,6 +11,6 @@ The *.jar should appear in the build/lib directory.
 
 ## Run on jagullar 
 
-nohup java -jar lib_name &
+`nohup java -jar lib_name &`
 
 where lib_name is our jar file_name. 
