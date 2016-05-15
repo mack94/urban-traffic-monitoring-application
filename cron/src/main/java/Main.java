@@ -20,7 +20,7 @@ public class Main {
         RoutesLoader routesLoader = new RoutesLoader();
 
         while (true) {
-            long wait = random.nextInt(500000) + 25000;
+            long wait = Timer.getWaitingTime();
 
             try {
                 JSONArray loadedRoutes = routesLoader.loadJSON();
@@ -42,11 +42,13 @@ public class Main {
                     DistanceMatrix distanceMatrix = DistanceMatrixApi
                             .getDistanceMatrix(context, destinations, origins)
                             .mode(travelMode)
+                            .language("pl")
                             .departureTime(departure)
                             .await();
                     DirectionsApiRequest directionsApi = DirectionsApi
                             .getDirections(context, destinations[0], origins[0])
-                            .alternatives(true);
+                            .alternatives(true)
+                            .language("pl");
                     Route route = new Route(id, distanceMatrix, directionsApi);
                 }
             } catch (Exception e) {
