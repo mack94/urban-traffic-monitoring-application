@@ -1,0 +1,26 @@
+<configuration debug="true">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <param name="Append" value="true" />
+        <file>
+            TrafficLog.log
+        </file>
+        <encoder>
+            <pattern>
+                "%date": { %msg }, %n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="error">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
