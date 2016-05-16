@@ -4,6 +4,7 @@ build/
 *.ipr
 *.log
 *.db
+*.iws
 gradlew
 gradlew.bat
 gradle/
