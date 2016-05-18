@@ -9,8 +9,15 @@ Change the Api Key in config.propersties, set up right routes in routes.json and
 
 The *.jar should appear in the build/lib directory. 
 
+
 ## Run on jagullar 
 
-`nohup java -jar lib_name &`
+Open your crontab file
 
-where lib_name is our jar file_name. 
+`crontab -e`
+
+and add following line
+
+`0,15,30,45 * * * * java -jar /home/stud/USERNAME/YOUR_PATH_TO_JAR_FILE`
+
+Close vi saving your crontab file. After the first run of the program the log file should appear in your home directory.
