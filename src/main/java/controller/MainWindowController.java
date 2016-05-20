@@ -1,14 +1,14 @@
 package main.java.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -27,6 +27,8 @@ public class MainWindowController {
     private FileChooser fileChooser = null;
     private Parser parser;
     private Input input;
+    private ObservableList<String> daysList = FXCollections.observableArrayList();
+    private ObservableList<String> idsList = FXCollections.observableArrayList();
 
     public MainWindowController(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -56,7 +58,8 @@ public class MainWindowController {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Log Files", "*.log"));
         warn.setStyle("-fx-text-fill: red");
         lineChart.setTitle("");
-
+        startButton.setDefaultButton(true);
+        clearCheckBox.setSelected(true);
     }
     @FXML
     private LineChart<Number, Number> lineChart;
@@ -67,9 +70,13 @@ public class MainWindowController {
     @FXML
     private Label warn;
     @FXML
-    private TextField idTextField;
+    private CheckBox durationCheckBox;
     @FXML
-    private TextField dayTextField;
+    private ComboBox<String> idComboBox;
+    @FXML
+    private ComboBox<String> dayComboBox;
+    @FXML
+    private CheckBox clearCheckBox;
 
     @FXML
     private void handleFileButtonAction(ActionEvent e){
@@ -77,23 +84,60 @@ public class MainWindowController {
         if(file==null){
             return;
         }
-            parser = new Parser(file);
-            input = new Input();
-            parser.parse(input);
+        parser = new Parser(file);
+        input = new Input();
+        parser.parse(input);
+        for(Record r: input.getInput()){
+            if(!idsList.contains(r.getId())){
+                idsList.add(r.getId());
+            }
+            if(!daysList.contains(r.getDay())){
+                daysList.add(r.getDay());
+            }
+        }
+        idComboBox.setItems(idsList);
+        dayComboBox.setItems(daysList);
     }
     @FXML
     private void handleStartAction(ActionEvent e){
-        lineChart.getData().clear();
+        if(dayComboBox.getSelectionModel().getSelectedItem()==null || idComboBox.getSelectionModel().getSelectedItem()==null){
+            warn.setText("Select something from both lists");
+            return;
+        }
+        warn.setText("");
+        if(clearCheckBox.isSelected()) {
+            lineChart.getData().clear();
+        }
 
-        XYChart.Series<Number,Number> series = new XYChart.Series<Number, Number>();
+        XYChart.Series<Number,Number> seriesDurationInTraffic = new XYChart.Series<Number, Number>();
+        XYChart.Series<Number,Number> seriesDuration = new XYChart.Series<Number, Number>();
         for(Record r: input.getInput()){
-            if(r.getDay().equals(dayTextField.getText())&&r.getId().equals(idTextField.getText())) {
-                series.setName("Day: "+r.getDay() +"th, ID: "+ idTextField.getText());
-                series.getData().add(new XYChart.Data<Number, Number>(r.getTimeForChart(), Integer.valueOf(r.getDurationInTraffic())));
+            if(r.getDay().equals(dayComboBox.getSelectionModel().getSelectedItem())&&r.getId().equals(idComboBox.getSelectionModel().getSelectedItem())) {
+                seriesDurationInTraffic.setName("Duration in traffic - Day: "+r.getDay() +"th, ID: "+ idComboBox.getSelectionModel().getSelectedItem());
+                seriesDurationInTraffic.getData().add(new XYChart.Data<Number, Number>(r.getTimeForChart(), Integer.valueOf(r.getDurationInTraffic())));
+                if(durationCheckBox.isSelected() ) {
+                    seriesDuration.setName("Duration - Day: " + r.getDay() + "th, ID: " + idComboBox.getSelectionModel().getSelectedItem());
+                    seriesDuration.getData().add(new XYChart.Data<Number, Number>(r.getTimeForChart(), Integer.valueOf(r.getDuration())));
+                }
             }
         }
-        lineChart.getData().add(series);
+        lineChart.getData().add(seriesDurationInTraffic);
+        lineChart.getData().add(seriesDuration);
 
-
+    }
+    @FXML
+    private void handleDurationAction(ActionEvent e){
+        handleStartAction(e);
+    }
+    @FXML
+    private void handleClearOnDrawAction(ActionEvent e){
+        if(clearCheckBox.isSelected()) {
+            lineChart.getData().clear();
+            handleStartAction(e);
+        }
+    }
+    @FXML
+    private void handleClearAction(ActionEvent e){
+        lineChart.getData().clear();
     }
 }

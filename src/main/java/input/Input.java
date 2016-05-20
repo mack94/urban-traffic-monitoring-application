@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class Input {
     private List<Record> records = new ArrayList<>();
+
     public void addLine(String buffer){
         Record record = new Record();
         record.setDate(buffer.substring(0,buffer.indexOf('{')-2));
@@ -19,7 +20,7 @@ public class Input {
         record.setDistance(buffer.substring(0,buffer.indexOf('m')+2));
         buffer = buffer.substring(buffer.indexOf(','));
         buffer = buffer.substring(buffer.indexOf(':'));
-        record.setDuration(buffer.substring(0,buffer.indexOf(',')));
+        record.setDuration(buffer.substring(3,buffer.indexOf(',')));
         buffer = buffer.substring(buffer.indexOf(','));
         buffer = buffer.substring(buffer.indexOf(':'));
         record.setDurationInTraffic(buffer.substring(3,buffer.indexOf(',')));

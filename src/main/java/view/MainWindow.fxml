@@ -24,14 +24,25 @@
         <VBox alignment="CENTER">
             <HBox>
                 <Label text="Day" />
-                <TextField fx:id="dayTextField" />
+                <ComboBox fx:id="dayComboBox" onAction="#handleDurationAction"/>
             </HBox>
             <HBox>
                 <Label text="ID" />
-                <TextField fx:id="idTextField" />
+                <ComboBox fx:id="idComboBox" onAction="#handleDurationAction"/>
+            </HBox>
+            <HBox>
+                <Label text="Duration visible: " />
+                <CheckBox fx:id="durationCheckBox" onAction="#handleDurationAction"/>
+            </HBox>
+            <HBox>
+                <Label text="Clear on draw " />
+                <CheckBox fx:id="clearCheckBox" onAction="#handleClearOnDrawAction"/>
             </HBox>
             <Label fx:id="warn" />
-            <Button text="draw" fx:id="startButton" onAction="#handleStartAction" />
+            <HBox alignment="CENTER">
+                <Button text="draw" fx:id="startButton" onAction="#handleStartAction" />
+                <Button text="clear" onAction="#handleClearAction" />
+            </HBox>
         </VBox>
     </bottom>
 </BorderPane>

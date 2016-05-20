@@ -9,7 +9,6 @@ public class Record {
     private String distance;
     private String duration;
     private String durationInTraffic;
-
     private String time;
 
     public String toString(){
@@ -41,7 +40,7 @@ public class Record {
     }
 
     public String getDuration() {
-        return duration;
+        return duration.replace("\"","");
     }
 
     public void setDuration(String duration) {
