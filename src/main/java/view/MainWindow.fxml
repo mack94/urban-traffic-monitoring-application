@@ -16,12 +16,20 @@
     </top>
     <center>
         <LineChart fx:id="lineChart">
-            <xAxis><NumberAxis fx:id="xAxis" label="X" tickUnit="1"/></xAxis>
-            <yAxis><NumberAxis label="Y" tickUnit="1"/></yAxis>
+            <xAxis><NumberAxis fx:id="xAxis" label="Hour" tickUnit="1"/></xAxis>
+            <yAxis><NumberAxis label="Duration in traffic" tickUnit="1"/></yAxis>
         </LineChart>
     </center>
     <bottom>
         <VBox alignment="CENTER">
+            <HBox>
+                <Label text="Day" />
+                <TextField fx:id="dayTextField" />
+            </HBox>
+            <HBox>
+                <Label text="ID" />
+                <TextField fx:id="idTextField" />
+            </HBox>
             <Label fx:id="warn" />
             <Button text="draw" fx:id="startButton" onAction="#handleStartAction" />
         </VBox>

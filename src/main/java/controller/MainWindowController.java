@@ -8,6 +8,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -65,6 +66,10 @@ public class MainWindowController {
     private Button startButton;
     @FXML
     private Label warn;
+    @FXML
+    private TextField idTextField;
+    @FXML
+    private TextField dayTextField;
 
     @FXML
     private void handleFileButtonAction(ActionEvent e){
@@ -78,9 +83,12 @@ public class MainWindowController {
     }
     @FXML
     private void handleStartAction(ActionEvent e){
+        lineChart.getData().clear();
+
         XYChart.Series<Number,Number> series = new XYChart.Series<Number, Number>();
         for(Record r: input.getInput()){
-            if(r.getId().equals("25")) {
+            if(r.getDay().equals(dayTextField.getText())&&r.getId().equals(idTextField.getText())) {
+                series.setName("Day: "+r.getDay() +"th, ID: "+ idTextField.getText());
                 series.getData().add(new XYChart.Data<Number, Number>(r.getTimeForChart(), Integer.valueOf(r.getDurationInTraffic())));
             }
         }

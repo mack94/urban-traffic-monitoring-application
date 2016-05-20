@@ -70,5 +70,8 @@ public class Record {
         System.out.print("Minute"+minute);
         return (hour + (double)minute/60);
     }
+    public String getDay(){
+        return date.substring(9,11);
+    }
 
 }
