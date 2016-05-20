@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<BorderPane prefWidth="800.0" prefHeight="800" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+    <padding>
+        <Insets top="15" left="15" right="15" bottom="15"/>
+    </padding>
+    <top>
+        <HBox>
+            <Button text="Choose config file" fx:id="fileButton" onAction="#handleFileButtonAction"/>
+        </HBox>
+    </top>
+    <center>
+        <LineChart fx:id="lineChart">
+            <xAxis><NumberAxis fx:id="xAxis" label="X" tickUnit="1"/></xAxis>
+            <yAxis><NumberAxis label="Y" tickUnit="1"/></yAxis>
+        </LineChart>
+    </center>
+    <bottom>
+        <VBox alignment="CENTER">
+            <Label fx:id="warn" />
+            <Button text="draw" fx:id="startButton" onAction="#handleStartAction" />
+        </VBox>
+    </bottom>
+</BorderPane>
