@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Dawid on 2016-05-20.
  */
 public class Input {
-    private List<Record> list = new ArrayList<>();
+    private List<Record> records = new ArrayList<>();
     public void addLine(String buffer){
         Record record = new Record();
         record.setDate(buffer.substring(0,buffer.indexOf('{')-2));
@@ -22,8 +22,13 @@ public class Input {
         record.setDuration(buffer.substring(0,buffer.indexOf(',')));
         buffer = buffer.substring(buffer.indexOf(','));
         buffer = buffer.substring(buffer.indexOf(':'));
-        record.setDurationInTraffic(buffer.substring(0,buffer.indexOf(',')));
+        record.setDurationInTraffic(buffer.substring(3,buffer.indexOf(',')));
+        record.setTime();
         System.out.println(record.toString());
-        list.add(record);
+        records.add(record);
+    }
+
+    public List<Record> getInput(){
+        return records;
     }
 }

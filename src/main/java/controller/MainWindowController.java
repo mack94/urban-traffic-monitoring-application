@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.chart.Axis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
@@ -14,6 +13,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.java.Main;
 import main.java.input.Input;
+import main.java.input.Record;
 import main.java.parser.Parser;
 
 import java.io.File;
@@ -55,9 +55,7 @@ public class MainWindowController {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Log Files", "*.log"));
         warn.setStyle("-fx-text-fill: red");
         lineChart.setTitle("");
-        XYChart.Series<Number,Number> series = new XYChart.Series<Number, Number>();
-        series.getData().add(new XYChart.Data<Number, Number>(5,3));
-        lineChart.getData().add(series);
+
     }
     @FXML
     private LineChart<Number, Number> lineChart;
@@ -67,8 +65,6 @@ public class MainWindowController {
     private Button startButton;
     @FXML
     private Label warn;
-    @FXML
-    private Axis xAxis;
 
     @FXML
     private void handleFileButtonAction(ActionEvent e){
@@ -82,6 +78,14 @@ public class MainWindowController {
     }
     @FXML
     private void handleStartAction(ActionEvent e){
+        XYChart.Series<Number,Number> series = new XYChart.Series<Number, Number>();
+        for(Record r: input.getInput()){
+            if(r.getId().equals("25")) {
+                series.getData().add(new XYChart.Data<Number, Number>(r.getTimeForChart(), Integer.valueOf(r.getDurationInTraffic())));
+            }
+        }
+        lineChart.getData().add(series);
+
 
     }
 }
