@@ -1,48 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<BorderPane prefWidth="800.0" prefHeight="800" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+
+<BorderPane prefHeight="800" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <padding>
-        <Insets top="15" left="15" right="15" bottom="15"/>
+        <Insets bottom="15" left="15" right="15" top="15" />
     </padding>
     <top>
         <HBox>
-            <Button text="Choose config file" fx:id="fileButton" onAction="#handleFileButtonAction"/>
+           <children>
+               <Button fx:id="fileButton" onAction="#handleFileButtonAction" text="Choose config file" />
+           </children>
         </HBox>
     </top>
     <center>
         <LineChart fx:id="lineChart">
-            <xAxis><NumberAxis fx:id="xAxis" label="Hour" tickUnit="1"/></xAxis>
-            <yAxis><NumberAxis label="Duration in traffic" tickUnit="1"/></yAxis>
+            <xAxis><NumberAxis label="Hour" tickUnit="1" fx:id="xAxis" /></xAxis>
+            <yAxis><NumberAxis label="Duration in traffic" tickUnit="1" /></yAxis>
         </LineChart>
     </center>
     <bottom>
         <VBox alignment="CENTER">
+           <children>
             <HBox>
-                <Label text="Day" />
-                <ComboBox fx:id="dayComboBox" onAction="#handleDurationAction"/>
+               <children>
+                  <Label text="Type" />
+                  <ComboBox fx:id="typeComboBox" onAction="#handleDurationAction" />
+               </children>
             </HBox>
-            <HBox>
-                <Label text="ID" />
-                <ComboBox fx:id="idComboBox" onAction="#handleDurationAction"/>
-            </HBox>
-            <HBox>
-                <Label text="Duration visible: " />
-                <CheckBox fx:id="durationCheckBox" onAction="#handleDurationAction"/>
-            </HBox>
-            <HBox>
-                <Label text="Clear on draw " />
-                <CheckBox fx:id="clearCheckBox" onAction="#handleClearOnDrawAction"/>
-            </HBox>
-            <Label fx:id="warn" />
-            <HBox alignment="CENTER">
-                <Button text="draw" fx:id="startButton" onAction="#handleStartAction" />
-                <Button text="clear" onAction="#handleClearAction" />
-            </HBox>
+               <HBox>
+                  <children>
+                      <Label text="Day" />
+                      <ComboBox fx:id="dayComboBox" onAction="#handleDurationAction" />
+                  </children>
+               </HBox>
+               <HBox>
+                  <children>
+                      <Label text="ID" />
+                      <ComboBox fx:id="idComboBox" onAction="#handleDurationAction" />
+                  </children>
+               </HBox>
+               <HBox>
+                  <children>
+                      <Label text="Duration visible: " />
+                      <CheckBox fx:id="durationCheckBox" onAction="#handleDurationAction" />
+                  </children>
+               </HBox>
+               <HBox>
+                  <children>
+                      <Label text="Clear on draw " />
+                      <CheckBox fx:id="clearCheckBox" onAction="#handleClearOnDrawAction" />
+                  </children>
+               </HBox>
+               <Label fx:id="warn" />
+               <HBox alignment="CENTER">
+                  <children>
+                      <Button fx:id="startButton" onAction="#handleStartAction" text="draw" />
+                      <Button onAction="#handleClearAction" text="clear" />
+                  </children>
+               </HBox>
+            <Label text="Day" />
+           </children>
         </VBox>
     </bottom>
 </BorderPane>
