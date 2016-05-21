@@ -7,7 +7,7 @@ package main.java.persistence;
  */
 public class AverageCounter {
 
-    private int total;
+    private double total;
     private int amount;
 
     public AverageCounter() {
@@ -15,13 +15,17 @@ public class AverageCounter {
         this.amount = 0;
     }
 
-    public void addValue(int value) {
+    public void addValue(double value) {
         total += value;
         amount++;
     }
 
     public double getAverage() {
-        return (double)(total / amount);
+        return total / amount;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 
 }

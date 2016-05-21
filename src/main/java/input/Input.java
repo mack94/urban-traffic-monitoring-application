@@ -2,15 +2,15 @@ package main.java.input;
 
 import main.java.persistence.PersistenceManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Dawid on 2016-05-20.
  */
 public class Input {
     private List<Record> records = new ArrayList<>();
+    private Set<String> ids = new TreeSet<>();
+    private Set<String> days = new TreeSet<>();
     private PersistenceManager persistenceManager = new PersistenceManager();
 
     public void addLine(String buffer){
@@ -29,19 +29,27 @@ public class Input {
         buffer = buffer.substring(buffer.indexOf(':'));
         record.setDurationInTraffic(buffer.substring(2,buffer.indexOf(',')));
         record.setTime();
-        System.out.println(record.toString());
+        ids.add(record.getId());
+        days.add(record.getDay());
         records.add(record);
     }
 
-    public List<Record> getInput(){
-        return records;
+    public Set<String> getIds(){
+        return ids;
+    }
+
+    public Set<String> getDays() {
+        return days;
     }
 
     public void persist() {
         persistenceManager.saveToFiles(records);
+        records = new ArrayList<>();
     }
 
-    public Map<Double, Double> getFromFile(String day, String id, boolean traffic) {
-        return persistenceManager.readFromFiles(day, id, traffic);
+    public Map<Double, Double> getData(String day, String id, boolean traffic, boolean aggregated) {
+        return aggregated ?
+                persistenceManager.readFromFiles(day, id, traffic) :
+                persistenceManager.readFromFile(day, id, traffic);
     }
 }

@@ -35,7 +35,6 @@ public class PersistenceManager {
     private String setPath() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         Date d = new Date();
-        System.out.println(dateFormat.format(d));
         String date = dateFormat.format(d);
         String path = "resources_" + date + "/";
         new File(path).mkdir();
@@ -90,6 +89,43 @@ public class PersistenceManager {
         return record.getDate().substring(1, 11);
     }
 
+    public Map<Double, Double> readFromFile(String day, String id, boolean traffic) {
+        try {
+            File dir = new File(path);
+            File[] files = dir.listFiles();
+            Map<Double, Double> results = new HashMap<>();
+
+            for(File file : files) {
+                String filename = file.getName();
+                if(file.isFile() && filename.contains(day) && filename.contains(id + "_")) {
+                    FileReader fileReader = new FileReader(path + filename);
+                    BufferedReader br = new BufferedReader(fileReader);
+
+                    String line = br.readLine();
+                    while(isLineCorrect(line)) {
+                        String[] values = line.split(" ");
+                        Double time = Double.parseDouble(values[0]);
+
+                        int index = traffic ? 1 : 2;
+                        results.put(time, Double.valueOf(values[index]));
+
+                        line = br.readLine();
+                    }
+
+                    br.close();
+                    fileReader.close();
+                }
+            }
+
+            return results;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public Map<Double, Double> readFromFiles(String day, String id, boolean traffic) {
         try {
             File dir = new File(path);
@@ -98,7 +134,7 @@ public class PersistenceManager {
 
             for(File file : files) {
                 String filename = file.getName();
-                if(file.isFile() && filename.contains(day) && filename.contains(id)) {
+                if(file.isFile() && filename.contains(day) && filename.contains(id + "_")) {
                     readData(path + filename, averages, traffic);
                 }
             }
@@ -135,6 +171,7 @@ public class PersistenceManager {
         }
 
         br.close();
+        fileReader.close();
     }
 
     private boolean isLineCorrect(String line) {
