@@ -2,16 +2,13 @@ package main.java.persistence;
 
 import main.java.input.Record;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.math.BigDecimal;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.DoubleAccumulator;
 
 /**
  * Created by Jakub Janusz on 21.05.2016.
@@ -37,7 +34,9 @@ public class PersistenceManager {
 
     private String setPath() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-        String date = dateFormat.format(new Date());
+        Date d = new Date();
+        System.out.println(dateFormat.format(d));
+        String date = dateFormat.format(d);
         String path = "resources_" + date + "/";
         new File(path).mkdir();
         return path;
@@ -56,7 +55,7 @@ public class PersistenceManager {
                     BufferedWriter writer = new BufferedWriter(fileWriter);
                     files.put(filename, writer);
                 }
-                String row = getTime(record) + " " + record.getDurationInTraffic() + "\n";
+                String row = record.getTimeForChart() + " " + record.getDurationInTraffic() + " " + record.getDuration() + "\n";
                 files.get(filename).write(row);
             }
             for(String filename : files.keySet()) {
@@ -66,15 +65,6 @@ public class PersistenceManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private String getTime(Record record) {
-        String time = record.getDate().substring(12, 17);
-        double hour = Double.parseDouble(time.substring(0, 2));
-        double mins = new BigDecimal(Double.parseDouble(time.substring(3, 5)) / 60)
-                .setScale(2, BigDecimal.ROUND_HALF_UP)
-                .doubleValue();
-        return String.valueOf(hour + mins);
     }
 
     private String getRoute(Record record) {
@@ -98,6 +88,57 @@ public class PersistenceManager {
 
     private String getDate(Record record) {
         return record.getDate().substring(1, 11);
+    }
+
+    public Map<Double, Double> readFromFiles(String day, String id, boolean traffic) {
+        try {
+            File dir = new File(path);
+            File[] files = dir.listFiles();
+            Map<Double, AverageCounter> averages = new HashMap<>();
+
+            for(File file : files) {
+                String filename = file.getName();
+                if(file.isFile() && filename.contains(day) && filename.contains(id)) {
+                    readData(path + filename, averages, traffic);
+                }
+            }
+
+            Map<Double, Double> results = new HashMap<>();
+            for(Double key : averages.keySet()) {
+                results.put(key, averages.get(key).getAverage());
+            }
+
+            return results;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private void readData(String filename, Map<Double, AverageCounter> averages, boolean traffic) throws IOException {
+        FileReader fileReader = new FileReader(filename);
+        BufferedReader br = new BufferedReader(fileReader);
+
+        String line = br.readLine();
+        while(isLineCorrect(line)) {
+            String[] values = line.split(" ");
+            Double time = Double.parseDouble(values[0]);
+            if(!averages.containsKey(time)) {
+                averages.put(time, new AverageCounter());
+            }
+            int index = traffic ? 1 : 2;
+            averages.get(time).addValue(Integer.valueOf(values[index]));
+
+            line = br.readLine();
+        }
+
+        br.close();
+    }
+
+    private boolean isLineCorrect(String line) {
+        return line != null && !line.equals("");
     }
 
 }

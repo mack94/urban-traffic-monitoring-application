@@ -32,7 +32,7 @@ public class Record {
     }
 
     public String getDistance() {
-        return distance;
+        return distance.replace("\"", "");
     }
 
     public void setDistance(String distance) {
@@ -56,21 +56,21 @@ public class Record {
     }
 
     public void setTime(){
-        time = date.substring(date.indexOf(' ')+1);
+        time = date.substring(date.indexOf(' ')+1, date.length()-1);
     }
+
     public String getTime() {
         return time;
     }
+
     public double getTimeForChart(){
-        System.out.println(time);
         double hour = Double.valueOf(time.substring(0,2));
-        System.out.print("Hour: "+hour);
         double minute = Double.valueOf(time.substring(3,5));
-        System.out.print("Minute"+minute);
-        return (hour + (double)minute/60);
+        return (hour + (minute /60));
     }
+
     public String getDay(){
-        return date.substring(9,11);
+        return date.substring(1,11);
     }
 
 }

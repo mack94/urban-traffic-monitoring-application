@@ -4,13 +4,14 @@ import main.java.persistence.PersistenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Dawid on 2016-05-20.
  */
 public class Input {
     private List<Record> records = new ArrayList<>();
-    private PersistenceManager writer = new PersistenceManager();
+    private PersistenceManager persistenceManager = new PersistenceManager();
 
     public void addLine(String buffer){
         Record record = new Record();
@@ -23,10 +24,10 @@ public class Input {
         record.setDistance(buffer.substring(0,buffer.indexOf('m')+2));
         buffer = buffer.substring(buffer.indexOf(','));
         buffer = buffer.substring(buffer.indexOf(':'));
-        record.setDuration(buffer.substring(3,buffer.indexOf(',')));
+        record.setDuration(buffer.substring(2,buffer.indexOf(',')));
         buffer = buffer.substring(buffer.indexOf(','));
         buffer = buffer.substring(buffer.indexOf(':'));
-        record.setDurationInTraffic(buffer.substring(3,buffer.indexOf(',')));
+        record.setDurationInTraffic(buffer.substring(2,buffer.indexOf(',')));
         record.setTime();
         System.out.println(record.toString());
         records.add(record);
@@ -37,7 +38,10 @@ public class Input {
     }
 
     public void persist() {
-        writer.saveToFiles(records);
+        persistenceManager.saveToFiles(records);
     }
 
+    public Map<Double, Double> getFromFile(String day, String id, boolean traffic) {
+        return persistenceManager.readFromFiles(day, id, traffic);
+    }
 }

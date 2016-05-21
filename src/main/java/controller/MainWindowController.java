@@ -24,6 +24,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Dawid on 2016-05-20.
@@ -39,7 +40,6 @@ public class MainWindowController {
 
     public MainWindowController(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        input = new Input();
     }
 
     public void show(){
@@ -164,18 +164,41 @@ public class MainWindowController {
             lineChart.getData().clear();
         }
 
-        XYChart.Series<Number,Number> seriesDurationInTraffic = new XYChart.Series<Number, Number>();
-        XYChart.Series<Number,Number> seriesDuration = new XYChart.Series<Number, Number>();
-        for(Record r: input.getInput()){
-            if(r.getDay().equals(dayComboBox.getSelectionModel().getSelectedItem())&&r.getId().equals(idComboBox.getSelectionModel().getSelectedItem())) {
-                seriesDurationInTraffic.setName("Duration in traffic - Day: "+r.getDay() +"th, ID: "+ idComboBox.getSelectionModel().getSelectedItem());
-                seriesDurationInTraffic.getData().add(new XYChart.Data<Number, Number>(r.getTimeForChart(), Integer.valueOf(r.getDurationInTraffic())));
-                if(durationCheckBox.isSelected() ) {
-                    seriesDuration.setName("Duration - Day: " + r.getDay() + "th, ID: " + idComboBox.getSelectionModel().getSelectedItem());
-                    seriesDuration.getData().add(new XYChart.Data<Number, Number>(r.getTimeForChart(), Integer.valueOf(r.getDuration())));
+        XYChart.Series<Number, Number> seriesDurationInTraffic = new XYChart.Series<>();
+        XYChart.Series<Number, Number> seriesDuration = new XYChart.Series<>();
+
+        String type = typeComboBox.getSelectionModel().getSelectedItem();
+        if(type.equals("Exact date")) {
+
+            for (Record r : input.getInput()) {
+                if (r.getDay().equals(dayComboBox.getSelectionModel().getSelectedItem()) && r.getId().equals(idComboBox.getSelectionModel().getSelectedItem())) {
+                    seriesDurationInTraffic.setName("Duration in traffic - Day: " + r.getDay() + "th, ID: " + idComboBox.getSelectionModel().getSelectedItem());
+                    seriesDurationInTraffic.getData().add(new XYChart.Data<>(r.getTimeForChart(), Integer.valueOf(r.getDurationInTraffic())));
+                    if (durationCheckBox.isSelected()) {
+                        seriesDuration.setName("Duration - Day: " + r.getDay() + "th, ID: " + idComboBox.getSelectionModel().getSelectedItem());
+                        seriesDuration.getData().add(new XYChart.Data<>(r.getTimeForChart(), Integer.valueOf(r.getDuration())));
+                    }
+                }
+            }
+        } else if(type.equals("Aggregated day of week")) {
+            String day = dayComboBox.getSelectionModel().getSelectedItem().substring(0, 3).toUpperCase();
+            String id = idComboBox.getSelectionModel().getSelectedItem();
+            Map<Double, Double> results = input.getFromFile(day, id, true);
+
+            for(Double key : results.keySet()) {
+                seriesDurationInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + idComboBox.getSelectionModel().getSelectedItem());
+                seriesDurationInTraffic.getData().add(new XYChart.Data<>(key, results.get(key)));
+            }
+            if(durationCheckBox.isSelected()) {
+                results = input.getFromFile(day, id, false);
+
+                for(Double key : results.keySet()) {
+                    seriesDuration.setName("Duration - Day: " + day + ", ID: " + idComboBox.getSelectionModel().getSelectedItem());
+                    seriesDuration.getData().add(new XYChart.Data<>(key, results.get(key)));
                 }
             }
         }
+
         lineChart.getData().add(seriesDurationInTraffic);
         lineChart.getData().add(seriesDuration);
 
