@@ -1,6 +1,6 @@
-package main.java.persistence;
+package pl.edu.agh.pp.charts.persistence;
 
-import main.java.input.Record;
+import pl.edu.agh.pp.charts.input.Record;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.DoubleAccumulator;
 
 /**
  * Created by Jakub Janusz on 21.05.2016.

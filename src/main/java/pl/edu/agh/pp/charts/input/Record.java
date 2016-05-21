@@ -1,4 +1,4 @@
-package main.java.input;
+package pl.edu.agh.pp.charts.input;
 
 /**
  * Created by Dawid on 2016-05-20.

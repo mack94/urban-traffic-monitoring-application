@@ -1,6 +1,6 @@
-package main.java.parser;
+package pl.edu.agh.pp.charts.parser;
 
-import main.java.input.Input;
+import pl.edu.agh.pp.charts.input.Input;
 
 import java.io.*;
 

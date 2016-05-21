@@ -1,11 +1,10 @@
-package main.java.controller;
+package pl.edu.agh.pp.charts.controller;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,15 +14,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import main.java.Main;
-import main.java.input.Input;
-import main.java.input.Record;
-import main.java.parser.Parser;
+import pl.edu.agh.pp.charts.Main;
+import pl.edu.agh.pp.charts.input.Input;
+import pl.edu.agh.pp.charts.parser.Parser;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,7 +40,7 @@ public class MainWindowController {
     public void show(){
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("view/MainWindow.fxml"));
+            loader.setLocation(Main.class.getResource("/MainWindow.fxml"));
             loader.setController(this);
             BorderPane rootLayout = loader.load();
 
@@ -181,12 +176,12 @@ public class MainWindowController {
 
         for(Double key : trafficValues.keySet()) {
             seriesDurationInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + idComboBox.getSelectionModel().getSelectedItem());
-            seriesDurationInTraffic.getData().add(new XYChart.Data<>(key, trafficValues.get(key)));
+            seriesDurationInTraffic.getData().add(new XYChart.Data<Number, Number>(key, trafficValues.get(key)));
         }
         if(durationCheckBox.isSelected()) {
             for(Double key : normalValues.keySet()) {
                 seriesDuration.setName("Duration - Day: " + day + ", ID: " + idComboBox.getSelectionModel().getSelectedItem());
-                seriesDuration.getData().add(new XYChart.Data<>(key, normalValues.get(key)));
+                seriesDuration.getData().add(new XYChart.Data<Number, Number>(key, normalValues.get(key)));
             }
         }
 

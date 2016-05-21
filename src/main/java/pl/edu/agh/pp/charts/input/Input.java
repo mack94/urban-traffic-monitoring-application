@@ -1,6 +1,7 @@
-package main.java.input;
+package pl.edu.agh.pp.charts.input;
 
-import main.java.persistence.PersistenceManager;
+
+import pl.edu.agh.pp.charts.persistence.PersistenceManager;
 
 import java.util.*;
 

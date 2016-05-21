@@ -3,3 +3,4 @@ out/
 *.iml
 *.log
 resources*/
+build/

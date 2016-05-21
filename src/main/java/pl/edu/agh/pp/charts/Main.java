@@ -1,8 +1,8 @@
-package main.java;
+package pl.edu.agh.pp.charts;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import main.java.controller.MainWindowController;
+import pl.edu.agh.pp.charts.controller.MainWindowController;
 
 /**
  * Created by Dawid on 2016-05-20.

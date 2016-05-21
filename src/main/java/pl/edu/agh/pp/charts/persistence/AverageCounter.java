@@ -1,4 +1,4 @@
-package main.java.persistence;
+package pl.edu.agh.pp.charts.persistence;
 
 /**
  * Created by Jakub Janusz on 21.05.2016.
