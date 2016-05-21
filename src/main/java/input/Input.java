@@ -1,5 +1,7 @@
 package main.java.input;
 
+import main.java.persistence.PersistenceManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import java.util.List;
  */
 public class Input {
     private List<Record> records = new ArrayList<>();
+    private PersistenceManager writer = new PersistenceManager();
 
     public void addLine(String buffer){
         Record record = new Record();
@@ -32,4 +35,9 @@ public class Input {
     public List<Record> getInput(){
         return records;
     }
+
+    public void persist() {
+        writer.saveToFiles(records);
+    }
+
 }

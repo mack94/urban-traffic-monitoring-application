@@ -8,7 +8,6 @@ import java.io.*;
  * Created by Dawid on 2016-05-20.
  */
 public class Parser {
-    private Input input;
     private File file;
     private BufferedReader br;
     private String buffer;
@@ -24,6 +23,7 @@ public class Parser {
                 input.addLine(buffer);
                 buffer = br.readLine();
             }
+            input.persist();
         } catch (IOException e) {
             e.printStackTrace();
         }
