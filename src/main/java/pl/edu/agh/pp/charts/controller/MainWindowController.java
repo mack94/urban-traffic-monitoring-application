@@ -93,6 +93,10 @@ public class MainWindowController {
     private CheckBox clearCheckBox;
     @FXML
     private ComboBox<String> typeComboBox;
+    @FXML
+    private Button button134;
+    @FXML
+    private Button button578;
 
     @FXML
     private void handleFileButtonAction(ActionEvent e){
@@ -187,6 +191,106 @@ public class MainWindowController {
         lineChart.getData().add(seriesDuration);
 
     }
+
+    @FXML
+    private void handleSummaryAction1(ActionEvent e) {
+        drawSummaryChart(4);
+    }
+
+    @FXML
+    private void handleSummaryAction2(ActionEvent e) {
+        drawSummaryChart(8);
+    }
+
+    private void drawSummaryChart(int route) {
+        if(dayComboBox.getSelectionModel().getSelectedItem() == null
+                || typeComboBox.getSelectionModel().getSelectedItem() == null){
+            warn.setText("You have to select type and date!");
+            return;
+        }
+        warn.setText("");
+        if(clearCheckBox.isSelected()) {
+            lineChart.getData().clear();
+        }
+
+        XYChart.Series<Number, Number> seriesDurationInTraffic = new XYChart.Series<>();
+        XYChart.Series<Number, Number> seriesDuration = new XYChart.Series<>();
+
+        XYChart.Series<Number, Number> seriesDurationSummaryInTraffic = new XYChart.Series<>();
+        XYChart.Series<Number, Number> seriesDurationSummary = new XYChart.Series<>();
+
+        String type = typeComboBox.getSelectionModel().getSelectedItem();
+        String day = dayComboBox.getSelectionModel().getSelectedItem();
+        Map<Double, Double> summaryTraffic = null;
+        Map<Double, Double> traffic = null;
+
+        Map<Double, Double> durationSummaryTraffic = null;
+        Map<Double, Double> durationTraffic = null;
+
+        if(type.equals("Exact date")) {
+            if(route == 4) {
+                summaryTraffic = input.getSummary(day, 1, 3, true, false);
+                traffic = input.getData(day, String.valueOf(route), true, false);
+                if(durationCheckBox.isSelected()) {
+                    durationSummaryTraffic = input.getSummary(day, 1, 3, false, false);
+                    durationTraffic = input.getData(day, String.valueOf(route), false, false);
+                }
+            } else if(route == 8) {
+                summaryTraffic = input.getSummary(day, 5, 7, true, false);
+                traffic = input.getData(day, String.valueOf(route), true, false);
+                if(durationCheckBox.isSelected()) {
+                    durationSummaryTraffic = input.getSummary(day, 5, 7, false, false);
+                    durationTraffic = input.getData(day, String.valueOf(route), false, false);
+                }
+            }
+        } else if(type.equals("Aggregated day of week")) {
+            day = day.substring(0, 3).toUpperCase();
+            if(route == 4) {
+                summaryTraffic = input.getSummary(day, 1, 3, true, true);
+                traffic = input.getData(day, String.valueOf(route), true, true);
+                if(durationCheckBox.isSelected()) {
+                    durationSummaryTraffic = input.getSummary(day, 1, 3, false, true);
+                    durationTraffic = input.getData(day, String.valueOf(route), false, true);
+                }
+            } else if(route == 8) {
+                summaryTraffic = input.getSummary(day, 5, 7, true, true);
+                traffic = input.getData(day, String.valueOf(route), true, true);
+                if(durationCheckBox.isSelected()) {
+                    durationSummaryTraffic = input.getSummary(day, 5, 7, false, true);
+                    durationTraffic = input.getData(day, String.valueOf(route), false, true);
+                }
+            }
+        }
+
+        String ids = route == 4 ? "1-3" : "5-7";
+        for(Double key : summaryTraffic.keySet()) {
+            seriesDurationSummaryInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + ids);
+            seriesDurationSummaryInTraffic.getData().add(new XYChart.Data<Number, Number>(key, summaryTraffic.get(key)));
+        }
+        if(durationCheckBox.isSelected()) {
+            for(Double key : durationSummaryTraffic.keySet()) {
+                seriesDurationSummary.setName("Duration - Day: " + day + ", ID: " + ids);
+                seriesDurationSummary.getData().add(new XYChart.Data<Number, Number>(key, durationSummaryTraffic.get(key)));
+            }
+        }
+
+        for(Double key : traffic.keySet()) {
+            seriesDurationInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + route);
+            seriesDurationInTraffic.getData().add(new XYChart.Data<Number, Number>(key, traffic.get(key)));
+        }
+        if(durationCheckBox.isSelected()) {
+            for(Double key : durationTraffic.keySet()) {
+                seriesDuration.setName("Duration - Day: " + day + ", ID: " + route);
+                seriesDuration.getData().add(new XYChart.Data<Number, Number>(key, durationTraffic.get(key)));
+            }
+        }
+
+        lineChart.getData().add(seriesDurationSummaryInTraffic);
+        lineChart.getData().add(seriesDurationSummary);
+        lineChart.getData().add(seriesDurationInTraffic);
+        lineChart.getData().add(seriesDuration);
+    }
+
     @FXML
     private void handleDurationAction(ActionEvent e){
         handleStartAction(e);

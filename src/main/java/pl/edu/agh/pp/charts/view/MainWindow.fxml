@@ -64,6 +64,9 @@
                   <children>
                       <Button fx:id="startButton" onAction="#handleStartAction" text="draw" />
                       <Button onAction="#handleClearAction" text="clear" />
+                      <Label text="                    " />
+                      <Button fx:id="button134" onAction="#handleSummaryAction1" text="1-3, 4" />
+                      <Button fx:id="button578" onAction="#handleSummaryAction2" text="5-7, 8" />
                   </children>
                </HBox>
             <Label text="Day" />

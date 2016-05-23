@@ -96,7 +96,7 @@ public class PersistenceManager {
 
             for(File file : files) {
                 String filename = file.getName();
-                if(file.isFile() && filename.contains(day) && filename.contains(id + "_")) {
+                if(file.isFile() && filename.contains(day) && filename.startsWith(id + "_")) {
                     FileReader fileReader = new FileReader(path + filename);
                     BufferedReader br = new BufferedReader(fileReader);
 
@@ -133,7 +133,7 @@ public class PersistenceManager {
 
             for(File file : files) {
                 String filename = file.getName();
-                if(file.isFile() && filename.contains(day) && filename.contains(id + "_")) {
+                if(file.isFile() && filename.contains(day) && filename.startsWith(id + "_")) {
                     readData(path + filename, averages, traffic);
                 }
             }

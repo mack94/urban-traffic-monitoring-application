@@ -53,4 +53,36 @@ public class Input {
                 persistenceManager.readFromFiles(day, id, traffic) :
                 persistenceManager.readFromFile(day, id, traffic);
     }
+
+    public Map<Double,Double> getSummary(String day, int begin, int end, boolean traffic, boolean aggregated) {
+        List<Map<Double, Double>> maps = new ArrayList<>();
+        for(int i = begin; i <= end; i++) {
+            maps.add(getData(day, String.valueOf(i), traffic, aggregated));
+        }
+        Map<Double, Double> result = new HashMap<>();
+        for(Map<Double, Double> map : maps) {
+            for(Double key : map.keySet()) {
+                if(!result.containsKey(key)) {
+                    result.put(key, 0d);
+                }
+                Double currentValue = result.get(key);
+                Double newValue = map.get(key);
+                result.put(key, currentValue + newValue);
+            }
+        }
+
+        /*
+        if(aggregated) {
+            double amount = end - begin + 1;
+            System.out.println(amount);
+            for(Double key : result.keySet()) {
+                Double value = result.get(key);
+                value = value / amount;
+                result.put(key, value);
+            }
+        }
+        */
+
+        return result;
+    }
 }
