@@ -27550,4 +27550,3 @@
 "2016-05-23 00:05:08,274": { {"22": "ID" ,"me_result": {"Distance": "4,9 km", "Duration": "551", "DurationInTraffic": "445", "Status": "OK"}} }, 
 "2016-05-23 00:05:08,362": { {"23": "ID" ,"me_result": {"Distance": "1,2 km", "Duration": "156", "DurationInTraffic": "136", "Status": "OK"}} }, 
 "2016-05-23 00:05:08,461": { {"24": "ID" ,"me_result": {"Distance": "1,2 km", "Duration": "134", "DurationInTraffic": "114", "Status": "OK"}} }, 
-

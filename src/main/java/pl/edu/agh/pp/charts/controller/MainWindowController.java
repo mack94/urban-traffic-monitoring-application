@@ -113,8 +113,10 @@ public class MainWindowController {
         }
         idComboBox.setItems(idsList);
 
-        typesList.add("Exact date");
-        typesList.add("Aggregated day of week");
+        if(typesList.size() != 2) {
+            typesList.add("Exact date");
+            typesList.add("Aggregated day of week");
+        }
         typeComboBox.setItems(typesList);
     }
 
