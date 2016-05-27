@@ -40,7 +40,7 @@ public class Main {
                         .await();
                 DirectionsApiRequest directionsApi = DirectionsApi
                         .getDirections(context, destinations[0], origins[0])
-                        .alternatives(true)
+                        .alternatives(false)
                         .language("pl");
                 Route route = new Route(id, distanceMatrix, directionsApi);
             }

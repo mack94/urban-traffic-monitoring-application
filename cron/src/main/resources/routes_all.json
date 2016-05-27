@@ -168,6 +168,49 @@
       "id": "32",
       "origin": "Biezanowska 208, Kraków",
       "destination": "Biezanowska 43, Kraków"
+    },
+
+
+
+    {
+      "id": "33",
+      "origin": "Bulhaka, Kraków",
+      "destination": "Marii Konopnickiej 26, Kraków"
+    },
+    {
+      "id": "34",
+      "origin": "Bulhaka, Kraków",
+      "destination": "most Grunwaldzki, Kraków"
+    },
+    {
+      "id": "35",
+      "origin": "Lublanska 16, Kraków",
+      "destination": "III obwodnica 5, Kraków"
+    },
+    {
+      "id": "36",
+      "origin": "Lublanska 16, Kraków",
+      "destination": "aleja 29 Listopada 94, Kraków"
+    },
+    {
+      "id": "37",
+      "origin": "Lublanska 16, Kraków",
+      "destination": "aleja 29 Listopada 62, Kraków"
+    },
+    {
+      "id": "38",
+      "origin": "Klimeckiego 7, Kraków",
+      "destination": "Strycharska 5, Kraków"
+    },
+    {
+      "id": "39",
+      "origin": "Klimeckiego 7, Kraków",
+      "destination": "Nowohucka 67, Kraków"
+    },
+    {
+      "id": "40",
+      "origin": "Klimeckiego 7, Kraków",
+      "destination": "Powstancow Wielkopolskich 70, Kraków"
     }
   ]
 }
