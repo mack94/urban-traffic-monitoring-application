@@ -19,6 +19,9 @@ import pl.edu.agh.pp.charts.input.Input;
 import pl.edu.agh.pp.charts.parser.Parser;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -108,9 +111,15 @@ public class MainWindowController {
         input = new Input();
         parser.parse(input);
 
+        List<Integer> ids = new ArrayList<>();
         for(String id : input.getIds()){
-            idsList.add(id);
+            ids.add(Integer.parseInt(id));
         }
+        Collections.sort(ids);
+        for(Integer id : ids) {
+            idsList.add(String.valueOf(id));
+        }
+
         idComboBox.setItems(idsList);
 
         if(typesList.size() != 2) {

@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.chart.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-
 <BorderPane prefHeight="800" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <padding>
         <Insets bottom="15" left="15" right="15" top="15" />
@@ -16,7 +12,7 @@
     <top>
         <HBox>
            <children>
-               <Button fx:id="fileButton" onAction="#handleFileButtonAction" text="Choose config file" />
+               <Button fx:id="fileButton" onAction="#handleFileButtonAction" text="Choose log file" />
            </children>
         </HBox>
     </top>
