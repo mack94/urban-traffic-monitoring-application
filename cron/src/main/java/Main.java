@@ -11,15 +11,13 @@ public class Main {
 
     public static void main(String args[]) throws InterruptedException {
 
-        GeoApiContext distanceMatrixContext;
-        GeoApiContext directionsContext;
+        GeoApiContext context;
         ContextLoader contextLoader = new ContextLoader();
         RoutesLoader routesLoader = new RoutesLoader();
 
         try {
             JSONArray loadedRoutes = routesLoader.loadJSON();
-            distanceMatrixContext = contextLoader.geoDistanceMatrixApiContextLoader();
-            directionsContext = contextLoader.geoDirectionsApiContextLoader();
+            context = contextLoader.geoApiContextLoader();
 
             int loadedRoutesAmount = loadedRoutes.length();
 
@@ -35,13 +33,13 @@ public class Main {
                 Instant departure = Instant.now();
 
                 DistanceMatrix distanceMatrix = DistanceMatrixApi
-                        .getDistanceMatrix(distanceMatrixContext, origins, destinations)
+                        .getDistanceMatrix(context, origins, destinations)
                         .mode(travelMode)
                         .language("pl")
                         .departureTime(departure)
                         .await();
                 DirectionsResult directionsApi = DirectionsApi
-                        .getDirections(directionsContext, destinations[0], origins[0])
+                        .getDirections(context, destinations[0], origins[0])
                         .alternatives(false)
                         .language("pl")
                         .departureTime(departure)
