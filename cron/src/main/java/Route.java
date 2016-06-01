@@ -4,6 +4,7 @@ import com.google.maps.model.*;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Maciej on 14.05.2016.
@@ -97,7 +98,21 @@ public class Route {
         String result = "";
 
         for (DirectionsRoute route : routes) {
-            result = result.concat(route.summary);
+            EncodedPolyline polyline = route.overviewPolyline;
+            String decodedPath = decodePolylinePath(polyline);
+
+            result = result.concat("[" + route.summary + "], " + " [" + decodedPath +"]");
+        }
+
+        return result;
+    }
+
+    private String decodePolylinePath(EncodedPolyline polyline) {
+        String result="";
+        List<LatLng> polylineDecodedPath = polyline.decodePath();
+
+        for (LatLng polyPoint : polylineDecodedPath) {
+            result = result.concat(polyPoint.toString() + "; ");
         }
 
         return result;
