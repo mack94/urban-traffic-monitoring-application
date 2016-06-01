@@ -1,4 +1,4 @@
-group 'monit_alpha'
+group 'monitorowanie_ruchu_alpha'
 version '1.0'
 
 apply plugin: 'java'

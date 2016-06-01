@@ -37,14 +37,15 @@ public class Route {
 
     private void loadRouteInfo() throws Exception {
 
-//        DirectionsResult directionsResult = directionsApi.await();
-        DirectionsRoute[] routes = null;
-//
-//
+        DirectionsResult directionsResult = directionsApi;
+        DirectionsRoute[] routes = directionsResult.routes;
+
+
 //        for (DirectionsRoute route : routes) {
-//            // waypoints = System.out.println(route.summary);
+////            waypoints = System.out.println(route.summary);
+//            System.out.println(route.summary);
 //            // ...
-//            //System.out.println(route.legs[0].steps[0].startLocation);
+//            System.out.println(route.legs[0].steps[0].startLocation);
 //
 //        }
 
@@ -59,14 +60,19 @@ public class Route {
 
     private String buildResult(DistanceMatrixElement me_element, DirectionsRoute[] routes) {
 
-        String me_result = "\"me_result\": \"Result not found\"";
+        String me_result;
 
-        if (me_element.status.toString().compareTo("NOT_FOUND") != 0) {
+        if (me_element.status.toString().compareTo("OK") == 0) {
             String duration = String.valueOf(me_element.duration.inSeconds);
             String durationInTraffic = String.valueOf(me_element.durationInTraffic.inSeconds);
 
-            me_result = String.format("\"me_result\": {\"Distance\": \"%s\", \"Duration\": \"%s\", \"DurationInTraffic\": \"%s\", \"Status\": \"%s\"}",
-                    me_element.distance, duration, durationInTraffic, me_element.status);
+            String waypoints = getWaypoints(routes);
+
+            me_result = String.format("\"me_result\": {\"Distance\": \"%s\", \"Duration\": \"%s\", \"DurationInTraffic\": \"%s\", \"Status\": \"%s\", \"Waypoints\": [\"%s\"]}",
+                    me_element.distance, duration, durationInTraffic, me_element.status, waypoints);
+        } else {
+            me_result = String.format("\"me_result\": {\"Distance\": \"%s\", \"Status\": \"%s\"}",
+                    me_element.distance, me_element.status);
         }
 
 //        String r_result = "";
@@ -85,6 +91,16 @@ public class Route {
 
 //        return me_result.concat(" \"r_result\": {" + r_result + "}");
         return me_result;
+    }
+
+    private String getWaypoints(DirectionsRoute[] routes) {
+        String result = "";
+
+        for (DirectionsRoute route : routes) {
+            result = result.concat(route.summary);
+        }
+
+        return result;
     }
 
     @Override
