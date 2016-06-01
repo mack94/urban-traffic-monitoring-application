@@ -1,5 +1,44 @@
 {
   "routes": [
-
+    {
+      "id": "1",
+      "origin": "Slowackiego 66, Kraków",
+      "destination": "Mickiewicza 25, Kraków"
+    },
+    {
+      "id": "2",
+      "origin": "Mickiewicza 25, Kraków",
+      "destination": "most Debnicki, Kraków"
+    },
+    {
+      "id": "3",
+      "origin": "most Debnicki, Kraków",
+      "destination": "rondo Matecznego, Kraków"
+    },
+    {
+      "id": "4",
+      "origin": "Slowackiego 66, Kraków",
+      "destination": "rondo Matecznego, Kraków"
+    },
+    {
+      "id": "5",
+      "origin": "Mickiewicza 25, Kraków",
+      "destination": "Slowackiego 66, Kraków"
+    },
+    {
+      "id": "6",
+      "origin": "most Debnicki, Kraków",
+      "destination": "Mickiewicza 25, Kraków"
+    },
+    {
+      "id": "7",
+      "origin": "rondo Matecznego, Kraków",
+      "destination": "most Debnicki, Kraków"
+    },
+    {
+      "id": "8",
+      "origin": "rondo Matecznego, Kraków",
+      "destination": "Slowackiego 66, Kraków"
+    },
   ]
 }

@@ -18,7 +18,7 @@
     {
       "id": "4",
       "origin": "Slowackiego 66, Kraków",
-      "destination": "rondo Matecznego 1, Kraków"
+      "destination": "rondo Matecznego, Kraków"
     },
     {
       "id": "5",
@@ -38,7 +38,7 @@
     {
       "id": "8",
       "origin": "rondo Matecznego, Kraków",
-      "destination": "Slowackiego 26, Kraków"
+      "destination": "Slowackiego 66, Kraków"
     },
 
 
@@ -98,7 +98,7 @@
     },
     {
       "id": "19",
-      "origin": "Pistowska 22, Kraków",
+      "origin": "Piastowska 22, Kraków",
       "destination": "Piastowska 50, Kraków"
     },
     {

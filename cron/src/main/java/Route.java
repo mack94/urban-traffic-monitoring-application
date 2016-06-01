@@ -23,13 +23,14 @@ public class Route {
 
     private String id;
     private DistanceMatrix distanceMatrix;
-    private DirectionsApiRequest directionsApi;
+    private DirectionsResult directionsApi;
     private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
-    public Route(String id, DistanceMatrix distanceMatrix, DirectionsApiRequest directionsApi) throws Exception {
+    public Route(String id, DistanceMatrix distanceMatrix, DirectionsResult directionsApi) throws Exception {
         this.id = id;
         this.distanceMatrix = distanceMatrix;
         this.directionsApi = directionsApi;
+        System.out.println("Directions API: " + directionsApi);
         loadRouteInfo();
         logger.error(this.toString());
     }
