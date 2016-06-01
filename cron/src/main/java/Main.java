@@ -1,7 +1,7 @@
 import com.google.maps.DirectionsApi;
-import com.google.maps.DirectionsApiRequest;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
+import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
 import org.joda.time.Instant;
@@ -11,13 +11,15 @@ public class Main {
 
     public static void main(String args[]) throws InterruptedException {
 
-        GeoApiContext context;
+        GeoApiContext distanceMatrixContext;
+        GeoApiContext directionsContext;
         ContextLoader contextLoader = new ContextLoader();
         RoutesLoader routesLoader = new RoutesLoader();
 
         try {
             JSONArray loadedRoutes = routesLoader.loadJSON();
-            context = contextLoader.geoApiContextLoader();
+            distanceMatrixContext = contextLoader.geoDistanceMatrixApiContextLoader();
+            directionsContext = contextLoader.geoDirectionsApiContextLoader();
 
             int loadedRoutesAmount = loadedRoutes.length();
 
@@ -33,15 +35,17 @@ public class Main {
                 Instant departure = Instant.now();
 
                 DistanceMatrix distanceMatrix = DistanceMatrixApi
-                        .getDistanceMatrix(context, destinations, origins)
+                        .getDistanceMatrix(distanceMatrixContext, origins, destinations)
                         .mode(travelMode)
                         .language("pl")
                         .departureTime(departure)
                         .await();
-                DirectionsApiRequest directionsApi = DirectionsApi
-                        .getDirections(context, destinations[0], origins[0])
+                DirectionsResult directionsApi = DirectionsApi
+                        .getDirections(directionsContext, destinations[0], origins[0])
                         .alternatives(false)
-                        .language("pl");
+                        .language("pl")
+                        .departureTime(departure)
+                        .await();
                 Route route = new Route(id, distanceMatrix, directionsApi);
             }
         } catch (Exception e) {

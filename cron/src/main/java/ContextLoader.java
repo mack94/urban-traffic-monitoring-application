@@ -16,9 +16,16 @@ public class ContextLoader {
     private Properties properties;
     private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
-    public GeoApiContext geoApiContextLoader() throws IOException {
+    public GeoApiContext geoDistanceMatrixApiContextLoader() throws IOException {
         properties = loadAppProperties();
-        String apiKey = properties.getProperty("ApiKey");
+        String apiKey = properties.getProperty("DistanceMatrixApiKey");
+
+        return new GeoApiContext().setApiKey(apiKey);
+    }
+
+    public GeoApiContext geoDirectionsApiContextLoader() throws IOException {
+        properties = loadAppProperties();
+        String apiKey = properties.getProperty("DistanceMatrixApiKey");
 
         return new GeoApiContext().setApiKey(apiKey);
     }
