@@ -3,16 +3,16 @@
     {
       "id": "1",
       "origin": "Slowackiego 66, Kraków",
-      "destination": "Mickiewicza 25, Kraków"
+      "destination": "Mickiewicza 30, Kraków"
     },
     {
       "id": "2",
-      "origin": "Mickiewicza 25, Kraków",
-      "destination": "most Debnicki, Kraków"
+      "origin": "Mickiewicza 30, Kraków",
+      "destination": "50.054082, 19.928323"
     },
     {
       "id": "3",
-      "origin": "most Debnicki, Kraków",
+      "origin": "50.054082, 19.928323",
       "destination": "rondo Matecznego, Kraków"
     },
     {
@@ -39,6 +39,6 @@
       "id": "8",
       "origin": "rondo Matecznego, Kraków",
       "destination": "Slowackiego 66, Kraków"
-    },
+    }
   ]
 }
