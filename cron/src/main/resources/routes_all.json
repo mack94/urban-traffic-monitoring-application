@@ -184,17 +184,17 @@
     },
     {
       "id": "35",
-      "origin": "Lublanska 16, Kraków",
-      "destination": "III obwodnica 5, Kraków"
+      "origin": "50.085253, 19.960734",
+      "destination": "50.087269, 19.950135"
     },
     {
       "id": "36",
-      "origin": "Lublanska 16, Kraków",
+      "origin": "50.085253, 19.960734",
       "destination": "aleja 29 Listopada 94, Kraków"
     },
     {
       "id": "37",
-      "origin": "Lublanska 16, Kraków",
+      "origin": "50.085253, 19.960734",
       "destination": "aleja 29 Listopada 62, Kraków"
     },
     {
@@ -210,7 +210,7 @@
     {
       "id": "40",
       "origin": "Klimeckiego 7, Kraków",
-      "destination": "Powstancow Wielkopolskich 70, Kraków"
+      "destination": "50.043515, 19.968176"
     }
   ]
 }
