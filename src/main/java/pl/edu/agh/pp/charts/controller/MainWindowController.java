@@ -61,6 +61,8 @@ public class MainWindowController {
     @FXML
     private void initialize(){
         fileChooser = new FileChooser();
+        File file = new File("./");
+        fileChooser.setInitialDirectory(file);
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Log Files", "*.log"));
         warn.setStyle("-fx-text-fill: red");
