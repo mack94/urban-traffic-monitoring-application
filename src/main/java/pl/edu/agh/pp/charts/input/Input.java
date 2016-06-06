@@ -99,10 +99,12 @@ public class Input {
     }
 
     void addRoute(String id, String origin, String destination){
+        System.out.println("put: " + id);
         routes.put(id,new Route(id, origin, destination));
     }
 
     public String getRoute(String id){
+        System.out.println("get: " + id);
         return routes.get(id).toString();
     }
 

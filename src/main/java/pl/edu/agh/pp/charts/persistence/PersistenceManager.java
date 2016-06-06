@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.charts.persistence;
 
 import pl.edu.agh.pp.charts.input.Record;
+import pl.edu.agh.pp.charts.input.ResourcesHolder;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -32,10 +33,7 @@ public class PersistenceManager {
     }
 
     private String setPath() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-        Date d = new Date();
-        String date = dateFormat.format(d);
-        String path = "resources_" + date + "/";
+        String path = ResourcesHolder.getInstance().getPath();
         new File(path).mkdir();
         return path;
     }

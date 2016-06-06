@@ -4,3 +4,4 @@ out/
 resources*/
 build/
 .gradle/
+*.log

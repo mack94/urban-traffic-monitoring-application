@@ -18,13 +18,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.input.Input;
+import pl.edu.agh.pp.charts.input.ResourcesHolder;
 import pl.edu.agh.pp.charts.parser.Parser;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Dawid on 2016-05-20.
@@ -34,6 +32,7 @@ public class MainWindowController {
     private FileChooser fileChooser = null;
     private Parser parser;
     private Input input;
+    Set<Integer> idsSet = new HashSet<>();
     private ObservableList<String> daysList = FXCollections.observableArrayList();
     private ObservableList<String> idsList = FXCollections.observableArrayList();
     private ObservableList<String> typesList = FXCollections.observableArrayList();
@@ -82,6 +81,7 @@ public class MainWindowController {
         });
         Image reverseButtonImage = new Image(Main.class.getResourceAsStream("/reverse.png"));
         reverseRouteButton.setGraphic(new ImageView(reverseButtonImage));
+        setLogsLabel();
     }
 
     @FXML
@@ -108,6 +108,8 @@ public class MainWindowController {
     private Button button578;
     @FXML
     private Button reverseRouteButton;
+    @FXML
+    private Label logsListLabel;
 
     @FXML
     private void handleFileButtonAction(ActionEvent e){
@@ -117,13 +119,17 @@ public class MainWindowController {
         }
         parser = new Parser(file);
         input = new Input();
+        ResourcesHolder.getInstance().addLog(file.getName());
+        setLogsLabel();
         input.getRoutes();
         parser.parse(input);
 
-        List<Integer> ids = new ArrayList<>();
+        idsList = FXCollections.observableArrayList();
+        idComboBox.setItems(idsList);
         for(String id : input.getIds()){
-            ids.add(Integer.parseInt(id));
+            idsSet.add(Integer.parseInt(id));
         }
+        List<Integer> ids = new ArrayList<>(idsSet);
         Collections.sort(ids);
         for(Integer id : ids) {
             idsList.add(input.getRoute(String.valueOf(id)));
@@ -159,6 +165,18 @@ public class MainWindowController {
         daysList.add("Sunday");
         dayComboBox.setItems(daysList);
         dayComboBox.setVisibleRowCount(7);
+    }
+
+    private void setLogsLabel() {
+        String tmp = "Chosen log files:\n";
+        if(ResourcesHolder.getInstance().getLogs().isEmpty()) {
+            tmp += "NONE";
+        } else {
+            for(String log : ResourcesHolder.getInstance().getLogs()) {
+                tmp += log + "\n";
+            }
+        }
+        logsListLabel.setText(tmp);
     }
 
     private void clearDayComboBox() {
