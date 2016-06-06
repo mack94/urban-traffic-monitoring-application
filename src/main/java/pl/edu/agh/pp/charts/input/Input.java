@@ -3,6 +3,7 @@ package pl.edu.agh.pp.charts.input;
 
 import pl.edu.agh.pp.charts.persistence.PersistenceManager;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -13,6 +14,8 @@ public class Input {
     private Set<String> ids = new TreeSet<>();
     private Set<String> days = new TreeSet<>();
     private PersistenceManager persistenceManager = new PersistenceManager();
+    private Map<String,Route> routes;
+    private RoutesLoader routesLoader;
 
     public void addLine(String buffer){
         Record record = new Record();
@@ -84,5 +87,38 @@ public class Input {
         */
 
         return result;
+    }
+    public void getRoutes(){
+        routesLoader = new RoutesLoader();
+        routes = new HashMap<>();
+        try {
+            routesLoader.loadRoutes(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void addRoute(String id, String origin, String destination){
+        routes.put(id,new Route(id, origin, destination));
+    }
+
+    public String getRoute(String id){
+        return routes.get(id).toString();
+    }
+
+    public String getId(String route){
+        return  route.split("-")[0].trim();
+    }
+
+    public String getReverse(String Id){
+        Route route = routes.get(Id);
+        for(String routeId: routes.keySet()){
+            if(routes.get(routeId).getOrigin().equals(route.getDestination())){
+                if(routes.get(routeId).getDestination().equals(route.getOrigin())){
+                    return routes.get(routeId).toString();
+                }
+            }
+        }
+        return null;
     }
 }

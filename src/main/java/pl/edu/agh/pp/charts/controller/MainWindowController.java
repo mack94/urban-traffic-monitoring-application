@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -76,6 +78,8 @@ public class MainWindowController {
                 }
             }
         });
+        Image reverseButtonImage = new Image(Main.class.getResourceAsStream("/reverse.png"));
+        reverseRouteButton.setGraphic(new ImageView(reverseButtonImage));
     }
 
     @FXML
@@ -100,6 +104,8 @@ public class MainWindowController {
     private Button button134;
     @FXML
     private Button button578;
+    @FXML
+    private Button reverseRouteButton;
 
     @FXML
     private void handleFileButtonAction(ActionEvent e){
@@ -109,6 +115,7 @@ public class MainWindowController {
         }
         parser = new Parser(file);
         input = new Input();
+        input.getRoutes();
         parser.parse(input);
 
         List<Integer> ids = new ArrayList<>();
@@ -117,7 +124,7 @@ public class MainWindowController {
         }
         Collections.sort(ids);
         for(Integer id : ids) {
-            idsList.add(String.valueOf(id));
+            idsList.add(input.getRoute(String.valueOf(id)));
         }
 
         idComboBox.setItems(idsList);
@@ -175,7 +182,7 @@ public class MainWindowController {
 
         String type = typeComboBox.getSelectionModel().getSelectedItem();
         String day = dayComboBox.getSelectionModel().getSelectedItem();
-        String id = idComboBox.getSelectionModel().getSelectedItem();
+        String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
         Map<Double, Double> trafficValues = null;
         Map<Double, Double> normalValues = null;
         if(type.equals("Exact date")) {
@@ -316,5 +323,14 @@ public class MainWindowController {
     @FXML
     private void handleClearAction(ActionEvent e){
         lineChart.getData().clear();
+    }
+
+    @FXML
+    private void handleReverseRotuteAction(ActionEvent e){
+        String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
+        if(id!=null){
+            idComboBox.getSelectionModel().select(input.getReverse(id));
+            System.out.println(input.getReverse(id));
+        }
     }
 }
