@@ -34,7 +34,8 @@ public class PersistenceManager {
 
     private String setPath() {
         String path = ResourcesHolder.getInstance().getPath();
-        new File(path).mkdir();
+        File file = new File(path);
+        file.mkdirs();
         return path;
     }
 
