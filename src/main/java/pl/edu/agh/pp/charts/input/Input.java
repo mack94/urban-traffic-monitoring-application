@@ -77,7 +77,6 @@ public class Input {
         /*
         if(aggregated) {
             double amount = end - begin + 1;
-            System.out.println(amount);
             for(Double key : result.keySet()) {
                 Double value = result.get(key);
                 value = value / amount;
@@ -99,12 +98,10 @@ public class Input {
     }
 
     void addRoute(String id, String origin, String destination){
-        System.out.println("put: " + id);
         routes.put(id,new Route(id, origin, destination));
     }
 
     public String getRoute(String id){
-        System.out.println("get: " + id);
         return routes.get(id).toString();
     }
 
@@ -122,5 +119,9 @@ public class Input {
             }
         }
         return null;
+    }
+
+    public void cleanUp() {
+        persistenceManager.removeFiles();
     }
 }

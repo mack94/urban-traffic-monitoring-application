@@ -13,7 +13,7 @@ repositories {
 
 sourceSets {
     main.java.srcDir "src/main/java"
-    main.resources.srcDir "src/main/java/pl/edu/agh/pp/charts/view"
+    main.resources.srcDirs "src/main/java/pl/edu/agh/pp/charts/view", "src/main/resources"
 }
 
 jar {

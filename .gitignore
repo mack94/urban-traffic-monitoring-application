@@ -5,3 +5,5 @@ resources*/
 build/
 .gradle/
 *.log
+*.ipr
+*.iws

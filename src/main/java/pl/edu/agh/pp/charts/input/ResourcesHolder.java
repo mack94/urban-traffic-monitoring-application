@@ -19,7 +19,7 @@ public class ResourcesHolder {
     private ResourcesHolder() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         Date d = new Date();
-        path = "resources_" + dateFormat.format(d) + "/";
+        path = "resources/" + dateFormat.format(d) + "/";
     }
 
     public static ResourcesHolder getInstance() {
@@ -37,7 +37,6 @@ public class ResourcesHolder {
     }
 
     public String getPath() {
-        System.out.println(path);
         return path;
     }
 

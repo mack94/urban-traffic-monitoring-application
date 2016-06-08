@@ -55,9 +55,9 @@ public class MainWindowController {
 
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 public void handle(WindowEvent we) {
-                    //
-                    // Put on close code here
-                    //
+                    if(input != null) {
+                        input.cleanUp();
+                    }
                 }
             });
             primaryStage.setTitle("Urban traffic monitoring - charts");
@@ -363,7 +363,6 @@ public class MainWindowController {
             String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
             if (id != null) {
                 idComboBox.getSelectionModel().select(input.getReverse(id));
-                System.out.println(input.getReverse(id));
             }
         }
         catch (NullPointerException exception){

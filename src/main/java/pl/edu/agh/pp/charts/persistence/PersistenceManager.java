@@ -77,7 +77,6 @@ public class PersistenceManager {
 
             return values.get(calendar.get(Calendar.DAY_OF_WEEK));
         } catch (ParseException e) {
-            System.out.println("Wrong date.");
             return "";
         }
 
@@ -176,4 +175,15 @@ public class PersistenceManager {
         return line != null && !line.equals("");
     }
 
+    public void removeFiles() {
+        String path = ResourcesHolder.getInstance().getPath();
+        File dir = new File(path);
+        File[] files = dir.listFiles();
+        for(File file : files) {
+            file.delete();
+        }
+        dir.delete();
+        dir = dir.getParentFile();
+        dir.delete();
+    }
 }
