@@ -359,10 +359,15 @@ public class MainWindowController {
 
     @FXML
     private void handleReverseRotuteAction(ActionEvent e){
-        String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
-        if(id!=null){
-            idComboBox.getSelectionModel().select(input.getReverse(id));
-            System.out.println(input.getReverse(id));
+        try {
+            String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
+            if (id != null) {
+                idComboBox.getSelectionModel().select(input.getReverse(id));
+                System.out.println(input.getReverse(id));
+            }
+        }
+        catch (NullPointerException exception){
+            warn.setText("Nothing to reverse");
         }
     }
 }
