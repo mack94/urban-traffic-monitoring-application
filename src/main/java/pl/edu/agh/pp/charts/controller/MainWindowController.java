@@ -5,17 +5,22 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.input.Input;
 import pl.edu.agh.pp.charts.input.ResourcesHolder;
@@ -48,6 +53,13 @@ public class MainWindowController {
             loader.setController(this);
             BorderPane rootLayout = loader.load();
 
+            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent we) {
+                    //
+                    // Put on close code here
+                    //
+                }
+            });
             primaryStage.setTitle("Urban traffic monitoring - charts");
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
