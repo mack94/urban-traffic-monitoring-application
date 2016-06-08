@@ -1,7 +1,7 @@
 .idea/
 out/
 *.iml
-resources*/
+workspace/
 build/
 .gradle/
 *.log

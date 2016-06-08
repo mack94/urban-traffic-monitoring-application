@@ -19,7 +19,7 @@ public class ResourcesHolder {
     private ResourcesHolder() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         Date d = new Date();
-        path = "resources/" + dateFormat.format(d) + "/";
+        path = "workspace/" + dateFormat.format(d) + "/";
     }
 
     public static ResourcesHolder getInstance() {
