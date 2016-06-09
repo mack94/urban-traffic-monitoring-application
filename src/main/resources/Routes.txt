@@ -1,41 +1,40 @@
-# ID - początek - koniec
-1 - Słowackiego 66 - Mickiewicza 25
-2 - Mickiewicza 25 - most Dębnicki
-3 - most Dębnicki - rondo Matecznego
-4 - Słowackiego 66 - rondo Matecznego
-5 - Mickiewicza 25 - Słowackiego 66
-6 - most Dębnicki - Mickiewicza 25
-7 - rondo Matecznego - most Dębnicki
-8 - rondo Matecznego - Słowackiego 66
-9 - Zakopiańska 244 - rondo Matecznego
-10 - rondo Matecznego - Zakopiańska 244
+1 - Slowackiego 66 - Mickiewicza 25
+2 - Mickiewicza 25 - most Debnicki
+3 - most Debnicki - rondo Matecznego
+4 - Slowackiego 66 - rondo Matecznego
+5 - Mickiewicza 25 - Slowackiego 66
+6 - most Debnicki - Mickiewicza 25
+7 - rondo Matecznego - most Debnicki
+8 - rondo Matecznego - Slowackiego 66
+9 - Zakopianska 244 - rondo Matecznego
+10 - rondo Matecznego - Zakopianska 244
 11 - rondo Matecznego - Wielicka 179
 12 - Wielicka 179 - rondo Matecznego
 13 - Wielicka 179 - Wielicka 285
 14 - Wielicka 285 - Wielicka 179
-15 - Nowosądecka 1 - Turowicza 13
-16 - Turowicza 13 - Nowosądecka 1
+15 - Nowosadecka 1 - Turowicza 13
+16 - Turowicza 13 - Nowosadecka 1
 17 - Czarnowiejska 8 - Armii Krajowej 2
 18 - Armii Krajowej 2 - Czarnowiejska 8
 19 - Piastowska 22 - Piastowska 50
 20 - Piastowska 50 - Piastowska 22
-21 - Mogilska 11 - rondo Czyżyńskie
-22 - rondo Czyżyńskie - Mogilska 28
-23 - rondo Grzegórzeckie - rondo Mogilskie
-24 - rondo Mogilskie - rondo Grzegórzeckie
+21 - Mogilska 11 - rondo Czyzynskie
+22 - rondo Czyzynskie - Mogilska 28
+23 - rondo Grzegorzeckie - rondo Mogilskie
+24 - rondo Mogilskie - rondo Grzegorzeckie
 25 - Plac Centralny - Estakada Rozwadowskiego
 26 - Estakada Rozwadowskiego - Plac Centralny
-27 - ??? - ????
-28 - ??? - ???
-29 - ??? - ???
-30 - ??? - ???
-31 - Bieżanowska 43 - Bieżanowska 208
-32 - Bieżanowska 208 - Bieżanowska 43
-33 - ??? - ???
-34 - ??? - ???
-35 - ??? - ???
-36 - ??? - ???
-37 - ??? - ???
-38 - ??? - ???
-39 - ??? - ???
-40 - ??? - ???
+27 - Wrong #1 - Wrong #2
+28 - Wrong #3 - Wrong #4
+29 - Kuklinskiego 3075 - S7
+30 - S7 - Kuklinskiego 3075
+31 - Biezanowska 43 - Biezanowska 208
+32 - Biezanowska 208 - Biezanowska 43
+33 - Bulhaka - Konopnickiej 26
+34 - Bulhaka - most Grunwaldzki
+35 - Lublanska 16 - E77 5
+36 - Lublanska 16 - 29 Listopada 94
+37 - Lublanska 16 - 29 Listopada 62
+38 - Klimeckiego 7 - Strycharska 5
+39 - Klimeckiego 7 - Nowohucka 67
+40 - Klimeckiego 7 - Powstancow Wielkopolskich 13
