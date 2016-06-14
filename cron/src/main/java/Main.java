@@ -13,7 +13,7 @@ public class Main {
 
         GeoApiContext context;
         ContextLoader contextLoader = new ContextLoader();
-        RoutesLoader routesLoader = new RoutesLoader();
+        RoutesLoader routesLoader = RoutesLoader.getInstance();
 
         try {
             JSONArray loadedRoutes = routesLoader.loadJSON();
@@ -38,12 +38,14 @@ public class Main {
                         .language("pl")
                         .departureTime(departure)
                         .await();
+
                 DirectionsResult directionsApi = DirectionsApi
                         .getDirections(context, destinations[0], origins[0])
                         .alternatives(false)
                         .language("pl")
                         .departureTime(departure)
                         .await();
+
                 Route route = new Route(id, distanceMatrix, directionsApi);
             }
         } catch (Exception e) {
