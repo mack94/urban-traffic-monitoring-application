@@ -12,14 +12,18 @@ import java.io.InputStream;
  */
 public class RoutesLoader {
 
-    private static RoutesLoader instance = null;
+    /**
+     * Thread-safe singleton.
+     * But not allow multiple singleton instances.
+     */
+    private final static RoutesLoader INSTANCE = new RoutesLoader();
     private static String fileName = "/routes.json";
 
-    public static RoutesLoader getInstance() {
-        if (instance == null)
-            instance = new RoutesLoader();
+    private RoutesLoader() {
+    }
 
-        return instance;
+    public static RoutesLoader getInstance() {
+        return INSTANCE;
     }
 
     public String getDefaultJSONFileName() {

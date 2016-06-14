@@ -14,12 +14,17 @@ import java.util.Random;
  */
 public class Timer {
 
+    private final static Timer INSTANCE = new Timer();
     private static Logger logger = (Logger) LoggerFactory.getLogger(Timer.class.getClass());
 
-    public Timer() {
+    private Timer() {
     }
 
-    public static long getWaitingTime() {
+    public Timer getInstance() {
+        return INSTANCE;
+    }
+
+    public long getWaitingTime() {
         try {
             String string1 = "05:00:00";
             Date time1 = new SimpleDateFormat("HH:mm:ss").parse(string1);
@@ -46,7 +51,7 @@ public class Timer {
             Random random = new Random();
             if (x.after(calendar1.getTime()) && x.before(calendar2.getTime())) {
                 //checks whether the current time is between 05:00:00 and 23:00:00.
-                return random.nextInt(300_000) + 15_000;
+                return random.nextInt(200_000) + 15_000;
             } else {
                 System.out.println("YOOOOOOOOOOOOOO");
                 return random.nextInt(600_000) + 30_000;
