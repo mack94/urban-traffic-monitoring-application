@@ -20,7 +20,7 @@ public class Timer {
     private Timer() {
     }
 
-    public Timer getInstance() {
+    public static Timer getInstance() {
         return INSTANCE;
     }
 
