@@ -38,3 +38,11 @@
 38 - Klimeckiego 7 - Strycharska 5
 39 - Klimeckiego 7 - Nowohucka 67
 40 - Klimeckiego 7 - Powstancow Wielkopolskich 13
+41 - Nawojki - Armii Krajowej
+42 - Armii Krajowej - Balicka 45
+43 - Balicka 45 - Krakow Airport
+44 - Balicka 45 - aleja Kijowska 8
+45 - Armii Krajowej - Nawojki
+46 - Balicka 45 - Armii Krajowej
+47 - Krakow Airport - Balicka 45
+48 - aleja Kijowska 8 - Balicka 45
