@@ -2,9 +2,7 @@ package pl.edu.agh.pp.charts.input;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Jakub Janusz on 06.06.2016.
@@ -15,6 +13,8 @@ public class ResourcesHolder {
 
     private static ResourcesHolder instance = new ResourcesHolder();
     private static String path;
+    private List<String> logs = new ArrayList<>();
+    private Set<String> days = new HashSet<>();
 
     private ResourcesHolder() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
@@ -26,14 +26,20 @@ public class ResourcesHolder {
         return instance;
     }
 
-    private Set<String> logs = new HashSet<>();
-
-    public Set<String> getLogs() {
+    public List<String> getLogs() {
         return logs;
     }
 
     public void addLog(String log) {
         logs.add(log);
+    }
+
+    public Set<String> getDays() {
+        return days;
+    }
+
+    public void addDay(String day) {
+        days.add(day);
     }
 
     public String getPath() {

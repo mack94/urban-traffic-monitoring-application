@@ -35,6 +35,7 @@ public class Input {
         record.setTime();
         ids.add(record.getId());
         days.add(record.getDay());
+        ResourcesHolder.getInstance().addDay(record.getDay());
         records.add(record);
     }
 

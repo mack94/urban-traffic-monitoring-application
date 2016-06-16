@@ -37,7 +37,8 @@ public class MainWindowController {
     private FileChooser fileChooser = null;
     private Parser parser;
     private Input input;
-    Set<Integer> idsSet = new HashSet<>();
+    private Set<Integer> idsSet = new HashSet<>();
+    private Set<String> datesSet = new HashSet<>();
     private ObservableList<String> daysList = FXCollections.observableArrayList();
     private ObservableList<String> idsList = FXCollections.observableArrayList();
     private ObservableList<String> typesList = FXCollections.observableArrayList();
@@ -146,7 +147,6 @@ public class MainWindowController {
         for(Integer id : ids) {
             idsList.add(input.getRoute(String.valueOf(id)));
         }
-
         idComboBox.setItems(idsList);
 
         if(typesList.size() != 2) {
@@ -158,8 +158,13 @@ public class MainWindowController {
 
     private void fillInDates() {
         clearDayComboBox();
-        for(String day : input.getDays()) {
-            daysList.add(day);
+        for(String day : ResourcesHolder.getInstance().getDays()) {
+            datesSet.add(day);
+        }
+        List<String> dates = new ArrayList<>(datesSet);
+        Collections.sort(dates);
+        for(String date : dates) {
+            daysList.add(date);
         }
         dayComboBox.setItems(daysList);
         int size = daysList.size();

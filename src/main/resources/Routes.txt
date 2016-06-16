@@ -24,8 +24,8 @@
 24 - rondo Mogilskie - rondo Grzegorzeckie
 25 - Plac Centralny - Estakada Rozwadowskiego
 26 - Estakada Rozwadowskiego - Plac Centralny
-27 - Wrong#1 - Wrong#2
-28 - Wrong#3 - Wrong#4
+27 - Czestochowska 38 - Czestochowska 162
+28 - Jasnogorska - Droga Krajowa 94 56
 29 - Kuklinskiego 3075 - S7
 30 - S7 - Kuklinskiego 3075
 31 - Biezanowska 43 - Biezanowska 208
