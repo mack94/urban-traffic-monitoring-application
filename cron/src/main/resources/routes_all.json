@@ -215,11 +215,11 @@
     {
       "id": "41",
       "origin": "Nawojki, Kraków",
-      "destination": "Armii Krajowej, Kraków"
+      "destination": "50.079301, 19.890059"
     },
     {
       "id": "42",
-      "origin": "Armii Krajowej, Kraków",
+      "origin": "50.079301, 19.890059",
       "destination": "Balicka 45, Kraków"
     },
     {
@@ -234,13 +234,13 @@
     },
     {
       "id": "45",
-      "origin": "Armii Krajowej, Kraków",
-      "destination": "Nawojki, Kraków"
+      "origin": "Armii Krajowej 89, Kraków",
+      "destination": "Nawojki 6, Kraków"
     },
     {
       "id": "46",
       "origin": "Balicka 45, Kraków",
-      "destination": "Armii Krajowej, Kraków"
+      "destination": "Armii Krajowej 89, Kraków"
     },
     {
       "id": "47",
