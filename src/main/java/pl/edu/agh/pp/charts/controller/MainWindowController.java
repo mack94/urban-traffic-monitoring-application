@@ -73,6 +73,8 @@ public class MainWindowController {
     @FXML
     private void initialize(){
         fileChooser = new FileChooser();
+        parser = new Parser();
+        input = new Input();
         File file = new File("./");
         fileChooser.setInitialDirectory(file);
         fileChooser.setTitle("Open Resource File");
@@ -126,16 +128,17 @@ public class MainWindowController {
 
     @FXML
     private void handleFileButtonAction(ActionEvent e){
-        File file = fileChooser.showOpenDialog(primaryStage);
-        if(file==null){
+        List<File> files = fileChooser.showOpenMultipleDialog(primaryStage);
+        if(files==null || files.isEmpty()){
             return;
         }
-        parser = new Parser(file);
-        input = new Input();
-        ResourcesHolder.getInstance().addLog(file.getName());
         setLogsLabel();
         input.getRoutes();
-        parser.parse(input);
+        for(File file: files){
+            ResourcesHolder.getInstance().addLog(file.getName());
+            parser.setFile(file);
+            parser.parse(input);
+        }
 
         idsList = FXCollections.observableArrayList();
         idComboBox.setItems(idsList);
