@@ -132,7 +132,6 @@ public class MainWindowController {
         if(files==null || files.isEmpty()){
             return;
         }
-        setLogsLabel();
         input.getRoutes();
         for(File file: files){
             ResourcesHolder.getInstance().addLog(file.getName());
@@ -157,6 +156,8 @@ public class MainWindowController {
             typesList.add("Aggregated day of week");
         }
         typeComboBox.setItems(typesList);
+
+        setLogsLabel();
     }
 
     private void fillInDates() {
