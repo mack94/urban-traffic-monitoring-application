@@ -203,6 +203,25 @@ public class MainWindowController {
         dayComboBox.setItems(daysList);
     }
 
+    private void createTooltips(){
+        for (XYChart.Series<Number, Number> s : lineChart.getData()) {
+            for (XYChart.Data<Number, Number> d : s.getData()) {
+                double num = (double)d.getXValue();
+                long iPart;
+                double fPart;
+                iPart = (long) num;
+                fPart = num - iPart;
+                Tooltip.install(d.getNode(), new Tooltip("Time of the day: " + iPart+"h "+(long)(fPart*60)+"min" + "\nDuration: " + d.getYValue().toString() + " seconds" ));
+
+                //Adding class on hover
+                d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
+
+                //Removing class on exit
+                d.getNode().setOnMouseExited(event -> d.getNode().getStyleClass().remove("onHover"));
+            }
+        }
+    }
+
     @FXML
     private void handleStartAction(ActionEvent e){
         if(dayComboBox.getSelectionModel().getSelectedItem() == null
@@ -247,22 +266,7 @@ public class MainWindowController {
         lineChart.getData().add(seriesDurationInTraffic);
         lineChart.getData().add(seriesDuration);
 
-        for (XYChart.Series<Number, Number> s : lineChart.getData()) {
-            for (XYChart.Data<Number, Number> d : s.getData()) {
-                double num = (double)d.getXValue();
-                long iPart;
-                double fPart;
-                iPart = (long) num;
-                fPart = num - iPart;
-                Tooltip.install(d.getNode(), new Tooltip("Time of the day: " + iPart+"h "+(long)(fPart*60)+"min" + "\nDuration: " + d.getYValue().toString() + " seconds" ));
-
-                //Adding class on hover
-                d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
-
-                //Removing class on exit
-                d.getNode().setOnMouseExited(event -> d.getNode().getStyleClass().remove("onHover"));
-            }
-        }
+        createTooltips();
     }
 
     @FXML
@@ -362,6 +366,8 @@ public class MainWindowController {
         lineChart.getData().add(seriesDurationSummary);
         lineChart.getData().add(seriesDurationInTraffic);
         lineChart.getData().add(seriesDuration);
+
+        createTooltips();
     }
 
     @FXML
