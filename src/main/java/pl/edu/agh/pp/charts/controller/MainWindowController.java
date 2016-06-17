@@ -11,10 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -63,6 +60,7 @@ public class MainWindowController {
             });
             primaryStage.setTitle("Urban traffic monitoring - charts");
             Scene scene = new Scene(rootLayout);
+            scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();
         }
@@ -249,6 +247,18 @@ public class MainWindowController {
         lineChart.getData().add(seriesDurationInTraffic);
         lineChart.getData().add(seriesDuration);
 
+        for (XYChart.Series<Number, Number> s : lineChart.getData()) {
+            for (XYChart.Data<Number, Number> d : s.getData()) {
+                Tooltip.install(d.getNode(), new Tooltip(
+                        "Time of the day: " + d.getXValue() + "\nDuration: " + d.getYValue().toString() + " seconds" ));
+
+                //Adding class on hover
+                d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
+
+                //Removing class on exit
+                d.getNode().setOnMouseExited(event -> d.getNode().getStyleClass().remove("onHover"));
+            }
+        }
     }
 
     @FXML

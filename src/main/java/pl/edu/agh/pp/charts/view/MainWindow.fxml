@@ -22,8 +22,8 @@
     </top>
     <center>
         <LineChart fx:id="lineChart">
-            <xAxis><NumberAxis label="Hour" tickUnit="1" fx:id="xAxis" /></xAxis>
-            <yAxis><NumberAxis label="Duration in traffic" tickUnit="1" /></yAxis>
+            <xAxis><NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis" /></xAxis>
+            <yAxis><NumberAxis label="Duration (seconds)" tickUnit="1" /></yAxis>
         </LineChart>
     </center>
     <bottom>
