@@ -249,8 +249,12 @@ public class MainWindowController {
 
         for (XYChart.Series<Number, Number> s : lineChart.getData()) {
             for (XYChart.Data<Number, Number> d : s.getData()) {
-                Tooltip.install(d.getNode(), new Tooltip(
-                        "Time of the day: " + d.getXValue() + "\nDuration: " + d.getYValue().toString() + " seconds" ));
+                double num = (double)d.getXValue();
+                long iPart;
+                double fPart;
+                iPart = (long) num;
+                fPart = num - iPart;
+                Tooltip.install(d.getNode(), new Tooltip("Time of the day: " + iPart+"h "+(long)(fPart*60)+"min" + "\nDuration: " + d.getYValue().toString() + " seconds" ));
 
                 //Adding class on hover
                 d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
