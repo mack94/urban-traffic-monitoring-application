@@ -46,3 +46,11 @@
 46 - Balicka 45 - Armii Krajowej
 47 - Krakow Airport - Balicka 45
 48 - aleja Kijowska 8 - Balicka 45
+49 - Mitkowskiego - Konopnickiej 20
+50 - Mitkowskiego - Orzeszkowej 1
+51 - Estakada Izyckiego - E77 5
+52 - Estakada Izyckiego - 29 Listopada 116
+53 - Estakada Izyckiego - 29 Listopada 42
+54 - Klimeckiego 26 - Gromadzka 49
+55 - Klimeckiego 26 - Nowohucka 92
+56 - Klimeckiego 26 - Powstancow Wielkopolskich 7
