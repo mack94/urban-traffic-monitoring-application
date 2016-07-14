@@ -212,6 +212,9 @@
       "origin": "Klimeckiego 7, Kraków",
       "destination": "50.043515, 19.968176"
     },
+
+
+
     {
       "id": "41",
       "origin": "Nawojki, Kraków",
@@ -251,6 +254,49 @@
       "id": "48",
       "origin": "aleja Kijowska 8, Kraków",
       "destination": "Balicka 45, Kraków"
+    },
+
+
+
+    {
+      "id": "49",
+      "origin": "Mitkowskiego, Kraków",
+      "destination": "Marii Konopnickiej 20, Kraków"
+    },
+    {
+      "id": "50",
+      "origin": "Mitkowskiego, Kraków",
+      "destination": "Orzeszkowej 1, Kraków"
+    },
+    {
+      "id": "51",
+      "origin": "50.085023, 19.965906",
+      "destination": "50.087961, 19.947782"
+    },
+    {
+      "id": "52",
+      "origin": "50.085023, 19.965906",
+      "destination": "aleja 29 Listopada 116, Kraków"
+    },
+    {
+      "id": "53",
+      "origin": "50.085023, 19.965906",
+      "destination": "aleja 29 Listopada 42, Kraków"
+    },
+    {
+      "id": "54",
+      "origin": "50.048593, 19.968092",
+      "destination": "Gromadzka 49, Kraków"
+    },
+    {
+      "id": "55",
+      "origin": "50.048593, 19.968092",
+      "destination": "50.048743, 19.981505"
+    },
+    {
+      "id": "56",
+      "origin": "50.048593, 19.968092",
+      "destination": "50.042521, 19.963336"
     }
   ]
 }
