@@ -46,7 +46,7 @@ public class Main {
                         .departureTime(departure)
                         .await();
 
-                Route route = new Route(id, distanceMatrix, directionsApi);
+                new Route(id, distanceMatrix, directionsApi);
             }
         } catch (Exception e) {
             e.printStackTrace();
