@@ -1,12 +1,11 @@
-package pl.agh.edu.pp.detector.builders;
+package pl.edu.agh.pp.detector.builders;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
-import org.apache.commons.math3.fitting.PolynomialFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoint;
-import pl.agh.edu.pp.detector.distributions.GaussianDistribution;
-import pl.agh.edu.pp.detector.enums.DayOfWeek;
-import pl.agh.edu.pp.detector.records.Record;
+import pl.edu.agh.pp.detector.distributions.GaussianDistribution;
+import pl.edu.agh.pp.detector.enums.DayOfWeek;
+import pl.edu.agh.pp.detector.records.Record;
 
 import java.util.*;
 

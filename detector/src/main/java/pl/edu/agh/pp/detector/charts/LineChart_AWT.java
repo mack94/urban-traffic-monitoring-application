@@ -1,4 +1,4 @@
-package pl.agh.edu.pp.detector.charts;
+package pl.edu.agh.pp.detector.charts;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;

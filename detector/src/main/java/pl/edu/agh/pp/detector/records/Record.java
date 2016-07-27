@@ -1,4 +1,4 @@
-package pl.agh.edu.pp.detector.records;
+package pl.edu.agh.pp.detector.records;
 
 import org.joda.time.DateTime;
 

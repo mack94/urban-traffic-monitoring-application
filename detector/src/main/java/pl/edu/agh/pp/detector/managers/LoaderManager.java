@@ -1,4 +1,4 @@
-package pl.agh.edu.pp.detector.managers;
+package pl.edu.agh.pp.detector.managers;
 
 /**
  * Created by Maciej on 18.07.2016.

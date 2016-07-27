@@ -1,8 +1,8 @@
-package pl.agh.edu.pp.detector;
+package pl.edu.agh.pp.detector;
 
 import org.jfree.ui.RefineryUtilities;
-import pl.agh.edu.pp.detector.builders.PolynomialPatternBuilder;
-import pl.agh.edu.pp.detector.charts.LineChart_AWT;
+import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
+import pl.edu.agh.pp.detector.charts.LineChart_AWT;
 
 /**
  * Created by Maciej on 18.07.2016.

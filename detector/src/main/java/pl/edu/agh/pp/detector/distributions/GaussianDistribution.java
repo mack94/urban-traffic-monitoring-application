@@ -1,4 +1,4 @@
-package pl.agh.edu.pp.detector.distributions;
+package pl.edu.agh.pp.detector.distributions;
 
 import java.util.Random;
 

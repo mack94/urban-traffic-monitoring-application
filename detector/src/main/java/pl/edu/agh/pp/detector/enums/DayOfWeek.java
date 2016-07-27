@@ -1,4 +1,4 @@
-package pl.agh.edu.pp.detector.enums;
+package pl.edu.agh.pp.detector.enums;
 
 /**
  * Created by Maciej on 19.07.2016.
