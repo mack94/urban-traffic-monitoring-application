@@ -1,3 +1,5 @@
+package pl.edu.agh.pp.cron.utils;
+
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -1,14 +1,16 @@
-group 'monit_alpha'
+group 'pl.edu.agh.pp.charts'
 version '1.0'
 
 apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'application'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+}
+
+dependencies {
+
 }
 
 sourceSets {
@@ -20,5 +22,3 @@ jar {
     from configurations.compile.collect { zipTree it }
     manifest.attributes "Main-Class": "pl.edu.agh.pp.charts.Main"
 }
-
-mainClassName = "pl.edu.agh.pp.charts.Main"

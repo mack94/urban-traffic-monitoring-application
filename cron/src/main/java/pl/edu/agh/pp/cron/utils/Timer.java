@@ -1,3 +1,5 @@
+package pl.edu.agh.pp.cron.utils;
+
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 

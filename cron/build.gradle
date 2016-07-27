@@ -1,4 +1,4 @@
-group 'monitorowanie_ruchu_alpha'
+group 'pl.edu.agh.pp.cron'
 version '1.0'
 
 apply plugin: 'java'
@@ -20,7 +20,11 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
+sourceSets {
+    main.java.srcDir "src/main/java"
+}
+
 jar {
     from configurations.compile.collect { zipTree it }
-    manifest.attributes "Main-Class": "Main"
+    manifest.attributes "Main-Class": "pl.edu.agh.pp.cron.Main"
 }

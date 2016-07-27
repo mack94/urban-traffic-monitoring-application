@@ -1,3 +1,5 @@
+package pl.edu.agh.pp.cron;
+
 import com.google.maps.DirectionsApi;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
@@ -6,6 +8,9 @@ import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
 import org.joda.time.Instant;
 import org.json.JSONArray;
+import pl.edu.agh.pp.cron.utils.ContextLoader;
+import pl.edu.agh.pp.cron.utils.Route;
+import pl.edu.agh.pp.cron.utils.RoutesLoader;
 
 public class Main {
 

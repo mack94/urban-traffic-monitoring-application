@@ -1,3 +1,5 @@
+package pl.edu.agh.pp.cron.utils;
+
 import ch.qos.logback.classic.Logger;
 import com.google.maps.GeoApiContext;
 import org.slf4j.LoggerFactory;
