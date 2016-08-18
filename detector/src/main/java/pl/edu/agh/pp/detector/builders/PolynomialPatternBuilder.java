@@ -25,7 +25,8 @@ public final class PolynomialPatternBuilder {
     private static List<WeightedObservedPoint> points = new LinkedList<>();
     // or ...
     //private Map<Integer, List<WeightedObservedPoint>> points = new HashMap<>();
-    private static PolynomialFunction function;
+//    private static PolynomialFunction polynomialFunction; // TODO:Should be list of poly function - for each day and for each route.
+    private static List<Map<Integer, PolynomialFunction>> polynomialFunctions = new ArrayList<>();
 
     public static class Holder {
         static final PolynomialPatternBuilder INSTANCE = new PolynomialPatternBuilder();
@@ -78,27 +79,48 @@ public final class PolynomialPatternBuilder {
     }
 
     // computes the value expected
-    private static double function(int second) {
-        return function.value(second);
+    // TODO
+    private static double function(DayOfWeek dayOfWeek, int routeIdx, int second) {
+        System.out.println("Oridinal: " + dayOfWeek.ordinal());
+        return polynomialFunctions.get(dayOfWeek.ordinal()).get(routeIdx).value(second);
+//        return polynomialFunction.value(second);
     }
 
     // Please notice that, we don't want to put here method responsible for deciding whether the value is an anomaly or not.
-
+    // I think so...
     public static void computePolynomial() {
         PolynomialCurveFitter fitter = PolynomialCurveFitter.create(7);
 
         loadRecords();
 
-        function = new PolynomialFunction(fitter.fit(points));
-        System.out.println(function);
+//        polynomialFunction = new PolynomialFunction(fitter.fit(points));
+        HashMap<Integer, PolynomialFunction> polynomial = new HashMap();
+        polynomial.put(10, new PolynomialFunction(fitter.fit(points))); // FIXME
+        polynomialFunctions.add(polynomial);
+        System.out.println(polynomialFunctions.get(0));
+    }
+
+    //TODO
+    public boolean isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
+        double predictedTravelDuration = function(dayOfWeek, routeIdx, (int) secondOfDay);
+        double bounds = 0.10; //%
+        double errorRate = predictedTravelDuration * bounds;
+
+        System.out.println("#####################");
+        System.out.println(predictedTravelDuration - errorRate);
+        System.out.println(predictedTravelDuration + errorRate);
+
+        if ((travelDuration > predictedTravelDuration + errorRate) || (travelDuration < predictedTravelDuration - errorRate))
+            return true;
+        return false;
     }
 
     @Deprecated
-    public static double[] getValueForEachSecondOfDay() {
+    public static double[] getValueForEachSecondOfDay(DayOfWeek dayOfWeek, int routeIdx) {
         double[] values = new double[1440];
         int idx = 0;
         for (int i = 0; i < 86400; i = i + 60) {
-            double value = function(i);
+            double value = function(dayOfWeek, routeIdx, i);
             values[idx] = value;
             idx++;
         }
