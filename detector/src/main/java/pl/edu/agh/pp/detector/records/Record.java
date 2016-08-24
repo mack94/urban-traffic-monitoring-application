@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.detector.records;
 
 import org.joda.time.DateTime;
+import pl.edu.agh.pp.detector.enums.DayOfWeek;
 
 /**
  * Created by Maciej on 18.07.2016.
@@ -9,19 +10,19 @@ import org.joda.time.DateTime;
  */
 public class Record {
 
-    private int id;
+    private int routeID;
     private DateTime dateTime;
     private int duration;
     private int durationInTraffic;
     private int distance;
     private String waypoints;
 
-    public int getId() {
-        return id;
+    public int getRouteID() {
+        return routeID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRouteID(int routeID) {
+        this.routeID = routeID;
     }
 
     public DateTime getDateTime() {
@@ -62,5 +63,13 @@ public class Record {
 
     public void setWaypoints(String waypoints) {
         this.waypoints = waypoints;
+    }
+
+    public DayOfWeek getDayOfWeek() {
+        return DayOfWeek.fromValue(getDateTime().getDayOfWeek());
+    }
+
+    public int getTimeInSeconds() {
+        return getDateTime().getSecondOfDay();
     }
 }

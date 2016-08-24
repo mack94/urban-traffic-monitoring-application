@@ -40,7 +40,7 @@ public class LineChart_AWT extends ApplicationFrame {
         int idx = 0;
         for (double value : values) {
             dataset.addValue(value, "traffic", String.valueOf(idx*60));
-            System.out.println(idx*60);
+            //System.out.println(idx*60);
             idx++;
         }
     }

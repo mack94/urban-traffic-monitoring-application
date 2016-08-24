@@ -12,5 +12,13 @@ public enum DayOfWeek {
     THURSDAY,
     FRIDAY,
     SATURDAY,
-    SUNDAY
+    SUNDAY;
+
+    public static DayOfWeek fromValue(int value) throws IllegalArgumentException {
+        try {
+            return DayOfWeek.values()[value - 1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Unknown enum value :" + (value - 1));
+        }
+    }
 }
