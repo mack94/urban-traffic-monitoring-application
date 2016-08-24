@@ -36,6 +36,7 @@ public class FilesLoader {
     private final Path fFilePath;
     private final static Charset ENCODING = StandardCharsets.UTF_8;
     private List<Record> records = new ArrayList<>();
+    private InputParser inputParser = new InputParser();
 
     public FilesLoader (String aFileName) {
         fFilePath = Paths.get(aFileName);
@@ -58,26 +59,10 @@ public class FilesLoader {
 
         scanner.useDelimiter(regex);
         if (scanner.hasNext()) {
-            Record record = new Record();
+            Record record;
             String buffer = scanner.next();
+            record = inputParser.parse(buffer);
 
-            record.setDateTime(ConvertStringDateToDateTime(buffer.substring(0,buffer.indexOf('{')-2)));
-            buffer = buffer.substring(buffer.indexOf('{'));
-            record.setRouteID(Integer.parseInt(buffer.substring(buffer.indexOf('"') + 1, buffer.indexOf(':') - 1)));
-            buffer = buffer.substring(buffer.indexOf(','));
-            buffer = buffer.substring(buffer.indexOf('{'));
-            buffer = buffer.substring(buffer.indexOf(':'));
-            record.setDistance(Integer.parseInt(buffer.substring(5, buffer.indexOf('m') - 2)));
-            buffer = buffer.substring(buffer.indexOf(','));
-            buffer = buffer.substring(buffer.indexOf(':'));
-            record.setDuration(Integer.parseInt(buffer.substring(3, buffer.indexOf(',') - 1)));
-            buffer = buffer.substring(buffer.indexOf(','));
-            buffer = buffer.substring(buffer.indexOf(':'));
-            record.setDurationInTraffic(Integer.parseInt(buffer.substring(3, buffer.indexOf(',') - 1)));
-//            record.setTime();
-//            ids.add(record.getId());
-//            days.add(record.getDay());
-//            ResourcesHolder.getInstance().addDay(record.getDay());
             records.add(record);
         }
     }
@@ -93,10 +78,5 @@ public class FilesLoader {
     private String quote(String aText){
         String QUOTE = "'";
         return QUOTE + aText + QUOTE;
-    }
-
-    private DateTime ConvertStringDateToDateTime(String Date) {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("\"yyyy-MM-dd HH:mm:ss,SSS\"");
-        return formatter.parseDateTime(Date);
     }
 }

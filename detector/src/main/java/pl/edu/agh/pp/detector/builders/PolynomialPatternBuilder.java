@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.detector.builders;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.analysis.polynomials.PolynomialsUtils;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoint;
 import org.apache.commons.math3.util.Pair;
@@ -15,7 +16,7 @@ import java.util.*;
  * 21:35
  * Project: detector.
  */
-public final class PolynomialPatternBuilder {
+public final class PolynomialPatternBuilder implements IPatternBuilder {
 
 
     // allocate memory for each day of week
@@ -127,7 +128,7 @@ public final class PolynomialPatternBuilder {
 //    }
 
     public static void computePolynomial(List<Record> records) {
-        PolynomialCurveFitter fitter = PolynomialCurveFitter.create(7);
+        PolynomialCurveFitter fitter = PolynomialCurveFitter.create(15);
 
         //////////////////////////////////////////////////
 //        loadRecords(records);
@@ -178,10 +179,11 @@ public final class PolynomialPatternBuilder {
     //TODO
     public boolean isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
         double predictedTravelDuration = function(dayOfWeek, routeIdx, (int) secondOfDay);
-        double bounds = 0.10; //%
+        double bounds = 0.12;// + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)); //%
         double errorRate = predictedTravelDuration * bounds;
 
         System.out.println("#####################");
+        System.out.println("Error rate: " + errorRate);
         System.out.println(predictedTravelDuration - errorRate);
         System.out.println(predictedTravelDuration + errorRate);
 
