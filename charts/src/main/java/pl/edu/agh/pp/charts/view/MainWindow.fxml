@@ -9,6 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.text.TextFlow?>
 <BorderPane prefHeight="800.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <padding>
         <Insets bottom="15" left="15" right="15" top="15" />
@@ -17,13 +18,16 @@
         <HBox>
            <children>
                <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts" />
+               <Button fx:id="testButton" onAction="#handleTestButtonAction" text="Test anomaly message" />
            </children>
         </HBox>
     </top>
-    <center>
-        <VBox alignment="CENTER">
+    <center >
+        <VBox alignment="CENTER" >
             <Label text="Anomalies List" />
-            <TextArea fx:id="anomaliesTextArea" />
+            <ScrollPane fitToWidth="true">
+             <TextFlow fx:id="anomaliesTextFlow" prefHeight="150"/>
+            </ScrollPane>
             <LineChart fx:id="lineChart" title="Most Recent anomaly">
                 <xAxis><NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis" /></xAxis>
                 <yAxis><NumberAxis label="Duration (seconds)" tickUnit="1" /></yAxis>
