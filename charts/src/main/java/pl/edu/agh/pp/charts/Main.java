@@ -20,11 +20,11 @@ public class Main extends Application {
 
         // JGroups asynchronous listener
         System.setProperty("java.net.preferIPv4Stack", "true");
-        System.setProperty("jgroups.client_bind_addr", "LINK_LOCAL");
+        System.setProperty("jgroups.client_bind_addr", "192.168.1.10");
         CommunicationService service = new CommunicationService();
         service.setUserName("Charts");
         service.joinManagementChannel();
-        service.joinChannel("12");
+        service.joinChannel("192.168.1.10");
 
     }
 }

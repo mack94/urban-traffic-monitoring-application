@@ -10,3 +10,10 @@ gradlew.bat
 gradle/
 .gradle/
 out/
+jcom/
+detector — kopia/
+detector — kopia (2)/
+comj/
+*.log
+*.zip
+logs_16-06-15/

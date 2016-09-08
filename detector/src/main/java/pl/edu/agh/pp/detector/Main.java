@@ -63,7 +63,7 @@ public class Main {
 //                }
 
 //                service.sendMessage("224", (record.getRouteID() + " " + basicDetector.isAnomaly(record.getDayOfWeek(, record.getRouteID() - 9, record.getTimeInSeconds(), record.getDurationInTraffic())) );
-                service.sendMessage("12", "Test message");
+                service.sendMessage("192.168.1.12", "Test message");
                 Thread.sleep(10000);
             }
 

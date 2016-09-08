@@ -1,15 +1,15 @@
-package pl.edu.agh.pp.detector.service;
+package pl.edu.agh.pp.charts.service;
 
+import org.jgroups.Global;
 import org.jgroups.JChannel;
 import org.jgroups.Message;
 import org.jgroups.protocols.*;
 import org.jgroups.protocols.pbcast.*;
-import org.jgroups.stack.IpAddress;
 import org.jgroups.stack.Protocol;
 import org.jgroups.stack.ProtocolStack;
-import pl.edu.agh.pp.detector.adapters.ChannelReceiver;
-import pl.edu.agh.pp.detector.adapters.ManagementReceiverAdapter;
-import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.charts.adapters.ChannelReceiver;
+import pl.edu.agh.pp.charts.adapters.ManagementReceiverAdapter;
+import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.net.InetAddress;
 import java.util.HashMap;
@@ -18,12 +18,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Maciej on 05.09.2016.
- * 11:35
- * Project: detector.
+ * Created by Maciej on 06.09.2016.
+ * 11:04
+ * Project: charts.
  */
-public class CommunicationService implements ICommunicationService{
-
+public class CommunicationService implements ICommunicationService {
     private static final String MANAGEMENT_CHANNEL_NAME = "Traffic_Anomaly_Detector_Management0";
 
     private String userName;
@@ -60,8 +59,9 @@ public class CommunicationService implements ICommunicationService{
             System.out.println("Joined to channel: " + channelName + " successfully.");
             return;
         }
-//        InetAddress address = InetAddress.getByName("192.168.1." + channelName);
 
+
+//        InetAddress address = InetAddress.getByName("192.168.1." + channelName);
         InetAddress address = InetAddress.getByName(channelName);
 
 //        if (!address.isMulticastAddress()) {
@@ -156,12 +156,12 @@ public class CommunicationService implements ICommunicationService{
     private void setupProtocolStack(ProtocolStack protocolStack, InetAddress address) throws Exception {
 
         Protocol tcp = new TCP();
-
+//
 //        if (address != null) {
 //            tcp.setValue("bind_addr", address);
 //        }
-//        tcp.setValue("bind_port", 6789);
-//        tcp.setValue("bind_addr", address);
+
+//        tcp.setValue("bind_port", 80);
 
         protocolStack
                 .addProtocol(tcp)
