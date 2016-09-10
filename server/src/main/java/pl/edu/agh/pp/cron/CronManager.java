@@ -72,6 +72,7 @@ public class CronManager {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            Thread.sleep(2000);
         }
     }
 }

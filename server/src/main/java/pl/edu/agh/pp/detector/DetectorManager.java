@@ -24,22 +24,23 @@ public class DetectorManager {
 
     private static PolynomialPatternBuilder polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();
     private static Detector detector;
-    private static FilesLoader filesLoader = new FilesLoader("C:\\Users\\drdrz\\Downloads\\logs_16-08-24_Wed\\TrafficLog_1_8___Wed_16-08-24.log");
+    private static FilesLoader filesLoader = new FilesLoader("C:\\Users\\Maciej\\Downloads\\logs_16-09-03_Sat\\TrafficLog_1_8___Sat_16-09-03.log");
+
+    public DetectorManager() {
+        try {
+            filesLoader.processLineByLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        detector = polynomialPatternBuilder;
+        PolynomialPatternBuilder.computePolynomial(filesLoader.getRecords());
+    }
 
     public void doSomething(String logEntry) {
         try {
-            filesLoader.processLineByLine();
-            detector = PolynomialPatternBuilder.getInstance();
-            PolynomialPatternBuilder.computePolynomial(filesLoader.getRecords());
+            LineChart_AWT chart;
 
-            LineChart_AWT chart = new LineChart_AWT("-", "-", PolynomialPatternBuilder.getValueForEachSecondOfDay(DayOfWeek.WEDNESDAY, 0));
-            chart.pack();
-            RefineryUtilities.centerFrameOnScreen(chart);
-            chart.setVisible(true);
-
-            System.out.println(detector.isAnomaly(DayOfWeek.WEDNESDAY, 0, 10200, 518)); // FIXME: To not hardcoded.
-
-//            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             InputParser inputParser = new InputParser();
 
 //            while (true) {
@@ -57,8 +58,6 @@ public class DetectorManager {
             Thread.sleep(100);
 //            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

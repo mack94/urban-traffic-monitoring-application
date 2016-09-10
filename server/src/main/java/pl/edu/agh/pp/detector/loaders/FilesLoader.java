@@ -47,7 +47,7 @@ public class FilesLoader {
             while (scanner.hasNextLine()) {
                 processLine(scanner.nextLine());
             }
-            System.out.println(records.size());
+//            System.out.println(records.size());
         }
 
     }

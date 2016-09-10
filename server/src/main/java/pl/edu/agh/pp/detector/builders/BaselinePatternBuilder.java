@@ -8,7 +8,7 @@ import pl.edu.agh.pp.detector.enums.DayOfWeek;
  * 21:36
  * Project: detector.
  */
-public class BaselinePatternBuilder implements Detector{
+public class BaselinePatternBuilder implements Detector {
     @Override
     public boolean isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
         return false;

@@ -107,7 +107,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     // TODO
     private static double function(DayOfWeek dayOfWeek, int routeIdx, int second) {
 //        System.out.println("Oridinal: " + dayOfWeek.ordinal() + " "+ routeIdx + " " + second);
-        System.out.println(polynomialFunctions.get(dayOfWeek));
+//        System.out.println(polynomialFunctions.get(dayOfWeek));
         return polynomialFunctions.get(dayOfWeek).get(routeIdx).value(second);
 //        return polynomialFunctions.get(dayOfWeek.ordinal()).get(routeIdx).value(second);
 //        return polynomialFunction.value(second);
