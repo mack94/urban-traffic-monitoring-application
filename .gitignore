@@ -1,5 +1,7 @@
 .idea/
 build/
+target/
+classes/
 *.iml
 *.ipr
 *.log
