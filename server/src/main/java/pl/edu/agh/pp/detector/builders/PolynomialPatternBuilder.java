@@ -1,10 +1,9 @@
 package pl.edu.agh.pp.detector.builders;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.analysis.polynomials.PolynomialsUtils;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoint;
-import org.apache.commons.math3.util.Pair;
+import pl.edu.agh.pp.detector.detectors.Detector;
 import pl.edu.agh.pp.detector.distributions.GaussianDistribution;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
 import pl.edu.agh.pp.detector.records.Record;
@@ -16,7 +15,7 @@ import java.util.*;
  * 21:35
  * Project: detector.
  */
-public final class PolynomialPatternBuilder implements IPatternBuilder {
+public final class PolynomialPatternBuilder implements IPatternBuilder, Detector {
 
 
     // allocate memory for each day of week
@@ -108,6 +107,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder {
     // TODO
     private static double function(DayOfWeek dayOfWeek, int routeIdx, int second) {
 //        System.out.println("Oridinal: " + dayOfWeek.ordinal() + " "+ routeIdx + " " + second);
+        System.out.println(polynomialFunctions.get(dayOfWeek));
         return polynomialFunctions.get(dayOfWeek).get(routeIdx).value(second);
 //        return polynomialFunctions.get(dayOfWeek.ordinal()).get(routeIdx).value(second);
 //        return polynomialFunction.value(second);

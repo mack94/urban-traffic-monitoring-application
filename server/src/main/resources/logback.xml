@@ -10,7 +10,7 @@
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <param name="Append" value="true" />
         <file>
-            TrafficLog.log
+            TrafficLog_41_48.log
         </file>
         <encoder>
             <pattern>

@@ -1,0 +1,44 @@
+{
+  "routes": [
+    {
+      "id": "41",
+      "origin": "Nawojki, Kraków",
+      "destination": "50.079301, 19.890059"
+    },
+    {
+      "id": "42",
+      "origin": "50.079301, 19.890059",
+      "destination": "Balicka 45, Kraków"
+    },
+    {
+      "id": "43",
+      "origin": "Balicka 45, Kraków",
+      "destination": "Krakow Airport"
+    },
+    {
+      "id": "44",
+      "origin": "Balicka 45, Kraków",
+      "destination": "aleja Kijowska 8, Kraków"
+    },
+    {
+      "id": "45",
+      "origin": "Armii Krajowej 89, Kraków",
+      "destination": "Nawojki 6, Kraków"
+    },
+    {
+      "id": "46",
+      "origin": "Balicka 45, Kraków",
+      "destination": "Armii Krajowej 89, Kraków"
+    },
+    {
+      "id": "47",
+      "origin": "Krakow Airport",
+      "destination": "Balicka 45, Kraków"
+    },
+    {
+      "id": "48",
+      "origin": "aleja Kijowska 8, Kraków",
+      "destination": "Balicka 45, Kraków"
+    }
+  ]
+}
