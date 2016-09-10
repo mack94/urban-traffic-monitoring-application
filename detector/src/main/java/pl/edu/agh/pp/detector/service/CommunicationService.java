@@ -1,17 +1,24 @@
 package pl.edu.agh.pp.detector.service;
 
+import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.Message;
+import org.jgroups.blocks.cs.BaseServer;
+import org.jgroups.blocks.cs.NioServer;
+import org.jgroups.blocks.cs.TcpServer;
+import org.jgroups.jmx.JmxConfigurator;
 import org.jgroups.protocols.*;
 import org.jgroups.protocols.pbcast.*;
 import org.jgroups.stack.IpAddress;
 import org.jgroups.stack.Protocol;
 import org.jgroups.stack.ProtocolStack;
+import org.jgroups.util.Util;
 import pl.edu.agh.pp.detector.adapters.ChannelReceiver;
 import pl.edu.agh.pp.detector.adapters.ManagementReceiverAdapter;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 
 import java.net.InetAddress;
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,7 +39,9 @@ public class CommunicationService implements ICommunicationService{
     private Map<String, List<String>> channelUsers;
     private Map<String, JChannel> activeChannels;
 
-    public CommunicationService() {
+    protected BaseServer server;
+
+    public CommunicationService() throws Exception {
         System.out.println("Chat Service started");
         channelUsers = new HashMap<>();
         activeChannels = new HashMap<>();
@@ -55,44 +64,44 @@ public class CommunicationService implements ICommunicationService{
 
     @Override
     public void joinChannel(String channelName) throws Exception {
-        if (activeChannels.containsKey(channelName)) {
-            activeChannels.get(channelName);
-            System.out.println("Joined to channel: " + channelName + " successfully.");
-            return;
-        }
-//        InetAddress address = InetAddress.getByName("192.168.1." + channelName);
-
-        InetAddress address = InetAddress.getByName(channelName);
-
-//        if (!address.isMulticastAddress()) {
-//            throw new Exception(address + "is not a multicast valid address!");
+//        if (activeChannels.containsKey(channelName)) {
+//            activeChannels.get(channelName);
+//            System.out.println("Joined to channel: " + channelName + " successfully.");
+//            return;
 //        }
-
-        JChannel channel = new JChannel(false);
-        channel.setName(userName);
-
-        ProtocolStack protocolStack = new ProtocolStack();
-        channel.setProtocolStack(protocolStack);
-
-        setupProtocolStack(protocolStack, address);
-
-        channel.setReceiver(new ChannelReceiver(channel));
-        channel.connect(channelName);
-
-        activeChannels.put(channelName, channel);
-
-        AnomalyOperationProtos.AnomalyAction anomalyAction = AnomalyOperationProtos.AnomalyAction.newBuilder()
-                .setAction(AnomalyOperationProtos.AnomalyAction.ActionType.JOIN)
-                .setNickname(userName)
-                .setChannel(channelName)
-                .build();
-
-        Message msg = new Message(null, null, anomalyAction.toByteArray());
-
-        if (!channelUsers.containsKey(channelName)) {
-            channelUsers.put(channelName, new LinkedList<>());
-        }
-        managementChannel.send(msg);
+////        InetAddress address = InetAddress.getByName("192.168.1." + channelName);
+//
+//        InetAddress address = InetAddress.getByName(channelName);
+//
+////        if (!address.isMulticastAddress()) {
+////            throw new Exception(address + "is not a multicast valid address!");
+////        }
+//
+//        JChannel channel = new JChannel(false);
+//        channel.setName(userName);
+//
+//        ProtocolStack protocolStack = new ProtocolStack();
+//        channel.setProtocolStack(protocolStack);
+//
+//        setupProtocolStack(protocolStack, address);
+//
+//        channel.setReceiver(new ChannelReceiver(channel));
+//        channel.connect(channelName);
+//
+//        activeChannels.put(channelName, channel);
+//
+//        AnomalyOperationProtos.AnomalyAction anomalyAction = AnomalyOperationProtos.AnomalyAction.newBuilder()
+//                .setAction(AnomalyOperationProtos.AnomalyAction.ActionType.JOIN)
+//                .setNickname(userName)
+//                .setChannel(channelName)
+//                .build();
+//
+//        Message msg = new Message(null, null, anomalyAction.toByteArray());
+//
+//        if (!channelUsers.containsKey(channelName)) {
+//            channelUsers.put(channelName, new LinkedList<>());
+//        }
+//        managementChannel.send(msg);
     }
 
     @Override

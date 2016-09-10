@@ -3,6 +3,7 @@ package pl.edu.agh.pp.detector;
 import org.jfree.ui.RefineryUtilities;
 import org.jgroups.JChannel;
 import org.jgroups.Message;
+import pl.edu.agh.pp.detector.adapters.ChannelReceiver;
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detector.charts.LineChart_AWT;
 import pl.edu.agh.pp.detector.detectors.BasicDetector;
@@ -15,6 +16,7 @@ import pl.edu.agh.pp.detector.service.CommunicationService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 
 /**
  * Created by Maciej on 18.07.2016.
@@ -47,25 +49,32 @@ public class Main {
             CommunicationService service = new CommunicationService();
             service.setUserName("AnomalyDetector");
             String incoming = br.readLine();
-            service.joinManagementChannel();
-            service.joinChannel(incoming);
 
+            int port = 7500;
+            String bind_addr = incoming;
+            boolean nio = true;
+
+//            service.joinManagementChannel();
+//            service.joinChannel(incoming);
+
+            ChannelReceiver receiver = new ChannelReceiver();
+            receiver.start(InetAddress.getByName(bind_addr), port, nio);
 //
-            while (true) {
-//                String incoming = br.readLine();
-//                Record record = inputParser.parse(incoming);
-
-//                if (incoming != "") {
-//                    chart = new LineChart_AWT("-", "-", PolynomialPatternBuilder.getValueForEachSecondOfDay(record.getDayOfWeek(), record.getRouteID() - 9));
-//                    chart.pack();
-//                    RefineryUtilities.centerFrameOnScreen(chart);
-//                    chart.setVisible(true);
-//                }
-
-//                service.sendMessage("224", (record.getRouteID() + " " + basicDetector.isAnomaly(record.getDayOfWeek(, record.getRouteID() - 9, record.getTimeInSeconds(), record.getDurationInTraffic())) );
-                service.sendMessage("192.168.1.12", "Test message");
-                Thread.sleep(10000);
-            }
+//            while (true) {
+////                String incoming = br.readLine();
+////                Record record = inputParser.parse(incoming);
+//
+////                if (incoming != "") {
+////                    chart = new LineChart_AWT("-", "-", PolynomialPatternBuilder.getValueForEachSecondOfDay(record.getDayOfWeek(), record.getRouteID() - 9));
+////                    chart.pack();
+////                    RefineryUtilities.centerFrameOnScreen(chart);
+////                    chart.setVisible(true);
+////                }
+//
+////                service.sendMessage("224", (record.getRouteID() + " " + basicDetector.isAnomaly(record.getDayOfWeek(, record.getRouteID() - 9, record.getTimeInSeconds(), record.getDurationInTraffic())) );
+//                service.sendMessage("192.168.1.12", "Test message");
+//                Thread.sleep(10000);
+//            }
 
         } catch (IOException e) {
             e.printStackTrace();
