@@ -1,11 +1,9 @@
-package pl.edu.agh.pp.detector.adapters;
+package pl.edu.agh.pp.charts.adapters;
 
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.blocks.cs.*;
 import org.jgroups.jmx.JmxConfigurator;
-import org.jgroups.logging.Log;
-import org.jgroups.logging.LogFactory;
 import org.jgroups.stack.IpAddress;
 import org.jgroups.util.Util;
 
@@ -27,17 +25,18 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
     protected InputStream in;
     protected volatile boolean running = true;
 
-    public String name = "Detector1";
+    public String name = "Charts1";
 
     public void start(InetAddress srv_addr, int srv_port, boolean nio) throws Exception {
-        client =nio? new NioClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port) : new TcpClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port);
+        client = nio? new NioClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port) : new TcpClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port);
         client.receiver(this);
         client.addConnectionListener(this);
         client.start();
-        byte[] buf=String.format("%s joined\n", name).getBytes();
+        byte[] buf = String.format("%s joined\n", name).getBytes();
         ((Client)client).send(buf, 0, buf.length);
-        eventLoop();
-        client.stop();
+//        eventLoop();
+        new Thread(this::eventLoop).start();
+//        client.stop();
     }
 
     private void eventLoop() {
@@ -49,12 +48,21 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
                 System.out.print("$ ");
                 System.out.flush();
                 String line = Util.readLine(in);
+                if (line == null)
+                    break;
+                if (line.startsWith("emergency_call"))
+                    break;
+                byte[] buf = String.format("%s: %s\n", name, line).getBytes();
+                ((Client) client).send(buf, 0, buf.length);
 
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+                break;
             }
         }
     }
@@ -88,9 +96,8 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 
     @Override
     public void connectionEstablished(Connection conn) {
-
+        System.out.println("Connection established");
     }
-
 
 //    @Override
 //    public void receive(Message msg) {

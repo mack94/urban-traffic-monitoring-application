@@ -1,6 +1,8 @@
 package pl.edu.agh.pp.detector;
 
 import org.jfree.ui.RefineryUtilities;
+import pl.edu.agh.pp.detector.adapters.ChannelReceiver;
+import pl.edu.agh.pp.detector.adapters.Server;
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detector.charts.LineChart_AWT;
 import pl.edu.agh.pp.detector.detectors.Detector;
@@ -12,6 +14,7 @@ import pl.edu.agh.pp.detector.records.Record;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.ByteBuffer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -25,8 +28,10 @@ public class DetectorManager {
     private static PolynomialPatternBuilder polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();
     private static Detector detector;
     private static FilesLoader filesLoader = new FilesLoader("C:\\Users\\Maciej\\Downloads\\logs_16-09-04_Sun\\TrafficLog_1_8___Sun_16-09-04.log");
+//    private static ChannelReceiver client = new ChannelReceiver();
+    private Server server;
 
-    public DetectorManager() {
+    public DetectorManager(Server server) {
         try {
             filesLoader.processLineByLine();
         } catch (IOException e) {
@@ -34,6 +39,17 @@ public class DetectorManager {
         }
         detector = polynomialPatternBuilder;
         PolynomialPatternBuilder.computePolynomial(filesLoader.getRecords());
+        this.server = server;
+//        System.out.println("Connecting to the server in 5 seconds.");
+//        try {
+//            Thread.sleep(5000);
+//            client.start(null, 7500, true); // FIXME
+//            System.out.println("Connected to the server.");
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void doSomething(String logEntry) {
@@ -54,7 +70,12 @@ public class DetectorManager {
                 chart.setVisible(true);
             }
 
-            System.out.println(detector.isAnomaly(record.getDayOfWeek(), record.getRouteID() - 1, record.getTimeInSeconds(), record.getDurationInTraffic()));
+            boolean isAnomaly = detector.isAnomaly(record.getDayOfWeek(), record.getRouteID() - 1, record.getTimeInSeconds(), record.getDurationInTraffic());
+            System.out.println(isAnomaly);
+            if (isAnomaly) {
+                server.send(ByteBuffer.wrap(String.valueOf(isAnomaly).getBytes()));
+            }
+
             Thread.sleep(100);
 //            }
 

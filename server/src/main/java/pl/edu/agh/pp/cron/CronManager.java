@@ -14,6 +14,7 @@ import pl.edu.agh.pp.cron.utils.Route;
 import pl.edu.agh.pp.cron.utils.RoutesLoader;
 import pl.edu.agh.pp.cron.utils.Timer;
 import pl.edu.agh.pp.detector.DetectorManager;
+import pl.edu.agh.pp.detector.adapters.Server;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,12 +22,18 @@ import java.util.Date;
 
 public class CronManager {
 
+    private Server server;
+
+    public CronManager(Server server) {
+        this.server = server;
+    }
+
     public void doSomething() throws InterruptedException {
 
         GeoApiContext context;
         ContextLoader contextLoader = new ContextLoader();
         RoutesLoader routesLoader = RoutesLoader.getInstance();
-        DetectorManager detectorManager = new DetectorManager();
+        DetectorManager detectorManager = new DetectorManager(server);
         Timer timer = Timer.getInstance();
 
         while(true) {
