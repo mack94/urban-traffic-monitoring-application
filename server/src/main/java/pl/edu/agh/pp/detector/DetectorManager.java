@@ -24,7 +24,7 @@ public class DetectorManager {
 
     private static PolynomialPatternBuilder polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();
     private static Detector detector;
-    private static FilesLoader filesLoader = new FilesLoader("C:\\Users\\Maciej\\Downloads\\logs_16-09-03_Sat\\TrafficLog_1_8___Sat_16-09-03.log");
+    private static FilesLoader filesLoader = new FilesLoader("C:\\Users\\Maciej\\Downloads\\logs_16-09-04_Sun\\TrafficLog_1_8___Sun_16-09-04.log");
 
     public DetectorManager() {
         try {

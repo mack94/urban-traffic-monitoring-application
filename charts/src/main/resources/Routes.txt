@@ -1,0 +1,56 @@
+1 - Slowackiego 66 - Mickiewicza 25
+2 - Mickiewicza 25 - most Debnicki
+3 - most Debnicki - rondo Matecznego
+4 - Slowackiego 66 - rondo Matecznego
+5 - Mickiewicza 25 - Slowackiego 66
+6 - most Debnicki - Mickiewicza 25
+7 - rondo Matecznego - most Debnicki
+8 - rondo Matecznego - Slowackiego 66
+9 - Zakopianska 244 - rondo Matecznego
+10 - rondo Matecznego - Zakopianska 244
+11 - rondo Matecznego - Wielicka 179
+12 - Wielicka 179 - rondo Matecznego
+13 - Wielicka 179 - Wielicka 285
+14 - Wielicka 285 - Wielicka 179
+15 - Nowosadecka 1 - Turowicza 13
+16 - Turowicza 13 - Nowosadecka 1
+17 - Czarnowiejska 8 - Armii Krajowej 2
+18 - Armii Krajowej 2 - Czarnowiejska 8
+19 - Piastowska 22 - Piastowska 50
+20 - Piastowska 50 - Piastowska 22
+21 - Mogilska 11 - rondo Czyzynskie
+22 - rondo Czyzynskie - Mogilska 28
+23 - rondo Grzegorzeckie - rondo Mogilskie
+24 - rondo Mogilskie - rondo Grzegorzeckie
+25 - Plac Centralny - Estakada Rozwadowskiego
+26 - Estakada Rozwadowskiego - Plac Centralny
+27 - Czestochowska 38 - Czestochowska 162
+28 - Jasnogorska - Droga Krajowa 94 56
+29 - Kuklinskiego 3075 - S7
+30 - S7 - Kuklinskiego 3075
+31 - Biezanowska 43 - Biezanowska 208
+32 - Biezanowska 208 - Biezanowska 43
+33 - Bulhaka - Konopnickiej 26
+34 - Bulhaka - most Grunwaldzki
+35 - Lublanska 16 - E77 5
+36 - Lublanska 16 - 29 Listopada 94
+37 - Lublanska 16 - 29 Listopada 62
+38 - Klimeckiego 7 - Strycharska 5
+39 - Klimeckiego 7 - Nowohucka 67
+40 - Klimeckiego 7 - Powstancow Wielkopolskich 13
+41 - Nawojki - Armii Krajowej
+42 - Armii Krajowej - Balicka 45
+43 - Balicka 45 - Krakow Airport
+44 - Balicka 45 - aleja Kijowska 8
+45 - Armii Krajowej - Nawojki
+46 - Balicka 45 - Armii Krajowej
+47 - Krakow Airport - Balicka 45
+48 - aleja Kijowska 8 - Balicka 45
+49 - Mitkowskiego - Konopnickiej 20
+50 - Mitkowskiego - Orzeszkowej 1
+51 - Estakada Izyckiego - E77 5
+52 - Estakada Izyckiego - 29 Listopada 116
+53 - Estakada Izyckiego - 29 Listopada 42
+54 - Klimeckiego 26 - Gromadzka 49
+55 - Klimeckiego 26 - Nowohucka 92
+56 - Klimeckiego 26 - Powstancow Wielkopolskich 7

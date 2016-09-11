@@ -1,0 +1,24 @@
+group 'pl.edu.agh.pp.charts'
+version '1.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'joda-time', name: 'joda-time', version: '2.9.4'
+}
+
+sourceSets {
+    main.java.srcDir "src/main/java"
+    main.resources.srcDirs "src/main/java/pl/edu/agh/pp/charts/view", "src/main/resources"
+}
+
+jar {
+    from configurations.compile.collect { zipTree it }
+    manifest.attributes "Main-Class": "pl.edu.agh.pp.charts.Main"
+}
