@@ -9,6 +9,7 @@ import pl.edu.agh.pp.detector.detectors.Detector;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
 import pl.edu.agh.pp.detector.loaders.FilesLoader;
 import pl.edu.agh.pp.detector.loaders.InputParser;
+import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.detector.records.Record;
 
 import java.io.BufferedReader;
@@ -70,10 +71,9 @@ public class DetectorManager {
                 chart.setVisible(true);
             }
 
-            boolean isAnomaly = detector.isAnomaly(record.getDayOfWeek(), record.getRouteID() - 1, record.getTimeInSeconds(), record.getDurationInTraffic());
-            System.out.println(isAnomaly);
-            if (isAnomaly) {
-                server.send(ByteBuffer.wrap(String.valueOf(isAnomaly).getBytes()));
+            AnomalyOperationProtos.AnomalyMessage isAnomaly = detector.isAnomaly(record.getDayOfWeek(), record.getRouteID() - 1, record.getTimeInSeconds(), record.getDurationInTraffic());
+            if (isAnomaly != null) {
+                server.send(ByteBuffer.wrap(isAnomaly.toByteArray()));
             }
 
             Thread.sleep(100);

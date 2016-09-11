@@ -10,6 +10,7 @@ import org.jgroups.blocks.cs.TcpServer;
 import org.jgroups.jmx.JmxConfigurator;
 import org.jgroups.stack.IpAddress;
 import org.jgroups.util.Util;
+import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 
 import javax.management.MBeanRegistrationException;
 import javax.management.MalformedObjectNameException;
@@ -26,11 +27,11 @@ public class Server extends ReceiverAdapter implements Receiver {
     protected BaseServer server;
 
     public void start (InetAddress bind_addr, int port, boolean nio) throws Exception {
-        server=nio? new NioServer(bind_addr, port) : new TcpServer(bind_addr, port);
+        server = nio? new NioServer(bind_addr, port) : new TcpServer(bind_addr, port);
         server.receiver(this);
         server.start();
         JmxConfigurator.register(server, Util.getMBeanServer(), "pub:name=pub-server");
-        int local_port=server.localAddress() instanceof IpAddress ? ((IpAddress)server.localAddress()).getPort(): 0;
+        int local_port = server.localAddress() instanceof IpAddress ? ((IpAddress)server.localAddress()).getPort(): 0;
         System.out.printf("\nServer listening at %s:%s\n", bind_addr != null? bind_addr : "0.0.0.0",  local_port);
     }
 
@@ -56,6 +57,10 @@ public class Server extends ReceiverAdapter implements Receiver {
     public void send(ByteBuffer buf) {
         try {
             server.send(null, buf);
+            System.out.println("GET FROM BUFF:");
+            AnomalyOperationProtos.AnomalyMessage msg = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf.array());
+            System.out.println("Sent: " + msg);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

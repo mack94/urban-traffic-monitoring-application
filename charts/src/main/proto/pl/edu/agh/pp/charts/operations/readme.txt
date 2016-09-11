@@ -17,3 +17,4 @@ Java or Python runtime libraries.  Get it from:
 
 
 protoc operations.proto --java_out=.
+protoc.exe operations.proto --java_out=..\..\..\..\..\..\..\..\..\..\charts\src\main\java

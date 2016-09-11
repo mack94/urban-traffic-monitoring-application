@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.detector.builders;
 
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
+import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.detector.records.Record;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface IPatternBuilder {
 
     static void computePolynomial(List<Record> records){};
 
-    boolean isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration);
+    AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration);
 
     @Deprecated
     static double[] getValueForEachSecondOfDay(DayOfWeek dayOfWeek, int routeIdx){

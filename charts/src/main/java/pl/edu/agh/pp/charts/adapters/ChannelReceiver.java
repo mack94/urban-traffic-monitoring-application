@@ -1,11 +1,11 @@
 package pl.edu.agh.pp.charts.adapters;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.blocks.cs.*;
-import org.jgroups.jmx.JmxConfigurator;
-import org.jgroups.stack.IpAddress;
 import org.jgroups.util.Util;
+import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -20,20 +20,28 @@ import java.nio.ByteBuffer;
  */
 public class ChannelReceiver extends ReceiverAdapter implements ConnectionListener {
 
-    private JChannel channel; // final
+    public String name = "Charts1";
     protected BaseServer client;
     protected InputStream in;
     protected volatile boolean running = true;
+    private JChannel channel; // final
 
-    public String name = "Charts1";
+    public ChannelReceiver() {
+    }
+
+    public ChannelReceiver(JChannel channel) {
+        this.channel = channel;
+    }
 
     public void start(InetAddress srv_addr, int srv_port, boolean nio) throws Exception {
-        client = nio? new NioClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port) : new TcpClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port);
+        client = nio ?
+                new NioClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port) :
+                new TcpClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port);
         client.receiver(this);
         client.addConnectionListener(this);
         client.start();
         byte[] buf = String.format("%s joined\n", name).getBytes();
-        ((Client)client).send(buf, 0, buf.length);
+//        ((Client)client).send(buf, 0, buf.length);
 //        eventLoop();
         new Thread(this::eventLoop).start();
 //        client.stop();
@@ -67,17 +75,16 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
         }
     }
 
-    public ChannelReceiver() {
-    }
-
-    public ChannelReceiver(JChannel channel) {
-        this.channel = channel;
-    }
-
     @Override
     public void receive(Address sender, ByteBuffer buf) {
-        String msg = new String(buf.array(), buf.arrayOffset(), buf.limit());
-        System.out.println(String.format("# %s\n", msg));
+//        String msg = new String(buf.array(), buf.arrayOffset(), buf.limit());
+//        System.out.println("-" + msg);
+        try {
+            AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf.array());
+            System.out.println(message);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

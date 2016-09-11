@@ -6,6 +6,7 @@ import org.apache.commons.math3.fitting.WeightedObservedPoint;
 import pl.edu.agh.pp.detector.detectors.Detector;
 import pl.edu.agh.pp.detector.distributions.GaussianDistribution;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
+import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.detector.records.Record;
 
 import java.util.*;
@@ -177,9 +178,9 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     }
 
     //TODO
-    public boolean isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
+    public AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
         double predictedTravelDuration = function(dayOfWeek, routeIdx, (int) secondOfDay);
-        double bounds = 0.12;// + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)); //%
+        double bounds = 0.15 + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)); //%
         double errorRate = predictedTravelDuration * bounds;
 
         System.out.println("#####################");
@@ -187,7 +188,19 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
         System.out.println(predictedTravelDuration - errorRate);
         System.out.println(predictedTravelDuration + errorRate);
 
-        return (travelDuration > predictedTravelDuration + errorRate) || (travelDuration < predictedTravelDuration - errorRate);
+        if ((travelDuration > predictedTravelDuration + errorRate) || (travelDuration < predictedTravelDuration - errorRate)) {
+
+            AnomalyOperationProtos.AnomalyMessage message =
+                    AnomalyOperationProtos.AnomalyMessage.newBuilder()
+                            .setDayOfWeek(dayOfWeek.ordinal())
+                            .setRouteIdx(routeIdx)
+                            .setSecondOfDay((int) secondOfDay)
+                            .setDuration((int) travelDuration) // TODO: Cast remove?
+                            .setMessage("No message")
+                            .build();
+            return message;
+        }
+        return null;
     }
 
     @Deprecated

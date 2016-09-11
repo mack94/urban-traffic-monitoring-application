@@ -2,6 +2,7 @@ package pl.edu.agh.pp.detector.detectors;
 
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
+import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 
 /**
  * Created by Maciej on 02.08.2016.
@@ -16,7 +17,7 @@ public class BasicDetector {
     public BasicDetector() {
     }
 
-    public boolean isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
+    public AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
         return polynomialPatternBuilder.isAnomaly(dayOfWeek, routeIdx, secondOfDay, travelDuration);
     }
 

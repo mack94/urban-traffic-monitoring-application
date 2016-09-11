@@ -1584,11 +1584,36 @@ public final class AnomalyOperationProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional string message = 1;</code>
+     * <code>optional int32 routeIdx = 1;</code>
+     */
+    int getRouteIdx();
+
+    /**
+     * <code>optional int32 secondOfDay = 2;</code>
+     */
+    int getSecondOfDay();
+
+    /**
+     * <code>optional bool isAnomaly = 3;</code>
+     */
+    boolean getIsAnomaly();
+
+    /**
+     * <code>optional int32 duration = 4;</code>
+     */
+    int getDuration();
+
+    /**
+     * <code>optional int32 dayOfWeek = 5;</code>
+     */
+    int getDayOfWeek();
+
+    /**
+     * <code>optional string message = 6;</code>
      */
     java.lang.String getMessage();
     /**
-     * <code>optional string message = 1;</code>
+     * <code>optional string message = 6;</code>
      */
     com.google.protobuf.ByteString
         getMessageBytes();
@@ -1605,6 +1630,11 @@ public final class AnomalyOperationProtos {
       super(builder);
     }
     private AnomalyMessage() {
+      routeIdx_ = 0;
+      secondOfDay_ = 0;
+      isAnomaly_ = false;
+      duration_ = 0;
+      dayOfWeek_ = 0;
       message_ = "";
     }
 
@@ -1633,7 +1663,32 @@ public final class AnomalyOperationProtos {
               }
               break;
             }
-            case 10: {
+            case 8: {
+
+              routeIdx_ = input.readInt32();
+              break;
+            }
+            case 16: {
+
+              secondOfDay_ = input.readInt32();
+              break;
+            }
+            case 24: {
+
+              isAnomaly_ = input.readBool();
+              break;
+            }
+            case 32: {
+
+              duration_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              dayOfWeek_ = input.readInt32();
+              break;
+            }
+            case 50: {
               java.lang.String s = input.readStringRequireUtf8();
 
               message_ = s;
@@ -1662,10 +1717,55 @@ public final class AnomalyOperationProtos {
               pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage.Builder.class);
     }
 
-    public static final int MESSAGE_FIELD_NUMBER = 1;
+    public static final int ROUTEIDX_FIELD_NUMBER = 1;
+    private int routeIdx_;
+    /**
+     * <code>optional int32 routeIdx = 1;</code>
+     */
+    public int getRouteIdx() {
+      return routeIdx_;
+    }
+
+    public static final int SECONDOFDAY_FIELD_NUMBER = 2;
+    private int secondOfDay_;
+    /**
+     * <code>optional int32 secondOfDay = 2;</code>
+     */
+    public int getSecondOfDay() {
+      return secondOfDay_;
+    }
+
+    public static final int ISANOMALY_FIELD_NUMBER = 3;
+    private boolean isAnomaly_;
+    /**
+     * <code>optional bool isAnomaly = 3;</code>
+     */
+    public boolean getIsAnomaly() {
+      return isAnomaly_;
+    }
+
+    public static final int DURATION_FIELD_NUMBER = 4;
+    private int duration_;
+    /**
+     * <code>optional int32 duration = 4;</code>
+     */
+    public int getDuration() {
+      return duration_;
+    }
+
+    public static final int DAYOFWEEK_FIELD_NUMBER = 5;
+    private int dayOfWeek_;
+    /**
+     * <code>optional int32 dayOfWeek = 5;</code>
+     */
+    public int getDayOfWeek() {
+      return dayOfWeek_;
+    }
+
+    public static final int MESSAGE_FIELD_NUMBER = 6;
     private volatile java.lang.Object message_;
     /**
-     * <code>optional string message = 1;</code>
+     * <code>optional string message = 6;</code>
      */
     public java.lang.String getMessage() {
       java.lang.Object ref = message_;
@@ -1680,7 +1780,7 @@ public final class AnomalyOperationProtos {
       }
     }
     /**
-     * <code>optional string message = 1;</code>
+     * <code>optional string message = 6;</code>
      */
     public com.google.protobuf.ByteString
         getMessageBytes() {
@@ -1708,8 +1808,23 @@ public final class AnomalyOperationProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (routeIdx_ != 0) {
+        output.writeInt32(1, routeIdx_);
+      }
+      if (secondOfDay_ != 0) {
+        output.writeInt32(2, secondOfDay_);
+      }
+      if (isAnomaly_ != false) {
+        output.writeBool(3, isAnomaly_);
+      }
+      if (duration_ != 0) {
+        output.writeInt32(4, duration_);
+      }
+      if (dayOfWeek_ != 0) {
+        output.writeInt32(5, dayOfWeek_);
+      }
       if (!getMessageBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, message_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, message_);
       }
     }
 
@@ -1718,8 +1833,28 @@ public final class AnomalyOperationProtos {
       if (size != -1) return size;
 
       size = 0;
+      if (routeIdx_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, routeIdx_);
+      }
+      if (secondOfDay_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, secondOfDay_);
+      }
+      if (isAnomaly_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, isAnomaly_);
+      }
+      if (duration_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, duration_);
+      }
+      if (dayOfWeek_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, dayOfWeek_);
+      }
       if (!getMessageBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, message_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, message_);
       }
       memoizedSize = size;
       return size;
@@ -1737,6 +1872,16 @@ public final class AnomalyOperationProtos {
       pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage other = (pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage) obj;
 
       boolean result = true;
+      result = result && (getRouteIdx()
+          == other.getRouteIdx());
+      result = result && (getSecondOfDay()
+          == other.getSecondOfDay());
+      result = result && (getIsAnomaly()
+          == other.getIsAnomaly());
+      result = result && (getDuration()
+          == other.getDuration());
+      result = result && (getDayOfWeek()
+          == other.getDayOfWeek());
       result = result && getMessage()
           .equals(other.getMessage());
       return result;
@@ -1749,6 +1894,17 @@ public final class AnomalyOperationProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + ROUTEIDX_FIELD_NUMBER;
+      hash = (53 * hash) + getRouteIdx();
+      hash = (37 * hash) + SECONDOFDAY_FIELD_NUMBER;
+      hash = (53 * hash) + getSecondOfDay();
+      hash = (37 * hash) + ISANOMALY_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsAnomaly());
+      hash = (37 * hash) + DURATION_FIELD_NUMBER;
+      hash = (53 * hash) + getDuration();
+      hash = (37 * hash) + DAYOFWEEK_FIELD_NUMBER;
+      hash = (53 * hash) + getDayOfWeek();
       hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
       hash = (53 * hash) + getMessage().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -1869,6 +2025,16 @@ public final class AnomalyOperationProtos {
       }
       public Builder clear() {
         super.clear();
+        routeIdx_ = 0;
+
+        secondOfDay_ = 0;
+
+        isAnomaly_ = false;
+
+        duration_ = 0;
+
+        dayOfWeek_ = 0;
+
         message_ = "";
 
         return this;
@@ -1893,6 +2059,11 @@ public final class AnomalyOperationProtos {
 
       public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage buildPartial() {
         pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage result = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage(this);
+        result.routeIdx_ = routeIdx_;
+        result.secondOfDay_ = secondOfDay_;
+        result.isAnomaly_ = isAnomaly_;
+        result.duration_ = duration_;
+        result.dayOfWeek_ = dayOfWeek_;
         result.message_ = message_;
         onBuilt();
         return result;
@@ -1935,6 +2106,21 @@ public final class AnomalyOperationProtos {
 
       public Builder mergeFrom(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage other) {
         if (other == pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage.getDefaultInstance()) return this;
+        if (other.getRouteIdx() != 0) {
+          setRouteIdx(other.getRouteIdx());
+        }
+        if (other.getSecondOfDay() != 0) {
+          setSecondOfDay(other.getSecondOfDay());
+        }
+        if (other.getIsAnomaly() != false) {
+          setIsAnomaly(other.getIsAnomaly());
+        }
+        if (other.getDuration() != 0) {
+          setDuration(other.getDuration());
+        }
+        if (other.getDayOfWeek() != 0) {
+          setDayOfWeek(other.getDayOfWeek());
+        }
         if (!other.getMessage().isEmpty()) {
           message_ = other.message_;
           onChanged();
@@ -1965,9 +2151,139 @@ public final class AnomalyOperationProtos {
         return this;
       }
 
+      private int routeIdx_ ;
+      /**
+       * <code>optional int32 routeIdx = 1;</code>
+       */
+      public int getRouteIdx() {
+        return routeIdx_;
+      }
+      /**
+       * <code>optional int32 routeIdx = 1;</code>
+       */
+      public Builder setRouteIdx(int value) {
+        
+        routeIdx_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 routeIdx = 1;</code>
+       */
+      public Builder clearRouteIdx() {
+        
+        routeIdx_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int secondOfDay_ ;
+      /**
+       * <code>optional int32 secondOfDay = 2;</code>
+       */
+      public int getSecondOfDay() {
+        return secondOfDay_;
+      }
+      /**
+       * <code>optional int32 secondOfDay = 2;</code>
+       */
+      public Builder setSecondOfDay(int value) {
+        
+        secondOfDay_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 secondOfDay = 2;</code>
+       */
+      public Builder clearSecondOfDay() {
+        
+        secondOfDay_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean isAnomaly_ ;
+      /**
+       * <code>optional bool isAnomaly = 3;</code>
+       */
+      public boolean getIsAnomaly() {
+        return isAnomaly_;
+      }
+      /**
+       * <code>optional bool isAnomaly = 3;</code>
+       */
+      public Builder setIsAnomaly(boolean value) {
+        
+        isAnomaly_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool isAnomaly = 3;</code>
+       */
+      public Builder clearIsAnomaly() {
+        
+        isAnomaly_ = false;
+        onChanged();
+        return this;
+      }
+
+      private int duration_ ;
+      /**
+       * <code>optional int32 duration = 4;</code>
+       */
+      public int getDuration() {
+        return duration_;
+      }
+      /**
+       * <code>optional int32 duration = 4;</code>
+       */
+      public Builder setDuration(int value) {
+        
+        duration_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 duration = 4;</code>
+       */
+      public Builder clearDuration() {
+        
+        duration_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int dayOfWeek_ ;
+      /**
+       * <code>optional int32 dayOfWeek = 5;</code>
+       */
+      public int getDayOfWeek() {
+        return dayOfWeek_;
+      }
+      /**
+       * <code>optional int32 dayOfWeek = 5;</code>
+       */
+      public Builder setDayOfWeek(int value) {
+        
+        dayOfWeek_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 dayOfWeek = 5;</code>
+       */
+      public Builder clearDayOfWeek() {
+        
+        dayOfWeek_ = 0;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object message_ = "";
       /**
-       * <code>optional string message = 1;</code>
+       * <code>optional string message = 6;</code>
        */
       public java.lang.String getMessage() {
         java.lang.Object ref = message_;
@@ -1982,7 +2298,7 @@ public final class AnomalyOperationProtos {
         }
       }
       /**
-       * <code>optional string message = 1;</code>
+       * <code>optional string message = 6;</code>
        */
       public com.google.protobuf.ByteString
           getMessageBytes() {
@@ -1998,7 +2314,7 @@ public final class AnomalyOperationProtos {
         }
       }
       /**
-       * <code>optional string message = 1;</code>
+       * <code>optional string message = 6;</code>
        */
       public Builder setMessage(
           java.lang.String value) {
@@ -2011,7 +2327,7 @@ public final class AnomalyOperationProtos {
         return this;
       }
       /**
-       * <code>optional string message = 1;</code>
+       * <code>optional string message = 6;</code>
        */
       public Builder clearMessage() {
         
@@ -2020,7 +2336,7 @@ public final class AnomalyOperationProtos {
         return this;
       }
       /**
-       * <code>optional string message = 1;</code>
+       * <code>optional string message = 6;</code>
        */
       public Builder setMessageBytes(
           com.google.protobuf.ByteString value) {
@@ -2110,10 +2426,12 @@ public final class AnomalyOperationProtos {
       "action\030\001 \001(\0162\031.AnomalyAction.ActionType\022" +
       "\017\n\007channel\030\002 \001(\t\022\020\n\010nickname\030\003 \001(\t\"!\n\nAc" +
       "tionType\022\010\n\004JOIN\020\000\022\t\n\005LEAVE\020\001\"-\n\014Anomaly" +
-      "State\022\035\n\005state\030\001 \003(\0132\016.AnomalyAction\"!\n\016" +
-      "AnomalyMessage\022\017\n\007message\030\001 \001(\tB9\n\037pl.ed" +
-      "u.agh.pp.charts.operationsB\026AnomalyOpera" +
-      "tionProtosb\006proto3"
+      "State\022\035\n\005state\030\001 \003(\0132\016.AnomalyAction\"\200\001\n" +
+      "\016AnomalyMessage\022\020\n\010routeIdx\030\001 \001(\005\022\023\n\013sec" +
+      "ondOfDay\030\002 \001(\005\022\021\n\tisAnomaly\030\003 \001(\010\022\020\n\010dur" +
+      "ation\030\004 \001(\005\022\021\n\tdayOfWeek\030\005 \001(\005\022\017\n\007messag" +
+      "e\030\006 \001(\tB9\n\037pl.edu.agh.pp.charts.operatio" +
+      "nsB\026AnomalyOperationProtosb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2144,7 +2462,7 @@ public final class AnomalyOperationProtos {
     internal_static_AnomalyMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AnomalyMessage_descriptor,
-        new java.lang.String[] { "Message", });
+        new java.lang.String[] { "RouteIdx", "SecondOfDay", "IsAnomaly", "Duration", "DayOfWeek", "Message", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
