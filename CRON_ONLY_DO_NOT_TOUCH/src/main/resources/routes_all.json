@@ -1,0 +1,302 @@
+{
+  "routes": [
+    {
+      "id": "1",
+      "origin": "Slowackiego 66, Kraków",
+      "destination": "50.064690, 19.923898"
+    },
+    {
+      "id": "2",
+      "origin": "50.064690, 19.923898",
+      "destination": "50.054082, 19.928323"
+    },
+    {
+      "id": "3",
+      "origin": "50.054082, 19.928323",
+      "destination": "rondo Matecznego, Kraków"
+    },
+    {
+      "id": "4",
+      "origin": "Slowackiego 66, Kraków",
+      "destination": "rondo Matecznego, Kraków"
+    },
+    {
+      "id": "5",
+      "origin": "50.065925, 19.924856",
+      "destination": "Slowackiego 66, Kraków"
+    },
+    {
+      "id": "6",
+      "origin": "most Debnicki, Kraków",
+      "destination": "50.065925, 19.924856"
+    },
+    {
+      "id": "7",
+      "origin": "rondo Matecznego, Kraków",
+      "destination": "most Debnicki, Kraków"
+    },
+    {
+      "id": "8",
+      "origin": "rondo Matecznego, Kraków",
+      "destination": "Slowackiego 66, Kraków"
+    },
+
+
+
+    {
+      "id": "9",
+      "origin": "Zakopianska 244, Kraków",
+      "destination": "rondo Matecznego, Kraków"
+    },
+    {
+      "id": "10",
+      "origin": "rondo Matecznego, Kraków",
+      "destination": "Zakopianska 244, Kraków"
+    },
+    {
+      "id": "11",
+      "origin": "rondo Matecznego, Kraków",
+      "destination": "Wielicka 179, Kraków"
+    },
+    {
+      "id": "12",
+      "origin": "Wielicka 179, Kraków",
+      "destination": "rondo Matecznego, Kraków"
+    },
+    {
+      "id": "13",
+      "origin": "Wielicka 179, Kraków",
+      "destination": "Wielicka 285, Kraków"
+    },
+    {
+      "id": "14",
+      "origin": "Wielicka 285, Kraków",
+      "destination": "Wielicka 179, Kraków"
+    },
+    {
+      "id": "15",
+      "origin": "Nowosadecka 1, Kraków",
+      "destination": "Turowicza 13, Kraków"
+    },
+    {
+      "id": "16",
+      "origin": "Turowicza 13, Kraków",
+      "destination": "Nowosadecka 1, Kraków"
+    },
+
+
+
+    {
+      "id": "17",
+      "origin": "Czarnowiejska 8, Kraków",
+      "destination": "Armii Krajowej 2, Kraków"
+    },
+    {
+      "id": "18",
+      "origin": "Armii Krajowej 2, Kraków",
+      "destination": "Czarnowiejska 8, Kraków"
+    },
+    {
+      "id": "19",
+      "origin": "Piastowska 22, Kraków",
+      "destination": "Piastowska 50, Kraków"
+    },
+    {
+      "id": "20",
+      "origin": "Piastowska 50, Kraków",
+      "destination": "Piastowska 22, Kraków"
+    },
+    {
+      "id": "21",
+      "origin": "Mogilska 11, Kraków",
+      "destination": "rondo Czyzynskie, Kraków"
+    },
+    {
+      "id": "22",
+      "origin": "rondo Czyzynskie, Kraków",
+      "destination": "Mogilska 28, Kraków"
+    },
+    {
+      "id": "23",
+      "origin": "rondo Grzegorzeckie, Kraków",
+      "destination": "rondo Mogilskie, Kraków"
+    },
+    {
+      "id": "24",
+      "origin": "rondo Mogilskie, Kraków",
+      "destination": "rondo Grzegorzeckie, Kraków"
+    },
+
+
+
+    {
+      "id": "25",
+      "origin": "Plac Centralny, Kraków",
+      "destination": "Estakada Rozwadowskiego, Kraków"
+    },
+    {
+      "id": "26",
+      "origin": "Estakada Rozwadowskiego, Kraków",
+      "destination": "Plac Centralny, Kraków"
+    },
+    {
+      "id": "27",
+      "origin": "50.115560, 19.870240",
+      "destination": "50.137805, 19.864954"
+    },
+    {
+      "id": "28",
+      "origin": "50.107386, 19.879301",
+      "destination": "50.151505, 19.852983"
+    },
+    {
+      "id": "29",
+      "origin": "50.040575, 19.982150",
+      "destination": "50.037287, 20.061492"
+    },
+    {
+      "id": "30",
+      "origin": "50.037287, 20.061492",
+      "destination": "50.040788, 19.982406"
+    },
+    {
+      "id": "31",
+      "origin": "Biezanowska 43, Kraków",
+      "destination": "Biezanowska 208, Kraków"
+    },
+    {
+      "id": "32",
+      "origin": "Biezanowska 208, Kraków",
+      "destination": "Biezanowska 43, Kraków"
+    },
+
+
+
+    {
+      "id": "33",
+      "origin": "Bulhaka, Kraków",
+      "destination": "Marii Konopnickiej 26, Kraków"
+    },
+    {
+      "id": "34",
+      "origin": "Bulhaka, Kraków",
+      "destination": "most Grunwaldzki, Kraków"
+    },
+    {
+      "id": "35",
+      "origin": "50.085253, 19.960734",
+      "destination": "50.087269, 19.950135"
+    },
+    {
+      "id": "36",
+      "origin": "50.085253, 19.960734",
+      "destination": "aleja 29 Listopada 94, Kraków"
+    },
+    {
+      "id": "37",
+      "origin": "50.085253, 19.960734",
+      "destination": "aleja 29 Listopada 62, Kraków"
+    },
+    {
+      "id": "38",
+      "origin": "Klimeckiego 7, Kraków",
+      "destination": "Strycharska 5, Kraków"
+    },
+    {
+      "id": "39",
+      "origin": "Klimeckiego 7, Kraków",
+      "destination": "Nowohucka 67, Kraków"
+    },
+    {
+      "id": "40",
+      "origin": "Klimeckiego 7, Kraków",
+      "destination": "50.043515, 19.968176"
+    },
+
+
+
+    {
+      "id": "41",
+      "origin": "Nawojki, Kraków",
+      "destination": "50.079301, 19.890059"
+    },
+    {
+      "id": "42",
+      "origin": "50.079301, 19.890059",
+      "destination": "Balicka 45, Kraków"
+    },
+    {
+      "id": "43",
+      "origin": "Balicka 45, Kraków",
+      "destination": "Krakow Airport"
+    },
+    {
+      "id": "44",
+      "origin": "Balicka 45, Kraków",
+      "destination": "aleja Kijowska 8, Kraków"
+    },
+    {
+      "id": "45",
+      "origin": "Armii Krajowej 89, Kraków",
+      "destination": "Nawojki 6, Kraków"
+    },
+    {
+      "id": "46",
+      "origin": "Balicka 45, Kraków",
+      "destination": "Armii Krajowej 89, Kraków"
+    },
+    {
+      "id": "47",
+      "origin": "Krakow Airport",
+      "destination": "Balicka 45, Kraków"
+    },
+    {
+      "id": "48",
+      "origin": "aleja Kijowska 8, Kraków",
+      "destination": "Balicka 45, Kraków"
+    },
+
+
+
+    {
+      "id": "49",
+      "origin": "Mitkowskiego, Kraków",
+      "destination": "Marii Konopnickiej 20, Kraków"
+    },
+    {
+      "id": "50",
+      "origin": "Mitkowskiego, Kraków",
+      "destination": "Orzeszkowej 1, Kraków"
+    },
+    {
+      "id": "51",
+      "origin": "50.085023, 19.965906",
+      "destination": "50.087961, 19.947782"
+    },
+    {
+      "id": "52",
+      "origin": "50.085023, 19.965906",
+      "destination": "aleja 29 Listopada 116, Kraków"
+    },
+    {
+      "id": "53",
+      "origin": "50.085023, 19.965906",
+      "destination": "aleja 29 Listopada 42, Kraków"
+    },
+    {
+      "id": "54",
+      "origin": "50.048593, 19.968092",
+      "destination": "Gromadzka 49, Kraków"
+    },
+    {
+      "id": "55",
+      "origin": "50.048593, 19.968092",
+      "destination": "50.048743, 19.981505"
+    },
+    {
+      "id": "56",
+      "origin": "50.048593, 19.968092",
+      "destination": "50.042521, 19.963336"
+    }
+  ]
+}
