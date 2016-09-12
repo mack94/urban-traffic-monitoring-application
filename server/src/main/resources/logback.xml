@@ -10,11 +10,11 @@
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <param name="Append" value="true" />
         <file>
-            TrafficLog_41_48.log
+            TrafficLog.log
         </file>
         <encoder>
             <pattern>
-                "%date": { %msg }, %n
+                %msg%n
             </pattern>
         </encoder>
     </appender>

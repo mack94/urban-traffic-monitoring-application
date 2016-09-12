@@ -1,44 +1,5 @@
 {
   "routes": [
-    {
-      "id": "1",
-      "origin": "Slowackiego 66, Kraków",
-      "destination": "50.064690, 19.923898"
-    },
-    {
-      "id": "2",
-      "origin": "50.064690, 19.923898",
-      "destination": "50.054082, 19.928323"
-    },
-    {
-      "id": "3",
-      "origin": "50.054082, 19.928323",
-      "destination": "rondo Matecznego, Kraków"
-    },
-    {
-      "id": "4",
-      "origin": "Slowackiego 66, Kraków",
-      "destination": "rondo Matecznego, Kraków"
-    },
-    {
-      "id": "5",
-      "origin": "50.065925, 19.924856",
-      "destination": "Slowackiego 66, Kraków"
-    },
-    {
-      "id": "6",
-      "origin": "most Debnicki, Kraków",
-      "destination": "50.065925, 19.924856"
-    },
-    {
-      "id": "7",
-      "origin": "rondo Matecznego, Kraków",
-      "destination": "most Debnicki, Kraków"
-    },
-    {
-      "id": "8",
-      "origin": "rondo Matecznego, Kraków",
-      "destination": "Slowackiego 66, Kraków"
-    }
+
   ]
 }
