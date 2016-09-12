@@ -6,6 +6,7 @@ import pl.edu.agh.pp.detector.adapters.Server;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Objects;
 
 /**
  * Created by Jakub Janusz on 07.09.2016.
@@ -14,14 +15,23 @@ import java.net.UnknownHostException;
  */
 public class Main {
 
-    private static boolean running_mode = false;
+    private static boolean running_mode = true;
 
     public static void main(String[] args) throws InterruptedException {
+
+        System.out.println("Run: 'java -jar server.jar on/off path_to_logs'");
+        Thread.sleep(2000);
+
+        if (Objects.equals(args[0], "on"))
+            running_mode = true;
+        else if (Objects.equals(args[0], "off"))
+            running_mode = false;
 
 		if (running_mode) {
 			InetAddress bind_addr = null; // FIXME
 			try {
-				bind_addr = InetAddress.getByName("192.168.1.12");
+				bind_addr = InetAddress.getByName("0.0.0.0");
+                System.out.println("Server listens on: " + bind_addr);
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			}
@@ -39,10 +49,10 @@ public class Main {
 			}
 
 			Thread.sleep(15000);
-			new CronManager(server).doSomething();
+			new CronManager(server).doSomething(args[1]);
 		} else {
             Server server = new Server();
-			new DetectorManager(server).displayAnomaliesForRoute(1);
+			new DetectorManager(server, ".").displayAnomaliesForRoute(1);
 		}	
 	}
 }

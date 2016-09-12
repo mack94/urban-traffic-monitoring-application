@@ -1,13 +1,11 @@
 package pl.edu.agh.pp.detector;
 
 import org.jfree.ui.RefineryUtilities;
-import pl.edu.agh.pp.detector.adapters.ChannelReceiver;
 import pl.edu.agh.pp.detector.adapters.Server;
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detector.charts.LineChart_AWT;
 import pl.edu.agh.pp.detector.charts.XYLineChart_AWT;
 import pl.edu.agh.pp.detector.detectors.Detector;
-import pl.edu.agh.pp.detector.enums.DayOfWeek;
 import pl.edu.agh.pp.detector.loaders.FilesLoader;
 import pl.edu.agh.pp.detector.loaders.InputParser;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
@@ -17,8 +15,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -31,16 +27,19 @@ import java.util.List;
  */
 public class DetectorManager {
 
-    private static final String BASELINE_LOGS_PATH = "C:\\Users\\Student20\\Downloads\\appender\\appended_file.txt";
-    private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Users\\Student20\\Downloads\\dane_z_agegacja\\poniedzialek\\rok_szkolny\\TrafficLog_1_8___Mon_16-09-05.log";
+    private String BASELINE_LOGS_PATH;
+    private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Inz\\appended_file.txt";
     private static final PolynomialPatternBuilder polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();
     private static Detector detector;
-    private static final FilesLoader baselineFilesLoader = new FilesLoader(BASELINE_LOGS_PATH);
+    private FilesLoader baselineFilesLoader;
     private static final FilesLoader anomalySearchFilesLoader = new FilesLoader(ANOMALY_SEARCH_LOGS_PATH);
 //    private static ChannelReceiver client = new ChannelReceiver();
     private Server server;
 
-    public DetectorManager(Server server) {
+    public DetectorManager(Server server, String logFile) {
+        BASELINE_LOGS_PATH = logFile;
+        FilesLoader baselineFilesLoader = new FilesLoader(BASELINE_LOGS_PATH);
+
         try {
             baselineFilesLoader.processLineByLine();
         } catch (IOException e) {

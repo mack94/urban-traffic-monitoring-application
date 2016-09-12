@@ -28,12 +28,12 @@ public class CronManager {
         this.server = server;
     }
 
-    public void doSomething() throws InterruptedException {
+    public void doSomething(String logFile) throws InterruptedException {
 
         GeoApiContext context;
         ContextLoader contextLoader = new ContextLoader();
         RoutesLoader routesLoader = RoutesLoader.getInstance();
-        DetectorManager detectorManager = new DetectorManager(server);
+        DetectorManager detectorManager = new DetectorManager(server, logFile);
         Timer timer = Timer.getInstance();
 
         while(true) {

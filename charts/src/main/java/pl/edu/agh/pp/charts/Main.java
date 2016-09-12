@@ -5,6 +5,8 @@ import javafx.stage.Stage;
 import pl.edu.agh.pp.charts.adapters.ChannelReceiver;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 
 /**
@@ -20,7 +22,11 @@ public class Main extends Application {
         MainWindowController mainWindowController = new MainWindowController(primaryStage);
         mainWindowController.show();
 
-        InetAddress server_addr = InetAddress.getByName("192.168.1.12"); // FIXME: Make me not to be hardcoded.
+        System.out.println("Type server address: ");
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+        String line = buffer.readLine();
+
+        InetAddress server_addr = InetAddress.getByName(line);
         int server_port = 7500;
         boolean nio = true;
 
