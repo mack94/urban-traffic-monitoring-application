@@ -1,11 +1,12 @@
 package pl.edu.agh.pp.cron.utils;
 
 import ch.qos.logback.classic.Logger;
-import com.google.maps.DirectionsApiRequest;
 import com.google.maps.model.*;
+import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,11 +23,10 @@ public class Route {
 //    private String[] origins;
 //    private String[] destinations;
 
-    private String result;
-
     private String id;
     private DistanceMatrix distanceMatrix;
     private DirectionsResult directionsApi;
+    private JSONObject jsonRoute;
     private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
     public Route(String id, DistanceMatrix distanceMatrix, DirectionsResult directionsApi) throws Exception {
@@ -34,11 +34,13 @@ public class Route {
         this.distanceMatrix = distanceMatrix;
         this.directionsApi = directionsApi;
         System.out.println("Directions API: " + directionsApi);
-        loadRouteInfo();
-        logger.error(this.toString());
+        jsonRoute = loadRouteInfo();
+        if (jsonRoute != null) {
+            logger.error(jsonRoute.toString());
+        }
     }
 
-    private void loadRouteInfo() throws Exception {
+    private JSONObject loadRouteInfo() throws Exception {
 
         DirectionsResult directionsResult = directionsApi;
         DirectionsRoute[] routes = directionsResult.routes;
@@ -51,8 +53,7 @@ public class Route {
 //            System.out.println(route.legs[0].steps[0].startLocation);
 //
 //        }
-
-        result = buildResult(distanceMatrix.rows[0].elements[0], routes);
+        return buildResult(distanceMatrix.rows[0].elements[0], routes);
 //        for (DistanceMatrixRow row: distanceMatrix.rows) {
 //            for (DistanceMatrixElement element: row.elements) {
 //                result = buildResult(element, routes);
@@ -61,22 +62,30 @@ public class Route {
 //        }
     }
 
-    private String buildResult(DistanceMatrixElement me_element, DirectionsRoute[] routes) {
+    private JSONObject buildResult(DistanceMatrixElement me_element, DirectionsRoute[] routes) {
 
-        String me_result;
-
-        if (me_element.status.toString().compareTo("OK") == 0) {
+        if ("OK".equals(me_element.status.toString())) {
             String duration = String.valueOf(me_element.duration.inSeconds);
             String durationInTraffic = String.valueOf(me_element.durationInTraffic.inSeconds);
 
             String waypoints = getWaypoints(routes);
+            String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS").format(new Date());
+            System.out.println("---------------------------" + timeStamp);
 
-            me_result = String.format("\"me_result\": {\"Distance\": \"%s\", \"Duration\": \"%s\", \"DurationInTraffic\": \"%s\", \"Status\": \"%s\", \"Waypoints\": [\"%s\"]}",
-                    me_element.distance, duration, durationInTraffic, me_element.status, waypoints);
-        } else {
-            me_result = String.format("\"me_result\": {\"Distance\": \"%s\", \"Status\": \"%s\"}",
-                    me_element.distance, me_element.status);
+            return new JSONObject()
+                    .put("timeStamp", timeStamp)
+                    .put("id", id)
+                    .put("distance", me_element.distance)
+                    .put("duration", duration)
+                    .put("durationInTraffic", durationInTraffic)
+                    .put("waypoints", waypoints);
+//            me_result = String.format("\"me_result\": {\"Distance\": \"%s\", \"Duration\": \"%s\", \"DurationInTraffic\": \"%s\", \"Status\": \"%s\", \"Waypoints\": [\"%s\"]}",
+//                    me_element.distance, duration, durationInTraffic, me_element.status, waypoints);
         }
+//        else {
+//            me_result = String.format("\"me_result\": {\"Distance\": \"%s\", \"Status\": \"%s\"}",
+//                    me_element.distance, me_element.status);
+//        }
 
 //        String r_result = "";
 //        int route_id = 0;
@@ -93,7 +102,7 @@ public class Route {
 //        }
 
 //        return me_result.concat(" \"r_result\": {" + r_result + "}");
-        return me_result;
+        return null;
     }
 
     private String getWaypoints(DirectionsRoute[] routes) {
@@ -103,14 +112,14 @@ public class Route {
             EncodedPolyline polyline = route.overviewPolyline;
             String decodedPath = decodePolylinePath(polyline);
 
-            result = result.concat("[" + route.summary + "], " + " [" + decodedPath +"]");
+            result = result.concat("[" + route.summary + "], " + " [" + decodedPath + "]");
         }
 
         return result;
     }
 
     private String decodePolylinePath(EncodedPolyline polyline) {
-        String result="";
+        String result = "";
         List<LatLng> polylineDecodedPath = polyline.decodePath();
 
         for (LatLng polyPoint : polylineDecodedPath) {
@@ -122,6 +131,6 @@ public class Route {
 
     @Override
     public String toString() {
-        return "{\"" + id + "\": \"ID\" ," + result + "}";
+        return jsonRoute.toString();
     }
 }

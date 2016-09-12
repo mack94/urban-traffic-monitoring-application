@@ -31,8 +31,8 @@ import java.util.List;
  */
 public class DetectorManager {
 
-    private static final String BASELINE_LOGS_PATH = "C:\\Users\\Student20\\Downloads\\appender\\appended_file.txt";
-    private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Users\\Student20\\Downloads\\dane_z_agegacja\\poniedzialek\\rok_szkolny\\TrafficLog_1_8___Mon_16-09-05.log";
+    private static final String BASELINE_LOGS_PATH = "C:\\Users\\drdrz\\Desktop\\dupa\\logs\\logs_16-08-29_Mon\\TrafficLog_1_8___Mon_16-08-29.log";
+    private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Users\\drdrz\\Desktop\\dupa\\logs\\logs_16-09-05_Mon\\TrafficLog_1_8___Mon_16-09-05.log";
     private static final PolynomialPatternBuilder polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();
     private static Detector detector;
     private static final FilesLoader baselineFilesLoader = new FilesLoader(BASELINE_LOGS_PATH);
