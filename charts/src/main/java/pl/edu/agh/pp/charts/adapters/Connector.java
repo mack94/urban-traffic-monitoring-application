@@ -9,19 +9,19 @@ import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
  * Created by Dawid on 2016-09-12.
  */
 public class Connector {
-    private static MainWindowController mainWindowController = null;
+    private static MainWindowController controller = null;
 
     public static void setController(MainWindowController mainWindowController){
-        mainWindowController = mainWindowController;
+        controller = mainWindowController;
     }
 
     public static void onMessege(AnomalyOperationProtos.AnomalyMessage anomalyMessage){
-        if(mainWindowController!=null){
+        if(controller!=null){
             long id = anomalyMessage.getRouteIdx();
             String message = anomalyMessage.getMessage();
             DateTime dateTime = DateTime.now();
             Color color = Color.BLACK;
-            mainWindowController.putAnomalyMessageonScreen(id,message,dateTime,color);
+            controller.putAnomalyMessageonScreen(id,message,dateTime,color);
         }
     }
 }
