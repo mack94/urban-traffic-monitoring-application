@@ -3,6 +3,7 @@ package pl.edu.agh.pp.charts;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import pl.edu.agh.pp.charts.adapters.ChannelReceiver;
+import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
 
 import java.io.BufferedReader;
@@ -20,8 +21,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         MainWindowController mainWindowController = new MainWindowController(primaryStage);
-        mainWindowController.show();
-
+        Connector connector = new Connector();
+        connector.setController(mainWindowController);
         System.out.println("Type server address: ");
         BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
         String line = buffer.readLine();
@@ -32,5 +33,7 @@ public class Main extends Application {
 
         ChannelReceiver client = new ChannelReceiver();
         client.start(server_addr, server_port, nio);
+
+        mainWindowController.show();
     }
 }

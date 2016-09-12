@@ -44,7 +44,7 @@ public class MainWindowController {
         }
     }
 
-    private void createAnomalyMessage(long id, String message, DateTime dateTime, Color color){
+    public void putAnomalyMessageonScreen(long id, String message, DateTime dateTime, Color color){
         Text text1 = new Text(id + ": " +  dateTime.toString() + " " +  message + "\n");
         text1.setFill(color);
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
@@ -55,17 +55,17 @@ public class MainWindowController {
     private void initialize(){
         anomaliesTextFlow.setTextAlignment(TextAlignment.CENTER);
         anomaliesTextFlow.setMaxHeight(150);
-        createAnomalyMessage(1, "Trasa 1 z place1 do place5 severity 1", DateTime.now(), Color.BLACK);
-        createAnomalyMessage(2, "Trasa 1 z place2 do place5 severity 1", DateTime.now(), Color.BLACK);
-        createAnomalyMessage(3, "Trasa 1 z place2 do place4 severity 1", DateTime.now(), Color.BLACK);
-        createAnomalyMessage(4, "Trasa 1 z place5 do place13 severity 1", DateTime.now(), Color.BLACK);
-        createAnomalyMessage(5, "Trasa 1 z place2 do place1 severity 1", DateTime.now(), Color.BLACK);
-        createAnomalyMessage(6, "Trasa 1 z place1 do place22 severity 1", DateTime.now(), Color.BLACK);
-        createAnomalyMessage(7, "Trasa 1 z place5 do place12 severity 1", DateTime.now(), Color.BLACK);
-        createAnomalyMessage(8, "Trasa 1 z place7 do place1 severity 2", DateTime.now(), Color.ORANGE);
-        createAnomalyMessage(9, "Trasa 1 z place2 do place4 severity 3", DateTime.now(), Color.GREEN);
-        createAnomalyMessage(10, "Trasa 1 z place2 do place5 severity 4", DateTime.now(), Color.BLUE);
-        createAnomalyMessage(11, "Trasa 1 z place11 do place3 severity 5", DateTime.now(), Color.RED);
+        putAnomalyMessageonScreen(1, "Trasa 1 z place1 do place5 severity 1", DateTime.now(), Color.BLACK);
+        putAnomalyMessageonScreen(2, "Trasa 1 z place2 do place5 severity 1", DateTime.now(), Color.BLACK);
+        putAnomalyMessageonScreen(3, "Trasa 1 z place2 do place4 severity 1", DateTime.now(), Color.BLACK);
+        putAnomalyMessageonScreen(4, "Trasa 1 z place5 do place13 severity 1", DateTime.now(), Color.BLACK);
+        putAnomalyMessageonScreen(5, "Trasa 1 z place2 do place1 severity 1", DateTime.now(), Color.BLACK);
+        putAnomalyMessageonScreen(6, "Trasa 1 z place1 do place22 severity 1", DateTime.now(), Color.BLACK);
+        putAnomalyMessageonScreen(7, "Trasa 1 z place5 do place12 severity 1", DateTime.now(), Color.BLACK);
+        putAnomalyMessageonScreen(8, "Trasa 1 z place7 do place1 severity 2", DateTime.now(), Color.ORANGE);
+        putAnomalyMessageonScreen(9, "Trasa 1 z place2 do place4 severity 3", DateTime.now(), Color.GREEN);
+        putAnomalyMessageonScreen(10, "Trasa 1 z place2 do place5 severity 4", DateTime.now(), Color.BLUE);
+        putAnomalyMessageonScreen(11, "Trasa 1 z place11 do place3 severity 5", DateTime.now(), Color.RED);
     }
     @FXML
     private LineChart<Number, Number> lineChart;
@@ -84,6 +84,6 @@ public class MainWindowController {
     @FXML
     private void handleTestButtonAction(ActionEvent e) {
 
-        createAnomalyMessage(666,"Test anomaly", DateTime.now(), Color.PINK);
+        putAnomalyMessageonScreen(666,"Test anomaly", DateTime.now(), Color.PINK);
     }
 }
