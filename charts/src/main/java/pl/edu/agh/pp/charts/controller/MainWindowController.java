@@ -1,5 +1,6 @@
 package pl.edu.agh.pp.charts.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,7 +49,11 @@ public class MainWindowController {
         Text text1 = new Text(id + ": " +  dateTime.toString() + " " +  message + "\n");
         text1.setFill(color);
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
-        anomaliesTextFlow.getChildren().add(0, text1);
+        System.out.println("aaaaaaa");
+        Platform.runLater(() -> {
+            anomaliesTextFlow.getChildren().add(0, text1);
+        });
+
     }
 
     @FXML
