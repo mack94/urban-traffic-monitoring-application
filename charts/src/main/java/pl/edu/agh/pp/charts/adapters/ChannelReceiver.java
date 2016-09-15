@@ -81,7 +81,7 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 //        System.out.println("-" + msg);
         try {
             AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf.array());
-            System.out.println(message);
+            Connector.onMessege(message);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }

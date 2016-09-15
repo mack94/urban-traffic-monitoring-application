@@ -35,5 +35,6 @@ public class Main extends Application {
         client.start(server_addr, server_port, nio);
 
         mainWindowController.show();
+
     }
 }
