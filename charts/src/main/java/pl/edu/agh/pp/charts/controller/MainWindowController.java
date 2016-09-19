@@ -7,13 +7,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 import org.joda.time.DateTime;
 import pl.edu.agh.pp.charts.Main;
+import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.input.Input;
+
+import java.io.IOException;
 
 /**
  * Created by Dawid on 2016-09-05.
@@ -22,12 +28,14 @@ public class MainWindowController {
     private Stage primaryStage = null;
     private Input input;
     private ChartsController chartsController = null;
-
+    private Image wajchaON = new Image("LeverON.png");
+    private Image wajchaOFF = new Image("LeverOFF.png");
+    private boolean wajchaFlag;
     public MainWindowController(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
-    public void show(){
+    public void show() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("/MainWindow.fxml"));
@@ -39,14 +47,13 @@ public class MainWindowController {
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();
-        }
-        catch(java.io.IOException e){
+        } catch (java.io.IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void putAnomalyMessageonScreen(long id, String message, DateTime dateTime, Color color){
-        Text text1 = new Text(id + ": " +  dateTime.toString() + " " +  message + "\n");
+    public void putAnomalyMessageonScreen(long id, String message, DateTime dateTime, Color color) {
+        Text text1 = new Text(id + ": " + dateTime.toString() + " " + message + "\n");
         text1.setFill(color);
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
         System.out.println("aaaaaaa");
@@ -57,9 +64,13 @@ public class MainWindowController {
     }
 
     @FXML
-    private void initialize(){
+    private void initialize() throws IOException {
         anomaliesTextFlow.setTextAlignment(TextAlignment.CENTER);
         anomaliesTextFlow.setMaxHeight(150);
+
+        lever.setImage(wajchaOFF);
+        click.setImage(new Image("/clickit.png"));
+        wajchaFlag = false;
         putAnomalyMessageonScreen(1, "Trasa 1 z place1 do place5 severity 1", DateTime.now(), Color.BLACK);
         putAnomalyMessageonScreen(2, "Trasa 1 z place2 do place5 severity 1", DateTime.now(), Color.BLACK);
         putAnomalyMessageonScreen(3, "Trasa 1 z place2 do place4 severity 1", DateTime.now(), Color.BLACK);
@@ -72,23 +83,43 @@ public class MainWindowController {
         putAnomalyMessageonScreen(10, "Trasa 1 z place2 do place5 severity 4", DateTime.now(), Color.BLUE);
         putAnomalyMessageonScreen(11, "Trasa 1 z place11 do place3 severity 5", DateTime.now(), Color.RED);
     }
+
     @FXML
     private LineChart<Number, Number> lineChart;
     @FXML
     private Button chartsButton;
     @FXML
     private TextFlow anomaliesTextFlow;
+    @FXML
+    private ImageView lever;
+    @FXML
+    private ImageView click;
 
     @FXML
     private void handleChartsButtonAction(ActionEvent e) {
-        if(chartsController == null){
-            chartsController = new ChartsController(primaryStage,this);
+        if (chartsController == null) {
+            chartsController = new ChartsController(primaryStage, this);
         }
         chartsController.show();
     }
+
     @FXML
     private void handleTestButtonAction(ActionEvent e) {
-
-        putAnomalyMessageonScreen(666,"Test anomaly", DateTime.now(), Color.PINK);
+        putAnomalyMessageonScreen(666, "Test anomaly", DateTime.now(), Color.PINK);
+    }
+    @FXML
+    private void handleWajcha(MouseEvent e) {
+        if(wajchaFlag){
+            lever.setImage(wajchaOFF);
+            wajchaFlag = false;
+            Connector.onWajcha(false);
+        }
+        else {
+            lever.setImage(wajchaON);
+            wajchaFlag = true;
+            Connector.onWajcha(true);
+        }
     }
 }
+
+

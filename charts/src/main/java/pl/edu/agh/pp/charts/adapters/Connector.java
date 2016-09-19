@@ -24,4 +24,12 @@ public class Connector {
             controller.putAnomalyMessageonScreen(id,message,dateTime,color);
         }
     }
+    public static void onWajcha(boolean wajchaFlag){
+        if(wajchaFlag){
+            System.out.println("MAKOWKA BO WAJCHA ZOSTALA WLACZONA!");
+        }
+        else {
+            System.out.println("MAKOWKA BO WAJCHA ZOSTALA WYLACZONA!");
+        }
+    }
 }

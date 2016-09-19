@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.image.ImageView?>
 <BorderPane prefHeight="800.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <padding>
         <Insets bottom="15" left="15" right="15" top="15" />
@@ -19,6 +20,8 @@
            <children>
                <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts" />
                <Button fx:id="testButton" onAction="#handleTestButtonAction" text="Test anomaly message" />
+               <ImageView fx:id="lever" onMouseClicked="#handleWajcha"/>
+               <ImageView fx:id="click"/>
            </children>
         </HBox>
     </top>
