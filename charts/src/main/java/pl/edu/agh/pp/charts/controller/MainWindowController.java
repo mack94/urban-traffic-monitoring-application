@@ -56,7 +56,7 @@ public class MainWindowController {
         Text text1 = new Text(id + ": " + dateTime.toString() + " " + message + "\n");
         text1.setFill(color);
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
-        System.out.println("aaaaaaa");
+
         Platform.runLater(() -> {
             anomaliesTextFlow.getChildren().add(0, text1);
         });
@@ -71,17 +71,7 @@ public class MainWindowController {
         lever.setImage(wajchaOFF);
         click.setImage(new Image("/clickit.png"));
         wajchaFlag = false;
-        putAnomalyMessageonScreen(1, "Trasa 1 z place1 do place5 severity 1", DateTime.now(), Color.BLACK);
-        putAnomalyMessageonScreen(2, "Trasa 1 z place2 do place5 severity 1", DateTime.now(), Color.BLACK);
-        putAnomalyMessageonScreen(3, "Trasa 1 z place2 do place4 severity 1", DateTime.now(), Color.BLACK);
-        putAnomalyMessageonScreen(4, "Trasa 1 z place5 do place13 severity 1", DateTime.now(), Color.BLACK);
-        putAnomalyMessageonScreen(5, "Trasa 1 z place2 do place1 severity 1", DateTime.now(), Color.BLACK);
-        putAnomalyMessageonScreen(6, "Trasa 1 z place1 do place22 severity 1", DateTime.now(), Color.BLACK);
-        putAnomalyMessageonScreen(7, "Trasa 1 z place5 do place12 severity 1", DateTime.now(), Color.BLACK);
-        putAnomalyMessageonScreen(8, "Trasa 1 z place7 do place1 severity 2", DateTime.now(), Color.ORANGE);
-        putAnomalyMessageonScreen(9, "Trasa 1 z place2 do place4 severity 3", DateTime.now(), Color.GREEN);
-        putAnomalyMessageonScreen(10, "Trasa 1 z place2 do place5 severity 4", DateTime.now(), Color.BLUE);
-        putAnomalyMessageonScreen(11, "Trasa 1 z place11 do place3 severity 5", DateTime.now(), Color.RED);
+        putAnomalyMessageonScreen(1, "Waiting for anomalies.", DateTime.now(), Color.ALICEBLUE);
     }
 
     @FXML

@@ -1,11 +1,9 @@
 package pl.edu.agh.pp.cron.utils;
 
 import ch.qos.logback.classic.Logger;
-import com.google.maps.DirectionsApiRequest;
 import com.google.maps.model.*;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -103,14 +101,14 @@ public class Route {
             EncodedPolyline polyline = route.overviewPolyline;
             String decodedPath = decodePolylinePath(polyline);
 
-            result = result.concat("[" + route.summary + "], " + " [" + decodedPath +"]");
+            result = result.concat("[" + route.summary + "], " + " [" + decodedPath + "]");
         }
 
         return result;
     }
 
     private String decodePolylinePath(EncodedPolyline polyline) {
-        String result="";
+        String result = "";
         List<LatLng> polylineDecodedPath = polyline.decodePath();
 
         for (LatLng polyPoint : polylineDecodedPath) {

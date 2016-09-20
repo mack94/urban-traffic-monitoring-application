@@ -13,13 +13,16 @@ import java.util.List;
  */
 public interface IPatternBuilder {
 
-    static void computePolynomial(List<Record> records){};
+    static void computePolynomial(List<Record> records) {
+    }
 
-    AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration);
+    ;
 
     @Deprecated
-    static double[] getValueForEachSecondOfDay(DayOfWeek dayOfWeek, int routeIdx){
+    static double[] getValueForEachSecondOfDay(DayOfWeek dayOfWeek, int routeIdx) {
         return new double[0];
     }
+
+    AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration);
 
 }

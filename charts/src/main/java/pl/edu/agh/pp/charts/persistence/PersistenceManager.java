@@ -1,5 +1,7 @@
 package pl.edu.agh.pp.charts.persistence;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.input.Record;
 import pl.edu.agh.pp.charts.input.ResourcesHolder;
 
@@ -16,6 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * charts
  */
 public class PersistenceManager {
+
+    private final Logger logger = (Logger) LoggerFactory.getLogger(PersistenceManager.class);
 
     private Map<Integer, String> values;
     private String path;

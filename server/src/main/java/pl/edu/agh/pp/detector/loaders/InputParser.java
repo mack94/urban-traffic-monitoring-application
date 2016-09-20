@@ -19,7 +19,7 @@ public class InputParser {
 
     public Record parse(String buffer) {
         record = new Record();
-        record.setDateTime(ConvertStringDateToDateTime(buffer.substring(0,buffer.indexOf('{')-2)));
+        record.setDateTime(ConvertStringDateToDateTime(buffer.substring(0, buffer.indexOf('{') - 2)));
         buffer = buffer.substring(buffer.indexOf('{'));
         record.setRouteID(Integer.parseInt(buffer.substring(buffer.indexOf('"') + 1, buffer.indexOf(':') - 1)));
         buffer = buffer.substring(buffer.indexOf(','));

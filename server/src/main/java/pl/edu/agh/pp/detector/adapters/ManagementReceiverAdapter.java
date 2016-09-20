@@ -1,7 +1,9 @@
 package pl.edu.agh.pp.detector.adapters;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import org.jgroups.*;
+import org.jgroups.JChannel;
+import org.jgroups.Message;
+import org.jgroups.ReceiverAdapter;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 
 import java.io.InputStream;
@@ -9,7 +11,6 @@ import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 /**
  * Created by Maciej on 05.09.2016.

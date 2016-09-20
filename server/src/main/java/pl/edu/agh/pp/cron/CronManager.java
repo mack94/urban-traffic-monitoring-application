@@ -8,7 +8,8 @@ import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
 import org.joda.time.Instant;
 import org.json.JSONArray;
-import org.omg.CORBA.TIMEOUT;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.utils.ContextLoader;
 import pl.edu.agh.pp.cron.utils.Route;
 import pl.edu.agh.pp.cron.utils.RoutesLoader;
@@ -21,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CronManager {
+
+    private final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
 
     private Server server;
 
@@ -36,7 +39,7 @@ public class CronManager {
         DetectorManager detectorManager = new DetectorManager(server, logFile);
         Timer timer = Timer.getInstance();
 
-        while(true) {
+        while (true) {
             try {
                 long waitingTime = timer.getWaitingTime();
                 JSONArray loadedRoutes = routesLoader.loadJSON();

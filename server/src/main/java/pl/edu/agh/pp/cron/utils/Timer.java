@@ -55,7 +55,6 @@ public class Timer {
                 //checks whether the current time is between 05:00:00 and 23:00:00.
                 return random.nextInt(200_000) + 15_000;
             } else {
-                System.out.println("YOOOOOOOOOOOOOO");
                 return random.nextInt(600_000) + 30_000;
             }
         } catch (ParseException e) {

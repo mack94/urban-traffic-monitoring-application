@@ -4,6 +4,7 @@ package pl.edu.agh.pp.charts.input;
  * Created by Dawid on 2016-06-06.
  */
 public class Route {
+
     private String id;
     private String origin;
     private String destination;
@@ -13,7 +14,6 @@ public class Route {
         this.origin = origin;
         this.destination = destination;
     }
-
 
     public String getId() {
         return id;

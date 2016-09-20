@@ -21,6 +21,6 @@ public interface ICommunicationService {
 
     void leaveManagementChannel();
 
-    void sendMessage(String channelName, String message) throws  Exception;
+    void sendMessage(String channelName, String message) throws Exception;
 
 }

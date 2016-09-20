@@ -5,6 +5,8 @@ import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.blocks.cs.*;
 import org.jgroups.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.io.BufferedInputStream;
@@ -19,6 +21,9 @@ import java.nio.ByteBuffer;
  * Project: detector.
  */
 public class ChannelReceiver extends ReceiverAdapter implements ConnectionListener {
+
+    private final Logger logger = (Logger) LoggerFactory.getLogger(ChannelReceiver.class);
+
 
     public String name = "Charts1";
     protected BaseServer client;
@@ -44,10 +49,10 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 //        ((Client)client).send(buf, 0, buf.length);
 //        eventLoop();
         new Thread(this::eventLoop).start();
-//        client.stop();
     }
 
     private void eventLoop() {
+
         in = new BufferedInputStream(System.in);
 
         while (running) {
@@ -65,11 +70,11 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("ChannelReceiver :: InterruptedException: " + e);
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("ChannelReceiver :: IOException: " + e);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("ChannelReceiver :: Exception: " + e);
                 break;
             }
         }
@@ -77,20 +82,18 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 
     @Override
     public void receive(Address sender, ByteBuffer buf) {
-//        String msg = new String(buf.array(), buf.arrayOffset(), buf.limit());
-//        System.out.println("-" + msg);
         try {
             AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf.array());
-            Connector.onMessege(message);
+            Connector.onMessage(message);
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            logger.error("ChannelReceiver :: InvalidProtocolBufferException: " + e);
         }
     }
 
     @Override
     public void receive(Address sender, byte[] buf, int offset, int length) {
         String msg = new String(buf, offset, length);
-        System.out.println(String.format("# %s\n", msg));
+        logger.info(String.format("# %s\n", msg));
     }
 
     @Override
@@ -98,29 +101,11 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
         client.stop();
         running = false;
         Util.close(in);
-        System.out.println(String.format("Connection to %s closed: %s", conn.peerAddress(), reason));
+        logger.info(String.format("ChannelReceiver :: Connection to %s closed: %s", conn.peerAddress(), reason));
     }
 
     @Override
     public void connectionEstablished(Connection conn) {
-        System.out.println("Connection established");
+        logger.info("ChannelReceiver :: Connection established");
     }
-
-//    @Override
-//    public void receive(Message msg) {
-//        try {
-//            Address address = msg.getSrc();
-//
-//            AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(msg.getBuffer());
-//
-//            String channelName = channel.getClusterName();
-//            String userName = channel.getName(address);
-//            String text = message.getMessage();
-//
-////            System.out.println("["+channelName +"] " + " : " + userName + " : " + text);
-////            gui.putMessage(channelName, nick, text);
-//        } catch (InvalidProtocolBufferException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

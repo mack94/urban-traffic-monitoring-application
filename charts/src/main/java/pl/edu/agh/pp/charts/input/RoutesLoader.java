@@ -1,5 +1,8 @@
 package pl.edu.agh.pp.charts.input;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,6 +11,9 @@ import java.io.InputStreamReader;
  * Created by Dawid on 2016-06-06.
  */
 public class RoutesLoader {
+
+    private final Logger logger = (Logger) LoggerFactory.getLogger(RoutesLoader.class);
+
     private static final String routesFileName = "/Routes.txt";
     private BufferedReader br;
     private String line;

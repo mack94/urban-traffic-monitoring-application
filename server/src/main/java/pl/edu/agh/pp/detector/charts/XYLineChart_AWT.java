@@ -9,6 +9,8 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.detector.records.Record;
 
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.List;
  * Project: detector.
  */
 public class XYLineChart_AWT extends ApplicationFrame {
+
+    private final Logger logger = (Logger) LoggerFactory.getLogger(XYLineChart_AWT.class);
 
     private XYSeriesCollection dataset;
 
@@ -55,12 +59,12 @@ public class XYLineChart_AWT extends ApplicationFrame {
 
         double idx = 0;
         for (double value : values) {
-            baseline.add(idx/60, value);
+            baseline.add(idx / 60, value);
             idx++;
         }
 
-        for(Record record: anomalousRecords) {
-            anomalies.add(((double)record.getTimeInSeconds())/3600,record.getDurationInTraffic());
+        for (Record record : anomalousRecords) {
+            anomalies.add(((double) record.getTimeInSeconds()) / 3600, record.getDurationInTraffic());
         }
         dataset.addSeries(baseline);
         dataset.addSeries(anomalies);

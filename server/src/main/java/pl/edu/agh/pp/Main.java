@@ -1,5 +1,7 @@
 package pl.edu.agh.pp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.CronManager;
 import pl.edu.agh.pp.detector.DetectorManager;
 import pl.edu.agh.pp.detector.adapters.Server;
@@ -15,6 +17,7 @@ import java.util.Objects;
  */
 public class Main {
 
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
     private static boolean running_mode = true;
 
     public static void main(String[] args) throws InterruptedException {
@@ -27,32 +30,32 @@ public class Main {
         else if (Objects.equals(args[0], "off"))
             running_mode = false;
 
-		if (running_mode) {
-			InetAddress bind_addr = null; // FIXME
-			try {
-				bind_addr = InetAddress.getByName("0.0.0.0");
-                System.out.println("Server listens on: " + bind_addr);
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-			}
-			int port = 7500;
-			boolean nio = true;
+        if (running_mode) {
+            InetAddress bind_addr = null; // FIXME
+            try {
+                bind_addr = InetAddress.getByName("0.0.0.0");
+                logger.info("Server listens on: " + bind_addr);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+            int port = 7500;
+            boolean nio = true;
 
-			System.out.println("Running server in 5 sec.");
-			Thread.sleep(5000);
-			Server server = new Server();
-			try {
-				server.start(bind_addr, port, nio);
-				System.out.println("Server already running.");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			Thread.sleep(15000);
-			new CronManager(server).doSomething(args[1]);
-		} else {
+            logger.info("Running server in 5 sec.");
+            Thread.sleep(5000);
             Server server = new Server();
-			new DetectorManager(server, ".").displayAnomaliesForRoute(1);
-		}	
-	}
+            try {
+                server.start(bind_addr, port, nio);
+                logger.info("Server already running.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Thread.sleep(15000);
+            new CronManager(server).doSomething(args[1]);
+        } else {
+            Server server = new Server();
+            new DetectorManager(server, args[1]).displayAnomaliesForRoute(4);
+        }
+    }
 }

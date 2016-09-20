@@ -1,7 +1,6 @@
 package pl.edu.agh.pp.detector.adapters;
 
 import org.jgroups.Address;
-import org.jgroups.Message;
 import org.jgroups.ReceiverAdapter;
 import org.jgroups.blocks.cs.BaseServer;
 import org.jgroups.blocks.cs.NioServer;
@@ -12,8 +11,6 @@ import org.jgroups.stack.IpAddress;
 import org.jgroups.util.Util;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 
-import javax.management.MBeanRegistrationException;
-import javax.management.MalformedObjectNameException;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
@@ -26,13 +23,13 @@ public class Server extends ReceiverAdapter implements Receiver {
 
     protected BaseServer server;
 
-    public void start (InetAddress bind_addr, int port, boolean nio) throws Exception {
-        server = nio? new NioServer(bind_addr, port) : new TcpServer(bind_addr, port);
+    public void start(InetAddress bind_addr, int port, boolean nio) throws Exception {
+        server = nio ? new NioServer(bind_addr, port) : new TcpServer(bind_addr, port);
         server.receiver(this);
         server.start();
         JmxConfigurator.register(server, Util.getMBeanServer(), "pub:name=pub-server");
-        int local_port = server.localAddress() instanceof IpAddress ? ((IpAddress)server.localAddress()).getPort(): 0;
-        System.out.printf("\nServer listening at %s:%s\n", bind_addr != null? bind_addr : "0.0.0.0",  local_port);
+        int local_port = server.localAddress() instanceof IpAddress ? ((IpAddress) server.localAddress()).getPort() : 0;
+        System.out.printf("\nServer listening at %s:%s\n", bind_addr != null ? bind_addr : "0.0.0.0", local_port);
     }
 
 
