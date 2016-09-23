@@ -25,5 +25,6 @@ message AnomalyMessage {
     bool isAnomaly = 3;
     int32 duration = 4;
     int32 dayOfWeek = 5;
-    string message = 6;
+    int32 severity = 6;
+    string message = 7;
 }

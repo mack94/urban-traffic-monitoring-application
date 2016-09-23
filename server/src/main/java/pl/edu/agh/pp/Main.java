@@ -31,12 +31,12 @@ public class Main {
             running_mode = false;
 
         if (running_mode) {
-            InetAddress bind_addr = null; // FIXME
+            InetAddress bind_addr = null;
             try {
                 bind_addr = InetAddress.getByName("0.0.0.0");
                 logger.info("Server listens on: " + bind_addr);
             } catch (UnknownHostException e) {
-                e.printStackTrace();
+                logger.error("Main :: UnknownHostException " + e);
             }
             int port = 7500;
             boolean nio = true;
@@ -48,14 +48,14 @@ public class Main {
                 server.start(bind_addr, port, nio);
                 logger.info("Server already running.");
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Main :: Exception " + e);
             }
 
             Thread.sleep(15000);
             new CronManager(server).doSomething(args[1]);
         } else {
             Server server = new Server();
-            new DetectorManager(server, args[1]).displayAnomaliesForRoute(4);
+            new DetectorManager(server, args[1]).displayAnomaliesForRoute(1);
         }
     }
 }

@@ -19,6 +19,8 @@ import java.util.*;
  */
 public final class PolynomialPatternBuilder implements IPatternBuilder, Detector {
 
+    public double errorSensitivity = 0.0;
+
     // consider records for each day independently
     private static Map<DayOfWeek, List<Record>> recordsOfDay = new HashMap<>();
     // WeightedObservedPoint list
@@ -79,6 +81,16 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
         }
     }
 
+    @Override
+    public void setErrorSensitivity(double errorSensitivity) {
+        this.errorSensitivity = errorSensitivity;
+    }
+
+    @Override
+    public double getErrorSensitivity() {
+        return errorSensitivity;
+    }
+
     // It should be discussed.
     // Firstly whether the function is necessary.
     // Secondly whether each 'second' or 'minute' or different time interval.
@@ -113,15 +125,22 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     public AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
 
         double predictedTravelDuration = function(dayOfWeek, routeIdx, (int) secondOfDay);
-        double bounds = 0.25 + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)); //%
-        double errorRate = predictedTravelDuration * bounds;
+        double bounds = 0.25 + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)) + (errorSensitivity) % 1; //%
+        double errorDelta = predictedTravelDuration * bounds;
 
         logger.info("#####################");
-        logger.info("Error rate: " + errorRate);
-        logger.info(String.valueOf(predictedTravelDuration - errorRate));
-        logger.info(String.valueOf(predictedTravelDuration + errorRate));
+        logger.info("Error rate: " + errorDelta);
+        logger.info(String.valueOf(predictedTravelDuration - errorDelta));
+        logger.info(String.valueOf(predictedTravelDuration + errorDelta));
 
-        if ((travelDuration > predictedTravelDuration + errorRate) || (travelDuration < predictedTravelDuration - errorRate)) {
+        double errorRate = 0.0;
+        
+        if ((travelDuration > predictedTravelDuration + errorDelta) || (travelDuration < predictedTravelDuration - errorDelta)) {
+
+            if (travelDuration > predictedTravelDuration + errorDelta)
+                errorRate = Math.abs(predictedTravelDuration + errorDelta) / travelDuration;
+            else
+                errorRate = Math.abs(predictedTravelDuration - errorDelta) / travelDuration;
 
             AnomalyOperationProtos.AnomalyMessage message =
                     AnomalyOperationProtos.AnomalyMessage.newBuilder()
@@ -129,7 +148,8 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
                             .setRouteIdx(routeIdx)
                             .setSecondOfDay((int) secondOfDay)
                             .setDuration((int) travelDuration) // TODO: Cast remove?
-                            .setMessage("Sample message!")
+                            .setSeverity(1)
+                            .setMessage(String.format("Error rate: %d %%", (int) (100 - errorRate * 100)))
                             .build();
             return message;
         }

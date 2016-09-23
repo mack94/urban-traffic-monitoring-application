@@ -14,24 +14,24 @@ public class Input {
     private Set<String> ids = new TreeSet<>();
     private Set<String> days = new TreeSet<>();
     private PersistenceManager persistenceManager = new PersistenceManager();
-    private Map<String,Route> routes;
+    private Map<String, Route> routes;
     private RoutesLoader routesLoader;
 
-    public void addLine(String buffer){
+    public void addLine(String buffer) {
         Record record = new Record();
-        record.setDate(buffer.substring(0,buffer.indexOf('{')-2));
+        record.setDate(buffer.substring(0, buffer.indexOf('{') - 2));
         buffer = buffer.substring(buffer.indexOf('{'));
-        record.setId(buffer.substring(buffer.indexOf('"'),buffer.indexOf(':')));
+        record.setId(buffer.substring(buffer.indexOf('"'), buffer.indexOf(':')));
         buffer = buffer.substring(buffer.indexOf(','));
         buffer = buffer.substring(buffer.indexOf('{'));
         buffer = buffer.substring(buffer.indexOf(':'));
-        record.setDistance(buffer.substring(0,buffer.indexOf('m')+2));
+        record.setDistance(buffer.substring(0, buffer.indexOf('m') + 2));
         buffer = buffer.substring(buffer.indexOf(','));
         buffer = buffer.substring(buffer.indexOf(':'));
-        record.setDuration(buffer.substring(2,buffer.indexOf(',')));
+        record.setDuration(buffer.substring(2, buffer.indexOf(',')));
         buffer = buffer.substring(buffer.indexOf(','));
         buffer = buffer.substring(buffer.indexOf(':'));
-        record.setDurationInTraffic(buffer.substring(2,buffer.indexOf(',')));
+        record.setDurationInTraffic(buffer.substring(2, buffer.indexOf(',')));
         record.setTime();
         ids.add(record.getId());
         days.add(record.getDay());
@@ -39,7 +39,7 @@ public class Input {
         records.add(record);
     }
 
-    public Set<String> getIds(){
+    public Set<String> getIds() {
         return ids;
     }
 
@@ -58,15 +58,15 @@ public class Input {
                 persistenceManager.readFromFile(day, id, traffic);
     }
 
-    public Map<Double,Double> getSummary(String day, int begin, int end, boolean traffic, boolean aggregated) {
+    public Map<Double, Double> getSummary(String day, int begin, int end, boolean traffic, boolean aggregated) {
         List<Map<Double, Double>> maps = new ArrayList<>();
-        for(int i = begin; i <= end; i++) {
+        for (int i = begin; i <= end; i++) {
             maps.add(getData(day, String.valueOf(i), traffic, aggregated));
         }
         Map<Double, Double> result = new HashMap<>();
-        for(Map<Double, Double> map : maps) {
-            for(Double key : map.keySet()) {
-                if(!result.containsKey(key)) {
+        for (Map<Double, Double> map : maps) {
+            for (Double key : map.keySet()) {
+                if (!result.containsKey(key)) {
                     result.put(key, 0d);
                 }
                 Double currentValue = result.get(key);
@@ -88,7 +88,8 @@ public class Input {
 
         return result;
     }
-    public void getRoutes(){
+
+    public void getRoutes() {
         routesLoader = new RoutesLoader();
         routes = new HashMap<>();
         try {
@@ -98,23 +99,23 @@ public class Input {
         }
     }
 
-    void addRoute(String id, String origin, String destination){
-        routes.put(id,new Route(id, origin, destination));
+    void addRoute(String id, String origin, String destination) {
+        routes.put(id, new Route(id, origin, destination));
     }
 
-    public String getRoute(String id){
+    public String getRoute(String id) {
         return routes.get(id).toString();
     }
 
-    public String getId(String route){
-        return  route.split("-")[0].trim();
+    public String getId(String route) {
+        return route.split("-")[0].trim();
     }
 
-    public String getReverse(String Id){
+    public String getReverse(String Id) {
         Route route = routes.get(Id);
-        for(String routeId: routes.keySet()){
-            if(routes.get(routeId).getOrigin().equals(route.getDestination())){
-                if(routes.get(routeId).getDestination().equals(route.getOrigin())){
+        for (String routeId : routes.keySet()) {
+            if (routes.get(routeId).getOrigin().equals(route.getDestination())) {
+                if (routes.get(routeId).getDestination().equals(route.getOrigin())) {
                     return routes.get(routeId).toString();
                 }
             }

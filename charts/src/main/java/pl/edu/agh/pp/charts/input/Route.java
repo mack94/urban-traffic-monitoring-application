@@ -9,7 +9,7 @@ public class Route {
     private String origin;
     private String destination;
 
-    public Route(String id, String origin, String destination){
+    public Route(String id, String origin, String destination) {
         this.id = id;
         this.origin = origin;
         this.destination = destination;
@@ -39,11 +39,11 @@ public class Route {
         this.destination = destination;
     }
 
-    public String toString(){
-        return id +" - "+origin+" - "+destination;
+    public String toString() {
+        return id + " - " + origin + " - " + destination;
     }
 
-    public String getID(String txt){
+    public String getID(String txt) {
         return null;
     }
 }

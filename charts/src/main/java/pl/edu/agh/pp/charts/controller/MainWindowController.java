@@ -31,6 +31,16 @@ public class MainWindowController {
     private Image wajchaON = new Image("LeverON.png");
     private Image wajchaOFF = new Image("LeverOFF.png");
     private boolean wajchaFlag;
+    @FXML
+    private LineChart<Number, Number> lineChart;
+    @FXML
+    private Button chartsButton;
+    @FXML
+    private TextFlow anomaliesTextFlow;
+    @FXML
+    private ImageView lever;
+    @FXML
+    private ImageView click;
     public MainWindowController(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
@@ -52,14 +62,12 @@ public class MainWindowController {
         }
     }
 
-    public void putAnomalyMessageonScreen(long id, String message, DateTime dateTime, Color color) {
-        Text text1 = new Text(id + ": " + dateTime.toString() + " " + message + "\n");
+    public void putAnomalyMessageonScreen(int id, String message, DateTime dateTime, int duration, Color color) {
+        Text text1 = new Text(id + ": " + dateTime.toString() + "; duration = " + duration + "; " + message + "\n");
         text1.setFill(color);
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
 
-        Platform.runLater(() -> {
-            anomaliesTextFlow.getChildren().add(0, text1);
-        });
+        Platform.runLater(() -> anomaliesTextFlow.getChildren().add(0, text1));
 
     }
 
@@ -71,19 +79,8 @@ public class MainWindowController {
         lever.setImage(wajchaOFF);
         click.setImage(new Image("/clickit.png"));
         wajchaFlag = false;
-        putAnomalyMessageonScreen(1, "Waiting for anomalies.", DateTime.now(), Color.ALICEBLUE);
+        putAnomalyMessageonScreen(1, "Waiting for anomalies.", DateTime.now(), 0, Color.CRIMSON);
     }
-
-    @FXML
-    private LineChart<Number, Number> lineChart;
-    @FXML
-    private Button chartsButton;
-    @FXML
-    private TextFlow anomaliesTextFlow;
-    @FXML
-    private ImageView lever;
-    @FXML
-    private ImageView click;
 
     @FXML
     private void handleChartsButtonAction(ActionEvent e) {
@@ -95,16 +92,16 @@ public class MainWindowController {
 
     @FXML
     private void handleTestButtonAction(ActionEvent e) {
-        putAnomalyMessageonScreen(666, "Test anomaly", DateTime.now(), Color.PINK);
+        putAnomalyMessageonScreen(666, "Test anomaly", DateTime.now(), 0, Color.PINK);
     }
+
     @FXML
     private void handleWajcha(MouseEvent e) {
-        if(wajchaFlag){
+        if (wajchaFlag) {
             lever.setImage(wajchaOFF);
             wajchaFlag = false;
             Connector.onWajcha(false);
-        }
-        else {
+        } else {
             lever.setImage(wajchaON);
             wajchaFlag = true;
             Connector.onWajcha(true);

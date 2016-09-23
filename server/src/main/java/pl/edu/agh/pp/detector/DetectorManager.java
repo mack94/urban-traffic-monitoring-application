@@ -64,10 +64,10 @@ public class DetectorManager {
             Record record = inputParser.parse(logEntry);
 
             if (!Objects.equals(logEntry, "")) {
-                chart = new LineChart_AWT("-", "-", PolynomialPatternBuilder.getValueForEachMinuteOfDay(record.getDayOfWeek(), record.getRouteID() - 1));
-                chart.pack();
-                RefineryUtilities.centerFrameOnScreen(chart);
-                chart.setVisible(true);
+//                chart = new LineChart_AWT("-", "-", PolynomialPatternBuilder.getValueForEachMinuteOfDay(record.getDayOfWeek(), record.getRouteID() - 1));
+//                chart.pack();
+//                RefineryUtilities.centerFrameOnScreen(chart);
+//                chart.setVisible(true);
             }
             AnomalyOperationProtos.AnomalyMessage isAnomaly = detector.isAnomaly(record.getDayOfWeek(), record.getRouteID() - 1, record.getTimeInSeconds(), record.getDurationInTraffic());
             if (isAnomaly != null) {

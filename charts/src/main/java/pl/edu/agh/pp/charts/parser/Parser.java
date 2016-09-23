@@ -17,21 +17,25 @@ public class Parser {
     private BufferedReader br;
     private String buffer;
 
-    public Parser(File file){
+    public Parser(File file) {
         this.file = file;
     }
-    public Parser(){}
-    public void setFile(File file){
+
+    public Parser() {
+    }
+
+    public void setFile(File file) {
         this.file = file;
     }
-    public void parse(Input input){
-        if(file==null){
+
+    public void parse(Input input) {
+        if (file == null) {
             return;
         }
         try {
             this.br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             buffer = br.readLine();
-            while(buffer!=null) {
+            while (buffer != null) {
                 input.addLine(buffer);
                 buffer = br.readLine();
             }

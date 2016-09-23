@@ -1,39 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.chart.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
-<BorderPane prefHeight="800.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.TextFlow?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="800.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8">
     <padding>
-        <Insets bottom="15" left="15" right="15" top="15" />
+        <Insets bottom="15" left="15" right="15" top="15"/>
     </padding>
     <top>
         <HBox>
-           <children>
-               <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts" />
-               <Button fx:id="testButton" onAction="#handleTestButtonAction" text="Test anomaly message" />
-               <ImageView fx:id="lever" onMouseClicked="#handleWajcha"/>
-               <ImageView fx:id="click"/>
-           </children>
+            <children>
+                <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
+                <Button fx:id="testButton" onAction="#handleTestButtonAction" text="Test anomaly message"/>
+                <ImageView fx:id="lever" onMouseClicked="#handleWajcha"/>
+                <ImageView fx:id="click"/>
+            </children>
         </HBox>
     </top>
-    <center >
-        <VBox alignment="CENTER" >
-            <Label text="Anomalies List" />
+    <center>
+        <VBox alignment="CENTER">
+            <Label text="Anomalies List"/>
             <ScrollPane fitToWidth="true">
-             <TextFlow fx:id="anomaliesTextFlow" prefHeight="150"/>
+                <TextFlow fx:id="anomaliesTextFlow" prefHeight="150"/>
             </ScrollPane>
             <LineChart fx:id="lineChart" title="Most Recent anomaly">
-                <xAxis><NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis" /></xAxis>
-                <yAxis><NumberAxis label="Duration (seconds)" tickUnit="1" /></yAxis>
+                <xAxis>
+                    <NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Duration (seconds)" tickUnit="1"/>
+                </yAxis>
             </LineChart>
         </VBox>
     </center>

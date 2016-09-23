@@ -9,12 +9,13 @@ import pl.edu.agh.pp.charts.controller.MainWindowController;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.util.Properties;
 
 /**
  * Created by Dawid on 2016-05-20.
  */
 public class Main extends Application {
-    public static void main(String... args){
+    public static void main(String... args) {
         launch(args);
     }
 
@@ -30,6 +31,9 @@ public class Main extends Application {
         InetAddress server_addr = InetAddress.getByName(line);
         int server_port = 7500;
         boolean nio = true;
+
+        Properties properties = System.getProperties();
+        properties.setProperty("jgroups.bind_addr", server_addr.toString());
 
         ChannelReceiver client = new ChannelReceiver();
         client.start(server_addr, server_port, nio);

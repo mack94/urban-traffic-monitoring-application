@@ -53,7 +53,7 @@ public class Timer {
             Random random = new Random();
             if (x.after(calendar1.getTime()) && x.before(calendar2.getTime())) {
                 //checks whether the current time is between 05:00:00 and 23:00:00.
-                return random.nextInt(200_000) + 15_000;
+                return random.nextInt(250_000) + 18_000;
             } else {
                 return random.nextInt(600_000) + 30_000;
             }
