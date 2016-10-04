@@ -19,6 +19,7 @@ public enum DayOfWeek {
 
     private final static Logger logger = (Logger) LoggerFactory.getLogger(DayOfWeek.class);
 
+
     public static DayOfWeek fromValue(int value) throws IllegalArgumentException {
         try {
             return DayOfWeek.values()[value - 1];
@@ -27,4 +28,5 @@ public enum DayOfWeek {
             throw new IllegalArgumentException("Unknown enum value :" + (value - 1));
         }
     }
+
 }

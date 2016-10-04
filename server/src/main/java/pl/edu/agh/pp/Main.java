@@ -8,6 +8,7 @@ import pl.edu.agh.pp.detector.adapters.Server;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -55,7 +56,8 @@ public class Main {
             new CronManager(server).doSomething(args[1]);
         } else {
             Server server = new Server();
-            new DetectorManager(server, args[1]).displayAnomaliesForRoute(1);
+            //new DetectorManager(server, args[1]).displayAnomaliesForRoute(1);
+            new DetectorManager(server, Arrays.copyOfRange(args, 1, args.length)).displayAnomaliesForFile();
         }
     }
 }

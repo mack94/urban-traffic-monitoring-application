@@ -1,5 +1,7 @@
 package pl.edu.agh.pp.detector.loaders;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.detector.records.Record;
 
 import java.io.IOException;
@@ -19,6 +21,8 @@ import java.util.regex.Pattern;
  */
 public class FilesLoader {
     private final static Charset ENCODING = StandardCharsets.UTF_8;
+    private final Logger logger = (Logger) LoggerFactory.getLogger(FilesLoader.class);
+
     /**
      * TODO: Load all selected files.
      * Regex could be useful in accessing the day of week (the log files has date und day of week)
@@ -29,22 +33,29 @@ public class FilesLoader {
      * Firstly, load only one file - hardcoded path.
      */
 
-    private final Path fFilePath;
+    private List<Path> listFilePath;
     private List<Record> records = new ArrayList<>();
     private InputParser inputParser = new InputParser();
 
-    public FilesLoader(String aFileName) {
-        fFilePath = Paths.get(aFileName);
+    public FilesLoader(String ... fileNames) {
+        if(fileNames.length > 0){
+            listFilePath = new ArrayList<Path>();
+            for(String aFileName: fileNames) {
+                listFilePath.add(Paths.get(aFileName));
+            }
+        }else{
+            //TODO: some sort of error message or notification for user(bad input)
+        }
     }
 
     public final void processLineByLine() throws IOException {
-        try (Scanner scanner = new Scanner(fFilePath, ENCODING.name())) {
-            while (scanner.hasNextLine()) {
-                processLine(scanner.nextLine());
+        for(Path aFilePath: listFilePath) {
+            try (Scanner scanner = new Scanner(aFilePath, ENCODING.name())) {
+                while (scanner.hasNextLine()) {
+                    processLine(scanner.nextLine());
+                }
             }
-//            System.out.println(records.size());
         }
-
     }
 
     private void processLine(String aLine) {
@@ -56,6 +67,10 @@ public class FilesLoader {
         if (scanner.hasNext()) {
             Record record;
             String buffer = scanner.next();
+            if(buffer.contains("\"Status\": \"NOT_FOUND\"")) {
+                logger.error("FilesLoader :: bad record found: " + buffer);
+                return;
+            }
             record = inputParser.parse(buffer);
 
             records.add(record);
@@ -73,5 +88,13 @@ public class FilesLoader {
     private String quote(String aText) {
         String QUOTE = "'";
         return QUOTE + aText + QUOTE;
+    }
+
+    public List<Path> getListFilePath() {
+        return listFilePath;
+    }
+
+    public void setListFilePath(List<Path> listFilePath) {
+        this.listFilePath = listFilePath;
     }
 }
