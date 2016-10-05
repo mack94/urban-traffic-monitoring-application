@@ -1,11 +1,15 @@
 package pl.edu.agh.pp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.CronManager;
 import pl.edu.agh.pp.detector.DetectorManager;
 import pl.edu.agh.pp.detector.adapters.Server;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Created by Jakub Janusz on 07.09.2016.
@@ -14,35 +18,46 @@ import java.net.UnknownHostException;
  */
 public class Main {
 
-    private static boolean running_mode = false;
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
+    private static boolean running_mode = true;
 
     public static void main(String[] args) throws InterruptedException {
 
-		if (running_mode) {
-			InetAddress bind_addr = null; // FIXME
-			try {
-				bind_addr = InetAddress.getByName("192.168.1.12");
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-			}
-			int port = 7500;
-			boolean nio = true;
+        System.out.println("Run: 'java -jar server.jar on/off path_to_logs'");
+        Thread.sleep(2000);
 
-			System.out.println("Running server in 5 sec.");
-			Thread.sleep(5000);
-			Server server = new Server();
-			try {
-				server.start(bind_addr, port, nio);
-				System.out.println("Server already running.");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+        if (Objects.equals(args[0], "on"))
+            running_mode = true;
+        else if (Objects.equals(args[0], "off"))
+            running_mode = false;
 
-			Thread.sleep(15000);
-			new CronManager(server).doSomething();
-		} else {
+        if (running_mode) {
+            InetAddress bind_addr = null;
+            try {
+                bind_addr = InetAddress.getByName("0.0.0.0");
+                logger.info("Server listens on: " + bind_addr);
+            } catch (UnknownHostException e) {
+                logger.error("Main :: UnknownHostException " + e);
+            }
+            int port = 7500;
+            boolean nio = true;
+
+            logger.info("Running server in 5 sec.");
+            Thread.sleep(5000);
             Server server = new Server();
-			new DetectorManager(server).displayAnomaliesForRoute(1);
-		}	
-	}
+            try {
+                server.start(bind_addr, port, nio);
+                logger.info("Server already running.");
+            } catch (Exception e) {
+                logger.error("Main :: Exception " + e);
+            }
+
+            Thread.sleep(15000);
+            new CronManager(server).doSomething(args[1]);
+        } else {
+            Server server = new Server();
+            //new DetectorManager(server, args[1]).displayAnomaliesForRoute(1);
+            new DetectorManager(server, Arrays.copyOfRange(args, 1, args.length)).displayAnomaliesForFile();
+        }
+    }
 }

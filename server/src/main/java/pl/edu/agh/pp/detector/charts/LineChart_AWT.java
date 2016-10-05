@@ -6,7 +6,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by Maciej on 19.07.2016.
@@ -14,6 +15,8 @@ import org.jfree.ui.RefineryUtilities;
  * Project: detector.
  */
 public class LineChart_AWT extends ApplicationFrame {
+
+    private final Logger logger = (Logger) LoggerFactory.getLogger(LineChart_AWT.class);
 
     private DefaultCategoryDataset dataset;
 
@@ -34,18 +37,17 @@ public class LineChart_AWT extends ApplicationFrame {
         setContentPane(chartPanel);
     }
 
+    public DefaultCategoryDataset getSampleDataset() {
+        return dataset;
+    }
+
     public void setSampleDataset(double[] values) {
         dataset = new DefaultCategoryDataset();
 
         int idx = 0;
         for (double value : values) {
-            dataset.addValue(value, "traffic", String.valueOf(idx*60));
-            //System.out.println(idx*60);
+            dataset.addValue(value, "traffic", String.valueOf(idx * 60));
             idx++;
         }
-    }
-
-    public DefaultCategoryDataset getSampleDataset() {
-        return dataset;
     }
 }

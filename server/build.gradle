@@ -34,5 +34,5 @@ sourceSets {
 
 jar {
     from configurations.compile.collect { zipTree it }
-    manifest.attributes "Main-Class": "pl.edu.agh.pp.cron.Main"
+    manifest.attributes "Main-Class": "pl.edu.agh.pp.Main"
 }

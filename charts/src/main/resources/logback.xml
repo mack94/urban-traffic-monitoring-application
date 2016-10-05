@@ -8,18 +8,18 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <param name="Append" value="true" />
+        <param name="Append" value="false" />
         <file>
-            TrafficLog.log
+            ChartsLogs.log
         </file>
         <encoder>
             <pattern>
-                %msg%n
+                %d{HH:mm:ss.SSS} [%thread] %level %logger{10} [%file:%line] - %msg%n
             </pattern>
         </encoder>
     </appender>
 
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="FILE" />
         <appender-ref ref="STDOUT" />
     </root>

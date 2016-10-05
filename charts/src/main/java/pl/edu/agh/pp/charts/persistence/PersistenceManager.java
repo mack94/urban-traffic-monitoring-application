@@ -1,5 +1,7 @@
 package pl.edu.agh.pp.charts.persistence;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.input.Record;
 import pl.edu.agh.pp.charts.input.ResourcesHolder;
 
@@ -16,6 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * charts
  */
 public class PersistenceManager {
+
+    private final Logger logger = (Logger) LoggerFactory.getLogger(PersistenceManager.class);
 
     private Map<Integer, String> values;
     private String path;
@@ -55,7 +59,7 @@ public class PersistenceManager {
                 String row = record.getTimeForChart() + " " + record.getDurationInTraffic() + " " + record.getDuration() + "\n";
                 files.get(filename).write(row);
             }
-            for(String filename : files.keySet()) {
+            for (String filename : files.keySet()) {
                 files.get(filename).close();
                 files.remove(filename);
             }
@@ -92,14 +96,14 @@ public class PersistenceManager {
             File[] files = dir.listFiles();
             Map<Double, Double> results = new HashMap<>();
 
-            for(File file : files) {
+            for (File file : files) {
                 String filename = file.getName();
-                if(file.isFile() && filename.contains(day) && filename.startsWith(id + "_")) {
+                if (file.isFile() && filename.contains(day) && filename.startsWith(id + "_")) {
                     FileReader fileReader = new FileReader(path + filename);
                     BufferedReader br = new BufferedReader(fileReader);
 
                     String line = br.readLine();
-                    while(isLineCorrect(line)) {
+                    while (isLineCorrect(line)) {
                         String[] values = line.split(" ");
                         Double time = Double.parseDouble(values[0]);
 
@@ -129,15 +133,15 @@ public class PersistenceManager {
             File[] files = dir.listFiles();
             Map<Double, AverageCounter> averages = new HashMap<>();
 
-            for(File file : files) {
+            for (File file : files) {
                 String filename = file.getName();
-                if(file.isFile() && filename.contains(day) && filename.startsWith(id + "_")) {
+                if (file.isFile() && filename.contains(day) && filename.startsWith(id + "_")) {
                     readData(path + filename, averages, traffic);
                 }
             }
 
             Map<Double, Double> results = new HashMap<>();
-            for(Double key : averages.keySet()) {
+            for (Double key : averages.keySet()) {
                 results.put(key, averages.get(key).getAverage());
             }
 
@@ -155,10 +159,10 @@ public class PersistenceManager {
         BufferedReader br = new BufferedReader(fileReader);
 
         String line = br.readLine();
-        while(isLineCorrect(line)) {
+        while (isLineCorrect(line)) {
             String[] values = line.split(" ");
             Double time = Double.parseDouble(values[0]);
-            if(!averages.containsKey(time)) {
+            if (!averages.containsKey(time)) {
                 averages.put(time, new AverageCounter());
             }
             int index = traffic ? 1 : 2;
@@ -179,7 +183,7 @@ public class PersistenceManager {
         String path = ResourcesHolder.getInstance().getPath();
         File dir = new File(path);
         File[] files = dir.listFiles();
-        for(File file : files) {
+        for (File file : files) {
             file.delete();
         }
         dir.delete();

@@ -1,26 +1,17 @@
 package pl.edu.agh.pp.detector.service;
 
-import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.Message;
 import org.jgroups.blocks.cs.BaseServer;
-import org.jgroups.blocks.cs.NioServer;
-import org.jgroups.blocks.cs.TcpServer;
-import org.jgroups.jmx.JmxConfigurator;
 import org.jgroups.protocols.*;
 import org.jgroups.protocols.pbcast.*;
-import org.jgroups.stack.IpAddress;
 import org.jgroups.stack.Protocol;
 import org.jgroups.stack.ProtocolStack;
-import org.jgroups.util.Util;
-import pl.edu.agh.pp.detector.adapters.ChannelReceiver;
 import pl.edu.agh.pp.detector.adapters.ManagementReceiverAdapter;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 
 import java.net.InetAddress;
-import java.nio.ByteBuffer;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,17 +20,14 @@ import java.util.Map;
  * 11:35
  * Project: detector.
  */
-public class CommunicationService implements ICommunicationService{
+public class CommunicationService implements ICommunicationService {
 
     private static final String MANAGEMENT_CHANNEL_NAME = "Traffic_Anomaly_Detector_Management0";
-
+    protected BaseServer server;
     private String userName;
     private JChannel managementChannel;
-
     private Map<String, List<String>> channelUsers;
     private Map<String, JChannel> activeChannels;
-
-    protected BaseServer server;
 
     public CommunicationService() throws Exception {
         System.out.println("Chat Service started");
@@ -158,7 +146,7 @@ public class CommunicationService implements ICommunicationService{
         System.out.println("Sent");
     }
 
-    private  void setupProtocolStack(ProtocolStack protocolStack) throws Exception {
+    private void setupProtocolStack(ProtocolStack protocolStack) throws Exception {
         setupProtocolStack(protocolStack, null);
     }
 

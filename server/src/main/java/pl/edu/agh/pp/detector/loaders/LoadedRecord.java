@@ -18,12 +18,12 @@ public class LoadedRecord {
         return "Date: " + date + " ID: " + id + " Distance: " + distance + " Duration: " + duration + " Duration in traffic: " + durationInTraffic;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public String getDate() {
         return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getId() {

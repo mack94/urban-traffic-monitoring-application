@@ -3,10 +3,6 @@ package pl.edu.agh.pp.detector.adapters;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.blocks.cs.*;
-import org.jgroups.jmx.JmxConfigurator;
-import org.jgroups.logging.Log;
-import org.jgroups.logging.LogFactory;
-import org.jgroups.stack.IpAddress;
 import org.jgroups.util.Util;
 
 import java.io.BufferedInputStream;
@@ -22,20 +18,26 @@ import java.nio.ByteBuffer;
  */
 public class ChannelReceiver extends ReceiverAdapter implements ConnectionListener {
 
-    private JChannel channel; // final
+    public String name = "Detector1";
     protected BaseServer client;
     protected InputStream in;
     protected volatile boolean running = true;
+    private JChannel channel; // final
 
-    public String name = "Detector1";
+    public ChannelReceiver() {
+    }
+
+    public ChannelReceiver(JChannel channel) {
+        this.channel = channel;
+    }
 
     public void start(InetAddress srv_addr, int srv_port, boolean nio) throws Exception {
-        client =nio? new NioClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port) : new TcpClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port);
+        client = nio ? new NioClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port) : new TcpClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port);
         client.receiver(this);
         client.addConnectionListener(this);
         client.start();
-        byte[] buf=String.format("%s joined\n", name).getBytes();
-        ((Client)client).send(buf, 0, buf.length);
+        byte[] buf = String.format("%s joined\n", name).getBytes();
+        ((Client) client).send(buf, 0, buf.length);
         eventLoop();
         client.stop();
     }
@@ -57,13 +59,6 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
                 e.printStackTrace();
             }
         }
-    }
-
-    public ChannelReceiver() {
-    }
-
-    public ChannelReceiver(JChannel channel) {
-        this.channel = channel;
     }
 
     @Override

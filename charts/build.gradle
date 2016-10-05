@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     compile group: 'joda-time', name: 'joda-time', version: '2.9.4'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
     compile group: 'org.jgroups', name: 'jgroups', version: '3.6.10.Final'
     compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.0.0'
     compile group: 'org.json', name: 'json', version: '20160810'
