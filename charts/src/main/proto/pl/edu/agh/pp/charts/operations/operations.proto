@@ -27,4 +27,5 @@ message AnomalyMessage {
     int32 dayOfWeek = 5;
     int32 severity = 6;
     string message = 7;
+    int64 anomalyID = 8;
 }

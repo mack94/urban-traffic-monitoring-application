@@ -67,6 +67,8 @@ public class DetectorManager {
 //                chart.setVisible(true);
             }
             AnomalyOperationProtos.AnomalyMessage isAnomaly = detector.isAnomaly(record.getDayOfWeek(), record.getRouteID() - 1, record.getTimeInSeconds(), record.getDurationInTraffic());
+            // TODO: Need to send the modified message - message should have ID assigned after AnomalyTracker analyse.
+            // TODO: It need to be in the isAnomaly method.
             if (isAnomaly != null) {
                 server.send(ByteBuffer.wrap(isAnomaly.toByteArray()));
             }

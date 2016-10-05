@@ -3,12 +3,15 @@ package pl.edu.agh.pp.detector.builders;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoint;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.detector.detectors.Detector;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.detector.records.Record;
+import pl.edu.agh.pp.detector.trackers.AnomalyTracker;
+import pl.edu.agh.pp.detector.trackers.IAnomalyTracker;
 
 import java.util.*;
 
@@ -20,6 +23,8 @@ import java.util.*;
 public final class PolynomialPatternBuilder implements IPatternBuilder, Detector {
 
     public double errorSensitivity = 0.0;
+
+    private static IAnomalyTracker anomalyTracker = AnomalyTracker.getInstance();
 
     // consider records for each day independently
     private static Map<DayOfWeek, List<Record>> recordsOfDay = new HashMap<>();
@@ -125,7 +130,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     public AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
 
         double predictedTravelDuration = function(dayOfWeek, routeIdx, (int) secondOfDay);
-        double bounds = 0.25 + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)) + (errorSensitivity) % 1; //%
+        double bounds = 0.10 + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)) + (errorSensitivity) % 1; //%
         double errorDelta = predictedTravelDuration * bounds;
 
         logger.info("#####################");
@@ -142,6 +147,8 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
             else
                 errorRate = Math.abs(predictedTravelDuration - errorDelta) / travelDuration;
 
+            long anomalyID = anomalyTracker.put(routeIdx, DateTime.now());
+
             AnomalyOperationProtos.AnomalyMessage message =
                     AnomalyOperationProtos.AnomalyMessage.newBuilder()
                             .setDayOfWeek(dayOfWeek.ordinal())
@@ -150,6 +157,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
                             .setDuration((int) travelDuration) // TODO: Cast remove?
                             .setSeverity(1)
                             .setMessage(String.format("Error rate: %d %%", (int) (100 - errorRate * 100)))
+                            .setAnomalyID(anomalyID)
                             .build();
             return message;
         }
