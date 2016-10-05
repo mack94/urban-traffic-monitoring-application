@@ -71,11 +71,8 @@ public class CronManager {
                             .language("pl")
                             .departureTime(departure)
                             .await();
-//                "\"2016-09-07 18:26:29,314\": ";
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS");
-                    String date = df.format(new Date());
-                    System.out.println(date);
-                    detectorManager.doSomething("\"" + date + "\": " + new Route(id, distanceMatrix, directionsApi).toString());
+
+                    detectorManager.doSomething(new Route(id, distanceMatrix, directionsApi).toString());
                 }
 
                 Thread.sleep(waitingTime);

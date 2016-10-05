@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.charts.input;
 
 
+import org.json.JSONObject;
 import pl.edu.agh.pp.charts.persistence.PersistenceManager;
 
 import java.io.IOException;
@@ -18,20 +19,13 @@ public class Input {
     private RoutesLoader routesLoader;
 
     public void addLine(String buffer) {
+        JSONObject json = new JSONObject(buffer);
         Record record = new Record();
-        record.setDate(buffer.substring(0, buffer.indexOf('{') - 2));
-        buffer = buffer.substring(buffer.indexOf('{'));
-        record.setId(buffer.substring(buffer.indexOf('"'), buffer.indexOf(':')));
-        buffer = buffer.substring(buffer.indexOf(','));
-        buffer = buffer.substring(buffer.indexOf('{'));
-        buffer = buffer.substring(buffer.indexOf(':'));
-        record.setDistance(buffer.substring(0, buffer.indexOf('m') + 2));
-        buffer = buffer.substring(buffer.indexOf(','));
-        buffer = buffer.substring(buffer.indexOf(':'));
-        record.setDuration(buffer.substring(2, buffer.indexOf(',')));
-        buffer = buffer.substring(buffer.indexOf(','));
-        buffer = buffer.substring(buffer.indexOf(':'));
-        record.setDurationInTraffic(buffer.substring(2, buffer.indexOf(',')));
+        record.setDate(json.getString("timeStamp"));
+        record.setId(json.getString("id"));
+        record.setDistance(json.getString("distance"));
+        record.setDuration(json.getString("duration"));
+        record.setDurationInTraffic(json.getString("durationInTraffic"));
         record.setTime();
         ids.add(record.getId());
         days.add(record.getDay());

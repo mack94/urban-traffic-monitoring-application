@@ -29,7 +29,8 @@ import java.util.*;
  */
 public class DetectorManager {
 
-    private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Users\\Krzysztof Węgrzyński\\Desktop\\UCZE SIĘ + DRUKARKA\\inzynierka\\dane_z_agegacja\\poniedzialek\\rok_szkolny\\TrafficLog_1_8___Mon_16-09-05.log";
+    private static final String BASELINE_LOGS_PATH = "C:\\Users\\drdrz\\Desktop\\dupa\\logs\\logs_16-08-29_Mon\\TrafficLog_1_8___Mon_16-08-29.log";
+    private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Users\\drdrz\\Desktop\\dupa\\logs\\logs_16-09-05_Mon\\TrafficLog_1_8___Mon_16-09-05.log";
     private static final PolynomialPatternBuilder polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();
     private static final FilesLoader anomalySearchFilesLoader = new FilesLoader(ANOMALY_SEARCH_LOGS_PATH, "C:\\Users\\Krzysztof Węgrzyński\\Desktop\\UCZE SIĘ + DRUKARKA\\inzynierka\\dane_z_agegacja\\wtorek\\rok_szkolny\\TrafficLog_1_8___Tue_16-09-06.log");
     private static Detector detector;

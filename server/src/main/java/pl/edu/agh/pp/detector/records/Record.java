@@ -14,7 +14,7 @@ public class Record {
     private DateTime dateTime;
     private int duration;
     private int durationInTraffic;
-    private int distance;
+    private String distance;
     private String waypoints;
 
     public int getRouteID() {
@@ -49,11 +49,11 @@ public class Record {
         this.durationInTraffic = durationInTraffic;
     }
 
-    public int getDistance() {
+    public String getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(String distance) {
         this.distance = distance;
     }
 
