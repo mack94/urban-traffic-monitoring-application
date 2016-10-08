@@ -2,6 +2,9 @@ package pl.edu.agh.pp.cron.utils;
 
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.settings.IOptions;
+import pl.edu.agh.pp.settings.Options;
+import pl.edu.agh.pp.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +21,7 @@ public class Timer {
 
     private final static Timer INSTANCE = new Timer();
     private static Logger logger = (Logger) LoggerFactory.getLogger(Timer.class.getClass());
+    private final IOptions options = Options.getInstance();
 
     private Timer() {
     }
@@ -28,12 +32,22 @@ public class Timer {
 
     public long getWaitingTime() {
         try {
-            String string1 = "05:00:00";
+            String string1 = null;
+            try {
+                string1 = (String) options.getPreference("DayShiftStart", String.class);
+            } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
+                illegalPreferenceObjectExpected.printStackTrace();
+            }
             Date time1 = new SimpleDateFormat("HH:mm:ss").parse(string1);
             Calendar calendar1 = Calendar.getInstance();
             calendar1.setTime(time1);
 
-            String string2 = "23:00:00";
+            String string2 = null;
+            try {
+                string2 = (String) options.getPreference("NightShiftStart", String.class);
+            } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
+                illegalPreferenceObjectExpected.printStackTrace();
+            }
             Date time2 = new SimpleDateFormat("HH:mm:ss").parse(string2);
             Calendar calendar2 = Calendar.getInstance();
             calendar2.setTime(time2);
@@ -52,9 +66,10 @@ public class Timer {
             Date x = currentCalendar.getTime();
             Random random = new Random();
             if (x.after(calendar1.getTime()) && x.before(calendar2.getTime())) {
-                //checks whether the current time is between 05:00:00 and 23:00:00.
+                System.out.println("DAY SHIFT-----------------------------------------------");
                 return random.nextInt(250_000) + 18_000;
             } else {
+                System.out.println("NIGHT SHIFT----------------------------------------------");
                 return random.nextInt(600_000) + 30_000;
             }
         } catch (ParseException e) {

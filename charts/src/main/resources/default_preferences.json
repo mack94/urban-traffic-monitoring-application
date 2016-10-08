@@ -1,0 +1,9 @@
+{
+  "preferences": [
+    {
+      "name": "Password",
+      "type": "String",
+      "value": ""
+    }
+  ]
+}

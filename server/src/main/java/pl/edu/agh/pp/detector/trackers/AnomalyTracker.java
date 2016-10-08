@@ -1,40 +1,48 @@
 package pl.edu.agh.pp.detector.trackers;
 
-import org.jfree.data.time.Second;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.detector.helpers.JodaTimeHelper;
-import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.settings.IOptions;
+import pl.edu.agh.pp.settings.Options;
+import pl.edu.agh.pp.settings.exceptions.IllegalPreferenceObjectExpected;
 
-import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Maciej on 05.10.2016.
- * 11:12
- * Project: server.
+ *
+ * @author Maciej Makówka
+ *         11:12
+ *         Project: server.
  */
 public final class AnomalyTracker implements IAnomalyTracker {
-
-    private Random random = new Random();
-
-    private final Seconds liveTime = Seconds.seconds(250); // in sec. // TODO: It could by adjustable in Options.
 
     // In the future, it can be replaced by the structure in which objects terminates - to make it more memory efficiently.
     private static ConcurrentHashMap<Integer, DateTime> anomalyTime = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<Integer, Long> anomalyID = new ConcurrentHashMap<>();
+    private final Logger logger = (Logger) LoggerFactory.getLogger(AnomalyTracker.class);
+    private IOptions options = Options.getInstance();
+    private Seconds liveTime;
+    private Random random = new Random();
+
+    public AnomalyTracker() {
+        try {
+            liveTime = Seconds.seconds((Integer) options.getPreference("AnomalyLiveTime", Integer.class));
+        } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
+            logger.error("AnomalyTracker LiveTime ilegal preference object expected: " + illegalPreferenceObjectExpected);
+        }
+    }
 
     public static AnomalyTracker getInstance() {
         return Holder.INSTANCE;
     }
 
-    public static class Holder {
-        static final AnomalyTracker INSTANCE = new AnomalyTracker();
-    }
-
     @Override
-    public long put(int routeID, DateTime dateTime) {
+    public synchronized long put(int routeID, DateTime dateTime) {
 
         DateTime lastAnomalyOnThisRoute = anomalyTime.get(routeID);
 
@@ -69,5 +77,9 @@ public final class AnomalyTracker implements IAnomalyTracker {
         if (anomaly != null)
             return anomaly;
         return JodaTimeHelper.MINIMUM_ANOMALY_DATE;
+    }
+
+    public static class Holder {
+        static final AnomalyTracker INSTANCE = new AnomalyTracker();
     }
 }

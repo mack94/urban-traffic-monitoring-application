@@ -24,8 +24,10 @@ import java.util.*;
 
 /**
  * Created by Maciej on 18.07.2016.
- * 21:11
- * Project: detector.
+ *
+ * @author Maciej Makówka
+ *         21:11
+ *         Project: detector.
  */
 public class DetectorManager {
 
@@ -39,7 +41,7 @@ public class DetectorManager {
     //    private static ChannelReceiver client = new ChannelReceiver();
     private Server server;
 
-    public DetectorManager(Server server, String ... logFiles) {
+    public DetectorManager(Server server, String... logFiles) {
         FilesLoader baselineFilesLoader = new FilesLoader(logFiles);
 
         try {
@@ -68,8 +70,7 @@ public class DetectorManager {
 //                chart.setVisible(true);
             }
             AnomalyOperationProtos.AnomalyMessage isAnomaly = detector.isAnomaly(record.getDayOfWeek(), record.getRouteID() - 1, record.getTimeInSeconds(), record.getDurationInTraffic());
-            // TODO: Need to send the modified message - message should have ID assigned after AnomalyTracker analyse.
-            // TODO: It need to be in the isAnomaly method.
+
             if (isAnomaly != null) {
                 server.send(ByteBuffer.wrap(isAnomaly.toByteArray()));
             }
@@ -136,13 +137,13 @@ public class DetectorManager {
 //                String incoming = br.readLine();
             //Record record = inputParser.parse(logEntry);
             List<Record> recordsTestedForAnomalies = anomalySearchFilesLoader.getRecords();
-            Map<DayOfWeek, Map<Integer, List<Record>>> anomalousRecords = new HashMap<DayOfWeek, Map<Integer,List<Record>>>();
+            Map<DayOfWeek, Map<Integer, List<Record>>> anomalousRecords = new HashMap<DayOfWeek, Map<Integer, List<Record>>>();
             Map<Integer, List<Record>> dayOfWeekRecords;
             List<Record> routeAndDayRecords;
             int startingRouteId = recordsTestedForAnomalies.get(0).getRouteID() - 1;
-            for(DayOfWeek dayOfWeek: DayOfWeek.values()) {
+            for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
                 dayOfWeekRecords = new HashMap<Integer, List<Record>>();
-                for(int routeId = startingRouteId; routeId < 8+startingRouteId; routeId++) {
+                for (int routeId = startingRouteId; routeId < 8 + startingRouteId; routeId++) {
                     routeAndDayRecords = new ArrayList<Record>();
                     dayOfWeekRecords.put(routeId, routeAndDayRecords);
                 }
@@ -170,13 +171,13 @@ public class DetectorManager {
 //            String anomaly_search_logs_file_name = p.getFileName().toString();
 //            p = Paths.get(BASELINE_LOGS_PATH);
 //            String baseline_logs_file_name = p.getFileName().toString();
-            for(DayOfWeek dayOfWeek: DayOfWeek.values()) {
-                for(int routeId = startingRouteId; routeId < 8+startingRouteId; routeId++) {
-                    if(anomalousRecords.get(dayOfWeek).get(routeId).size() != 0) {
+            for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
+                for (int routeId = startingRouteId; routeId < 8 + startingRouteId; routeId++) {
+                    if (anomalousRecords.get(dayOfWeek).get(routeId).size() != 0) {
                         //TODO: inferring from which file baseline and anomalies are from, non trivial
                         chart = new XYLineChart_AWT("Anomaly and baseline chart", "Baseline: " + "baseline_file_name" + System.lineSeparator()
-                                + "Anomalie: " + "anomaly_file_name"  + System.lineSeparator()
-                                + "Trasa: " + (routeId+1), PolynomialPatternBuilder.getValueForEachMinuteOfDay(dayOfWeek, routeId), anomalousRecords.get(dayOfWeek).get(routeId));
+                                + "Anomalie: " + "anomaly_file_name" + System.lineSeparator()
+                                + "Trasa: " + (routeId + 1), PolynomialPatternBuilder.getValueForEachMinuteOfDay(dayOfWeek, routeId), anomalousRecords.get(dayOfWeek).get(routeId));
                         chart.pack();
                         RefineryUtilities.centerFrameOnScreen(chart);
                         chart.setVisible(true);

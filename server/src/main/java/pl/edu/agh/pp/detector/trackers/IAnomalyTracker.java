@@ -1,12 +1,13 @@
 package pl.edu.agh.pp.detector.trackers;
 
 import org.joda.time.DateTime;
-import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 
 /**
  * Created by Maciej on 05.10.2016.
- * 11:13
- * Project: server.
+ *
+ * @author Maciej Makówka
+ *         11:13
+ *         Project: server.
  */
 public interface IAnomalyTracker {
 

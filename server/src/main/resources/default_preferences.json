@@ -1,0 +1,24 @@
+{
+  "preferences": [
+    {
+      "name": "Password",
+      "type": "String",
+      "value": ""
+    },
+    {
+      "name": "DayShiftStart",
+      "type": "String",
+      "value": "05:00:00"
+    },
+    {
+      "name": "NightShiftStart",
+      "type": "String",
+      "value": "23:00:00"
+    },
+    {
+      "name": "AnomalyLiveTime",
+      "type": "Integer",
+      "value": "250"
+    }
+  ]
+}

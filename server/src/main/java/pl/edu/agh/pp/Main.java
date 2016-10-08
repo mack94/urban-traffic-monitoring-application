@@ -5,11 +5,15 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.CronManager;
 import pl.edu.agh.pp.detector.DetectorManager;
 import pl.edu.agh.pp.detector.adapters.Server;
+import pl.edu.agh.pp.settings.IOptions;
+import pl.edu.agh.pp.settings.Options;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.prefs.BackingStoreException;
 
 /**
  * Created by Jakub Janusz on 07.09.2016.
@@ -20,11 +24,20 @@ public class Main {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
     private static boolean running_mode = true;
+    private static IOptions options = Options.getInstance();
 
     public static void main(String[] args) throws InterruptedException {
 
         System.out.println("Run: 'java -jar server.jar on/off path_to_logs'");
+
         Thread.sleep(2000);
+        try {
+            options.initialize();
+        } catch (BackingStoreException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         if (Objects.equals(args[0], "on"))
             running_mode = true;
