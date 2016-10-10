@@ -22,14 +22,11 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
-import pl.edu.agh.pp.charts.adapters.ChannelReceiver;
 import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.input.Input;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.text.DecimalFormat;
-import java.util.Properties;
 import java.util.regex.Pattern;
 
 /**
@@ -90,8 +87,8 @@ public class MainWindowController {
         }
     }
 
-    public void putAnomalyMessageonScreen(int id, String message, DateTime dateTime, int duration, Color color) {
-        Text text1 = new Text(id + ": " + dateTime.toString() + "; duration = " + duration + "; " + message + "\n");
+    public void putAnomalyMessageonScreen(int id, String message, String date, int duration, Color color) {
+        Text text1 = new Text(id + ": " + date + "; duration = " + duration + "; " + message + "\n");
         text1.setFill(color);
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
         Platform.runLater(() -> anomaliesTextFlow.getChildren().add(0, text1));
@@ -111,11 +108,6 @@ public class MainWindowController {
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
         initSlider();
         Platform.runLater(() -> anomaliesTextFlow.getChildren().add(0, text1));
-    }
-
-    private String getAddressServerInfo(){
-//TODO keeping server info in Connector?
-        return "1.1.1.1";
     }
 
     private String getLeverServerInfo(){
@@ -148,7 +140,7 @@ public class MainWindowController {
 
     private void setConnectedState(){
         if(connectedFlag){
-            connectedLabel.setText(getAddressServerInfo());
+            connectedLabel.setText(Connector.getAddressServerInfo());
             connectedLabel.setTextFill(Color.BLACK);
             connectButton.setDisable(true);
             disconnectButton.setDisable(false);
@@ -187,7 +179,7 @@ public class MainWindowController {
 
     @FXML
     private void handleTestButtonAction(ActionEvent e) {
-        putAnomalyMessageonScreen(666, "Test anomaly", DateTime.now(), 0, Color.PINK);
+        putAnomalyMessageonScreen(666, "Test anomaly", "A Date", 0, Color.PINK);
     }
 
     @FXML
@@ -195,10 +187,9 @@ public class MainWindowController {
         Connector connector = new Connector();
         connector.setController(this);
 
-        InetAddress server_addr = null;
         try {
             String address = serverAddrTxtField.getText();
-            if(!Pattern.matches("\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}",address)){
+            if(!Pattern.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}",address)){
                 logger.error("Wrong server address pattern");
                 serverAddrTxtField.setStyle("-fx-text-box-border: red;");
                 return;
@@ -215,22 +206,12 @@ public class MainWindowController {
             else{
                 serverPortTxtField.setStyle("-fx-text-box-border: black;");
             }
-            server_addr = InetAddress.getByName(address);
-            int server_port;
-            if(port.isEmpty())
-                server_port = 7500;
-            else
-                server_port = Integer.valueOf(port);
-            boolean nio = true;
-
-            Properties properties = System.getProperties();
-            properties.setProperty("jgroups.bind_addr", server_addr.toString());
-
-            ChannelReceiver client = new ChannelReceiver();
-            client.start(server_addr, server_port, nio);
+            if(port.equals(""))
+                port = "7500";
+            Connector.connect(address,port);
             connectedFlag = true;
             setConnectedState();
-            putSystemMessageonScreen("Connected to: " + getAddressServerInfo());
+            putSystemMessageonScreen("Connected to: " + Connector.getAddressServerInfo());
         } catch (Exception e1) {
             logger.error("Connecting error");
             e1.printStackTrace();
