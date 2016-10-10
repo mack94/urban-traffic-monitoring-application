@@ -26,6 +26,8 @@
             <HBox>
                 <Label text="Server Address: " />
                 <TextField fx:id="serverAddrTxtField" />
+                <Label text="Server Port (7500 if left empty): " />
+                <TextField fx:id="serverPortTxtField" maxWidth="70" />
                 <Button fx:id="connectButton" text="Connect" onAction="#handleConnectAction"/>
                 <Button fx:id="disconnectButton" text="Disconnect" onAction="#handleDisconnectAction"/>
             </HBox>
@@ -33,20 +35,20 @@
                 <children>
                     <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
                     <Button fx:id="testButton" onAction="#handleTestButtonAction" text="Test anomaly message"/>
-                    <VBox alignment="CENTER">
-                        <HBox>
-                            <Label text="Wartość wajchy na serwerze: " />
-                            <Label fx:id="currentLeverOnServer" />
-                        </HBox>
-                        <HBox>
-                            <Label text="Zmien wajche na:" />
-                            <Label fx:id="changeLeverTo" />
-                        </HBox>
-                        <Slider fx:id="leverSld"/>
-                        <Button fx:id="sendSettingsButton" text="Send new settings" onAction="#handleOnLeverChanged"/>
-                    </VBox>
                 </children>
             </HBox>
+            <VBox>
+                <HBox>
+                    <Label text="Wartość wajchy na serwerze: " />
+                    <Label fx:id="currentLeverOnServer" />
+                </HBox>
+                <HBox>
+                    <Label text="Zmien wajche na:" />
+                    <Label fx:id="changeLeverTo" />
+                </HBox>
+                <Slider fx:id="leverSld" maxWidth="150"/>
+                <Button fx:id="sendSettingsButton" text="Send new settings" onAction="#handleOnLeverChanged"/>
+            </VBox>
         </VBox>
     </top>
     <center>
