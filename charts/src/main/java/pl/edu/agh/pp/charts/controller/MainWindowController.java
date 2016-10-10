@@ -18,6 +18,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.ChannelReceiver;
@@ -58,6 +60,8 @@ public class MainWindowController {
     private Label connectedLabel;
     @FXML
     private TextField serverAddrTxtField;
+    @FXML
+    private TextField serverPortTxtField;
     @FXML
     private Button connectButton;
     @FXML
@@ -102,7 +106,7 @@ public class MainWindowController {
     }
 
     public void putSystemMessageonScreen(String message, DateTime dateTime, Color color) {
-        Text text1 = new Text(dateTime.toString() + "  " +message + "\n");
+        Text text1 = new Text(formatDate(dateTime) + "  " +message + "\n");
         text1.setFill(color);
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
         initSlider();
@@ -157,6 +161,11 @@ public class MainWindowController {
         }
     }
 
+    private String formatDate(DateTime date){
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd hh:mm:ss");
+        return dtf.print(date);
+    }
+
     @FXML
     private void initialize() throws IOException {
         anomaliesTextFlow.setTextAlignment(TextAlignment.CENTER);
@@ -197,8 +206,21 @@ public class MainWindowController {
             else{
                 serverAddrTxtField.setStyle("-fx-text-box-border: black;");
             }
+            String port = serverPortTxtField.getText();
+            if(!Pattern.matches("\\d*",port)){
+                logger.error("Wrong server port pattern");
+                serverPortTxtField.setStyle("-fx-text-box-border: red;");
+                return;
+            }
+            else{
+                serverPortTxtField.setStyle("-fx-text-box-border: black;");
+            }
             server_addr = InetAddress.getByName(address);
-            int server_port = 7500;
+            int server_port;
+            if(port.isEmpty())
+                server_port = 7500;
+            else
+                server_port = Integer.valueOf(port);
             boolean nio = true;
 
             Properties properties = System.getProperties();
@@ -226,7 +248,6 @@ public class MainWindowController {
     private void handleOnLeverChanged(ActionEvent e) {
         Connector.onLeverChange(changeLeverTo.getText());
     }
-
 }
 
 
