@@ -30,12 +30,8 @@ public class Connector {
         }
     }
 
-    public static void onWajcha(boolean wajchaFlag) {
-        if (wajchaFlag) {
-            logger.info("Connector :: MAKOWKA BO WAJCHA ZOSTALA WLACZONA! / FOR TRYLU: https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/14390956_1766216230317077_2567133355169022078_n.jpg?oh=696cafd5ecb1f18704ab4e57b62c3b38&oe=5879166A");
-        } else {
-            logger.info("Connector :: MAKOWKA BO WAJCHA ZOSTALA WYLACZONA! / FOR TRYLU: https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/14344142_1765711437034223_822234688098249504_n.jpg?oh=c52c4b021982c93af59b00ee80fffccc&oe=5839ED42");
-        }
-        logger.info("David, decide which is better -> priv.");
+    public static void onLeverChange(String value){
+        logger.info("Chnging lever to: " + value);
     }
+
 }

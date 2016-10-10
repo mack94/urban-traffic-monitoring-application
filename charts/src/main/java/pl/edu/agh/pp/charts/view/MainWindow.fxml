@@ -11,19 +11,43 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="800.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8">
     <padding>
         <Insets bottom="15" left="15" right="15" top="15"/>
     </padding>
     <top>
-        <HBox>
-            <children>
-                <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
-                <Button fx:id="testButton" onAction="#handleTestButtonAction" text="Test anomaly message"/>
-                <ImageView fx:id="lever" onMouseClicked="#handleWajcha"/>
-                <ImageView fx:id="click"/>
-            </children>
-        </HBox>
+        <VBox>
+            <HBox>
+                <Label text="Connected: " />
+                <Label fx:id="connectedLabel" />
+            </HBox>
+            <HBox>
+                <Label text="Server Address: " />
+                <TextField fx:id="serverAddrTxtField" />
+                <Button fx:id="connectButton" text="Connect" onAction="#handleConnectAction"/>
+                <Button fx:id="disconnectButton" text="Disconnect" onAction="#handleDisconnectAction"/>
+            </HBox>
+            <HBox>
+                <children>
+                    <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
+                    <Button fx:id="testButton" onAction="#handleTestButtonAction" text="Test anomaly message"/>
+                    <VBox alignment="CENTER">
+                        <HBox>
+                            <Label text="Wartość wajchy na serwerze: " />
+                            <Label fx:id="currentLeverOnServer" />
+                        </HBox>
+                        <HBox>
+                            <Label text="Zmien wajche na:" />
+                            <Label fx:id="changeLeverTo" />
+                        </HBox>
+                        <Slider fx:id="leverSld"/>
+                        <Button fx:id="sendSettingsButton" text="Send new settings" onAction="#handleOnLeverChanged"/>
+                    </VBox>
+                </children>
+            </HBox>
+        </VBox>
     </top>
     <center>
         <VBox alignment="CENTER">
