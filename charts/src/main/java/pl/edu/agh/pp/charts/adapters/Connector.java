@@ -22,7 +22,7 @@ public class Connector {
     public static void onMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
         if (controller != null) {
             int id = anomalyMessage.getRouteIdx();
-            String message = anomalyMessage.getMessage() + " _ " + anomalyMessage.getAnomalyID() + " _ ";
+            String message = anomalyMessage.getMessage() + " _ " + anomalyMessage.getAnomalyID() + " _ " + " _ date: " + anomalyMessage.getDate();
             DateTime dateTime = DateTime.now();
             int duration = anomalyMessage.getDuration();
             Color color = Color.CRIMSON;

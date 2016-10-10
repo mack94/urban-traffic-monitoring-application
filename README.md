@@ -21,3 +21,7 @@ and add following line
 `0,15,30,45 * * * * java -jar /home/stud/USERNAME/YOUR_PATH_TO_JAR_FILE`
 
 Close vi saving your crontab file. After the first run of the program the log file should appear in your home directory.
+
+## Info:
+
+The Google Distance Matrix API updates every 30 second (during a day).

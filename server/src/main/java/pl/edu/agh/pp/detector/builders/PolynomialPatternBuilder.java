@@ -155,9 +155,10 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
                             .setRouteIdx(routeIdx)
                             .setSecondOfDay((int) secondOfDay)
                             .setDuration((int) travelDuration) // TODO: Cast remove?
-                            .setSeverity(1)
+                            .setSeverity(1) // TODO: Fix it
                             .setMessage(String.format("Error rate: %d %%", (int) (100 - errorRate * 100)))
                             .setAnomalyID(anomalyID)
+                            .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))
                             .build();
             return message;
         }

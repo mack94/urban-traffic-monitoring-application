@@ -28,4 +28,6 @@ message AnomalyMessage {
     int32 severity = 6;
     string message = 7;
     int64 anomalyID = 8;
+    string date = 9;
+
 }
