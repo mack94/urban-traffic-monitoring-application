@@ -102,10 +102,17 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
         running = false;
         Util.close(in);
         logger.info(String.format("ChannelReceiver :: Connection to %s closed: %s", conn.peerAddress(), reason));
+        System.out.println("System status:" + this.isConnected());
     }
 
     @Override
     public void connectionEstablished(Connection conn) {
         logger.info("ChannelReceiver :: Connection established");
+        System.out.println("System status:" + this.isConnected());
     }
+
+    public boolean isConnected() {
+        return running && !((client == null) || !((Client) client).isConnected());
+    }
+
 }
