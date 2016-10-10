@@ -112,6 +112,13 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
     }
 
     public boolean isConnected() {
+        if (!running) {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                logger.error("ChannelReceiver: Sleeping thread error: " + e);
+            }
+        }
         return running && !((client == null) || !((Client) client).isConnected());
     }
 

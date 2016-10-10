@@ -33,7 +33,7 @@ public class Connector {
             controller.putAnomalyMessageonScreen(id, message, anomalyMessage.getDate(), duration, color);
         }
     }
-    public static void connect(String addr,String prt) throws Exception {
+    public static void connect(String addr, String prt) throws Exception {
         address = addr;
         port = prt;
 
@@ -52,8 +52,13 @@ public class Connector {
     public static String getAddressServerInfo(){
         return address + ":" + port;
     }
+
     public static void onLeverChange(String value){
         logger.info("Chnging lever to: " + value);
+    }
+
+    public static boolean isConnectedToTheServer() {
+        return client.isConnected();
     }
 
 }
