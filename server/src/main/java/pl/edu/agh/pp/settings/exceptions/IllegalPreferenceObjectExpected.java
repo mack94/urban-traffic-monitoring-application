@@ -7,7 +7,7 @@ package pl.edu.agh.pp.settings.exceptions;
  *         15:29
  *         Project: server.
  */
-public class IllegalPreferenceObjectExpected extends Throwable {
+public class IllegalPreferenceObjectExpected extends Exception {
     public IllegalPreferenceObjectExpected() {
     }
 

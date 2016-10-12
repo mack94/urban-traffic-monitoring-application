@@ -9,6 +9,9 @@ import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.settings.exceptions.IllegalPreferenceObjectExpected;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,8 +25,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class AnomalyTracker implements IAnomalyTracker {
 
     // In the future, it can be replaced by the structure in which objects terminates - to make it more memory efficiently.
-    private static ConcurrentHashMap<Integer, DateTime> anomalyTime = new ConcurrentHashMap<>();
-    private static ConcurrentHashMap<Integer, Long> anomalyID = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Integer, DateTime> anomalyTime = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Integer, Long> anomalyID = new ConcurrentHashMap<>();
     private final Logger logger = (Logger) LoggerFactory.getLogger(AnomalyTracker.class);
     private IOptions options = Options.getInstance();
     private Seconds liveTime;
@@ -39,6 +42,17 @@ public final class AnomalyTracker implements IAnomalyTracker {
 
     public static AnomalyTracker getInstance() {
         return Holder.INSTANCE;
+    }
+
+    @Override
+    public List<Integer> getCurrentAnomaliesRoutesIds() {
+        List<Integer> result = new ArrayList<>();
+        for (Map.Entry<Integer, DateTime> entry : anomalyTime.entrySet()) {
+            if(entry.getValue().isAfter(JodaTimeHelper.MINIMUM_ANOMALY_DATE)) {
+                result.add(entry.getKey());
+            }
+        }
+        return result;
     }
 
     @Override
@@ -67,6 +81,16 @@ public final class AnomalyTracker implements IAnomalyTracker {
         if (anomaly != null)
             return anomaly;
         return -1;
+    }
+
+    @Override
+    public boolean has(int routeID) {
+        return anomalyTime.containsKey(routeID);
+    }
+
+    @Override
+    public void remove(int routeID) {
+        anomalyTime.put(routeID, JodaTimeHelper.MINIMUM_ANOMALY_DATE);
     }
 
     @Override
