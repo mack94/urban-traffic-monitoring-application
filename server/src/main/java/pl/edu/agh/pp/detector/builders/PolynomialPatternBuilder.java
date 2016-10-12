@@ -139,7 +139,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
         logger.info(String.valueOf(predictedTravelDuration + errorDelta));
 
         double errorRate = 0.0;
-        
+
         if ((travelDuration > predictedTravelDuration + errorDelta) || (travelDuration < predictedTravelDuration - errorDelta)) {
 
             if (travelDuration > predictedTravelDuration + errorDelta)
@@ -149,19 +149,20 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
 
             long anomalyID = anomalyTracker.put(routeIdx, DateTime.now());
 
-            AnomalyOperationProtos.AnomalyMessage message =
-                    AnomalyOperationProtos.AnomalyMessage.newBuilder()
-                            .setDayOfWeek(dayOfWeek.ordinal())
-                            .setRouteIdx(routeIdx)
-                            .setSecondOfDay((int) secondOfDay)
-                            .setDuration((int) travelDuration) // TODO: Cast remove?
-                            .setSeverity(1) // TODO: Fix it
-                            .setMessage(String.format("Error rate: %d %%", (int) (100 - errorRate * 100)))
-                            .setAnomalyID(anomalyID)
-                            .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))
-                            .build();
-            return message;
+            return AnomalyOperationProtos.AnomalyMessage.newBuilder()
+                    .setDayOfWeek(dayOfWeek.ordinal())
+                    .setRouteIdx(routeIdx)
+                    .setSecondOfDay((int) secondOfDay)
+                    .setDuration((int) travelDuration) // TODO: Cast remove?
+                    .setSeverity(1) // TODO: Fix it
+                    .setMessage(String.format("Error rate: %d %%", (int) (100 - errorRate * 100)))
+                    .setAnomalyID(anomalyID)
+                    .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))
+                    .build();
+        } else if (anomalyTracker.has(routeIdx)) {
+            anomalyTracker.remove(routeIdx);
         }
+        // TODO: else if anomaly is in map, "remove" it
         return null;
     }
 

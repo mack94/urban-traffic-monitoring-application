@@ -2,6 +2,9 @@ package pl.edu.agh.pp.detector.trackers;
 
 import org.joda.time.DateTime;
 
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * Created by Maciej on 05.10.2016.
  *
@@ -29,6 +32,13 @@ public interface IAnomalyTracker {
     long get(int routeID);
 
     /**
+     * Marks anomaly at give route ID as finished.
+     *
+     * @param routeID The Index/ID of the route.
+     */
+    void remove(int routeID);
+
+    /**
      * Get the last update of anomalies for the route which ID is passed by value in argument.
      *
      * @param routeID The Index/ID of the route.
@@ -37,4 +47,8 @@ public interface IAnomalyTracker {
      * @see pl.edu.agh.pp.detector.helpers.JodaTimeHelper
      */
     DateTime getLastUpdate(int routeID);
+
+    boolean has(int routeID);
+
+    List<Integer> getCurrentAnomaliesRoutesIds();
 }

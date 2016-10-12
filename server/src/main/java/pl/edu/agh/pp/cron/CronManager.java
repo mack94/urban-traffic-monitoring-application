@@ -1,25 +1,17 @@
 package pl.edu.agh.pp.cron;
 
-import com.google.maps.DirectionsApi;
-import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
-import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
 import org.joda.time.Instant;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.utils.ContextLoader;
-import pl.edu.agh.pp.cron.utils.Route;
 import pl.edu.agh.pp.cron.utils.RoutesLoader;
 import pl.edu.agh.pp.cron.utils.Timer;
 import pl.edu.agh.pp.detector.DetectorManager;
 import pl.edu.agh.pp.detector.adapters.Server;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class CronManager {
 
@@ -33,53 +25,40 @@ public class CronManager {
 
     public void doSomething(String logFile) throws InterruptedException {
 
-        GeoApiContext context;
-        ContextLoader contextLoader = new ContextLoader();
-        RoutesLoader routesLoader = RoutesLoader.getInstance();
-        DetectorManager detectorManager = new DetectorManager(server, logFile);
-        Timer timer = Timer.getInstance();
+        try {
+            GeoApiContext context;
+            ContextLoader contextLoader = new ContextLoader();
+            RoutesLoader routesLoader = RoutesLoader.getInstance();
+            JSONArray loadedRoutes = routesLoader.loadJSON();
+            context = contextLoader.geoApiContextLoader();
+            DetectorManager detectorManager = new DetectorManager(server, logFile);
+            Timer timer = Timer.getInstance();
+            RequestsExecutor requestsExecutor = new RequestsExecutor(detectorManager);
+            AnomalyFinder anomalyFinder = new AnomalyFinder(requestsExecutor, loadedRoutes, context);
+            anomalyFinder.start();
 
-        while (true) {
-            try {
-                long waitingTime = timer.getWaitingTime();
-                JSONArray loadedRoutes = routesLoader.loadJSON();
-                context = contextLoader.geoApiContextLoader();
-
+            while (true) {
                 int loadedRoutesAmount = loadedRoutes.length();
 
                 for (int i = 0; i < loadedRoutesAmount; i++) {
+                    JSONObject route = loadedRoutes.getJSONObject(i);
                     String destinations[] = new String[1];
                     String origins[] = new String[1];
-                    String id = loadedRoutes.getJSONObject(i).get("id").toString();
-                    destinations[0] = loadedRoutes.getJSONObject(i).get("destination").toString();
-                    origins[0] = loadedRoutes.getJSONObject(i).get("origin").toString();
+                    String id = route.get("id").toString();
+                    destinations[0] = route.get("destination").toString();
+                    origins[0] = route.get("origin").toString();
 
-//              DistanceMatrixApiRequest distanceMatrixApiRequest = new DistanceMatrixApiRequest(context);
                     TravelMode travelMode = TravelMode.DRIVING;
                     Instant departure = Instant.now();
 
-                    DistanceMatrix distanceMatrix = DistanceMatrixApi
-                            .getDistanceMatrix(context, origins, destinations)
-                            .mode(travelMode)
-                            .language("pl")
-                            .departureTime(departure)
-                            .await();
-
-                    DirectionsResult directionsApi = DirectionsApi
-                            .getDirections(context, destinations[0], origins[0])
-                            .alternatives(false)
-                            .language("pl")
-                            .departureTime(departure)
-                            .await();
-
-                    detectorManager.doSomething(new Route(id, distanceMatrix, directionsApi).toString());
+                    requestsExecutor.execute(id, context, origins, destinations, travelMode, departure);
                 }
 
+                long waitingTime = timer.getWaitingTime();
                 Thread.sleep(waitingTime);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-            Thread.sleep(2000);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
