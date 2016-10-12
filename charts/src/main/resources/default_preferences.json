@@ -4,6 +4,21 @@
       "name": "Password",
       "type": "String",
       "value": ""
+    },
+    {
+      "name": "Server_Address",
+      "type": "String",
+      "value": ""
+    },
+    {
+      "name": "Server_Port",
+      "type": "String",
+      "value": "7500"
+    },
+    {
+      "name": "Inform_from_severity",
+      "type": "Integer",
+      "value": "1"
     }
   ]
 }
