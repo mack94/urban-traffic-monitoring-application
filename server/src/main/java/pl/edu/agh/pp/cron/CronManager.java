@@ -34,8 +34,8 @@ public class CronManager {
             DetectorManager detectorManager = new DetectorManager(server, logFile);
             Timer timer = Timer.getInstance();
             RequestsExecutor requestsExecutor = new RequestsExecutor(detectorManager);
-            AnomalyFinder anomalyFinder = new AnomalyFinder(requestsExecutor, loadedRoutes, context);
-            anomalyFinder.start();
+            AnomalyRepeater anomalyRepeater = new AnomalyRepeater(requestsExecutor, loadedRoutes, context);
+            anomalyRepeater.start();
 
             while (true) {
                 int loadedRoutesAmount = loadedRoutes.length();
