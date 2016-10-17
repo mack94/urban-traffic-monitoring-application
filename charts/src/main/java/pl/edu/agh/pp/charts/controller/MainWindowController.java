@@ -82,7 +82,7 @@ public class MainWindowController {
             primaryStage.setScene(scene);
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 public void handle(WindowEvent we) {
-                    Connector.disconnectAll();
+                    Connector.killAll();
                     Platform.exit();
                 }
             });
@@ -230,6 +230,7 @@ public class MainWindowController {
 
     @FXML
     private void handleDisconnectAction(ActionEvent e) {
+        Connector.disconnect();
         connectedFlag = false;
         setConnectedState();
     }

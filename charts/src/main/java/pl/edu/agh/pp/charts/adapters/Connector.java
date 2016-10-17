@@ -49,19 +49,25 @@ public class Connector {
         client.start(server_addr, server_port, nio);
     }
 
+    public static void disconnect(){
+        //TODO implement disconnecting from server
+    }
+
     public static String getAddressServerInfo(){
         return address + ":" + port;
     }
 
     public static void onLeverChange(String value){
+        //TODO implement settings
         logger.info("Chnging lever to: " + value);
     }
 
     public static boolean isConnectedToTheServer() {
+        //TODO fix it - always true
         return client.isConnected();
     }
 
-    public static void disconnectAll(){
+    public static void killAll(){
         //TODO implement killing all threads
     }
 
