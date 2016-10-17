@@ -29,7 +29,6 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     private final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
     public double errorSensitivity = 0.0;
 
-    @Contract(pure = true)
     public static PolynomialPatternBuilder getInstance() {
         return Holder.INSTANCE;
     }
