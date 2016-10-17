@@ -19,6 +19,11 @@
       "name": "AnomalyLiveTime",
       "type": "Integer",
       "value": "250"
+    },
+    {
+      "name": "BaselineWindowSize",
+      "type": "Integer",
+      "value": "0"
     }
   ]
 }

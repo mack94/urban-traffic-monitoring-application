@@ -19,6 +19,11 @@
       "name": "Inform_from_severity",
       "type": "Integer",
       "value": "1"
+    },
+    {
+      "name": "Nio_Server_Mode",
+      "type": "Boolean",
+      "value": "true"
     }
   ]
 }
