@@ -1,7 +1,5 @@
 package pl.edu.agh.pp.charts.controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -36,7 +35,6 @@ public class ChartsController {
     private Input input;
     private Set<Integer> idsSet = new HashSet<>();
     private Set<String> datesSet = new HashSet<>();
-    private ObservableList<String> daysList = FXCollections.observableArrayList();
     private ObservableList<String> idsList = FXCollections.observableArrayList();
     private ObservableList<String> typesList = FXCollections.observableArrayList();
     private MainWindowController parent;
@@ -52,7 +50,6 @@ public class ChartsController {
     private CheckBox durationCheckBox;
     @FXML
     private ComboBox<String> idComboBox;
-    @FXML
     private ComboBox<String> dayComboBox;
     @FXML
     private CheckBox clearCheckBox;
@@ -66,6 +63,21 @@ public class ChartsController {
     private Button reverseRouteButton;
     @FXML
     private Label logsListLabel;
+    @FXML
+    private Label idLabel;
+    private Label dayLabel;
+    @FXML
+    private ComboBox<String> baselineTypeComboBox;
+    @FXML
+    private Label baselineTypeLabel;
+    @FXML
+    private HBox dayHBox;
+    private DatePicker datePicker;
+    @FXML
+    private CheckBox drawBaselineCheckbox;
+    @FXML
+    private Label drawBaselineLabel;
+
     public ChartsController(Stage primaryStage, MainWindowController parent) {
         this.primaryStage = primaryStage;
         this.parent = parent;
@@ -97,31 +109,46 @@ public class ChartsController {
 
     @FXML
     private void initialize() {
-        fileChooser = new FileChooser();
+        datePicker = new DatePicker();
+        dayComboBox = new ComboBox<String>();
+        dayLabel = new Label("Day");
+//        fileChooser = new FileChooser();
         parser = new Parser();
         input = new Input();
         File file = new File("./");
-        fileChooser.setInitialDirectory(file);
-        fileChooser.setTitle("Open Resource File");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Log Files", "*.log"));
+//        fileChooser.setInitialDirectory(file);
+//        fileChooser.setTitle("Open Resource File");
+//        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Log Files", "*.log"));
         warn.setStyle("-fx-text-fill: red");
         lineChart.setTitle("");
         startButton.setDefaultButton(true);
         clearCheckBox.setSelected(true);
-        typeComboBox.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                String value = typeComboBox.getSelectionModel().getSelectedItem();
-                if (value.equals("Exact date")) {
-                    fillInDates();
-                } else if (value.equals("Aggregated day of week")) {
-                    fillInDaysOfWeek();
-                }
-            }
-        });
+//        typeComboBox.valueProperty().addListener(new ChangeListener<String>() {
+//            @Override
+//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+//                String value = typeComboBox.getSelectionModel().getSelectedItem();
+//                if (value.equals("Exact date")) {
+//                    fillInDates();
+//                } else if (value.equals("Aggregated day of week")) {
+//                    fillInDaysOfWeek();
+//                }
+//            }
+//        });
+        typeComboBox.getItems().addAll("Baseline","Historic data");
         Image reverseButtonImage = new Image(Main.class.getResourceAsStream("/reverse.png"));
         reverseRouteButton.setGraphic(new ImageView(reverseButtonImage));
-        setLogsLabel();
+        dayComboBox.setVisible(false);
+        idComboBox.setVisible(false);
+        idLabel.setVisible(false);
+//        dayLabel.setVisible(false);
+        reverseRouteButton.setVisible(false);
+        baselineTypeComboBox.setVisible(false);
+        baselineTypeLabel.setVisible(false);
+        baselineTypeComboBox.getItems().addAll("Normal","Holidays");
+        fillInDaysOfWeek();
+        drawBaselineCheckbox.setVisible(false);
+        drawBaselineLabel.setVisible(false);
+//        setLogsLabel();
     }
 
     @FXML
@@ -155,7 +182,7 @@ public class ChartsController {
         }
         typeComboBox.setItems(typesList);
 
-        setLogsLabel();
+//        setLogsLabel();
     }
 
     @FXML
@@ -164,30 +191,22 @@ public class ChartsController {
     }
 
     private void fillInDates() {
-        clearDayComboBox();
+        dayComboBox.getItems().clear();
         for (String day : ResourcesHolder.getInstance().getDays()) {
             datesSet.add(day);
         }
         List<String> dates = new ArrayList<>(datesSet);
         Collections.sort(dates);
         for (String date : dates) {
-            daysList.add(date);
+            dayComboBox.getItems().add(date);
         }
-        dayComboBox.setItems(daysList);
-        int size = daysList.size();
+        int size = dayComboBox.getItems().size();
         dayComboBox.setVisibleRowCount(size < 8 ? size : 7);
     }
 
     private void fillInDaysOfWeek() {
-        clearDayComboBox();
-        daysList.add("Monday");
-        daysList.add("Tuesday");
-        daysList.add("Wednesday");
-        daysList.add("Thursday");
-        daysList.add("Friday");
-        daysList.add("Saturday");
-        daysList.add("Sunday");
-        dayComboBox.setItems(daysList);
+        dayComboBox.getItems().clear();
+        dayComboBox.getItems().addAll("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday");
         dayComboBox.setVisibleRowCount(7);
     }
 
@@ -203,10 +222,6 @@ public class ChartsController {
         logsListLabel.setText(tmp);
     }
 
-    private void clearDayComboBox() {
-        daysList = FXCollections.observableArrayList();
-        dayComboBox.setItems(daysList);
-    }
 
     private void createTooltips() {
         for (XYChart.Series<Number, Number> s : lineChart.getData()) {
@@ -381,6 +396,39 @@ public class ChartsController {
     }
 
     @FXML
+    private void handleTypeAction(ActionEvent e) {
+        dayComboBox.setVisible(true);
+        idComboBox.setVisible(true);
+        idLabel.setVisible(true);
+        dayLabel.setVisible(true);
+        reverseRouteButton.setVisible(true);
+        if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("baseline")){
+            dayHBox.getChildren().clear();
+            dayHBox.getChildren().addAll(dayLabel,dayComboBox);
+            baselineTypeComboBox.setVisible(true);
+            baselineTypeLabel.setVisible(true);
+            drawBaselineCheckbox.setVisible(false);
+            drawBaselineLabel.setVisible(false);
+        }
+        else if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("historic data")){
+            dayHBox.getChildren().clear();
+            dayHBox.getChildren().addAll(dayLabel,datePicker);
+            baselineTypeComboBox.setVisible(false);
+            baselineTypeLabel.setVisible(false);
+            drawBaselineCheckbox.setVisible(true);
+            drawBaselineLabel.setVisible(true);
+        }
+    }
+    @FXML
+    private void handleBaselineTypeAction(ActionEvent e) {
+        if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("baseline")){
+            fillInDaysOfWeek();
+        }
+        else if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("Historic data")){
+            dayComboBox.getItems().clear();
+        }
+    }
+    @FXML
     private void handleClearOnDrawAction(ActionEvent e) {
         if (clearCheckBox.isSelected()) {
             lineChart.getData().clear();
@@ -403,5 +451,9 @@ public class ChartsController {
         } catch (NullPointerException exception) {
             warn.setText("Nothing to reverse");
         }
+    }
+    @FXML
+    private void handleDrawBaselineCheckboxAction(ActionEvent e) {
+        //todo drawing baseline
     }
 }

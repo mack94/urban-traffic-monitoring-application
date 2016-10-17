@@ -5,18 +5,17 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -81,6 +80,14 @@ public class MainWindowController {
             Scene scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             primaryStage.setScene(scene);
+            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent we) {
+                    Connector.disconnectAll();
+                    Platform.exit();
+                }
+            });
+
+            scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
             primaryStage.show();
         } catch (java.io.IOException e) {
             e.printStackTrace();
@@ -111,7 +118,7 @@ public class MainWindowController {
     }
 
     private String getLeverServerInfo(){
-//TODO keeping server info in Connector?
+        //TODO keeping server info in Connector?
         return "10";
     }
 
@@ -144,12 +151,14 @@ public class MainWindowController {
             connectedLabel.setTextFill(Color.BLACK);
             connectButton.setDisable(true);
             disconnectButton.setDisable(false);
+            sendSettingsButton.setDisable(false);
         }
         else {
             connectedLabel.setText("NOT CONNECTED");
             connectedLabel.setTextFill(Color.RED);
             connectButton.setDisable(false);
             disconnectButton.setDisable(true);
+            sendSettingsButton.setDisable(true);
         }
     }
 
@@ -179,7 +188,7 @@ public class MainWindowController {
 
     @FXML
     private void handleTestButtonAction(ActionEvent e) {
-        putAnomalyMessageonScreen(666, "Test anomaly", "A Date", 0, Color.PINK);
+        putAnomalyMessageonScreen(666, "Test anomaly", "A Date", 0, Color.BLACK);
     }
 
     @FXML

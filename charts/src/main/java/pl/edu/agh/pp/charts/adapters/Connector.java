@@ -61,4 +61,8 @@ public class Connector {
         return client.isConnected();
     }
 
+    public static void disconnectAll(){
+        //TODO implement killing all threads
+    }
+
 }

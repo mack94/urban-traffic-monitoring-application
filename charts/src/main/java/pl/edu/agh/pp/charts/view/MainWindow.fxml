@@ -13,51 +13,74 @@
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.MenuButton?>
+<?import com.sun.javafx.scene.control.skin.ContextMenuContent.ArrowMenuItem?>
+<?import com.sun.javafx.scene.control.skin.ContextMenuContent.MenuBox?>
+<?import com.sun.javafx.scene.control.skin.ContextMenuContent.MenuItemContainer?>
+<?import com.sun.javafx.scene.control.skin.TabPaneSkin.TabControlButtons?>
+<?import javafx.scene.control.ButtonBar?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="800.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8">
     <padding>
-        <Insets bottom="15" left="15" right="15" top="15"/>
+        <Insets bottom="10" left="10" right="10" top="10"/>
     </padding>
     <top>
         <VBox>
-            <HBox>
-                <Label text="Connected: " />
-                <Label fx:id="connectedLabel" />
-            </HBox>
-            <HBox>
-                <Label text="Server Address: " />
-                <TextField fx:id="serverAddrTxtField" />
-                <Label text="Server Port (7500 if left empty): " />
-                <TextField fx:id="serverPortTxtField" maxWidth="70" />
-                <Button fx:id="connectButton" text="Connect" onAction="#handleConnectAction"/>
-                <Button fx:id="disconnectButton" text="Disconnect" onAction="#handleDisconnectAction"/>
-            </HBox>
-            <HBox>
+            <VBox id="abox" alignment="CENTER">
+                <Label text="Server Options" style="-fx-font-weight: bold"/>
+                <VBox >
+                    <VBox id="abox">
+                        <HBox >
+                            <Label text="Connected: " />
+                            <Label fx:id="connectedLabel" />
+                        </HBox>
+                        <HBox spacing="2">
+                            <Label text="Server Address: " />
+                            <TextField fx:id="serverAddrTxtField" />
+                            <Label text="       Server Port (7500 if left empty): " />
+                            <TextField fx:id="serverPortTxtField" maxWidth="70" />
+                            <Label text="          " />
+                            <Button fx:id="connectButton" text="Connect" onAction="#handleConnectAction"/>
+                            <Button fx:id="disconnectButton" text="Disconnect" onAction="#handleDisconnectAction"/>
+                        </HBox>
+                    </VBox>
+                    <VBox id="abox">
+                        <VBox alignment="CENTER">
+                            <HBox spacing="5">
+                                <VBox id="konkretne ustawienie">
+                                    <HBox>
+                                        <Label text="Wartość wajchy na serwerze: " />
+                                        <Label fx:id="currentLeverOnServer" />
+                                    </HBox>
+                                    <HBox>
+                                        <Label text="Zmien wajche na:" />
+                                        <Label fx:id="changeLeverTo" />
+                                    </HBox>
+                                    <Slider fx:id="leverSld" maxWidth="150"/>
+                                </VBox>
+                            </HBox>
+                            <Button fx:id="sendSettingsButton" text="Send new settings" onAction="#handleOnLeverChanged"/>
+                        </VBox>
+                    </VBox>
+                </VBox>
+            </VBox>
+            <HBox spacing="10">
+                <padding>
+                    <Insets bottom="10" left="10" right="10" top="10"/>
+                </padding>
                 <children>
                     <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
                     <Button fx:id="testButton" onAction="#handleTestButtonAction" text="Test anomaly message"/>
                 </children>
             </HBox>
-            <VBox>
-                <HBox>
-                    <Label text="Wartość wajchy na serwerze: " />
-                    <Label fx:id="currentLeverOnServer" />
-                </HBox>
-                <HBox>
-                    <Label text="Zmien wajche na:" />
-                    <Label fx:id="changeLeverTo" />
-                </HBox>
-                <Slider fx:id="leverSld" maxWidth="150"/>
-                <Button fx:id="sendSettingsButton" text="Send new settings" onAction="#handleOnLeverChanged"/>
-            </VBox>
         </VBox>
     </top>
     <center>
         <VBox alignment="CENTER">
-            <Label text="Anomalies List"/>
+            <Label text="Anomalies List" style="-fx-font-weight: bold"/>
             <ScrollPane fitToWidth="true">
                 <TextFlow fx:id="anomaliesTextFlow" prefHeight="150"/>
             </ScrollPane>
-            <LineChart fx:id="lineChart" title="Most Recent anomaly">
+            <LineChart fx:id="lineChart" title="Most Recent anomaly" style="-fx-font-weight: bold">
                 <xAxis>
                     <NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis"/>
                 </xAxis>
