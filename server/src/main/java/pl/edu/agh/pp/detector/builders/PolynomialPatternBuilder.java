@@ -3,6 +3,7 @@ package pl.edu.agh.pp.detector.builders;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoint;
+import org.jetbrains.annotations.Contract;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,21 +23,11 @@ import java.util.*;
  */
 public final class PolynomialPatternBuilder implements IPatternBuilder, Detector {
 
-    public double errorSensitivity = 0.0;
-
     private static IAnomalyTracker anomalyTracker = AnomalyTracker.getInstance();
-
-    // consider records for each day independently
     private static Map<DayOfWeek, List<Record>> recordsOfDay = new HashMap<>();
-    // WeightedObservedPoint list
-    private static Map<WeightedObservedPoint, DayOfWeek> points = new HashMap<>();
-    // or ...
-    //private Map<Integer, List<WeightedObservedPoint>> points = new HashMap<>();
-//    private static PolynomialFunction polynomialFunction; // TODO:Should be list of poly function - for each day and for each route.
-    private static Map<DayOfWeek, List<PolynomialFunction>> polynomialFunctions = new HashMap<>();
+    private static Map<DayOfWeek, Map<Integer, PolynomialFunction>> polynomialFunctions = new HashMap<>();
     private final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
-    // allocate memory for each day of week
-    private String[] days = new String[7];
+    public double errorSensitivity = 0.0;
 
     public static PolynomialPatternBuilder getInstance() {
         return Holder.INSTANCE;
@@ -56,44 +47,27 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
 
             Map<Integer, List<WeightedObservedPoint>> weightedObservedPointsMap = new HashMap<>();
 
-            //TODO: It defined the number of routes.
-            // The value 100 is hardcoded and it should be changed.
-            // Try to change the list of routes by map.
-            for (int i = 0; i < 100; i++) {
-                weightedObservedPointsMap.put(i, new ArrayList<>());
-            }
-            // END TODO
-
             for (Record record : _records) {
+                int recordRouteID = record.getRouteID();
+                List<WeightedObservedPoint> points = weightedObservedPointsMap.get(recordRouteID);
+                if (points == null) {
+                    weightedObservedPointsMap.put(recordRouteID, new ArrayList<>());
+                    points = weightedObservedPointsMap.get(recordRouteID);
+                }
                 if (record.getDayOfWeek().compareTo(day) == 0) {
-                    int recordRouteID = record.getRouteID();
-                    List<WeightedObservedPoint> points = weightedObservedPointsMap.get(recordRouteID);
                     points.add(new WeightedObservedPoint(1, record.getTimeInSeconds(), record.getDurationInTraffic()));
                     weightedObservedPointsMap.put(recordRouteID, points);
-//                    _records.remove(record);
                 }
             }
 
-            List<PolynomialFunction> polynomialFunctionRoutes = new LinkedList<>();
+            Map<Integer, PolynomialFunction> polynomialFunctionRoutes = new HashMap<>();
 
-            for (Integer routeID : weightedObservedPointsMap.keySet()) {
-                //System.out.println("DAY= " + day + " routeID " + routeID + " = " + weightedObservedPointsMap.get(routeID).size());
-                if (weightedObservedPointsMap.get(routeID).size() != 0)
-                    polynomialFunctionRoutes.add(new PolynomialFunction(fitter.fit(weightedObservedPointsMap.get(routeID))));
-            }
+            weightedObservedPointsMap.keySet().stream()
+                    .filter(routeID -> weightedObservedPointsMap.get(routeID).size() != 0)
+                    .forEach(routeID -> polynomialFunctionRoutes.put(routeID, new PolynomialFunction(fitter.fit(weightedObservedPointsMap.get(routeID)))));
 
             polynomialFunctions.put(day, polynomialFunctionRoutes);
         }
-    }
-
-    @Override
-    public void setErrorSensitivity(double errorSensitivity) {
-        this.errorSensitivity = errorSensitivity;
-    }
-
-    @Override
-    public double getErrorSensitivity() {
-        return errorSensitivity;
     }
 
     // It should be discussed.
@@ -108,6 +82,16 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
             idx++;
         }
         return values;
+    }
+
+    @Override
+    public double getErrorSensitivity() {
+        return errorSensitivity;
+    }
+
+    @Override
+    public void setErrorSensitivity(double errorSensitivity) {
+        this.errorSensitivity = errorSensitivity;
     }
 
     public void addRecord(DayOfWeek dayOfWeek, Record record) {
@@ -130,7 +114,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     public AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
 
         double predictedTravelDuration = function(dayOfWeek, routeIdx, (int) secondOfDay);
-        double bounds = 0.10 + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)) + (errorSensitivity) % 1; //%
+        double bounds = 0.0 + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)) + (errorSensitivity) % 1; //%
         double errorDelta = predictedTravelDuration * bounds;
 
         logger.info("#####################");

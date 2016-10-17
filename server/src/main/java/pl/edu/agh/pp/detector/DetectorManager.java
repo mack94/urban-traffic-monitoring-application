@@ -69,7 +69,7 @@ public class DetectorManager {
 //                RefineryUtilities.centerFrameOnScreen(chart);
 //                chart.setVisible(true);
             }
-            AnomalyOperationProtos.AnomalyMessage isAnomaly = detector.isAnomaly(record.getDayOfWeek(), record.getRouteID() - 1, record.getTimeInSeconds(), record.getDurationInTraffic());
+            AnomalyOperationProtos.AnomalyMessage isAnomaly = detector.isAnomaly(record.getDayOfWeek(), record.getRouteID(), record.getTimeInSeconds(), record.getDurationInTraffic());
 
             if (isAnomaly != null) {
                 server.send(ByteBuffer.wrap(isAnomaly.toByteArray()));

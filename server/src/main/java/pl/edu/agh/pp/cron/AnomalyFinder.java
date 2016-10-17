@@ -43,7 +43,7 @@ public class AnomalyFinder extends Thread {
                 for (Integer id : routesIds) {
                     // TODO: for now it't "plus 1", needs to be changed after detector bugfix
                     id++;
-                    int index = id - 1;
+                    int index = id;
                     JSONObject route = routes.getJSONObject(index);
                     String destinations[] = new String[1];
                     String origins[] = new String[1];

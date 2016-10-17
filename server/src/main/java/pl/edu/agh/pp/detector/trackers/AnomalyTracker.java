@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * Created by Maciej on 05.10.2016.
@@ -46,12 +47,9 @@ public final class AnomalyTracker implements IAnomalyTracker {
 
     @Override
     public List<Integer> getCurrentAnomaliesRoutesIds() {
-        List<Integer> result = new ArrayList<>();
-        for (Map.Entry<Integer, DateTime> entry : anomalyTime.entrySet()) {
-            if(entry.getValue().isAfter(JodaTimeHelper.MINIMUM_ANOMALY_DATE)) {
-                result.add(entry.getKey());
-            }
-        }
+        List<Integer> result = anomalyTime.entrySet().stream()
+                .filter(entry -> entry.getValue().isAfter(JodaTimeHelper.MINIMUM_ANOMALY_DATE))
+                .map(Map.Entry::getKey).collect(Collectors.toList());
         return result;
     }
 
