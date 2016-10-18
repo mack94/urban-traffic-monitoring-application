@@ -4,6 +4,8 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.blocks.cs.*;
+import org.jgroups.protocols.relay.SiteAddress;
+import org.jgroups.stack.IpAddress;
 import org.jgroups.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 /**
  * Created by Maciej on 05.09.2016.
@@ -24,11 +27,11 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 
     private final Logger logger = (Logger) LoggerFactory.getLogger(ChannelReceiver.class);
 
-
     public String name = "Charts1";
     protected BaseServer client;
     protected InputStream in;
     protected volatile boolean running = true;
+    protected Thread listenerThread;
     private JChannel channel; // final
 
     public ChannelReceiver() {
@@ -45,39 +48,36 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
         client.receiver(this);
         client.addConnectionListener(this);
         client.start();
+        Thread.sleep(100);
+        running = true;
         byte[] buf = String.format("%s joined\n", name).getBytes();
 //        ((Client)client).send(buf, 0, buf.length);
 //        eventLoop();
-        new Thread(this::eventLoop).start();
+        listenerThread = new Thread(this::eventLoop);
+        listenerThread.start();
     }
 
     private void eventLoop() {
 
         in = new BufferedInputStream(System.in);
+        Thread thisThread = Thread.currentThread();
 
-        while (running) {
-            // TODO: Place where put stuff to send to server.
-            try {
-                System.out.print("$ ");
-                System.out.flush();
-                String line = Util.readLine(in);
-                if (line == null)
-                    break;
-                if (line.startsWith("emergency_call"))
-                    break;
-                byte[] buf = String.format("%s: %s\n", name, line).getBytes();
-                ((Client) client).send(buf, 0, buf.length);
-
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                logger.error("ChannelReceiver :: InterruptedException: " + e);
-            } catch (IOException e) {
-                logger.error("ChannelReceiver :: IOException: " + e);
-            } catch (Exception e) {
-                logger.error("ChannelReceiver :: Exception: " + e);
-                break;
-            }
-        }
+//        while (running && listenerThread == thisThread) {
+//            // TODO: Place where put stuff to send to server.
+//            try {
+//                byte[] buf = "".getBytes();
+//                ((Client) client).send(buf, 0, buf.length);
+//
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                logger.error("ChannelReceiver :: InterruptedException: " + e);
+//            } catch (IOException e) {
+//                logger.error("ChannelReceiver :: IOException: " + e);
+//            } catch (Exception e) {
+//                logger.error("ChannelReceiver :: Exception: " + e);
+//                break;
+//            }
+//        }
     }
 
     @Override
@@ -86,7 +86,9 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
             AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf.array());
             Connector.onMessage(message);
         } catch (InvalidProtocolBufferException e) {
-            logger.error("ChannelReceiver :: InvalidProtocolBufferException: " + e);
+            logger.error("ChannelReceiver :: InvalidProtocolBufferException: " + e
+                    + "\n Buf Array: " + Arrays.toString(buf.array())
+                    + "\n Message: " + buf);
         }
     }
 
@@ -109,6 +111,24 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
     public void connectionEstablished(Connection conn) {
         logger.info("ChannelReceiver :: Connection established");
         System.out.println("System status:" + this.isConnected());
+    }
+
+    public void killConnectionThread() {
+        listenerThread = null;
+    }
+
+    public void disconnect() {
+        if (client != null) {
+            client.removeConnectionListener(this);
+            client.stop();
+        }
+//        if (anomaliesConnection != null && anomaliesConnection.isConnected() && anomaliesConnection.isOpen())
+//            try {
+//                anomaliesConnection.close();
+//            } catch (IOException ex) {
+//                logger.error("Error while disconnecting from Anomalies channel/connection: " + ex);
+//                // TODO: I am not sure if to handle an exception or throw. Rozkmina needed.
+//            }
     }
 
     public boolean isConnected() {

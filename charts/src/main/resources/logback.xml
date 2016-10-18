@@ -8,7 +8,7 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <param name="Append" value="false" />
+        <param name="Append" value="true" />
         <file>
             ChartsLogs.log
         </file>
@@ -19,7 +19,7 @@
         </encoder>
     </appender>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="FILE" />
         <appender-ref ref="STDOUT" />
     </root>

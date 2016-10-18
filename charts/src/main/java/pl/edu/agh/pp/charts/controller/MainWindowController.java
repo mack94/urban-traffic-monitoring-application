@@ -217,10 +217,10 @@ public class MainWindowController {
             }
             if(port.equals(""))
                 port = "7500";
-            Connector.connect(address,port);
-            connectedFlag = true;
+            Connector.connect(address, port);
+            connectedFlag = Connector.isConnectedToTheServer();
             setConnectedState();
-            putSystemMessageonScreen("Connected to: " + Connector.getAddressServerInfo());
+//            putSystemMessageonScreen("Connected to: " + Connector.getAddressServerInfo());
         } catch (Exception e1) {
             logger.error("Connecting error");
             e1.printStackTrace();
@@ -231,7 +231,7 @@ public class MainWindowController {
     @FXML
     private void handleDisconnectAction(ActionEvent e) {
         Connector.disconnect();
-        connectedFlag = false;
+        connectedFlag = Connector.isConnectedToTheServer();
         setConnectedState();
     }
 

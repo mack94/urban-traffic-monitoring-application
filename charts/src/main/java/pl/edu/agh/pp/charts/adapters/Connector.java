@@ -51,6 +51,7 @@ public class Connector {
 
     public static void disconnect(){
         //TODO implement disconnecting from server
+        client.disconnect();
     }
 
     public static String getAddressServerInfo(){
@@ -63,12 +64,12 @@ public class Connector {
     }
 
     public static boolean isConnectedToTheServer() {
-        //TODO fix it - always true
         return client.isConnected();
     }
 
     public static void killAll(){
-        //TODO implement killing all threads
+        if (client != null)
+            client.killConnectionThread();
     }
 
 }
