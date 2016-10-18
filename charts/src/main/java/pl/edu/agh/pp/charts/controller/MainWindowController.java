@@ -94,27 +94,34 @@ public class MainWindowController {
         }
     }
 
-    public void putAnomalyMessageonScreen(int id, String message, String date, int duration, Color color) {
+    public void putAnomalyMessageOnScreen(int id, String message, String date, int duration, Color color) {
         Text text1 = new Text(id + ": " + date + "; duration = " + duration + "; " + message + "\n");
         text1.setFill(color);
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
-        Platform.runLater(() -> anomaliesTextFlow.getChildren().add(0, text1));
+        putMessageOnScreen(text1);
     }
 
-    public void putSystemMessageonScreen(String message) {
-        putSystemMessageonScreen(message,DateTime.now(),Color.BLACK);
+    public void putSystemMessageOnScreen(String message) {
+        putSystemMessageOnScreen(message,DateTime.now(),Color.BLACK);
     }
 
-    public void putSystemMessageonScreen(String message,Color color) {
-        putSystemMessageonScreen(message,DateTime.now(),color);
+    public void putSystemMessageOnScreen(String message, Color color) {
+        putSystemMessageOnScreen(message,DateTime.now(),color);
     }
 
-    public void putSystemMessageonScreen(String message, DateTime dateTime, Color color) {
+    public void putSystemMessageOnScreen(String message, DateTime dateTime, Color color) {
         Text text1 = new Text(formatDate(dateTime) + "  " +message + "\n");
         text1.setFill(color);
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
         initSlider();
-        Platform.runLater(() -> anomaliesTextFlow.getChildren().add(0, text1));
+        putMessageOnScreen(text1);
+    }
+
+    private void putMessageOnScreen(Text text){
+        Platform.runLater(() -> {
+            anomaliesTextFlow.getChildren().add(0, text);
+        } );
+
     }
 
     private String getLeverServerInfo(){
@@ -172,7 +179,7 @@ public class MainWindowController {
         anomaliesTextFlow.setTextAlignment(TextAlignment.CENTER);
         anomaliesTextFlow.setMaxHeight(150);
         changeLeverTo.setText("1");
-        putSystemMessageonScreen("NOT CONNECTED",Color.RED);
+        putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         setConnectedState();
         initSlider();
         currentLeverOnServer.setText(getLeverServerInfo());
@@ -188,7 +195,7 @@ public class MainWindowController {
 
     @FXML
     private void handleTestButtonAction(ActionEvent e) {
-        putAnomalyMessageonScreen(666, "Test anomaly", "A Date", 0, Color.BLACK);
+        putAnomalyMessageOnScreen(666, "Test anomaly", "A Date", 0, Color.BLACK);
     }
 
     @FXML
@@ -219,8 +226,9 @@ public class MainWindowController {
                 port = "7500";
             Connector.connect(address, port);
             connectedFlag = Connector.isConnectedToTheServer();
+            if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo());
             setConnectedState();
-//            putSystemMessageonScreen("Connected to: " + Connector.getAddressServerInfo());
+//            putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
         } catch (Exception e1) {
             logger.error("Connecting error");
             e1.printStackTrace();
@@ -232,6 +240,7 @@ public class MainWindowController {
     private void handleDisconnectAction(ActionEvent e) {
         Connector.disconnect();
         connectedFlag = Connector.isConnectedToTheServer();
+        if(connectedFlag) putSystemMessageOnScreen("Failed to disconnect from " + Connector.getAddressServerInfo());
         setConnectedState();
     }
 

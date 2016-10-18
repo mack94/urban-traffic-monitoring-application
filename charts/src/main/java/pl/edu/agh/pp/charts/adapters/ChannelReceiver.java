@@ -4,15 +4,12 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.blocks.cs.*;
-import org.jgroups.protocols.relay.SiteAddress;
-import org.jgroups.stack.IpAddress;
 import org.jgroups.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
@@ -134,7 +131,7 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
     public boolean isConnected() {
         if (!running) {
             try {
-                Thread.sleep(3000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 logger.error("ChannelReceiver: Sleeping thread error: " + e);
             }

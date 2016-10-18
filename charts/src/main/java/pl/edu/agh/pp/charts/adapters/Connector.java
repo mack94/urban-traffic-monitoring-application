@@ -30,7 +30,7 @@ public class Connector {
             String message = anomalyMessage.getMessage() + " _ " + anomalyMessage.getAnomalyID() + " _ " + " _ date: " + anomalyMessage.getDate();
             int duration = anomalyMessage.getDuration();
             Color color = Color.CRIMSON;
-            controller.putAnomalyMessageonScreen(id, message, anomalyMessage.getDate(), duration, color);
+            controller.putAnomalyMessageOnScreen(id, message, anomalyMessage.getDate(), duration, color);
         }
     }
     public static void connect(String addr, String prt) throws Exception {
