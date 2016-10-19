@@ -109,35 +109,46 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
         PolynomialPatternBuilder.recordsOfDay = recordsOfDay;
     }
 
-    //TODO
     public AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
 
         double predictedTravelDuration = function(dayOfWeek, routeIdx, (int) secondOfDay);
-        double bounds = 0.0 + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)) + (errorSensitivity) % 1; //%
+        double bounds = 0.35;// + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)) + 1.0* (errorSensitivity) % 1.0; //%
         double errorDelta = predictedTravelDuration * bounds;
+
+        // TODO: It's a problematic thing, because it is not precise at 00:00 and next 4 minutes of next day. (it took last day)
+        // TODO: But at 12am there is no big differences between days. - so this difference might be omitted.
+
+        double predictedTravelDurationMinimum = Double.MAX_VALUE;
+        double predictedTravelDurationMaximum = Double.MIN_VALUE;
+        for (int unitDiff = -5; unitDiff < 6; unitDiff++) {
+            double tempDuration = function(dayOfWeek, routeIdx, (int) secondOfDay + (unitDiff * 60)); // unitDiff * 60 = 1 * minDiff
+            predictedTravelDurationMinimum = predictedTravelDurationMinimum < tempDuration ? predictedTravelDurationMinimum : tempDuration;
+            predictedTravelDurationMaximum = predictedTravelDurationMaximum < tempDuration ? tempDuration : predictedTravelDurationMaximum;
+        }
 
         logger.info("#####################");
         logger.info("Error rate: " + errorDelta);
-        logger.info(String.valueOf(predictedTravelDuration - errorDelta));
-        logger.info(String.valueOf(predictedTravelDuration + errorDelta));
+        logger.info(String.valueOf(predictedTravelDurationMinimum - errorDelta));
+        logger.info(String.valueOf(predictedTravelDurationMaximum + errorDelta));
 
         double errorRate = 0.0;
 
-        if ((travelDuration > predictedTravelDuration + errorDelta) || (travelDuration < predictedTravelDuration - errorDelta)) {
+        if ((travelDuration > predictedTravelDurationMaximum + errorDelta) || (travelDuration < predictedTravelDurationMinimum - errorDelta)) {
 
             if (travelDuration > predictedTravelDuration + errorDelta)
-                errorRate = Math.abs(predictedTravelDuration + errorDelta) / travelDuration;
+                errorRate = (predictedTravelDuration + errorDelta) / travelDuration;
             else
-                errorRate = Math.abs(predictedTravelDuration - errorDelta) / travelDuration;
+                errorRate = (predictedTravelDuration - errorDelta) / travelDuration;
 
             long anomalyID = anomalyTracker.put(routeIdx, DateTime.now());
+            int severity = (int) ((Math.abs(predictedTravelDuration/travelDuration) * 3) % 6);
 
             return AnomalyOperationProtos.AnomalyMessage.newBuilder()
                     .setDayOfWeek(dayOfWeek.ordinal())
                     .setRouteIdx(routeIdx)
                     .setSecondOfDay((int) secondOfDay)
                     .setDuration((int) travelDuration) // TODO: Cast remove?
-                    .setSeverity(1) // TODO: Fix it
+                    .setSeverity(severity) // TODO: Fix it
                     .setMessage(String.format("Error rate: %d %%", (int) (100 - errorRate * 100)))
                     .setAnomalyID(anomalyID)
                     .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))

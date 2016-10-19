@@ -31,10 +31,10 @@ import java.util.*;
  */
 public class DetectorManager {
 
-    private static final String BASELINE_LOGS_PATH = "C:\\Users\\drdrz\\Desktop\\dupa\\logs\\logs_16-08-29_Mon\\TrafficLog_1_8___Mon_16-08-29.log";
-    private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Users\\drdrz\\Desktop\\dupa\\logs\\logs_16-09-05_Mon\\TrafficLog_1_8___Mon_16-09-05.log";
+    private static final String BASELINE_LOGS_PATH = "C:\\Inz\\appended_file.txt";
+    private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Inz\\appended_file.txt";
     private static final PolynomialPatternBuilder polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();
-    private static final FilesLoader anomalySearchFilesLoader = new FilesLoader(ANOMALY_SEARCH_LOGS_PATH, "C:\\Users\\Krzysztof Węgrzyński\\Desktop\\UCZE SIĘ + DRUKARKA\\inzynierka\\dane_z_agegacja\\wtorek\\rok_szkolny\\TrafficLog_1_8___Tue_16-09-06.log");
+    private static final FilesLoader anomalySearchFilesLoader = new FilesLoader(ANOMALY_SEARCH_LOGS_PATH, "C:\\Inz\\appended_file.txt");
     private static Detector detector;
     private final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
     private FilesLoader baselineFilesLoader;
@@ -140,10 +140,10 @@ public class DetectorManager {
             Map<DayOfWeek, Map<Integer, List<Record>>> anomalousRecords = new HashMap<DayOfWeek, Map<Integer, List<Record>>>();
             Map<Integer, List<Record>> dayOfWeekRecords;
             List<Record> routeAndDayRecords;
-            int startingRouteId = recordsTestedForAnomalies.get(0).getRouteID() - 1;
+            int startingRouteId = recordsTestedForAnomalies.get(0).getRouteID();
             for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
                 dayOfWeekRecords = new HashMap<Integer, List<Record>>();
-                for (int routeId = startingRouteId; routeId < 8 + startingRouteId; routeId++) {
+                for (int routeId = startingRouteId; routeId <= 8 + startingRouteId; routeId++) {
                     routeAndDayRecords = new ArrayList<Record>();
                     dayOfWeekRecords.put(routeId, routeAndDayRecords);
                 }
@@ -151,16 +151,16 @@ public class DetectorManager {
             }
 
 
-            int counter = 0;
+            int counter = 1;
             for (Record record : recordsTestedForAnomalies) {
-                if (detector.isAnomaly(record.getDayOfWeek(), record.getRouteID() - 1, record.getTimeInSeconds(), record.getDurationInTraffic()) != null) {
+                if (detector.isAnomaly(record.getDayOfWeek(), record.getRouteID(), record.getTimeInSeconds(), record.getDurationInTraffic()) != null) {
                     System.out.println("-------------------------------");
                     System.out.println("Day: " + record.getDayOfWeek());
                     System.out.println("When: " + record.getDateTime());
                     System.out.println("RouteId: " + record.getRouteID());
                     System.out.println("-------------------------------");
 
-                    anomalousRecords.get(record.getDayOfWeek()).get(record.getRouteID() - 1).add(record);
+                    anomalousRecords.get(record.getDayOfWeek()).get(record.getRouteID()).add(record);
                     counter++;
                 }
 
