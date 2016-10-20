@@ -53,10 +53,10 @@ public class Main {
                 logger.error("Main :: UnknownHostException " + e);
             }
             int port = 7500;
-            boolean nio = true;
+            boolean nio = false;
 
-            logger.info("Running server in 5 sec.");
-            Thread.sleep(5000);
+            logger.info("Running server in 2 sec.");
+            Thread.sleep(2000);
             Server server = new Server();
             try {
                 server.start(bind_addr, port, nio);
@@ -65,7 +65,7 @@ public class Main {
                 logger.error("Main :: Exception " + e);
             }
 
-            Thread.sleep(15000);
+            Thread.sleep(10000);
             new CronManager(server).doSomething(args[1]);
         } else {
             Server server = new Server();

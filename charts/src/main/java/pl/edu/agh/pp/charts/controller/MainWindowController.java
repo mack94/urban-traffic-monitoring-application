@@ -225,6 +225,7 @@ public class MainWindowController {
             }
             if(port.equals(""))
                 port = "7500";
+            connectedLabel.setText("Connecting...");
             Connector.connect(address, port);
             connectedFlag = Connector.isConnectedToTheServer();
             if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo());
@@ -239,6 +240,7 @@ public class MainWindowController {
 
     @FXML
     private void handleDisconnectAction(ActionEvent e) {
+        connectedLabel.setText("Disconnecting...");
         Connector.disconnect();
         connectedFlag = Connector.isConnectedToTheServer();
         if(connectedFlag) putSystemMessageOnScreen("Failed to disconnect from " + Connector.getAddressServerInfo());

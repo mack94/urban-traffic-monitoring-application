@@ -136,9 +136,9 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
         if ((travelDuration > predictedTravelDurationMaximum + errorDelta) || (travelDuration < predictedTravelDurationMinimum - errorDelta)) {
 
             if (travelDuration > predictedTravelDuration + errorDelta)
-                errorRate = (predictedTravelDuration + errorDelta) / travelDuration;
+                errorRate = (predictedTravelDuration) / travelDuration;
             else
-                errorRate = (predictedTravelDuration - errorDelta) / travelDuration;
+                errorRate = (predictedTravelDuration) / travelDuration;
 
             long anomalyID = anomalyTracker.put(routeIdx, DateTime.now());
             int severity = (int) ((Math.abs(predictedTravelDuration/travelDuration) * 3) % 6);
