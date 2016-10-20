@@ -19,7 +19,7 @@
 <?import com.sun.javafx.scene.control.skin.ContextMenuContent.MenuItemContainer?>
 <?import com.sun.javafx.scene.control.skin.TabPaneSkin.TabControlButtons?>
 <?import javafx.scene.control.ButtonBar?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="800.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
     <padding>
         <Insets bottom="10" left="10" right="10" top="10"/>
     </padding>

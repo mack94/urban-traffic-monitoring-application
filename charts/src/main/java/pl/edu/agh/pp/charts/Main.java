@@ -14,6 +14,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        primaryStage.setWidth(850);
+        primaryStage.setHeight(700);
         MainWindowController mainWindowController = new MainWindowController(primaryStage);
         mainWindowController.show();
 
