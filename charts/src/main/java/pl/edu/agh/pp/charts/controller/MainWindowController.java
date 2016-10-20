@@ -183,6 +183,7 @@ public class MainWindowController {
         setConnectedState();
         initSlider();
         currentLeverOnServer.setText(getLeverServerInfo());
+        connectButton.setDefaultButton(true);
     }
 
     @FXML
