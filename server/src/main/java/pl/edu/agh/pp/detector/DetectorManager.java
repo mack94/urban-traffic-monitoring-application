@@ -52,6 +52,7 @@ public class DetectorManager {
         detector = polynomialPatternBuilder;
         PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.getRecords());
         this.server = server;
+        polynomialPatternBuilder.setServer(server);
     }
 
     public void doSomething(String logEntry) {

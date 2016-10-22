@@ -1,19 +1,24 @@
 package pl.edu.agh.pp.detector.builders;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoint;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.detector.adapters.Server;
 import pl.edu.agh.pp.detector.detectors.Detector;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.detector.records.Record;
 import pl.edu.agh.pp.detector.trackers.AnomalyTracker;
 import pl.edu.agh.pp.detector.trackers.IAnomalyTracker;
-
-import java.util.*;
 
 /**
  * Created by Maciej on 18.07.2016.
@@ -27,6 +32,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     private static Map<DayOfWeek, Map<Integer, PolynomialFunction>> polynomialFunctions = new HashMap<>();
     private final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
     public double errorSensitivity = 0.0;
+    private Server server;
 
     public static PolynomialPatternBuilder getInstance() {
         return Holder.INSTANCE;
@@ -112,7 +118,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     public AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
 
         double predictedTravelDuration = function(dayOfWeek, routeIdx, (int) secondOfDay);
-        double bounds = 0.35;// + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)) + 1.0* (errorSensitivity) % 1.0; //%
+        double bounds = 0.05;// + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)) + 1.0* (errorSensitivity) % 1.0; //%
         double errorDelta = predictedTravelDuration * bounds;
 
         // TODO: It's a problematic thing, because it is not precise at 00:00 and next 4 minutes of next day. (it took last day)
@@ -158,6 +164,12 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
         }
         // TODO: else if anomaly is in map, "remove" it
         return null;
+    }
+
+    public void setServer(Server server)
+    {
+        this.server = server;
+        anomalyTracker.setServer(server);
     }
 
     public static class Holder {

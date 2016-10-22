@@ -81,7 +81,12 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
     public void receive(Address sender, ByteBuffer buf) {
         try {
             AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf.array());
-            Connector.onMessage(message);
+            if("".equals(message.getMessage())) {
+                AnomalyOperationProtos.ExpirationMessage expirationMessage = AnomalyOperationProtos.ExpirationMessage.parseFrom(buf.array());
+                Connector.onExpirationMessageMessage(expirationMessage);
+            } else {
+                Connector.onAnomalyMessage(message);
+            }
         } catch (InvalidProtocolBufferException e) {
             logger.error("ChannelReceiver :: InvalidProtocolBufferException: " + e
                     + "\n Buf Array: " + Arrays.toString(buf.array())

@@ -1,20 +1,21 @@
 package pl.edu.agh.pp.detector.trackers;
 
-import org.joda.time.DateTime;
-import org.joda.time.Seconds;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.detector.helpers.JodaTimeHelper;
-import pl.edu.agh.pp.settings.IOptions;
-import pl.edu.agh.pp.settings.Options;
-import pl.edu.agh.pp.settings.exceptions.IllegalPreferenceObjectExpected;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+
+import org.joda.time.DateTime;
+import org.joda.time.Seconds;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.detector.adapters.Server;
+import pl.edu.agh.pp.detector.helpers.JodaTimeHelper;
+import pl.edu.agh.pp.detector.listeners.AnomalyExpirationListener;
+import pl.edu.agh.pp.settings.IOptions;
+import pl.edu.agh.pp.settings.Options;
+import pl.edu.agh.pp.settings.exceptions.IllegalPreferenceObjectExpected;
 
 /**
  * Created by Maciej on 05.10.2016.
@@ -32,6 +33,8 @@ public final class AnomalyTracker implements IAnomalyTracker {
     private IOptions options = Options.getInstance();
     private Seconds liveTime;
     private Random random = new Random();
+    private Server server;
+    private AnomalyExpirationListener anomalyExpirationListener;
 
     public AnomalyTracker() {
         try {
@@ -39,6 +42,8 @@ public final class AnomalyTracker implements IAnomalyTracker {
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
             logger.error("AnomalyTracker LiveTime ilegal preference object expected: " + illegalPreferenceObjectExpected);
         }
+        this.anomalyExpirationListener = new AnomalyExpirationListener(anomalyID, anomalyTime);
+        anomalyExpirationListener.start();
     }
 
     public static AnomalyTracker getInstance() {
@@ -99,6 +104,12 @@ public final class AnomalyTracker implements IAnomalyTracker {
         if (anomaly != null)
             return anomaly;
         return JodaTimeHelper.MINIMUM_ANOMALY_DATE;
+    }
+
+    public void setServer(Server server)
+    {
+        this.server = server;
+        this.anomalyExpirationListener.setServer(server);
     }
 
     public static class Holder {

@@ -24,7 +24,7 @@ public class Connector {
         controller = mainWindowController;
     }
 
-    public static void onMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
+    public static void onAnomalyMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
         if (controller != null) {
             int id = anomalyMessage.getRouteIdx();
             String message = anomalyMessage.getMessage() + " _ " + anomalyMessage.getAnomalyID() + " _ " + " _ date: " + anomalyMessage.getDate();
@@ -33,6 +33,18 @@ public class Connector {
             controller.putAnomalyMessageOnScreen(id, message, anomalyMessage.getDate(), duration, color);
         }
     }
+
+    public static void onExpirationMessageMessage(AnomalyOperationProtos.ExpirationMessage expirationMessage)
+    {
+        // TODO: David handle it, please ;)
+        if(controller != null) {
+            int id = expirationMessage.getRouteIdx();
+            long anomalyId = expirationMessage.getAnomalyID();
+            String date = expirationMessage.getDate();
+            controller.putAnomalyMessageOnScreen(id, "David handle it, please", date, 0, Color.CYAN);
+        }
+    }
+
     public static void connect(String addr, String prt) throws Exception {
         address = addr;
         port = prt;

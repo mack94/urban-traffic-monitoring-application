@@ -29,5 +29,10 @@ message AnomalyMessage {
     string message = 7;
     int64 anomalyID = 8;
     string date = 9;
+}
 
+message ExpirationMessage {
+    int32 routeIdx = 1;
+    int64 anomalyID = 2;
+    string date = 3;
 }

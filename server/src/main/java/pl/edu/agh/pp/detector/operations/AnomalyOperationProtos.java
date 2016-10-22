@@ -4,2894 +4,3374 @@
 package pl.edu.agh.pp.detector.operations;
 
 public final class AnomalyOperationProtos {
-    private static final com.google.protobuf.Descriptors.Descriptor
-            internal_static_AnomalyAction_descriptor;
-    private static final
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-            internal_static_AnomalyAction_fieldAccessorTable;
-    private static final com.google.protobuf.Descriptors.Descriptor
-            internal_static_AnomalyState_descriptor;
-    private static final
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-            internal_static_AnomalyState_fieldAccessorTable;
-    private static final com.google.protobuf.Descriptors.Descriptor
-            internal_static_AnomalyMessage_descriptor;
-    private static final
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-            internal_static_AnomalyMessage_fieldAccessorTable;
-    private static com.google.protobuf.Descriptors.FileDescriptor
-            descriptor;
+  private AnomalyOperationProtos() {}
+  public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistryLite registry) {
+  }
 
-    static {
-        java.lang.String[] descriptorData = {
-                "\n\020operations.proto\"\200\001\n\rAnomalyAction\022)\n\006" +
-                        "action\030\001 \001(\0162\031.AnomalyAction.ActionType\022" +
-                        "\017\n\007channel\030\002 \001(\t\022\020\n\010nickname\030\003 \001(\t\"!\n\nAc" +
-                        "tionType\022\010\n\004JOIN\020\000\022\t\n\005LEAVE\020\001\"-\n\014Anomaly" +
-                        "State\022\035\n\005state\030\001 \003(\0132\016.AnomalyAction\"\263\001\n" +
-                        "\016AnomalyMessage\022\020\n\010routeIdx\030\001 \001(\005\022\023\n\013sec" +
-                        "ondOfDay\030\002 \001(\005\022\021\n\tisAnomaly\030\003 \001(\010\022\020\n\010dur" +
-                        "ation\030\004 \001(\005\022\021\n\tdayOfWeek\030\005 \001(\005\022\020\n\010severi" +
-                        "ty\030\006 \001(\005\022\017\n\007message\030\007 \001(\t\022\021\n\tanomalyID\030\010" +
-                        " \001(\003\022\014\n\004date\030\t \001(\tB;\n!pl.edu.agh.pp.dete",
-                "ctor.operationsB\026AnomalyOperationProtosb" +
-                        "\006proto3"
-        };
-        com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-                new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
-                    public com.google.protobuf.ExtensionRegistry assignDescriptors(
-                            com.google.protobuf.Descriptors.FileDescriptor root) {
-                        descriptor = root;
-                        return null;
-                    }
-                };
-        com.google.protobuf.Descriptors.FileDescriptor
-                .internalBuildGeneratedFileFrom(descriptorData,
-                        new com.google.protobuf.Descriptors.FileDescriptor[]{
-                        }, assigner);
-        internal_static_AnomalyAction_descriptor =
-                getDescriptor().getMessageTypes().get(0);
-        internal_static_AnomalyAction_fieldAccessorTable = new
-                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-                internal_static_AnomalyAction_descriptor,
-                new java.lang.String[]{"Action", "Channel", "Nickname",});
-        internal_static_AnomalyState_descriptor =
-                getDescriptor().getMessageTypes().get(1);
-        internal_static_AnomalyState_fieldAccessorTable = new
-                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-                internal_static_AnomalyState_descriptor,
-                new java.lang.String[]{"State",});
-        internal_static_AnomalyMessage_descriptor =
-                getDescriptor().getMessageTypes().get(2);
-        internal_static_AnomalyMessage_fieldAccessorTable = new
-                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-                internal_static_AnomalyMessage_descriptor,
-                new java.lang.String[]{"RouteIdx", "SecondOfDay", "IsAnomaly", "Duration", "DayOfWeek", "Severity", "Message", "AnomalyID", "Date",});
-    }
+  public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+        (com.google.protobuf.ExtensionRegistryLite) registry);
+  }
+  public interface AnomalyActionOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:AnomalyAction)
+      com.google.protobuf.MessageOrBuilder {
 
-    private AnomalyOperationProtos() {
-    }
+    /**
+     * <code>optional .AnomalyAction.ActionType action = 1;</code>
+     */
+    int getActionValue();
+    /**
+     * <code>optional .AnomalyAction.ActionType action = 1;</code>
+     */
+    pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType getAction();
 
-    public static void registerAllExtensions(
-            com.google.protobuf.ExtensionRegistryLite registry) {
-    }
-
-    public static void registerAllExtensions(
-            com.google.protobuf.ExtensionRegistry registry) {
-        registerAllExtensions(
-                (com.google.protobuf.ExtensionRegistryLite) registry);
-    }
-
-    public static com.google.protobuf.Descriptors.FileDescriptor
-    getDescriptor() {
-        return descriptor;
-    }
-    public interface AnomalyActionOrBuilder extends
-            // @@protoc_insertion_point(interface_extends:AnomalyAction)
-            com.google.protobuf.MessageOrBuilder {
-
-        /**
-         * <code>optional .AnomalyAction.ActionType action = 1;</code>
-         */
-        int getActionValue();
-
-        /**
-         * <code>optional .AnomalyAction.ActionType action = 1;</code>
-         */
-        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType getAction();
-
-        /**
-         * <code>optional string channel = 2;</code>
-         */
-        java.lang.String getChannel();
-
-        /**
-         * <code>optional string channel = 2;</code>
-         */
-        com.google.protobuf.ByteString
+    /**
+     * <code>optional string channel = 2;</code>
+     */
+    java.lang.String getChannel();
+    /**
+     * <code>optional string channel = 2;</code>
+     */
+    com.google.protobuf.ByteString
         getChannelBytes();
 
-        /**
-         * <code>optional string nickname = 3;</code>
-         */
-        java.lang.String getNickname();
-
-        /**
-         * <code>optional string nickname = 3;</code>
-         */
-        com.google.protobuf.ByteString
+    /**
+     * <code>optional string nickname = 3;</code>
+     */
+    java.lang.String getNickname();
+    /**
+     * <code>optional string nickname = 3;</code>
+     */
+    com.google.protobuf.ByteString
         getNicknameBytes();
+  }
+  /**
+   * Protobuf type {@code AnomalyAction}
+   */
+  public  static final class AnomalyAction extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:AnomalyAction)
+      AnomalyActionOrBuilder {
+    // Use AnomalyAction.newBuilder() to construct.
+    private AnomalyAction(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
     }
-    public interface AnomalyStateOrBuilder extends
-            // @@protoc_insertion_point(interface_extends:AnomalyState)
-            com.google.protobuf.MessageOrBuilder {
-
-        /**
-         * <code>repeated .AnomalyAction state = 1;</code>
-         */
-        java.util.List<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction>
-        getStateList();
-
-        /**
-         * <code>repeated .AnomalyAction state = 1;</code>
-         */
-        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction getState(int index);
-
-        /**
-         * <code>repeated .AnomalyAction state = 1;</code>
-         */
-        int getStateCount();
-
-        /**
-         * <code>repeated .AnomalyAction state = 1;</code>
-         */
-        java.util.List<? extends pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder>
-        getStateOrBuilderList();
-
-        /**
-         * <code>repeated .AnomalyAction state = 1;</code>
-         */
-        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder getStateOrBuilder(
-                int index);
-    }
-    public interface AnomalyMessageOrBuilder extends
-            // @@protoc_insertion_point(interface_extends:AnomalyMessage)
-            com.google.protobuf.MessageOrBuilder {
-
-        /**
-         * <code>optional int32 routeIdx = 1;</code>
-         */
-        int getRouteIdx();
-
-        /**
-         * <code>optional int32 secondOfDay = 2;</code>
-         */
-        int getSecondOfDay();
-
-        /**
-         * <code>optional bool isAnomaly = 3;</code>
-         */
-        boolean getIsAnomaly();
-
-        /**
-         * <code>optional int32 duration = 4;</code>
-         */
-        int getDuration();
-
-        /**
-         * <code>optional int32 dayOfWeek = 5;</code>
-         */
-        int getDayOfWeek();
-
-        /**
-         * <code>optional int32 severity = 6;</code>
-         */
-        int getSeverity();
-
-        /**
-         * <code>optional string message = 7;</code>
-         */
-        java.lang.String getMessage();
-
-        /**
-         * <code>optional string message = 7;</code>
-         */
-        com.google.protobuf.ByteString
-        getMessageBytes();
-
-        /**
-         * <code>optional int64 anomalyID = 8;</code>
-         */
-        long getAnomalyID();
-
-        /**
-         * <code>optional string date = 9;</code>
-         */
-        java.lang.String getDate();
-
-        /**
-         * <code>optional string date = 9;</code>
-         */
-        com.google.protobuf.ByteString
-        getDateBytes();
+    private AnomalyAction() {
+      action_ = 0;
+      channel_ = "";
+      nickname_ = "";
     }
 
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private AnomalyAction(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+
+              action_ = rawValue;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              channel_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              nickname_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyAction_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyAction_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code AnomalyAction.ActionType}
+     */
+    public enum ActionType
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>JOIN = 0;</code>
+       */
+      JOIN(0),
+      /**
+       * <code>LEAVE = 1;</code>
+       */
+      LEAVE(1),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>JOIN = 0;</code>
+       */
+      public static final int JOIN_VALUE = 0;
+      /**
+       * <code>LEAVE = 1;</code>
+       */
+      public static final int LEAVE_VALUE = 1;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static ActionType valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static ActionType forNumber(int value) {
+        switch (value) {
+          case 0: return JOIN;
+          case 1: return LEAVE;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<ActionType>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          ActionType> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<ActionType>() {
+              public ActionType findValueByNumber(int number) {
+                return ActionType.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final ActionType[] VALUES = values();
+
+      public static ActionType valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private ActionType(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:AnomalyAction.ActionType)
+    }
+
+    public static final int ACTION_FIELD_NUMBER = 1;
+    private int action_;
+    /**
+     * <code>optional .AnomalyAction.ActionType action = 1;</code>
+     */
+    public int getActionValue() {
+      return action_;
+    }
+    /**
+     * <code>optional .AnomalyAction.ActionType action = 1;</code>
+     */
+    public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType getAction() {
+      pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType result = pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType.valueOf(action_);
+      return result == null ? pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType.UNRECOGNIZED : result;
+    }
+
+    public static final int CHANNEL_FIELD_NUMBER = 2;
+    private volatile java.lang.Object channel_;
+    /**
+     * <code>optional string channel = 2;</code>
+     */
+    public java.lang.String getChannel() {
+      java.lang.Object ref = channel_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        channel_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string channel = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getChannelBytes() {
+      java.lang.Object ref = channel_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        channel_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int NICKNAME_FIELD_NUMBER = 3;
+    private volatile java.lang.Object nickname_;
+    /**
+     * <code>optional string nickname = 3;</code>
+     */
+    public java.lang.String getNickname() {
+      java.lang.Object ref = nickname_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        nickname_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string nickname = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNicknameBytes() {
+      java.lang.Object ref = nickname_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        nickname_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (action_ != pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType.JOIN.getNumber()) {
+        output.writeEnum(1, action_);
+      }
+      if (!getChannelBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, channel_);
+      }
+      if (!getNicknameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, nickname_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (action_ != pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType.JOIN.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, action_);
+      }
+      if (!getChannelBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, channel_);
+      }
+      if (!getNicknameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, nickname_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction)) {
+        return super.equals(obj);
+      }
+      pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction other = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction) obj;
+
+      boolean result = true;
+      result = result && action_ == other.action_;
+      result = result && getChannel()
+          .equals(other.getChannel());
+      result = result && getNickname()
+          .equals(other.getNickname());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + ACTION_FIELD_NUMBER;
+      hash = (53 * hash) + action_;
+      hash = (37 * hash) + CHANNEL_FIELD_NUMBER;
+      hash = (53 * hash) + getChannel().hashCode();
+      hash = (37 * hash) + NICKNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getNickname().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
      * Protobuf type {@code AnomalyAction}
      */
-    public static final class AnomalyAction extends
-            com.google.protobuf.GeneratedMessageV3 implements
-            // @@protoc_insertion_point(message_implements:AnomalyAction)
-            AnomalyActionOrBuilder {
-        public static final int ACTION_FIELD_NUMBER = 1;
-        public static final int CHANNEL_FIELD_NUMBER = 2;
-        public static final int NICKNAME_FIELD_NUMBER = 3;
-        private static final long serialVersionUID = 0L;
-        // @@protoc_insertion_point(class_scope:AnomalyAction)
-        private static final pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction DEFAULT_INSTANCE;
-        private static final com.google.protobuf.Parser<AnomalyAction>
-                PARSER = new com.google.protobuf.AbstractParser<AnomalyAction>() {
-            public AnomalyAction parsePartialFrom(
-                    com.google.protobuf.CodedInputStream input,
-                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                    throws com.google.protobuf.InvalidProtocolBufferException {
-                return new AnomalyAction(input, extensionRegistry);
-            }
-        };
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:AnomalyAction)
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyAction_descriptor;
+      }
 
-        static {
-            DEFAULT_INSTANCE = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction();
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyAction_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder.class);
+      }
+
+      // Construct using pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
+      }
+      public Builder clear() {
+        super.clear();
+        action_ = 0;
 
-        private int action_;
-        private volatile java.lang.Object channel_;
-        private volatile java.lang.Object nickname_;
-        private byte memoizedIsInitialized = -1;
+        channel_ = "";
 
-        // Use AnomalyAction.newBuilder() to construct.
-        private AnomalyAction(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-            super(builder);
+        nickname_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyAction_descriptor;
+      }
+
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction getDefaultInstanceForType() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.getDefaultInstance();
+      }
+
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction build() {
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
         }
-        private AnomalyAction() {
-            action_ = 0;
-            channel_ = "";
-            nickname_ = "";
+        return result;
+      }
+
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction buildPartial() {
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction result = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction(this);
+        result.action_ = action_;
+        result.channel_ = channel_;
+        result.nickname_ = nickname_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction) {
+          return mergeFrom((pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
         }
+      }
 
-        private AnomalyAction(
-                com.google.protobuf.CodedInputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            this();
-            int mutable_bitField0_ = 0;
-            try {
-                boolean done = false;
-                while (!done) {
-                    int tag = input.readTag();
-                    switch (tag) {
-                        case 0:
-                            done = true;
-                            break;
-                        default: {
-                            if (!input.skipField(tag)) {
-                                done = true;
-                            }
-                            break;
-                        }
-                        case 8: {
-                            int rawValue = input.readEnum();
-
-                            action_ = rawValue;
-                            break;
-                        }
-                        case 18: {
-                            java.lang.String s = input.readStringRequireUtf8();
-
-                            channel_ = s;
-                            break;
-                        }
-                        case 26: {
-                            java.lang.String s = input.readStringRequireUtf8();
-
-                            nickname_ = s;
-                            break;
-                        }
-                    }
-                }
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-                throw e.setUnfinishedMessage(this);
-            } catch (java.io.IOException e) {
-                throw new com.google.protobuf.InvalidProtocolBufferException(
-                        e).setUnfinishedMessage(this);
-            } finally {
-                makeExtensionsImmutable();
-            }
+      public Builder mergeFrom(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction other) {
+        if (other == pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.getDefaultInstance()) return this;
+        if (other.action_ != 0) {
+          setActionValue(other.getActionValue());
         }
-
-        public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-            return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyAction_descriptor;
+        if (!other.getChannel().isEmpty()) {
+          channel_ = other.channel_;
+          onChanged();
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(
-                com.google.protobuf.ByteString data)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data);
+        if (!other.getNickname().isEmpty()) {
+          nickname_ = other.nickname_;
+          onChanged();
         }
+        onChanged();
+        return this;
+      }
 
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(
-                com.google.protobuf.ByteString data,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data, extensionRegistry);
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
         }
+        return this;
+      }
 
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(byte[] data)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data);
+      private int action_ = 0;
+      /**
+       * <code>optional .AnomalyAction.ActionType action = 1;</code>
+       */
+      public int getActionValue() {
+        return action_;
+      }
+      /**
+       * <code>optional .AnomalyAction.ActionType action = 1;</code>
+       */
+      public Builder setActionValue(int value) {
+        action_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .AnomalyAction.ActionType action = 1;</code>
+       */
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType getAction() {
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType result = pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType.valueOf(action_);
+        return result == null ? pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>optional .AnomalyAction.ActionType action = 1;</code>
+       */
+      public Builder setAction(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType value) {
+        if (value == null) {
+          throw new NullPointerException();
         }
+        
+        action_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .AnomalyAction.ActionType action = 1;</code>
+       */
+      public Builder clearAction() {
+        
+        action_ = 0;
+        onChanged();
+        return this;
+      }
 
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(
-                byte[] data,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data, extensionRegistry);
+      private java.lang.Object channel_ = "";
+      /**
+       * <code>optional string channel = 2;</code>
+       */
+      public java.lang.String getChannel() {
+        java.lang.Object ref = channel_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          channel_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(java.io.InputStream input)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseWithIOException(PARSER, input);
+      }
+      /**
+       * <code>optional string channel = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getChannelBytes() {
+        java.lang.Object ref = channel_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          channel_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
         }
+      }
+      /**
+       * <code>optional string channel = 2;</code>
+       */
+      public Builder setChannel(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        channel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string channel = 2;</code>
+       */
+      public Builder clearChannel() {
+        
+        channel_ = getDefaultInstance().getChannel();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string channel = 2;</code>
+       */
+      public Builder setChannelBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        channel_ = value;
+        onChanged();
+        return this;
+      }
 
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(
-                java.io.InputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseWithIOException(PARSER, input, extensionRegistry);
+      private java.lang.Object nickname_ = "";
+      /**
+       * <code>optional string nickname = 3;</code>
+       */
+      public java.lang.String getNickname() {
+        java.lang.Object ref = nickname_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          nickname_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseDelimitedFrom(java.io.InputStream input)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseDelimitedWithIOException(PARSER, input);
+      }
+      /**
+       * <code>optional string nickname = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNicknameBytes() {
+        java.lang.Object ref = nickname_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          nickname_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseDelimitedFrom(
-                java.io.InputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-        }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(
-                com.google.protobuf.CodedInputStream input)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseWithIOException(PARSER, input);
-        }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parseFrom(
-                com.google.protobuf.CodedInputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseWithIOException(PARSER, input, extensionRegistry);
-        }
-
-        public static Builder newBuilder() {
-            return DEFAULT_INSTANCE.toBuilder();
-        }
-
-        public static Builder newBuilder(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction prototype) {
-            return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-        }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction getDefaultInstance() {
-            return DEFAULT_INSTANCE;
-        }
-
-        public static com.google.protobuf.Parser<AnomalyAction> parser() {
-            return PARSER;
-        }
-
-        @java.lang.Override
-        public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-            return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
-        }
-
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-            return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyAction_fieldAccessorTable
-                    .ensureFieldAccessorsInitialized(
-                            pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder.class);
-        }
-
-        /**
-         * <code>optional .AnomalyAction.ActionType action = 1;</code>
-         */
-        public int getActionValue() {
-            return action_;
-        }
-
-        /**
-         * <code>optional .AnomalyAction.ActionType action = 1;</code>
-         */
-        public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType getAction() {
-            pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType result = pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType.valueOf(action_);
-            return result == null ? pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType.UNRECOGNIZED : result;
-        }
-
-        /**
-         * <code>optional string channel = 2;</code>
-         */
-        public java.lang.String getChannel() {
-            java.lang.Object ref = channel_;
-            if (ref instanceof java.lang.String) {
-                return (java.lang.String) ref;
-            } else {
-                com.google.protobuf.ByteString bs =
-                        (com.google.protobuf.ByteString) ref;
-                java.lang.String s = bs.toStringUtf8();
-                channel_ = s;
-                return s;
-            }
-        }
-
-        /**
-         * <code>optional string channel = 2;</code>
-         */
-        public com.google.protobuf.ByteString
-        getChannelBytes() {
-            java.lang.Object ref = channel_;
-            if (ref instanceof java.lang.String) {
-                com.google.protobuf.ByteString b =
-                        com.google.protobuf.ByteString.copyFromUtf8(
-                                (java.lang.String) ref);
-                channel_ = b;
-                return b;
-            } else {
-                return (com.google.protobuf.ByteString) ref;
-            }
-        }
-
-        /**
-         * <code>optional string nickname = 3;</code>
-         */
-        public java.lang.String getNickname() {
-            java.lang.Object ref = nickname_;
-            if (ref instanceof java.lang.String) {
-                return (java.lang.String) ref;
-            } else {
-                com.google.protobuf.ByteString bs =
-                        (com.google.protobuf.ByteString) ref;
-                java.lang.String s = bs.toStringUtf8();
-                nickname_ = s;
-                return s;
-            }
-        }
-
-        /**
-         * <code>optional string nickname = 3;</code>
-         */
-        public com.google.protobuf.ByteString
-        getNicknameBytes() {
-            java.lang.Object ref = nickname_;
-            if (ref instanceof java.lang.String) {
-                com.google.protobuf.ByteString b =
-                        com.google.protobuf.ByteString.copyFromUtf8(
-                                (java.lang.String) ref);
-                nickname_ = b;
-                return b;
-            } else {
-                return (com.google.protobuf.ByteString) ref;
-            }
-        }
-
-        public final boolean isInitialized() {
-            byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
-
-            memoizedIsInitialized = 1;
-            return true;
-        }
-
-        public void writeTo(com.google.protobuf.CodedOutputStream output)
-                throws java.io.IOException {
-            if (action_ != pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType.JOIN.getNumber()) {
-                output.writeEnum(1, action_);
-            }
-            if (!getChannelBytes().isEmpty()) {
-                com.google.protobuf.GeneratedMessageV3.writeString(output, 2, channel_);
-            }
-            if (!getNicknameBytes().isEmpty()) {
-                com.google.protobuf.GeneratedMessageV3.writeString(output, 3, nickname_);
-            }
-        }
-
-        public int getSerializedSize() {
-            int size = memoizedSize;
-            if (size != -1) return size;
-
-            size = 0;
-            if (action_ != pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType.JOIN.getNumber()) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeEnumSize(1, action_);
-            }
-            if (!getChannelBytes().isEmpty()) {
-                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, channel_);
-            }
-            if (!getNicknameBytes().isEmpty()) {
-                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, nickname_);
-            }
-            memoizedSize = size;
-            return size;
-        }
-
-        @java.lang.Override
-        public boolean equals(final java.lang.Object obj) {
-            if (obj == this) {
-                return true;
-            }
-            if (!(obj instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction)) {
-                return super.equals(obj);
-            }
-            pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction other = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction) obj;
-
-            boolean result = true;
-            result = result && action_ == other.action_;
-            result = result && getChannel()
-                    .equals(other.getChannel());
-            result = result && getNickname()
-                    .equals(other.getNickname());
-            return result;
-        }
-
-        @java.lang.Override
-        public int hashCode() {
-            if (memoizedHashCode != 0) {
-                return memoizedHashCode;
-            }
-            int hash = 41;
-            hash = (19 * hash) + getDescriptorForType().hashCode();
-            hash = (37 * hash) + ACTION_FIELD_NUMBER;
-            hash = (53 * hash) + action_;
-            hash = (37 * hash) + CHANNEL_FIELD_NUMBER;
-            hash = (53 * hash) + getChannel().hashCode();
-            hash = (37 * hash) + NICKNAME_FIELD_NUMBER;
-            hash = (53 * hash) + getNickname().hashCode();
-            hash = (29 * hash) + unknownFields.hashCode();
-            memoizedHashCode = hash;
-            return hash;
-        }
-
-        public Builder newBuilderForType() {
-            return newBuilder();
-        }
-
-        public Builder toBuilder() {
-            return this == DEFAULT_INSTANCE
-                    ? new Builder() : new Builder().mergeFrom(this);
-        }
-
-        @java.lang.Override
-        protected Builder newBuilderForType(
-                com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-            Builder builder = new Builder(parent);
-            return builder;
-        }
-
-        @java.lang.Override
-        public com.google.protobuf.Parser<AnomalyAction> getParserForType() {
-            return PARSER;
-        }
-
-        public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction getDefaultInstanceForType() {
-            return DEFAULT_INSTANCE;
-        }
-
-        /**
-         * Protobuf enum {@code AnomalyAction.ActionType}
-         */
-        public enum ActionType
-                implements com.google.protobuf.ProtocolMessageEnum {
-            /**
-             * <code>JOIN = 0;</code>
-             */
-            JOIN(0),
-            /**
-             * <code>LEAVE = 1;</code>
-             */
-            LEAVE(1),
-            UNRECOGNIZED(-1),;
-
-            /**
-             * <code>JOIN = 0;</code>
-             */
-            public static final int JOIN_VALUE = 0;
-            /**
-             * <code>LEAVE = 1;</code>
-             */
-            public static final int LEAVE_VALUE = 1;
-            private static final com.google.protobuf.Internal.EnumLiteMap<
-                    ActionType> internalValueMap =
-                    new com.google.protobuf.Internal.EnumLiteMap<ActionType>() {
-                        public ActionType findValueByNumber(int number) {
-                            return ActionType.forNumber(number);
-                        }
-                    };
-            private static final ActionType[] VALUES = values();
-            private final int value;
-
-            private ActionType(int value) {
-                this.value = value;
-            }
-
-            /**
-             * @deprecated Use {@link #forNumber(int)} instead.
-             */
-            @java.lang.Deprecated
-            public static ActionType valueOf(int value) {
-                return forNumber(value);
-            }
-
-            public static ActionType forNumber(int value) {
-                switch (value) {
-                    case 0:
-                        return JOIN;
-                    case 1:
-                        return LEAVE;
-                    default:
-                        return null;
-                }
-            }
-
-            public static com.google.protobuf.Internal.EnumLiteMap<ActionType>
-            internalGetValueMap() {
-                return internalValueMap;
-            }
-
-            public static final com.google.protobuf.Descriptors.EnumDescriptor
-            getDescriptor() {
-                return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.getDescriptor().getEnumTypes().get(0);
-            }
-
-            public static ActionType valueOf(
-                    com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-                if (desc.getType() != getDescriptor()) {
-                    throw new java.lang.IllegalArgumentException(
-                            "EnumValueDescriptor is not for this type.");
-                }
-                if (desc.getIndex() == -1) {
-                    return UNRECOGNIZED;
-                }
-                return VALUES[desc.getIndex()];
-            }
-
-            public final int getNumber() {
-                if (this == UNRECOGNIZED) {
-                    throw new java.lang.IllegalArgumentException(
-                            "Can't get the number of an unknown enum value.");
-                }
-                return value;
-            }
-
-            public final com.google.protobuf.Descriptors.EnumValueDescriptor
-            getValueDescriptor() {
-                return getDescriptor().getValues().get(ordinal());
-            }
-
-            public final com.google.protobuf.Descriptors.EnumDescriptor
-            getDescriptorForType() {
-                return getDescriptor();
-            }
-
-            // @@protoc_insertion_point(enum_scope:AnomalyAction.ActionType)
-        }
-
-        /**
-         * Protobuf type {@code AnomalyAction}
-         */
-        public static final class Builder extends
-                com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-                // @@protoc_insertion_point(builder_implements:AnomalyAction)
-                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder {
-            private int action_ = 0;
-            private java.lang.Object channel_ = "";
-            private java.lang.Object nickname_ = "";
-
-            // Construct using pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.newBuilder()
-            private Builder() {
-                maybeForceBuilderInitialization();
-            }
-
-            private Builder(
-                    com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-                super(parent);
-                maybeForceBuilderInitialization();
-            }
-
-            public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-                return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyAction_descriptor;
-            }
-
-            protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-                return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyAction_fieldAccessorTable
-                        .ensureFieldAccessorsInitialized(
-                                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder.class);
-            }
-
-            private void maybeForceBuilderInitialization() {
-                if (com.google.protobuf.GeneratedMessageV3
-                        .alwaysUseFieldBuilders) {
-                }
-            }
-
-            public Builder clear() {
-                super.clear();
-                action_ = 0;
-
-                channel_ = "";
-
-                nickname_ = "";
-
-                return this;
-            }
-
-            public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-                return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyAction_descriptor;
-            }
-
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction getDefaultInstanceForType() {
-                return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.getDefaultInstance();
-            }
-
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction build() {
-                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction result = buildPartial();
-                if (!result.isInitialized()) {
-                    throw newUninitializedMessageException(result);
-                }
-                return result;
-            }
-
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction buildPartial() {
-                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction result = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction(this);
-                result.action_ = action_;
-                result.channel_ = channel_;
-                result.nickname_ = nickname_;
-                onBuilt();
-                return result;
-            }
-
-            public Builder clone() {
-                return (Builder) super.clone();
-            }
-
-            public Builder setField(
-                    com.google.protobuf.Descriptors.FieldDescriptor field,
-                    Object value) {
-                return (Builder) super.setField(field, value);
-            }
-
-            public Builder clearField(
-                    com.google.protobuf.Descriptors.FieldDescriptor field) {
-                return (Builder) super.clearField(field);
-            }
-
-            public Builder clearOneof(
-                    com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-                return (Builder) super.clearOneof(oneof);
-            }
-
-            public Builder setRepeatedField(
-                    com.google.protobuf.Descriptors.FieldDescriptor field,
-                    int index, Object value) {
-                return (Builder) super.setRepeatedField(field, index, value);
-            }
-
-            public Builder addRepeatedField(
-                    com.google.protobuf.Descriptors.FieldDescriptor field,
-                    Object value) {
-                return (Builder) super.addRepeatedField(field, value);
-            }
-
-            public Builder mergeFrom(com.google.protobuf.Message other) {
-                if (other instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction) {
-                    return mergeFrom((pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction) other);
-                } else {
-                    super.mergeFrom(other);
-                    return this;
-                }
-            }
-
-            public Builder mergeFrom(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction other) {
-                if (other == pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.getDefaultInstance())
-                    return this;
-                if (other.action_ != 0) {
-                    setActionValue(other.getActionValue());
-                }
-                if (!other.getChannel().isEmpty()) {
-                    channel_ = other.channel_;
-                    onChanged();
-                }
-                if (!other.getNickname().isEmpty()) {
-                    nickname_ = other.nickname_;
-                    onChanged();
-                }
-                onChanged();
-                return this;
-            }
-
-            public final boolean isInitialized() {
-                return true;
-            }
-
-            public Builder mergeFrom(
-                    com.google.protobuf.CodedInputStream input,
-                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                    throws java.io.IOException {
-                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction parsedMessage = null;
-                try {
-                    parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-                    parsedMessage = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction) e.getUnfinishedMessage();
-                    throw e.unwrapIOException();
-                } finally {
-                    if (parsedMessage != null) {
-                        mergeFrom(parsedMessage);
-                    }
-                }
-                return this;
-            }
-
-            /**
-             * <code>optional .AnomalyAction.ActionType action = 1;</code>
-             */
-            public int getActionValue() {
-                return action_;
-            }
-
-            /**
-             * <code>optional .AnomalyAction.ActionType action = 1;</code>
-             */
-            public Builder setActionValue(int value) {
-                action_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional .AnomalyAction.ActionType action = 1;</code>
-             */
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType getAction() {
-                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType result = pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType.valueOf(action_);
-                return result == null ? pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType.UNRECOGNIZED : result;
-            }
-
-            /**
-             * <code>optional .AnomalyAction.ActionType action = 1;</code>
-             */
-            public Builder setAction(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.ActionType value) {
-                if (value == null) {
-                    throw new NullPointerException();
-                }
-
-                action_ = value.getNumber();
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional .AnomalyAction.ActionType action = 1;</code>
-             */
-            public Builder clearAction() {
-
-                action_ = 0;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional string channel = 2;</code>
-             */
-            public java.lang.String getChannel() {
-                java.lang.Object ref = channel_;
-                if (!(ref instanceof java.lang.String)) {
-                    com.google.protobuf.ByteString bs =
-                            (com.google.protobuf.ByteString) ref;
-                    java.lang.String s = bs.toStringUtf8();
-                    channel_ = s;
-                    return s;
-                } else {
-                    return (java.lang.String) ref;
-                }
-            }
-
-            /**
-             * <code>optional string channel = 2;</code>
-             */
-            public Builder setChannel(
-                    java.lang.String value) {
-                if (value == null) {
-                    throw new NullPointerException();
-                }
-
-                channel_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional string channel = 2;</code>
-             */
-            public com.google.protobuf.ByteString
-            getChannelBytes() {
-                java.lang.Object ref = channel_;
-                if (ref instanceof String) {
-                    com.google.protobuf.ByteString b =
-                            com.google.protobuf.ByteString.copyFromUtf8(
-                                    (java.lang.String) ref);
-                    channel_ = b;
-                    return b;
-                } else {
-                    return (com.google.protobuf.ByteString) ref;
-                }
-            }
-
-            /**
-             * <code>optional string channel = 2;</code>
-             */
-            public Builder setChannelBytes(
-                    com.google.protobuf.ByteString value) {
-                if (value == null) {
-                    throw new NullPointerException();
-                }
-                checkByteStringIsUtf8(value);
-
-                channel_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional string channel = 2;</code>
-             */
-            public Builder clearChannel() {
-
-                channel_ = getDefaultInstance().getChannel();
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional string nickname = 3;</code>
-             */
-            public java.lang.String getNickname() {
-                java.lang.Object ref = nickname_;
-                if (!(ref instanceof java.lang.String)) {
-                    com.google.protobuf.ByteString bs =
-                            (com.google.protobuf.ByteString) ref;
-                    java.lang.String s = bs.toStringUtf8();
-                    nickname_ = s;
-                    return s;
-                } else {
-                    return (java.lang.String) ref;
-                }
-            }
-
-            /**
-             * <code>optional string nickname = 3;</code>
-             */
-            public Builder setNickname(
-                    java.lang.String value) {
-                if (value == null) {
-                    throw new NullPointerException();
-                }
-
-                nickname_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional string nickname = 3;</code>
-             */
-            public com.google.protobuf.ByteString
-            getNicknameBytes() {
-                java.lang.Object ref = nickname_;
-                if (ref instanceof String) {
-                    com.google.protobuf.ByteString b =
-                            com.google.protobuf.ByteString.copyFromUtf8(
-                                    (java.lang.String) ref);
-                    nickname_ = b;
-                    return b;
-                } else {
-                    return (com.google.protobuf.ByteString) ref;
-                }
-            }
-
-            /**
-             * <code>optional string nickname = 3;</code>
-             */
-            public Builder setNicknameBytes(
-                    com.google.protobuf.ByteString value) {
-                if (value == null) {
-                    throw new NullPointerException();
-                }
-                checkByteStringIsUtf8(value);
-
-                nickname_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional string nickname = 3;</code>
-             */
-            public Builder clearNickname() {
-
-                nickname_ = getDefaultInstance().getNickname();
-                onChanged();
-                return this;
-            }
-
-            public final Builder setUnknownFields(
-                    final com.google.protobuf.UnknownFieldSet unknownFields) {
-                return this;
-            }
-
-            public final Builder mergeUnknownFields(
-                    final com.google.protobuf.UnknownFieldSet unknownFields) {
-                return this;
-            }
-
-
-            // @@protoc_insertion_point(builder_scope:AnomalyAction)
-        }
-
+      }
+      /**
+       * <code>optional string nickname = 3;</code>
+       */
+      public Builder setNickname(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        nickname_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string nickname = 3;</code>
+       */
+      public Builder clearNickname() {
+        
+        nickname_ = getDefaultInstance().getNickname();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string nickname = 3;</code>
+       */
+      public Builder setNicknameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        nickname_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:AnomalyAction)
     }
 
+    // @@protoc_insertion_point(class_scope:AnomalyAction)
+    private static final pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction();
+    }
+
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AnomalyAction>
+        PARSER = new com.google.protobuf.AbstractParser<AnomalyAction>() {
+      public AnomalyAction parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new AnomalyAction(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AnomalyAction> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AnomalyAction> getParserForType() {
+      return PARSER;
+    }
+
+    public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface AnomalyStateOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:AnomalyState)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .AnomalyAction state = 1;</code>
+     */
+    java.util.List<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction> 
+        getStateList();
+    /**
+     * <code>repeated .AnomalyAction state = 1;</code>
+     */
+    pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction getState(int index);
+    /**
+     * <code>repeated .AnomalyAction state = 1;</code>
+     */
+    int getStateCount();
+    /**
+     * <code>repeated .AnomalyAction state = 1;</code>
+     */
+    java.util.List<? extends pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder> 
+        getStateOrBuilderList();
+    /**
+     * <code>repeated .AnomalyAction state = 1;</code>
+     */
+    pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder getStateOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code AnomalyState}
+   */
+  public  static final class AnomalyState extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:AnomalyState)
+      AnomalyStateOrBuilder {
+    // Use AnomalyState.newBuilder() to construct.
+    private AnomalyState(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AnomalyState() {
+      state_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private AnomalyState(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                state_ = new java.util.ArrayList<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              state_.add(
+                  input.readMessage(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.parser(), extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          state_ = java.util.Collections.unmodifiableList(state_);
+        }
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyState_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyState_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.Builder.class);
+    }
+
+    public static final int STATE_FIELD_NUMBER = 1;
+    private java.util.List<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction> state_;
+    /**
+     * <code>repeated .AnomalyAction state = 1;</code>
+     */
+    public java.util.List<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction> getStateList() {
+      return state_;
+    }
+    /**
+     * <code>repeated .AnomalyAction state = 1;</code>
+     */
+    public java.util.List<? extends pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder> 
+        getStateOrBuilderList() {
+      return state_;
+    }
+    /**
+     * <code>repeated .AnomalyAction state = 1;</code>
+     */
+    public int getStateCount() {
+      return state_.size();
+    }
+    /**
+     * <code>repeated .AnomalyAction state = 1;</code>
+     */
+    public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction getState(int index) {
+      return state_.get(index);
+    }
+    /**
+     * <code>repeated .AnomalyAction state = 1;</code>
+     */
+    public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder getStateOrBuilder(
+        int index) {
+      return state_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < state_.size(); i++) {
+        output.writeMessage(1, state_.get(i));
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < state_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, state_.get(i));
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState)) {
+        return super.equals(obj);
+      }
+      pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState other = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState) obj;
+
+      boolean result = true;
+      result = result && getStateList()
+          .equals(other.getStateList());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (getStateCount() > 0) {
+        hash = (37 * hash) + STATE_FIELD_NUMBER;
+        hash = (53 * hash) + getStateList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
      * Protobuf type {@code AnomalyState}
      */
-    public static final class AnomalyState extends
-            com.google.protobuf.GeneratedMessageV3 implements
-            // @@protoc_insertion_point(message_implements:AnomalyState)
-            AnomalyStateOrBuilder {
-        public static final int STATE_FIELD_NUMBER = 1;
-        private static final long serialVersionUID = 0L;
-        // @@protoc_insertion_point(class_scope:AnomalyState)
-        private static final pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState DEFAULT_INSTANCE;
-        private static final com.google.protobuf.Parser<AnomalyState>
-                PARSER = new com.google.protobuf.AbstractParser<AnomalyState>() {
-            public AnomalyState parsePartialFrom(
-                    com.google.protobuf.CodedInputStream input,
-                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                    throws com.google.protobuf.InvalidProtocolBufferException {
-                return new AnomalyState(input, extensionRegistry);
-            }
-        };
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:AnomalyState)
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyStateOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyState_descriptor;
+      }
 
-        static {
-            DEFAULT_INSTANCE = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState();
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyState_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.Builder.class);
+      }
+
+      // Construct using pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getStateFieldBuilder();
         }
-
-        private java.util.List<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction> state_;
-        private byte memoizedIsInitialized = -1;
-        // Use AnomalyState.newBuilder() to construct.
-        private AnomalyState(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-            super(builder);
+      }
+      public Builder clear() {
+        super.clear();
+        if (stateBuilder_ == null) {
+          state_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          stateBuilder_.clear();
         }
+        return this;
+      }
 
-        private AnomalyState() {
-            state_ = java.util.Collections.emptyList();
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyState_descriptor;
+      }
+
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState getDefaultInstanceForType() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.getDefaultInstance();
+      }
+
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState build() {
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
         }
+        return result;
+      }
 
-        private AnomalyState(
-                com.google.protobuf.CodedInputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            this();
-            int mutable_bitField0_ = 0;
-            try {
-                boolean done = false;
-                while (!done) {
-                    int tag = input.readTag();
-                    switch (tag) {
-                        case 0:
-                            done = true;
-                            break;
-                        default: {
-                            if (!input.skipField(tag)) {
-                                done = true;
-                            }
-                            break;
-                        }
-                        case 10: {
-                            if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                                state_ = new java.util.ArrayList<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction>();
-                                mutable_bitField0_ |= 0x00000001;
-                            }
-                            state_.add(
-                                    input.readMessage(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.parser(), extensionRegistry));
-                            break;
-                        }
-                    }
-                }
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-                throw e.setUnfinishedMessage(this);
-            } catch (java.io.IOException e) {
-                throw new com.google.protobuf.InvalidProtocolBufferException(
-                        e).setUnfinishedMessage(this);
-            } finally {
-                if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                    state_ = java.util.Collections.unmodifiableList(state_);
-                }
-                makeExtensionsImmutable();
-            }
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState buildPartial() {
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState result = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState(this);
+        int from_bitField0_ = bitField0_;
+        if (stateBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            state_ = java.util.Collections.unmodifiableList(state_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.state_ = state_;
+        } else {
+          result.state_ = stateBuilder_.build();
         }
+        onBuilt();
+        return result;
+      }
 
-        public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-            return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyState_descriptor;
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState) {
+          return mergeFrom((pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
         }
+      }
 
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(
-                com.google.protobuf.ByteString data)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data);
+      public Builder mergeFrom(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState other) {
+        if (other == pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.getDefaultInstance()) return this;
+        if (stateBuilder_ == null) {
+          if (!other.state_.isEmpty()) {
+            if (state_.isEmpty()) {
+              state_ = other.state_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureStateIsMutable();
+              state_.addAll(other.state_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.state_.isEmpty()) {
+            if (stateBuilder_.isEmpty()) {
+              stateBuilder_.dispose();
+              stateBuilder_ = null;
+              state_ = other.state_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              stateBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getStateFieldBuilder() : null;
+            } else {
+              stateBuilder_.addAllMessages(other.state_);
+            }
+          }
         }
+        onChanged();
+        return this;
+      }
 
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(
-                com.google.protobuf.ByteString data,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data, extensionRegistry);
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
         }
+        return this;
+      }
+      private int bitField0_;
 
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(byte[] data)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data);
+      private java.util.List<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction> state_ =
+        java.util.Collections.emptyList();
+      private void ensureStateIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          state_ = new java.util.ArrayList<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction>(state_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder> stateBuilder_;
+
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public java.util.List<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction> getStateList() {
+        if (stateBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(state_);
+        } else {
+          return stateBuilder_.getMessageList();
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(
-                byte[] data,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data, extensionRegistry);
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public int getStateCount() {
+        if (stateBuilder_ == null) {
+          return state_.size();
+        } else {
+          return stateBuilder_.getCount();
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(java.io.InputStream input)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseWithIOException(PARSER, input);
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction getState(int index) {
+        if (stateBuilder_ == null) {
+          return state_.get(index);
+        } else {
+          return stateBuilder_.getMessage(index);
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(
-                java.io.InputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public Builder setState(
+          int index, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction value) {
+        if (stateBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureStateIsMutable();
+          state_.set(index, value);
+          onChanged();
+        } else {
+          stateBuilder_.setMessage(index, value);
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseDelimitedFrom(java.io.InputStream input)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseDelimitedWithIOException(PARSER, input);
+        return this;
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public Builder setState(
+          int index, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder builderForValue) {
+        if (stateBuilder_ == null) {
+          ensureStateIsMutable();
+          state_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          stateBuilder_.setMessage(index, builderForValue.build());
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseDelimitedFrom(
-                java.io.InputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+        return this;
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public Builder addState(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction value) {
+        if (stateBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureStateIsMutable();
+          state_.add(value);
+          onChanged();
+        } else {
+          stateBuilder_.addMessage(value);
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(
-                com.google.protobuf.CodedInputStream input)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseWithIOException(PARSER, input);
+        return this;
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public Builder addState(
+          int index, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction value) {
+        if (stateBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureStateIsMutable();
+          state_.add(index, value);
+          onChanged();
+        } else {
+          stateBuilder_.addMessage(index, value);
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parseFrom(
-                com.google.protobuf.CodedInputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseWithIOException(PARSER, input, extensionRegistry);
+        return this;
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public Builder addState(
+          pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder builderForValue) {
+        if (stateBuilder_ == null) {
+          ensureStateIsMutable();
+          state_.add(builderForValue.build());
+          onChanged();
+        } else {
+          stateBuilder_.addMessage(builderForValue.build());
         }
-
-        public static Builder newBuilder() {
-            return DEFAULT_INSTANCE.toBuilder();
+        return this;
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public Builder addState(
+          int index, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder builderForValue) {
+        if (stateBuilder_ == null) {
+          ensureStateIsMutable();
+          state_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          stateBuilder_.addMessage(index, builderForValue.build());
         }
-
-        public static Builder newBuilder(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState prototype) {
-            return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        return this;
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public Builder addAllState(
+          java.lang.Iterable<? extends pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction> values) {
+        if (stateBuilder_ == null) {
+          ensureStateIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, state_);
+          onChanged();
+        } else {
+          stateBuilder_.addAllMessages(values);
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState getDefaultInstance() {
-            return DEFAULT_INSTANCE;
+        return this;
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public Builder clearState() {
+        if (stateBuilder_ == null) {
+          state_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          stateBuilder_.clear();
         }
-
-        public static com.google.protobuf.Parser<AnomalyState> parser() {
-            return PARSER;
+        return this;
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public Builder removeState(int index) {
+        if (stateBuilder_ == null) {
+          ensureStateIsMutable();
+          state_.remove(index);
+          onChanged();
+        } else {
+          stateBuilder_.remove(index);
         }
-
-        @java.lang.Override
-        public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-            return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+        return this;
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder getStateBuilder(
+          int index) {
+        return getStateFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder getStateOrBuilder(
+          int index) {
+        if (stateBuilder_ == null) {
+          return state_.get(index);  } else {
+          return stateBuilder_.getMessageOrBuilder(index);
         }
-
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-            return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyState_fieldAccessorTable
-                    .ensureFieldAccessorsInitialized(
-                            pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.Builder.class);
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public java.util.List<? extends pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder> 
+           getStateOrBuilderList() {
+        if (stateBuilder_ != null) {
+          return stateBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(state_);
         }
-
-        /**
-         * <code>repeated .AnomalyAction state = 1;</code>
-         */
-        public java.util.List<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction> getStateList() {
-            return state_;
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder addStateBuilder() {
+        return getStateFieldBuilder().addBuilder(
+            pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder addStateBuilder(
+          int index) {
+        return getStateFieldBuilder().addBuilder(
+            index, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .AnomalyAction state = 1;</code>
+       */
+      public java.util.List<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder> 
+           getStateBuilderList() {
+        return getStateFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder> 
+          getStateFieldBuilder() {
+        if (stateBuilder_ == null) {
+          stateBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder>(
+                  state_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          state_ = null;
         }
+        return stateBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
 
-        /**
-         * <code>repeated .AnomalyAction state = 1;</code>
-         */
-        public java.util.List<? extends pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder>
-        getStateOrBuilderList() {
-            return state_;
-        }
-
-        /**
-         * <code>repeated .AnomalyAction state = 1;</code>
-         */
-        public int getStateCount() {
-            return state_.size();
-        }
-
-        /**
-         * <code>repeated .AnomalyAction state = 1;</code>
-         */
-        public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction getState(int index) {
-            return state_.get(index);
-        }
-
-        /**
-         * <code>repeated .AnomalyAction state = 1;</code>
-         */
-        public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder getStateOrBuilder(
-                int index) {
-            return state_.get(index);
-        }
-
-        public final boolean isInitialized() {
-            byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
-
-            memoizedIsInitialized = 1;
-            return true;
-        }
-
-        public void writeTo(com.google.protobuf.CodedOutputStream output)
-                throws java.io.IOException {
-            for (int i = 0; i < state_.size(); i++) {
-                output.writeMessage(1, state_.get(i));
-            }
-        }
-
-        public int getSerializedSize() {
-            int size = memoizedSize;
-            if (size != -1) return size;
-
-            size = 0;
-            for (int i = 0; i < state_.size(); i++) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeMessageSize(1, state_.get(i));
-            }
-            memoizedSize = size;
-            return size;
-        }
-
-        @java.lang.Override
-        public boolean equals(final java.lang.Object obj) {
-            if (obj == this) {
-                return true;
-            }
-            if (!(obj instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState)) {
-                return super.equals(obj);
-            }
-            pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState other = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState) obj;
-
-            boolean result = true;
-            result = result && getStateList()
-                    .equals(other.getStateList());
-            return result;
-        }
-
-        @java.lang.Override
-        public int hashCode() {
-            if (memoizedHashCode != 0) {
-                return memoizedHashCode;
-            }
-            int hash = 41;
-            hash = (19 * hash) + getDescriptorForType().hashCode();
-            if (getStateCount() > 0) {
-                hash = (37 * hash) + STATE_FIELD_NUMBER;
-                hash = (53 * hash) + getStateList().hashCode();
-            }
-            hash = (29 * hash) + unknownFields.hashCode();
-            memoizedHashCode = hash;
-            return hash;
-        }
-
-        public Builder newBuilderForType() {
-            return newBuilder();
-        }
-
-        public Builder toBuilder() {
-            return this == DEFAULT_INSTANCE
-                    ? new Builder() : new Builder().mergeFrom(this);
-        }
-
-        @java.lang.Override
-        protected Builder newBuilderForType(
-                com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-            Builder builder = new Builder(parent);
-            return builder;
-        }
-
-        @java.lang.Override
-        public com.google.protobuf.Parser<AnomalyState> getParserForType() {
-            return PARSER;
-        }
-
-        public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState getDefaultInstanceForType() {
-            return DEFAULT_INSTANCE;
-        }
-
-        /**
-         * Protobuf type {@code AnomalyState}
-         */
-        public static final class Builder extends
-                com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-                // @@protoc_insertion_point(builder_implements:AnomalyState)
-                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyStateOrBuilder {
-            private int bitField0_;
-            private java.util.List<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction> state_ =
-                    java.util.Collections.emptyList();
-            private com.google.protobuf.RepeatedFieldBuilderV3<
-                    pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder> stateBuilder_;
-
-            // Construct using pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.newBuilder()
-            private Builder() {
-                maybeForceBuilderInitialization();
-            }
-
-            private Builder(
-                    com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-                super(parent);
-                maybeForceBuilderInitialization();
-            }
-
-            public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-                return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyState_descriptor;
-            }
-
-            protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-                return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyState_fieldAccessorTable
-                        .ensureFieldAccessorsInitialized(
-                                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.Builder.class);
-            }
-
-            private void maybeForceBuilderInitialization() {
-                if (com.google.protobuf.GeneratedMessageV3
-                        .alwaysUseFieldBuilders) {
-                    getStateFieldBuilder();
-                }
-            }
-
-            public Builder clear() {
-                super.clear();
-                if (stateBuilder_ == null) {
-                    state_ = java.util.Collections.emptyList();
-                    bitField0_ = (bitField0_ & ~0x00000001);
-                } else {
-                    stateBuilder_.clear();
-                }
-                return this;
-            }
-
-            public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-                return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyState_descriptor;
-            }
-
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState getDefaultInstanceForType() {
-                return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.getDefaultInstance();
-            }
-
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState build() {
-                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState result = buildPartial();
-                if (!result.isInitialized()) {
-                    throw newUninitializedMessageException(result);
-                }
-                return result;
-            }
-
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState buildPartial() {
-                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState result = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState(this);
-                int from_bitField0_ = bitField0_;
-                if (stateBuilder_ == null) {
-                    if (((bitField0_ & 0x00000001) == 0x00000001)) {
-                        state_ = java.util.Collections.unmodifiableList(state_);
-                        bitField0_ = (bitField0_ & ~0x00000001);
-                    }
-                    result.state_ = state_;
-                } else {
-                    result.state_ = stateBuilder_.build();
-                }
-                onBuilt();
-                return result;
-            }
-
-            public Builder clone() {
-                return (Builder) super.clone();
-            }
-
-            public Builder setField(
-                    com.google.protobuf.Descriptors.FieldDescriptor field,
-                    Object value) {
-                return (Builder) super.setField(field, value);
-            }
-
-            public Builder clearField(
-                    com.google.protobuf.Descriptors.FieldDescriptor field) {
-                return (Builder) super.clearField(field);
-            }
-
-            public Builder clearOneof(
-                    com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-                return (Builder) super.clearOneof(oneof);
-            }
-
-            public Builder setRepeatedField(
-                    com.google.protobuf.Descriptors.FieldDescriptor field,
-                    int index, Object value) {
-                return (Builder) super.setRepeatedField(field, index, value);
-            }
-
-            public Builder addRepeatedField(
-                    com.google.protobuf.Descriptors.FieldDescriptor field,
-                    Object value) {
-                return (Builder) super.addRepeatedField(field, value);
-            }
-
-            public Builder mergeFrom(com.google.protobuf.Message other) {
-                if (other instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState) {
-                    return mergeFrom((pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState) other);
-                } else {
-                    super.mergeFrom(other);
-                    return this;
-                }
-            }
-
-            public Builder mergeFrom(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState other) {
-                if (other == pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState.getDefaultInstance())
-                    return this;
-                if (stateBuilder_ == null) {
-                    if (!other.state_.isEmpty()) {
-                        if (state_.isEmpty()) {
-                            state_ = other.state_;
-                            bitField0_ = (bitField0_ & ~0x00000001);
-                        } else {
-                            ensureStateIsMutable();
-                            state_.addAll(other.state_);
-                        }
-                        onChanged();
-                    }
-                } else {
-                    if (!other.state_.isEmpty()) {
-                        if (stateBuilder_.isEmpty()) {
-                            stateBuilder_.dispose();
-                            stateBuilder_ = null;
-                            state_ = other.state_;
-                            bitField0_ = (bitField0_ & ~0x00000001);
-                            stateBuilder_ =
-                                    com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                                            getStateFieldBuilder() : null;
-                        } else {
-                            stateBuilder_.addAllMessages(other.state_);
-                        }
-                    }
-                }
-                onChanged();
-                return this;
-            }
-
-            public final boolean isInitialized() {
-                return true;
-            }
-
-            public Builder mergeFrom(
-                    com.google.protobuf.CodedInputStream input,
-                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                    throws java.io.IOException {
-                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState parsedMessage = null;
-                try {
-                    parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-                    parsedMessage = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState) e.getUnfinishedMessage();
-                    throw e.unwrapIOException();
-                } finally {
-                    if (parsedMessage != null) {
-                        mergeFrom(parsedMessage);
-                    }
-                }
-                return this;
-            }
-
-            private void ensureStateIsMutable() {
-                if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-                    state_ = new java.util.ArrayList<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction>(state_);
-                    bitField0_ |= 0x00000001;
-                }
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public java.util.List<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction> getStateList() {
-                if (stateBuilder_ == null) {
-                    return java.util.Collections.unmodifiableList(state_);
-                } else {
-                    return stateBuilder_.getMessageList();
-                }
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public int getStateCount() {
-                if (stateBuilder_ == null) {
-                    return state_.size();
-                } else {
-                    return stateBuilder_.getCount();
-                }
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction getState(int index) {
-                if (stateBuilder_ == null) {
-                    return state_.get(index);
-                } else {
-                    return stateBuilder_.getMessage(index);
-                }
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public Builder setState(
-                    int index, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction value) {
-                if (stateBuilder_ == null) {
-                    if (value == null) {
-                        throw new NullPointerException();
-                    }
-                    ensureStateIsMutable();
-                    state_.set(index, value);
-                    onChanged();
-                } else {
-                    stateBuilder_.setMessage(index, value);
-                }
-                return this;
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public Builder setState(
-                    int index, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder builderForValue) {
-                if (stateBuilder_ == null) {
-                    ensureStateIsMutable();
-                    state_.set(index, builderForValue.build());
-                    onChanged();
-                } else {
-                    stateBuilder_.setMessage(index, builderForValue.build());
-                }
-                return this;
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public Builder addState(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction value) {
-                if (stateBuilder_ == null) {
-                    if (value == null) {
-                        throw new NullPointerException();
-                    }
-                    ensureStateIsMutable();
-                    state_.add(value);
-                    onChanged();
-                } else {
-                    stateBuilder_.addMessage(value);
-                }
-                return this;
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public Builder addState(
-                    int index, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction value) {
-                if (stateBuilder_ == null) {
-                    if (value == null) {
-                        throw new NullPointerException();
-                    }
-                    ensureStateIsMutable();
-                    state_.add(index, value);
-                    onChanged();
-                } else {
-                    stateBuilder_.addMessage(index, value);
-                }
-                return this;
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public Builder addState(
-                    pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder builderForValue) {
-                if (stateBuilder_ == null) {
-                    ensureStateIsMutable();
-                    state_.add(builderForValue.build());
-                    onChanged();
-                } else {
-                    stateBuilder_.addMessage(builderForValue.build());
-                }
-                return this;
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public Builder addState(
-                    int index, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder builderForValue) {
-                if (stateBuilder_ == null) {
-                    ensureStateIsMutable();
-                    state_.add(index, builderForValue.build());
-                    onChanged();
-                } else {
-                    stateBuilder_.addMessage(index, builderForValue.build());
-                }
-                return this;
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public Builder addAllState(
-                    java.lang.Iterable<? extends pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction> values) {
-                if (stateBuilder_ == null) {
-                    ensureStateIsMutable();
-                    com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                            values, state_);
-                    onChanged();
-                } else {
-                    stateBuilder_.addAllMessages(values);
-                }
-                return this;
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public Builder clearState() {
-                if (stateBuilder_ == null) {
-                    state_ = java.util.Collections.emptyList();
-                    bitField0_ = (bitField0_ & ~0x00000001);
-                    onChanged();
-                } else {
-                    stateBuilder_.clear();
-                }
-                return this;
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public Builder removeState(int index) {
-                if (stateBuilder_ == null) {
-                    ensureStateIsMutable();
-                    state_.remove(index);
-                    onChanged();
-                } else {
-                    stateBuilder_.remove(index);
-                }
-                return this;
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder getStateBuilder(
-                    int index) {
-                return getStateFieldBuilder().getBuilder(index);
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder getStateOrBuilder(
-                    int index) {
-                if (stateBuilder_ == null) {
-                    return state_.get(index);
-                } else {
-                    return stateBuilder_.getMessageOrBuilder(index);
-                }
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public java.util.List<? extends pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder>
-            getStateOrBuilderList() {
-                if (stateBuilder_ != null) {
-                    return stateBuilder_.getMessageOrBuilderList();
-                } else {
-                    return java.util.Collections.unmodifiableList(state_);
-                }
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder addStateBuilder() {
-                return getStateFieldBuilder().addBuilder(
-                        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.getDefaultInstance());
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder addStateBuilder(
-                    int index) {
-                return getStateFieldBuilder().addBuilder(
-                        index, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.getDefaultInstance());
-            }
-
-            /**
-             * <code>repeated .AnomalyAction state = 1;</code>
-             */
-            public java.util.List<pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder>
-            getStateBuilderList() {
-                return getStateFieldBuilder().getBuilderList();
-            }
-
-            private com.google.protobuf.RepeatedFieldBuilderV3<
-                    pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder>
-            getStateFieldBuilder() {
-                if (stateBuilder_ == null) {
-                    stateBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-                            pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyAction.Builder, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyActionOrBuilder>(
-                            state_,
-                            ((bitField0_ & 0x00000001) == 0x00000001),
-                            getParentForChildren(),
-                            isClean());
-                    state_ = null;
-                }
-                return stateBuilder_;
-            }
-
-            public final Builder setUnknownFields(
-                    final com.google.protobuf.UnknownFieldSet unknownFields) {
-                return this;
-            }
-
-            public final Builder mergeUnknownFields(
-                    final com.google.protobuf.UnknownFieldSet unknownFields) {
-                return this;
-            }
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
 
 
-            // @@protoc_insertion_point(builder_scope:AnomalyState)
-        }
-
+      // @@protoc_insertion_point(builder_scope:AnomalyState)
     }
 
+    // @@protoc_insertion_point(class_scope:AnomalyState)
+    private static final pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState();
+    }
+
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AnomalyState>
+        PARSER = new com.google.protobuf.AbstractParser<AnomalyState>() {
+      public AnomalyState parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new AnomalyState(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AnomalyState> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AnomalyState> getParserForType() {
+      return PARSER;
+    }
+
+    public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyState getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface AnomalyMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:AnomalyMessage)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional int32 routeIdx = 1;</code>
+     */
+    int getRouteIdx();
+
+    /**
+     * <code>optional int32 secondOfDay = 2;</code>
+     */
+    int getSecondOfDay();
+
+    /**
+     * <code>optional bool isAnomaly = 3;</code>
+     */
+    boolean getIsAnomaly();
+
+    /**
+     * <code>optional int32 duration = 4;</code>
+     */
+    int getDuration();
+
+    /**
+     * <code>optional int32 dayOfWeek = 5;</code>
+     */
+    int getDayOfWeek();
+
+    /**
+     * <code>optional int32 severity = 6;</code>
+     */
+    int getSeverity();
+
+    /**
+     * <code>optional string message = 7;</code>
+     */
+    java.lang.String getMessage();
+    /**
+     * <code>optional string message = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getMessageBytes();
+
+    /**
+     * <code>optional int64 anomalyID = 8;</code>
+     */
+    long getAnomalyID();
+
+    /**
+     * <code>optional string date = 9;</code>
+     */
+    java.lang.String getDate();
+    /**
+     * <code>optional string date = 9;</code>
+     */
+    com.google.protobuf.ByteString
+        getDateBytes();
+  }
+  /**
+   * Protobuf type {@code AnomalyMessage}
+   */
+  public  static final class AnomalyMessage extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:AnomalyMessage)
+      AnomalyMessageOrBuilder {
+    // Use AnomalyMessage.newBuilder() to construct.
+    private AnomalyMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AnomalyMessage() {
+      routeIdx_ = 0;
+      secondOfDay_ = 0;
+      isAnomaly_ = false;
+      duration_ = 0;
+      dayOfWeek_ = 0;
+      severity_ = 0;
+      message_ = "";
+      anomalyID_ = 0L;
+      date_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private AnomalyMessage(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+
+              routeIdx_ = input.readInt32();
+              break;
+            }
+            case 16: {
+
+              secondOfDay_ = input.readInt32();
+              break;
+            }
+            case 24: {
+
+              isAnomaly_ = input.readBool();
+              break;
+            }
+            case 32: {
+
+              duration_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              dayOfWeek_ = input.readInt32();
+              break;
+            }
+            case 48: {
+
+              severity_ = input.readInt32();
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              message_ = s;
+              break;
+            }
+            case 64: {
+
+              anomalyID_ = input.readInt64();
+              break;
+            }
+            case 74: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              date_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyMessage_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyMessage_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.Builder.class);
+    }
+
+    public static final int ROUTEIDX_FIELD_NUMBER = 1;
+    private int routeIdx_;
+    /**
+     * <code>optional int32 routeIdx = 1;</code>
+     */
+    public int getRouteIdx() {
+      return routeIdx_;
+    }
+
+    public static final int SECONDOFDAY_FIELD_NUMBER = 2;
+    private int secondOfDay_;
+    /**
+     * <code>optional int32 secondOfDay = 2;</code>
+     */
+    public int getSecondOfDay() {
+      return secondOfDay_;
+    }
+
+    public static final int ISANOMALY_FIELD_NUMBER = 3;
+    private boolean isAnomaly_;
+    /**
+     * <code>optional bool isAnomaly = 3;</code>
+     */
+    public boolean getIsAnomaly() {
+      return isAnomaly_;
+    }
+
+    public static final int DURATION_FIELD_NUMBER = 4;
+    private int duration_;
+    /**
+     * <code>optional int32 duration = 4;</code>
+     */
+    public int getDuration() {
+      return duration_;
+    }
+
+    public static final int DAYOFWEEK_FIELD_NUMBER = 5;
+    private int dayOfWeek_;
+    /**
+     * <code>optional int32 dayOfWeek = 5;</code>
+     */
+    public int getDayOfWeek() {
+      return dayOfWeek_;
+    }
+
+    public static final int SEVERITY_FIELD_NUMBER = 6;
+    private int severity_;
+    /**
+     * <code>optional int32 severity = 6;</code>
+     */
+    public int getSeverity() {
+      return severity_;
+    }
+
+    public static final int MESSAGE_FIELD_NUMBER = 7;
+    private volatile java.lang.Object message_;
+    /**
+     * <code>optional string message = 7;</code>
+     */
+    public java.lang.String getMessage() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        message_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string message = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getMessageBytes() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        message_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ANOMALYID_FIELD_NUMBER = 8;
+    private long anomalyID_;
+    /**
+     * <code>optional int64 anomalyID = 8;</code>
+     */
+    public long getAnomalyID() {
+      return anomalyID_;
+    }
+
+    public static final int DATE_FIELD_NUMBER = 9;
+    private volatile java.lang.Object date_;
+    /**
+     * <code>optional string date = 9;</code>
+     */
+    public java.lang.String getDate() {
+      java.lang.Object ref = date_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        date_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string date = 9;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDateBytes() {
+      java.lang.Object ref = date_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        date_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (routeIdx_ != 0) {
+        output.writeInt32(1, routeIdx_);
+      }
+      if (secondOfDay_ != 0) {
+        output.writeInt32(2, secondOfDay_);
+      }
+      if (isAnomaly_ != false) {
+        output.writeBool(3, isAnomaly_);
+      }
+      if (duration_ != 0) {
+        output.writeInt32(4, duration_);
+      }
+      if (dayOfWeek_ != 0) {
+        output.writeInt32(5, dayOfWeek_);
+      }
+      if (severity_ != 0) {
+        output.writeInt32(6, severity_);
+      }
+      if (!getMessageBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, message_);
+      }
+      if (anomalyID_ != 0L) {
+        output.writeInt64(8, anomalyID_);
+      }
+      if (!getDateBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, date_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (routeIdx_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, routeIdx_);
+      }
+      if (secondOfDay_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, secondOfDay_);
+      }
+      if (isAnomaly_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, isAnomaly_);
+      }
+      if (duration_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, duration_);
+      }
+      if (dayOfWeek_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, dayOfWeek_);
+      }
+      if (severity_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, severity_);
+      }
+      if (!getMessageBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, message_);
+      }
+      if (anomalyID_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(8, anomalyID_);
+      }
+      if (!getDateBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, date_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage)) {
+        return super.equals(obj);
+      }
+      pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage other = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage) obj;
+
+      boolean result = true;
+      result = result && (getRouteIdx()
+          == other.getRouteIdx());
+      result = result && (getSecondOfDay()
+          == other.getSecondOfDay());
+      result = result && (getIsAnomaly()
+          == other.getIsAnomaly());
+      result = result && (getDuration()
+          == other.getDuration());
+      result = result && (getDayOfWeek()
+          == other.getDayOfWeek());
+      result = result && (getSeverity()
+          == other.getSeverity());
+      result = result && getMessage()
+          .equals(other.getMessage());
+      result = result && (getAnomalyID()
+          == other.getAnomalyID());
+      result = result && getDate()
+          .equals(other.getDate());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + ROUTEIDX_FIELD_NUMBER;
+      hash = (53 * hash) + getRouteIdx();
+      hash = (37 * hash) + SECONDOFDAY_FIELD_NUMBER;
+      hash = (53 * hash) + getSecondOfDay();
+      hash = (37 * hash) + ISANOMALY_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsAnomaly());
+      hash = (37 * hash) + DURATION_FIELD_NUMBER;
+      hash = (53 * hash) + getDuration();
+      hash = (37 * hash) + DAYOFWEEK_FIELD_NUMBER;
+      hash = (53 * hash) + getDayOfWeek();
+      hash = (37 * hash) + SEVERITY_FIELD_NUMBER;
+      hash = (53 * hash) + getSeverity();
+      hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+      hash = (53 * hash) + getMessage().hashCode();
+      hash = (37 * hash) + ANOMALYID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getAnomalyID());
+      hash = (37 * hash) + DATE_FIELD_NUMBER;
+      hash = (53 * hash) + getDate().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
      * Protobuf type {@code AnomalyMessage}
      */
-    public static final class AnomalyMessage extends
-            com.google.protobuf.GeneratedMessageV3 implements
-            // @@protoc_insertion_point(message_implements:AnomalyMessage)
-            AnomalyMessageOrBuilder {
-        public static final int ROUTEIDX_FIELD_NUMBER = 1;
-        public static final int SECONDOFDAY_FIELD_NUMBER = 2;
-        public static final int ISANOMALY_FIELD_NUMBER = 3;
-        public static final int DURATION_FIELD_NUMBER = 4;
-        public static final int DAYOFWEEK_FIELD_NUMBER = 5;
-        public static final int SEVERITY_FIELD_NUMBER = 6;
-        public static final int MESSAGE_FIELD_NUMBER = 7;
-        public static final int ANOMALYID_FIELD_NUMBER = 8;
-        public static final int DATE_FIELD_NUMBER = 9;
-        private static final long serialVersionUID = 0L;
-        // @@protoc_insertion_point(class_scope:AnomalyMessage)
-        private static final pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage DEFAULT_INSTANCE;
-        private static final com.google.protobuf.Parser<AnomalyMessage>
-                PARSER = new com.google.protobuf.AbstractParser<AnomalyMessage>() {
-            public AnomalyMessage parsePartialFrom(
-                    com.google.protobuf.CodedInputStream input,
-                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                    throws com.google.protobuf.InvalidProtocolBufferException {
-                return new AnomalyMessage(input, extensionRegistry);
-            }
-        };
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:AnomalyMessage)
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessageOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyMessage_descriptor;
+      }
 
-        static {
-            DEFAULT_INSTANCE = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage();
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyMessage_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.Builder.class);
+      }
+
+      // Construct using pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
+      }
+      public Builder clear() {
+        super.clear();
+        routeIdx_ = 0;
 
-        private int routeIdx_;
-        private int secondOfDay_;
-        private boolean isAnomaly_;
-        private int duration_;
-        private int dayOfWeek_;
-        private int severity_;
-        private volatile java.lang.Object message_;
-        private long anomalyID_;
-        private volatile java.lang.Object date_;
-        private byte memoizedIsInitialized = -1;
+        secondOfDay_ = 0;
 
-        // Use AnomalyMessage.newBuilder() to construct.
-        private AnomalyMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-            super(builder);
+        isAnomaly_ = false;
+
+        duration_ = 0;
+
+        dayOfWeek_ = 0;
+
+        severity_ = 0;
+
+        message_ = "";
+
+        anomalyID_ = 0L;
+
+        date_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyMessage_descriptor;
+      }
+
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage getDefaultInstanceForType() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.getDefaultInstance();
+      }
+
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage build() {
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
         }
+        return result;
+      }
 
-        private AnomalyMessage() {
-            routeIdx_ = 0;
-            secondOfDay_ = 0;
-            isAnomaly_ = false;
-            duration_ = 0;
-            dayOfWeek_ = 0;
-            severity_ = 0;
-            message_ = "";
-            anomalyID_ = 0L;
-            date_ = "";
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage buildPartial() {
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage result = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage(this);
+        result.routeIdx_ = routeIdx_;
+        result.secondOfDay_ = secondOfDay_;
+        result.isAnomaly_ = isAnomaly_;
+        result.duration_ = duration_;
+        result.dayOfWeek_ = dayOfWeek_;
+        result.severity_ = severity_;
+        result.message_ = message_;
+        result.anomalyID_ = anomalyID_;
+        result.date_ = date_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage) {
+          return mergeFrom((pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
         }
-        private AnomalyMessage(
-                com.google.protobuf.CodedInputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            this();
-            int mutable_bitField0_ = 0;
-            try {
-                boolean done = false;
-                while (!done) {
-                    int tag = input.readTag();
-                    switch (tag) {
-                        case 0:
-                            done = true;
-                            break;
-                        default: {
-                            if (!input.skipField(tag)) {
-                                done = true;
-                            }
-                            break;
-                        }
-                        case 8: {
+      }
 
-                            routeIdx_ = input.readInt32();
-                            break;
-                        }
-                        case 16: {
-
-                            secondOfDay_ = input.readInt32();
-                            break;
-                        }
-                        case 24: {
-
-                            isAnomaly_ = input.readBool();
-                            break;
-                        }
-                        case 32: {
-
-                            duration_ = input.readInt32();
-                            break;
-                        }
-                        case 40: {
-
-                            dayOfWeek_ = input.readInt32();
-                            break;
-                        }
-                        case 48: {
-
-                            severity_ = input.readInt32();
-                            break;
-                        }
-                        case 58: {
-                            java.lang.String s = input.readStringRequireUtf8();
-
-                            message_ = s;
-                            break;
-                        }
-                        case 64: {
-
-                            anomalyID_ = input.readInt64();
-                            break;
-                        }
-                        case 74: {
-                            java.lang.String s = input.readStringRequireUtf8();
-
-                            date_ = s;
-                            break;
-                        }
-                    }
-                }
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-                throw e.setUnfinishedMessage(this);
-            } catch (java.io.IOException e) {
-                throw new com.google.protobuf.InvalidProtocolBufferException(
-                        e).setUnfinishedMessage(this);
-            } finally {
-                makeExtensionsImmutable();
-            }
+      public Builder mergeFrom(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage other) {
+        if (other == pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.getDefaultInstance()) return this;
+        if (other.getRouteIdx() != 0) {
+          setRouteIdx(other.getRouteIdx());
         }
-
-        public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-            return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyMessage_descriptor;
+        if (other.getSecondOfDay() != 0) {
+          setSecondOfDay(other.getSecondOfDay());
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(
-                com.google.protobuf.ByteString data)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data);
+        if (other.getIsAnomaly() != false) {
+          setIsAnomaly(other.getIsAnomaly());
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(
-                com.google.protobuf.ByteString data,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data, extensionRegistry);
+        if (other.getDuration() != 0) {
+          setDuration(other.getDuration());
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(byte[] data)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data);
+        if (other.getDayOfWeek() != 0) {
+          setDayOfWeek(other.getDayOfWeek());
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(
-                byte[] data,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data, extensionRegistry);
+        if (other.getSeverity() != 0) {
+          setSeverity(other.getSeverity());
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(java.io.InputStream input)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseWithIOException(PARSER, input);
+        if (!other.getMessage().isEmpty()) {
+          message_ = other.message_;
+          onChanged();
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(
-                java.io.InputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseWithIOException(PARSER, input, extensionRegistry);
+        if (other.getAnomalyID() != 0L) {
+          setAnomalyID(other.getAnomalyID());
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseDelimitedFrom(java.io.InputStream input)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseDelimitedWithIOException(PARSER, input);
+        if (!other.getDate().isEmpty()) {
+          date_ = other.date_;
+          onChanged();
         }
+        onChanged();
+        return this;
+      }
 
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseDelimitedFrom(
-                java.io.InputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
         }
+        return this;
+      }
 
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(
-                com.google.protobuf.CodedInputStream input)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseWithIOException(PARSER, input);
+      private int routeIdx_ ;
+      /**
+       * <code>optional int32 routeIdx = 1;</code>
+       */
+      public int getRouteIdx() {
+        return routeIdx_;
+      }
+      /**
+       * <code>optional int32 routeIdx = 1;</code>
+       */
+      public Builder setRouteIdx(int value) {
+        
+        routeIdx_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 routeIdx = 1;</code>
+       */
+      public Builder clearRouteIdx() {
+        
+        routeIdx_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int secondOfDay_ ;
+      /**
+       * <code>optional int32 secondOfDay = 2;</code>
+       */
+      public int getSecondOfDay() {
+        return secondOfDay_;
+      }
+      /**
+       * <code>optional int32 secondOfDay = 2;</code>
+       */
+      public Builder setSecondOfDay(int value) {
+        
+        secondOfDay_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 secondOfDay = 2;</code>
+       */
+      public Builder clearSecondOfDay() {
+        
+        secondOfDay_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean isAnomaly_ ;
+      /**
+       * <code>optional bool isAnomaly = 3;</code>
+       */
+      public boolean getIsAnomaly() {
+        return isAnomaly_;
+      }
+      /**
+       * <code>optional bool isAnomaly = 3;</code>
+       */
+      public Builder setIsAnomaly(boolean value) {
+        
+        isAnomaly_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool isAnomaly = 3;</code>
+       */
+      public Builder clearIsAnomaly() {
+        
+        isAnomaly_ = false;
+        onChanged();
+        return this;
+      }
+
+      private int duration_ ;
+      /**
+       * <code>optional int32 duration = 4;</code>
+       */
+      public int getDuration() {
+        return duration_;
+      }
+      /**
+       * <code>optional int32 duration = 4;</code>
+       */
+      public Builder setDuration(int value) {
+        
+        duration_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 duration = 4;</code>
+       */
+      public Builder clearDuration() {
+        
+        duration_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int dayOfWeek_ ;
+      /**
+       * <code>optional int32 dayOfWeek = 5;</code>
+       */
+      public int getDayOfWeek() {
+        return dayOfWeek_;
+      }
+      /**
+       * <code>optional int32 dayOfWeek = 5;</code>
+       */
+      public Builder setDayOfWeek(int value) {
+        
+        dayOfWeek_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 dayOfWeek = 5;</code>
+       */
+      public Builder clearDayOfWeek() {
+        
+        dayOfWeek_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int severity_ ;
+      /**
+       * <code>optional int32 severity = 6;</code>
+       */
+      public int getSeverity() {
+        return severity_;
+      }
+      /**
+       * <code>optional int32 severity = 6;</code>
+       */
+      public Builder setSeverity(int value) {
+        
+        severity_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 severity = 6;</code>
+       */
+      public Builder clearSeverity() {
+        
+        severity_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object message_ = "";
+      /**
+       * <code>optional string message = 7;</code>
+       */
+      public java.lang.String getMessage() {
+        java.lang.Object ref = message_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          message_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parseFrom(
-                com.google.protobuf.CodedInputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                    .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      /**
+       * <code>optional string message = 7;</code>
+       */
+      public com.google.protobuf.ByteString
+          getMessageBytes() {
+        java.lang.Object ref = message_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          message_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
         }
+      }
+      /**
+       * <code>optional string message = 7;</code>
+       */
+      public Builder setMessage(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        message_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string message = 7;</code>
+       */
+      public Builder clearMessage() {
+        
+        message_ = getDefaultInstance().getMessage();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string message = 7;</code>
+       */
+      public Builder setMessageBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        message_ = value;
+        onChanged();
+        return this;
+      }
 
-        public static Builder newBuilder() {
-            return DEFAULT_INSTANCE.toBuilder();
+      private long anomalyID_ ;
+      /**
+       * <code>optional int64 anomalyID = 8;</code>
+       */
+      public long getAnomalyID() {
+        return anomalyID_;
+      }
+      /**
+       * <code>optional int64 anomalyID = 8;</code>
+       */
+      public Builder setAnomalyID(long value) {
+        
+        anomalyID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 anomalyID = 8;</code>
+       */
+      public Builder clearAnomalyID() {
+        
+        anomalyID_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object date_ = "";
+      /**
+       * <code>optional string date = 9;</code>
+       */
+      public java.lang.String getDate() {
+        java.lang.Object ref = date_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          date_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
         }
-
-        public static Builder newBuilder(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage prototype) {
-            return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      /**
+       * <code>optional string date = 9;</code>
+       */
+      public com.google.protobuf.ByteString
+          getDateBytes() {
+        java.lang.Object ref = date_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          date_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
         }
-
-        public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage getDefaultInstance() {
-            return DEFAULT_INSTANCE;
-        }
-
-        public static com.google.protobuf.Parser<AnomalyMessage> parser() {
-            return PARSER;
-        }
-
-        @java.lang.Override
-        public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-            return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
-        }
-
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-            return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyMessage_fieldAccessorTable
-                    .ensureFieldAccessorsInitialized(
-                            pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.Builder.class);
-        }
-
-        /**
-         * <code>optional int32 routeIdx = 1;</code>
-         */
-        public int getRouteIdx() {
-            return routeIdx_;
-        }
-
-        /**
-         * <code>optional int32 secondOfDay = 2;</code>
-         */
-        public int getSecondOfDay() {
-            return secondOfDay_;
-        }
-
-        /**
-         * <code>optional bool isAnomaly = 3;</code>
-         */
-        public boolean getIsAnomaly() {
-            return isAnomaly_;
-        }
-
-        /**
-         * <code>optional int32 duration = 4;</code>
-         */
-        public int getDuration() {
-            return duration_;
-        }
-
-        /**
-         * <code>optional int32 dayOfWeek = 5;</code>
-         */
-        public int getDayOfWeek() {
-            return dayOfWeek_;
-        }
-
-        /**
-         * <code>optional int32 severity = 6;</code>
-         */
-        public int getSeverity() {
-            return severity_;
-        }
-
-        /**
-         * <code>optional string message = 7;</code>
-         */
-        public java.lang.String getMessage() {
-            java.lang.Object ref = message_;
-            if (ref instanceof java.lang.String) {
-                return (java.lang.String) ref;
-            } else {
-                com.google.protobuf.ByteString bs =
-                        (com.google.protobuf.ByteString) ref;
-                java.lang.String s = bs.toStringUtf8();
-                message_ = s;
-                return s;
-            }
-        }
-
-        /**
-         * <code>optional string message = 7;</code>
-         */
-        public com.google.protobuf.ByteString
-        getMessageBytes() {
-            java.lang.Object ref = message_;
-            if (ref instanceof java.lang.String) {
-                com.google.protobuf.ByteString b =
-                        com.google.protobuf.ByteString.copyFromUtf8(
-                                (java.lang.String) ref);
-                message_ = b;
-                return b;
-            } else {
-                return (com.google.protobuf.ByteString) ref;
-            }
-        }
-
-        /**
-         * <code>optional int64 anomalyID = 8;</code>
-         */
-        public long getAnomalyID() {
-            return anomalyID_;
-        }
-
-        /**
-         * <code>optional string date = 9;</code>
-         */
-        public java.lang.String getDate() {
-            java.lang.Object ref = date_;
-            if (ref instanceof java.lang.String) {
-                return (java.lang.String) ref;
-            } else {
-                com.google.protobuf.ByteString bs =
-                        (com.google.protobuf.ByteString) ref;
-                java.lang.String s = bs.toStringUtf8();
-                date_ = s;
-                return s;
-            }
-        }
-
-        /**
-         * <code>optional string date = 9;</code>
-         */
-        public com.google.protobuf.ByteString
-        getDateBytes() {
-            java.lang.Object ref = date_;
-            if (ref instanceof java.lang.String) {
-                com.google.protobuf.ByteString b =
-                        com.google.protobuf.ByteString.copyFromUtf8(
-                                (java.lang.String) ref);
-                date_ = b;
-                return b;
-            } else {
-                return (com.google.protobuf.ByteString) ref;
-            }
-        }
-
-        public final boolean isInitialized() {
-            byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
-
-            memoizedIsInitialized = 1;
-            return true;
-        }
-
-        public void writeTo(com.google.protobuf.CodedOutputStream output)
-                throws java.io.IOException {
-            if (routeIdx_ != 0) {
-                output.writeInt32(1, routeIdx_);
-            }
-            if (secondOfDay_ != 0) {
-                output.writeInt32(2, secondOfDay_);
-            }
-            if (isAnomaly_ != false) {
-                output.writeBool(3, isAnomaly_);
-            }
-            if (duration_ != 0) {
-                output.writeInt32(4, duration_);
-            }
-            if (dayOfWeek_ != 0) {
-                output.writeInt32(5, dayOfWeek_);
-            }
-            if (severity_ != 0) {
-                output.writeInt32(6, severity_);
-            }
-            if (!getMessageBytes().isEmpty()) {
-                com.google.protobuf.GeneratedMessageV3.writeString(output, 7, message_);
-            }
-            if (anomalyID_ != 0L) {
-                output.writeInt64(8, anomalyID_);
-            }
-            if (!getDateBytes().isEmpty()) {
-                com.google.protobuf.GeneratedMessageV3.writeString(output, 9, date_);
-            }
-        }
-
-        public int getSerializedSize() {
-            int size = memoizedSize;
-            if (size != -1) return size;
-
-            size = 0;
-            if (routeIdx_ != 0) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeInt32Size(1, routeIdx_);
-            }
-            if (secondOfDay_ != 0) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeInt32Size(2, secondOfDay_);
-            }
-            if (isAnomaly_ != false) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeBoolSize(3, isAnomaly_);
-            }
-            if (duration_ != 0) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeInt32Size(4, duration_);
-            }
-            if (dayOfWeek_ != 0) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeInt32Size(5, dayOfWeek_);
-            }
-            if (severity_ != 0) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeInt32Size(6, severity_);
-            }
-            if (!getMessageBytes().isEmpty()) {
-                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, message_);
-            }
-            if (anomalyID_ != 0L) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeInt64Size(8, anomalyID_);
-            }
-            if (!getDateBytes().isEmpty()) {
-                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, date_);
-            }
-            memoizedSize = size;
-            return size;
-        }
-
-        @java.lang.Override
-        public boolean equals(final java.lang.Object obj) {
-            if (obj == this) {
-                return true;
-            }
-            if (!(obj instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage)) {
-                return super.equals(obj);
-            }
-            pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage other = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage) obj;
-
-            boolean result = true;
-            result = result && (getRouteIdx()
-                    == other.getRouteIdx());
-            result = result && (getSecondOfDay()
-                    == other.getSecondOfDay());
-            result = result && (getIsAnomaly()
-                    == other.getIsAnomaly());
-            result = result && (getDuration()
-                    == other.getDuration());
-            result = result && (getDayOfWeek()
-                    == other.getDayOfWeek());
-            result = result && (getSeverity()
-                    == other.getSeverity());
-            result = result && getMessage()
-                    .equals(other.getMessage());
-            result = result && (getAnomalyID()
-                    == other.getAnomalyID());
-            result = result && getDate()
-                    .equals(other.getDate());
-            return result;
-        }
-
-        @java.lang.Override
-        public int hashCode() {
-            if (memoizedHashCode != 0) {
-                return memoizedHashCode;
-            }
-            int hash = 41;
-            hash = (19 * hash) + getDescriptorForType().hashCode();
-            hash = (37 * hash) + ROUTEIDX_FIELD_NUMBER;
-            hash = (53 * hash) + getRouteIdx();
-            hash = (37 * hash) + SECONDOFDAY_FIELD_NUMBER;
-            hash = (53 * hash) + getSecondOfDay();
-            hash = (37 * hash) + ISANOMALY_FIELD_NUMBER;
-            hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-                    getIsAnomaly());
-            hash = (37 * hash) + DURATION_FIELD_NUMBER;
-            hash = (53 * hash) + getDuration();
-            hash = (37 * hash) + DAYOFWEEK_FIELD_NUMBER;
-            hash = (53 * hash) + getDayOfWeek();
-            hash = (37 * hash) + SEVERITY_FIELD_NUMBER;
-            hash = (53 * hash) + getSeverity();
-            hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
-            hash = (53 * hash) + getMessage().hashCode();
-            hash = (37 * hash) + ANOMALYID_FIELD_NUMBER;
-            hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-                    getAnomalyID());
-            hash = (37 * hash) + DATE_FIELD_NUMBER;
-            hash = (53 * hash) + getDate().hashCode();
-            hash = (29 * hash) + unknownFields.hashCode();
-            memoizedHashCode = hash;
-            return hash;
-        }
-
-        public Builder newBuilderForType() {
-            return newBuilder();
-        }
-
-        public Builder toBuilder() {
-            return this == DEFAULT_INSTANCE
-                    ? new Builder() : new Builder().mergeFrom(this);
-        }
-
-        @java.lang.Override
-        protected Builder newBuilderForType(
-                com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-            Builder builder = new Builder(parent);
-            return builder;
-        }
-
-        @java.lang.Override
-        public com.google.protobuf.Parser<AnomalyMessage> getParserForType() {
-            return PARSER;
-        }
-
-        public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage getDefaultInstanceForType() {
-            return DEFAULT_INSTANCE;
-        }
-
-        /**
-         * Protobuf type {@code AnomalyMessage}
-         */
-        public static final class Builder extends
-                com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-                // @@protoc_insertion_point(builder_implements:AnomalyMessage)
-                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessageOrBuilder {
-            private int routeIdx_;
-            private int secondOfDay_;
-            private boolean isAnomaly_;
-            private int duration_;
-            private int dayOfWeek_;
-            private int severity_;
-            private java.lang.Object message_ = "";
-            private long anomalyID_;
-            private java.lang.Object date_ = "";
-
-            // Construct using pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.newBuilder()
-            private Builder() {
-                maybeForceBuilderInitialization();
-            }
-
-            private Builder(
-                    com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-                super(parent);
-                maybeForceBuilderInitialization();
-            }
-
-            public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-                return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyMessage_descriptor;
-            }
-
-            protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-                return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyMessage_fieldAccessorTable
-                        .ensureFieldAccessorsInitialized(
-                                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.Builder.class);
-            }
-
-            private void maybeForceBuilderInitialization() {
-                if (com.google.protobuf.GeneratedMessageV3
-                        .alwaysUseFieldBuilders) {
-                }
-            }
-
-            public Builder clear() {
-                super.clear();
-                routeIdx_ = 0;
-
-                secondOfDay_ = 0;
-
-                isAnomaly_ = false;
-
-                duration_ = 0;
-
-                dayOfWeek_ = 0;
-
-                severity_ = 0;
-
-                message_ = "";
-
-                anomalyID_ = 0L;
-
-                date_ = "";
-
-                return this;
-            }
-
-            public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-                return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_AnomalyMessage_descriptor;
-            }
-
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage getDefaultInstanceForType() {
-                return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.getDefaultInstance();
-            }
-
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage build() {
-                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage result = buildPartial();
-                if (!result.isInitialized()) {
-                    throw newUninitializedMessageException(result);
-                }
-                return result;
-            }
-
-            public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage buildPartial() {
-                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage result = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage(this);
-                result.routeIdx_ = routeIdx_;
-                result.secondOfDay_ = secondOfDay_;
-                result.isAnomaly_ = isAnomaly_;
-                result.duration_ = duration_;
-                result.dayOfWeek_ = dayOfWeek_;
-                result.severity_ = severity_;
-                result.message_ = message_;
-                result.anomalyID_ = anomalyID_;
-                result.date_ = date_;
-                onBuilt();
-                return result;
-            }
-
-            public Builder clone() {
-                return (Builder) super.clone();
-            }
-
-            public Builder setField(
-                    com.google.protobuf.Descriptors.FieldDescriptor field,
-                    Object value) {
-                return (Builder) super.setField(field, value);
-            }
-
-            public Builder clearField(
-                    com.google.protobuf.Descriptors.FieldDescriptor field) {
-                return (Builder) super.clearField(field);
-            }
-
-            public Builder clearOneof(
-                    com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-                return (Builder) super.clearOneof(oneof);
-            }
-
-            public Builder setRepeatedField(
-                    com.google.protobuf.Descriptors.FieldDescriptor field,
-                    int index, Object value) {
-                return (Builder) super.setRepeatedField(field, index, value);
-            }
-
-            public Builder addRepeatedField(
-                    com.google.protobuf.Descriptors.FieldDescriptor field,
-                    Object value) {
-                return (Builder) super.addRepeatedField(field, value);
-            }
-
-            public Builder mergeFrom(com.google.protobuf.Message other) {
-                if (other instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage) {
-                    return mergeFrom((pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage) other);
-                } else {
-                    super.mergeFrom(other);
-                    return this;
-                }
-            }
-
-            public Builder mergeFrom(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage other) {
-                if (other == pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage.getDefaultInstance())
-                    return this;
-                if (other.getRouteIdx() != 0) {
-                    setRouteIdx(other.getRouteIdx());
-                }
-                if (other.getSecondOfDay() != 0) {
-                    setSecondOfDay(other.getSecondOfDay());
-                }
-                if (other.getIsAnomaly() != false) {
-                    setIsAnomaly(other.getIsAnomaly());
-                }
-                if (other.getDuration() != 0) {
-                    setDuration(other.getDuration());
-                }
-                if (other.getDayOfWeek() != 0) {
-                    setDayOfWeek(other.getDayOfWeek());
-                }
-                if (other.getSeverity() != 0) {
-                    setSeverity(other.getSeverity());
-                }
-                if (!other.getMessage().isEmpty()) {
-                    message_ = other.message_;
-                    onChanged();
-                }
-                if (other.getAnomalyID() != 0L) {
-                    setAnomalyID(other.getAnomalyID());
-                }
-                if (!other.getDate().isEmpty()) {
-                    date_ = other.date_;
-                    onChanged();
-                }
-                onChanged();
-                return this;
-            }
-
-            public final boolean isInitialized() {
-                return true;
-            }
-
-            public Builder mergeFrom(
-                    com.google.protobuf.CodedInputStream input,
-                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                    throws java.io.IOException {
-                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage parsedMessage = null;
-                try {
-                    parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-                    parsedMessage = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage) e.getUnfinishedMessage();
-                    throw e.unwrapIOException();
-                } finally {
-                    if (parsedMessage != null) {
-                        mergeFrom(parsedMessage);
-                    }
-                }
-                return this;
-            }
-
-            /**
-             * <code>optional int32 routeIdx = 1;</code>
-             */
-            public int getRouteIdx() {
-                return routeIdx_;
-            }
-
-            /**
-             * <code>optional int32 routeIdx = 1;</code>
-             */
-            public Builder setRouteIdx(int value) {
-
-                routeIdx_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int32 routeIdx = 1;</code>
-             */
-            public Builder clearRouteIdx() {
-
-                routeIdx_ = 0;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int32 secondOfDay = 2;</code>
-             */
-            public int getSecondOfDay() {
-                return secondOfDay_;
-            }
-
-            /**
-             * <code>optional int32 secondOfDay = 2;</code>
-             */
-            public Builder setSecondOfDay(int value) {
-
-                secondOfDay_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int32 secondOfDay = 2;</code>
-             */
-            public Builder clearSecondOfDay() {
-
-                secondOfDay_ = 0;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional bool isAnomaly = 3;</code>
-             */
-            public boolean getIsAnomaly() {
-                return isAnomaly_;
-            }
-
-            /**
-             * <code>optional bool isAnomaly = 3;</code>
-             */
-            public Builder setIsAnomaly(boolean value) {
-
-                isAnomaly_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional bool isAnomaly = 3;</code>
-             */
-            public Builder clearIsAnomaly() {
-
-                isAnomaly_ = false;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int32 duration = 4;</code>
-             */
-            public int getDuration() {
-                return duration_;
-            }
-
-            /**
-             * <code>optional int32 duration = 4;</code>
-             */
-            public Builder setDuration(int value) {
-
-                duration_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int32 duration = 4;</code>
-             */
-            public Builder clearDuration() {
-
-                duration_ = 0;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int32 dayOfWeek = 5;</code>
-             */
-            public int getDayOfWeek() {
-                return dayOfWeek_;
-            }
-
-            /**
-             * <code>optional int32 dayOfWeek = 5;</code>
-             */
-            public Builder setDayOfWeek(int value) {
-
-                dayOfWeek_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int32 dayOfWeek = 5;</code>
-             */
-            public Builder clearDayOfWeek() {
-
-                dayOfWeek_ = 0;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int32 severity = 6;</code>
-             */
-            public int getSeverity() {
-                return severity_;
-            }
-
-            /**
-             * <code>optional int32 severity = 6;</code>
-             */
-            public Builder setSeverity(int value) {
-
-                severity_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int32 severity = 6;</code>
-             */
-            public Builder clearSeverity() {
-
-                severity_ = 0;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional string message = 7;</code>
-             */
-            public java.lang.String getMessage() {
-                java.lang.Object ref = message_;
-                if (!(ref instanceof java.lang.String)) {
-                    com.google.protobuf.ByteString bs =
-                            (com.google.protobuf.ByteString) ref;
-                    java.lang.String s = bs.toStringUtf8();
-                    message_ = s;
-                    return s;
-                } else {
-                    return (java.lang.String) ref;
-                }
-            }
-
-            /**
-             * <code>optional string message = 7;</code>
-             */
-            public Builder setMessage(
-                    java.lang.String value) {
-                if (value == null) {
-                    throw new NullPointerException();
-                }
-
-                message_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional string message = 7;</code>
-             */
-            public com.google.protobuf.ByteString
-            getMessageBytes() {
-                java.lang.Object ref = message_;
-                if (ref instanceof String) {
-                    com.google.protobuf.ByteString b =
-                            com.google.protobuf.ByteString.copyFromUtf8(
-                                    (java.lang.String) ref);
-                    message_ = b;
-                    return b;
-                } else {
-                    return (com.google.protobuf.ByteString) ref;
-                }
-            }
-
-            /**
-             * <code>optional string message = 7;</code>
-             */
-            public Builder setMessageBytes(
-                    com.google.protobuf.ByteString value) {
-                if (value == null) {
-                    throw new NullPointerException();
-                }
-                checkByteStringIsUtf8(value);
-
-                message_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional string message = 7;</code>
-             */
-            public Builder clearMessage() {
-
-                message_ = getDefaultInstance().getMessage();
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int64 anomalyID = 8;</code>
-             */
-            public long getAnomalyID() {
-                return anomalyID_;
-            }
-
-            /**
-             * <code>optional int64 anomalyID = 8;</code>
-             */
-            public Builder setAnomalyID(long value) {
-
-                anomalyID_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int64 anomalyID = 8;</code>
-             */
-            public Builder clearAnomalyID() {
-
-                anomalyID_ = 0L;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional string date = 9;</code>
-             */
-            public java.lang.String getDate() {
-                java.lang.Object ref = date_;
-                if (!(ref instanceof java.lang.String)) {
-                    com.google.protobuf.ByteString bs =
-                            (com.google.protobuf.ByteString) ref;
-                    java.lang.String s = bs.toStringUtf8();
-                    date_ = s;
-                    return s;
-                } else {
-                    return (java.lang.String) ref;
-                }
-            }
-
-            /**
-             * <code>optional string date = 9;</code>
-             */
-            public Builder setDate(
-                    java.lang.String value) {
-                if (value == null) {
-                    throw new NullPointerException();
-                }
-
-                date_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional string date = 9;</code>
-             */
-            public com.google.protobuf.ByteString
-            getDateBytes() {
-                java.lang.Object ref = date_;
-                if (ref instanceof String) {
-                    com.google.protobuf.ByteString b =
-                            com.google.protobuf.ByteString.copyFromUtf8(
-                                    (java.lang.String) ref);
-                    date_ = b;
-                    return b;
-                } else {
-                    return (com.google.protobuf.ByteString) ref;
-                }
-            }
-
-            /**
-             * <code>optional string date = 9;</code>
-             */
-            public Builder setDateBytes(
-                    com.google.protobuf.ByteString value) {
-                if (value == null) {
-                    throw new NullPointerException();
-                }
-                checkByteStringIsUtf8(value);
-
-                date_ = value;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional string date = 9;</code>
-             */
-            public Builder clearDate() {
-
-                date_ = getDefaultInstance().getDate();
-                onChanged();
-                return this;
-            }
-
-            public final Builder setUnknownFields(
-                    final com.google.protobuf.UnknownFieldSet unknownFields) {
-                return this;
-            }
-
-            public final Builder mergeUnknownFields(
-                    final com.google.protobuf.UnknownFieldSet unknownFields) {
-                return this;
-            }
-
-
-            // @@protoc_insertion_point(builder_scope:AnomalyMessage)
-        }
-
+      }
+      /**
+       * <code>optional string date = 9;</code>
+       */
+      public Builder setDate(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        date_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string date = 9;</code>
+       */
+      public Builder clearDate() {
+        
+        date_ = getDefaultInstance().getDate();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string date = 9;</code>
+       */
+      public Builder setDateBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        date_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:AnomalyMessage)
     }
 
-    // @@protoc_insertion_point(outer_class_scope)
+    // @@protoc_insertion_point(class_scope:AnomalyMessage)
+    private static final pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage();
+    }
+
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AnomalyMessage>
+        PARSER = new com.google.protobuf.AbstractParser<AnomalyMessage>() {
+      public AnomalyMessage parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new AnomalyMessage(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AnomalyMessage> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AnomalyMessage> getParserForType() {
+      return PARSER;
+    }
+
+    public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.AnomalyMessage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ExpirationMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ExpirationMessage)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional int32 routeIdx = 1;</code>
+     */
+    int getRouteIdx();
+
+    /**
+     * <code>optional int64 anomalyID = 2;</code>
+     */
+    long getAnomalyID();
+
+    /**
+     * <code>optional string date = 3;</code>
+     */
+    java.lang.String getDate();
+    /**
+     * <code>optional string date = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getDateBytes();
+  }
+  /**
+   * Protobuf type {@code ExpirationMessage}
+   */
+  public  static final class ExpirationMessage extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:ExpirationMessage)
+      ExpirationMessageOrBuilder {
+    // Use ExpirationMessage.newBuilder() to construct.
+    private ExpirationMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ExpirationMessage() {
+      routeIdx_ = 0;
+      anomalyID_ = 0L;
+      date_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private ExpirationMessage(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+
+              routeIdx_ = input.readInt32();
+              break;
+            }
+            case 16: {
+
+              anomalyID_ = input.readInt64();
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              date_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_ExpirationMessage_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_ExpirationMessage_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage.Builder.class);
+    }
+
+    public static final int ROUTEIDX_FIELD_NUMBER = 1;
+    private int routeIdx_;
+    /**
+     * <code>optional int32 routeIdx = 1;</code>
+     */
+    public int getRouteIdx() {
+      return routeIdx_;
+    }
+
+    public static final int ANOMALYID_FIELD_NUMBER = 2;
+    private long anomalyID_;
+    /**
+     * <code>optional int64 anomalyID = 2;</code>
+     */
+    public long getAnomalyID() {
+      return anomalyID_;
+    }
+
+    public static final int DATE_FIELD_NUMBER = 3;
+    private volatile java.lang.Object date_;
+    /**
+     * <code>optional string date = 3;</code>
+     */
+    public java.lang.String getDate() {
+      java.lang.Object ref = date_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        date_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string date = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDateBytes() {
+      java.lang.Object ref = date_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        date_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (routeIdx_ != 0) {
+        output.writeInt32(1, routeIdx_);
+      }
+      if (anomalyID_ != 0L) {
+        output.writeInt64(2, anomalyID_);
+      }
+      if (!getDateBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, date_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (routeIdx_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, routeIdx_);
+      }
+      if (anomalyID_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, anomalyID_);
+      }
+      if (!getDateBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, date_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage)) {
+        return super.equals(obj);
+      }
+      pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage other = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage) obj;
+
+      boolean result = true;
+      result = result && (getRouteIdx()
+          == other.getRouteIdx());
+      result = result && (getAnomalyID()
+          == other.getAnomalyID());
+      result = result && getDate()
+          .equals(other.getDate());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + ROUTEIDX_FIELD_NUMBER;
+      hash = (53 * hash) + getRouteIdx();
+      hash = (37 * hash) + ANOMALYID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getAnomalyID());
+      hash = (37 * hash) + DATE_FIELD_NUMBER;
+      hash = (53 * hash) + getDate().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ExpirationMessage}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ExpirationMessage)
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessageOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_ExpirationMessage_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_ExpirationMessage_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage.class, pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage.Builder.class);
+      }
+
+      // Construct using pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        routeIdx_ = 0;
+
+        anomalyID_ = 0L;
+
+        date_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.internal_static_ExpirationMessage_descriptor;
+      }
+
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage getDefaultInstanceForType() {
+        return pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage.getDefaultInstance();
+      }
+
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage build() {
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage buildPartial() {
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage result = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage(this);
+        result.routeIdx_ = routeIdx_;
+        result.anomalyID_ = anomalyID_;
+        result.date_ = date_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage) {
+          return mergeFrom((pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage other) {
+        if (other == pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage.getDefaultInstance()) return this;
+        if (other.getRouteIdx() != 0) {
+          setRouteIdx(other.getRouteIdx());
+        }
+        if (other.getAnomalyID() != 0L) {
+          setAnomalyID(other.getAnomalyID());
+        }
+        if (!other.getDate().isEmpty()) {
+          date_ = other.date_;
+          onChanged();
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int routeIdx_ ;
+      /**
+       * <code>optional int32 routeIdx = 1;</code>
+       */
+      public int getRouteIdx() {
+        return routeIdx_;
+      }
+      /**
+       * <code>optional int32 routeIdx = 1;</code>
+       */
+      public Builder setRouteIdx(int value) {
+        
+        routeIdx_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 routeIdx = 1;</code>
+       */
+      public Builder clearRouteIdx() {
+        
+        routeIdx_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long anomalyID_ ;
+      /**
+       * <code>optional int64 anomalyID = 2;</code>
+       */
+      public long getAnomalyID() {
+        return anomalyID_;
+      }
+      /**
+       * <code>optional int64 anomalyID = 2;</code>
+       */
+      public Builder setAnomalyID(long value) {
+        
+        anomalyID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 anomalyID = 2;</code>
+       */
+      public Builder clearAnomalyID() {
+        
+        anomalyID_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object date_ = "";
+      /**
+       * <code>optional string date = 3;</code>
+       */
+      public java.lang.String getDate() {
+        java.lang.Object ref = date_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          date_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string date = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getDateBytes() {
+        java.lang.Object ref = date_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          date_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string date = 3;</code>
+       */
+      public Builder setDate(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        date_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string date = 3;</code>
+       */
+      public Builder clearDate() {
+        
+        date_ = getDefaultInstance().getDate();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string date = 3;</code>
+       */
+      public Builder setDateBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        date_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:ExpirationMessage)
+    }
+
+    // @@protoc_insertion_point(class_scope:ExpirationMessage)
+    private static final pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage();
+    }
+
+    public static pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ExpirationMessage>
+        PARSER = new com.google.protobuf.AbstractParser<ExpirationMessage>() {
+      public ExpirationMessage parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ExpirationMessage(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ExpirationMessage> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ExpirationMessage> getParserForType() {
+      return PARSER;
+    }
+
+    public pl.edu.agh.pp.detector.operations.AnomalyOperationProtos.ExpirationMessage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_AnomalyAction_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_AnomalyAction_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_AnomalyState_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_AnomalyState_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_AnomalyMessage_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_AnomalyMessage_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ExpirationMessage_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_ExpirationMessage_fieldAccessorTable;
+
+  public static com.google.protobuf.Descriptors.FileDescriptor
+      getDescriptor() {
+    return descriptor;
+  }
+  private static  com.google.protobuf.Descriptors.FileDescriptor
+      descriptor;
+  static {
+    java.lang.String[] descriptorData = {
+      "\n\020operations.proto\"\200\001\n\rAnomalyAction\022)\n\006" +
+      "action\030\001 \001(\0162\031.AnomalyAction.ActionType\022" +
+      "\017\n\007channel\030\002 \001(\t\022\020\n\010nickname\030\003 \001(\t\"!\n\nAc" +
+      "tionType\022\010\n\004JOIN\020\000\022\t\n\005LEAVE\020\001\"-\n\014Anomaly" +
+      "State\022\035\n\005state\030\001 \003(\0132\016.AnomalyAction\"\263\001\n" +
+      "\016AnomalyMessage\022\020\n\010routeIdx\030\001 \001(\005\022\023\n\013sec" +
+      "ondOfDay\030\002 \001(\005\022\021\n\tisAnomaly\030\003 \001(\010\022\020\n\010dur" +
+      "ation\030\004 \001(\005\022\021\n\tdayOfWeek\030\005 \001(\005\022\020\n\010severi" +
+      "ty\030\006 \001(\005\022\017\n\007message\030\007 \001(\t\022\021\n\tanomalyID\030\010" +
+      " \001(\003\022\014\n\004date\030\t \001(\t\"F\n\021ExpirationMessage\022",
+      "\020\n\010routeIdx\030\001 \001(\005\022\021\n\tanomalyID\030\002 \001(\003\022\014\n\004" +
+      "date\030\003 \001(\tB;\n!pl.edu.agh.pp.detector.ope" +
+      "rationsB\026AnomalyOperationProtosb\006proto3"
+    };
+    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
+    com.google.protobuf.Descriptors.FileDescriptor
+      .internalBuildGeneratedFileFrom(descriptorData,
+        new com.google.protobuf.Descriptors.FileDescriptor[] {
+        }, assigner);
+    internal_static_AnomalyAction_descriptor =
+      getDescriptor().getMessageTypes().get(0);
+    internal_static_AnomalyAction_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_AnomalyAction_descriptor,
+        new java.lang.String[] { "Action", "Channel", "Nickname", });
+    internal_static_AnomalyState_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_AnomalyState_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_AnomalyState_descriptor,
+        new java.lang.String[] { "State", });
+    internal_static_AnomalyMessage_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_AnomalyMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_AnomalyMessage_descriptor,
+        new java.lang.String[] { "RouteIdx", "SecondOfDay", "IsAnomaly", "Duration", "DayOfWeek", "Severity", "Message", "AnomalyID", "Date", });
+    internal_static_ExpirationMessage_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_ExpirationMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_ExpirationMessage_descriptor,
+        new java.lang.String[] { "RouteIdx", "AnomalyID", "Date", });
+  }
+
+  // @@protoc_insertion_point(outer_class_scope)
 }
