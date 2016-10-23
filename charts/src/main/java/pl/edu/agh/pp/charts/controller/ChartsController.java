@@ -263,10 +263,11 @@ public class ChartsController {
 
         String type = typeComboBox.getSelectionModel().getSelectedItem();
         String day;
-        if("historic data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
+        if("baseline".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
             day = dayComboBox.getSelectionModel().getSelectedItem();
         }
         else{
+            System.out.println();
             day = datePicker.getValue().toString();
         }
         String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
