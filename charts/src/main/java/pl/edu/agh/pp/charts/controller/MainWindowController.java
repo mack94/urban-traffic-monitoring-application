@@ -2,18 +2,15 @@ package pl.edu.agh.pp.charts.controller;
 
 import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
@@ -30,13 +27,13 @@ import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
 /**
  * Created by Dawid on 2016-09-05.
  */
 public class MainWindowController {
+    private ObservableList<String> anomaliesList = FXCollections.observableArrayList();
     private Stage primaryStage = null;
     private Input input;
     private ChartsController chartsController = null;
@@ -65,6 +62,8 @@ public class MainWindowController {
     private Button connectButton;
     @FXML
     private Button disconnectButton;
+    @FXML
+    private ListView<String> anomaliesListView;
 
 
 
@@ -97,11 +96,15 @@ public class MainWindowController {
         }
     }
 
+    public void updateAnomalyInfo(String screenId){
+
+    }
+
     public void putAnomalyMessageOnScreen(int id, String message, String date, int duration, Color color) {
         Text text1 = new Text(id + ": " + date + "; duration = " + duration + "; " + message + "\n");
         text1.setFill(color);
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
-        putMessageOnScreen(text1);
+//        putMessageOnScreen(text1);
     }
 
     public void putSystemMessageOnScreen(String message) {
@@ -116,13 +119,12 @@ public class MainWindowController {
         Text text1 = new Text(formatDate(dateTime) + "  " +message + "\n");
         text1.setFill(color);
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
-        initSlider();
-        putMessageOnScreen(text1);
+//        putMessageOnScreen(text1);
     }
 
-    private void putMessageOnScreen(Text text){
+    public void addAnomalyToList(String text){
         Platform.runLater(() -> {
-            anomaliesTextFlow.getChildren().add(0, text);
+            anomaliesListView.getItems().add(0,text);
         } );
 
     }
@@ -130,24 +132,6 @@ public class MainWindowController {
     private String getLeverServerInfo(){
         //TODO keeping server info in Connector?
         return Connector.getLeverServerInfo();
-    }
-
-    private void initSlider() {
-        int maxValue = 40;
-        int minValue = 1;
-        leverSld.setMajorTickUnit(2);
-        leverSld.setMinorTickCount(1);
-        leverSld.setSnapToTicks(true);
-        leverSld.setMin(minValue);
-        leverSld.setMax(maxValue);
-        DecimalFormat df = new java.text.DecimalFormat();
-        df.setMaximumFractionDigits(1);
-        leverSld.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-                Double value = leverSld.getValue();
-                changeLeverTo.setText(String.valueOf(value.intValue()));
-            }
-        });
     }
 
     private void setConnectedState(){
@@ -172,12 +156,11 @@ public class MainWindowController {
 
     @FXML
     private void initialize() throws IOException {
-        anomaliesTextFlow.setTextAlignment(TextAlignment.CENTER);
-        anomaliesTextFlow.setMaxHeight(150);
-        changeLeverTo.setText("1");
+//        anomaliesListView.setItems(anomaliesList);
+//        anomaliesTextFlow.setTextAlignment(TextAlignment.CENTER);
+//        anomaliesTextFlow.setMaxHeight(150);
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         setConnectedState();
-        initSlider();
         currentLeverOnServer.setText(getLeverServerInfo());
         connectButton.setDefaultButton(true);
         try {
@@ -203,8 +186,6 @@ public class MainWindowController {
 
     @FXML
     private void handleConnectAction(ActionEvent e) {
-        Connector connector = new Connector();
-        connector.setController(this);
 
         try {
             String address = serverAddrTxtField.getText();

@@ -114,13 +114,13 @@ public class ChartsController {
         datePicker = new DatePicker();
         dayComboBox = new ComboBox<String>();
         dayLabel = new Label("Day");
-//        fileChooser = new FileChooser();
+        fileChooser = new FileChooser();
         parser = new Parser();
         input = new Input();
         File file = new File("./");
-//        fileChooser.setInitialDirectory(file);
-//        fileChooser.setTitle("Open Resource File");
-//        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Log Files", "*.log"));
+        fileChooser.setInitialDirectory(file);
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Log Files", "*.log"));
         warn.setStyle("-fx-text-fill: red");
         lineChart.setTitle("");
         startButton.setDefaultButton(true);

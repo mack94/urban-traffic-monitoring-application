@@ -12,7 +12,7 @@
     <top>
         <HBox>
             <children>
-                <!--<Button fx:id="fileButton" onAction="#handleFileButtonAction" text="Add log file"/>-->
+                <Button fx:id="fileButton" onAction="#handleFileButtonAction" text="Add log file"/>
                 <Button fx:id="backButton" onAction="#handleBackButtonAction" text="Go back to anomalies window"/>
             </children>
         </HBox>
