@@ -176,7 +176,7 @@ public class MainWindowController {
         try {
             System.out.println((String) Options.getInstance().getPreference("Server_Address", String.class));
             serverAddrTxtField.setText((String) Options.getInstance().getPreference("Server_Address", String.class));
-            serverPortTxtField.setText((String) Options.getInstance().getPreference("Port", String.class));
+            serverPortTxtField.setText((String) Options.getInstance().getPreference("Server_Port", String.class));
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
             illegalPreferenceObjectExpected.printStackTrace();
         }
