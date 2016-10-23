@@ -40,8 +40,8 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 
     public void start(InetAddress srv_addr, int srv_port, boolean nio) throws Exception {
         client = nio ?
-                new NioClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port) :
-                new TcpClient(InetAddress.getLocalHost(), 0, srv_addr, srv_port);
+                new NioClient(null, 0, srv_addr, srv_port) :
+                new TcpClient(null, 0, srv_addr, srv_port);
         client.receiver(this);
         client.addConnectionListener(this);
         client.start();
