@@ -21,6 +21,8 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
     <padding>
         <Insets bottom="10" left="10" right="10" top="10"/>
@@ -63,7 +65,6 @@
                 </padding>
                 <children>
                     <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
-                    <Button fx:id="testButton" onAction="#handleTestButtonAction" text="Test anomaly message"/>
                 </children>
             </HBox>
         </VBox>
@@ -79,14 +80,21 @@
                     <Label text="label3" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
                 </GridPane>
             </HBox>
-            <LineChart fx:id="lineChart" title="Most Recent anomaly" style="-fx-font-weight: bold">
-                <xAxis>
-                    <NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis"/>
-                </xAxis>
-                <yAxis>
-                    <NumberAxis label="Duration (seconds)" tickUnit="1"/>
-                </yAxis>
-            </LineChart>
+            <TabPane>
+                <Tab text="Anomaly chart">
+                    <LineChart fx:id="lineChart" title="Most Recent anomaly" style="-fx-font-weight: bold">
+                        <xAxis>
+                            <NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Duration (seconds)" tickUnit="1"/>
+                        </yAxis>
+                    </LineChart>
+                </Tab>
+                <Tab text="Map">
+                    <Label text="tab2" />
+                </Tab>
+            </TabPane>
         </VBox>
     </center>
 </BorderPane>
