@@ -36,7 +36,7 @@ public class Route {
         System.out.println("Directions API: " + directionsApi);
         jsonRoute = loadRouteInfo();
         if (jsonRoute != null) {
-            logger.error(jsonRoute.toString());
+//            logger.error(jsonRoute.toString());
         }
     }
 
@@ -70,7 +70,7 @@ public class Route {
 
             String waypoints = getWaypoints(routes);
             String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS").format(new Date());
-            System.out.println("---------------------------" + timeStamp);
+//            System.out.println("---------------------------" + timeStamp);
 
             return new JSONObject()
                     .put("timeStamp", timeStamp)

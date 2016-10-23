@@ -37,9 +37,9 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
         client.addConnectionListener(this);
         client.start();
         byte[] buf = String.format("%s joined\n", name).getBytes();
-        ((Client) client).send(buf, 0, buf.length);
-        eventLoop();
-        client.stop();
+        //((Client) client).send(buf, 0, buf.length);
+        //eventLoop();
+        //client.stop();
     }
 
     private void eventLoop() {

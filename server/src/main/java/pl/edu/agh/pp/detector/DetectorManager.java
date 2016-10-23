@@ -72,7 +72,8 @@ public class DetectorManager {
             AnomalyOperationProtos.AnomalyMessage isAnomaly = detector.isAnomaly(record.getDayOfWeek(), record.getRouteID(), record.getTimeInSeconds(), record.getDurationInTraffic());
 
             if (isAnomaly != null) {
-                server.send(ByteBuffer.wrap(isAnomaly.toByteArray()));
+//                server.send(ByteBuffer.wrap(isAnomaly.toByteArray())); TODO: Could be removed i think.
+                server.send(isAnomaly.toByteArray());
             }
             Thread.sleep(100);
 

@@ -4,9 +4,11 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.blocks.cs.*;
+import org.jgroups.util.ByteArrayDataInputStream;
 import org.jgroups.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.charts.adapters.exceptions.ArgumentOutOfRangeException;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.io.BufferedInputStream;
@@ -79,20 +81,64 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 
     @Override
     public void receive(Address sender, ByteBuffer buf) {
-        try {
-            AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf.array());
-            Connector.onMessage(message);
-        } catch (InvalidProtocolBufferException e) {
-            logger.error("ChannelReceiver :: InvalidProtocolBufferException: " + e
-                    + "\n Buf Array: " + Arrays.toString(buf.array())
-                    + "\n Message: " + buf);
-        }
+        //buf.rewind();
+        Util.bufferToArray(sender, buf, this);
+        buf.rewind();
+        buf.flip();
+//        try {
+//            AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf);
+//            Connector.onMessage(message);
+//        } catch (InvalidProtocolBufferException e) {
+//            logger.error("ChannelReceiver :: InvalidProtocolBufferException: " + e
+//                    + "\n Buf Array: " + Arrays.toString(buf.array())
+//                    + "\n Message: " + buf);
+//        }
     }
 
     @Override
     public void receive(Address sender, byte[] buf, int offset, int length) {
-        String msg = new String(buf, offset, length);
-        logger.info(String.format("# %s\n", msg));
+
+        int bytesRead = 0;
+        int bufLength = buf.length;
+        byte[] result = buf.clone();
+
+        System.out.println("Sth received");
+        int l_max = Integer.MAX_VALUE;
+
+        if (result.length > length)
+            l_max = result.length;
+        else {
+            l_max = length;
+        }
+
+        logger.error("+++++++++++" + result.length + "xxxxx" + buf.length + " yyyyyyzy " + length + " max " + l_max + " oof " + offset + " l ");
+
+        if (length < 0) {
+            logger.error("Length is less then 0!");
+        }
+        ByteArrayDataInputStream source = new ByteArrayDataInputStream(buf, offset, length);
+
+        while(length != 0 &&
+                (bytesRead = source.read(result, offset, length)) > 0) {
+            offset += bytesRead;
+            length -= bytesRead;
+        }
+        if (length != 0) {
+            logger.error("Something went wrong! There are still some bytes in the buffer.");
+        }
+        logger.error("+++++++++++" + result.length + "xxxxx" + buf.length + " yyyyyyzy " + length + " max " + bytesRead + " oof " + offset + " l ");
+        byte[] result_cut = Arrays.copyOfRange(result, 0, bytesRead);
+
+//        byte[] received = buf;
+        try {
+            AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(result_cut);
+            Connector.onMessage(message);
+        } catch (InvalidProtocolBufferException e) {
+            System.out.println(Arrays.toString(buf));
+            e.printStackTrace();
+        }
+
+//        source.
     }
 
     @Override
