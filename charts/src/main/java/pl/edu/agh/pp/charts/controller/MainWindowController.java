@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
@@ -22,6 +23,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
+import pl.edu.agh.pp.charts.input.Anomaly;
+import pl.edu.agh.pp.charts.input.AnomalyManager;
 import pl.edu.agh.pp.charts.input.Input;
 import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
@@ -45,12 +48,6 @@ public class MainWindowController {
     @FXML
     private Button chartsButton;
     @FXML
-    private TextFlow anomaliesTextFlow;
-    @FXML
-    private Slider leverSld;
-    @FXML
-    private Label changeLeverTo;
-    @FXML
     private Label currentLeverOnServer;
     @FXML
     private Label connectedLabel;
@@ -64,6 +61,16 @@ public class MainWindowController {
     private Button disconnectButton;
     @FXML
     private ListView<String> anomaliesListView;
+    @FXML
+    private Label anomalyIdLabel;
+    @FXML
+    private Label startDateLabel;
+    @FXML
+    private Label endDateLabel;
+    @FXML
+    private Label routeIdLabel;
+    @FXML
+    private Label routeDescLabel;
 
 
 
@@ -100,11 +107,15 @@ public class MainWindowController {
 
     }
 
-    public void putAnomalyMessageOnScreen(int id, String message, String date, int duration, Color color) {
-        Text text1 = new Text(id + ": " + date + "; duration = " + duration + "; " + message + "\n");
-        text1.setFill(color);
-        text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
-//        putMessageOnScreen(text1);
+    public void putAnomalyInfoOnScreen(String screenMessage) {
+        Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
+        Platform.runLater(() -> {
+            anomalyIdLabel.setText(anomaly.getAnomalyId());
+            startDateLabel.setText(anomaly.getStartDate());
+            endDateLabel.setText(anomaly.getEndDate());
+            routeIdLabel.setText(anomaly.getRouteId());
+            routeDescLabel.setText(anomaly.getRoute());
+        } );
     }
 
     public void putSystemMessageOnScreen(String message) {
@@ -126,7 +137,6 @@ public class MainWindowController {
         Platform.runLater(() -> {
             anomaliesListView.getItems().add(0,text);
         } );
-
     }
 
     private String getLeverServerInfo(){
@@ -180,11 +190,6 @@ public class MainWindowController {
     }
 
     @FXML
-    private void handleTestButtonAction(ActionEvent e) {
-        putAnomalyMessageOnScreen(666, "Test anomaly", "A Date", 0, Color.BLACK);
-    }
-
-    @FXML
     private void handleConnectAction(ActionEvent e) {
 
         try {
@@ -227,6 +232,15 @@ public class MainWindowController {
         if(connectedFlag) putSystemMessageOnScreen("Failed to disconnect from " + Connector.getAddressServerInfo());
         setConnectedState();
     }
+
+    @FXML
+    private void handleAnomalyClicked(MouseEvent e) {
+        String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
+        if(selectedItem != null){
+            putAnomalyInfoOnScreen(selectedItem);
+        }
+    }
+
 }
 
 

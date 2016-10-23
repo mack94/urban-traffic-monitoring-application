@@ -15,8 +15,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setWidth(850);
-        primaryStage.setHeight(700);
+        primaryStage.setWidth(1500);
+        primaryStage.setHeight(900);
         MainWindowController mainWindowController = new MainWindowController(primaryStage);
         AnomalyManager.getInstance().setController(mainWindowController);
         mainWindowController.show();

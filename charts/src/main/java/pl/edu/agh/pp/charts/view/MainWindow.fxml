@@ -73,11 +73,23 @@
         <VBox>
             <Label text="Anomalies List" style="-fx-font-weight: bold"/>
             <HBox>
-                <ListView fx:id="anomaliesListView" prefWidth="300.0" />
+                <Label text="RouteID" />
+                <!--<Label text="route desc" />-->
+                <Label text="    start date" />
+            </HBox>
+            <HBox>
+                <ListView fx:id="anomaliesListView" prefWidth="200.0" onMouseClicked="#handleAnomalyClicked"/>
                 <GridPane>
-                    <Label text="label1" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                    <Label text="label2" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                    <Label text="label3" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                    <Label text="Anomaly ID" GridPane.rowIndex="0" GridPane.columnIndex="0" prefWidth="100"/>
+                    <Label fx:id="anomalyIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="200"/>
+                    <Label text="Start Date" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="100"/>
+                    <Label fx:id="startDateLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="200"/>
+                    <Label text="End Date" GridPane.rowIndex="2" GridPane.columnIndex="0" prefWidth="100"/>
+                    <Label fx:id="endDateLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="200"/>
+                    <Label text="Route ID" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="100"/>
+                    <Label fx:id="routeIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="4" prefWidth="200"/>
+                    <Label text="Route description" GridPane.rowIndex="1" GridPane.columnIndex="3" prefWidth="100"/>
+                    <Label fx:id="routeDescLabel" GridPane.rowIndex="1" GridPane.columnIndex="4" prefWidth="200"/>
                 </GridPane>
             </HBox>
             <TabPane>

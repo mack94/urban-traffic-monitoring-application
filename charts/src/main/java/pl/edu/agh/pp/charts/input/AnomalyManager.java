@@ -36,12 +36,12 @@ public class AnomalyManager {
         if(anomalyExists(id)){
             anomaly = getAnomalyById(id);
             anomaly.addMessage(anomalyMessage);
-            if(mainWindowController != null) mainWindowController.updateAnomalyInfo(anomaly.getScreenId());
+            if(mainWindowController != null) mainWindowController.updateAnomalyInfo(anomaly.getScreenMessage());
         }
         else{
             anomaly = new Anomaly(anomalyMessage);
             anomalyList.add(anomaly);
-            if(mainWindowController != null) mainWindowController.addAnomalyToList(anomaly.getScreenId());
+            if(mainWindowController != null) mainWindowController.addAnomalyToList(anomaly.getScreenMessage());
         }
     }
 
@@ -61,7 +61,7 @@ public class AnomalyManager {
 
     public Anomaly getAnomalyByScreenId(String screenId){
         for(Anomaly a: anomalyList){
-            if(a.getScreenId().equals(screenId)) return a;
+            if(a.getScreenMessage().equals(screenId)) return a;
         }
         return null;
     }
