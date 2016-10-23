@@ -58,7 +58,6 @@
                                     <Slider fx:id="leverSld" maxWidth="150"/>
                                 </VBox>
                             </HBox>
-                            <Button fx:id="sendSettingsButton" text="Send new settings" onAction="#handleOnLeverChanged"/>
                         </VBox>
                     </VBox>
                 </VBox>

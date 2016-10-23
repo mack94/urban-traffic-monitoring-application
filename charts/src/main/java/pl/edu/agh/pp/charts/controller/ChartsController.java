@@ -77,6 +77,8 @@ public class ChartsController {
     private CheckBox drawBaselineCheckbox;
     @FXML
     private Label drawBaselineLabel;
+    @FXML
+    private ComboBox<String> sourceComboBox;
 
     public ChartsController(Stage primaryStage, MainWindowController parent) {
         this.primaryStage = primaryStage;
@@ -455,5 +457,10 @@ public class ChartsController {
     @FXML
     private void handleDrawBaselineCheckboxAction(ActionEvent e) {
         //todo drawing baseline
+    }
+
+    @FXML
+    private void handleSourceAction(ActionEvent e) {
+        //todo source
     }
 }

@@ -10,7 +10,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
@@ -23,6 +26,8 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.input.Input;
+import pl.edu.agh.pp.charts.settings.Options;
+import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -50,8 +55,6 @@ public class MainWindowController {
     private Label changeLeverTo;
     @FXML
     private Label currentLeverOnServer;
-    @FXML
-    private Button sendSettingsButton;
     @FXML
     private Label connectedLabel;
     @FXML
@@ -126,12 +129,7 @@ public class MainWindowController {
 
     private String getLeverServerInfo(){
         //TODO keeping server info in Connector?
-        return "10";
-    }
-
-    public void LeverChangedOnServer(String value){
-        //TODO use after lever value changed on server
-        currentLeverOnServer.setText(value);
+        return Connector.getLeverServerInfo();
     }
 
     private void initSlider() {
@@ -158,14 +156,12 @@ public class MainWindowController {
             connectedLabel.setTextFill(Color.BLACK);
             connectButton.setDisable(true);
             disconnectButton.setDisable(false);
-            sendSettingsButton.setDisable(false);
         }
         else {
             connectedLabel.setText("NOT CONNECTED");
             connectedLabel.setTextFill(Color.RED);
             connectButton.setDisable(false);
             disconnectButton.setDisable(true);
-            sendSettingsButton.setDisable(true);
         }
     }
 
@@ -184,6 +180,12 @@ public class MainWindowController {
         initSlider();
         currentLeverOnServer.setText(getLeverServerInfo());
         connectButton.setDefaultButton(true);
+        try {
+            serverAddrTxtField.setText((String) Options.getInstance().getPreference("Server_Address",String.class));
+            serverPortTxtField.setText((String) Options.getInstance().getPreference("Port",String.class));
+        } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
+            illegalPreferenceObjectExpected.printStackTrace();
+        }
     }
 
     @FXML
@@ -225,7 +227,6 @@ public class MainWindowController {
             }
             if(port.equals(""))
                 port = "7500";
-            connectedLabel.setText("Connecting...");
             Connector.connect(address, port);
             connectedFlag = Connector.isConnectedToTheServer();
             if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo());
@@ -240,16 +241,10 @@ public class MainWindowController {
 
     @FXML
     private void handleDisconnectAction(ActionEvent e) {
-        connectedLabel.setText("Disconnecting...");
         Connector.disconnect();
         connectedFlag = Connector.isConnectedToTheServer();
         if(connectedFlag) putSystemMessageOnScreen("Failed to disconnect from " + Connector.getAddressServerInfo());
         setConnectedState();
-    }
-
-    @FXML
-    private void handleOnLeverChanged(ActionEvent e) {
-        Connector.onLeverChange(changeLeverTo.getText());
     }
 }
 

@@ -33,6 +33,12 @@
             <children>
                 <HBox spacing="10">
                     <children>
+                        <Label text="Source"/>
+                        <ComboBox fx:id="sourceComboBox" onAction="#handleSourceAction"/>
+                    </children>
+                </HBox>
+                <HBox spacing="10">
+                    <children>
                         <Label text="Type"/>
                         <ComboBox fx:id="typeComboBox" onAction="#handleTypeAction"/>
                     </children>

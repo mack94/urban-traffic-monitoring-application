@@ -8,7 +8,7 @@
     {
       "name": "Server_Address",
       "type": "String",
-      "value": ""
+      "value": "10.22.112.112"
     },
     {
       "name": "Server_Port",

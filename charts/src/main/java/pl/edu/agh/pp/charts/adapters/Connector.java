@@ -43,7 +43,7 @@ public class Connector {
         boolean nio = true;
 
         Properties properties = System.getProperties();
-        properties.setProperty("jgroups.bind_addr", server_addr.toString());
+        properties.setProperty("jgroups.addr", server_addr.toString());
 
         client = new ChannelReceiver();
         client.start(server_addr, server_port, nio);
@@ -58,11 +58,6 @@ public class Connector {
         return address + ":" + port;
     }
 
-    public static void onLeverChange(String value){
-        //TODO implement settings
-        logger.info("Chnging lever to: " + value);
-    }
-
     public static boolean isConnectedToTheServer() {
         return client.isConnected();
     }
@@ -71,5 +66,7 @@ public class Connector {
         if (client != null)
             client.killConnectionThread();
     }
-
+    public static String getLeverServerInfo(){
+        return "MAKOWA ZROB TO WKONCU";
+    }
 }
