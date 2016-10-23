@@ -17,12 +17,15 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import pl.edu.agh.pp.charts.Main;
+import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.input.Input;
 import pl.edu.agh.pp.charts.input.ResourcesHolder;
 import pl.edu.agh.pp.charts.parser.Parser;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -37,7 +40,6 @@ public class ChartsController {
     private Set<Integer> idsSet = new HashSet<>();
     private Set<String> datesSet = new HashSet<>();
     private ObservableList<String> idsList = FXCollections.observableArrayList();
-    private ObservableList<String> typesList = FXCollections.observableArrayList();
     private MainWindowController parent;
     @FXML
     private LineChart<Number, Number> lineChart;
@@ -51,6 +53,7 @@ public class ChartsController {
     private CheckBox durationCheckBox;
     @FXML
     private ComboBox<String> idComboBox;
+    @FXML
     private ComboBox<String> dayComboBox;
     @FXML
     private CheckBox clearCheckBox;
@@ -80,6 +83,8 @@ public class ChartsController {
     private Label drawBaselineLabel;
     @FXML
     private ComboBox<String> sourceComboBox;
+    @FXML
+    private Label typeLabel;
 
     public ChartsController(Stage primaryStage, MainWindowController parent) {
         this.primaryStage = primaryStage;
@@ -129,24 +134,13 @@ public class ChartsController {
         lineChart.setTitle("");
         startButton.setDefaultButton(true);
         clearCheckBox.setSelected(true);
-//        typeComboBox.valueProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//                String value = typeComboBox.getSelectionModel().getSelectedItem();
-//                if (value.equals("Exact date")) {
-//                    fillInDates();
-//                } else if (value.equals("Aggregated day of week")) {
-//                    fillInDaysOfWeek();
-//                }
-//            }
-//        });
-        typeComboBox.getItems().addAll("Baseline","Historic data");
+        typeComboBox.setVisible(false);
+        typeLabel.setVisible(false);
         Image reverseButtonImage = new Image(Main.class.getResourceAsStream("/reverse.png"));
         reverseRouteButton.setGraphic(new ImageView(reverseButtonImage));
         dayComboBox.setVisible(false);
         idComboBox.setVisible(false);
         idLabel.setVisible(false);
-//        dayLabel.setVisible(false);
         reverseRouteButton.setVisible(false);
         baselineTypeComboBox.setVisible(false);
         baselineTypeLabel.setVisible(false);
@@ -154,7 +148,7 @@ public class ChartsController {
         fillInDaysOfWeek();
         drawBaselineCheckbox.setVisible(false);
         drawBaselineLabel.setVisible(false);
-//        setLogsLabel();
+        sourceComboBox.getItems().addAll("Local Data","Server Data");
     }
 
     @FXML
@@ -181,29 +175,7 @@ public class ChartsController {
             idsList.add(input.getRoute(String.valueOf(id)));
         }
         idComboBox.setItems(idsList);
-
-        if (typesList.size() != 2) {
-            typesList.add("Exact date");
-            typesList.add("Aggregated day of week");
-        }
-        typeComboBox.setItems(typesList);
-
-//        setLogsLabel();
-    }
-
-
-    private void fillInDates() {
-        dayComboBox.getItems().clear();
-        for (String day : ResourcesHolder.getInstance().getDays()) {
-            datesSet.add(day);
-        }
-        List<String> dates = new ArrayList<>(datesSet);
-        Collections.sort(dates);
-        for (String date : dates) {
-            dayComboBox.getItems().add(date);
-        }
-        int size = dayComboBox.getItems().size();
-        dayComboBox.setVisibleRowCount(size < 8 ? size : 7);
+        setupDatePicker();
     }
 
     private void fillInDaysOfWeek() {
@@ -211,19 +183,6 @@ public class ChartsController {
         dayComboBox.getItems().addAll("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday");
         dayComboBox.setVisibleRowCount(7);
     }
-
-    private void setLogsLabel() {
-        String tmp = "Chosen log files:\n";
-        if (ResourcesHolder.getInstance().getLogs().isEmpty()) {
-            tmp += "NONE";
-        } else {
-            for (String log : ResourcesHolder.getInstance().getLogs()) {
-                tmp += log + "\n";
-            }
-        }
-        logsListLabel.setText(tmp);
-    }
-
 
     private void createTooltips() {
         for (XYChart.Series<Number, Number> s : lineChart.getData()) {
@@ -244,13 +203,55 @@ public class ChartsController {
         }
     }
 
+    private void setupDatePicker(){
+        datePicker = new DatePicker();
+        final Callback<DatePicker, DateCell> dayCellFactory =
+                new Callback<DatePicker, DateCell>() {
+                    @Override
+                    public DateCell call(final DatePicker tmoDatePicker) {
+                        return new DateCell() {
+                            @Override
+                            public void updateItem(LocalDate date, boolean empty) {
+                                super.updateItem(date, empty);
+                                if(!availbleDate(date))
+                                    setDisable(true);
+                            }
+                        };
+                    }
+                };
+        datePicker.setDayCellFactory(dayCellFactory);
+        if("historic data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
+            dayHBox.getChildren().clear();
+            dayHBox.getChildren().addAll(dayLabel, datePicker);
+        }
+    }
+
+    private boolean availbleDate(LocalDate date){
+        if("local data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())){
+            return input.getDays().contains((date.getYear()+"-"+date.getMonthValue()+"-"+date.getDayOfMonth()));
+        }
+        else{
+            //todo implement server historic data
+            return false;
+        }
+    }
+
     @FXML
     private void handleStartAction(ActionEvent e) {
-        if (dayComboBox.getSelectionModel().getSelectedItem() == null
-                || idComboBox.getSelectionModel().getSelectedItem() == null
+        if (idComboBox.getSelectionModel().getSelectedItem() == null
                 || typeComboBox.getSelectionModel().getSelectedItem() == null) {
-            warn.setText("Select all parameters");
-            return;
+            if("historic data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
+                if(dayComboBox.getSelectionModel().getSelectedItem() == null) {
+                    warn.setText("Select all parameters");
+                    return;
+                }
+            }
+            else{
+                if(datePicker.getValue() == null){
+                    warn.setText("Select all parameters");
+                    return;
+                }
+            }
         }
         warn.setText("");
         if (clearCheckBox.isSelected()) {
@@ -261,11 +262,17 @@ public class ChartsController {
         XYChart.Series<Number, Number> seriesDuration = new XYChart.Series<>();
 
         String type = typeComboBox.getSelectionModel().getSelectedItem();
-        String day = dayComboBox.getSelectionModel().getSelectedItem();
+        String day;
+        if("historic data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
+            day = dayComboBox.getSelectionModel().getSelectedItem();
+        }
+        else{
+            day = datePicker.getValue().toString();
+        }
         String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
         Map<Double, Double> trafficValues = null;
         Map<Double, Double> normalValues = null;
-        if (type.equals("Exact date")) {
+        if ("historic data".equalsIgnoreCase(type)) {
             trafficValues = input.getData(day, id, true, false);
             if (durationCheckBox.isSelected()) normalValues = input.getData(day, id, false, false);
         } else if (type.equals("Aggregated day of week")) {
@@ -404,7 +411,7 @@ public class ChartsController {
         idLabel.setVisible(true);
         dayLabel.setVisible(true);
         reverseRouteButton.setVisible(true);
-        if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("baseline")){
+        if("baseline".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel,dayComboBox);
             baselineTypeComboBox.setVisible(true);
@@ -412,9 +419,10 @@ public class ChartsController {
             drawBaselineCheckbox.setVisible(false);
             drawBaselineLabel.setVisible(false);
         }
-        else if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("historic data")){
+        else if("historic data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel,datePicker);
+            setupDatePicker();
             baselineTypeComboBox.setVisible(false);
             baselineTypeLabel.setVisible(false);
             drawBaselineCheckbox.setVisible(true);
@@ -461,7 +469,26 @@ public class ChartsController {
 
     @FXML
     private void handleSourceAction(ActionEvent e) {
-        //todo source
+        String notConnectedWarn = "Not connected to server!";
+        if(sourceComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("server data")){
+            if(!Connector.isConnectedToTheServer()){
+                warn.setText(notConnectedWarn);
+                warn.setVisible(true);
+            }
+            typeComboBox.setVisible(true);
+            typeLabel.setVisible(true);
+            typeComboBox.getItems().clear();
+            typeComboBox.getItems().addAll("Baseline","Historic data");
+        }
+        else {
+            if(warn.getText().equalsIgnoreCase(notConnectedWarn)){
+                warn.setVisible(false);
+            }
+            typeLabel.setVisible(true);
+            typeComboBox.setVisible(true);
+            typeComboBox.getItems().clear();
+            typeComboBox.getItems().addAll("Historic data");
+        }
     }
 
     @FXML

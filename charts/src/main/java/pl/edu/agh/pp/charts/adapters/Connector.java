@@ -47,7 +47,7 @@ public class Connector {
     }
 
     public static boolean isConnectedToTheServer() {
-        return client.isConnected();
+        return client != null && client.isConnected();
     }
 
     public static void killAll(){

@@ -29,6 +29,12 @@
     </padding>
     <top>
         <VBox>
+            <HBox spacing="10">
+                <padding>
+                    <Insets bottom="3" left="0" right="0" top="0"/>
+                </padding>
+                <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
+            </HBox>
             <VBox id="abox" alignment="CENTER">
                 <Label text="Server Options" style="-fx-font-weight: bold"/>
                 <VBox >
@@ -59,14 +65,6 @@
                     </VBox>
                 </VBox>
             </VBox>
-            <HBox spacing="10">
-                <padding>
-                    <Insets bottom="10" left="10" right="10" top="10"/>
-                </padding>
-                <children>
-                    <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
-                </children>
-            </HBox>
         </VBox>
     </top>
     <center>
