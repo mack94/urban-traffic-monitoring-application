@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 public class MainWindowController {
     private ObservableList<String> anomaliesList = FXCollections.observableArrayList();
     private Stage primaryStage = null;
+    private Scene scene = null;
     private Input input;
     private ChartsController chartsController = null;
     private boolean connectedFlag = false;
@@ -77,7 +78,6 @@ public class MainWindowController {
     public MainWindowController(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
-
     public void show() {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -86,7 +86,7 @@ public class MainWindowController {
             BorderPane rootLayout = loader.load();
 
             primaryStage.setTitle("Urban traffic monitoring - charts");
-            Scene scene = new Scene(rootLayout);
+            scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -103,6 +103,9 @@ public class MainWindowController {
         }
     }
 
+    public void setScene(){
+        primaryStage.setScene(scene);
+    }
     public void updateAnomalyInfo(String screenId){
 
     }
@@ -166,16 +169,14 @@ public class MainWindowController {
 
     @FXML
     private void initialize() throws IOException {
-//        anomaliesListView.setItems(anomaliesList);
-//        anomaliesTextFlow.setTextAlignment(TextAlignment.CENTER);
-//        anomaliesTextFlow.setMaxHeight(150);
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         setConnectedState();
         currentLeverOnServer.setText(getLeverServerInfo());
         connectButton.setDefaultButton(true);
         try {
-            serverAddrTxtField.setText((String) Options.getInstance().getPreference("Server_Address",String.class));
-            serverPortTxtField.setText((String) Options.getInstance().getPreference("Port",String.class));
+            System.out.println((String) Options.getInstance().getPreference("Server_Address", String.class));
+            serverAddrTxtField.setText((String) Options.getInstance().getPreference("Server_Address", String.class));
+            serverPortTxtField.setText((String) Options.getInstance().getPreference("Port", String.class));
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
             illegalPreferenceObjectExpected.printStackTrace();
         }
@@ -185,8 +186,11 @@ public class MainWindowController {
     private void handleChartsButtonAction(ActionEvent e) {
         if (chartsController == null) {
             chartsController = new ChartsController(primaryStage, this);
+            chartsController.show();
         }
-        chartsController.show();
+        else{
+            chartsController.setScene();
+        }
     }
 
     @FXML

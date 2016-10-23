@@ -30,6 +30,7 @@ import java.util.*;
  */
 public class ChartsController {
     private Stage primaryStage = null;
+    private Scene scene = null;
     private FileChooser fileChooser = null;
     private Parser parser;
     private Input input;
@@ -100,15 +101,18 @@ public class ChartsController {
                 }
             });
             primaryStage.setTitle("Urban traffic monitoring - charts");
-            Scene scene = new Scene(rootLayout);
+            scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             primaryStage.setScene(scene);
-            primaryStage.show();
+//            primaryStage.show();
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void setScene(){
+        primaryStage.setScene(scene);
+    }
     @FXML
     private void initialize() {
         datePicker = new DatePicker();
@@ -187,10 +191,6 @@ public class ChartsController {
 //        setLogsLabel();
     }
 
-    @FXML
-    private void handleBackButtonAction(ActionEvent e) {
-        parent.show();
-    }
 
     private void fillInDates() {
         dayComboBox.getItems().clear();
@@ -462,5 +462,10 @@ public class ChartsController {
     @FXML
     private void handleSourceAction(ActionEvent e) {
         //todo source
+    }
+
+    @FXML
+    private void handleBackButtonAction(ActionEvent e) {
+        parent.setScene();
     }
 }
