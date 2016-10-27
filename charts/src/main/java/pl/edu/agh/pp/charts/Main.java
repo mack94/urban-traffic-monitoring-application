@@ -2,13 +2,31 @@ package pl.edu.agh.pp.charts;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
+import pl.edu.agh.pp.charts.settings.IOptions;
+import pl.edu.agh.pp.charts.settings.Options;
+
+import java.io.IOException;
+import java.util.prefs.BackingStoreException;
 
 /**
  * Created by Dawid on 2016-05-20.
  */
 public class Main extends Application {
+
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(Main.class);
+
     public static void main(String... args) {
+        try {
+            IOptions options = Options.getInstance();
+            options.initialize();
+        } catch (BackingStoreException e) {
+            logger.error("Main (Charts): BackingStoreException while Options initialization: " + e);
+        } catch (IOException e) {
+            logger.error("Main (Charts): IO Exception while Options initialization: " + e);
+        }
         launch(args);
     }
 

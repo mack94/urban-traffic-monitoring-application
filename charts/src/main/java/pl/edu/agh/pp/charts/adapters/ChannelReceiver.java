@@ -8,7 +8,6 @@ import org.jgroups.util.ByteArrayDataInputStream;
 import org.jgroups.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.charts.adapters.exceptions.ArgumentOutOfRangeException;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.io.BufferedInputStream;
@@ -79,9 +78,20 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 //        }
     }
 
+    /**
+     * Receive method for the NIO working mode.
+     * @param sender Address of the message sender.
+     * @param buf ByteBuffer with the messages
+     * @see Address
+     * @see ReceiverAdapter
+     * @see ConnectionListener
+     * @see pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage
+     */
     @Override
     public void receive(Address sender, ByteBuffer buf) {
+        // TODO: Check this.
         //buf.rewind();
+        // It's for the NIO mode. It is not tested already - but i think that rewind and flip should be removed.
         Util.bufferToArray(sender, buf, this);
         buf.rewind();
         buf.flip();
@@ -95,50 +105,51 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 //        }
     }
 
+    /**
+     * Receive method for the TCP working mode.
+     * @param sender Address of the message sender.
+     * @param buf Buffer with the messages
+     * @param offset The message offset
+     * @param length The length of received message
+     * @see Address
+     * @see ReceiverAdapter
+     * @see ConnectionListener
+     * @see pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage
+     */
     @Override
     public void receive(Address sender, byte[] buf, int offset, int length) {
 
         int bytesRead = 0;
-        int bufLength = buf.length;
         byte[] result = buf.clone();
 
-        System.out.println("Sth received");
-        int l_max = Integer.MAX_VALUE;
-
-        if (result.length > length)
-            l_max = result.length;
-        else {
-            l_max = length;
-        }
-
-        logger.error("+++++++++++" + result.length + "xxxxx" + buf.length + " yyyyyyzy " + length + " max " + l_max + " oof " + offset + " l ");
+        logger.info("Message received");
 
         if (length < 0) {
             logger.error("Length is less then 0!");
         }
+
         ByteArrayDataInputStream source = new ByteArrayDataInputStream(buf, offset, length);
 
-        while(length != 0 &&
-                (bytesRead = source.read(result, offset, length)) > 0) {
+        while (length != 0 && (bytesRead = source.read(result, offset, length)) > 0) {
             offset += bytesRead;
             length -= bytesRead;
         }
         if (length != 0) {
             logger.error("Something went wrong! There are still some bytes in the buffer.");
         }
-        logger.error("+++++++++++" + result.length + "xxxxx" + buf.length + " yyyyyyzy " + length + " max " + bytesRead + " oof " + offset + " l ");
-        byte[] result_cut = Arrays.copyOfRange(result, 0, bytesRead);
 
-//        byte[] received = buf;
+        byte[] result_parsable = Arrays.copyOfRange(result, 0, bytesRead);
+
         try {
-            AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(result_cut);
+            AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(result_parsable);
             Connector.onMessage(message);
+            logger.info("\t Message parsing completed - success");
         } catch (InvalidProtocolBufferException e) {
-            System.out.println(Arrays.toString(buf));
-            e.printStackTrace();
+            logger.error("ChannelReceiver: InvalidProtocolBufferException while parsing the received message. Error: " + e);
+            logger.error("Following bytes received:");
+            logger.error("\t\t" + Arrays.toString(buf));
         }
 
-//        source.
     }
 
     @Override
