@@ -2,8 +2,8 @@ package pl.edu.agh.pp.charts.controller;
 
 import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
@@ -22,17 +23,22 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
+import pl.edu.agh.pp.charts.input.Anomaly;
+import pl.edu.agh.pp.charts.input.AnomalyManager;
 import pl.edu.agh.pp.charts.input.Input;
+import pl.edu.agh.pp.charts.settings.Options;
+import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
 /**
  * Created by Dawid on 2016-09-05.
  */
 public class MainWindowController {
+    private ObservableList<String> anomaliesList = FXCollections.observableArrayList();
     private Stage primaryStage = null;
+    private Scene scene = null;
     private Input input;
     private ChartsController chartsController = null;
     private boolean connectedFlag = false;
@@ -43,15 +49,7 @@ public class MainWindowController {
     @FXML
     private Button chartsButton;
     @FXML
-    private TextFlow anomaliesTextFlow;
-    @FXML
-    private Slider leverSld;
-    @FXML
-    private Label changeLeverTo;
-    @FXML
     private Label currentLeverOnServer;
-    @FXML
-    private Button sendSettingsButton;
     @FXML
     private Label connectedLabel;
     @FXML
@@ -62,13 +60,24 @@ public class MainWindowController {
     private Button connectButton;
     @FXML
     private Button disconnectButton;
+    @FXML
+    private ListView<String> anomaliesListView;
+    @FXML
+    private Label anomalyIdLabel;
+    @FXML
+    private Label startDateLabel;
+    @FXML
+    private Label endDateLabel;
+    @FXML
+    private Label routeIdLabel;
+    @FXML
+    private Label routeDescLabel;
 
 
 
     public MainWindowController(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
-
     public void show() {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -77,7 +86,7 @@ public class MainWindowController {
             BorderPane rootLayout = loader.load();
 
             primaryStage.setTitle("Urban traffic monitoring - charts");
-            Scene scene = new Scene(rootLayout);
+            scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -94,11 +103,22 @@ public class MainWindowController {
         }
     }
 
-    public void putAnomalyMessageOnScreen(int id, String message, String date, int duration, Color color) {
-        Text text1 = new Text(id + ": " + date + "; duration = " + duration + "; " + message + "\n");
-        text1.setFill(color);
-        text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
-        putMessageOnScreen(text1);
+    public void setScene(){
+        primaryStage.setScene(scene);
+    }
+    public void updateAnomalyInfo(String screenId){
+
+    }
+
+    public void putAnomalyInfoOnScreen(String screenMessage) {
+        Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
+        Platform.runLater(() -> {
+            anomalyIdLabel.setText(anomaly.getAnomalyId());
+            startDateLabel.setText(anomaly.getStartDate());
+            endDateLabel.setText(anomaly.getEndDate());
+            routeIdLabel.setText(anomaly.getRouteId());
+            routeDescLabel.setText(anomaly.getRoute());
+        } );
     }
 
     public void putSystemMessageOnScreen(String message) {
@@ -113,43 +133,18 @@ public class MainWindowController {
         Text text1 = new Text(formatDate(dateTime) + "  " +message + "\n");
         text1.setFill(color);
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
-        initSlider();
-        putMessageOnScreen(text1);
+//        putMessageOnScreen(text1);
     }
 
-    private void putMessageOnScreen(Text text){
+    public void addAnomalyToList(String text){
         Platform.runLater(() -> {
-            anomaliesTextFlow.getChildren().add(0, text);
+            anomaliesListView.getItems().add(0,text);
         } );
-
     }
 
     private String getLeverServerInfo(){
         //TODO keeping server info in Connector?
-        return "10";
-    }
-
-    public void LeverChangedOnServer(String value){
-        //TODO use after lever value changed on server
-        currentLeverOnServer.setText(value);
-    }
-
-    private void initSlider() {
-        int maxValue = 40;
-        int minValue = 1;
-        leverSld.setMajorTickUnit(2);
-        leverSld.setMinorTickCount(1);
-        leverSld.setSnapToTicks(true);
-        leverSld.setMin(minValue);
-        leverSld.setMax(maxValue);
-        DecimalFormat df = new java.text.DecimalFormat();
-        df.setMaximumFractionDigits(1);
-        leverSld.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-                Double value = leverSld.getValue();
-                changeLeverTo.setText(String.valueOf(value.intValue()));
-            }
-        });
+        return Connector.getLeverServerInfo();
     }
 
     private void setConnectedState(){
@@ -158,14 +153,12 @@ public class MainWindowController {
             connectedLabel.setTextFill(Color.BLACK);
             connectButton.setDisable(true);
             disconnectButton.setDisable(false);
-            sendSettingsButton.setDisable(false);
         }
         else {
             connectedLabel.setText("NOT CONNECTED");
             connectedLabel.setTextFill(Color.RED);
             connectButton.setDisable(false);
             disconnectButton.setDisable(true);
-            sendSettingsButton.setDisable(true);
         }
     }
 
@@ -176,33 +169,32 @@ public class MainWindowController {
 
     @FXML
     private void initialize() throws IOException {
-        anomaliesTextFlow.setTextAlignment(TextAlignment.CENTER);
-        anomaliesTextFlow.setMaxHeight(150);
-        changeLeverTo.setText("1");
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         setConnectedState();
-        initSlider();
         currentLeverOnServer.setText(getLeverServerInfo());
         connectButton.setDefaultButton(true);
+        try {
+            System.out.println((String) Options.getInstance().getPreference("Server_Address", String.class));
+            serverAddrTxtField.setText((String) Options.getInstance().getPreference("Server_Address", String.class));
+            serverPortTxtField.setText((String) Options.getInstance().getPreference("Server_Port", String.class));
+        } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
+            illegalPreferenceObjectExpected.printStackTrace();
+        }
     }
 
     @FXML
     private void handleChartsButtonAction(ActionEvent e) {
         if (chartsController == null) {
             chartsController = new ChartsController(primaryStage, this);
+            chartsController.show();
         }
-        chartsController.show();
-    }
-
-    @FXML
-    private void handleTestButtonAction(ActionEvent e) {
-        putAnomalyMessageOnScreen(666, "Test anomaly", "A Date", 0, Color.BLACK);
+        else{
+            chartsController.setScene();
+        }
     }
 
     @FXML
     private void handleConnectAction(ActionEvent e) {
-        Connector connector = new Connector();
-        connector.setController(this);
 
         try {
             String address = serverAddrTxtField.getText();
@@ -225,7 +217,6 @@ public class MainWindowController {
             }
             if(port.equals(""))
                 port = "7500";
-            connectedLabel.setText("Connecting...");
             Connector.connect(address, port);
             connectedFlag = Connector.isConnectedToTheServer();
             if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo());
@@ -240,7 +231,6 @@ public class MainWindowController {
 
     @FXML
     private void handleDisconnectAction(ActionEvent e) {
-        connectedLabel.setText("Disconnecting...");
         Connector.disconnect();
         connectedFlag = Connector.isConnectedToTheServer();
         if(connectedFlag) putSystemMessageOnScreen("Failed to disconnect from " + Connector.getAddressServerInfo());
@@ -248,9 +238,13 @@ public class MainWindowController {
     }
 
     @FXML
-    private void handleOnLeverChanged(ActionEvent e) {
-        Connector.onLeverChange(changeLeverTo.getText());
+    private void handleAnomalyClicked(MouseEvent e) {
+        String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
+        if(selectedItem != null){
+            putAnomalyInfoOnScreen(selectedItem);
+        }
     }
+
 }
 
 

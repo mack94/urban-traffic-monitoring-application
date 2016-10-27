@@ -87,7 +87,7 @@ public class PersistenceManager {
     }
 
     private String getDate(Record record) {
-        return record.getDate().substring(1, 11);
+        return record.getDate().substring(0, 10);
     }
 
     public Map<Double, Double> readFromFile(String day, String id, boolean traffic) {

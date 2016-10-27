@@ -10,11 +10,9 @@
         <Insets bottom="15" left="15" right="15" top="15"/>
     </padding>
     <top>
-        <HBox>
-            <children>
-                <!--<Button fx:id="fileButton" onAction="#handleFileButtonAction" text="Add log file"/>-->
-                <Button fx:id="backButton" onAction="#handleBackButtonAction" text="Go back to anomalies window"/>
-            </children>
+        <HBox spacing="5">
+            <Button fx:id="backButton" onAction="#handleBackButtonAction" text="Go back to anomalies window"/>
+            <Button fx:id="fileButton" onAction="#handleFileButtonAction" text="Add log file"/>
         </HBox>
     </top>
     <center>
@@ -29,11 +27,17 @@
     </center>
     <bottom>
         <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-              prefHeight="168.0" prefWidth="920.0">
+              prefHeight="200.0" prefWidth="920.0">
             <children>
                 <HBox spacing="10">
                     <children>
-                        <Label text="Type"/>
+                        <Label text="Source"/>
+                        <ComboBox fx:id="sourceComboBox" onAction="#handleSourceAction"/>
+                    </children>
+                </HBox>
+                <HBox spacing="10">
+                    <children>
+                        <Label fx:id="typeLabel" text="Type"/>
                         <ComboBox fx:id="typeComboBox" onAction="#handleTypeAction"/>
                     </children>
                 </HBox>

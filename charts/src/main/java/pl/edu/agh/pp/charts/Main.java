@@ -4,10 +4,8 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.charts.controller.MainWindowController;
-import pl.edu.agh.pp.charts.settings.IOptions;
+import pl.edu.agh.pp.charts.controller.MainWindowController;import pl.edu.agh.pp.charts.settings.IOptions;
 import pl.edu.agh.pp.charts.settings.Options;
-
 import java.io.IOException;
 import java.util.prefs.BackingStoreException;
 
@@ -32,10 +30,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setWidth(850);
-        primaryStage.setHeight(700);
+        primaryStage.setWidth(1500);
+        primaryStage.setHeight(900);
         MainWindowController mainWindowController = new MainWindowController(primaryStage);
+        AnomalyManager.getInstance().setController(mainWindowController);
         mainWindowController.show();
-
     }
 }

@@ -1,9 +1,8 @@
 package pl.edu.agh.pp.charts.adapters;
 
-import javafx.scene.paint.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.charts.controller.MainWindowController;
+import pl.edu.agh.pp.charts.input.AnomalyManager;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.net.InetAddress;
@@ -15,23 +14,12 @@ import java.util.Properties;
 public class Connector {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(Connector.class);
-    private static MainWindowController controller = null;
     private static String address;
     private static String port;
     private static ChannelReceiver client;
 
-    public static void setController(MainWindowController mainWindowController) {
-        controller = mainWindowController;
-    }
-
     public static void onMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
-        if (controller != null) {
-            int id = anomalyMessage.getRouteIdx();
-            String message = anomalyMessage.getMessage() + " _ " + anomalyMessage.getAnomalyID() + " _ " + " _ date: " + anomalyMessage.getDate();
-            int duration = anomalyMessage.getDuration();
-            Color color = Color.CRIMSON;
-            controller.putAnomalyMessageOnScreen(id, message, anomalyMessage.getDate(), duration, color);
-        }
+        AnomalyManager.getInstance().addAnomaly(anomalyMessage);
     }
     public static void connect(String addr, String prt) throws Exception {
         address = addr;
@@ -43,7 +31,7 @@ public class Connector {
         boolean nio = true;
 
         Properties properties = System.getProperties();
-        properties.setProperty("jgroups.bind_addr", server_addr.toString());
+        properties.setProperty("jgroups.addr", server_addr.toString());
 
         client = new ChannelReceiver();
         client.start(server_addr, server_port, nio);
@@ -58,18 +46,15 @@ public class Connector {
         return address + ":" + port;
     }
 
-    public static void onLeverChange(String value){
-        //TODO implement settings
-        logger.info("Chnging lever to: " + value);
-    }
-
     public static boolean isConnectedToTheServer() {
-        return client.isConnected();
+        return client != null && client.isConnected();
     }
 
     public static void killAll(){
         if (client != null)
             client.killConnectionThread();
     }
-
+    public static String getLeverServerInfo(){
+        return "MAKOWA ZROB TO WKONCU";
+    }
 }

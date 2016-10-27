@@ -19,12 +19,22 @@
 <?import com.sun.javafx.scene.control.skin.ContextMenuContent.MenuItemContainer?>
 <?import com.sun.javafx.scene.control.skin.TabPaneSkin.TabControlButtons?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
     <padding>
         <Insets bottom="10" left="10" right="10" top="10"/>
     </padding>
     <top>
         <VBox>
+            <HBox spacing="10">
+                <padding>
+                    <Insets bottom="3" left="0" right="0" top="0"/>
+                </padding>
+                <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
+            </HBox>
             <VBox id="abox" alignment="CENTER">
                 <Label text="Server Options" style="-fx-font-weight: bold"/>
                 <VBox >
@@ -47,47 +57,59 @@
                         <VBox alignment="CENTER">
                             <HBox spacing="5">
                                 <VBox id="konkretne ustawienie">
-                                    <HBox>
-                                        <Label text="Wartość wajchy na serwerze: " />
-                                        <Label fx:id="currentLeverOnServer" />
-                                    </HBox>
-                                    <HBox>
-                                        <Label text="Zmien wajche na:" />
-                                        <Label fx:id="changeLeverTo" />
-                                    </HBox>
-                                    <Slider fx:id="leverSld" maxWidth="150"/>
+                                    <Label text="Wartość wajchy: " />
+                                    <Label fx:id="currentLeverOnServer" />
                                 </VBox>
                             </HBox>
-                            <Button fx:id="sendSettingsButton" text="Send new settings" onAction="#handleOnLeverChanged"/>
                         </VBox>
                     </VBox>
                 </VBox>
             </VBox>
-            <HBox spacing="10">
-                <padding>
-                    <Insets bottom="10" left="10" right="10" top="10"/>
-                </padding>
-                <children>
-                    <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
-                    <Button fx:id="testButton" onAction="#handleTestButtonAction" text="Test anomaly message"/>
-                </children>
-            </HBox>
         </VBox>
     </top>
     <center>
-        <VBox alignment="CENTER">
+        <VBox>
             <Label text="Anomalies List" style="-fx-font-weight: bold"/>
-            <ScrollPane fitToWidth="true">
-                <TextFlow fx:id="anomaliesTextFlow" prefHeight="150"/>
-            </ScrollPane>
-            <LineChart fx:id="lineChart" title="Most Recent anomaly" style="-fx-font-weight: bold">
-                <xAxis>
-                    <NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis"/>
-                </xAxis>
-                <yAxis>
-                    <NumberAxis label="Duration (seconds)" tickUnit="1"/>
-                </yAxis>
-            </LineChart>
+            <HBox>
+                <Label text="RouteID" />
+                <!--<Label text="route desc" />-->
+                <Label text="    start date" />
+            </HBox>
+            <HBox>
+                <ScrollPane fitToWidth="true">
+                    <ListView fx:id="anomaliesListView" prefWidth="200.0" prefHeight="250" onMouseClicked="#handleAnomalyClicked"/>
+                </ScrollPane>
+                <GridPane>
+                    <padding>
+                        <Insets bottom="10" left="10" right="10" top="10"/>
+                    </padding>
+                    <Label text="Anomaly ID" GridPane.rowIndex="0" GridPane.columnIndex="0" prefWidth="100"/>
+                    <Label fx:id="anomalyIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="200"/>
+                    <Label text="Start Date" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="100"/>
+                    <Label fx:id="startDateLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="200"/>
+                    <Label text="End Date" GridPane.rowIndex="2" GridPane.columnIndex="0" prefWidth="100"/>
+                    <Label fx:id="endDateLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="200"/>
+                    <Label text="Route ID" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="100"/>
+                    <Label fx:id="routeIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="4" prefWidth="200"/>
+                    <Label text="Route description" GridPane.rowIndex="1" GridPane.columnIndex="3" prefWidth="100"/>
+                    <Label fx:id="routeDescLabel" GridPane.rowIndex="1" GridPane.columnIndex="4" prefWidth="200"/>
+                </GridPane>
+            </HBox>
+            <TabPane>
+                <Tab text="Anomaly chart">
+                    <LineChart fx:id="lineChart" title="Most Recent anomaly" style="-fx-font-weight: bold">
+                        <xAxis>
+                            <NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Duration (seconds)" tickUnit="1"/>
+                        </yAxis>
+                    </LineChart>
+                </Tab>
+                <Tab text="Map">
+                    <Label text="tab2" />
+                </Tab>
+            </TabPane>
         </VBox>
     </center>
 </BorderPane>
