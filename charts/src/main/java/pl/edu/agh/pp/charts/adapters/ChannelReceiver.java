@@ -4,6 +4,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.blocks.cs.*;
+import org.jgroups.util.ByteArrayDataInputStream;
 import org.jgroups.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,22 +78,78 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 //        }
     }
 
+    /**
+     * Receive method for the NIO working mode.
+     * @param sender Address of the message sender.
+     * @param buf ByteBuffer with the messages
+     * @see Address
+     * @see ReceiverAdapter
+     * @see ConnectionListener
+     * @see pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage
+     */
     @Override
     public void receive(Address sender, ByteBuffer buf) {
-        try {
-            AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf.array());
-            Connector.onMessage(message);
-        } catch (InvalidProtocolBufferException e) {
-            logger.error("ChannelReceiver :: InvalidProtocolBufferException: " + e
-                    + "\n Buf Array: " + Arrays.toString(buf.array())
-                    + "\n Message: " + buf);
-        }
+        // TODO: Check this.
+        //buf.rewind();
+        // It's for the NIO mode. It is not tested already - but i think that rewind and flip should be removed.
+        Util.bufferToArray(sender, buf, this);
+        buf.rewind();
+        buf.flip();
+//        try {
+//            AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf);
+//            Connector.onMessage(message);
+//        } catch (InvalidProtocolBufferException e) {
+//            logger.error("ChannelReceiver :: InvalidProtocolBufferException: " + e
+//                    + "\n Buf Array: " + Arrays.toString(buf.array())
+//                    + "\n Message: " + buf);
+//        }
     }
 
+    /**
+     * Receive method for the TCP working mode.
+     * @param sender Address of the message sender.
+     * @param buf Buffer with the messages
+     * @param offset The message offset
+     * @param length The length of received message
+     * @see Address
+     * @see ReceiverAdapter
+     * @see ConnectionListener
+     * @see pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage
+     */
     @Override
     public void receive(Address sender, byte[] buf, int offset, int length) {
-        String msg = new String(buf, offset, length);
-        logger.info(String.format("# %s\n", msg));
+
+        int bytesRead = 0;
+        byte[] result = buf.clone();
+
+        logger.info("Message received");
+
+        if (length < 0) {
+            logger.error("Length is less then 0!");
+        }
+
+        ByteArrayDataInputStream source = new ByteArrayDataInputStream(buf, offset, length);
+
+        while (length != 0 && (bytesRead = source.read(result, offset, length)) > 0) {
+            offset += bytesRead;
+            length -= bytesRead;
+        }
+        if (length != 0) {
+            logger.error("Something went wrong! There are still some bytes in the buffer.");
+        }
+
+        byte[] result_parsable = Arrays.copyOfRange(result, 0, bytesRead);
+
+        try {
+            AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(result_parsable);
+            Connector.onMessage(message);
+            logger.info("\t Message parsing completed - success");
+        } catch (InvalidProtocolBufferException e) {
+            logger.error("ChannelReceiver: InvalidProtocolBufferException while parsing the received message. Error: " + e);
+            logger.error("Following bytes received:");
+            logger.error("\t\t" + Arrays.toString(buf));
+        }
+
     }
 
     @Override

@@ -112,7 +112,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     public AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
 
         double predictedTravelDuration = function(dayOfWeek, routeIdx, (int) secondOfDay);
-        double bounds = 0.35;// + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)) + 1.0* (errorSensitivity) % 1.0; //%
+        double bounds = 0.05;// + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)) + 1.0* (errorSensitivity) % 1.0; //%
         double errorDelta = predictedTravelDuration * bounds;
 
         // TODO: It's a problematic thing, because it is not precise at 00:00 and next 4 minutes of next day. (it took last day)
@@ -148,8 +148,8 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
                     .setRouteIdx(routeIdx)
                     .setSecondOfDay((int) secondOfDay)
                     .setDuration((int) travelDuration) // TODO: Cast remove?
-                    .setSeverity(severity) // TODO: Fix it
-                    .setMessage(String.format("Error rate: %d %%", (int) (100 - errorRate * 100)))
+                    .setSeverity(1) // TODO: Fix it
+                    .setMessage(String.format("Error rate: > %f <", errorRate))
                     .setAnomalyID(anomalyID)
                     .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))
                     .build();
