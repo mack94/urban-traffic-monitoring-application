@@ -23,6 +23,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
+<?import javafx.scene.web.WebView?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
     <padding>
         <Insets bottom="10" left="10" right="10" top="10"/>
@@ -107,7 +108,7 @@
                     </LineChart>
                 </Tab>
                 <Tab text="Map">
-                    <Label text="tab2" />
+                    <WebView fx:id="mapWebView" />
                 </Tab>
             </TabPane>
         </VBox>

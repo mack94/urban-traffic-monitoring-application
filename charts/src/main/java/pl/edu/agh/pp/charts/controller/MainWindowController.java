@@ -15,6 +15,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.joda.time.DateTime;
@@ -42,10 +44,14 @@ public class MainWindowController {
     private Input input;
     private ChartsController chartsController = null;
     private boolean connectedFlag = false;
+    private WebEngine webEngine;
+    private HtmlBuilder htmlBuilder;
     private final Logger logger = (Logger) LoggerFactory.getLogger(MainWindowController.class);
 
     @FXML
     private LineChart<Number, Number> lineChart;
+    @FXML
+    private WebView mapWebView;
     @FXML
     private Button chartsButton;
     @FXML
@@ -121,6 +127,13 @@ public class MainWindowController {
         } );
     }
 
+    public void putAnomalyOnMap(String screenMessage) {
+        Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
+        System.out.println(anomaly.getRoute());
+        //TODO execution line below with anomaly coordinates, map should then mark that point and center on it
+        // //webEngine.loadContent(htmlBuilder.loadMapStructure(anomalyLat, anomalyLng));
+    }
+
     public void putSystemMessageOnScreen(String message) {
         putSystemMessageOnScreen(message,DateTime.now(),Color.BLACK);
     }
@@ -173,6 +186,7 @@ public class MainWindowController {
         setConnectedState();
         currentLeverOnServer.setText(getLeverServerInfo());
         connectButton.setDefaultButton(true);
+        setMapUp();
         try {
             System.out.println((String) Options.getInstance().getPreference("Server_Address", String.class));
             serverAddrTxtField.setText((String) Options.getInstance().getPreference("Server_Address", String.class));
@@ -242,7 +256,16 @@ public class MainWindowController {
         String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
         if(selectedItem != null){
             putAnomalyInfoOnScreen(selectedItem);
+            putAnomalyOnMap(selectedItem);
         }
+    }
+
+    private void setMapUp() {
+        htmlBuilder = new HtmlBuilder();
+        webEngine = mapWebView.getEngine();
+        String defaultLat = "50.07";
+        String defaultLng = "19.94";
+        webEngine.loadContent(htmlBuilder.loadMapStructure(defaultLat, defaultLng));
     }
 
 }
