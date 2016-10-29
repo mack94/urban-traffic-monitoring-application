@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -87,6 +88,8 @@ public class MainWindowController {
     private Button saveDefaultButton;
     @FXML
     private Label recentDuration;
+    @FXML
+    private TextFlow systemMsgTextFlow;
 
 
 
@@ -190,7 +193,7 @@ public class MainWindowController {
         Text text1 = new Text(formatDate(dateTime) + "  " +message + "\n");
         text1.setFill(color);
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
-//        putMessageOnScreen(text1);
+        systemMsgTextFlow.getChildren().add(0,text1);
     }
 
     public void addAnomalyToList(String text){
@@ -287,7 +290,7 @@ public class MainWindowController {
                 serverAddrTxtField.setStyle("-fx-text-box-border: black;");
             }
             String port = serverPortTxtField.getText();
-            if(!Pattern.matches("\\d*",port)){
+            if(!Pattern.matches("\\d+",port)){
                 logger.error("Wrong server port pattern");
                 serverPortTxtField.setStyle("-fx-text-box-border: red;");
                 return;
@@ -295,13 +298,11 @@ public class MainWindowController {
             else{
                 serverPortTxtField.setStyle("-fx-text-box-border: black;");
             }
-            if(port.equals(""))
-                port = "7500";
             Connector.connect(address, port);
             connectedFlag = Connector.isConnectedToTheServer();
-            if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo());
+            if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
+            else putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
             setConnectedState();
-//            putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
         } catch (Exception e1) {
             logger.error("Connecting error");
             e1.printStackTrace();

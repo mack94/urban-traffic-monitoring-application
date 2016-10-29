@@ -108,8 +108,11 @@
                         </yAxis>
                     </LineChart>
                 </Tab>
-                <Tab text="Map">
+                <Tab text="Anomaly map">
                     <WebView fx:id="mapWebView" />
+                </Tab>
+                <Tab text="System messages">
+                    <TextFlow textAlignment="CENTER" fx:id="systemMsgTextFlow" />
                 </Tab>
             </TabPane>
         </VBox>
