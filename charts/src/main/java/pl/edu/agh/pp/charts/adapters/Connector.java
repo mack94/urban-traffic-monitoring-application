@@ -17,9 +17,10 @@ public class Connector {
     private static String address;
     private static String port;
     private static ChannelReceiver client;
+    private final static AnomalyManager anomalyManager = AnomalyManager.getInstance();
 
     public static void onMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
-        AnomalyManager.getInstance().addAnomaly(anomalyMessage);
+        anomalyManager.addAnomaly(anomalyMessage);
     }
     public static void connect(String addr, String prt) throws Exception {
         address = addr;

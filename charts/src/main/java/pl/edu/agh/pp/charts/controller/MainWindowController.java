@@ -10,11 +10,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -32,6 +35,7 @@ import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 /**
@@ -47,9 +51,10 @@ public class MainWindowController {
     private WebEngine webEngine;
     private HtmlBuilder htmlBuilder;
     private final Logger logger = (Logger) LoggerFactory.getLogger(MainWindowController.class);
+    private final AnomalyManager anomalyManager = AnomalyManager.getInstance();
 
     @FXML
-    private LineChart<Number, Number> lineChart;
+    private volatile LineChart<Number, Number> lineChart;
     @FXML
     private WebView mapWebView;
     @FXML
@@ -73,11 +78,15 @@ public class MainWindowController {
     @FXML
     private Label startDateLabel;
     @FXML
-    private Label endDateLabel;
+    private Label lastDateLabel;
     @FXML
     private Label routeIdLabel;
     @FXML
     private Label routeDescLabel;
+    @FXML
+    private Button saveDefaultButton;
+    @FXML
+    private Label recentDuration;
 
 
 
@@ -113,18 +122,53 @@ public class MainWindowController {
         primaryStage.setScene(scene);
     }
     public void updateAnomalyInfo(String screenId){
-
+        putAnomalyInfoOnScreen(screenId);
     }
 
     public void putAnomalyInfoOnScreen(String screenMessage) {
-        Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
+        Anomaly anomaly = anomalyManager.getAnomalyByScreenId(screenMessage);
         Platform.runLater(() -> {
             anomalyIdLabel.setText(anomaly.getAnomalyId());
             startDateLabel.setText(anomaly.getStartDate());
-            endDateLabel.setText(anomaly.getEndDate());
+            lastDateLabel.setText(anomaly.getLastDate());
             routeIdLabel.setText(anomaly.getRouteId());
             routeDescLabel.setText(anomaly.getRoute());
+            recentDuration.setText((anomaly.getDuration()));
         } );
+        if(anomaliesListView.getSelectionModel().getSelectedItem().equalsIgnoreCase(anomaly.getScreenMessage())) {
+            putChartOnScreen(anomaly);
+        }
+    }
+
+    private void putChartOnScreen(Anomaly anomaly){
+        //TODO thread safe
+        Platform.runLater(() -> {
+            if(lineChart != null) {
+                if (lineChart.getData() != null) {
+                    lineChart.getData().clear();
+                }
+                lineChart.getData().addAll(anomalyManager.getChart(anomaly));
+                createTooltips();
+            }
+        } );
+    }
+    private void createTooltips() {
+        for (XYChart.Series<Number, Number> s : lineChart.getData()) {
+            for (XYChart.Data<Number, Number> d : s.getData()) {
+                double num = (double) d.getXValue();
+                long iPart;
+                double fPart;
+                iPart = (long) num;
+                fPart = num - iPart;
+                Tooltip.install(d.getNode(), new Tooltip("Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuration: " + d.getYValue().toString() + " seconds"));
+
+                //Adding class on hover
+                d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
+
+                //Removing class on exit
+                d.getNode().setOnMouseExited(event -> d.getNode().getStyleClass().remove("onHover"));
+            }
+        }
     }
 
     public void putAnomalyOnMap(String screenMessage) {
@@ -155,6 +199,19 @@ public class MainWindowController {
         } );
     }
 
+    public void removeAnomalyFromList(String screenMessage) {
+        if(screenMessage == null){
+            logger.error("No screen message");
+            return;
+        }
+        if (anomaliesList.contains(screenMessage)){
+            anomaliesList.remove(screenMessage);
+        }
+        else{
+            logger.error("Trying to remove anomaly that doesn't exist");
+        }
+    }
+
     private String getLeverServerInfo(){
         //TODO keeping server info in Connector?
         return Connector.getLeverServerInfo();
@@ -178,6 +235,15 @@ public class MainWindowController {
     private String formatDate(DateTime date){
         DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd hh:mm:ss");
         return dtf.print(date);
+    }
+
+
+    private void setMapUp() {
+        htmlBuilder = new HtmlBuilder();
+        webEngine = mapWebView.getEngine();
+        String defaultLat = "50.07";
+        String defaultLng = "19.94";
+        webEngine.loadContent(htmlBuilder.loadMapStructure(defaultLat, defaultLng));
     }
 
     @FXML
@@ -259,15 +325,13 @@ public class MainWindowController {
             putAnomalyOnMap(selectedItem);
         }
     }
-
-    private void setMapUp() {
-        htmlBuilder = new HtmlBuilder();
-        webEngine = mapWebView.getEngine();
-        String defaultLat = "50.07";
-        String defaultLng = "19.94";
-        webEngine.loadContent(htmlBuilder.loadMapStructure(defaultLat, defaultLng));
+    @FXML
+    private void handleSaveDefaultAction(ActionEvent e){
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("Server_Address",serverAddrTxtField.getText());
+        map.put("Server_Port",serverPortTxtField.getText());
+        Options.getInstance().setPreferences(map);
     }
-
 }
 
 

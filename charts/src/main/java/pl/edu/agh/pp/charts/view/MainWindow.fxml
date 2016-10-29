@@ -47,11 +47,12 @@
                         <HBox spacing="2">
                             <Label text="Server Address: " />
                             <TextField fx:id="serverAddrTxtField" />
-                            <Label text="       Server Port (7500 if left empty): " />
+                            <Label text="       Server Port: " />
                             <TextField fx:id="serverPortTxtField" maxWidth="70" />
                             <Label text="          " />
                             <Button fx:id="connectButton" text="Connect" onAction="#handleConnectAction"/>
                             <Button fx:id="disconnectButton" text="Disconnect" onAction="#handleDisconnectAction"/>
+                            <Button fx:id="saveDefaultButton" text="Save as default" onAction="#handleSaveDefaultAction"/>
                         </HBox>
                     </VBox>
                     <VBox id="abox">
@@ -77,26 +78,26 @@
                 <Label text="    start date" />
             </HBox>
             <HBox>
-                <ScrollPane fitToWidth="true">
-                    <ListView fx:id="anomaliesListView" prefWidth="200.0" prefHeight="250" onMouseClicked="#handleAnomalyClicked"/>
-                </ScrollPane>
+                <ListView fx:id="anomaliesListView" prefWidth="200.0" prefHeight="250" onMouseClicked="#handleAnomalyClicked"/>
                 <GridPane>
                     <padding>
                         <Insets bottom="10" left="10" right="10" top="10"/>
                     </padding>
-                    <Label text="Anomaly ID" GridPane.rowIndex="0" GridPane.columnIndex="0" prefWidth="100"/>
-                    <Label fx:id="anomalyIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="200"/>
-                    <Label text="Start Date" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="100"/>
-                    <Label fx:id="startDateLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="200"/>
-                    <Label text="End Date" GridPane.rowIndex="2" GridPane.columnIndex="0" prefWidth="100"/>
-                    <Label fx:id="endDateLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="200"/>
-                    <Label text="Route ID" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="100"/>
-                    <Label fx:id="routeIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="4" prefWidth="200"/>
-                    <Label text="Route description" GridPane.rowIndex="1" GridPane.columnIndex="3" prefWidth="100"/>
-                    <Label fx:id="routeDescLabel" GridPane.rowIndex="1" GridPane.columnIndex="4" prefWidth="200"/>
+                    <Label text="Anomaly ID" GridPane.rowIndex="0" GridPane.columnIndex="0" prefWidth="150"/>
+                    <Label fx:id="anomalyIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="250"/>
+                    <Label text="Start Date" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="150"/>
+                    <Label fx:id="startDateLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="250"/>
+                    <Label text="Last received update" GridPane.rowIndex="2" GridPane.columnIndex="0" prefWidth="150"/>
+                    <Label fx:id="lastDateLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="250"/>
+                    <Label text="Route ID" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="150"/>
+                    <Label fx:id="routeIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="4" prefWidth="250"/>
+                    <Label text="Route description" GridPane.rowIndex="1" GridPane.columnIndex="3" prefWidth="150"/>
+                    <Label fx:id="routeDescLabel" GridPane.rowIndex="1" GridPane.columnIndex="4" prefWidth="250"/>
+                    <Label text="Most recent duration" GridPane.rowIndex="2" GridPane.columnIndex="3" prefWidth="150"/>
+                    <Label fx:id="recentDuration" GridPane.rowIndex="2" GridPane.columnIndex="4" prefWidth="250"/>
                 </GridPane>
             </HBox>
-            <TabPane>
+            <TabPane tabClosingPolicy="UNAVAILABLE">
                 <Tab text="Anomaly chart">
                     <LineChart fx:id="lineChart" title="Most Recent anomaly" style="-fx-font-weight: bold">
                         <xAxis>

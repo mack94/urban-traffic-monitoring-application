@@ -34,6 +34,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setWidth(1500);
         primaryStage.setHeight(900);
+        primaryStage.setMaximized(true);
         MainWindowController mainWindowController = new MainWindowController(primaryStage);
         AnomalyManager.getInstance().setController(mainWindowController);
         mainWindowController.show();
