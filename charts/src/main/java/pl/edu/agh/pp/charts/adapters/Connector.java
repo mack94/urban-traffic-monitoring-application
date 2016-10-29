@@ -73,6 +73,7 @@ public class Connector {
             if(additionalInfo != null){
                 message += additionalInfo;
             }
+            mainWindowController.setConnectedFlag();
             mainWindowController.putSystemMessageOnScreen(message, Color.RED);
         }
     }

@@ -122,6 +122,10 @@ public class MainWindowController {
         }
     }
 
+    public void setConnectedFlag(){
+        this.connectedFlag = Connector.isConnectedToTheServer();
+        setConnectedState();
+    }
     public void setScene(){
         primaryStage.setScene(scene);
     }
@@ -232,16 +236,20 @@ public class MainWindowController {
 
     private void setConnectedState(){
         if(connectedFlag){
-            connectedLabel.setText(Connector.getAddressServerInfo());
-            connectedLabel.setTextFill(Color.BLACK);
-            connectButton.setDisable(true);
-            disconnectButton.setDisable(false);
+            Platform.runLater(() -> {
+                connectedLabel.setText(Connector.getAddressServerInfo());
+                connectedLabel.setTextFill(Color.BLACK);
+                connectButton.setDisable(true);
+                disconnectButton.setDisable(false);
+            });
         }
         else {
-            connectedLabel.setText("NOT CONNECTED");
-            connectedLabel.setTextFill(Color.RED);
-            connectButton.setDisable(false);
-            disconnectButton.setDisable(true);
+            Platform.runLater(() -> {
+                connectedLabel.setText("NOT CONNECTED");
+                connectedLabel.setTextFill(Color.RED);
+                connectButton.setDisable(false);
+                disconnectButton.setDisable(true);
+            });
         }
     }
 
