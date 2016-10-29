@@ -15,10 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
+import javafx.scene.text.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -90,6 +87,10 @@ public class MainWindowController {
     private Label recentDuration;
     @FXML
     private TextFlow systemMsgTextFlow;
+    @FXML
+    private Tab systemTab;
+    @FXML
+    private TabPane tabPane;
 
 
 
@@ -192,8 +193,17 @@ public class MainWindowController {
     public void putSystemMessageOnScreen(String message, DateTime dateTime, Color color) {
         Text text1 = new Text(formatDate(dateTime) + "  " +message + "\n");
         text1.setFill(color);
+        if(color == Color.RED) {
+            Label lab = (Label)tabPane.getSelectionModel().getSelectedItem().getGraphic();
+            if(lab == null || !lab.getText().equalsIgnoreCase("System tab")){
+                systemTab.getGraphic().setStyle("-fx-text-fill: red;");
+            }
+        }
         text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
-        systemMsgTextFlow.getChildren().add(0,text1);
+        Platform.runLater(() -> {
+            systemMsgTextFlow.getChildren().add(0,new Text(" "));
+            systemMsgTextFlow.getChildren().add(0,text1);
+        } );
     }
 
     public void addAnomalyToList(String text){
@@ -251,7 +261,9 @@ public class MainWindowController {
 
     @FXML
     private void initialize() throws IOException {
+        systemTab.setGraphic(new Label("System tab"));
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
+        systemTab.getGraphic().setStyle("-fx-text-fill: black;");
         setConnectedState();
         currentLeverOnServer.setText(getLeverServerInfo());
         connectButton.setDefaultButton(true);
@@ -332,6 +344,13 @@ public class MainWindowController {
         map.put("Server_Address",serverAddrTxtField.getText());
         map.put("Server_Port",serverPortTxtField.getText());
         Options.getInstance().setPreferences(map);
+    }
+    @FXML
+    private void handleTabChanged(){
+        Label lab = (Label)tabPane.getSelectionModel().getSelectedItem().getGraphic();
+        if(lab != null && lab.getText().equalsIgnoreCase("System tab")){
+            lab.setStyle("-fx-text-fill: black;");
+        }
     }
 }
 

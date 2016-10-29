@@ -97,7 +97,7 @@
                     <Label fx:id="recentDuration" GridPane.rowIndex="2" GridPane.columnIndex="4" prefWidth="250"/>
                 </GridPane>
             </HBox>
-            <TabPane tabClosingPolicy="UNAVAILABLE">
+            <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="tabPane">
                 <Tab text="Anomaly chart">
                     <LineChart fx:id="lineChart" title="Most Recent anomaly" style="-fx-font-weight: bold">
                         <xAxis>
@@ -111,7 +111,7 @@
                 <Tab text="Anomaly map">
                     <WebView fx:id="mapWebView" />
                 </Tab>
-                <Tab text="System messages">
+                <Tab fx:id="systemTab" onSelectionChanged="#handleTabChanged">
                     <TextFlow textAlignment="CENTER" fx:id="systemMsgTextFlow" />
                 </Tab>
             </TabPane>
