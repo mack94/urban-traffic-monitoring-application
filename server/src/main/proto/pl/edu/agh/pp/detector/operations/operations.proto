@@ -20,6 +20,7 @@ message AnomalyState {
 }
 
 message AnomalyMessage {
+
     int32 routeIdx = 1;
     int32 secondOfDay = 2;
     bool isAnomaly = 3;
@@ -29,5 +30,97 @@ message AnomalyMessage {
     string message = 7;
     int64 anomalyID = 8;
     string date = 9;
+
+}
+
+message ManagementMessage {
+
+    enum Type {
+        BONJOURMESSAGE = 0;
+        SYSTEMGENERALMESSAGE = 1;
+        LEVERMESSAGE = 2;
+        BASELINEMESSAGE = 3;
+        DEMANDBASELINEMESSAGE = 4;
+    }
+
+    // Identifies which field is filled in.
+    Type type = 1;
+
+    // One of the following will be filled in.
+    BonjourMessage bonjourMessage = 2;
+    SystemGeneralMessage systemGeneralMessage = 3;
+    LeverMessage leverMessage = 4;
+    BaselineMessage baselineMessage = 5;
+    DemandBaselineMessage demandBaselineMessage = 6;
+
+}
+
+message BonjourMessage {
+
+    int32 token = 1;
+    string date = 2;
+    string userName = 3;
+
+}
+
+message SystemGeneralMessage {
+
+    enum Shift {
+        DAY = 0;
+        NIGHT = 1;
+        UNIVERSAL = 2;
+    }
+
+    int32 messageIdx = 1;
+    double leverValue = 2;
+    string systemDate = 3;
+    int32 anomalyLiveTime = 4;
+    int32 baselineWindowSize = 5;
+    Shift shift = 6;
+    int32 port = 7; // bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
+    string routes = 8; // caly routes.json tutaj przesylamy
+
+}
+
+message LeverMessage {
+
+    double leverValue = 1;
+    string leverUpdateDate = 2;
+
+}
+
+message BaselineMessage {
+
+    enum Day {
+        MONDAY = 0;
+        TUESDAY = 1;
+        WEDNESDAY = 2;
+        THURSDAY = 3;
+        FRIDAY = 4;
+        SATURDAY = 5;
+        SUNDAY = 6;
+    }
+
+    int32 routeIdx = 1;
+    Day day = 2;
+    //string baseline = 3;
+    map<int32, int32> baseline = 3;
+
+}
+
+message DemandBaselineMessage {
+
+    enum Day {
+        MONDAY = 0;
+        TUESDAY = 1;
+        WEDNESDAY = 2;
+        THURSDAY = 3;
+        FRIDAY = 4;
+        SATURDAY = 5;
+        SUNDAY = 6;
+    }
+
+    int32 routeIdx = 1;
+    Day day = 2;
 
 }
