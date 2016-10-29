@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
 import pl.edu.agh.pp.charts.input.AnomalyManager;
 import pl.edu.agh.pp.charts.settings.IOptions;
@@ -37,6 +38,7 @@ public class Main extends Application {
         primaryStage.setMaximized(true);
         MainWindowController mainWindowController = new MainWindowController(primaryStage);
         AnomalyManager.getInstance().setController(mainWindowController);
+        Connector.setMainWindowController(mainWindowController);
         mainWindowController.show();
     }
 }
