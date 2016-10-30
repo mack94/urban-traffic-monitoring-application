@@ -19,6 +19,7 @@ public class Connector {
     private static final Logger logger = (Logger) LoggerFactory.getLogger(Connector.class);
     private static String address;
     private static String port;
+    private static ManagementChannelReceiver managementClient;
     private static ChannelReceiver client;
     private static MainWindowController mainWindowController;
     private final static AnomalyManager anomalyManager = AnomalyManager.getInstance();
@@ -42,6 +43,8 @@ public class Connector {
         Properties properties = System.getProperties();
         properties.setProperty("jgroups.addr", server_addr.toString());
 
+        managementClient = new ManagementChannelReceiver();
+        managementClient.start(server_addr, server_port - 1, nio);
         client = new ChannelReceiver();
         client.start(server_addr, server_port, nio);
     }

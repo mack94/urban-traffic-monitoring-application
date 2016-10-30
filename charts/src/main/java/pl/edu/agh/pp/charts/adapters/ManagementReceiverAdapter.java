@@ -16,6 +16,9 @@ import java.util.Map;
  * Created by Maciej on 05.09.2016.
  * 21:17
  * Project: detector.
+ *
+ * TODO: It could be removed i think. ~Maciek
+ *
  */
 public class ManagementReceiverAdapter extends ReceiverAdapter {
 
