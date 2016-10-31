@@ -105,6 +105,8 @@
                     <Label fx:id="startDateLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="250"/>
                     <Label text="Last received update" GridPane.rowIndex="2" GridPane.columnIndex="0" prefWidth="150"/>
                     <Label fx:id="lastDateLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="250"/>
+                    <Label text="Nr of messages" GridPane.rowIndex="3" GridPane.columnIndex="0" prefWidth="150"/>
+                    <Label fx:id="anomaliesNumberLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" prefWidth="250"/>
                     <Label text="Route ID" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="150"/>
                     <Label fx:id="routeIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="4" prefWidth="250"/>
                     <Label text="Route description" GridPane.rowIndex="1" GridPane.columnIndex="3" prefWidth="150"/>

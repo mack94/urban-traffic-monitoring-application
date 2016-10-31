@@ -6,7 +6,7 @@
     -fx-spacing: 8;
 }
 .onHover{
-    -fx-background-color: ORANGE;
+    -fx-background-color: BLUE;
 }
 #spec_set {
     -fx-padding: 5;

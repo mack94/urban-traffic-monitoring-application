@@ -8,7 +8,7 @@ public class ServerOptions {
     private String anomalyLiveTime = "";
     private String BaselineWindowSize = "";
     private String shift = "";
-    private String anomalyPortNr;
+    private String anomalyPortNr = "";
 
     public String getLeverValue() {
         return leverValue;

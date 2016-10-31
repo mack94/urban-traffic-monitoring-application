@@ -104,6 +104,8 @@ public class MainWindowController {
     private Label shiftLabel;
     @FXML
     private Label anomalyPortNrLabel;
+    @FXML
+    private Label anomaliesNumberLabel;
 
 
     public MainWindowController(Stage primaryStage) {
@@ -140,7 +142,9 @@ public class MainWindowController {
         primaryStage.setScene(scene);
     }
     public void updateAnomalyInfo(String screenId){
-        putAnomalyInfoOnScreen(screenId);
+        if(anomaliesListView.getSelectionModel().getSelectedItem().equalsIgnoreCase(screenId)) {
+            putAnomalyInfoOnScreen(screenId);
+        }
     }
 
     public void putAnomalyInfoOnScreen(String screenMessage) {
@@ -151,11 +155,10 @@ public class MainWindowController {
             lastDateLabel.setText(anomaly.getLastDate());
             routeIdLabel.setText(anomaly.getRouteId());
             routeDescLabel.setText(anomaly.getRoute());
-            recentDuration.setText((anomaly.getDuration()));
+            recentDuration.setText(anomaly.getDuration());
+            anomaliesNumberLabel.setText(anomaly.getAnomaliesNumber());
         } );
-        if(anomaliesListView.getSelectionModel().getSelectedItem().equalsIgnoreCase(anomaly.getScreenMessage())) {
-            putChartOnScreen(anomaly);
-        }
+        putChartOnScreen(anomaly);
     }
 
     private void putChartOnScreen(Anomaly anomaly){
@@ -165,7 +168,8 @@ public class MainWindowController {
                 if (lineChart.getData() != null) {
                     lineChart.getData().clear();
                 }
-                lineChart.getData().addAll(anomalyManager.getChartData(anomaly));
+                XYChart.Series<Number, Number> series = anomalyManager.getChartData(anomaly);
+                lineChart.getData().add(series);
                 createTooltips();
             }
         } );
@@ -237,11 +241,6 @@ public class MainWindowController {
         else{
             logger.error("Trying to remove anomaly that doesn't exist");
         }
-    }
-
-    private void getLeverServerInfo(){
-        //TODO keeping server info in Connector?
-        Connector.getOptionsServerInfo();
     }
 
     private void setConnectedState(){
