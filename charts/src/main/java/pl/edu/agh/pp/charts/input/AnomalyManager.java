@@ -111,14 +111,14 @@ public class AnomalyManager {
         }
     }
 
-    public XYChart.Series<Number, Number> getChart(String anomalyId){
+    public XYChart.Series<Number, Number> getChartData(String anomalyId){
         Anomaly anomaly = getAnomalyById(anomalyId);
         XYChart.Series<Number, Number> series = anomaly.getChartSeries();
         if(series == null) buildChart(anomaly);
         return anomaly.getChartSeries();
     }
 
-    public XYChart.Series<Number, Number> getChart(Anomaly anomaly){
+    public XYChart.Series<Number, Number> getChartData(Anomaly anomaly){
         XYChart.Series<Number, Number> series = anomaly.getChartSeries();
         if(series == null) buildChart(anomaly);
         return anomaly.getChartSeries();

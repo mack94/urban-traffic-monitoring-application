@@ -5,7 +5,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,11 +14,13 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -30,6 +31,7 @@ import pl.edu.agh.pp.charts.input.Anomaly;
 import pl.edu.agh.pp.charts.input.AnomalyManager;
 import pl.edu.agh.pp.charts.input.Input;
 import pl.edu.agh.pp.charts.settings.Options;
+import pl.edu.agh.pp.charts.settings.ServerOptions;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
@@ -50,6 +52,7 @@ public class MainWindowController {
     private HtmlBuilder htmlBuilder;
     private final Logger logger = (Logger) LoggerFactory.getLogger(MainWindowController.class);
     private final AnomalyManager anomalyManager = AnomalyManager.getInstance();
+    private final Options options = Options.getInstance();
 
     @FXML
     private volatile LineChart<Number, Number> lineChart;
@@ -91,7 +94,16 @@ public class MainWindowController {
     private Tab systemTab;
     @FXML
     private TabPane tabPane;
-
+    @FXML
+    private Label leverValueLabel;
+    @FXML
+    private Label anomalyLiveTimeLabel;
+    @FXML
+    private Label BaselineWindowSizeLabel;
+    @FXML
+    private Label shiftLabel;
+    @FXML
+    private Label anomalyPortNrLabel;
 
 
     public MainWindowController(Stage primaryStage) {
@@ -108,11 +120,9 @@ public class MainWindowController {
             scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             primaryStage.setScene(scene);
-            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    Connector.killAll();
-                    Platform.exit();
-                }
+            primaryStage.setOnCloseRequest(we -> {
+                Connector.killAll();
+                Platform.exit();
             });
 
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
@@ -155,7 +165,7 @@ public class MainWindowController {
                 if (lineChart.getData() != null) {
                     lineChart.getData().clear();
                 }
-                lineChart.getData().addAll(anomalyManager.getChart(anomaly));
+                lineChart.getData().addAll(anomalyManager.getChartData(anomaly));
                 createTooltips();
             }
         } );
@@ -229,9 +239,9 @@ public class MainWindowController {
         }
     }
 
-    private String getLeverServerInfo(){
+    private void getLeverServerInfo(){
         //TODO keeping server info in Connector?
-        return Connector.getLeverServerInfo();
+        Connector.getOptionsServerInfo();
     }
 
     private void setConnectedState(){
@@ -267,19 +277,28 @@ public class MainWindowController {
         webEngine.loadContent(htmlBuilder.loadMapStructure(defaultLat, defaultLng));
     }
 
+    public void updateServerInfo(ServerOptions options){
+        Platform.runLater(() -> {
+            leverValueLabel.setText(options.getLeverValue());
+            anomalyLiveTimeLabel.setText(options.getAnomalyLiveTime());
+            BaselineWindowSizeLabel.setText(options.getBaselineWindowSize());
+            shiftLabel.setText(options.getShift());
+            anomalyPortNrLabel.setText(options.getAnomalyPortNr());
+        } );
+    }
+
     @FXML
     private void initialize() throws IOException {
         systemTab.setGraphic(new Label("System tab"));
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");
         setConnectedState();
-        currentLeverOnServer.setText(getLeverServerInfo());
         connectButton.setDefaultButton(true);
         setMapUp();
         try {
             System.out.println((String) Options.getInstance().getPreference("Server_Address", String.class));
-            serverAddrTxtField.setText((String) Options.getInstance().getPreference("Server_Address", String.class));
-            serverPortTxtField.setText((String) Options.getInstance().getPreference("Server_Port", String.class));
+            serverAddrTxtField.setText((String) options.getPreference("Server_Address", String.class));
+            serverPortTxtField.setText((String) options.getPreference("Server_Port", String.class));
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
             illegalPreferenceObjectExpected.printStackTrace();
         }
@@ -323,6 +342,7 @@ public class MainWindowController {
             if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
             else putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
             setConnectedState();
+            Connector.getOptionsServerInfo();
         } catch (Exception e1) {
             logger.error("Connecting error");
             e1.printStackTrace();

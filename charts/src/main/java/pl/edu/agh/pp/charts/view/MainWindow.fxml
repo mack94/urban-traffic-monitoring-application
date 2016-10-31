@@ -57,10 +57,26 @@
                     </VBox>
                     <VBox id="abox">
                         <VBox alignment="CENTER">
-                            <HBox spacing="5">
-                                <VBox id="konkretne ustawienie">
+                            <HBox spacing="20" prefWidth="150">
+                                <VBox id="spec_set">
                                     <Label text="Wartość wajchy: " />
-                                    <Label fx:id="currentLeverOnServer" />
+                                    <Label fx:id="leverValueLabel" />
+                                </VBox>
+                                <VBox id="spec_set">
+                                    <Label text="Anomaly live time: " />
+                                    <Label fx:id="anomalyLiveTimeLabel" />
+                                </VBox>
+                                <VBox id="spec_set">
+                                    <Label text="Baseline window size: " />
+                                    <Label fx:id="BaselineWindowSizeLabel" />
+                                </VBox>
+                                <VBox id="spec_set">
+                                    <Label text="Shift: " />
+                                    <Label fx:id="shiftLabel" />
+                                </VBox>
+                                <VBox id="spec_set">
+                                    <Label text="Anomaly channel port: " />
+                                    <Label fx:id="anomalyPortNrLabel" />
                                 </VBox>
                             </HBox>
                         </VBox>

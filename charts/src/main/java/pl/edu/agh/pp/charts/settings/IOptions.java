@@ -141,5 +141,7 @@ public interface IOptions {
      * @see Configuration
      */
     boolean setOnlyTruePreferenceInPreferencesGroup(String group, String key);
+
+    public ServerOptions getServerOptions();
 }
 

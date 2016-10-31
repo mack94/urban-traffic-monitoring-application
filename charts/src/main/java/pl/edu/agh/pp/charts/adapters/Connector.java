@@ -6,9 +6,10 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
 import pl.edu.agh.pp.charts.input.AnomalyManager;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.charts.settings.Options;
+import pl.edu.agh.pp.charts.settings.ServerOptions;
 
 import java.net.InetAddress;
-import java.time.LocalDate;
 import java.util.Properties;
 
 /**
@@ -63,15 +64,28 @@ public class Connector {
             client.killConnectionThread();
     }
 
-    public static String getLeverServerInfo(){
-        return "MAKOWA ZROB TO WKONCU";
+    public static void getOptionsServerInfo(){
+        //TODO send message to server asking for options
+        if(isConnectedToTheServer()){
+
+        }
+    }
+    public static void updateServerInfo(){
+        //TODO use this method after receiving options info from server
+        ServerOptions serverOptions = Options.getInstance().getServerOptions();
+        serverOptions.setLeverValue("");
+        serverOptions.setAnomalyLiveTime("");
+        serverOptions.setBaselineWindowSize("");
+        serverOptions.setShift("");
+        serverOptions.setAnomalyPortNr("");
+        mainWindowController.updateServerInfo(serverOptions);
     }
 
     public static void connectionLost(String additionalInfo) {
         if(mainWindowController != null){
-            String message = LocalDate.now().toString() + " Lost connection to server! ";
+            String message = null;
             if(additionalInfo != null){
-                message += additionalInfo;
+                message = additionalInfo;
             }
             mainWindowController.setConnectedFlag();
             mainWindowController.putSystemMessageOnScreen(message, Color.RED);

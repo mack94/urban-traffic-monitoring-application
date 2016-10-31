@@ -8,3 +8,8 @@
 .onHover{
     -fx-background-color: ORANGE;
 }
+#spec_set {
+    -fx-padding: 5;
+    -fx-border-color: GRAY;
+    -fx-pref-width: 150;
+}
