@@ -45,6 +45,12 @@ public class Connector {
 
         client = new ChannelReceiver();
         client.start(server_addr, server_port, nio);
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            logger.error("Connector: Sleeping thread error: " + e);
+        }
     }
 
     public static void disconnect(){

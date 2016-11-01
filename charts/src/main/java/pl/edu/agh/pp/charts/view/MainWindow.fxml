@@ -30,7 +30,7 @@
     </padding>
     <top>
         <VBox>
-            <HBox spacing="10">
+            <HBox spacing="5">
                 <padding>
                     <Insets bottom="3" left="0" right="0" top="0"/>
                 </padding>
