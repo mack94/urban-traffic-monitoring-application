@@ -26,7 +26,7 @@
 <?import javafx.scene.web.WebView?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
     <padding>
-        <Insets bottom="10" left="10" right="10" top="10"/>
+        <Insets bottom="5" left="5" right="5" top="5"/>
     </padding>
     <top>
         <VBox>
@@ -35,16 +35,21 @@
                     <Insets bottom="3" left="0" right="0" top="0"/>
                 </padding>
                 <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
+                <Button fx:id="hideButton" onAction="#handleHideAction" text="Hide/Show Server settings"/>
             </HBox>
-            <VBox id="abox" alignment="CENTER">
-                <Label text="Server Options" style="-fx-font-weight: bold"/>
-                <VBox >
-                    <VBox id="abox">
+            <VBox id="abox" alignment="CENTER" >
+                <BorderPane>
+                    <left>
                         <HBox >
                             <Label text="Connected: " />
                             <Label fx:id="connectedLabel" />
+                            <Label text="        " />
                         </HBox>
-                        <HBox spacing="2">
+                    </left>
+                </BorderPane>
+                <VBox fx:id="hideBox">
+                    <VBox id="abox">
+                        <HBox spacing="2" >
                             <Label text="Server Address: " />
                             <TextField fx:id="serverAddrTxtField" />
                             <Label text="       Server Port: " />
@@ -86,12 +91,15 @@
         </VBox>
     </top>
     <center>
-        <VBox>
+        <VBox spacing="2">
+            <padding>
+                <Insets bottom="0" left="0" right="0" top="8"/>
+            </padding>
             <Label text="Anomalies List" style="-fx-font-weight: bold"/>
             <HBox>
-                <Label text="RouteID" />
+                <Label text="Route ID" />
                 <!--<Label text="route desc" />-->
-                <Label text="    start date" />
+                <Label text="    Start date" />
             </HBox>
             <HBox>
                 <ListView fx:id="anomaliesListView" prefWidth="200.0" prefHeight="250" onMouseClicked="#handleAnomalyClicked"/>
@@ -117,7 +125,7 @@
             </HBox>
             <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="tabPane">
                 <Tab text="Anomaly chart">
-                    <LineChart fx:id="lineChart" title="Most Recent anomaly" style="-fx-font-weight: bold">
+                    <LineChart fx:id="lineChart" title="Selected anomaly chart" style="-fx-font-weight: bold">
                         <xAxis>
                             <NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis"/>
                         </xAxis>

@@ -13,6 +13,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -106,6 +107,10 @@ public class MainWindowController {
     private Label anomalyPortNrLabel;
     @FXML
     private Label anomaliesNumberLabel;
+    @FXML
+    private Button hideButton;
+    @FXML
+    private VBox hideBox;
 
 
     public MainWindowController(Stage primaryStage) {
@@ -128,6 +133,8 @@ public class MainWindowController {
             });
 
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+//            hidePane.managedProperty().bind(hidePane.visibleProperty());
+            hideBox.managedProperty().bind(hideBox.visibleProperty());
             primaryStage.show();
         } catch (java.io.IOException e) {
             e.printStackTrace();
@@ -213,7 +220,7 @@ public class MainWindowController {
         text1.setFill(color);
         if(color == Color.RED) {
             Label lab = (Label)tabPane.getSelectionModel().getSelectedItem().getGraphic();
-            if(lab == null || !lab.getText().equalsIgnoreCase("System tab")){
+            if(lab == null || !lab.getText().equalsIgnoreCase("System info")){
                 systemTab.getGraphic().setStyle("-fx-text-fill: red;");
             }
         }
@@ -288,7 +295,7 @@ public class MainWindowController {
 
     @FXML
     private void initialize() throws IOException {
-        systemTab.setGraphic(new Label("System tab"));
+        systemTab.setGraphic(new Label("System info"));
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");
         setConnectedState();
@@ -375,8 +382,17 @@ public class MainWindowController {
     @FXML
     private void handleTabChanged(){
         Label lab = (Label)tabPane.getSelectionModel().getSelectedItem().getGraphic();
-        if(lab != null && lab.getText().equalsIgnoreCase("System tab")){
+        if(lab != null && lab.getText().equalsIgnoreCase("System info")){
             lab.setStyle("-fx-text-fill: black;");
+        }
+    }
+    @FXML
+    private  void  handleHideAction(){
+        if(hideBox.isVisible()){
+            hideBox.setVisible(false);
+        }
+        else {
+            hideBox.setVisible(true);
         }
     }
 }
