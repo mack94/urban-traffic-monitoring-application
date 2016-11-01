@@ -66,8 +66,8 @@ public class Options implements IOptions {
     }
 
     @Override
-    public boolean removePreferences(String key) {
-        configuration.removePreference(key);
+    public boolean removePreferences(String key, Class objectClassToBeDeleted) throws IllegalPreferenceObjectExpected {
+        configuration.removePreference(key, objectClassToBeDeleted);
         return true;
     }
 

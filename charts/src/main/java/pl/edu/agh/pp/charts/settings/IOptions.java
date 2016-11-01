@@ -77,13 +77,17 @@ public interface IOptions {
     /**
      * Method that allows to remove user preference.
      *
-     * @param key Put here the Preference key to be removed.
+     * @param key                       Put here the Preference key to be removed.
+     * @param objectClassToBeRemoved    Put the object's class to specify value type to be deleted. For instance
+     *                                  you may need to delete, from registry, the preference with name: key value: boolean
+     *                                  Then you call the method like example: .getPreference("Key", Boolean.class);
+     *                                  (One key preference may assign to many preferences in different type)
      * @return The result of removing preference (Success(=True) or an error(=False))
      * @see java.util.prefs.Preferences
      * @see Configuration
      * @see Options
      */
-    boolean removePreferences(String key) throws IllegalPreferenceObjectExpected;
+    boolean removePreferences(String key, Class objectClassToBeRemoved) throws IllegalPreferenceObjectExpected;
 
     /**
      * Method that returns bytes array with all the preferences stored as a bytes array.
