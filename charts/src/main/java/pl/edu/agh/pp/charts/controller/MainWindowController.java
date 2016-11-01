@@ -203,8 +203,8 @@ public class MainWindowController {
     public void putAnomalyOnMap(String screenMessage) {
         Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
         System.out.println(anomaly.getRoute());
-        //TODO execution line below with anomaly coordinates, map should then mark that point and center on it
-        // //webEngine.loadContent(htmlBuilder.loadMapStructure(anomalyLat, anomalyLng));
+        //TODO execution line below with route coordinates, map should then mark both points and center route start
+        // //webEngine.loadContent(htmlBuilder.loadMapStructure(startLat, startLng, endLat, endLng));
     }
 
     public void putSystemMessageOnScreen(String message) {
@@ -280,7 +280,7 @@ public class MainWindowController {
         webEngine = mapWebView.getEngine();
         String defaultLat = "50.07";
         String defaultLng = "19.94";
-        webEngine.loadContent(htmlBuilder.loadMapStructure(defaultLat, defaultLng));
+        webEngine.loadContent(htmlBuilder.loadMapStructure(defaultLat, defaultLng, defaultLat, defaultLng));
     }
 
     public void updateServerInfo(ServerOptions options){
