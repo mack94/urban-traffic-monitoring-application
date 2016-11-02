@@ -20,9 +20,11 @@ public class Connector {
     private static final Logger logger = (Logger) LoggerFactory.getLogger(Connector.class);
     private static String address;
     private static String port;
+    private static ManagementChannelReceiver managementClient;
     private static ChannelReceiver client;
     private static MainWindowController mainWindowController;
     private final static AnomalyManager anomalyManager = AnomalyManager.getInstance();
+    private static double leverValue = 0.0;
 
     public static void setMainWindowController(MainWindowController mwc){
         mainWindowController = mwc;
@@ -43,6 +45,8 @@ public class Connector {
         Properties properties = System.getProperties();
         properties.setProperty("jgroups.addr", server_addr.toString());
 
+        managementClient = new ManagementChannelReceiver();
+        managementClient.start(server_addr, server_port - 1, nio);
         client = new ChannelReceiver();
         client.start(server_addr, server_port, nio);
 
@@ -53,7 +57,7 @@ public class Connector {
         }
     }
 
-    public static void disconnect(){
+    public static void disconnect() {
         client.disconnect();
     }
 
@@ -74,8 +78,7 @@ public class Connector {
         //TODO send message to server asking for options
         if(isConnectedToTheServer()){
 
-        }
-    }
+        }    }
     public static void updateServerInfo(){
         //TODO use this method after receiving options info from server
         ServerOptions serverOptions = Options.getInstance().getServerOptions();

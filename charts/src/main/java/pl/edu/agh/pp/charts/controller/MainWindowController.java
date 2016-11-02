@@ -43,6 +43,7 @@ import java.util.regex.Pattern;
  * Created by Dawid on 2016-09-05.
  */
 public class MainWindowController {
+
     private ObservableList<String> anomaliesList = FXCollections.observableArrayList();
     private Stage primaryStage = null;
     private Scene scene = null;

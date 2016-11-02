@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.CronManager;
 import pl.edu.agh.pp.detector.DetectorManager;
 import pl.edu.agh.pp.detector.adapters.ChannelReceiver;
+import pl.edu.agh.pp.detector.adapters.ManagementServer;
 import pl.edu.agh.pp.detector.adapters.Server;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
@@ -58,9 +59,12 @@ public class Main {
 
             logger.info("Running server in 2 sec.");
             Thread.sleep(2000);
+            ManagementServer managementServer = new ManagementServer();
             Server server = new Server();
             ChannelReceiver channelReceiver = new ChannelReceiver();
             try {
+                // TODO: I am not sure if we should start both management and anomalies channel both at the same time.
+                managementServer.start(bind_addr, port - 1, nio);
                 server.start(bind_addr, port, nio);
                 channelReceiver.start(bind_addr, port, nio);
                 logger.info("Server already running.");
