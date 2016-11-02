@@ -103,7 +103,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
 
         int anomalyLiveTime = (int) options.getPreference("AnomalyLiveTime", Integer.class);
         int baselineWindowSize = (int) options.getPreference("BaselineWindowSize", Integer.class);
-        double leverValue = 0.0; // FIXME: Get lever value from somewhere (may be options)
+        double leverValue = Math.PI; // FIXME: Get lever value from somewhere (may be options)
         int anomaliesChannelPort = (int) options.getPreference("AnomaliesChannelPort", Integer.class); // FIXME
         int messageID = 1; // FIXME
         RoutesLoader routesLoader = RoutesLoader.getInstance();
@@ -131,6 +131,27 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
             server.send(destination, messageToSent, 0, messageToSent.length);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        while (true) {
+            AnomalyOperationProtos.LeverMessage leverMessage = AnomalyOperationProtos.LeverMessage.newBuilder()
+                    .setLeverValue(0.52008007)
+                    .build();
+            AnomalyOperationProtos.ManagementMessage managementMessage1 = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                    .setLeverMessage(leverMessage)
+                    .setType(AnomalyOperationProtos.ManagementMessage.Type.LEVERMESSAGE)
+                    .build();
+            byte[] toSent = managementMessage1.toByteArray();
+
+
+            try {
+                server.send(destination, toSent, 0, toSent.length);
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

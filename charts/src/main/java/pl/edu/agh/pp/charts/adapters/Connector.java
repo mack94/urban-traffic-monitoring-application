@@ -23,6 +23,7 @@ public class Connector {
     private static ChannelReceiver client;
     private static MainWindowController mainWindowController;
     private final static AnomalyManager anomalyManager = AnomalyManager.getInstance();
+    private static double leverValue = 0.0;
 
     public static void setMainWindowController(MainWindowController mwc){
         mainWindowController = mwc;
@@ -49,7 +50,7 @@ public class Connector {
         client.start(server_addr, server_port, nio);
     }
 
-    public static void disconnect(){
+    public static void disconnect() {
         client.disconnect();
     }
 
@@ -67,7 +68,7 @@ public class Connector {
     }
 
     public static String getLeverServerInfo(){
-        return "MAKOWA ZROB TO WKONCU";
+        return String.valueOf(leverValue);
     }
 
     public static void connectionLost(String additionalInfo) {

@@ -8,6 +8,7 @@ import org.jgroups.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.charts.system.LeverInfo;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -109,13 +110,17 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             AnomalyOperationProtos.ManagementMessage.Type messageType = message.getType();
             switch (messageType) {
                 case SYSTEMGENERALMESSAGE:
-                    // TODO: Check the message
                     parseGeneralMessage(message);
                     break;
                 case BASELINEMESSAGE:
+                    System.out.println("BASELINEMESSAGE received");
+                    break;
+                case LEVERMESSAGE:
+                    parseLeverMessage(message);
                     break;
                 default:
                     logger.error("ManagementServer: Unknown management message type received.");
+                    break;
             }
         } catch (InvalidProtocolBufferException e) {
             logger.error("ManagementChannelReceiver: InvalidProtocolBufferException while parsing the received message. Error: " + e);
@@ -156,11 +161,29 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         try {
             AnomalyOperationProtos.SystemGeneralMessage generalMessage = AnomalyOperationProtos.SystemGeneralMessage.parseFrom(message.getSystemGeneralMessage().toByteArray());
             String routes = generalMessage.getRoutes();
+            double leverValue = generalMessage.getLeverValue();
             System.out.println(routes);
-
+            System.out.println("Lever value: " + leverValue);
+            setLeverInfo(leverValue);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
     }
 
+    private void parseLeverMessage(AnomalyOperationProtos.ManagementMessage message) {
+        try {
+            AnomalyOperationProtos.LeverMessage leverMessage = AnomalyOperationProtos.LeverMessage.parseFrom(message.getLeverMessage().toByteArray());
+            double leverValue = leverMessage.getLeverValue();
+            System.out.println("New lever value: " + leverValue);
+            setLeverInfo(leverValue);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setLeverInfo(double leverValue) {
+        LeverInfo leverInfo = new LeverInfo();
+        leverInfo.setLeverValue(leverValue);
+        leverInfo = null;
+    }
 }
