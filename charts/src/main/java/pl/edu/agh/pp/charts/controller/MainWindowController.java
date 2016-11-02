@@ -5,7 +5,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,12 +13,15 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -30,6 +32,7 @@ import pl.edu.agh.pp.charts.input.Anomaly;
 import pl.edu.agh.pp.charts.input.AnomalyManager;
 import pl.edu.agh.pp.charts.input.Input;
 import pl.edu.agh.pp.charts.settings.Options;
+import pl.edu.agh.pp.charts.settings.ServerOptions;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
@@ -51,6 +54,7 @@ public class MainWindowController {
     private HtmlBuilder htmlBuilder;
     private final Logger logger = (Logger) LoggerFactory.getLogger(MainWindowController.class);
     private final AnomalyManager anomalyManager = AnomalyManager.getInstance();
+    private final Options options = Options.getInstance();
 
     @FXML
     private volatile LineChart<Number, Number> lineChart;
@@ -92,7 +96,22 @@ public class MainWindowController {
     private Tab systemTab;
     @FXML
     private TabPane tabPane;
-
+    @FXML
+    private Label leverValueLabel;
+    @FXML
+    private Label anomalyLiveTimeLabel;
+    @FXML
+    private Label BaselineWindowSizeLabel;
+    @FXML
+    private Label shiftLabel;
+    @FXML
+    private Label anomalyPortNrLabel;
+    @FXML
+    private Label anomaliesNumberLabel;
+    @FXML
+    private Button hideButton;
+    @FXML
+    private VBox hideBox;
 
 
     public MainWindowController(Stage primaryStage) {
@@ -109,25 +128,31 @@ public class MainWindowController {
             scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             primaryStage.setScene(scene);
-            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    Connector.killAll();
-                    Platform.exit();
-                }
+            primaryStage.setOnCloseRequest(we -> {
+                Connector.killAll();
+                Platform.exit();
             });
 
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+//            hidePane.managedProperty().bind(hidePane.visibleProperty());
+            hideBox.managedProperty().bind(hideBox.visibleProperty());
             primaryStage.show();
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void setConnectedFlag(){
+        this.connectedFlag = Connector.isConnectedToTheServer();
+        setConnectedState();
+    }
     public void setScene(){
         primaryStage.setScene(scene);
     }
     public void updateAnomalyInfo(String screenId){
-        putAnomalyInfoOnScreen(screenId);
+        if(anomaliesListView.getSelectionModel().getSelectedItem().equalsIgnoreCase(screenId)) {
+            putAnomalyInfoOnScreen(screenId);
+        }
     }
 
     public void putAnomalyInfoOnScreen(String screenMessage) {
@@ -138,11 +163,10 @@ public class MainWindowController {
             lastDateLabel.setText(anomaly.getLastDate());
             routeIdLabel.setText(anomaly.getRouteId());
             routeDescLabel.setText(anomaly.getRoute());
-            recentDuration.setText((anomaly.getDuration()));
+            recentDuration.setText(anomaly.getDuration());
+            anomaliesNumberLabel.setText(anomaly.getAnomaliesNumber());
         } );
-        if(anomaliesListView.getSelectionModel().getSelectedItem().equalsIgnoreCase(anomaly.getScreenMessage())) {
-            putChartOnScreen(anomaly);
-        }
+        putChartOnScreen(anomaly);
     }
 
     private void putChartOnScreen(Anomaly anomaly){
@@ -152,7 +176,8 @@ public class MainWindowController {
                 if (lineChart.getData() != null) {
                     lineChart.getData().clear();
                 }
-                lineChart.getData().addAll(anomalyManager.getChart(anomaly));
+                XYChart.Series<Number, Number> series = anomalyManager.getChartData(anomaly);
+                lineChart.getData().add(series);
                 createTooltips();
             }
         } );
@@ -179,8 +204,8 @@ public class MainWindowController {
     public void putAnomalyOnMap(String screenMessage) {
         Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
         System.out.println(anomaly.getRoute());
-        //TODO execution line below with anomaly coordinates, map should then mark that point and center on it
-        // //webEngine.loadContent(htmlBuilder.loadMapStructure(anomalyLat, anomalyLng));
+        //TODO execution line below with route coordinates, map should then mark both points and center route start
+        // //webEngine.loadContent(htmlBuilder.loadMapStructure(startLat, startLng, endLat, endLng));
     }
 
     public void putSystemMessageOnScreen(String message) {
@@ -196,7 +221,7 @@ public class MainWindowController {
         text1.setFill(color);
         if(color == Color.RED) {
             Label lab = (Label)tabPane.getSelectionModel().getSelectedItem().getGraphic();
-            if(lab == null || !lab.getText().equalsIgnoreCase("System tab")){
+            if(lab == null || !lab.getText().equalsIgnoreCase("System info")){
                 systemTab.getGraphic().setStyle("-fx-text-fill: red;");
             }
         }
@@ -226,23 +251,22 @@ public class MainWindowController {
         }
     }
 
-    private String getLeverServerInfo(){
-        //TODO keeping server info in Connector?
-        return Connector.getLeverServerInfo();
-    }
-
     private void setConnectedState(){
         if(connectedFlag){
-            connectedLabel.setText(Connector.getAddressServerInfo());
-            connectedLabel.setTextFill(Color.BLACK);
-            connectButton.setDisable(true);
-            disconnectButton.setDisable(false);
+            Platform.runLater(() -> {
+                connectedLabel.setText(Connector.getAddressServerInfo());
+                connectedLabel.setTextFill(Color.BLACK);
+                connectButton.setDisable(true);
+                disconnectButton.setDisable(false);
+            });
         }
         else {
-            connectedLabel.setText("NOT CONNECTED");
-            connectedLabel.setTextFill(Color.RED);
-            connectButton.setDisable(false);
-            disconnectButton.setDisable(true);
+            Platform.runLater(() -> {
+                connectedLabel.setText("NOT CONNECTED");
+                connectedLabel.setTextFill(Color.RED);
+                connectButton.setDisable(false);
+                disconnectButton.setDisable(true);
+            });
         }
     }
 
@@ -257,22 +281,31 @@ public class MainWindowController {
         webEngine = mapWebView.getEngine();
         String defaultLat = "50.07";
         String defaultLng = "19.94";
-        webEngine.loadContent(htmlBuilder.loadMapStructure(defaultLat, defaultLng));
+        webEngine.loadContent(htmlBuilder.loadMapStructure(defaultLat, defaultLng, defaultLat, defaultLng));
+    }
+
+    public void updateServerInfo(ServerOptions options){
+        Platform.runLater(() -> {
+            leverValueLabel.setText(options.getLeverValue());
+            anomalyLiveTimeLabel.setText(options.getAnomalyLiveTime());
+            BaselineWindowSizeLabel.setText(options.getBaselineWindowSize());
+            shiftLabel.setText(options.getShift());
+            anomalyPortNrLabel.setText(options.getAnomalyPortNr());
+        } );
     }
 
     @FXML
     private void initialize() throws IOException {
-        systemTab.setGraphic(new Label("System tab"));
+        systemTab.setGraphic(new Label("System info"));
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");
         setConnectedState();
-        currentLeverOnServer.setText(getLeverServerInfo());
         connectButton.setDefaultButton(true);
         setMapUp();
         try {
             System.out.println((String) Options.getInstance().getPreference("Server_Address", String.class));
-            serverAddrTxtField.setText((String) Options.getInstance().getPreference("Server_Address", String.class));
-            serverPortTxtField.setText((String) Options.getInstance().getPreference("Server_Port", String.class));
+            serverAddrTxtField.setText((String) options.getPreference("Server_Address", String.class));
+            serverPortTxtField.setText((String) options.getPreference("Server_Port", String.class));
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
             illegalPreferenceObjectExpected.printStackTrace();
         }
@@ -316,6 +349,7 @@ public class MainWindowController {
             if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
             else putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
             setConnectedState();
+            Connector.getOptionsServerInfo();
         } catch (Exception e1) {
             logger.error("Connecting error");
             e1.printStackTrace();
@@ -349,8 +383,17 @@ public class MainWindowController {
     @FXML
     private void handleTabChanged(){
         Label lab = (Label)tabPane.getSelectionModel().getSelectedItem().getGraphic();
-        if(lab != null && lab.getText().equalsIgnoreCase("System tab")){
+        if(lab != null && lab.getText().equalsIgnoreCase("System info")){
             lab.setStyle("-fx-text-fill: black;");
+        }
+    }
+    @FXML
+    private  void  handleHideAction(){
+        if(hideBox.isVisible()){
+            hideBox.setVisible(false);
+        }
+        else {
+            hideBox.setVisible(true);
         }
     }
 }

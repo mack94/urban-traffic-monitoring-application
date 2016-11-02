@@ -26,25 +26,30 @@
 <?import javafx.scene.web.WebView?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
     <padding>
-        <Insets bottom="10" left="10" right="10" top="10"/>
+        <Insets bottom="5" left="5" right="5" top="5"/>
     </padding>
     <top>
         <VBox>
-            <HBox spacing="10">
+            <HBox spacing="5">
                 <padding>
                     <Insets bottom="3" left="0" right="0" top="0"/>
                 </padding>
                 <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
+                <Button fx:id="hideButton" onAction="#handleHideAction" text="Hide/Show Server settings"/>
             </HBox>
-            <VBox id="abox" alignment="CENTER">
-                <Label text="Server Options" style="-fx-font-weight: bold"/>
-                <VBox >
-                    <VBox id="abox">
+            <VBox id="abox" alignment="CENTER" >
+                <BorderPane>
+                    <left>
                         <HBox >
                             <Label text="Connected: " />
                             <Label fx:id="connectedLabel" />
+                            <Label text="        " />
                         </HBox>
-                        <HBox spacing="2">
+                    </left>
+                </BorderPane>
+                <VBox fx:id="hideBox">
+                    <VBox id="abox">
+                        <HBox spacing="2" >
                             <Label text="Server Address: " />
                             <TextField fx:id="serverAddrTxtField" />
                             <Label text="       Server Port: " />
@@ -57,10 +62,26 @@
                     </VBox>
                     <VBox id="abox">
                         <VBox alignment="CENTER">
-                            <HBox spacing="5">
-                                <VBox id="konkretne ustawienie">
+                            <HBox spacing="20" prefWidth="150">
+                                <VBox id="spec_set">
                                     <Label text="Wartość wajchy: " />
-                                    <Label fx:id="currentLeverOnServer" />
+                                    <Label fx:id="leverValueLabel" />
+                                </VBox>
+                                <VBox id="spec_set">
+                                    <Label text="Anomaly live time: " />
+                                    <Label fx:id="anomalyLiveTimeLabel" />
+                                </VBox>
+                                <VBox id="spec_set">
+                                    <Label text="Baseline window size: " />
+                                    <Label fx:id="BaselineWindowSizeLabel" />
+                                </VBox>
+                                <VBox id="spec_set">
+                                    <Label text="Shift: " />
+                                    <Label fx:id="shiftLabel" />
+                                </VBox>
+                                <VBox id="spec_set">
+                                    <Label text="Anomaly channel port: " />
+                                    <Label fx:id="anomalyPortNrLabel" />
                                 </VBox>
                             </HBox>
                         </VBox>
@@ -70,12 +91,15 @@
         </VBox>
     </top>
     <center>
-        <VBox>
+        <VBox spacing="2">
+            <padding>
+                <Insets bottom="0" left="0" right="0" top="8"/>
+            </padding>
             <Label text="Anomalies List" style="-fx-font-weight: bold"/>
             <HBox>
-                <Label text="RouteID" />
+                <Label text="Route ID" />
                 <!--<Label text="route desc" />-->
-                <Label text="    start date" />
+                <Label text="    Start date" />
             </HBox>
             <HBox>
                 <ListView fx:id="anomaliesListView" prefWidth="200.0" prefHeight="250" onMouseClicked="#handleAnomalyClicked"/>
@@ -89,6 +113,8 @@
                     <Label fx:id="startDateLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="250"/>
                     <Label text="Last received update" GridPane.rowIndex="2" GridPane.columnIndex="0" prefWidth="150"/>
                     <Label fx:id="lastDateLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="250"/>
+                    <Label text="Nr of messages" GridPane.rowIndex="3" GridPane.columnIndex="0" prefWidth="150"/>
+                    <Label fx:id="anomaliesNumberLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" prefWidth="250"/>
                     <Label text="Route ID" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="150"/>
                     <Label fx:id="routeIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="4" prefWidth="250"/>
                     <Label text="Route description" GridPane.rowIndex="1" GridPane.columnIndex="3" prefWidth="150"/>
@@ -99,7 +125,7 @@
             </HBox>
             <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="tabPane">
                 <Tab text="Anomaly chart">
-                    <LineChart fx:id="lineChart" title="Most Recent anomaly" style="-fx-font-weight: bold">
+                    <LineChart fx:id="lineChart" title="Selected anomaly chart" style="-fx-font-weight: bold">
                         <xAxis>
                             <NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis"/>
                         </xAxis>

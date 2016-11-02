@@ -85,6 +85,8 @@ public class ChartsController {
     private ComboBox<String> sourceComboBox;
     @FXML
     private Label typeLabel;
+    @FXML
+    private HBox baselineBox;
 
     public ChartsController(Stage primaryStage, MainWindowController parent) {
         this.primaryStage = primaryStage;
@@ -108,6 +110,7 @@ public class ChartsController {
             primaryStage.setTitle("Urban traffic monitoring - charts");
             scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
+            baselineBox.managedProperty().bind(baselineTypeComboBox.visibleProperty());
             primaryStage.setScene(scene);
 //            primaryStage.show();
         } catch (java.io.IOException e) {
@@ -213,7 +216,7 @@ public class ChartsController {
                             @Override
                             public void updateItem(LocalDate date, boolean empty) {
                                 super.updateItem(date, empty);
-                                if(!availbleDate(date))
+                                if(!availableDate(date))
                                     setDisable(true);
                             }
                         };
@@ -226,7 +229,7 @@ public class ChartsController {
         }
     }
 
-    private boolean availbleDate(LocalDate date){
+    private boolean availableDate(LocalDate date){
         if("local data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())){
             return input.getDays().contains((date.getYear()+"-"+date.getMonthValue()+"-"+date.getDayOfMonth()));
         }

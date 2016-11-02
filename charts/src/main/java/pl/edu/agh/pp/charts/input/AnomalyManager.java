@@ -99,7 +99,6 @@ public class AnomalyManager {
             for (String time : durationHistory.keySet()) {
                 double h = Integer.valueOf(hours.format(parser.parse(time)));
                 double m = Integer.valueOf(minutes.format(parser.parse(time)));
-                System.out.println("adding: " + (h + (m / 60)) + " with dur: "+ durationHistory.get(time));
                 XYChart.Data<Number,Number> data = new XYChart.Data<>(h + (m / 60), Integer.valueOf(durationHistory.get(time)));
 
                 series.getData().add(data);
@@ -111,14 +110,14 @@ public class AnomalyManager {
         }
     }
 
-    public XYChart.Series<Number, Number> getChart(String anomalyId){
+    public XYChart.Series<Number, Number> getChartData(String anomalyId){
         Anomaly anomaly = getAnomalyById(anomalyId);
         XYChart.Series<Number, Number> series = anomaly.getChartSeries();
         if(series == null) buildChart(anomaly);
         return anomaly.getChartSeries();
     }
 
-    public XYChart.Series<Number, Number> getChart(Anomaly anomaly){
+    public XYChart.Series<Number, Number> getChartData(Anomaly anomaly){
         XYChart.Series<Number, Number> series = anomaly.getChartSeries();
         if(series == null) buildChart(anomaly);
         return anomaly.getChartSeries();

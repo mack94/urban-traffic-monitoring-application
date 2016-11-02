@@ -21,17 +21,24 @@
 <script src="jquery-3.1.0.js"></script>
 <script>
     function initMap() {
-        var anomalyLatLng = {lat: $anomalyLat$, lng: $anomalyLng$};
+        var routeStart = {lat: $startLat$, lng: $startLng$};
+        var routeEnd = {lat: $endLat$, lng: $endLng$};
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 15,
-            center: anomalyLatLng,
+            center: routeStart,
             streetViewControl: false
         });
 
-        var marker = new google.maps.Marker({
-            position: anomalyLatLng,
+        var markerStart = new google.maps.Marker({
+            position: routeStart,
             map: map,
-            title: 'Default marker'
+            title: 'Route start'
+        });
+
+        var markerEnd = new google.maps.Marker({
+            position: routeEnd,
+            map: map,
+            title: 'Route end'
         });
 
         var trafficLayer = new google.maps.TrafficLayer();
@@ -52,12 +59,6 @@
                 ]
             },{
                 featureType: "water",
-                elementType: "labels",
-                stylers: [
-                    { visibility: "off" }
-                ]
-            },{
-                featureType: "road",
                 elementType: "labels",
                 stylers: [
                     { visibility: "off" }

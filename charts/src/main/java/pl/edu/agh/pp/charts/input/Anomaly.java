@@ -21,6 +21,7 @@ public class Anomaly {
     private String percent;
     private Map<String, String> durationHistory;
     private XYChart.Series<Number, Number> anomalySeries = null;
+    private int anomaliesNumber;
 
     public Anomaly(AnomalyOperationProtos.AnomalyMessage anomalyMessage){
         this.anomalyId = String.valueOf(anomalyMessage.getAnomalyID());
@@ -32,6 +33,7 @@ public class Anomaly {
         durationHistory = new HashMap<>();
         durationHistory.put(this.lastDate,this.duration);
         buildScreenMessage();
+        anomaliesNumber = 1;
     }
 
     public String getDuration() {
@@ -62,6 +64,10 @@ public class Anomaly {
         return screenMessage;
     }
 
+    public String getAnomaliesNumber() {
+        return String.valueOf(anomaliesNumber);
+    }
+
     public String getStartDate() {
         return startDate;
     }
@@ -74,6 +80,7 @@ public class Anomaly {
         this.lastDate = anomalyMessage.getDate();
         this.duration = String.valueOf(anomalyMessage.getDuration());
         durationHistory.put(this.lastDate,this.duration);
+        anomaliesNumber++;
     }
 
     public Map<String,String> getDurationHistory(){

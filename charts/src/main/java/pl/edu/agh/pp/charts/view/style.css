@@ -2,9 +2,14 @@
     -fx-border-color: GRAY;
     -fx-border-width: 1px;
     -fx-background-color: D8D8D8;
-    -fx-padding: 10;
+    -fx-padding: 8;
     -fx-spacing: 8;
 }
 .onHover{
-    -fx-background-color: ORANGE;
+    -fx-background-color: BLUE;
+}
+#spec_set {
+    -fx-padding: 5;
+    -fx-border-color: GRAY;
+    -fx-pref-width: 150;
 }
