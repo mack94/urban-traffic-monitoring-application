@@ -54,7 +54,7 @@ public class DetectorManager
             e.printStackTrace();
         }
         detector = polynomialPatternBuilder;
-        PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.getRecords());
+        PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.getRecords(), true);
         new CommandLineManager().start();
         this.server = server;
     }

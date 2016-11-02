@@ -45,8 +45,9 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
         return polynomialFunctions.get(dayOfWeek).get(routeIdx).value(second);
     }
 
-    public static void computePolynomial(List<Record> records)
+    public static void computePolynomial(List<Record> records, boolean shouldSetAfterComputing)
     {
+        Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = new HashMap<>();
         PolynomialCurveFitter fitter = PolynomialCurveFitter.create(15);
 
         List<Record> _records = new LinkedList<>();
@@ -80,10 +81,13 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
                     .filter(routeID -> weightedObservedPointsMap.get(routeID).size() != 0)
                     .forEach(routeID -> polynomialFunctionRoutes.put(routeID, new PolynomialFunction(fitter.fit(weightedObservedPointsMap.get(routeID)))));
 
-            polynomialFunctions.put(day, polynomialFunctionRoutes);
+            baseline.put(day, polynomialFunctionRoutes);
         }
 
-        baselineSerializer.serialize(polynomialFunctions);
+        baselineSerializer.serialize(baseline);
+
+        if(shouldSetAfterComputing)
+            polynomialFunctions = baseline;
     }
 
     // It should be discussed.

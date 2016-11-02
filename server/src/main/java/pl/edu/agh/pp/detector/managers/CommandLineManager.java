@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import pl.edu.agh.pp.detector.builders.IPatternBuilder;
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
+import pl.edu.agh.pp.detector.loaders.FilesLoader;
 import pl.edu.agh.pp.detector.serializers.FileBaselineSerializer;
 import pl.edu.agh.pp.detector.serializers.IBaselineSerializer;
 
@@ -31,10 +33,22 @@ public class CommandLineManager extends Thread
             try
             {
                 buffer = in.readLine();
-                Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserialize(buffer);
-                if (baseline != null)
+                if (buffer.startsWith("count"))
                 {
-                    patternBuilder.setBaseline(baseline);
+                    buffer = StringUtils.removeStart(buffer, "count ");
+                    String[] args = buffer.split(" ");
+                    FilesLoader filesLoader = new FilesLoader(args);
+                    filesLoader.processLineByLine();
+                    PolynomialPatternBuilder.computePolynomial(filesLoader.getRecords(), false);
+                }
+                else if (buffer.startsWith("load"))
+                {
+                    String timestamp = StringUtils.removeStart(buffer, "load ");
+                    Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserialize(timestamp);
+                    if (baseline != null)
+                    {
+                        patternBuilder.setBaseline(baseline);
+                    }
                 }
             }
             catch (Exception e)
