@@ -17,6 +17,7 @@ detector � kopia/
 detector � kopia (2)/
 detector � kopia (3)/
 comj/
+*.info
+*.ser
 *.zip
 logs_16-06-15/
-baseline/
