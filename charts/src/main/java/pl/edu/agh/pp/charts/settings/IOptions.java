@@ -90,7 +90,8 @@ public interface IOptions {
     boolean removePreferences(String key, Class objectClassToBeRemoved) throws IllegalPreferenceObjectExpected;
 
     /**
-     * Method that returns bytes array with all the preferences stored as a bytes array.
+     * Method that returns bytes array with all the preferences saved as a bytes array.
+     * Usage requires prior use of setBytesPreferences method.
      * <br>
      * **HowTo**: Short tutorial how to read the bytes array from preferences
      * <pre>
@@ -123,6 +124,7 @@ public interface IOptions {
 
     /**
      * Method that returns the name of the key in a group of bytes options which has true value.
+     * Group of bytes options which is identified by key parameter should be added as Map<String, Boolean>.
      *
      * @param key Is the key to the group of options in preferences which true value key need to be returned.
      * @return String with the Key of operation i byte array which has (in group) first true value. If no one value in group

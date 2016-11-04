@@ -96,9 +96,10 @@ public class Options implements IOptions {
 
             HashMap<String, Boolean> values = readHash.get(key);
 
-            for (String value : values.keySet())
+            for (String value : values.keySet()) {
                 if (values.get(value))
                     return value;
+            }
 
         } catch (IOException | ClassNotFoundException e) {
             logger.error("Options.getFirstTruePreferenceFromPreferencesGroup(): Error while getting group of Preference: "
