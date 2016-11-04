@@ -78,15 +78,19 @@ public class Connector {
         //TODO send message to server asking for options
         if(isConnectedToTheServer()){
 
-        }    }
-    public static void updateServerInfo(){
+        }
+    }
+
+    public static void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort){
         //TODO use this method after receiving options info from server
+        // FIXME: In my opinion it should be moved into the SystemGeneralInfo class, and here only the getServerOptions should be called.
+        // FIXME: But I obediently filled the form. ~Maciek
         ServerOptions serverOptions = Options.getInstance().getServerOptions();
-        serverOptions.setLeverValue("");
-        serverOptions.setAnomalyLiveTime("");
-        serverOptions.setBaselineWindowSize("");
-        serverOptions.setShift("");
-        serverOptions.setAnomalyPortNr("");
+        serverOptions.setLeverValue(String.valueOf(leverValue));
+        serverOptions.setAnomalyLiveTime(String.valueOf(anomalyLiveTime));
+        serverOptions.setBaselineWindowSize(String.valueOf(baselineWindowSize));
+        serverOptions.setShift(String.valueOf(shift));
+        serverOptions.setAnomalyPortNr(String.valueOf(anomalyMessagesPort));
         mainWindowController.updateServerInfo(serverOptions);
     }
 

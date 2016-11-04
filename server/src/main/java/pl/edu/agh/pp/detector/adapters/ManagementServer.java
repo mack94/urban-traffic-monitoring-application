@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Created by Maciej on 30.10.2016.
@@ -135,7 +136,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
 
         while (true) {
             AnomalyOperationProtos.LeverMessage leverMessage = AnomalyOperationProtos.LeverMessage.newBuilder()
-                    .setLeverValue(0.52008007)
+                    .setLeverValue(new Random().nextDouble())
                     .build();
             AnomalyOperationProtos.ManagementMessage managementMessage1 = AnomalyOperationProtos.ManagementMessage.newBuilder()
                     .setLeverMessage(leverMessage)
