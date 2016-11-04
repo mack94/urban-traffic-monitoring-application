@@ -32,7 +32,7 @@ public class RequestsExecutor {
                 .await();
 
         DirectionsResult directionsApi = DirectionsApi
-                .getDirections(context, destinations[0], origins[0])
+                .getDirections(context, origins[0], destinations[0])
                 .alternatives(false)
                 .language("pl")
                 .departureTime(departure)

@@ -33,7 +33,13 @@ public class Route {
         this.id = id;
         this.distanceMatrix = distanceMatrix;
         this.directionsApi = directionsApi;
-        System.out.println("Directions API: " + directionsApi);
+//        System.out.println("Directions API: " + directionsApi.routes);
+        DirectionsRoute[] rs = directionsApi.routes;
+        System.out.println("ID: " + id);
+        for (DirectionsRoute r : rs) {
+            System.out.print(decodePolylinePath(r.overviewPolyline));
+        }
+        System.out.println("\n");
         jsonRoute = loadRouteInfo();
         if (jsonRoute != null) {
 //            logger.error(jsonRoute.toString());
