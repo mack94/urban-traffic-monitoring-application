@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -399,6 +400,14 @@ public class MainWindowController {
         }
         else {
             hideBox.setVisible(true);
+        }
+    }
+    @FXML
+    private void handleAnomalyPressed(KeyEvent e){
+        String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
+        if(selectedItem != null){
+            putAnomalyInfoOnScreen(selectedItem);
+            putAnomalyOnMap(selectedItem);
         }
     }
 }

@@ -25,7 +25,7 @@ public class HtmlBuilder {
 
         logger.info(Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        StringTemplateGroup group = new StringTemplateGroup(template, rootDir + "/src/main/resources", DefaultTemplateLexer.class);
+        StringTemplateGroup group = new StringTemplateGroup(template, DefaultTemplateLexer.class);
 
         return group.getInstanceOf(template);
     }
