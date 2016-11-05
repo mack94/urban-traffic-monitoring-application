@@ -8,6 +8,7 @@ import org.jgroups.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.charts.system.SystemBaselineInfo;
 import pl.edu.agh.pp.charts.system.SystemGeneralInfo;
 
 import java.io.*;
@@ -189,7 +190,6 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         try {
             AnomalyOperationProtos.LeverMessage leverMessage = AnomalyOperationProtos.LeverMessage.parseFrom(message.getLeverMessage().toByteArray());
             double leverValue = leverMessage.getLeverValue();
-//            System.out.println("New lever value: " + leverValue);
             SystemGeneralInfo.setLeverValue(leverValue);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
@@ -208,20 +208,13 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
     private void parseBaselineMessage(AnomalyOperationProtos.ManagementMessage message) {
         try {
             AnomalyOperationProtos.BaselineMessage baselineMessage = AnomalyOperationProtos.BaselineMessage.parseFrom(message.getBaselineMessage().toByteArray());
+            int routeID = baselineMessage.getRouteIdx();
+            AnomalyOperationProtos.BaselineMessage.Day day = baselineMessage.getDay();
             Map<Integer, Integer> baselineMap = baselineMessage.getBaselineMap();
-            for(Integer key: baselineMap.keySet()) {
-                System.out.println(String.format("\tB _ %d  ------ %d", key, baselineMap.get(key)));
-            }
+            SystemBaselineInfo.addBaselineInfo(routeID, day, baselineMap);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
-    }
-
-    private void setLeverInfo(double leverValue) {
-//        LeverInfo leverInfo = new LeverInfo();
-//        leverInfo.setLeverValue(leverValue);
-//        leverInfo = null;
-        return;
     }
 
     protected void sendMessage(byte[] toSend, int i, int length) throws Exception {

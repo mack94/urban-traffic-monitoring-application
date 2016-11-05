@@ -12,6 +12,7 @@ import pl.edu.agh.pp.charts.settings.ServerOptions;
 
 import java.net.InetAddress;
 import java.time.DayOfWeek;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -96,16 +97,23 @@ public class Connector {
         mainWindowController.updateServerInfo(serverOptions);
     }
 
+    public static void updateBaseline(Integer routeID, AnomalyOperationProtos.BaselineMessage.Day day, Map<Integer, Integer> baseline) {
+        // TODO: Dawid
+//        mainWindowController.updateBaseline();
+    }
+
     public static void demandBaseline(DayOfWeek dayOfWeek, int routeID) {
+        System.out.println("DEMAND + " + routeID);
         AnomalyOperationProtos.DemandBaselineMessage demandBaselineMessage = AnomalyOperationProtos.DemandBaselineMessage.newBuilder()
                 .setDay(AnomalyOperationProtos.DemandBaselineMessage.Day.forNumber(dayOfWeek.getValue()))
                 .setRouteIdx(routeID)
                 .build();
 
         AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                .setType(AnomalyOperationProtos.ManagementMessage.Type.DEMANDBASELINEMESSAGE)
                 .setDemandBaselineMessage(demandBaselineMessage)
                 .build();
-
+        System.out.println("from demand" + demandBaselineMessage.getRouteIdx());
         try {
             byte[] toSend = managementMessage.toByteArray();
             managementClient.sendMessage(toSend, 0, toSend.length);
