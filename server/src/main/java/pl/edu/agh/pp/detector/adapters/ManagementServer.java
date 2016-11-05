@@ -87,10 +87,9 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
                     System.out.println("#1");
                     sendRoutesMessages(sender);
                     System.out.println("#2");
-                    sendBaselineMessage(sender, 1);
-                    System.out.println("#3");
                     break;
                 case DEMANDBASELINEMESSAGE:
+                    System.out.println("#3");
                     int routeID = parseDemandBaselineMessage(message);
                     sendBaselineMessage(sender, routeID);
                     break;
@@ -216,6 +215,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
     private void sendBaselineMessage(Address sender, int routeID) {
         //TODO: Check if routeID is not -1
         //TODO: Be careful about sending message too fast - if you send it too fast, wgen PolynomialPatternBuilder is not loaded, then message will not be send.
+        System.out.println("EE" + routeID + " _ " + DayOfWeek.fromValue(DateTime.now().getDayOfWeek()));
         double[] values = PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.fromValue(DateTime.now().getDayOfWeek()), routeID);
         System.out.println("ELOELO: " + values.length);
         Map<Integer, Integer> baselineMap = new HashMap<>();
@@ -248,8 +248,9 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
 
     private int parseDemandBaselineMessage(AnomalyOperationProtos.ManagementMessage message) {
         try {
-            AnomalyOperationProtos.DemandBaselineMessage routeMessage = AnomalyOperationProtos.DemandBaselineMessage.parseFrom(message.getRouteMessage().toByteArray());
-            return routeMessage.getRouteIdx();
+            AnomalyOperationProtos.DemandBaselineMessage demandBaselineMessage = AnomalyOperationProtos.DemandBaselineMessage.parseFrom(message.getDemandBaselineMessage().toByteArray());
+            System.out.println("ID=" + demandBaselineMessage.getRouteIdx());
+            return demandBaselineMessage.getRouteIdx();
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
