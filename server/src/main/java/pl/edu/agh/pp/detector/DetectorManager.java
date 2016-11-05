@@ -49,7 +49,7 @@ public class DetectorManager
     public DetectorManager(Server server, String... logFiles) {
         File folder = new File(LOG_FILES_DIRECTORY_PATH);
         File[] listOfFiles = folder.listFiles();
-        if(listOfFiles != null) {
+        if(folder.isDirectory() && listOfFiles != null) {
             String newLogFiles[] = new String[logFiles.length + listOfFiles.length];
             int i = 0;
             for(String file: logFiles){

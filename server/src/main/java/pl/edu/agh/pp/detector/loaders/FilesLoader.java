@@ -41,7 +41,7 @@ public class FilesLoader {
         if(fileNames.length > 0){
             listFilePath = new ArrayList<Path>();
             for(String aFileName: fileNames) {
-                if(aFileName!= null)
+                if(aFileName!= null && !aFileName.equals(""))
                     listFilePath.add(Paths.get(aFileName));
             }
         }else{
