@@ -40,6 +40,7 @@ message ManagementMessage {
         LEVERMESSAGE = 2;
         BASELINEMESSAGE = 3;
         DEMANDBASELINEMESSAGE = 4;
+        ROUTEMESSAGE = 5;
     }
 
     // Identifies which field is filled in.
@@ -51,6 +52,7 @@ message ManagementMessage {
     LeverMessage leverMessage = 4;
     BaselineMessage baselineMessage = 5;
     DemandBaselineMessage demandBaselineMessage = 6;
+    RouteMessage routeMessage = 7;
 
 }
 
@@ -79,6 +81,13 @@ message SystemGeneralMessage {
     int32 port = 7; // bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
     string routes = 8; // caly routes.json tutaj przesylamy
 
+}
+
+message RouteMessage {
+    int32 routeID = 1;
+    string origin = 2;
+    string destination = 3;
+    string coords = 4;
 }
 
 message LeverMessage {

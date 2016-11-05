@@ -35,6 +35,11 @@ public final class AnomalyOperationProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internal_static_SystemGeneralMessage_fieldAccessorTable;
     private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_RouteMessage_descriptor;
+    private static final
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internal_static_RouteMessage_fieldAccessorTable;
+    private static final com.google.protobuf.Descriptors.Descriptor
             internal_static_LeverMessage_descriptor;
     private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -68,40 +73,43 @@ public final class AnomalyOperationProtos {
                         "ondOfDay\030\002 \001(\005\022\021\n\tisAnomaly\030\003 \001(\010\022\020\n\010dur" +
                         "ation\030\004 \001(\005\022\021\n\tdayOfWeek\030\005 \001(\005\022\020\n\010severi" +
                         "ty\030\006 \001(\005\022\017\n\007message\030\007 \001(\t\022\021\n\tanomalyID\030\010" +
-                        " \001(\003\022\014\n\004date\030\t \001(\t\"\227\003\n\021ManagementMessage",
+                        " \001(\003\022\014\n\004date\030\t \001(\t\"\317\003\n\021ManagementMessage",
                 "\022%\n\004type\030\001 \001(\0162\027.ManagementMessage.Type\022" +
                         "\'\n\016bonjourMessage\030\002 \001(\0132\017.BonjourMessage" +
                         "\0223\n\024systemGeneralMessage\030\003 \001(\0132\025.SystemG" +
                         "eneralMessage\022#\n\014leverMessage\030\004 \001(\0132\r.Le" +
                         "verMessage\022)\n\017baselineMessage\030\005 \001(\0132\020.Ba" +
                         "selineMessage\0225\n\025demandBaselineMessage\030\006" +
-                        " \001(\0132\026.DemandBaselineMessage\"v\n\004Type\022\022\n\016" +
-                        "BONJOURMESSAGE\020\000\022\030\n\024SYSTEMGENERALMESSAGE" +
-                        "\020\001\022\020\n\014LEVERMESSAGE\020\002\022\023\n\017BASELINEMESSAGE\020" +
-                        "\003\022\031\n\025DEMANDBASELINEMESSAGE\020\004\"?\n\016BonjourM",
-                "essage\022\r\n\005token\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\022\020\n\010u" +
-                        "serName\030\003 \001(\t\"\375\001\n\024SystemGeneralMessage\022\022" +
-                        "\n\nmessageIdx\030\001 \001(\005\022\022\n\nleverValue\030\002 \001(\001\022\022" +
-                        "\n\nsystemDate\030\003 \001(\t\022\027\n\017anomalyLiveTime\030\004 " +
-                        "\001(\005\022\032\n\022baselineWindowSize\030\005 \001(\005\022*\n\005shift" +
-                        "\030\006 \001(\0162\033.SystemGeneralMessage.Shift\022\014\n\004p" +
-                        "ort\030\007 \001(\005\022\016\n\006routes\030\010 \001(\t\"*\n\005Shift\022\007\n\003DA" +
-                        "Y\020\000\022\t\n\005NIGHT\020\001\022\r\n\tUNIVERSAL\020\002\";\n\014LeverMe" +
-                        "ssage\022\022\n\nleverValue\030\001 \001(\001\022\027\n\017leverUpdate" +
-                        "Date\030\002 \001(\t\"\214\002\n\017BaselineMessage\022\020\n\010routeI",
-                "dx\030\001 \001(\005\022!\n\003day\030\002 \001(\0162\024.BaselineMessage." +
-                        "Day\0220\n\010baseline\030\003 \003(\0132\036.BaselineMessage." +
-                        "BaselineEntry\032/\n\rBaselineEntry\022\013\n\003key\030\001 " +
-                        "\001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"a\n\003Day\022\n\n\006MONDAY\020" +
-                        "\000\022\013\n\007TUESDAY\020\001\022\r\n\tWEDNESDAY\020\002\022\014\n\010THURSDA" +
-                        "Y\020\003\022\n\n\006FRIDAY\020\004\022\014\n\010SATURDAY\020\005\022\n\n\006SUNDAY\020" +
-                        "\006\"\265\001\n\025DemandBaselineMessage\022\020\n\010routeIdx\030" +
-                        "\001 \001(\005\022\'\n\003day\030\002 \001(\0162\032.DemandBaselineMessa" +
-                        "ge.Day\"a\n\003Day\022\n\n\006MONDAY\020\000\022\013\n\007TUESDAY\020\001\022\r" +
-                        "\n\tWEDNESDAY\020\002\022\014\n\010THURSDAY\020\003\022\n\n\006FRIDAY\020\004\022",
-                "\014\n\010SATURDAY\020\005\022\n\n\006SUNDAY\020\006B9\n\037pl.edu.agh." +
-                        "pp.charts.operationsB\026AnomalyOperationPr" +
-                        "otosb\006proto3"
+                        " \001(\0132\026.DemandBaselineMessage\022#\n\014routeMes" +
+                        "sage\030\007 \001(\0132\r.RouteMessage\"\210\001\n\004Type\022\022\n\016BO" +
+                        "NJOURMESSAGE\020\000\022\030\n\024SYSTEMGENERALMESSAGE\020\001" +
+                        "\022\020\n\014LEVERMESSAGE\020\002\022\023\n\017BASELINEMESSAGE\020\003\022",
+                "\031\n\025DEMANDBASELINEMESSAGE\020\004\022\020\n\014ROUTEMESSA" +
+                        "GE\020\005\"?\n\016BonjourMessage\022\r\n\005token\030\001 \001(\005\022\014\n" +
+                        "\004date\030\002 \001(\t\022\020\n\010userName\030\003 \001(\t\"\375\001\n\024System" +
+                        "GeneralMessage\022\022\n\nmessageIdx\030\001 \001(\005\022\022\n\nle" +
+                        "verValue\030\002 \001(\001\022\022\n\nsystemDate\030\003 \001(\t\022\027\n\017an" +
+                        "omalyLiveTime\030\004 \001(\005\022\032\n\022baselineWindowSiz" +
+                        "e\030\005 \001(\005\022*\n\005shift\030\006 \001(\0162\033.SystemGeneralMe" +
+                        "ssage.Shift\022\014\n\004port\030\007 \001(\005\022\016\n\006routes\030\010 \001(" +
+                        "\t\"*\n\005Shift\022\007\n\003DAY\020\000\022\t\n\005NIGHT\020\001\022\r\n\tUNIVER" +
+                        "SAL\020\002\"T\n\014RouteMessage\022\017\n\007routeID\030\001 \001(\005\022\016",
+                "\n\006origin\030\002 \001(\t\022\023\n\013destination\030\003 \001(\t\022\016\n\006c" +
+                        "oords\030\004 \001(\t\";\n\014LeverMessage\022\022\n\nleverValu" +
+                        "e\030\001 \001(\001\022\027\n\017leverUpdateDate\030\002 \001(\t\"\214\002\n\017Bas" +
+                        "elineMessage\022\020\n\010routeIdx\030\001 \001(\005\022!\n\003day\030\002 " +
+                        "\001(\0162\024.BaselineMessage.Day\0220\n\010baseline\030\003 " +
+                        "\003(\0132\036.BaselineMessage.BaselineEntry\032/\n\rB" +
+                        "aselineEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005" +
+                        ":\0028\001\"a\n\003Day\022\n\n\006MONDAY\020\000\022\013\n\007TUESDAY\020\001\022\r\n\t" +
+                        "WEDNESDAY\020\002\022\014\n\010THURSDAY\020\003\022\n\n\006FRIDAY\020\004\022\014\n" +
+                        "\010SATURDAY\020\005\022\n\n\006SUNDAY\020\006\"\265\001\n\025DemandBaseli",
+                "neMessage\022\020\n\010routeIdx\030\001 \001(\005\022\'\n\003day\030\002 \001(\016" +
+                        "2\032.DemandBaselineMessage.Day\"a\n\003Day\022\n\n\006M" +
+                        "ONDAY\020\000\022\013\n\007TUESDAY\020\001\022\r\n\tWEDNESDAY\020\002\022\014\n\010T" +
+                        "HURSDAY\020\003\022\n\n\006FRIDAY\020\004\022\014\n\010SATURDAY\020\005\022\n\n\006S" +
+                        "UNDAY\020\006B9\n\037pl.edu.agh.pp.charts.operatio" +
+                        "nsB\026AnomalyOperationProtosb\006proto3"
         };
         com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
                 new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -138,7 +146,7 @@ public final class AnomalyOperationProtos {
         internal_static_ManagementMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_ManagementMessage_descriptor,
-                new java.lang.String[]{"Type", "BonjourMessage", "SystemGeneralMessage", "LeverMessage", "BaselineMessage", "DemandBaselineMessage",});
+                new java.lang.String[]{"Type", "BonjourMessage", "SystemGeneralMessage", "LeverMessage", "BaselineMessage", "DemandBaselineMessage", "RouteMessage",});
         internal_static_BonjourMessage_descriptor =
                 getDescriptor().getMessageTypes().get(4);
         internal_static_BonjourMessage_fieldAccessorTable = new
@@ -151,14 +159,20 @@ public final class AnomalyOperationProtos {
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_SystemGeneralMessage_descriptor,
                 new java.lang.String[]{"MessageIdx", "LeverValue", "SystemDate", "AnomalyLiveTime", "BaselineWindowSize", "Shift", "Port", "Routes",});
-        internal_static_LeverMessage_descriptor =
+        internal_static_RouteMessage_descriptor =
                 getDescriptor().getMessageTypes().get(6);
+        internal_static_RouteMessage_fieldAccessorTable = new
+                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+                internal_static_RouteMessage_descriptor,
+                new java.lang.String[]{"RouteID", "Origin", "Destination", "Coords",});
+        internal_static_LeverMessage_descriptor =
+                getDescriptor().getMessageTypes().get(7);
         internal_static_LeverMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_LeverMessage_descriptor,
                 new java.lang.String[]{"LeverValue", "LeverUpdateDate",});
         internal_static_BaselineMessage_descriptor =
-                getDescriptor().getMessageTypes().get(7);
+                getDescriptor().getMessageTypes().get(8);
         internal_static_BaselineMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_BaselineMessage_descriptor,
@@ -170,7 +184,7 @@ public final class AnomalyOperationProtos {
                 internal_static_BaselineMessage_BaselineEntry_descriptor,
                 new java.lang.String[]{"Key", "Value",});
         internal_static_DemandBaselineMessage_descriptor =
-                getDescriptor().getMessageTypes().get(8);
+                getDescriptor().getMessageTypes().get(9);
         internal_static_DemandBaselineMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_DemandBaselineMessage_descriptor,
@@ -430,6 +444,21 @@ public final class AnomalyOperationProtos {
          * <code>optional .DemandBaselineMessage demandBaselineMessage = 6;</code>
          */
         pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessageOrBuilder getDemandBaselineMessageOrBuilder();
+
+        /**
+         * <code>optional .RouteMessage routeMessage = 7;</code>
+         */
+        boolean hasRouteMessage();
+
+        /**
+         * <code>optional .RouteMessage routeMessage = 7;</code>
+         */
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage getRouteMessage();
+
+        /**
+         * <code>optional .RouteMessage routeMessage = 7;</code>
+         */
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessageOrBuilder getRouteMessageOrBuilder();
     }
     public interface BonjourMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:BonjourMessage)
@@ -534,6 +563,48 @@ public final class AnomalyOperationProtos {
          */
         com.google.protobuf.ByteString
         getRoutesBytes();
+    }
+    public interface RouteMessageOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:RouteMessage)
+            com.google.protobuf.MessageOrBuilder {
+
+        /**
+         * <code>optional int32 routeID = 1;</code>
+         */
+        int getRouteID();
+
+        /**
+         * <code>optional string origin = 2;</code>
+         */
+        java.lang.String getOrigin();
+
+        /**
+         * <code>optional string origin = 2;</code>
+         */
+        com.google.protobuf.ByteString
+        getOriginBytes();
+
+        /**
+         * <code>optional string destination = 3;</code>
+         */
+        java.lang.String getDestination();
+
+        /**
+         * <code>optional string destination = 3;</code>
+         */
+        com.google.protobuf.ByteString
+        getDestinationBytes();
+
+        /**
+         * <code>optional string coords = 4;</code>
+         */
+        java.lang.String getCoords();
+
+        /**
+         * <code>optional string coords = 4;</code>
+         */
+        com.google.protobuf.ByteString
+        getCoordsBytes();
     }
     public interface LeverMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:LeverMessage)
@@ -3343,6 +3414,7 @@ public final class AnomalyOperationProtos {
         public static final int LEVERMESSAGE_FIELD_NUMBER = 4;
         public static final int BASELINEMESSAGE_FIELD_NUMBER = 5;
         public static final int DEMANDBASELINEMESSAGE_FIELD_NUMBER = 6;
+        public static final int ROUTEMESSAGE_FIELD_NUMBER = 7;
         private static final long serialVersionUID = 0L;
         // @@protoc_insertion_point(class_scope:ManagementMessage)
         private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.ManagementMessage DEFAULT_INSTANCE;
@@ -3366,7 +3438,9 @@ public final class AnomalyOperationProtos {
         private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.LeverMessage leverMessage_;
         private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BaselineMessage baselineMessage_;
         private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage demandBaselineMessage_;
+        private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage routeMessage_;
         private byte memoizedIsInitialized = -1;
+
         // Use ManagementMessage.newBuilder() to construct.
         private ManagementMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
@@ -3463,6 +3537,19 @@ public final class AnomalyOperationProtos {
                             if (subBuilder != null) {
                                 subBuilder.mergeFrom(demandBaselineMessage_);
                                 demandBaselineMessage_ = subBuilder.buildPartial();
+                            }
+
+                            break;
+                        }
+                        case 58: {
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.Builder subBuilder = null;
+                            if (routeMessage_ != null) {
+                                subBuilder = routeMessage_.toBuilder();
+                            }
+                            routeMessage_ = input.readMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.parser(), extensionRegistry);
+                            if (subBuilder != null) {
+                                subBuilder.mergeFrom(routeMessage_);
+                                routeMessage_ = subBuilder.buildPartial();
                             }
 
                             break;
@@ -3721,6 +3808,27 @@ public final class AnomalyOperationProtos {
             return getDemandBaselineMessage();
         }
 
+        /**
+         * <code>optional .RouteMessage routeMessage = 7;</code>
+         */
+        public boolean hasRouteMessage() {
+            return routeMessage_ != null;
+        }
+
+        /**
+         * <code>optional .RouteMessage routeMessage = 7;</code>
+         */
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage getRouteMessage() {
+            return routeMessage_ == null ? pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.getDefaultInstance() : routeMessage_;
+        }
+
+        /**
+         * <code>optional .RouteMessage routeMessage = 7;</code>
+         */
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessageOrBuilder getRouteMessageOrBuilder() {
+            return getRouteMessage();
+        }
+
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
             if (isInitialized == 1) return true;
@@ -3749,6 +3857,9 @@ public final class AnomalyOperationProtos {
             }
             if (demandBaselineMessage_ != null) {
                 output.writeMessage(6, getDemandBaselineMessage());
+            }
+            if (routeMessage_ != null) {
+                output.writeMessage(7, getRouteMessage());
             }
         }
 
@@ -3780,6 +3891,10 @@ public final class AnomalyOperationProtos {
             if (demandBaselineMessage_ != null) {
                 size += com.google.protobuf.CodedOutputStream
                         .computeMessageSize(6, getDemandBaselineMessage());
+            }
+            if (routeMessage_ != null) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeMessageSize(7, getRouteMessage());
             }
             memoizedSize = size;
             return size;
@@ -3822,6 +3937,11 @@ public final class AnomalyOperationProtos {
                 result = result && getDemandBaselineMessage()
                         .equals(other.getDemandBaselineMessage());
             }
+            result = result && (hasRouteMessage() == other.hasRouteMessage());
+            if (hasRouteMessage()) {
+                result = result && getRouteMessage()
+                        .equals(other.getRouteMessage());
+            }
             return result;
         }
 
@@ -3853,6 +3973,10 @@ public final class AnomalyOperationProtos {
             if (hasDemandBaselineMessage()) {
                 hash = (37 * hash) + DEMANDBASELINEMESSAGE_FIELD_NUMBER;
                 hash = (53 * hash) + getDemandBaselineMessage().hashCode();
+            }
+            if (hasRouteMessage()) {
+                hash = (37 * hash) + ROUTEMESSAGE_FIELD_NUMBER;
+                hash = (53 * hash) + getRouteMessage().hashCode();
             }
             hash = (29 * hash) + unknownFields.hashCode();
             memoizedHashCode = hash;
@@ -3909,6 +4033,10 @@ public final class AnomalyOperationProtos {
              * <code>DEMANDBASELINEMESSAGE = 4;</code>
              */
             DEMANDBASELINEMESSAGE(4),
+            /**
+             * <code>ROUTEMESSAGE = 5;</code>
+             */
+            ROUTEMESSAGE(5),
             UNRECOGNIZED(-1),;
 
             /**
@@ -3931,6 +4059,10 @@ public final class AnomalyOperationProtos {
              * <code>DEMANDBASELINEMESSAGE = 4;</code>
              */
             public static final int DEMANDBASELINEMESSAGE_VALUE = 4;
+            /**
+             * <code>ROUTEMESSAGE = 5;</code>
+             */
+            public static final int ROUTEMESSAGE_VALUE = 5;
             private static final com.google.protobuf.Internal.EnumLiteMap<
                     Type> internalValueMap =
                     new com.google.protobuf.Internal.EnumLiteMap<Type>() {
@@ -3965,6 +4097,8 @@ public final class AnomalyOperationProtos {
                         return BASELINEMESSAGE;
                     case 4:
                         return DEMANDBASELINEMESSAGE;
+                    case 5:
+                        return ROUTEMESSAGE;
                     default:
                         return null;
                 }
@@ -4036,6 +4170,9 @@ public final class AnomalyOperationProtos {
             private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage demandBaselineMessage_ = null;
             private com.google.protobuf.SingleFieldBuilderV3<
                     pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage.Builder, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessageOrBuilder> demandBaselineMessageBuilder_;
+            private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage routeMessage_ = null;
+            private com.google.protobuf.SingleFieldBuilderV3<
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.Builder, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessageOrBuilder> routeMessageBuilder_;
 
             // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.ManagementMessage.newBuilder()
             private Builder() {
@@ -4100,6 +4237,12 @@ public final class AnomalyOperationProtos {
                     demandBaselineMessage_ = null;
                     demandBaselineMessageBuilder_ = null;
                 }
+                if (routeMessageBuilder_ == null) {
+                    routeMessage_ = null;
+                } else {
+                    routeMessage_ = null;
+                    routeMessageBuilder_ = null;
+                }
                 return this;
             }
 
@@ -4147,6 +4290,11 @@ public final class AnomalyOperationProtos {
                     result.demandBaselineMessage_ = demandBaselineMessage_;
                 } else {
                     result.demandBaselineMessage_ = demandBaselineMessageBuilder_.build();
+                }
+                if (routeMessageBuilder_ == null) {
+                    result.routeMessage_ = routeMessage_;
+                } else {
+                    result.routeMessage_ = routeMessageBuilder_.build();
                 }
                 onBuilt();
                 return result;
@@ -4213,6 +4361,9 @@ public final class AnomalyOperationProtos {
                 }
                 if (other.hasDemandBaselineMessage()) {
                     mergeDemandBaselineMessage(other.getDemandBaselineMessage());
+                }
+                if (other.hasRouteMessage()) {
+                    mergeRouteMessage(other.getRouteMessage());
                 }
                 onChanged();
                 return this;
@@ -4951,6 +5102,128 @@ public final class AnomalyOperationProtos {
                     demandBaselineMessage_ = null;
                 }
                 return demandBaselineMessageBuilder_;
+            }
+
+            /**
+             * <code>optional .RouteMessage routeMessage = 7;</code>
+             */
+            public boolean hasRouteMessage() {
+                return routeMessageBuilder_ != null || routeMessage_ != null;
+            }
+
+            /**
+             * <code>optional .RouteMessage routeMessage = 7;</code>
+             */
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage getRouteMessage() {
+                if (routeMessageBuilder_ == null) {
+                    return routeMessage_ == null ? pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.getDefaultInstance() : routeMessage_;
+                } else {
+                    return routeMessageBuilder_.getMessage();
+                }
+            }
+
+            /**
+             * <code>optional .RouteMessage routeMessage = 7;</code>
+             */
+            public Builder setRouteMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.Builder builderForValue) {
+                if (routeMessageBuilder_ == null) {
+                    routeMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    routeMessageBuilder_.setMessage(builderForValue.build());
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .RouteMessage routeMessage = 7;</code>
+             */
+            public Builder setRouteMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage value) {
+                if (routeMessageBuilder_ == null) {
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    routeMessage_ = value;
+                    onChanged();
+                } else {
+                    routeMessageBuilder_.setMessage(value);
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .RouteMessage routeMessage = 7;</code>
+             */
+            public Builder mergeRouteMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage value) {
+                if (routeMessageBuilder_ == null) {
+                    if (routeMessage_ != null) {
+                        routeMessage_ =
+                                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.newBuilder(routeMessage_).mergeFrom(value).buildPartial();
+                    } else {
+                        routeMessage_ = value;
+                    }
+                    onChanged();
+                } else {
+                    routeMessageBuilder_.mergeFrom(value);
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .RouteMessage routeMessage = 7;</code>
+             */
+            public Builder clearRouteMessage() {
+                if (routeMessageBuilder_ == null) {
+                    routeMessage_ = null;
+                    onChanged();
+                } else {
+                    routeMessage_ = null;
+                    routeMessageBuilder_ = null;
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .RouteMessage routeMessage = 7;</code>
+             */
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.Builder getRouteMessageBuilder() {
+
+                onChanged();
+                return getRouteMessageFieldBuilder().getBuilder();
+            }
+
+            /**
+             * <code>optional .RouteMessage routeMessage = 7;</code>
+             */
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessageOrBuilder getRouteMessageOrBuilder() {
+                if (routeMessageBuilder_ != null) {
+                    return routeMessageBuilder_.getMessageOrBuilder();
+                } else {
+                    return routeMessage_ == null ?
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.getDefaultInstance() : routeMessage_;
+                }
+            }
+
+            /**
+             * <code>optional .RouteMessage routeMessage = 7;</code>
+             */
+            private com.google.protobuf.SingleFieldBuilderV3<
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.Builder, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessageOrBuilder>
+            getRouteMessageFieldBuilder() {
+                if (routeMessageBuilder_ == null) {
+                    routeMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.Builder, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessageOrBuilder>(
+                            getRouteMessage(),
+                            getParentForChildren(),
+                            isClean());
+                    routeMessage_ = null;
+                }
+                return routeMessageBuilder_;
             }
 
             public final Builder setUnknownFields(
@@ -6880,6 +7153,853 @@ public final class AnomalyOperationProtos {
 
 
             // @@protoc_insertion_point(builder_scope:SystemGeneralMessage)
+        }
+
+    }
+
+    /**
+     * Protobuf type {@code RouteMessage}
+     */
+    public static final class RouteMessage extends
+            com.google.protobuf.GeneratedMessageV3 implements
+            // @@protoc_insertion_point(message_implements:RouteMessage)
+            RouteMessageOrBuilder {
+        public static final int ROUTEID_FIELD_NUMBER = 1;
+        public static final int ORIGIN_FIELD_NUMBER = 2;
+        public static final int DESTINATION_FIELD_NUMBER = 3;
+        public static final int COORDS_FIELD_NUMBER = 4;
+        private static final long serialVersionUID = 0L;
+        // @@protoc_insertion_point(class_scope:RouteMessage)
+        private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage DEFAULT_INSTANCE;
+        private static final com.google.protobuf.Parser<RouteMessage>
+                PARSER = new com.google.protobuf.AbstractParser<RouteMessage>() {
+            public RouteMessage parsePartialFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws com.google.protobuf.InvalidProtocolBufferException {
+                return new RouteMessage(input, extensionRegistry);
+            }
+        };
+
+        static {
+            DEFAULT_INSTANCE = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage();
+        }
+
+        private int routeID_;
+        private volatile java.lang.Object origin_;
+        private volatile java.lang.Object destination_;
+        private volatile java.lang.Object coords_;
+        private byte memoizedIsInitialized = -1;
+
+        // Use RouteMessage.newBuilder() to construct.
+        private RouteMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+        }
+        private RouteMessage() {
+            routeID_ = 0;
+            origin_ = "";
+            destination_ = "";
+            coords_ = "";
+        }
+
+        private RouteMessage(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            this();
+            int mutable_bitField0_ = 0;
+            try {
+                boolean done = false;
+                while (!done) {
+                    int tag = input.readTag();
+                    switch (tag) {
+                        case 0:
+                            done = true;
+                            break;
+                        default: {
+                            if (!input.skipField(tag)) {
+                                done = true;
+                            }
+                            break;
+                        }
+                        case 8: {
+
+                            routeID_ = input.readInt32();
+                            break;
+                        }
+                        case 18: {
+                            java.lang.String s = input.readStringRequireUtf8();
+
+                            origin_ = s;
+                            break;
+                        }
+                        case 26: {
+                            java.lang.String s = input.readStringRequireUtf8();
+
+                            destination_ = s;
+                            break;
+                        }
+                        case 34: {
+                            java.lang.String s = input.readStringRequireUtf8();
+
+                            coords_ = s;
+                            break;
+                        }
+                    }
+                }
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                throw e.setUnfinishedMessage(this);
+            } catch (java.io.IOException e) {
+                throw new com.google.protobuf.InvalidProtocolBufferException(
+                        e).setUnfinishedMessage(this);
+            } finally {
+                makeExtensionsImmutable();
+            }
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+            return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_RouteMessage_descriptor;
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage parseFrom(
+                com.google.protobuf.ByteString data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage parseFrom(
+                com.google.protobuf.ByteString data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage parseFrom(byte[] data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage parseFrom(
+                byte[] data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage parseFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage parseFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage parseDelimitedFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseDelimitedWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage parseDelimitedFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage parseFrom(
+                com.google.protobuf.CodedInputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage parseFrom(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.toBuilder();
+        }
+
+        public static Builder newBuilder(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage prototype) {
+            return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static com.google.protobuf.Parser<RouteMessage> parser() {
+            return PARSER;
+        }
+
+        @java.lang.Override
+        public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+            return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+            return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_RouteMessage_fieldAccessorTable
+                    .ensureFieldAccessorsInitialized(
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.Builder.class);
+        }
+
+        /**
+         * <code>optional int32 routeID = 1;</code>
+         */
+        public int getRouteID() {
+            return routeID_;
+        }
+
+        /**
+         * <code>optional string origin = 2;</code>
+         */
+        public java.lang.String getOrigin() {
+            java.lang.Object ref = origin_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                origin_ = s;
+                return s;
+            }
+        }
+
+        /**
+         * <code>optional string origin = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+        getOriginBytes() {
+            java.lang.Object ref = origin_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                origin_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
+        /**
+         * <code>optional string destination = 3;</code>
+         */
+        public java.lang.String getDestination() {
+            java.lang.Object ref = destination_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                destination_ = s;
+                return s;
+            }
+        }
+
+        /**
+         * <code>optional string destination = 3;</code>
+         */
+        public com.google.protobuf.ByteString
+        getDestinationBytes() {
+            java.lang.Object ref = destination_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                destination_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
+        /**
+         * <code>optional string coords = 4;</code>
+         */
+        public java.lang.String getCoords() {
+            java.lang.Object ref = coords_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                coords_ = s;
+                return s;
+            }
+        }
+
+        /**
+         * <code>optional string coords = 4;</code>
+         */
+        public com.google.protobuf.ByteString
+        getCoordsBytes() {
+            java.lang.Object ref = coords_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                coords_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
+        public final boolean isInitialized() {
+            byte isInitialized = memoizedIsInitialized;
+            if (isInitialized == 1) return true;
+            if (isInitialized == 0) return false;
+
+            memoizedIsInitialized = 1;
+            return true;
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                throws java.io.IOException {
+            if (routeID_ != 0) {
+                output.writeInt32(1, routeID_);
+            }
+            if (!getOriginBytes().isEmpty()) {
+                com.google.protobuf.GeneratedMessageV3.writeString(output, 2, origin_);
+            }
+            if (!getDestinationBytes().isEmpty()) {
+                com.google.protobuf.GeneratedMessageV3.writeString(output, 3, destination_);
+            }
+            if (!getCoordsBytes().isEmpty()) {
+                com.google.protobuf.GeneratedMessageV3.writeString(output, 4, coords_);
+            }
+        }
+
+        public int getSerializedSize() {
+            int size = memoizedSize;
+            if (size != -1) return size;
+
+            size = 0;
+            if (routeID_ != 0) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeInt32Size(1, routeID_);
+            }
+            if (!getOriginBytes().isEmpty()) {
+                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, origin_);
+            }
+            if (!getDestinationBytes().isEmpty()) {
+                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, destination_);
+            }
+            if (!getCoordsBytes().isEmpty()) {
+                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, coords_);
+            }
+            memoizedSize = size;
+            return size;
+        }
+
+        @java.lang.Override
+        public boolean equals(final java.lang.Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage)) {
+                return super.equals(obj);
+            }
+            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage other = (pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage) obj;
+
+            boolean result = true;
+            result = result && (getRouteID()
+                    == other.getRouteID());
+            result = result && getOrigin()
+                    .equals(other.getOrigin());
+            result = result && getDestination()
+                    .equals(other.getDestination());
+            result = result && getCoords()
+                    .equals(other.getCoords());
+            return result;
+        }
+
+        @java.lang.Override
+        public int hashCode() {
+            if (memoizedHashCode != 0) {
+                return memoizedHashCode;
+            }
+            int hash = 41;
+            hash = (19 * hash) + getDescriptorForType().hashCode();
+            hash = (37 * hash) + ROUTEID_FIELD_NUMBER;
+            hash = (53 * hash) + getRouteID();
+            hash = (37 * hash) + ORIGIN_FIELD_NUMBER;
+            hash = (53 * hash) + getOrigin().hashCode();
+            hash = (37 * hash) + DESTINATION_FIELD_NUMBER;
+            hash = (53 * hash) + getDestination().hashCode();
+            hash = (37 * hash) + COORDS_FIELD_NUMBER;
+            hash = (53 * hash) + getCoords().hashCode();
+            hash = (29 * hash) + unknownFields.hashCode();
+            memoizedHashCode = hash;
+            return hash;
+        }
+
+        public Builder newBuilderForType() {
+            return newBuilder();
+        }
+
+        public Builder toBuilder() {
+            return this == DEFAULT_INSTANCE
+                    ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+                com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            Builder builder = new Builder(parent);
+            return builder;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<RouteMessage> getParserForType() {
+            return PARSER;
+        }
+
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        /**
+         * Protobuf type {@code RouteMessage}
+         */
+        public static final class Builder extends
+                com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+                // @@protoc_insertion_point(builder_implements:RouteMessage)
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessageOrBuilder {
+            private int routeID_;
+            private java.lang.Object origin_ = "";
+            private java.lang.Object destination_ = "";
+            private java.lang.Object coords_ = "";
+
+            // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.newBuilder()
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(
+                    com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+                super(parent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_RouteMessage_descriptor;
+            }
+
+            protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_RouteMessage_fieldAccessorTable
+                        .ensureFieldAccessorsInitialized(
+                                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (com.google.protobuf.GeneratedMessageV3
+                        .alwaysUseFieldBuilders) {
+                }
+            }
+
+            public Builder clear() {
+                super.clear();
+                routeID_ = 0;
+
+                origin_ = "";
+
+                destination_ = "";
+
+                coords_ = "";
+
+                return this;
+            }
+
+            public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_RouteMessage_descriptor;
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage getDefaultInstanceForType() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.getDefaultInstance();
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage build() {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage result = buildPartial();
+                if (!result.isInitialized()) {
+                    throw newUninitializedMessageException(result);
+                }
+                return result;
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage buildPartial() {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage result = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage(this);
+                result.routeID_ = routeID_;
+                result.origin_ = origin_;
+                result.destination_ = destination_;
+                result.coords_ = coords_;
+                onBuilt();
+                return result;
+            }
+
+            public Builder clone() {
+                return (Builder) super.clone();
+            }
+
+            public Builder setField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    Object value) {
+                return (Builder) super.setField(field, value);
+            }
+
+            public Builder clearField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field) {
+                return (Builder) super.clearField(field);
+            }
+
+            public Builder clearOneof(
+                    com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+                return (Builder) super.clearOneof(oneof);
+            }
+
+            public Builder setRepeatedField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    int index, Object value) {
+                return (Builder) super.setRepeatedField(field, index, value);
+            }
+
+            public Builder addRepeatedField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    Object value) {
+                return (Builder) super.addRepeatedField(field, value);
+            }
+
+            public Builder mergeFrom(com.google.protobuf.Message other) {
+                if (other instanceof pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage) {
+                    return mergeFrom((pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage) other);
+                } else {
+                    super.mergeFrom(other);
+                    return this;
+                }
+            }
+
+            public Builder mergeFrom(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage other) {
+                if (other == pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.getDefaultInstance())
+                    return this;
+                if (other.getRouteID() != 0) {
+                    setRouteID(other.getRouteID());
+                }
+                if (!other.getOrigin().isEmpty()) {
+                    origin_ = other.origin_;
+                    onChanged();
+                }
+                if (!other.getDestination().isEmpty()) {
+                    destination_ = other.destination_;
+                    onChanged();
+                }
+                if (!other.getCoords().isEmpty()) {
+                    coords_ = other.coords_;
+                    onChanged();
+                }
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            public Builder mergeFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws java.io.IOException {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage parsedMessage = null;
+                try {
+                    parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                    parsedMessage = (pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage) e.getUnfinishedMessage();
+                    throw e.unwrapIOException();
+                } finally {
+                    if (parsedMessage != null) {
+                        mergeFrom(parsedMessage);
+                    }
+                }
+                return this;
+            }
+
+            /**
+             * <code>optional int32 routeID = 1;</code>
+             */
+            public int getRouteID() {
+                return routeID_;
+            }
+
+            /**
+             * <code>optional int32 routeID = 1;</code>
+             */
+            public Builder setRouteID(int value) {
+
+                routeID_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional int32 routeID = 1;</code>
+             */
+            public Builder clearRouteID() {
+
+                routeID_ = 0;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string origin = 2;</code>
+             */
+            public java.lang.String getOrigin() {
+                java.lang.Object ref = origin_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    origin_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
+            }
+
+            /**
+             * <code>optional string origin = 2;</code>
+             */
+            public Builder setOrigin(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+
+                origin_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string origin = 2;</code>
+             */
+            public com.google.protobuf.ByteString
+            getOriginBytes() {
+                java.lang.Object ref = origin_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    origin_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>optional string origin = 2;</code>
+             */
+            public Builder setOriginBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+
+                origin_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string origin = 2;</code>
+             */
+            public Builder clearOrigin() {
+
+                origin_ = getDefaultInstance().getOrigin();
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string destination = 3;</code>
+             */
+            public java.lang.String getDestination() {
+                java.lang.Object ref = destination_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    destination_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
+            }
+
+            /**
+             * <code>optional string destination = 3;</code>
+             */
+            public Builder setDestination(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+
+                destination_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string destination = 3;</code>
+             */
+            public com.google.protobuf.ByteString
+            getDestinationBytes() {
+                java.lang.Object ref = destination_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    destination_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>optional string destination = 3;</code>
+             */
+            public Builder setDestinationBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+
+                destination_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string destination = 3;</code>
+             */
+            public Builder clearDestination() {
+
+                destination_ = getDefaultInstance().getDestination();
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string coords = 4;</code>
+             */
+            public java.lang.String getCoords() {
+                java.lang.Object ref = coords_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    coords_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
+            }
+
+            /**
+             * <code>optional string coords = 4;</code>
+             */
+            public Builder setCoords(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+
+                coords_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string coords = 4;</code>
+             */
+            public com.google.protobuf.ByteString
+            getCoordsBytes() {
+                java.lang.Object ref = coords_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    coords_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>optional string coords = 4;</code>
+             */
+            public Builder setCoordsBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+
+                coords_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string coords = 4;</code>
+             */
+            public Builder clearCoords() {
+
+                coords_ = getDefaultInstance().getCoords();
+                onChanged();
+                return this;
+            }
+
+            public final Builder setUnknownFields(
+                    final com.google.protobuf.UnknownFieldSet unknownFields) {
+                return this;
+            }
+
+            public final Builder mergeUnknownFields(
+                    final com.google.protobuf.UnknownFieldSet unknownFields) {
+                return this;
+            }
+
+
+            // @@protoc_insertion_point(builder_scope:RouteMessage)
         }
 
     }
