@@ -136,7 +136,6 @@ public class Connector {
             }
             mainWindowController.setConnectedFlag();
             mainWindowController.putSystemMessageOnScreen(message, Color.RED);
-            System.out.println("message: " + additionalInfo);
             if(!isFromConnecting)
                 mainWindowController.reconnecting();
         }

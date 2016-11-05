@@ -206,12 +206,15 @@ public class MainWindowController {
 
     public void putAnomalyOnMap(String screenMessage) {
         Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
-        System.out.println(anomaly.getRoute());
-        System.out.println(SystemRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId())));
-        System.out.println(SystemRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId())));
         Connector.demandBaseline(DayOfWeek.of(DateTime.now().getDayOfWeek()), Integer.parseInt(anomaly.getRouteId()));
         //TODO execution line below with route coordinates, map should then mark both points and center route start
-        // //webEngine.loadContent(htmlBuilder.loadMapStructure(startLat, startLng, endLat, endLng));
+        String startCoord = SystemRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId()));
+        String endCoord = SystemRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId()));
+        String startLat = startCoord.split(",")[0];
+        String startLng = startCoord.split(",")[1];
+        String endLat = endCoord.split(",")[0];
+        String endLng = endCoord.split(",")[1];
+        webEngine.loadContent(htmlBuilder.loadMapStructure(startLat, startLng, endLat, endLng));
     }
 
     public void putSystemMessageOnScreen(String message) {
@@ -301,14 +304,11 @@ public class MainWindowController {
                 protected Void call() throws Exception {
                     try {
                         int i = 0;
-                        while (i<3) {
-                            setConnectedLabel("Disconnected! Trying to reconnect",Color.RED);
+                        while (i<3 && !Connector.isConnectedToTheServer()) {
                             Connector.connect(Connector.getAddress(), Connector.getPort());
-                            System.out.println("proba nr: " + i);
                             Thread.sleep(5000);
                             i++;
                         }
-                        System.out.println("nope");
                         connectedFlag = Connector.isConnectedToTheServer();
                         setConnectedState();
                         Connector.getOptionsServerInfo();
