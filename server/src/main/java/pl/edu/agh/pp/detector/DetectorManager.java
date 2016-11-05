@@ -1,6 +1,9 @@
 package pl.edu.agh.pp.detector;
 
 import org.jfree.ui.RefineryUtilities;
+import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.detector.adapters.Server;
@@ -15,9 +18,9 @@ import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.detector.records.Record;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -33,6 +36,7 @@ public class DetectorManager {
 
     private static final String BASELINE_LOGS_PATH = "C:\\Inz\\appended_file.txt";
     private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Inz\\appended_file.txt";
+    private static final String LOG_FILES_DIRECTORY_PATH = "./logs";
     private static final PolynomialPatternBuilder polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();
     private static final FilesLoader anomalySearchFilesLoader = new FilesLoader(ANOMALY_SEARCH_LOGS_PATH, "C:\\Inz\\appended_file.txt");
     private static Detector detector;
@@ -42,7 +46,28 @@ public class DetectorManager {
     private Server server;
 
     public DetectorManager(Server server, String... logFiles) {
-        FilesLoader baselineFilesLoader = new FilesLoader(logFiles);
+        File folder = new File(LOG_FILES_DIRECTORY_PATH);
+        File[] listOfFiles = folder.listFiles();
+        if(listOfFiles != null) {
+            String newLogFiles[] = new String[logFiles.length + listOfFiles.length];
+            int i = 0;
+            for(String file: logFiles){
+                if(!file.trim().equals("")) {
+                    newLogFiles[i] = file;
+                    i++;
+                }
+            }
+            for (File file: listOfFiles) {
+                if (file.isFile() && file.getAbsolutePath().endsWith(".log")) {
+                    newLogFiles[i] = file.getAbsolutePath();
+                    i++;
+                }
+            }
+            baselineFilesLoader = new FilesLoader(newLogFiles);
+        }
+        else {
+            baselineFilesLoader = new FilesLoader(logFiles);
+        }
 
         try {
             baselineFilesLoader.processLineByLine();
@@ -203,6 +228,28 @@ public class DetectorManager {
         } catch (IOException e) {
             logger.error("DetectorManager :: IOException " + e);
         }
+    }
+
+    public boolean areAllRoutesIncluded(JSONArray loadedRoutes){
+        List<Record> list = baselineFilesLoader.getRecords();
+        boolean contains;
+        for(int i = 0; i<loadedRoutes.length(); i++){
+            contains = false;
+            JSONObject route = loadedRoutes.getJSONObject(i);
+            String id = route.get("id").toString();
+            for(Record record: list){
+                if(String.valueOf(record.getRouteID()).equals(id)){
+                    if(record.getDayOfWeek() == DayOfWeek.fromValue(DateTime.now().getDayOfWeek())) {
+                        contains = true;
+                        break;
+                    }
+                }
+            }
+            if(!contains){
+                return false;
+            }
+        }
+        return true;
     }
 
 }

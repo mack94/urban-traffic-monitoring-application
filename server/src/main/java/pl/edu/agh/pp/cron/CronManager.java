@@ -30,15 +30,25 @@ public class CronManager {
             ContextLoader contextLoader = new ContextLoader();
             RoutesLoader routesLoader = RoutesLoader.getInstance();
             JSONArray loadedRoutes = routesLoader.loadJSON();
+            int loadedRoutesAmount = loadedRoutes.length();
+            if(loadedRoutesAmount == 0){
+                logger.error("File routes.json doesn't contain any routes, please fill the file with appropriate values");
+                return;
+            }
             context = contextLoader.geoApiContextLoader();
             DetectorManager detectorManager = new DetectorManager(server, logFile);
+            if(!detectorManager.areAllRoutesIncluded(loadedRoutes)){
+                logger.error("Supplied historical data does not coincide with chosen routes. Check your Routes.json " +
+                        "file and data in logs directory");
+                return;
+            }
             Timer timer = Timer.getInstance();
             RequestsExecutor requestsExecutor = new RequestsExecutor(detectorManager);
             AnomalyRepeater anomalyRepeater = new AnomalyRepeater(requestsExecutor, loadedRoutes, context);
             anomalyRepeater.start();
 
             while (true) {
-                int loadedRoutesAmount = loadedRoutes.length();
+//                int loadedRoutesAmount = loadedRoutes.length();
 
                 for (int i = 0; i < loadedRoutesAmount; i++) {
                     JSONObject route = loadedRoutes.getJSONObject(i);

@@ -73,11 +73,17 @@ public class Main {
             }
 
             Thread.sleep(10000);
-            new CronManager(server).doSomething(args[1]);
+            if(args.length>1)
+                new CronManager(server).doSomething(args[1]);
+            else
+                new CronManager(server).doSomething("");
         } else {
             Server server = new Server();
             //new DetectorManager(server, args[1]).displayAnomaliesForRoute(1);
-            new DetectorManager(server, Arrays.copyOfRange(args, 1, args.length)).displayAnomaliesForFile();
+            if(args.length>1)
+                new DetectorManager(server, Arrays.copyOfRange(args, 1, args.length)).displayAnomaliesForFile();
+            else
+                logger.error("Run: 'java -jar server.jar off path_to_logs'");
         }
     }
 }
