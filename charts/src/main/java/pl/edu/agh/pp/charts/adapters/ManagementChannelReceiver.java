@@ -143,7 +143,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         client.stop();
         running = false;
         Util.close(in);
-        Connector.connectionLost("https://scontent-fra3-1.xx.fbcdn.net/v/t1.0-9/14632931_1786457691626264_4938219509567281520_n.jpg?oh=e6bbac12573f62884b98a6ab077ce56b&oe=588D7696");
+        Connector.connectionLost(reason);
         logger.info(String.format("ManagementChannelReceiver :: Connection to %s closed: %s", conn.peerAddress(), reason));
         System.out.println("System status:" + this.isConnected());
         // Clear routes file

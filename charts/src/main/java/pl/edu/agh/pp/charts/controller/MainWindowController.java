@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -141,13 +142,12 @@ public class MainWindowController {
             hideBox.managedProperty().bind(hideBox.visibleProperty());
             primaryStage.show();
         } catch (java.io.IOException e) {
-            e.printStackTrace();
+            logger.error("exception while creating GUI " + e,e);
         }
     }
 
     public void setConnectedFlag(){
         this.connectedFlag = Connector.isConnectedToTheServer();
-        setConnectedState();
     }
     public void setScene(){
         primaryStage.setScene(scene);
@@ -257,6 +257,17 @@ public class MainWindowController {
         }
     }
 
+    public void setConnectedLabel(String msg, Color color){
+        Platform.runLater(() -> {
+            connectedLabel.setText(msg);
+            connectedLabel.setTextFill(Color.BLACK);
+        });
+    }
+
+    public void setConnectedLabel(String msg){
+        setConnectedLabel(msg,Color.BLACK);
+    }
+
     private void setConnectedState(){
         if(connectedFlag){
             Platform.runLater(() -> {
@@ -279,6 +290,41 @@ public class MainWindowController {
     private String formatDate(DateTime date){
         DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd hh:mm:ss");
         return dtf.print(date);
+    }
+
+    public void reconnecting(){
+        Connector.setIsFromConnecting(true);
+        try {
+            setConnectedLabel("Disconnected! Trying to reconnect",Color.RED);
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        int i = 0;
+                        while (i<3) {
+                            setConnectedLabel("Disconnected! Trying to reconnect",Color.RED);
+                            Connector.connect(Connector.getAddress(), Connector.getPort());
+                            System.out.println("proba nr: " + i);
+                            Thread.sleep(5000);
+                            i++;
+                        }
+                        System.out.println("nope");
+                        connectedFlag = Connector.isConnectedToTheServer();
+                        setConnectedState();
+                        Connector.getOptionsServerInfo();
+                        Connector.setIsFromConnecting(false);
+                    } catch (InterruptedException e) {
+                        logger.error("Interrupted exception");
+                    }
+                    return null;
+                }
+            };
+
+            new Thread(sleeper).start();
+
+        } catch (Exception e) {
+            logger.error("Connecting error " + e, e);
+        }
     }
 
 
@@ -309,11 +355,10 @@ public class MainWindowController {
         connectButton.setDefaultButton(true);
         setMapUp();
         try {
-            System.out.println((String) Options.getInstance().getPreference("Server_Address", String.class));
             serverAddrTxtField.setText((String) options.getPreference("Server_Address", String.class));
             serverPortTxtField.setText((String) options.getPreference("Server_Port", String.class));
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-            illegalPreferenceObjectExpected.printStackTrace();
+            logger.error("Options exception " + illegalPreferenceObjectExpected,illegalPreferenceObjectExpected);
         }
     }
 
@@ -330,7 +375,8 @@ public class MainWindowController {
 
     @FXML
     private void handleConnectAction(ActionEvent e) {
-
+        Connector.setIsFromConnecting(true);
+        setConnectedLabel("connecting");
         try {
             String address = serverAddrTxtField.getText();
             if(!Pattern.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}",address)){
@@ -351,14 +397,27 @@ public class MainWindowController {
                 serverPortTxtField.setStyle("-fx-text-box-border: black;");
             }
             Connector.connect(address, port);
-            connectedFlag = Connector.isConnectedToTheServer();
-            if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
-            else putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
-            setConnectedState();
-            Connector.getOptionsServerInfo();
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        Thread.sleep(5000);
+                        connectedFlag = Connector.isConnectedToTheServer();
+                        if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
+                        else putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
+                        setConnectedState();
+                        Connector.getOptionsServerInfo();
+                        Connector.setIsFromConnecting(false);
+                    } catch (InterruptedException e) {
+                        logger.error("Interrupted exception");
+                    }
+                    return null;
+                }
+            };
+            new Thread(sleeper).start();
+
         } catch (Exception e1) {
-            logger.error("Connecting error");
-            e1.printStackTrace();
+            logger.error("Connecting error " + e1, e1);
         }
 
     }

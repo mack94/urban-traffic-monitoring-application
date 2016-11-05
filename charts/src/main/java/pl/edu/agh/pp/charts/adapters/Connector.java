@@ -1,7 +1,6 @@
 package pl.edu.agh.pp.charts.adapters;
 
 import javafx.scene.paint.Color;
-import org.jgroups.blocks.cs.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
@@ -27,6 +26,7 @@ public class Connector {
     private static MainWindowController mainWindowController;
     private final static AnomalyManager anomalyManager = AnomalyManager.getInstance();
     private static double leverValue = 0.0;
+    private static boolean isFromConnecting = false;
 
     public static void setMainWindowController(MainWindowController mwc){
         mainWindowController = mwc;
@@ -34,6 +34,10 @@ public class Connector {
 
     public static void onMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
         anomalyManager.addAnomaly(anomalyMessage);
+    }
+
+    public static void setIsFromConnecting(boolean is){
+        isFromConnecting = is;
     }
     public static void connect(String addr, String prt) throws Exception {
         address = addr;
@@ -51,12 +55,14 @@ public class Connector {
         managementClient.start(server_addr, server_port - 1, nio);
         client = new ChannelReceiver();
         client.start(server_addr, server_port, nio);
+    }
 
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            logger.error("Connector: Sleeping thread error: " + e);
-        }
+    public static String getAddress(){
+        return address;
+    }
+
+    public static String getPort(){
+        return port;
     }
 
     public static void disconnect() {
@@ -110,7 +116,7 @@ public class Connector {
             byte[] toSend = managementMessage.toByteArray();
             managementClient.sendMessage(toSend, 0, toSend.length);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception while demanding baseline " + e,e);
         }
     }
 
@@ -122,6 +128,9 @@ public class Connector {
             }
             mainWindowController.setConnectedFlag();
             mainWindowController.putSystemMessageOnScreen(message, Color.RED);
+            System.out.println("message: " + additionalInfo);
+            if(!isFromConnecting)
+                mainWindowController.reconnecting();
         }
     }
 }
