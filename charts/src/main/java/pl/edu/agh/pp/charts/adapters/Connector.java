@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.charts.adapters;
 
 import javafx.scene.paint.Color;
+import org.jgroups.blocks.cs.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
@@ -10,6 +11,7 @@ import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.ServerOptions;
 
 import java.net.InetAddress;
+import java.time.DayOfWeek;
 import java.util.Properties;
 
 /**
@@ -92,6 +94,24 @@ public class Connector {
         serverOptions.setShift(String.valueOf(shift));
         serverOptions.setAnomalyPortNr(String.valueOf(anomalyMessagesPort));
         mainWindowController.updateServerInfo(serverOptions);
+    }
+
+    public static void demandBaseline(DayOfWeek dayOfWeek, int routeID) {
+        AnomalyOperationProtos.DemandBaselineMessage demandBaselineMessage = AnomalyOperationProtos.DemandBaselineMessage.newBuilder()
+                .setDay(AnomalyOperationProtos.DemandBaselineMessage.Day.forNumber(dayOfWeek.getValue()))
+                .setRouteIdx(routeID)
+                .build();
+
+        AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                .setDemandBaselineMessage(demandBaselineMessage)
+                .build();
+
+        try {
+            byte[] toSend = managementMessage.toByteArray();
+            managementClient.sendMessage(toSend, 0, toSend.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void connectionLost(String additionalInfo) {

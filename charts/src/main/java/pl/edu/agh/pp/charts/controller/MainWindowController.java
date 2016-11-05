@@ -34,8 +34,10 @@ import pl.edu.agh.pp.charts.input.Input;
 import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.ServerOptions;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
+import pl.edu.agh.pp.charts.system.SystemRoutesInfo;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -204,6 +206,9 @@ public class MainWindowController {
     public void putAnomalyOnMap(String screenMessage) {
         Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
         System.out.println(anomaly.getRoute());
+        System.out.println(SystemRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId())));
+        System.out.println(SystemRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId())));
+        Connector.demandBaseline(DayOfWeek.of(DateTime.now().getDayOfWeek()), Integer.parseInt(anomaly.getRouteId()));
         //TODO execution line below with route coordinates, map should then mark both points and center route start
         // //webEngine.loadContent(htmlBuilder.loadMapStructure(startLat, startLng, endLat, endLng));
     }

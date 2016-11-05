@@ -9,6 +9,9 @@ import pl.edu.agh.pp.charts.controller.MainWindowController;
 import pl.edu.agh.pp.charts.input.AnomalyManager;
 import pl.edu.agh.pp.charts.settings.IOptions;
 import pl.edu.agh.pp.charts.settings.Options;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.prefs.BackingStoreException;
 
@@ -21,8 +24,15 @@ public class Main extends Application {
 
     public static void main(String... args) {
         try {
+            // Initialize options
             IOptions options = Options.getInstance();
             options.initialize();
+
+            // Initialize routes file
+            File file = new File("./routes.json");
+            FileWriter fileWriter = new FileWriter(file, false);
+            fileWriter.close();
+
         } catch (BackingStoreException e) {
             logger.error("Main (Charts): BackingStoreException while Options initialization: " + e);
         } catch (IOException e) {
@@ -33,6 +43,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // TODO: Na wczesnym etapie, powinnismy miec juz np. zaladowane/przygotowane trasy do routes.json (z SystemGeneralMessage)
         primaryStage.setWidth(1500);
         primaryStage.setHeight(900);
         primaryStage.setMaximized(true);
