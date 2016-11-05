@@ -39,7 +39,6 @@ import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.charts.system.SystemRoutesInfo;
 
 import java.io.IOException;
-import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -179,12 +178,19 @@ public class MainWindowController {
                 if (lineChart.getData() != null) {
                     lineChart.getData().clear();
                 }
+                lineChart.setStyle(".default-color0.chart-series-line { -fx-stroke: red; }");
+                lineChart.setStyle(".default-color1.chart-series-line { -fx-stroke: blue; }");
                 XYChart.Series<Number, Number> series = anomalyManager.getChartData(anomaly);
+                XYChart.Series<Number, Number> baseline = anomalyManager.getBaseline(anomaly);
                 lineChart.getData().add(series);
+                if(baseline != null) {
+                    lineChart.getData().add(baseline);
+                }
                 createTooltips();
             }
         } );
     }
+
     private void createTooltips() {
         for (XYChart.Series<Number, Number> s : lineChart.getData()) {
             for (XYChart.Data<Number, Number> d : s.getData()) {
@@ -206,7 +212,6 @@ public class MainWindowController {
 
     public void putAnomalyOnMap(String screenMessage) {
         Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
-        Connector.demandBaseline(DayOfWeek.of(DateTime.now().getDayOfWeek()), Integer.parseInt(anomaly.getRouteId()));
         //TODO execution line below with route coordinates, map should then mark both points and center route start
         String startCoord = SystemRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId()));
         String endCoord = SystemRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId()));

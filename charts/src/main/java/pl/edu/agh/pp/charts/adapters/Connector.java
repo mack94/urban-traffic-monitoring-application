@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
 import pl.edu.agh.pp.charts.input.AnomalyManager;
+import pl.edu.agh.pp.charts.input.BaselineManager;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.ServerOptions;
@@ -105,7 +106,7 @@ public class Connector {
 
     public static void updateBaseline(Integer routeID, AnomalyOperationProtos.BaselineMessage.Day day, Map<Integer, Integer> baseline) {
         // TODO: Dawid
-//        mainWindowController.updateBaseline();
+        BaselineManager.addBaseline(routeID, DayOfWeek.valueOf(String.valueOf(day)), baseline);
     }
 
     public static void demandBaseline(DayOfWeek dayOfWeek, int routeID) {

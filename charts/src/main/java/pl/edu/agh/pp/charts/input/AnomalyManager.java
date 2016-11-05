@@ -3,11 +3,13 @@ package pl.edu.agh.pp.charts.input;
 import ch.qos.logback.classic.Logger;
 import javafx.scene.chart.XYChart;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +50,7 @@ public class AnomalyManager {
         }
         else{
             anomaly = new Anomaly(anomalyMessage);
+            Connector.demandBaseline(DayOfWeek.of(Integer.parseInt(anomaly.getDayOfWeek())),Integer.parseInt(anomaly.getRouteId()));
             anomalyList.add(anomaly);
             if(mainWindowController != null) mainWindowController.addAnomalyToList(anomaly.getScreenMessage());
         }
@@ -121,5 +124,9 @@ public class AnomalyManager {
         XYChart.Series<Number, Number> series = anomaly.getChartSeries();
         if(series == null) buildChart(anomaly);
         return anomaly.getChartSeries();
+    }
+
+    public XYChart.Series<Number, Number> getBaseline(Anomaly anomaly){
+        return anomaly.getBaselineSeries();
     }
 }
