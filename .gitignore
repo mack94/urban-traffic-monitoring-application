@@ -13,10 +13,11 @@ gradle/
 .gradle/
 out/
 jcom/
-detector — kopia/
-detector — kopia (2)/
-detector — kopia (3)/
+detector ï¿½ kopia/
+detector ï¿½ kopia (2)/
+detector ï¿½ kopia (3)/
 comj/
-*.log
+*.info
+*.ser
 *.zip
 logs_16-06-15/
