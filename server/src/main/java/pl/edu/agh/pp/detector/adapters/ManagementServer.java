@@ -30,7 +30,6 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * Created by Maciej on 30.10.2016.
@@ -229,6 +228,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         AnomalyOperationProtos.BaselineMessage baselineMessage = AnomalyOperationProtos.BaselineMessage.newBuilder()
                 .setRouteIdx(routeID)
                 .putAllBaseline(baselineMap)
+                .setDay(AnomalyOperationProtos.BaselineMessage.Day.forNumber(DateTime.now().getDayOfWeek()-2))
                 .build();
 
         AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
