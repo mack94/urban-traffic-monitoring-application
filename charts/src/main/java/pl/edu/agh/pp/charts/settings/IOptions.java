@@ -77,16 +77,21 @@ public interface IOptions {
     /**
      * Method that allows to remove user preference.
      *
-     * @param key Put here the Preference key to be removed.
+     * @param key                       Put here the Preference key to be removed.
+     * @param objectClassToBeRemoved    Put the object's class to specify value type to be deleted. For instance
+     *                                  you may need to delete, from registry, the preference with name: key value: boolean
+     *                                  Then you call the method like example: .getPreference("Key", Boolean.class);
+     *                                  (One key preference may assign to many preferences in different type)
      * @return The result of removing preference (Success(=True) or an error(=False))
      * @see java.util.prefs.Preferences
      * @see Configuration
      * @see Options
      */
-    boolean removePreferences(String key) throws IllegalPreferenceObjectExpected;
+    boolean removePreferences(String key, Class objectClassToBeRemoved) throws IllegalPreferenceObjectExpected;
 
     /**
-     * Method that returns bytes array with all the preferences stored as a bytes array.
+     * Method that returns bytes array with all the preferences saved as a bytes array.
+     * Usage requires prior use of setBytesPreferences method.
      * <br>
      * **HowTo**: Short tutorial how to read the bytes array from preferences
      * <pre>
@@ -119,6 +124,7 @@ public interface IOptions {
 
     /**
      * Method that returns the name of the key in a group of bytes options which has true value.
+     * Group of bytes options which is identified by key parameter should be added as Map<String, Boolean>.
      *
      * @param key Is the key to the group of options in preferences which true value key need to be returned.
      * @return String with the Key of operation i byte array which has (in group) first true value. If no one value in group
@@ -141,5 +147,7 @@ public interface IOptions {
      * @see Configuration
      */
     boolean setOnlyTruePreferenceInPreferencesGroup(String group, String key);
+
+    public ServerOptions getServerOptions();
 }
 

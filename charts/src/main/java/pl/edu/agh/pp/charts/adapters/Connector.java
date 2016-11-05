@@ -4,7 +4,10 @@ import javafx.scene.paint.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
+import pl.edu.agh.pp.charts.input.AnomalyManager;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.charts.settings.Options;
+import pl.edu.agh.pp.charts.settings.ServerOptions;
 
 import java.net.InetAddress;
 import java.util.Properties;
@@ -15,23 +18,20 @@ import java.util.Properties;
 public class Connector {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(Connector.class);
-    private static MainWindowController controller = null;
     private static String address;
     private static String port;
+    private static ManagementChannelReceiver managementClient;
     private static ChannelReceiver client;
+    private static MainWindowController mainWindowController;
+    private final static AnomalyManager anomalyManager = AnomalyManager.getInstance();
+    private static double leverValue = 0.0;
 
-    public static void setController(MainWindowController mainWindowController) {
-        controller = mainWindowController;
+    public static void setMainWindowController(MainWindowController mwc){
+        mainWindowController = mwc;
     }
 
-    public static void onAnomalyMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
-        if (controller != null) {
-            int id = anomalyMessage.getRouteIdx();
-            String message = anomalyMessage.getMessage() + " _ " + anomalyMessage.getAnomalyID() + " _ " + " _ date: " + anomalyMessage.getDate();
-            int duration = anomalyMessage.getDuration();
-            Color color = Color.CRIMSON;
-            controller.putAnomalyMessageOnScreen(id, message, anomalyMessage.getDate(), duration, color);
-        }
+    public static void onMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
+        anomalyManager.addAnomaly(anomalyMessage);
     }
 
     public static void onExpirationMessageMessage(AnomalyOperationProtos.ExpirationMessage expirationMessage)
@@ -55,14 +55,21 @@ public class Connector {
         boolean nio = true;
 
         Properties properties = System.getProperties();
-        properties.setProperty("jgroups.bind_addr", server_addr.toString());
+        properties.setProperty("jgroups.addr", server_addr.toString());
 
+        managementClient = new ManagementChannelReceiver();
+        managementClient.start(server_addr, server_port - 1, nio);
         client = new ChannelReceiver();
         client.start(server_addr, server_port, nio);
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            logger.error("Connector: Sleeping thread error: " + e);
+        }
     }
 
-    public static void disconnect(){
-        //TODO implement disconnecting from server
+    public static void disconnect() {
         client.disconnect();
     }
 
@@ -70,13 +77,8 @@ public class Connector {
         return address + ":" + port;
     }
 
-    public static void onLeverChange(String value){
-        //TODO implement settings
-        logger.info("Chnging lever to: " + value);
-    }
-
     public static boolean isConnectedToTheServer() {
-        return client.isConnected();
+        return client != null && client.isConnected();
     }
 
     public static void killAll(){
@@ -84,4 +86,34 @@ public class Connector {
             client.killConnectionThread();
     }
 
+    public static void getOptionsServerInfo(){
+        //TODO send message to server asking for options
+        if(isConnectedToTheServer()){
+
+        }
+    }
+
+    public static void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort){
+        //TODO use this method after receiving options info from server
+        // FIXME: In my opinion it should be moved into the SystemGeneralInfo class, and here only the getServerOptions should be called.
+        // FIXME: But I obediently filled the form. ~Maciek
+        ServerOptions serverOptions = Options.getInstance().getServerOptions();
+        serverOptions.setLeverValue(String.valueOf(leverValue));
+        serverOptions.setAnomalyLiveTime(String.valueOf(anomalyLiveTime));
+        serverOptions.setBaselineWindowSize(String.valueOf(baselineWindowSize));
+        serverOptions.setShift(String.valueOf(shift));
+        serverOptions.setAnomalyPortNr(String.valueOf(anomalyMessagesPort));
+        mainWindowController.updateServerInfo(serverOptions);
+    }
+
+    public static void connectionLost(String additionalInfo) {
+        if(mainWindowController != null){
+            String message = null;
+            if(additionalInfo != null){
+                message = additionalInfo;
+            }
+            mainWindowController.setConnectedFlag();
+            mainWindowController.putSystemMessageOnScreen(message, Color.RED);
+        }
+    }
 }

@@ -135,8 +135,15 @@ public class Configuration {
             throw new IllegalPreferenceObjectExpected();
     }
 
-    protected void removePreference(String key) {
-        preferences.remove(key);
+    protected void removePreference(String key, Class objectClassToBeDeleted) throws IllegalPreferenceObjectExpected {
+        final Class<?> objectClass = objectClassToBeDeleted;
+        String keyToGetPreference = String.format("%s %s", objectClassToBeDeleted.getSimpleName(), key);
+
+        if (objectClass.isAssignableFrom(Boolean.class) || objectClass.isAssignableFrom(String.class) ||
+                objectClass.isAssignableFrom(Integer.class) || objectClass.isAssignableFrom(byte[].class))
+            preferences.remove(keyToGetPreference);
+        else
+            throw new IllegalPreferenceObjectExpected();
     }
 
     private void setPreference(String optionName, Object value) {

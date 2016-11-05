@@ -2,56 +2,69 @@ package pl.edu.agh.pp.charts.controller;
 
 import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
+import pl.edu.agh.pp.charts.input.Anomaly;
+import pl.edu.agh.pp.charts.input.AnomalyManager;
 import pl.edu.agh.pp.charts.input.Input;
+import pl.edu.agh.pp.charts.settings.Options;
+import pl.edu.agh.pp.charts.settings.ServerOptions;
+import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
+import pl.edu.agh.pp.charts.system.SystemRoutesInfo;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 /**
  * Created by Dawid on 2016-09-05.
  */
 public class MainWindowController {
+
+    private ObservableList<String> anomaliesList = FXCollections.observableArrayList();
     private Stage primaryStage = null;
+    private Scene scene = null;
     private Input input;
     private ChartsController chartsController = null;
     private boolean connectedFlag = false;
+    private WebEngine webEngine;
+    private HtmlBuilder htmlBuilder;
     private final Logger logger = (Logger) LoggerFactory.getLogger(MainWindowController.class);
+    private final AnomalyManager anomalyManager = AnomalyManager.getInstance();
+    private final Options options = Options.getInstance();
 
     @FXML
-    private LineChart<Number, Number> lineChart;
+    private volatile LineChart<Number, Number> lineChart;
+    @FXML
+    private WebView mapWebView;
     @FXML
     private Button chartsButton;
     @FXML
-    private TextFlow anomaliesTextFlow;
-    @FXML
-    private Slider leverSld;
-    @FXML
-    private Label changeLeverTo;
-    @FXML
     private Label currentLeverOnServer;
-    @FXML
-    private Button sendSettingsButton;
     @FXML
     private Label connectedLabel;
     @FXML
@@ -62,13 +75,49 @@ public class MainWindowController {
     private Button connectButton;
     @FXML
     private Button disconnectButton;
-
+    @FXML
+    private ListView<String> anomaliesListView;
+    @FXML
+    private Label anomalyIdLabel;
+    @FXML
+    private Label startDateLabel;
+    @FXML
+    private Label lastDateLabel;
+    @FXML
+    private Label routeIdLabel;
+    @FXML
+    private Label routeDescLabel;
+    @FXML
+    private Button saveDefaultButton;
+    @FXML
+    private Label recentDuration;
+    @FXML
+    private TextFlow systemMsgTextFlow;
+    @FXML
+    private Tab systemTab;
+    @FXML
+    private TabPane tabPane;
+    @FXML
+    private Label leverValueLabel;
+    @FXML
+    private Label anomalyLiveTimeLabel;
+    @FXML
+    private Label BaselineWindowSizeLabel;
+    @FXML
+    private Label shiftLabel;
+    @FXML
+    private Label anomalyPortNrLabel;
+    @FXML
+    private Label anomaliesNumberLabel;
+    @FXML
+    private Button hideButton;
+    @FXML
+    private VBox hideBox;
 
 
     public MainWindowController(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
-
     public void show() {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -77,28 +126,89 @@ public class MainWindowController {
             BorderPane rootLayout = loader.load();
 
             primaryStage.setTitle("Urban traffic monitoring - charts");
-            Scene scene = new Scene(rootLayout);
+            scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             primaryStage.setScene(scene);
-            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    Connector.killAll();
-                    Platform.exit();
-                }
+            primaryStage.setOnCloseRequest(we -> {
+                Connector.killAll();
+                Platform.exit();
             });
 
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+//            hidePane.managedProperty().bind(hidePane.visibleProperty());
+            hideBox.managedProperty().bind(hideBox.visibleProperty());
             primaryStage.show();
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void putAnomalyMessageOnScreen(int id, String message, String date, int duration, Color color) {
-        Text text1 = new Text(id + ": " + date + "; duration = " + duration + "; " + message + "\n");
-        text1.setFill(color);
-        text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
-        putMessageOnScreen(text1);
+    public void setConnectedFlag(){
+        this.connectedFlag = Connector.isConnectedToTheServer();
+        setConnectedState();
+    }
+    public void setScene(){
+        primaryStage.setScene(scene);
+    }
+    public void updateAnomalyInfo(String screenId){
+        if(anomaliesListView.getSelectionModel().getSelectedItem().equalsIgnoreCase(screenId)) {
+            putAnomalyInfoOnScreen(screenId);
+        }
+    }
+
+    public void putAnomalyInfoOnScreen(String screenMessage) {
+        Anomaly anomaly = anomalyManager.getAnomalyByScreenId(screenMessage);
+        Platform.runLater(() -> {
+            anomalyIdLabel.setText(anomaly.getAnomalyId());
+            startDateLabel.setText(anomaly.getStartDate());
+            lastDateLabel.setText(anomaly.getLastDate());
+            routeIdLabel.setText(anomaly.getRouteId());
+            routeDescLabel.setText(anomaly.getRoute());
+            recentDuration.setText(anomaly.getDuration());
+            anomaliesNumberLabel.setText(anomaly.getAnomaliesNumber());
+        } );
+        putChartOnScreen(anomaly);
+    }
+
+    private void putChartOnScreen(Anomaly anomaly){
+        //TODO thread safe
+        Platform.runLater(() -> {
+            if(lineChart != null) {
+                if (lineChart.getData() != null) {
+                    lineChart.getData().clear();
+                }
+                XYChart.Series<Number, Number> series = anomalyManager.getChartData(anomaly);
+                lineChart.getData().add(series);
+                createTooltips();
+            }
+        } );
+    }
+    private void createTooltips() {
+        for (XYChart.Series<Number, Number> s : lineChart.getData()) {
+            for (XYChart.Data<Number, Number> d : s.getData()) {
+                double num = (double) d.getXValue();
+                long iPart;
+                double fPart;
+                iPart = (long) num;
+                fPart = num - iPart;
+                Tooltip.install(d.getNode(), new Tooltip("Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuration: " + d.getYValue().toString() + " seconds"));
+
+                //Adding class on hover
+                d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
+
+                //Removing class on exit
+                d.getNode().setOnMouseExited(event -> d.getNode().getStyleClass().remove("onHover"));
+            }
+        }
+    }
+
+    public void putAnomalyOnMap(String screenMessage) {
+        Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
+        System.out.println(anomaly.getRoute());
+        System.out.println(SystemRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId())));
+        System.out.println(SystemRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId())));
+        //TODO execution line below with route coordinates, map should then mark both points and center route start
+        // //webEngine.loadContent(htmlBuilder.loadMapStructure(startLat, startLng, endLat, endLng));
     }
 
     public void putSystemMessageOnScreen(String message) {
@@ -112,60 +222,54 @@ public class MainWindowController {
     public void putSystemMessageOnScreen(String message, DateTime dateTime, Color color) {
         Text text1 = new Text(formatDate(dateTime) + "  " +message + "\n");
         text1.setFill(color);
-        text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
-        initSlider();
-        putMessageOnScreen(text1);
-    }
-
-    private void putMessageOnScreen(Text text){
-        Platform.runLater(() -> {
-            anomaliesTextFlow.getChildren().add(0, text);
-        } );
-
-    }
-
-    private String getLeverServerInfo(){
-        //TODO keeping server info in Connector?
-        return "10";
-    }
-
-    public void LeverChangedOnServer(String value){
-        //TODO use after lever value changed on server
-        currentLeverOnServer.setText(value);
-    }
-
-    private void initSlider() {
-        int maxValue = 40;
-        int minValue = 1;
-        leverSld.setMajorTickUnit(2);
-        leverSld.setMinorTickCount(1);
-        leverSld.setSnapToTicks(true);
-        leverSld.setMin(minValue);
-        leverSld.setMax(maxValue);
-        DecimalFormat df = new java.text.DecimalFormat();
-        df.setMaximumFractionDigits(1);
-        leverSld.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-                Double value = leverSld.getValue();
-                changeLeverTo.setText(String.valueOf(value.intValue()));
+        if(color == Color.RED) {
+            Label lab = (Label)tabPane.getSelectionModel().getSelectedItem().getGraphic();
+            if(lab == null || !lab.getText().equalsIgnoreCase("System info")){
+                systemTab.getGraphic().setStyle("-fx-text-fill: red;");
             }
-        });
+        }
+        text1.setFont(Font.font("Helvetica", FontPosture.REGULAR, 16));
+        Platform.runLater(() -> {
+            systemMsgTextFlow.getChildren().add(0,new Text(" "));
+            systemMsgTextFlow.getChildren().add(0,text1);
+        } );
+    }
+
+    public void addAnomalyToList(String text){
+        Platform.runLater(() -> {
+            anomaliesListView.getItems().add(0,text);
+        } );
+    }
+
+    public void removeAnomalyFromList(String screenMessage) {
+        if(screenMessage == null){
+            logger.error("No screen message");
+            return;
+        }
+        if (anomaliesList.contains(screenMessage)){
+            anomaliesList.remove(screenMessage);
+        }
+        else{
+            logger.error("Trying to remove anomaly that doesn't exist");
+        }
     }
 
     private void setConnectedState(){
         if(connectedFlag){
-            connectedLabel.setText(Connector.getAddressServerInfo());
-            connectedLabel.setTextFill(Color.BLACK);
-            connectButton.setDisable(true);
-            disconnectButton.setDisable(false);
-            sendSettingsButton.setDisable(false);
+            Platform.runLater(() -> {
+                connectedLabel.setText(Connector.getAddressServerInfo());
+                connectedLabel.setTextFill(Color.BLACK);
+                connectButton.setDisable(true);
+                disconnectButton.setDisable(false);
+            });
         }
         else {
-            connectedLabel.setText("NOT CONNECTED");
-            connectedLabel.setTextFill(Color.RED);
-            connectButton.setDisable(false);
-            disconnectButton.setDisable(true);
-            sendSettingsButton.setDisable(true);
+            Platform.runLater(() -> {
+                connectedLabel.setText("NOT CONNECTED");
+                connectedLabel.setTextFill(Color.RED);
+                connectButton.setDisable(false);
+                disconnectButton.setDisable(true);
+            });
         }
     }
 
@@ -174,35 +278,55 @@ public class MainWindowController {
         return dtf.print(date);
     }
 
+
+    private void setMapUp() {
+        htmlBuilder = new HtmlBuilder();
+        webEngine = mapWebView.getEngine();
+        String defaultLat = "50.07";
+        String defaultLng = "19.94";
+        webEngine.loadContent(htmlBuilder.loadMapStructure(defaultLat, defaultLng, defaultLat, defaultLng));
+    }
+
+    public void updateServerInfo(ServerOptions options){
+        Platform.runLater(() -> {
+            leverValueLabel.setText(options.getLeverValue());
+            anomalyLiveTimeLabel.setText(options.getAnomalyLiveTime());
+            BaselineWindowSizeLabel.setText(options.getBaselineWindowSize());
+            shiftLabel.setText(options.getShift());
+            anomalyPortNrLabel.setText(options.getAnomalyPortNr());
+        } );
+    }
+
     @FXML
     private void initialize() throws IOException {
-        anomaliesTextFlow.setTextAlignment(TextAlignment.CENTER);
-        anomaliesTextFlow.setMaxHeight(150);
-        changeLeverTo.setText("1");
+        systemTab.setGraphic(new Label("System info"));
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
+        systemTab.getGraphic().setStyle("-fx-text-fill: black;");
         setConnectedState();
-        initSlider();
-        currentLeverOnServer.setText(getLeverServerInfo());
         connectButton.setDefaultButton(true);
+        setMapUp();
+        try {
+            System.out.println((String) Options.getInstance().getPreference("Server_Address", String.class));
+            serverAddrTxtField.setText((String) options.getPreference("Server_Address", String.class));
+            serverPortTxtField.setText((String) options.getPreference("Server_Port", String.class));
+        } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
+            illegalPreferenceObjectExpected.printStackTrace();
+        }
     }
 
     @FXML
     private void handleChartsButtonAction(ActionEvent e) {
         if (chartsController == null) {
             chartsController = new ChartsController(primaryStage, this);
+            chartsController.show();
         }
-        chartsController.show();
-    }
-
-    @FXML
-    private void handleTestButtonAction(ActionEvent e) {
-        putAnomalyMessageOnScreen(666, "Test anomaly", "A Date", 0, Color.BLACK);
+        else{
+            chartsController.setScene();
+        }
     }
 
     @FXML
     private void handleConnectAction(ActionEvent e) {
-        Connector connector = new Connector();
-        connector.setController(this);
 
         try {
             String address = serverAddrTxtField.getText();
@@ -215,7 +339,7 @@ public class MainWindowController {
                 serverAddrTxtField.setStyle("-fx-text-box-border: black;");
             }
             String port = serverPortTxtField.getText();
-            if(!Pattern.matches("\\d*",port)){
+            if(!Pattern.matches("\\d+",port)){
                 logger.error("Wrong server port pattern");
                 serverPortTxtField.setStyle("-fx-text-box-border: red;");
                 return;
@@ -223,14 +347,12 @@ public class MainWindowController {
             else{
                 serverPortTxtField.setStyle("-fx-text-box-border: black;");
             }
-            if(port.equals(""))
-                port = "7500";
-            connectedLabel.setText("Connecting...");
             Connector.connect(address, port);
             connectedFlag = Connector.isConnectedToTheServer();
-            if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo());
+            if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
+            else putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
             setConnectedState();
-//            putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
+            Connector.getOptionsServerInfo();
         } catch (Exception e1) {
             logger.error("Connecting error");
             e1.printStackTrace();
@@ -240,7 +362,6 @@ public class MainWindowController {
 
     @FXML
     private void handleDisconnectAction(ActionEvent e) {
-        connectedLabel.setText("Disconnecting...");
         Connector.disconnect();
         connectedFlag = Connector.isConnectedToTheServer();
         if(connectedFlag) putSystemMessageOnScreen("Failed to disconnect from " + Connector.getAddressServerInfo());
@@ -248,8 +369,35 @@ public class MainWindowController {
     }
 
     @FXML
-    private void handleOnLeverChanged(ActionEvent e) {
-        Connector.onLeverChange(changeLeverTo.getText());
+    private void handleAnomalyClicked(MouseEvent e) {
+        String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
+        if(selectedItem != null){
+            putAnomalyInfoOnScreen(selectedItem);
+            putAnomalyOnMap(selectedItem);
+        }
+    }
+    @FXML
+    private void handleSaveDefaultAction(ActionEvent e){
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("Server_Address",serverAddrTxtField.getText());
+        map.put("Server_Port",serverPortTxtField.getText());
+        Options.getInstance().setPreferences(map);
+    }
+    @FXML
+    private void handleTabChanged(){
+        Label lab = (Label)tabPane.getSelectionModel().getSelectedItem().getGraphic();
+        if(lab != null && lab.getText().equalsIgnoreCase("System info")){
+            lab.setStyle("-fx-text-fill: black;");
+        }
+    }
+    @FXML
+    private  void  handleHideAction(){
+        if(hideBox.isVisible()){
+            hideBox.setVisible(false);
+        }
+        else {
+            hideBox.setVisible(true);
+        }
     }
 }
 

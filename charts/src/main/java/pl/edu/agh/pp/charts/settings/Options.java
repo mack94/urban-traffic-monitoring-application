@@ -21,6 +21,8 @@ public class Options implements IOptions {
 
     private static Options instance = null;
 
+    private static ServerOptions serverOptions = null;
+
     private static Configuration configuration = new Configuration();
 
     private final Logger logger = (Logger) LoggerFactory.getLogger(Options.class);
@@ -64,8 +66,8 @@ public class Options implements IOptions {
     }
 
     @Override
-    public boolean removePreferences(String key) {
-        configuration.removePreference(key);
+    public boolean removePreferences(String key, Class objectClassToBeDeleted) throws IllegalPreferenceObjectExpected {
+        configuration.removePreference(key, objectClassToBeDeleted);
         return true;
     }
 
@@ -94,9 +96,10 @@ public class Options implements IOptions {
 
             HashMap<String, Boolean> values = readHash.get(key);
 
-            for (String value : values.keySet())
+            for (String value : values.keySet()) {
                 if (values.get(value))
                     return value;
+            }
 
         } catch (IOException | ClassNotFoundException e) {
             logger.error("Options.getFirstTruePreferenceFromPreferencesGroup(): Error while getting group of Preference: "
@@ -150,5 +153,13 @@ public class Options implements IOptions {
             logger.error(msg);
             return false;
         }
+    }
+
+    @Override
+    public ServerOptions getServerOptions() {
+        if(serverOptions == null){
+            serverOptions = new ServerOptions();
+        }
+        return serverOptions;
     }
 }

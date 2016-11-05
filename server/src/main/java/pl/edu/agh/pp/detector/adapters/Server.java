@@ -14,6 +14,10 @@ import org.jgroups.stack.IpAddress;
 import org.jgroups.util.Util;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 
+import java.net.InetAddress;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+
 /**
  * Created by Maciej on 11.09.2016.
  * 14:36
@@ -65,10 +69,23 @@ public class Server extends ReceiverAdapter implements Receiver
         try
         {
             server.send(null, buf);
-            System.out.println("GET FROM BUFF:");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
             AnomalyOperationProtos.AnomalyMessage msg = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf.array());
             System.out.println("Sent: " + msg);
+            // TODO: Could be removed i think.
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void send(byte[] buf) {
+        try {
+            server.send(null, buf, 0, buf.length);
+            AnomalyOperationProtos.AnomalyMessage msg = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf);
+        } catch (Exception e) {
         }
         catch (Exception e)
         {

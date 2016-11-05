@@ -5,9 +5,14 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
 import static org.junit.Assert.*;
 
@@ -24,6 +29,11 @@ public class OptionsTest {
     @Before
     public void setUp() throws Exception {
         options = Options.getInstance();
+        options.resetPreferences();
+    }
+
+    @After
+    public void tearDown() throws Exception {
         options.resetPreferences();
     }
 
@@ -136,8 +146,119 @@ public class OptionsTest {
         }
     }
 
-    @After
-    public void tearDown() throws Exception {
-        options.resetPreferences();
+    @Test
+    public void initialize() throws Exception, IllegalPreferenceObjectExpected {
+        options.initialize();
+
+        Field configurationField = options.getClass().getDeclaredField("configuration");
+        configurationField.setAccessible(true);
+        Object value = configurationField.get(options);
+        Configuration configuration = (Configuration) value;
+        Field preferencesField = configuration.getClass().getDeclaredField("preferences");
+        preferencesField.setAccessible(true);
+        value = preferencesField.get(configuration);
+        Preferences preferences = (Preferences) value;
+
+        assertTrue(preferences.getBoolean("UTMAClientInitialized", false));
     }
+
+    @Test
+    public void removePreferences() throws Exception, IllegalPreferenceObjectExpected {
+        HashMap<String, Object> newPreferences = new HashMap<>();
+        String[] keys = {"Key1", "Key2", "Key3", "Key4"};
+
+        newPreferences.put(keys[0], true);
+        newPreferences.put(keys[1], "Value2");
+        newPreferences.put(keys[2], 69);
+        byte[] preference4Value = {2, 3, 5};
+        newPreferences.put(keys[3], preference4Value);
+
+        options.setPreferences(newPreferences);
+        options.removePreferences(keys[0], Boolean.class);
+        assertEquals(false, options.getPreference(keys[0], Boolean.class));
+        options.removePreferences(keys[1], String.class);
+        assertEquals("",options.getPreference(keys[1], String.class));
+        options.removePreferences(keys[2], Integer.class);
+        assertEquals(0,options.getPreference(keys[2], Integer.class));
+        options.removePreferences(keys[3], preference4Value.getClass());
+        assertEquals(0,((byte[])options.getPreference(keys[3], preference4Value.getClass())).length);
+    }
+
+    @Test
+    public void BytesPreferences() throws IOException, ClassNotFoundException {
+        HashMap<String, Map<String, Object>> preferences = new HashMap<>();
+        HashMap<String, Object> newPreferences = new HashMap<>();
+        String[] keys = {"Key1", "Key2", "Key3", "Key4"};
+
+        newPreferences.put(keys[0], true);
+        newPreferences.put(keys[1], "Value2");
+        newPreferences.put(keys[2], 69);
+        byte[] preference4Value = {2, 3, 5};
+        newPreferences.put(keys[3], preference4Value);
+        preferences.put("Preference type", newPreferences);
+
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(byteOut);
+        out.writeObject(preferences);
+
+        options.setBytesPreferences(byteOut.toByteArray());
+        byte[] bytesPreferences = options.getBytesPreferences();
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytesPreferences);
+        ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+        Map<String, Map<String, Object>> readHash;
+        readHash = (Map<String, Map<String, Object>>) objectInputStream.readObject();
+
+        assertTrue(readHash.keySet().contains("Preference type"));
+        assertEquals(newPreferences.get(keys[0]), readHash.get("Preference type").get(keys[0]));
+        assertEquals(newPreferences.get(keys[1]), readHash.get("Preference type").get(keys[1]));
+        assertEquals(newPreferences.get(keys[2]), readHash.get("Preference type").get(keys[2]));
+        assertTrue(Arrays.equals((byte[])newPreferences.get(keys[3]), (byte[])readHash.get("Preference type").get(keys[3])));
+    }
+
+    @Test
+    public void getFirstTruePreferenceFromPreferencesGroup() throws IOException {
+        HashMap<String, Map<String, Boolean>> preferences = new HashMap<>();
+        HashMap<String, Boolean> newPreferences = new HashMap<>();
+        String[] keys = {"Key1", "Key2", "Key3", "Key4"};
+
+        newPreferences.put(keys[0], true);
+        newPreferences.put(keys[1], false);
+        newPreferences.put(keys[2], false);
+        newPreferences.put(keys[3], false);
+        preferences.put("Preference type", newPreferences);
+
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(byteOut);
+        out.writeObject(preferences);
+
+        options.setBytesPreferences(byteOut.toByteArray());
+        assertEquals(keys[0], options.getFirstTruePreferenceFromPreferencesGroup("Preference type"));
+    }
+
+    @Test
+    public void setOnlyTruePreferenceInPreferencesGroup() throws IOException {
+        HashMap<String, Map<String, Boolean>> preferences = new HashMap<>();
+        HashMap<String, Boolean> newPreferences = new HashMap<>();
+        String[] keys = {"Key1", "Key2", "Key3", "Key4"};
+
+        newPreferences.put(keys[0], true);
+        newPreferences.put(keys[1], false);
+        newPreferences.put(keys[2], false);
+        newPreferences.put(keys[3], false);
+        preferences.put("Preference type", newPreferences);
+
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(byteOut);
+        out.writeObject(preferences);
+
+        options.setBytesPreferences(byteOut.toByteArray());
+        assertTrue(options.setOnlyTruePreferenceInPreferencesGroup("Preference type",keys[3]));
+        assertEquals(keys[3], options.getFirstTruePreferenceFromPreferencesGroup("Preference type"));
+    }
+
+    @Test
+    public void getServerOptions() {
+        assertNotNull(options.getServerOptions());
+    }
+
 }

@@ -33,10 +33,16 @@ public class Route {
         this.id = id;
         this.distanceMatrix = distanceMatrix;
         this.directionsApi = directionsApi;
-        System.out.println("Directions API: " + directionsApi);
+//        System.out.println("Directions API: " + directionsApi.routes);
+        DirectionsRoute[] rs = directionsApi.routes;
+        System.out.println("ID: " + id);
+        for (DirectionsRoute r : rs) {
+            System.out.print(decodePolylinePath(r.overviewPolyline));
+        }
+        System.out.println("\n");
         jsonRoute = loadRouteInfo();
         if (jsonRoute != null) {
-            logger.error(jsonRoute.toString());
+//            logger.error(jsonRoute.toString());
         }
     }
 
@@ -70,7 +76,7 @@ public class Route {
 
             String waypoints = getWaypoints(routes);
             String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS").format(new Date());
-            System.out.println("---------------------------" + timeStamp);
+//            System.out.println("---------------------------" + timeStamp);
 
             return new JSONObject()
                     .put("timeStamp", timeStamp)
