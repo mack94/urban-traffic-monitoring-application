@@ -85,7 +85,6 @@ public class Server extends ReceiverAdapter implements Receiver
         try {
             server.send(null, buf, 0, buf.length);
             AnomalyOperationProtos.AnomalyMessage msg = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf);
-        } catch (Exception e) {
         }
         catch (Exception e)
         {
