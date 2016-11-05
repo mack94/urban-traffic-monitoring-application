@@ -10,8 +10,7 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.charts.system.SystemGeneralInfo;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.util.Arrays;
 
@@ -31,6 +30,11 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
     protected Thread listenerThread;
 
     public void start(InetAddress srv_addr, int srv_port, boolean nio) throws Exception {
+        // Initialize routes file
+        File file = new File("./routes.json");
+        FileWriter fileWriter = new FileWriter(file, false);
+        fileWriter.close();
+
         client = nio ?
                 new NioClient(null, 0, srv_addr, srv_port) :
                 new TcpClient(null, 0, srv_addr, srv_port);
@@ -106,11 +110,14 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
 
         try {
             AnomalyOperationProtos.ManagementMessage message = AnomalyOperationProtos.ManagementMessage.parseFrom(result_parsable);
-            //logger.info("\t Management Message parsing completed - success");
+            logger.info("\t Management Message parsing completed - success");
             AnomalyOperationProtos.ManagementMessage.Type messageType = message.getType();
             switch (messageType) {
                 case SYSTEMGENERALMESSAGE:
                     parseGeneralMessage(message);
+                    break;
+                case ROUTEMESSAGE:
+                    parseRouteMessage(message);
                     break;
                 case BASELINEMESSAGE:
                     System.out.println("BASELINEMESSAGE received");
@@ -138,6 +145,15 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         Connector.connectionLost("https://scontent-fra3-1.xx.fbcdn.net/v/t1.0-9/14632931_1786457691626264_4938219509567281520_n.jpg?oh=e6bbac12573f62884b98a6ab077ce56b&oe=588D7696");
         logger.info(String.format("ManagementChannelReceiver :: Connection to %s closed: %s", conn.peerAddress(), reason));
         System.out.println("System status:" + this.isConnected());
+        // Clear routes file
+        File file = new File("./routes.json");
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(file, false);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -162,8 +178,6 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             AnomalyOperationProtos.SystemGeneralMessage generalMessage = AnomalyOperationProtos.SystemGeneralMessage.parseFrom(message.getSystemGeneralMessage().toByteArray());
             String routes = generalMessage.getRoutes();
             double leverValue = generalMessage.getLeverValue();
-            System.out.println(routes);
-            System.out.println("Lever value: " + leverValue);
             SystemGeneralInfo.setSystemGeneralMessage(generalMessage);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
@@ -176,6 +190,15 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             double leverValue = leverMessage.getLeverValue();
 //            System.out.println("New lever value: " + leverValue);
             SystemGeneralInfo.setLeverValue(leverValue);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseRouteMessage(AnomalyOperationProtos.ManagementMessage message) {
+        try {
+            AnomalyOperationProtos.RouteMessage routeMessage = AnomalyOperationProtos.RouteMessage.parseFrom(message.getRouteMessage().toByteArray());
+            SystemGeneralInfo.addRoute(routeMessage);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }

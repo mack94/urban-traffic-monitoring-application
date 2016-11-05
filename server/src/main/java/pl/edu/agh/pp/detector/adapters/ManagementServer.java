@@ -11,6 +11,8 @@ import org.jgroups.jmx.JmxConfigurator;
 import org.jgroups.stack.IpAddress;
 import org.jgroups.util.ByteArrayDataInputStream;
 import org.jgroups.util.Util;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.utils.RoutesLoader;
@@ -77,6 +79,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
                 case BONJOURMESSAGE:
                     // TODO: Check the message
                     sendSystemGeneralMessage(sender);
+                    sendRoutesMessages(sender);
                     break;
                 case DEMANDBASELINEMESSAGE:
                     break;
@@ -117,7 +120,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
                 .setLeverValue(leverValue)
                 .setMessageIdx(messageID)
                 .setPort(anomaliesChannelPort)
-                .setRoutes(loadedRoutes)
+                .setRoutes("")
                 .setShift(shift)
                 .build();
 
@@ -133,28 +136,47 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-        while (true) {
-            AnomalyOperationProtos.LeverMessage leverMessage = AnomalyOperationProtos.LeverMessage.newBuilder()
-                    .setLeverValue(new Random().nextDouble())
-                    .build();
-            AnomalyOperationProtos.ManagementMessage managementMessage1 = AnomalyOperationProtos.ManagementMessage.newBuilder()
-                    .setLeverMessage(leverMessage)
-                    .setType(AnomalyOperationProtos.ManagementMessage.Type.LEVERMESSAGE)
-                    .build();
-            byte[] toSent = managementMessage1.toByteArray();
+    private void sendRoutesMessages(Address sender) {
+        RoutesLoader routesLoader = RoutesLoader.getInstance();
+        JSONArray loadedRoutes = null;
+        try {
+            loadedRoutes = routesLoader.loadJSON();
+            int loadedRoutesAmount = loadedRoutes.length();
 
+            for (int i = 0; i < loadedRoutesAmount; i++) {
+                JSONObject route = loadedRoutes.getJSONObject(i);
+                String destinations[] = new String[1];
+                String origins[] = new String[1];
+                String coords[] = new String[1];
+                String id = route.get("id").toString();
+                destinations[0] = route.get("destination").toString();
+                origins[0] = route.get("origin").toString();
+                coords[0] = route.get("coords").toString();
 
-            try {
-                server.send(destination, toSent, 0, toSent.length);
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+                AnomalyOperationProtos.RouteMessage routeMessage = AnomalyOperationProtos.RouteMessage.newBuilder()
+                        .setRouteID(Integer.parseInt(id))
+                        .setOrigin(origins[0])
+                        .setDestination(destinations[0])
+                        .setCoords(coords[0])
+                        .build();
+                AnomalyOperationProtos.ManagementMessage msg = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                        .setType(AnomalyOperationProtos.ManagementMessage.Type.ROUTEMESSAGE)
+                        .setRouteMessage(routeMessage)
+                        .build();
+
+                byte[] toSend = msg.toByteArray();
+                Thread.sleep(250);
+                server.send(sender, toSend, 0, toSend.length);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 
     public void sendLeverInfoMessage(Address destination) {
 
