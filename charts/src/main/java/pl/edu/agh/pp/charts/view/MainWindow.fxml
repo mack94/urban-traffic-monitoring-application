@@ -102,7 +102,7 @@
                 <Label text="    Start date" />
             </HBox>
             <HBox>
-                <ListView fx:id="anomaliesListView" prefWidth="200.0" prefHeight="250" onMouseClicked="#handleAnomalyClicked" onKeyPressed="#handleAnomalyPressed"/>
+                <ListView fx:id="anomaliesListView" prefWidth="200.0" prefHeight="250" onMouseClicked="#handleAnomalyClicked" onKeyReleased="#handleAnomalyPressed"/>
                 <GridPane>
                     <padding>
                         <Insets bottom="10" left="10" right="10" top="10"/>
