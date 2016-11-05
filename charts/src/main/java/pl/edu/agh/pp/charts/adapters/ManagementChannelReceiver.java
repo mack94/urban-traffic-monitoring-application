@@ -13,6 +13,7 @@ import pl.edu.agh.pp.charts.system.SystemGeneralInfo;
 import java.io.*;
 import java.net.InetAddress;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Created by Maciej on 30.10.2016.
@@ -120,7 +121,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                     parseRouteMessage(message);
                     break;
                 case BASELINEMESSAGE:
-                    System.out.println("BASELINEMESSAGE received");
+                    parseBaselineMessage(message);
                     break;
                 case LEVERMESSAGE:
                     parseLeverMessage(message);
@@ -204,10 +205,26 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         }
     }
 
+    private void parseBaselineMessage(AnomalyOperationProtos.ManagementMessage message) {
+        try {
+            AnomalyOperationProtos.BaselineMessage baselineMessage = AnomalyOperationProtos.BaselineMessage.parseFrom(message.getBaselineMessage().toByteArray());
+            Map<Integer, Integer> baselineMap = baselineMessage.getBaselineMap();
+            for(Integer key: baselineMap.keySet()) {
+                System.out.println(String.format("\tB _ %d  ------ %d", key, baselineMap.get(key)));
+            }
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void setLeverInfo(double leverValue) {
 //        LeverInfo leverInfo = new LeverInfo();
 //        leverInfo.setLeverValue(leverValue);
 //        leverInfo = null;
         return;
+    }
+
+    protected void sendMessage(byte[] toSend, int i, int length) throws Exception {
+        ((Client) client).send(toSend, i, toSend.length);
     }
 }

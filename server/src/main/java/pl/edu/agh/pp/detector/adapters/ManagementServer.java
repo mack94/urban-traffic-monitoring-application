@@ -11,11 +11,14 @@ import org.jgroups.jmx.JmxConfigurator;
 import org.jgroups.stack.IpAddress;
 import org.jgroups.util.ByteArrayDataInputStream;
 import org.jgroups.util.Util;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.utils.RoutesLoader;
+import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
+import pl.edu.agh.pp.detector.enums.DayOfWeek;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
@@ -25,6 +28,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -79,9 +84,15 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
                 case BONJOURMESSAGE:
                     // TODO: Check the message
                     sendSystemGeneralMessage(sender);
+                    System.out.println("#1");
                     sendRoutesMessages(sender);
+                    System.out.println("#2");
+                    sendBaselineMessage(sender, 1);
+                    System.out.println("#3");
                     break;
                 case DEMANDBASELINEMESSAGE:
+                    int routeID = parseDemandBaselineMessage(message);
+                    sendBaselineMessage(sender, routeID);
                     break;
                 default:
                     logger.error("ManagementServer: Unknown management message type received.");
@@ -202,4 +213,47 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         }
     }
 
+    private void sendBaselineMessage(Address sender, int routeID) {
+        //TODO: Check if routeID is not -1
+        //TODO: Be careful about sending message too fast - if you send it too fast, wgen PolynomialPatternBuilder is not loaded, then message will not be send.
+        double[] values = PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.fromValue(DateTime.now().getDayOfWeek()), routeID);
+        System.out.println("ELOELO: " + values.length);
+        Map<Integer, Integer> baselineMap = new HashMap<>();
+        int second = 0;
+        for (double value : values) {
+            baselineMap.put(second, (int) value);
+            second += 60;
+        }
+        // FIXME: Check if double necessary or int is enough.
+
+        AnomalyOperationProtos.BaselineMessage baselineMessage = AnomalyOperationProtos.BaselineMessage.newBuilder()
+                .setRouteIdx(routeID)
+                .putAllBaseline(baselineMap)
+                .build();
+
+        AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                .setType(AnomalyOperationProtos.ManagementMessage.Type.BASELINEMESSAGE)
+                .setBaselineMessage(baselineMessage)
+                .build();
+
+        byte[] toSend = managementMessage.toByteArray();
+
+        try {
+            server.send(sender, toSend, 0, toSend.length);
+            System.out.println("Baseline sent");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int parseDemandBaselineMessage(AnomalyOperationProtos.ManagementMessage message) {
+        try {
+            AnomalyOperationProtos.DemandBaselineMessage routeMessage = AnomalyOperationProtos.DemandBaselineMessage.parseFrom(message.getRouteMessage().toByteArray());
+            return routeMessage.getRouteIdx();
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+        return -1;
+        // TODO: Sth went wrong.
+    }
 }
