@@ -134,7 +134,7 @@
                         </yAxis>
                     </LineChart>
                 </Tab>
-                <Tab text="Anomaly map">
+                <Tab text="Anomaly map" onSelectionChanged="#handleTabChanged">
                     <WebView fx:id="mapWebView" />
                 </Tab>
                 <Tab fx:id="systemTab" onSelectionChanged="#handleTabChanged">

@@ -210,6 +210,10 @@ public class MainWindowController {
     }
 
     public void putAnomalyOnMap(String screenMessage) {
+        // Delete cache for navigate back
+        webEngine.load("about:blank");
+        // Delete cookies
+        java.net.CookieHandler.setDefault(new java.net.CookieManager());
         Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
         //TODO execution line below with route coordinates, map should then mark both points and center route start
         String startCoord = SystemRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId()));
@@ -440,7 +444,9 @@ public class MainWindowController {
         String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
         if(selectedItem != null){
             putAnomalyInfoOnScreen(selectedItem);
-            putAnomalyOnMap(selectedItem);
+            if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
+                putAnomalyOnMap(selectedItem);
+            }
         }
     }
     @FXML
@@ -453,8 +459,16 @@ public class MainWindowController {
     @FXML
     private void handleTabChanged(){
         Label lab = (Label)tabPane.getSelectionModel().getSelectedItem().getGraphic();
+
         if(lab != null && lab.getText().equalsIgnoreCase("System info")){
             lab.setStyle("-fx-text-fill: black;");
+        }
+        else if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
+            System.out.println("w");
+            String a = anomaliesListView.getSelectionModel().getSelectedItem();
+            if(a != null) {
+                putAnomalyOnMap(anomaliesListView.getSelectionModel().getSelectedItem());
+            }
         }
     }
     @FXML
