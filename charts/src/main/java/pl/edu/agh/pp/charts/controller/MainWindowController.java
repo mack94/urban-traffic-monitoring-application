@@ -58,6 +58,7 @@ public class MainWindowController {
     private final Logger logger = (Logger) LoggerFactory.getLogger(MainWindowController.class);
     private final AnomalyManager anomalyManager = AnomalyManager.getInstance();
     private final Options options = Options.getInstance();
+    private String currentSelectedItem;
 
     @FXML
     private volatile LineChart<Number, Number> lineChart;
@@ -168,23 +169,47 @@ public class MainWindowController {
             recentDuration.setText(anomaly.getDuration());
             anomaliesNumberLabel.setText(anomaly.getAnomaliesNumber());
         } );
-        putChartOnScreen(anomaly);
+        try {
+            putChartOnScreen(anomaly);
+        } catch (InterruptedException e) {
+            logger.error("CONCURENCY ERROR");
+            e.printStackTrace();
+        }
     }
 
-    private void putChartOnScreen(Anomaly anomaly){
+    private synchronized void putChartOnScreen(Anomaly anomaly) throws InterruptedException {
         //TODO thread safe
+
+        anomaliesListView.setDisable(true);
+        Task<Void> sleeper = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    Thread.sleep(2000);
+                    anomaliesListView.setDisable(false);
+                } catch (InterruptedException e) {
+                    logger.error("Interrupted exception");
+                }
+                return null;
+            }
+        };
+
+        new Thread(sleeper).start();
+
         Platform.runLater(() -> {
             if(lineChart != null) {
                 if (lineChart.getData() != null) {
                     lineChart.getData().clear();
+                    System.out.println("clearing");
                 }
-                lineChart.setStyle(".default-color0.chart-series-line { -fx-stroke: red; }");
-                lineChart.setStyle(".default-color1.chart-series-line { -fx-stroke: blue; }");
+
                 XYChart.Series<Number, Number> series = anomalyManager.getChartData(anomaly);
                 XYChart.Series<Number, Number> baseline = anomalyManager.getBaseline(anomaly);
                 lineChart.getData().add(series);
-                if(baseline != null) {
+                System.out.println("adding1");
+                if (baseline != null) {
                     lineChart.getData().add(baseline);
+                    System.out.println("adding2");
                 }
                 createTooltips();
             }
@@ -438,9 +463,10 @@ public class MainWindowController {
     @FXML
     private void handleAnomalyClicked(MouseEvent e) {
         String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
-        if(selectedItem != null){
+        if(selectedItem != null && !selectedItem.equals(currentSelectedItem)){
             putAnomalyInfoOnScreen(selectedItem);
             putAnomalyOnMap(selectedItem);
+            currentSelectedItem = selectedItem;
         }
     }
     @FXML
@@ -469,9 +495,10 @@ public class MainWindowController {
     @FXML
     private void handleAnomalyPressed(KeyEvent e){
         String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
-        if(selectedItem != null){
+        if(selectedItem != null && !selectedItem.equals(currentSelectedItem)){
             putAnomalyInfoOnScreen(selectedItem);
             putAnomalyOnMap(selectedItem);
+            currentSelectedItem = selectedItem;
         }
     }
 }
