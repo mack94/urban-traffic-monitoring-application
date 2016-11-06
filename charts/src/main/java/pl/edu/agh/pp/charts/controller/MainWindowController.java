@@ -174,23 +174,14 @@ public class MainWindowController {
     private void putChartOnScreen(Anomaly anomaly){
         //TODO thread safe
         Platform.runLater(() -> {
-            lineChart.setAnimated(false);
             lineChart.setId("Chart" + anomaly.getRouteId());
             if(lineChart != null) {
                 if (lineChart.getData() != null) {
-                    logger.info("-*" + lineChart, lineChart);
-                    logger.info("\t*" + lineChart.getData(), lineChart.getData());
                     lineChart.getData().clear();
-                    logger.info("-*" + lineChart, lineChart);
-                    logger.info("\t*" + lineChart.getData(), lineChart.getData());
                 }
-                lineChart.setStyle(".default-color0.chart-series-line { -fx-stroke: red; }");
-                lineChart.setStyle(".default-color1.chart-series-line { -fx-stroke: blue; }");
                 XYChart.Series<Number, Number> series = anomalyManager.getChartData(anomaly);
                 XYChart.Series<Number, Number> baseline = anomalyManager.getBaseline(anomaly);
                 lineChart.getData().add(series);
-                logger.info("->" + lineChart, lineChart);
-                logger.info("\t>" + lineChart.getData(), lineChart.getData());
                 if(baseline != null) {
                     lineChart.getData().add(baseline);
                 }
@@ -361,6 +352,7 @@ public class MainWindowController {
 
     @FXML
     private void initialize() throws IOException {
+        lineChart.setAnimated(false);
         systemTab.setGraphic(new Label("System info"));
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");

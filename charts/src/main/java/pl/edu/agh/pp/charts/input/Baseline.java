@@ -49,9 +49,11 @@ public class Baseline {
         for (Integer time : baseline.keySet()) {
             double h = time/3600;
             double m = (time/60) - (h*60);
-            XYChart.Data<Number,Number> data = new XYChart.Data<>(h + (m / 60), baseline.get(time));
+            if(m%5 == 0) {
+                XYChart.Data<Number, Number> data = new XYChart.Data<>(h + (m / 60), baseline.get(time));
 
-            baselineSeries.getData().add(data);
+                baselineSeries.getData().add(data);
+            }
         }
     }
 }
