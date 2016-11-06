@@ -15,15 +15,11 @@ public class BaselineManager {
     }
 
     public static Baseline getBaseline(Integer routeID, DayOfWeek dayOfWeek){
-        System.out.println("args - route: " + routeID + " day: " + dayOfWeek);
         for(Baseline baseline :baselines){
-            System.out.println("route: " + baseline.getRouteID() + "day: " + baseline.getDay());
-            System.out.println("");
             if(baseline.getRouteID().equals(routeID) && dayOfWeek.equals(baseline.getDay())){
                 return baseline;
             }
         }
-        System.out.println("returning null because route: " + routeID + " and day: " + dayOfWeek);
         return null;
     }
 }

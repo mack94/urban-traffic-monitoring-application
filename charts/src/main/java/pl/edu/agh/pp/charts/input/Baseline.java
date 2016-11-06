@@ -43,7 +43,6 @@ public class Baseline {
     }
 
     private void buildBaselineSeries(){
-        System.out.println("Building baseline!");
         baselineSeries = new XYChart.Series<>();
 
         for (Integer time : baseline.keySet()) {

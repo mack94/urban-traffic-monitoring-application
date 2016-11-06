@@ -146,7 +146,6 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         Util.close(in);
         Connector.connectionLost(reason);
         logger.info(String.format("ManagementChannelReceiver :: Connection to %s closed: %s", conn.peerAddress(), reason));
-        System.out.println("System status:" + this.isConnected());
         // Clear routes file
         File file = new File("./routes.json");
         FileWriter fileWriter = null;
@@ -161,7 +160,6 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
     @Override
     public void connectionEstablished(Connection conn) {
         logger.info("ManagementChannelReceiver :: Connection established");
-        System.out.println("System status:" + this.isConnected());
     }
 
     public boolean isConnected() {

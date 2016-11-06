@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.charts.input;
 
 import ch.qos.logback.classic.Logger;
+import javafx.application.Platform;
 import javafx.scene.chart.XYChart;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.adapters.Connector;
@@ -22,7 +23,9 @@ public class AnomalyManager {
     private static AnomalyManager instance;
     private MainWindowController mainWindowController;
     private final Logger logger = (Logger) LoggerFactory.getLogger(MainWindowController.class);
-
+    private SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private SimpleDateFormat hours = new SimpleDateFormat("HH");
+    private SimpleDateFormat minutes = new SimpleDateFormat("mm");
     private AnomalyManager(){
         anomalyList = new ArrayList<>();
     }
@@ -45,7 +48,7 @@ public class AnomalyManager {
         if(anomalyExists(id)){
             anomaly = getAnomalyById(id);
             anomaly.addMessage(anomalyMessage);
-            buildChart(anomaly);
+            addPointToChart(anomaly,anomalyMessage.getDate());
             if(mainWindowController != null) mainWindowController.updateAnomalyInfo(anomaly.getScreenMessage());
         }
         else{
@@ -92,13 +95,23 @@ public class AnomalyManager {
         buildChart(getAnomalyById(anomalyId));
     }
 
+    private void addPointToChart(Anomaly anomaly,String time){
+        try {
+            XYChart.Series<Number, Number> series = anomaly.getChartSeries();
+            double h = Integer.valueOf(hours.format(parser.parse(time)));
+            double m = Integer.valueOf(minutes.format(parser.parse(time)));
+            XYChart.Data<Number, Number> data = new XYChart.Data<>(h + (m / 60), Integer.valueOf(anomaly.getDurationHistory().get(time)));
+            Platform.runLater(() ->  series.getData().add(data));
+        }catch (ParseException e){
+            logger.error("chartException parse exception");
+        }
+    }
+
     private void buildChart(Anomaly anomaly){
         try {
             XYChart.Series<Number, Number> series = new XYChart.Series<>();
             Map<String, String> durationHistory = anomaly.getDurationHistory();
-            SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            SimpleDateFormat hours = new SimpleDateFormat("HH");
-            SimpleDateFormat minutes = new SimpleDateFormat("mm");
+
             for (String time : durationHistory.keySet()) {
                 double h = Integer.valueOf(hours.format(parser.parse(time)));
                 double m = Integer.valueOf(minutes.format(parser.parse(time)));

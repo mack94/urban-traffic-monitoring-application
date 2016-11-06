@@ -105,12 +105,10 @@ public class Connector {
     }
 
     public static void updateBaseline(Integer routeID, AnomalyOperationProtos.BaselineMessage.Day day, Map<Integer, Integer> baseline) {
-        // TODO: Dawid
         BaselineManager.addBaseline(routeID, DayOfWeek.valueOf(String.valueOf(day)), baseline);
     }
 
     public static void demandBaseline(DayOfWeek dayOfWeek, int routeID) {
-        System.out.println("DEMAND + " + routeID);
         AnomalyOperationProtos.DemandBaselineMessage demandBaselineMessage = AnomalyOperationProtos.DemandBaselineMessage.newBuilder()
                 .setDay(AnomalyOperationProtos.DemandBaselineMessage.Day.forNumber(dayOfWeek.getValue()))
                 .setRouteIdx(routeID)
@@ -120,7 +118,6 @@ public class Connector {
                 .setType(AnomalyOperationProtos.ManagementMessage.Type.DEMANDBASELINEMESSAGE)
                 .setDemandBaselineMessage(demandBaselineMessage)
                 .build();
-        System.out.println("from demand" + demandBaselineMessage.getRouteIdx());
         try {
             byte[] toSend = managementMessage.toByteArray();
             managementClient.sendMessage(toSend, 0, toSend.length);

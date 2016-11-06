@@ -464,7 +464,6 @@ public class MainWindowController {
             lab.setStyle("-fx-text-fill: black;");
         }
         else if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
-            System.out.println("w");
             String a = anomaliesListView.getSelectionModel().getSelectedItem();
             if(a != null) {
                 putAnomalyOnMap(anomaliesListView.getSelectionModel().getSelectedItem());
