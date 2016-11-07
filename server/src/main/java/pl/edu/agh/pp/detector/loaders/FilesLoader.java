@@ -1,9 +1,5 @@
 package pl.edu.agh.pp.detector.loaders;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.detector.records.Record;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -13,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.detector.records.Record;
 
 /**
  * Created by Maciej on 18.07.2016.
@@ -73,8 +73,9 @@ public class FilesLoader {
                 return;
             }
             record = inputParser.parse(buffer);
-
-            records.add(record);
+            if(record != null) {
+                records.add(record);
+            }
         }
     }
 
