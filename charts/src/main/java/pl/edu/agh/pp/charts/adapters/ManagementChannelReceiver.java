@@ -8,11 +8,13 @@ import org.jgroups.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.charts.system.SystemBaselineInfo;
 import pl.edu.agh.pp.charts.system.SystemGeneralInfo;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Created by Maciej on 30.10.2016.
@@ -120,7 +122,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                     parseRouteMessage(message);
                     break;
                 case BASELINEMESSAGE:
-                    System.out.println("BASELINEMESSAGE received");
+                    parseBaselineMessage(message);
                     break;
                 case LEVERMESSAGE:
                     parseLeverMessage(message);
@@ -142,9 +144,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         client.stop();
         running = false;
         Util.close(in);
-        Connector.connectionLost("https://scontent-fra3-1.xx.fbcdn.net/v/t1.0-9/14632931_1786457691626264_4938219509567281520_n.jpg?oh=e6bbac12573f62884b98a6ab077ce56b&oe=588D7696");
+        Connector.connectionLost(reason);
         logger.info(String.format("ManagementChannelReceiver :: Connection to %s closed: %s", conn.peerAddress(), reason));
-        System.out.println("System status:" + this.isConnected());
         // Clear routes file
         File file = new File("./routes.json");
         FileWriter fileWriter = null;
@@ -159,7 +160,6 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
     @Override
     public void connectionEstablished(Connection conn) {
         logger.info("ManagementChannelReceiver :: Connection established");
-        System.out.println("System status:" + this.isConnected());
     }
 
     public boolean isConnected() {
@@ -188,7 +188,6 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         try {
             AnomalyOperationProtos.LeverMessage leverMessage = AnomalyOperationProtos.LeverMessage.parseFrom(message.getLeverMessage().toByteArray());
             double leverValue = leverMessage.getLeverValue();
-//            System.out.println("New lever value: " + leverValue);
             SystemGeneralInfo.setLeverValue(leverValue);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
@@ -204,10 +203,19 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         }
     }
 
-    private void setLeverInfo(double leverValue) {
-//        LeverInfo leverInfo = new LeverInfo();
-//        leverInfo.setLeverValue(leverValue);
-//        leverInfo = null;
-        return;
+    private void parseBaselineMessage(AnomalyOperationProtos.ManagementMessage message) {
+        try {
+            AnomalyOperationProtos.BaselineMessage baselineMessage = AnomalyOperationProtos.BaselineMessage.parseFrom(message.getBaselineMessage().toByteArray());
+            int routeID = baselineMessage.getRouteIdx();
+            AnomalyOperationProtos.BaselineMessage.Day day = baselineMessage.getDay();
+            Map<Integer, Integer> baselineMap = baselineMessage.getBaselineMap();
+            SystemBaselineInfo.addBaselineInfo(routeID, day, baselineMap);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void sendMessage(byte[] toSend, int i, int length) throws Exception {
+        ((Client) client).send(toSend, i, toSend.length);
     }
 }

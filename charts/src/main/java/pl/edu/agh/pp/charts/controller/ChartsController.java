@@ -270,7 +270,6 @@ public class ChartsController {
             day = dayComboBox.getSelectionModel().getSelectedItem();
         }
         else{
-            System.out.println();
             day = datePicker.getValue().toString();
         }
         String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());

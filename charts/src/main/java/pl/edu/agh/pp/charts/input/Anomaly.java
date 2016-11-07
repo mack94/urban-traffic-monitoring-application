@@ -3,6 +3,7 @@ package pl.edu.agh.pp.charts.input;
 import javafx.scene.chart.XYChart;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
+import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,12 +17,14 @@ public class Anomaly {
     private String lastDate;
     private String routeId;
     private String route;
+    private String dayOfWeek;
     private String duration;
     private String severity;
     private String percent;
     private Map<String, String> durationHistory;
     private XYChart.Series<Number, Number> anomalySeries = null;
     private int anomaliesNumber;
+    private Baseline baseline = null;
 
     public Anomaly(AnomalyOperationProtos.AnomalyMessage anomalyMessage){
         this.anomalyId = String.valueOf(anomalyMessage.getAnomalyID());
@@ -30,6 +33,7 @@ public class Anomaly {
         this.routeId = String.valueOf(anomalyMessage.getRouteIdx());
         this.route = RoutesLoader.getRoute(routeId);
         this.duration = String.valueOf(anomalyMessage.getDuration());
+        this.dayOfWeek = String.valueOf(anomalyMessage.getDayOfWeek());
         durationHistory = new HashMap<>();
         durationHistory.put(this.lastDate,this.duration);
         buildScreenMessage();
@@ -76,6 +80,10 @@ public class Anomaly {
         return anomalyId;
     }
 
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
     void addMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage){
         this.lastDate = anomalyMessage.getDate();
         this.duration = String.valueOf(anomalyMessage.getDuration());
@@ -94,6 +102,20 @@ public class Anomaly {
     XYChart.Series<Number, Number> getChartSeries(){
         return anomalySeries;
     }
+
+    XYChart.Series<Number, Number> getBaselineSeries(){
+        if(baseline != null) {
+            return baseline.getBaselineSeries();
+        }
+        else{
+            this.baseline = BaselineManager.getBaseline(Integer.valueOf(routeId), DayOfWeek.of(Integer.parseInt(getDayOfWeek())));
+            if(baseline != null){
+                return baseline.getBaselineSeries();
+            }
+        }
+        return null;
+    }
+
     void setChartSeries(XYChart.Series<Number, Number> series){
         this.anomalySeries = series;
     }

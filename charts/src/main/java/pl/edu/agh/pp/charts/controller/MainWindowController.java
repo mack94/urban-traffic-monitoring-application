@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -139,13 +141,12 @@ public class MainWindowController {
             hideBox.managedProperty().bind(hideBox.visibleProperty());
             primaryStage.show();
         } catch (java.io.IOException e) {
-            e.printStackTrace();
+            logger.error("exception while creating GUI " + e,e);
         }
     }
 
     public void setConnectedFlag(){
         this.connectedFlag = Connector.isConnectedToTheServer();
-        setConnectedState();
     }
     public void setScene(){
         primaryStage.setScene(scene);
@@ -173,16 +174,22 @@ public class MainWindowController {
     private void putChartOnScreen(Anomaly anomaly){
         //TODO thread safe
         Platform.runLater(() -> {
+            lineChart.setId("Chart" + anomaly.getRouteId());
             if(lineChart != null) {
                 if (lineChart.getData() != null) {
                     lineChart.getData().clear();
                 }
                 XYChart.Series<Number, Number> series = anomalyManager.getChartData(anomaly);
+                XYChart.Series<Number, Number> baseline = anomalyManager.getBaseline(anomaly);
                 lineChart.getData().add(series);
+                if(baseline != null) {
+                    lineChart.getData().add(baseline);
+                }
                 createTooltips();
             }
         } );
     }
+
     private void createTooltips() {
         for (XYChart.Series<Number, Number> s : lineChart.getData()) {
             for (XYChart.Data<Number, Number> d : s.getData()) {
@@ -203,12 +210,19 @@ public class MainWindowController {
     }
 
     public void putAnomalyOnMap(String screenMessage) {
+        // Delete cache for navigate back
+        webEngine.load("about:blank");
+        // Delete cookies
+        java.net.CookieHandler.setDefault(new java.net.CookieManager());
         Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
-        System.out.println(anomaly.getRoute());
-        System.out.println(SystemRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId())));
-        System.out.println(SystemRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId())));
         //TODO execution line below with route coordinates, map should then mark both points and center route start
-        // //webEngine.loadContent(htmlBuilder.loadMapStructure(startLat, startLng, endLat, endLng));
+        String startCoord = SystemRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId()));
+        String endCoord = SystemRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId()));
+        String startLat = startCoord.split(",")[0];
+        String startLng = startCoord.split(",")[1];
+        String endLat = endCoord.split(",")[0];
+        String endLng = endCoord.split(",")[1];
+        webEngine.loadContent(htmlBuilder.loadMapStructure(startLat, startLng, endLat, endLng));
     }
 
     public void putSystemMessageOnScreen(String message) {
@@ -254,6 +268,17 @@ public class MainWindowController {
         }
     }
 
+    public void setConnectedLabel(String msg, Color color){
+        Platform.runLater(() -> {
+            connectedLabel.setText(msg);
+            connectedLabel.setTextFill(Color.BLACK);
+        });
+    }
+
+    public void setConnectedLabel(String msg){
+        setConnectedLabel(msg,Color.BLACK);
+    }
+
     private void setConnectedState(){
         if(connectedFlag){
             Platform.runLater(() -> {
@@ -278,6 +303,38 @@ public class MainWindowController {
         return dtf.print(date);
     }
 
+    public void reconnecting(){
+        Connector.setIsFromConnecting(true);
+        try {
+            setConnectedLabel("Disconnected! Trying to reconnect",Color.RED);
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        int i = 0;
+                        while (i<3 && !Connector.isConnectedToTheServer()) {
+                            Connector.connect(Connector.getAddress(), Connector.getPort());
+                            Thread.sleep(5000);
+                            i++;
+                        }
+                        connectedFlag = Connector.isConnectedToTheServer();
+                        setConnectedState();
+                        Connector.getOptionsServerInfo();
+                        Connector.setIsFromConnecting(false);
+                    } catch (InterruptedException e) {
+                        logger.error("Interrupted exception");
+                    }
+                    return null;
+                }
+            };
+
+            new Thread(sleeper).start();
+
+        } catch (Exception e) {
+            logger.error("Connecting error " + e, e);
+        }
+    }
+
 
     private void setMapUp() {
         htmlBuilder = new HtmlBuilder();
@@ -299,6 +356,7 @@ public class MainWindowController {
 
     @FXML
     private void initialize() throws IOException {
+        lineChart.setAnimated(false);
         systemTab.setGraphic(new Label("System info"));
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");
@@ -306,11 +364,10 @@ public class MainWindowController {
         connectButton.setDefaultButton(true);
         setMapUp();
         try {
-            System.out.println((String) Options.getInstance().getPreference("Server_Address", String.class));
             serverAddrTxtField.setText((String) options.getPreference("Server_Address", String.class));
             serverPortTxtField.setText((String) options.getPreference("Server_Port", String.class));
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-            illegalPreferenceObjectExpected.printStackTrace();
+            logger.error("Options exception " + illegalPreferenceObjectExpected,illegalPreferenceObjectExpected);
         }
     }
 
@@ -327,7 +384,8 @@ public class MainWindowController {
 
     @FXML
     private void handleConnectAction(ActionEvent e) {
-
+        Connector.setIsFromConnecting(true);
+        setConnectedLabel("connecting");
         try {
             String address = serverAddrTxtField.getText();
             if(!Pattern.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}",address)){
@@ -348,14 +406,27 @@ public class MainWindowController {
                 serverPortTxtField.setStyle("-fx-text-box-border: black;");
             }
             Connector.connect(address, port);
-            connectedFlag = Connector.isConnectedToTheServer();
-            if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
-            else putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
-            setConnectedState();
-            Connector.getOptionsServerInfo();
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        Thread.sleep(5000);
+                        connectedFlag = Connector.isConnectedToTheServer();
+                        if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
+                        else putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
+                        setConnectedState();
+                        Connector.getOptionsServerInfo();
+                        Connector.setIsFromConnecting(false);
+                    } catch (InterruptedException e) {
+                        logger.error("Interrupted exception");
+                    }
+                    return null;
+                }
+            };
+            new Thread(sleeper).start();
+
         } catch (Exception e1) {
-            logger.error("Connecting error");
-            e1.printStackTrace();
+            logger.error("Connecting error " + e1, e1);
         }
 
     }
@@ -373,7 +444,9 @@ public class MainWindowController {
         String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
         if(selectedItem != null){
             putAnomalyInfoOnScreen(selectedItem);
-            putAnomalyOnMap(selectedItem);
+            if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
+                putAnomalyOnMap(selectedItem);
+            }
         }
     }
     @FXML
@@ -386,8 +459,15 @@ public class MainWindowController {
     @FXML
     private void handleTabChanged(){
         Label lab = (Label)tabPane.getSelectionModel().getSelectedItem().getGraphic();
+
         if(lab != null && lab.getText().equalsIgnoreCase("System info")){
             lab.setStyle("-fx-text-fill: black;");
+        }
+        else if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
+            String a = anomaliesListView.getSelectionModel().getSelectedItem();
+            if(a != null) {
+                putAnomalyOnMap(anomaliesListView.getSelectionModel().getSelectedItem());
+            }
         }
     }
     @FXML
@@ -397,6 +477,14 @@ public class MainWindowController {
         }
         else {
             hideBox.setVisible(true);
+        }
+    }
+    @FXML
+    private void handleAnomalyPressed(KeyEvent e){
+        String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
+        if(selectedItem != null){
+            putAnomalyInfoOnScreen(selectedItem);
+            putAnomalyOnMap(selectedItem);
         }
     }
 }

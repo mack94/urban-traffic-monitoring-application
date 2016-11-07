@@ -5,11 +5,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
 import pl.edu.agh.pp.charts.input.AnomalyManager;
+import pl.edu.agh.pp.charts.input.BaselineManager;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.ServerOptions;
 
 import java.net.InetAddress;
+import java.time.DayOfWeek;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -25,6 +28,7 @@ public class Connector {
     private static MainWindowController mainWindowController;
     private final static AnomalyManager anomalyManager = AnomalyManager.getInstance();
     private static double leverValue = 0.0;
+    private static boolean isFromConnecting = false;
 
     public static void setMainWindowController(MainWindowController mwc){
         mainWindowController = mwc;
@@ -38,6 +42,10 @@ public class Connector {
             // TODO: Dawid please handle it
             logger.info("Received expiration of route {}, anomaly ID {}", anomalyMessage.getRouteIdx(), anomalyMessage.getAnomalyID());
         }
+    }
+
+    public static void setIsFromConnecting(boolean is){
+        isFromConnecting = is;
     }
 
     public static void connect(String addr, String prt) throws Exception {
@@ -56,12 +64,14 @@ public class Connector {
         managementClient.start(server_addr, server_port - 1, nio);
         client = new ChannelReceiver();
         client.start(server_addr, server_port, nio);
+    }
 
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            logger.error("Connector: Sleeping thread error: " + e);
-        }
+    public static String getAddress(){
+        return address;
+    }
+
+    public static String getPort(){
+        return port;
     }
 
     public static void disconnect() {
@@ -101,6 +111,28 @@ public class Connector {
         mainWindowController.updateServerInfo(serverOptions);
     }
 
+    public static void updateBaseline(Integer routeID, AnomalyOperationProtos.BaselineMessage.Day day, Map<Integer, Integer> baseline) {
+        BaselineManager.addBaseline(routeID, DayOfWeek.valueOf(String.valueOf(day)), baseline);
+    }
+
+    public static void demandBaseline(DayOfWeek dayOfWeek, int routeID) {
+        AnomalyOperationProtos.DemandBaselineMessage demandBaselineMessage = AnomalyOperationProtos.DemandBaselineMessage.newBuilder()
+                .setDay(AnomalyOperationProtos.DemandBaselineMessage.Day.forNumber(dayOfWeek.getValue()))
+                .setRouteIdx(routeID)
+                .build();
+
+        AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                .setType(AnomalyOperationProtos.ManagementMessage.Type.DEMANDBASELINEMESSAGE)
+                .setDemandBaselineMessage(demandBaselineMessage)
+                .build();
+        try {
+            byte[] toSend = managementMessage.toByteArray();
+            managementClient.sendMessage(toSend, 0, toSend.length);
+        } catch (Exception e) {
+            logger.error("Exception while demanding baseline " + e,e);
+        }
+    }
+
     public static void connectionLost(String additionalInfo) {
         if(mainWindowController != null){
             String message = null;
@@ -109,6 +141,8 @@ public class Connector {
             }
             mainWindowController.setConnectedFlag();
             mainWindowController.putSystemMessageOnScreen(message, Color.RED);
+            if(!isFromConnecting)
+                mainWindowController.reconnecting();
         }
     }
 }
