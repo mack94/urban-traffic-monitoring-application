@@ -1,13 +1,12 @@
 package pl.edu.agh.pp.cron.utils;
 
-import ch.qos.logback.classic.Logger;
 import com.google.maps.model.*;
-import org.json.JSONObject;
-import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import org.json.JSONObject;
 
 /**
  * Created by Maciej on 14.05.2016.
@@ -18,43 +17,44 @@ import java.util.List;
  * Please, note that the version 1.0 of this application supports only point to point routes.
  * You can only enter route with two points - start and end.
  */
-public class Route {
+public class Route
+{
 
-//    private String[] origins;
-//    private String[] destinations;
+    // private String[] origins;
+    // private String[] destinations;
 
     private String id;
     private DistanceMatrix distanceMatrix;
     private DirectionsResult directionsApi;
     private JSONObject jsonRoute;
 
-    public Route(String id, DistanceMatrix distanceMatrix, DirectionsResult directionsApi) throws Exception {
+    public Route(String id, DistanceMatrix distanceMatrix, DirectionsResult directionsApi, String defaultWaypoints) throws Exception
+    {
         this.id = id;
         this.distanceMatrix = distanceMatrix;
         this.directionsApi = directionsApi;
-        DirectionsRoute[] rs = directionsApi.routes;
-        System.out.println("ID: " + id);
-        for (DirectionsRoute r : rs) {
-            System.out.print(decodePolylinePath(r.overviewPolyline));
-        }
-        System.out.println("\n");
-        jsonRoute = loadRouteInfo();
+        jsonRoute = loadRouteInfo(defaultWaypoints);
     }
 
-    private JSONObject loadRouteInfo() throws Exception {
+    private JSONObject loadRouteInfo(String defaultWaypoints) throws Exception
+    {
+        DirectionsRoute[] routes = directionsApi.routes;
 
-        DirectionsResult directionsResult = directionsApi;
-        DirectionsRoute[] routes = directionsResult.routes;
-
-        return buildResult(distanceMatrix.rows[0].elements[0], routes);
+        return buildResult(distanceMatrix.rows[0].elements[0], routes, defaultWaypoints);
     }
 
-    private JSONObject buildResult(DistanceMatrixElement me_element, DirectionsRoute[] routes) {
+    private JSONObject buildResult(DistanceMatrixElement me_element, DirectionsRoute[] routes, String defaultWaypoints)
+    {
 
-        if ("OK".equals(me_element.status.toString())) {
+        if ("OK".equals(me_element.status.toString()))
+        {
             String duration = String.valueOf(me_element.duration.inSeconds);
             String durationInTraffic = String.valueOf(me_element.durationInTraffic.inSeconds);
             String waypoints = getWaypoints(routes);
+            if (waypoints.contains(defaultWaypoints))
+            {
+                waypoints = "default";
+            }
             String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS").format(new Date());
 
             return new JSONObject()
@@ -69,10 +69,12 @@ public class Route {
         return new JSONObject("");
     }
 
-    private String getWaypoints(DirectionsRoute[] routes) {
+    private String getWaypoints(DirectionsRoute[] routes)
+    {
         String result = "";
 
-        for (DirectionsRoute route : routes) {
+        for (DirectionsRoute route : routes)
+        {
             EncodedPolyline polyline = route.overviewPolyline;
             String decodedPath = decodePolylinePath(polyline);
 
@@ -82,23 +84,27 @@ public class Route {
         return result;
     }
 
-    private String decodePolylinePath(EncodedPolyline polyline) {
+    private String decodePolylinePath(EncodedPolyline polyline)
+    {
         String result = "";
         List<LatLng> polylineDecodedPath = polyline.decodePath();
 
-        for (LatLng polyPoint : polylineDecodedPath) {
+        for (LatLng polyPoint : polylineDecodedPath)
+        {
             result = result.concat(polyPoint.toString() + "; ");
         }
 
         return result;
     }
 
-    public void setAnomalyMarker() {
+    public void setAnomalyMarker()
+    {
         jsonRoute.put("isAnomaly", true);
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return jsonRoute.toString();
     }
 }
