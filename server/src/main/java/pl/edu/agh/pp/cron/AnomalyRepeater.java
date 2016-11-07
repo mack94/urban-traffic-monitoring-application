@@ -43,10 +43,11 @@ public class AnomalyRepeater extends Thread {
                             String origins[] = new String[1];
                             destinations[0] = route.get("destination").toString();
                             origins[0] = route.get("origin").toString();
+                            String defaultWaypoints = route.getString("coords");
 
                             TravelMode travelMode = TravelMode.DRIVING;
                             Instant departure = Instant.now();
-                            requestsExecutor.execute(String.valueOf(id), context, origins, destinations, travelMode, departure);
+                            requestsExecutor.execute(String.valueOf(id), context, origins, destinations, travelMode, departure, defaultWaypoints);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

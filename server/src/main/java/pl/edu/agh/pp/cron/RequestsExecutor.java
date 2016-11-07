@@ -27,7 +27,7 @@ public class RequestsExecutor
         this.detectorManager = detectorManager;
     }
 
-    public synchronized void execute(String id, GeoApiContext context, String[] origins, String[] destinations, TravelMode travelMode, Instant departure) throws Exception
+    public synchronized void execute(String id, GeoApiContext context, String[] origins, String[] destinations, TravelMode travelMode, Instant departure, String defaultWaypoints) throws Exception
     {
         DistanceMatrix distanceMatrix = DistanceMatrixApi
                 .getDistanceMatrix(context, origins, destinations)
@@ -43,7 +43,7 @@ public class RequestsExecutor
                 .departureTime(departure)
                 .await();
 
-        Route route = new Route(id, distanceMatrix, directionsApi);
+        Route route = new Route(id, distanceMatrix, directionsApi, defaultWaypoints);
         if (detectorManager.isAnomaly(route.toString()))
         {
             route.setAnomalyMarker();
