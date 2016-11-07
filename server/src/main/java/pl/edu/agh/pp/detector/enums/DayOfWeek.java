@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
  * Project: detector.
  */
 public enum DayOfWeek {
+    NULLDAY,
     MONDAY,
     TUESDAY,
     WEDNESDAY,
@@ -22,10 +23,10 @@ public enum DayOfWeek {
 
     public static DayOfWeek fromValue(int value) throws IllegalArgumentException {
         try {
-            return DayOfWeek.values()[value - 1];
+            return DayOfWeek.values()[value];
         } catch (ArrayIndexOutOfBoundsException e) {
             logger.error("DayOfWeek :: ArrayIndexOutOfBoundsException" + e);
-            throw new IllegalArgumentException("Unknown enum value :" + (value - 1));
+            throw new IllegalArgumentException("Unknown enum value :" + (value));
         }
     }
 

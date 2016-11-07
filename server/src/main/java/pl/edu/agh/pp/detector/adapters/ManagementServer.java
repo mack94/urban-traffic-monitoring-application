@@ -228,7 +228,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         AnomalyOperationProtos.BaselineMessage baselineMessage = AnomalyOperationProtos.BaselineMessage.newBuilder()
                 .setRouteIdx(routeID)
                 .putAllBaseline(baselineMap)
-                .setDay(AnomalyOperationProtos.BaselineMessage.Day.forNumber(DateTime.now().getDayOfWeek()-2))
+                .setDay(AnomalyOperationProtos.BaselineMessage.Day.forNumber(DateTime.now().getDayOfWeek()))
                 .build();
 
         AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
@@ -250,6 +250,8 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         try {
             AnomalyOperationProtos.DemandBaselineMessage demandBaselineMessage = AnomalyOperationProtos.DemandBaselineMessage.parseFrom(message.getDemandBaselineMessage().toByteArray());
             System.out.println("ID=" + demandBaselineMessage.getRouteIdx());
+            System.out.println("GoodEE:" + demandBaselineMessage.getDay());
+            System.out.println("GoodEE:" + demandBaselineMessage.getDayValue());
             return demandBaselineMessage.getRouteIdx();
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
