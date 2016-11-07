@@ -1,8 +1,6 @@
 package pl.edu.agh.pp.detector.listeners;
 
-import java.nio.ByteBuffer;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -42,24 +40,22 @@ public class AnomalyExpirationListener extends Thread
         }
         while (true)
         {
-            for (Map.Entry<Integer, Long> entry : anomalyID.entrySet())
-            {
-                if (!expiredAnomalies.contains(entry.getValue()))
-                {
-                    DateTime anomaly = anomalyTime.get(entry.getKey());
-                    DateTime now = DateTime.now();
-                    int lastUpdateInSeconds = Seconds.secondsBetween(anomaly, now).getSeconds();
-                    if (lastUpdateInSeconds > anomalyLiveTime)
-                    {
-                        sendMessage(lastUpdateInSeconds, entry);
-                        expiredAnomalies.add(entry.getValue());
-                    }
-                }
-            }
+            anomalyID.entrySet()
+                    .stream()
+                    .filter(entry -> !expiredAnomalies.contains(entry.getValue()))
+                    .forEach(entry -> {
+                        DateTime anomaly = anomalyTime.get(entry.getKey());
+                        DateTime now = DateTime.now();
+                        int lastUpdateInSeconds = Seconds.secondsBetween(anomaly, now).getSeconds();
+                        if (lastUpdateInSeconds > anomalyLiveTime)
+                        {
+                            sendMessage(entry.getKey(), entry.getValue());
+                            expiredAnomalies.add(entry.getValue());
+                        }
+                    });
             try
             {
-                // TODO: for demo it's 15 seconds, on production should be at least 1 minute. ALSO, REMEMBER TO CHANGE THE VALUE OF ANOMALYLIVETIME IN DEFAULT PREFERENCES - FOR DEMO IT'S 10 SECONDS.
-                sleep(1000 * 15);
+                sleep(1000 * 60);
             }
             catch (InterruptedException e)
             {
@@ -68,14 +64,15 @@ public class AnomalyExpirationListener extends Thread
         }
     }
 
-    private void sendMessage(int lastUpdateInSeconds, Map.Entry<Integer, Long> anomalyIDEntry)
+    private void sendMessage(int routeId, long anomalyId)
     {
-        AnomalyOperationProtos.ExpirationMessage expirationMessage = AnomalyOperationProtos.ExpirationMessage.newBuilder()
-                .setAnomalyID(anomalyIDEntry.getValue())
-                .setRouteIdx(anomalyIDEntry.getKey())
+        AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.newBuilder()
+                .setAnomalyID(anomalyId)
+                .setRouteIdx(routeId)
                 .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))
+                .setIsActive(false)
                 .build();
-        server.sendExpirationMessage(ByteBuffer.wrap(expirationMessage.toByteArray()));
+        server.send(message.toByteArray());
     }
 
     public void setServer(Server server)

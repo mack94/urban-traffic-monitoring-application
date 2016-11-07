@@ -195,6 +195,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
                     .setMessage(String.format("Error rate: > %f <", errorRate))
                     .setAnomalyID(anomalyID)
                     .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))
+                    .setIsActive(true)
                     .build();
         }
         else if (anomalyTracker.has(routeIdx))

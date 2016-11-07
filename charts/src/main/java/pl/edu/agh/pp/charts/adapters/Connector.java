@@ -31,17 +31,12 @@ public class Connector {
     }
 
     public static void onMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
-        anomalyManager.addAnomaly(anomalyMessage);
-    }
-
-    public static void onExpirationMessageMessage(AnomalyOperationProtos.ExpirationMessage expirationMessage)
-    {
-        // TODO: David handle it, please ;)
-        if(controller != null) {
-            int id = expirationMessage.getRouteIdx();
-            long anomalyId = expirationMessage.getAnomalyID();
-            String date = expirationMessage.getDate();
-            controller.putAnomalyMessageOnScreen(id, "David handle it, please", date, 0, Color.CYAN);
+        if(anomalyMessage.getIsActive()) {
+            anomalyManager.addAnomaly(anomalyMessage);
+        }
+        else {
+            // TODO: Dawid please handle it
+            logger.info("Received expiration of route {}, anomaly ID {}", anomalyMessage.getRouteIdx(), anomalyMessage.getAnomalyID());
         }
     }
 
