@@ -35,12 +35,19 @@ public class Connector {
     }
 
     public static void onMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
-        anomalyManager.addAnomaly(anomalyMessage);
+        if(anomalyMessage.getIsActive()) {
+            anomalyManager.addAnomaly(anomalyMessage);
+        }
+        else {
+            // TODO: Dawid please handle it
+            logger.info("Received expiration of route {}, anomaly ID {}", anomalyMessage.getRouteIdx(), anomalyMessage.getAnomalyID());
+        }
     }
 
     public static void setIsFromConnecting(boolean is){
         isFromConnecting = is;
     }
+
     public static void connect(String addr, String prt) throws Exception {
         address = addr;
         port = prt;

@@ -1,11 +1,18 @@
 package pl.edu.agh.pp.detector.builders;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoint;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.detector.adapters.Server;
 import pl.edu.agh.pp.detector.detectors.Detector;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
@@ -14,8 +21,6 @@ import pl.edu.agh.pp.detector.serializers.FileBaselineSerializer;
 import pl.edu.agh.pp.detector.serializers.IBaselineSerializer;
 import pl.edu.agh.pp.detector.trackers.AnomalyTracker;
 import pl.edu.agh.pp.detector.trackers.IAnomalyTracker;
-
-import java.util.*;
 
 /**
  * Created by Maciej on 18.07.2016.
@@ -30,6 +35,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     private static Map<DayOfWeek, Map<Integer, PolynomialFunction>> polynomialFunctions = new HashMap<>();
     private final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
     public double errorSensitivity = 0.0;
+    private Server server;
 
     private PolynomialPatternBuilder()
     {
@@ -189,6 +195,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
                     .setMessage(String.format("Error rate: > %f <", errorRate))
                     .setAnomalyID(anomalyID)
                     .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))
+                    .setIsActive(true)
                     .build();
         }
         else if (anomalyTracker.has(routeIdx))
@@ -198,8 +205,13 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
         return null;
     }
 
-    private static class Holder
+    public void setServer(Server server)
     {
+        this.server = server;
+        anomalyTracker.setServer(server);
+    }
+
+    public static class Holder {
         static final PolynomialPatternBuilder INSTANCE = new PolynomialPatternBuilder();
     }
 }

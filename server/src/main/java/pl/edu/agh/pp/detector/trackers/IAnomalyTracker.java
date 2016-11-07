@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.detector.trackers;
 
 import org.joda.time.DateTime;
+import pl.edu.agh.pp.detector.adapters.Server;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -64,4 +65,6 @@ public interface IAnomalyTracker {
      * @return List of type Integer, which contains routes ID number.
      */
     List<Integer> getCurrentAnomaliesRoutesIds();
+
+    void setServer(Server server);
 }

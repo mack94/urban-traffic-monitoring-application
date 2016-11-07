@@ -21,3 +21,4 @@ comj/
 *.ser
 *.zip
 logs_16-06-15/
+protoc.exe

@@ -125,7 +125,7 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
         logger.info("Message received");
 
         if (length < 0) {
-            logger.error("Length is less then 0!");
+            logger.error("Length is less than 0!");
         }
 
         ByteArrayDataInputStream source = new ByteArrayDataInputStream(buf, offset, length);

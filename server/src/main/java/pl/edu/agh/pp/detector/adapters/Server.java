@@ -1,5 +1,8 @@
 package pl.edu.agh.pp.detector.adapters;
 
+import java.net.InetAddress;
+import java.nio.ByteBuffer;
+
 import org.jgroups.Address;
 import org.jgroups.ReceiverAdapter;
 import org.jgroups.blocks.cs.BaseServer;
@@ -20,11 +23,13 @@ import java.util.Arrays;
  * 14:36
  * Project: server.
  */
-public class Server extends ReceiverAdapter implements Receiver {
+public class Server extends ReceiverAdapter implements Receiver
+{
 
     protected BaseServer server;
 
-    public void start(InetAddress bind_addr, int port, boolean nio) throws Exception {
+    public void start(InetAddress bind_addr, int port, boolean nio) throws Exception
+    {
         server = nio ? new NioServer(bind_addr, port) : new TcpServer(bind_addr, port);
         server.receiver(this);
         server.start();
@@ -33,27 +38,36 @@ public class Server extends ReceiverAdapter implements Receiver {
         System.out.printf("\nServer listening at %s:%s\n", bind_addr != null ? bind_addr : "0.0.0.0", local_port);
     }
 
-
     @Override
-    public void receive(Address sender, byte[] buf, int offset, int length) {
-        try {
+    public void receive(Address sender, byte[] buf, int offset, int length)
+    {
+        try
+        {
             server.send(null, buf, offset, length);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void receive(Address sender, ByteBuffer buf) {
-        try {
+    public void receive(Address sender, ByteBuffer buf)
+    {
+        try
+        {
             server.send(null, buf);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
 
-    public void send(ByteBuffer buf) {
-        try {
+    public void send(ByteBuffer buf)
+    {
+        try
+        {
             server.send(null, buf);
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,7 +85,24 @@ public class Server extends ReceiverAdapter implements Receiver {
         try {
             server.send(null, buf, 0, buf.length);
             AnomalyOperationProtos.AnomalyMessage msg = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendExpirationMessage(ByteBuffer buf)
+    {
+        try
+        {
+            server.send(null, buf);
+            System.out.println("SENT EXPIRATION MESSAGE: ");
+            AnomalyOperationProtos.ExpirationMessage msg = AnomalyOperationProtos.ExpirationMessage.parseFrom(buf.array());
+            System.out.println(msg);
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
