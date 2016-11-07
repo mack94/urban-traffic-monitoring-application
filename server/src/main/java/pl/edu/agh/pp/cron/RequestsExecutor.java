@@ -7,6 +7,8 @@ import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
 import org.joda.time.Instant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.utils.Route;
 import pl.edu.agh.pp.detector.DetectorManager;
 
@@ -15,15 +17,18 @@ import pl.edu.agh.pp.detector.DetectorManager;
  * 18:15
  * server
  */
-public class RequestsExecutor {
-
+public class RequestsExecutor
+{
+    private final Logger logger = LoggerFactory.getLogger(RequestsExecutor.class);
     private final DetectorManager detectorManager;
 
-    public RequestsExecutor(DetectorManager detectorManager) {
+    public RequestsExecutor(DetectorManager detectorManager)
+    {
         this.detectorManager = detectorManager;
     }
 
-    public synchronized void execute(String id, GeoApiContext context, String[] origins, String[] destinations, TravelMode travelMode, Instant departure) throws Exception {
+    public synchronized void execute(String id, GeoApiContext context, String[] origins, String[] destinations, TravelMode travelMode, Instant departure) throws Exception
+    {
         DistanceMatrix distanceMatrix = DistanceMatrixApi
                 .getDistanceMatrix(context, origins, destinations)
                 .mode(travelMode)
@@ -38,7 +43,12 @@ public class RequestsExecutor {
                 .departureTime(departure)
                 .await();
 
-        detectorManager.doSomething(new Route(id, distanceMatrix, directionsApi).toString());
+        Route route = new Route(id, distanceMatrix, directionsApi);
+        if (detectorManager.isAnomaly(route.toString()))
+        {
+            route.setAnomalyMarker();
+        }
+        logger.error(route.toString());
     }
 
 }

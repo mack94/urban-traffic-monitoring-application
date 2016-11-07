@@ -1,5 +1,13 @@
 package pl.edu.agh.pp.detector;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+
 import org.jfree.ui.RefineryUtilities;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -18,13 +26,6 @@ import pl.edu.agh.pp.detector.managers.CommandLineManager;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.detector.records.Record;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
 /**
  * Created by Maciej on 18.07.2016.
  *
@@ -46,27 +47,34 @@ public class DetectorManager
     private Server server;
     private FilesLoader baselineFilesLoader;
 
-    public DetectorManager(Server server, String... logFiles) {
+    public DetectorManager(Server server, String... logFiles)
+    {
         File folder = new File(LOG_FILES_DIRECTORY_PATH);
         File[] listOfFiles = folder.listFiles();
-        if(folder.isDirectory() && listOfFiles != null) {
+        if (folder.isDirectory() && listOfFiles != null)
+        {
             String newLogFiles[] = new String[logFiles.length + listOfFiles.length];
             int i = 0;
-            for(String file: logFiles){
-                if(!file.trim().equals("")) {
+            for (String file : logFiles)
+            {
+                if (!file.trim().equals(""))
+                {
                     newLogFiles[i] = file;
                     i++;
                 }
             }
-            for (File file: listOfFiles) {
-                if (file.isFile() && file.getAbsolutePath().endsWith(".log")) {
+            for (File file : listOfFiles)
+            {
+                if (file.isFile() && file.getAbsolutePath().endsWith(".log"))
+                {
                     newLogFiles[i] = file.getAbsolutePath();
                     i++;
                 }
             }
             baselineFilesLoader = new FilesLoader(newLogFiles);
         }
-        else {
+        else
+        {
             baselineFilesLoader = new FilesLoader(logFiles);
         }
 
@@ -85,7 +93,7 @@ public class DetectorManager
         polynomialPatternBuilder.setServer(server);
     }
 
-    public void doSomething(String logEntry)
+    public boolean isAnomaly(String logEntry)
     {
         try
         {
@@ -109,14 +117,15 @@ public class DetectorManager
             {
                 // server.send(ByteBuffer.wrap(isAnomaly.toByteArray())); TODO: Could be removed i think.
                 server.send(isAnomaly.toByteArray());
+                return true;
             }
             Thread.sleep(100);
-
         }
         catch (InterruptedException e)
         {
             logger.error("DetectorManager :: InterruptedException " + e);
         }
+        return false;
     }
 
     public void displayAnomaliesForRoute(int routeId)
@@ -267,22 +276,28 @@ public class DetectorManager
         }
     }
 
-    public boolean areAllRoutesIncluded(JSONArray loadedRoutes){
+    public boolean areAllRoutesIncluded(JSONArray loadedRoutes)
+    {
         List<Record> list = baselineFilesLoader.getRecords();
         boolean contains;
-        for(int i = 0; i<loadedRoutes.length(); i++){
+        for (int i = 0; i < loadedRoutes.length(); i++)
+        {
             contains = false;
             JSONObject route = loadedRoutes.getJSONObject(i);
             String id = route.get("id").toString();
-            for(Record record: list){
-                if(String.valueOf(record.getRouteID()).equals(id)){
-                    if(record.getDayOfWeek() == DayOfWeek.fromValue(DateTime.now().getDayOfWeek())) {
+            for (Record record : list)
+            {
+                if (String.valueOf(record.getRouteID()).equals(id))
+                {
+                    if (record.getDayOfWeek() == DayOfWeek.fromValue(DateTime.now().getDayOfWeek()))
+                    {
                         contains = true;
                         break;
                     }
                 }
             }
-            if(!contains){
+            if (!contains)
+            {
                 return false;
             }
         }
