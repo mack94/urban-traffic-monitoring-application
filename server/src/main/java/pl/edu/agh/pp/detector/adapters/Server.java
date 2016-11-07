@@ -91,19 +91,4 @@ public class Server extends ReceiverAdapter implements Receiver
             e.printStackTrace();
         }
     }
-
-    public void sendExpirationMessage(ByteBuffer buf)
-    {
-        try
-        {
-            server.send(null, buf);
-            System.out.println("SENT EXPIRATION MESSAGE: ");
-            AnomalyOperationProtos.ExpirationMessage msg = AnomalyOperationProtos.ExpirationMessage.parseFrom(buf.array());
-            System.out.println(msg);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
 }
