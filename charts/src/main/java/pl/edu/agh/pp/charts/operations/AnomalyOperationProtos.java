@@ -191,6 +191,7 @@ public final class AnomalyOperationProtos {
                 internal_static_DemandBaselineMessage_descriptor,
                 new java.lang.String[]{"RouteIdx", "Day",});
     }
+
     private AnomalyOperationProtos() {
     }
 
@@ -208,6 +209,7 @@ public final class AnomalyOperationProtos {
     getDescriptor() {
         return descriptor;
     }
+
     public interface AnomalyActionOrBuilder extends
             // @@protoc_insertion_point(interface_extends:AnomalyAction)
             com.google.protobuf.MessageOrBuilder {
@@ -244,6 +246,7 @@ public final class AnomalyOperationProtos {
         com.google.protobuf.ByteString
         getNicknameBytes();
     }
+
     public interface AnomalyStateOrBuilder extends
             // @@protoc_insertion_point(interface_extends:AnomalyState)
             com.google.protobuf.MessageOrBuilder {
@@ -276,6 +279,7 @@ public final class AnomalyOperationProtos {
         pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyActionOrBuilder getStateOrBuilder(
                 int index);
     }
+
     public interface AnomalyMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:AnomalyMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -337,6 +341,7 @@ public final class AnomalyOperationProtos {
         com.google.protobuf.ByteString
         getDateBytes();
     }
+
     public interface ManagementMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:ManagementMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -461,6 +466,7 @@ public final class AnomalyOperationProtos {
          */
         pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessageOrBuilder getRouteMessageOrBuilder();
     }
+
     public interface BonjourMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:BonjourMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -492,6 +498,7 @@ public final class AnomalyOperationProtos {
         com.google.protobuf.ByteString
         getUserNameBytes();
     }
+
     public interface SystemGeneralMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:SystemGeneralMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -565,6 +572,7 @@ public final class AnomalyOperationProtos {
         com.google.protobuf.ByteString
         getRoutesBytes();
     }
+
     public interface RouteMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:RouteMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -607,6 +615,7 @@ public final class AnomalyOperationProtos {
         com.google.protobuf.ByteString
         getCoordsBytes();
     }
+
     public interface LeverMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:LeverMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -627,6 +636,7 @@ public final class AnomalyOperationProtos {
         com.google.protobuf.ByteString
         getLeverUpdateDateBytes();
     }
+
     public interface BaselineMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:BaselineMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -705,6 +715,7 @@ public final class AnomalyOperationProtos {
         int getBaselineOrThrow(
                 int key);
     }
+
     public interface DemandBaselineMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:DemandBaselineMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -761,6 +772,7 @@ public final class AnomalyOperationProtos {
         private AnomalyAction(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
+
         private AnomalyAction() {
             action_ = 0;
             channel_ = "";
@@ -1594,6 +1606,7 @@ public final class AnomalyOperationProtos {
 
         private java.util.List<pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyAction> state_;
         private byte memoizedIsInitialized = -1;
+
         // Use AnomalyState.newBuilder() to construct.
         private AnomalyState(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
@@ -2385,6 +2398,7 @@ public final class AnomalyOperationProtos {
             anomalyID_ = 0L;
             date_ = "";
         }
+
         private AnomalyMessage(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4492,13 +4506,15 @@ public final class AnomalyOperationProtos {
              * <p>
              * <code>optional .BonjourMessage bonjourMessage = 2;</code>
              */
-            public Builder setBonjourMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BonjourMessage.Builder builderForValue) {
+            public Builder setBonjourMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BonjourMessage value) {
                 if (bonjourMessageBuilder_ == null) {
-                    bonjourMessage_ = builderForValue.build();
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    bonjourMessage_ = value;
                     onChanged();
                 } else {
-                    bonjourMessageBuilder_.setMessage(builderForValue.build());
+                    bonjourMessageBuilder_.setMessage(value);
                 }
 
                 return this;
@@ -4511,15 +4527,13 @@ public final class AnomalyOperationProtos {
              * <p>
              * <code>optional .BonjourMessage bonjourMessage = 2;</code>
              */
-            public Builder setBonjourMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BonjourMessage value) {
+            public Builder setBonjourMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BonjourMessage.Builder builderForValue) {
                 if (bonjourMessageBuilder_ == null) {
-                    if (value == null) {
-                        throw new NullPointerException();
-                    }
-                    bonjourMessage_ = value;
+                    bonjourMessage_ = builderForValue.build();
                     onChanged();
                 } else {
-                    bonjourMessageBuilder_.setMessage(value);
+                    bonjourMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -4638,21 +4652,6 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .SystemGeneralMessage systemGeneralMessage = 3;</code>
              */
-            public Builder setSystemGeneralMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage.Builder builderForValue) {
-                if (systemGeneralMessageBuilder_ == null) {
-                    systemGeneralMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    systemGeneralMessageBuilder_.setMessage(builderForValue.build());
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .SystemGeneralMessage systemGeneralMessage = 3;</code>
-             */
             public Builder setSystemGeneralMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage value) {
                 if (systemGeneralMessageBuilder_ == null) {
                     if (value == null) {
@@ -4662,6 +4661,21 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     systemGeneralMessageBuilder_.setMessage(value);
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .SystemGeneralMessage systemGeneralMessage = 3;</code>
+             */
+            public Builder setSystemGeneralMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage.Builder builderForValue) {
+                if (systemGeneralMessageBuilder_ == null) {
+                    systemGeneralMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    systemGeneralMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -4760,21 +4774,6 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .LeverMessage leverMessage = 4;</code>
              */
-            public Builder setLeverMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.LeverMessage.Builder builderForValue) {
-                if (leverMessageBuilder_ == null) {
-                    leverMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    leverMessageBuilder_.setMessage(builderForValue.build());
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .LeverMessage leverMessage = 4;</code>
-             */
             public Builder setLeverMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.LeverMessage value) {
                 if (leverMessageBuilder_ == null) {
                     if (value == null) {
@@ -4784,6 +4783,21 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     leverMessageBuilder_.setMessage(value);
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .LeverMessage leverMessage = 4;</code>
+             */
+            public Builder setLeverMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.LeverMessage.Builder builderForValue) {
+                if (leverMessageBuilder_ == null) {
+                    leverMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    leverMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -4882,21 +4896,6 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .BaselineMessage baselineMessage = 5;</code>
              */
-            public Builder setBaselineMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BaselineMessage.Builder builderForValue) {
-                if (baselineMessageBuilder_ == null) {
-                    baselineMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    baselineMessageBuilder_.setMessage(builderForValue.build());
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .BaselineMessage baselineMessage = 5;</code>
-             */
             public Builder setBaselineMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BaselineMessage value) {
                 if (baselineMessageBuilder_ == null) {
                     if (value == null) {
@@ -4906,6 +4905,21 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     baselineMessageBuilder_.setMessage(value);
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .BaselineMessage baselineMessage = 5;</code>
+             */
+            public Builder setBaselineMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BaselineMessage.Builder builderForValue) {
+                if (baselineMessageBuilder_ == null) {
+                    baselineMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    baselineMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -5004,21 +5018,6 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .DemandBaselineMessage demandBaselineMessage = 6;</code>
              */
-            public Builder setDemandBaselineMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage.Builder builderForValue) {
-                if (demandBaselineMessageBuilder_ == null) {
-                    demandBaselineMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    demandBaselineMessageBuilder_.setMessage(builderForValue.build());
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .DemandBaselineMessage demandBaselineMessage = 6;</code>
-             */
             public Builder setDemandBaselineMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage value) {
                 if (demandBaselineMessageBuilder_ == null) {
                     if (value == null) {
@@ -5028,6 +5027,21 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     demandBaselineMessageBuilder_.setMessage(value);
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .DemandBaselineMessage demandBaselineMessage = 6;</code>
+             */
+            public Builder setDemandBaselineMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage.Builder builderForValue) {
+                if (demandBaselineMessageBuilder_ == null) {
+                    demandBaselineMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    demandBaselineMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -5126,21 +5140,6 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .RouteMessage routeMessage = 7;</code>
              */
-            public Builder setRouteMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.Builder builderForValue) {
-                if (routeMessageBuilder_ == null) {
-                    routeMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    routeMessageBuilder_.setMessage(builderForValue.build());
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .RouteMessage routeMessage = 7;</code>
-             */
             public Builder setRouteMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage value) {
                 if (routeMessageBuilder_ == null) {
                     if (value == null) {
@@ -5150,6 +5149,21 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     routeMessageBuilder_.setMessage(value);
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .RouteMessage routeMessage = 7;</code>
+             */
+            public Builder setRouteMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.Builder builderForValue) {
+                if (routeMessageBuilder_ == null) {
+                    routeMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    routeMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -6000,6 +6014,7 @@ public final class AnomalyOperationProtos {
         private int port_;
         private volatile java.lang.Object routes_;
         private byte memoizedIsInitialized = -1;
+
         // Use SystemGeneralMessage.newBuilder() to construct.
         private SystemGeneralMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
@@ -7196,6 +7211,7 @@ public final class AnomalyOperationProtos {
         private RouteMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
+
         private RouteMessage() {
             routeID_ = 0;
             origin_ = "";
@@ -8039,6 +8055,7 @@ public final class AnomalyOperationProtos {
         private LeverMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
+
         private LeverMessage() {
             leverValue_ = 0D;
             leverUpdateDate_ = "";
@@ -8629,6 +8646,7 @@ public final class AnomalyOperationProtos {
         private BaselineMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
+
         private BaselineMessage() {
             routeIdx_ = 0;
             day_ = 0;
@@ -9667,6 +9685,7 @@ public final class AnomalyOperationProtos {
             routeIdx_ = 0;
             day_ = 0;
         }
+
         private DemandBaselineMessage(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)

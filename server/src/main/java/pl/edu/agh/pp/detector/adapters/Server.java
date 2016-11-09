@@ -1,8 +1,5 @@
 package pl.edu.agh.pp.detector.adapters;
 
-import java.net.InetAddress;
-import java.nio.ByteBuffer;
-
 import org.jgroups.Address;
 import org.jgroups.ReceiverAdapter;
 import org.jgroups.blocks.cs.BaseServer;
@@ -16,20 +13,17 @@ import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 /**
  * Created by Maciej on 11.09.2016.
  * 14:36
  * Project: server.
  */
-public class Server extends ReceiverAdapter implements Receiver
-{
+public class Server extends ReceiverAdapter implements Receiver {
 
     protected BaseServer server;
 
-    public void start(InetAddress bind_addr, int port, boolean nio) throws Exception
-    {
+    public void start(InetAddress bind_addr, int port, boolean nio) throws Exception {
         server = nio ? new NioServer(bind_addr, port) : new TcpServer(bind_addr, port);
         server.receiver(this);
         server.start();
@@ -39,35 +33,25 @@ public class Server extends ReceiverAdapter implements Receiver
     }
 
     @Override
-    public void receive(Address sender, byte[] buf, int offset, int length)
-    {
-        try
-        {
+    public void receive(Address sender, byte[] buf, int offset, int length) {
+        try {
             server.send(null, buf, offset, length);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void receive(Address sender, ByteBuffer buf)
-    {
-        try
-        {
+    public void receive(Address sender, ByteBuffer buf) {
+        try {
             server.send(null, buf);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void send(ByteBuffer buf)
-    {
-        try
-        {
+    public void send(ByteBuffer buf) {
+        try {
             server.send(null, buf);
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,9 +69,7 @@ public class Server extends ReceiverAdapter implements Receiver
         try {
             server.send(null, buf, 0, buf.length);
             AnomalyOperationProtos.AnomalyMessage msg = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -4,7 +4,6 @@ import org.joda.time.DateTime;
 import pl.edu.agh.pp.detector.adapters.Server;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Maciej on 05.10.2016.
@@ -52,6 +51,7 @@ public interface IAnomalyTracker {
     /**
      * TODO: Verify
      * Check, if there was an anomaly on given route, since server application was started.
+     *
      * @param routeID The Index/ID of the route.
      * @return True if an anomaly occurred at given route, false otherwise.
      */

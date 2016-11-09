@@ -80,8 +80,9 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 
     /**
      * Receive method for the NIO working mode.
+     *
      * @param sender Address of the message sender.
-     * @param buf ByteBuffer with the messages
+     * @param buf    ByteBuffer with the messages
      * @see Address
      * @see ReceiverAdapter
      * @see ConnectionListener
@@ -107,8 +108,9 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 
     /**
      * Receive method for the TCP working mode.
+     *
      * @param sender Address of the message sender.
-     * @param buf Buffer with the messages
+     * @param buf    Buffer with the messages
      * @param offset The message offset
      * @param length The length of received message
      * @see Address

@@ -26,7 +26,7 @@ public class Anomaly {
     private int anomaliesNumber;
     private Baseline baseline = null;
 
-    public Anomaly(AnomalyOperationProtos.AnomalyMessage anomalyMessage){
+    public Anomaly(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
         this.anomalyId = String.valueOf(anomalyMessage.getAnomalyID());
         this.startDate = anomalyMessage.getDate();
         this.lastDate = anomalyMessage.getDate();
@@ -35,7 +35,7 @@ public class Anomaly {
         this.duration = String.valueOf(anomalyMessage.getDuration());
         this.dayOfWeek = String.valueOf(anomalyMessage.getDayOfWeek());
         durationHistory = new HashMap<>();
-        durationHistory.put(this.lastDate,this.duration);
+        durationHistory.put(this.lastDate, this.duration);
         buildScreenMessage();
         anomaliesNumber = 1;
     }
@@ -64,7 +64,7 @@ public class Anomaly {
         return percent;
     }
 
-    public String getScreenMessage(){
+    public String getScreenMessage() {
         return screenMessage;
     }
 
@@ -76,7 +76,7 @@ public class Anomaly {
         return startDate;
     }
 
-    public String getAnomalyId(){
+    public String getAnomalyId() {
         return anomalyId;
     }
 
@@ -84,39 +84,38 @@ public class Anomaly {
         return dayOfWeek;
     }
 
-    void addMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage){
+    void addMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
         this.lastDate = anomalyMessage.getDate();
         this.duration = String.valueOf(anomalyMessage.getDuration());
-        durationHistory.put(this.lastDate,this.duration);
+        durationHistory.put(this.lastDate, this.duration);
         anomaliesNumber++;
     }
 
-    public Map<String,String> getDurationHistory(){
+    public Map<String, String> getDurationHistory() {
         return durationHistory;
     }
 
-    private void buildScreenMessage(){
+    private void buildScreenMessage() {
         this.screenMessage = routeId + "              " + startDate;
     }
 
-    XYChart.Series<Number, Number> getChartSeries(){
+    XYChart.Series<Number, Number> getChartSeries() {
         return anomalySeries;
     }
 
-    XYChart.Series<Number, Number> getBaselineSeries(){
-        if(baseline != null) {
+    void setChartSeries(XYChart.Series<Number, Number> series) {
+        this.anomalySeries = series;
+    }
+
+    XYChart.Series<Number, Number> getBaselineSeries() {
+        if (baseline != null) {
             return baseline.getBaselineSeries();
-        }
-        else{
+        } else {
             this.baseline = BaselineManager.getBaseline(Integer.valueOf(routeId), DayOfWeek.of(Integer.parseInt(getDayOfWeek())));
-            if(baseline != null){
+            if (baseline != null) {
                 return baseline.getBaselineSeries();
             }
         }
         return null;
-    }
-
-    void setChartSeries(XYChart.Series<Number, Number> series){
-        this.anomalySeries = series;
     }
 }

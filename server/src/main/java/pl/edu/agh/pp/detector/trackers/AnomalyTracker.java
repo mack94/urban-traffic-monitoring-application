@@ -1,11 +1,5 @@
 package pl.edu.agh.pp.detector.trackers;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
-
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 import org.slf4j.Logger;
@@ -17,6 +11,12 @@ import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.settings.exceptions.IllegalPreferenceObjectExpected;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
 /**
  * Created by Maciej on 05.10.2016.
  *
@@ -26,10 +26,10 @@ import pl.edu.agh.pp.settings.exceptions.IllegalPreferenceObjectExpected;
  */
 public final class AnomalyTracker implements IAnomalyTracker {
 
+    private final Logger logger = (Logger) LoggerFactory.getLogger(AnomalyTracker.class);
     // In the future, it can be replaced by the structure in which objects terminates - to make it more memory efficiently.
     private ConcurrentHashMap<Integer, DateTime> anomalyTime = new ConcurrentHashMap<>();
     private ConcurrentHashMap<Integer, Long> anomalyID = new ConcurrentHashMap<>();
-    private final Logger logger = (Logger) LoggerFactory.getLogger(AnomalyTracker.class);
     private IOptions options = Options.getInstance();
     private Seconds liveTime;
     private Random random = new Random();
@@ -106,8 +106,7 @@ public final class AnomalyTracker implements IAnomalyTracker {
         return JodaTimeHelper.MINIMUM_ANOMALY_DATE;
     }
 
-    public void setServer(Server server)
-    {
+    public void setServer(Server server) {
         this.server = server;
         this.anomalyExpirationListener.setServer(server);
     }

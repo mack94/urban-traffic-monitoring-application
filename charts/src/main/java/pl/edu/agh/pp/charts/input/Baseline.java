@@ -14,7 +14,7 @@ public class Baseline {
     private XYChart.Series<Number, Number> baselineSeries = null;
     private DayOfWeek day;
 
-    public Baseline(Integer routeID, DayOfWeek day,Map<Integer, Integer> baseline){
+    public Baseline(Integer routeID, DayOfWeek day, Map<Integer, Integer> baseline) {
         this.baseline = baseline;
         this.routeID = routeID;
         this.day = day;
@@ -24,12 +24,11 @@ public class Baseline {
         return baseline;
     }
 
-    public XYChart.Series<Number, Number> getBaselineSeries(){
-        if(baselineSeries == null){
+    public XYChart.Series<Number, Number> getBaselineSeries() {
+        if (baselineSeries == null) {
             buildBaselineSeries();
             return baselineSeries;
-        }
-        else{
+        } else {
             return baselineSeries;
         }
     }
@@ -42,13 +41,13 @@ public class Baseline {
         return day;
     }
 
-    private void buildBaselineSeries(){
+    private void buildBaselineSeries() {
         baselineSeries = new XYChart.Series<>();
 
         for (Integer time : baseline.keySet()) {
-            double h = time/3600;
-            double m = (time/60) - (h*60);
-            if(m%5 == 0) {
+            double h = time / 3600;
+            double m = (time / 60) - (h * 60);
+            if (m % 5 == 0) {
                 XYChart.Data<Number, Number> data = new XYChart.Data<>(h + (m / 60), baseline.get(time));
 
                 baselineSeries.getData().add(data);

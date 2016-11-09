@@ -1,5 +1,9 @@
 package pl.edu.agh.pp.detector.loaders;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.detector.records.Record;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -9,10 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.detector.records.Record;
 
 /**
  * Created by Maciej on 18.07.2016.
@@ -37,20 +37,20 @@ public class FilesLoader {
     private List<Record> records = new ArrayList<>();
     private InputParser inputParser = new InputParser();
 
-    public FilesLoader(String ... fileNames) {
-        if(fileNames.length > 0){
+    public FilesLoader(String... fileNames) {
+        if (fileNames.length > 0) {
             listFilePath = new ArrayList<Path>();
-            for(String aFileName: fileNames) {
-                if(aFileName!= null && !aFileName.equals(""))
+            for (String aFileName : fileNames) {
+                if (aFileName != null && !aFileName.equals(""))
                     listFilePath.add(Paths.get(aFileName));
             }
-        }else{
+        } else {
             //TODO: some sort of error message or notification for user(bad input)
         }
     }
 
     public final void processLineByLine() throws IOException {
-        for(Path aFilePath: listFilePath) {
+        for (Path aFilePath : listFilePath) {
             try (Scanner scanner = new Scanner(aFilePath, ENCODING.name())) {
                 while (scanner.hasNextLine()) {
                     processLine(scanner.nextLine());
@@ -68,12 +68,12 @@ public class FilesLoader {
         if (scanner.hasNext()) {
             Record record;
             String buffer = scanner.next();
-            if(buffer.contains("\"Status\": \"NOT_FOUND\"")) {
+            if (buffer.contains("\"Status\": \"NOT_FOUND\"")) {
                 logger.error("FilesLoader :: bad record found: " + buffer);
                 return;
             }
             record = inputParser.parse(buffer);
-            if(record != null) {
+            if (record != null) {
                 records.add(record);
             }
         }

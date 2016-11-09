@@ -70,7 +70,7 @@ public class Record {
     }
 
     public String getDay() {
-        return date.replaceAll("([\\d]*-[\\d]*-[\\d]*).*","$1");
+        return date.replaceAll("([\\d]*-[\\d]*-[\\d]*).*", "$1");
     }
 
 }

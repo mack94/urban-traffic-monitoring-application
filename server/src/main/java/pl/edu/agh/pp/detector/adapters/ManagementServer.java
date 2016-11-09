@@ -214,9 +214,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
     private void sendBaselineMessage(Address sender, int routeID) {
         //TODO: Check if routeID is not -1
         //TODO: Be careful about sending message too fast - if you send it too fast, wgen PolynomialPatternBuilder is not loaded, then message will not be send.
-        System.out.println("EE" + routeID + " _ " + DayOfWeek.fromValue(DateTime.now().getDayOfWeek()));
         double[] values = PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.fromValue(DateTime.now().getDayOfWeek()), routeID);
-        System.out.println("ELOELO: " + values.length);
         Map<Integer, Integer> baselineMap = new HashMap<>();
         int second = 0;
         for (double value : values) {
@@ -240,7 +238,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
 
         try {
             server.send(sender, toSend, 0, toSend.length);
-            System.out.println("Baseline sent");
+            logger.info("Baseline sent");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -249,9 +247,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
     private int parseDemandBaselineMessage(AnomalyOperationProtos.ManagementMessage message) {
         try {
             AnomalyOperationProtos.DemandBaselineMessage demandBaselineMessage = AnomalyOperationProtos.DemandBaselineMessage.parseFrom(message.getDemandBaselineMessage().toByteArray());
-            System.out.println("ID=" + demandBaselineMessage.getRouteIdx());
-            System.out.println("GoodEE:" + demandBaselineMessage.getDay());
-            System.out.println("GoodEE:" + demandBaselineMessage.getDayValue());
+            logger.info("Demand baseline for ID=" + demandBaselineMessage.getRouteIdx() + " day: " + demandBaselineMessage.getDay());
             return demandBaselineMessage.getRouteIdx();
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();

@@ -17,18 +17,15 @@ import pl.edu.agh.pp.detector.DetectorManager;
  * 18:15
  * server
  */
-public class RequestsExecutor
-{
+public class RequestsExecutor {
     private final Logger logger = LoggerFactory.getLogger(RequestsExecutor.class);
     private final DetectorManager detectorManager;
 
-    public RequestsExecutor(DetectorManager detectorManager)
-    {
+    public RequestsExecutor(DetectorManager detectorManager) {
         this.detectorManager = detectorManager;
     }
 
-    public synchronized void execute(String id, GeoApiContext context, String[] origins, String[] destinations, TravelMode travelMode, Instant departure, String defaultWaypoints) throws Exception
-    {
+    public synchronized void execute(String id, GeoApiContext context, String[] origins, String[] destinations, TravelMode travelMode, Instant departure, String defaultWaypoints) throws Exception {
         DistanceMatrix distanceMatrix = DistanceMatrixApi
                 .getDistanceMatrix(context, origins, destinations)
                 .mode(travelMode)
@@ -44,8 +41,7 @@ public class RequestsExecutor
                 .await();
 
         Route route = new Route(id, distanceMatrix, directionsApi, defaultWaypoints);
-        if (detectorManager.isAnomaly(route.toString()))
-        {
+        if (detectorManager.isAnomaly(route.toString())) {
             route.setAnomalyMarker();
         }
         logger.error(route.toString());

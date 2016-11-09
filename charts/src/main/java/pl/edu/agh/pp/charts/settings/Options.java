@@ -157,7 +157,7 @@ public class Options implements IOptions {
 
     @Override
     public ServerOptions getServerOptions() {
-        if(serverOptions == null){
+        if (serverOptions == null) {
             serverOptions = new ServerOptions();
         }
         return serverOptions;

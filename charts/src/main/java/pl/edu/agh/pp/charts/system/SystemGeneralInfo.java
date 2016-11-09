@@ -6,7 +6,10 @@ import org.json.JSONObject;
 import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Created by Maciej on 04.11.2016.
@@ -32,26 +35,6 @@ public class SystemGeneralInfo {
         //setRoutes(systemGeneralMessage.getRoutes());
         setShift(systemGeneralMessage.getShift());
         setSystemDate(systemGeneralMessage.getSystemDate());
-        informControllerAboutChanges();
-    }
-
-    public static void setAnomalyLiveTime(int anomalyLiveTime) {
-        SystemGeneralInfo.anomalyLiveTime = anomalyLiveTime;
-        informControllerAboutChanges();
-    }
-
-    public static void setBaselineWindowSize(int baselineWindowSize) {
-        SystemGeneralInfo.baselineWindowSize = baselineWindowSize;
-        informControllerAboutChanges();
-    }
-
-    public static void setLeverValue(double leverValue) {
-        SystemGeneralInfo.leverValue = leverValue;
-        informControllerAboutChanges();
-    }
-
-    public static void setPort(int port) {
-        SystemGeneralInfo.port = port;
         informControllerAboutChanges();
     }
 
@@ -82,7 +65,7 @@ public class SystemGeneralInfo {
 
             JSONObject newRoute = new JSONObject();
             newRoute.put("id", ID);
-            newRoute.put("origin",origin);
+            newRoute.put("origin", origin);
             newRoute.put("destination", destination);
             newRoute.put("coords", coords);
 
@@ -98,38 +81,58 @@ public class SystemGeneralInfo {
         }
     }
 
-    public static void setShift(AnomalyOperationProtos.SystemGeneralMessage.Shift shift) {
-        SystemGeneralInfo.shift = shift;
-        informControllerAboutChanges();
-    }
-
-    public static void setSystemDate(String systemDate) {
-        SystemGeneralInfo.systemDate = systemDate;
-        informControllerAboutChanges();
-    }
-
     public static int getAnomalyLiveTime() {
         return anomalyLiveTime;
+    }
+
+    public static void setAnomalyLiveTime(int anomalyLiveTime) {
+        SystemGeneralInfo.anomalyLiveTime = anomalyLiveTime;
+        informControllerAboutChanges();
     }
 
     public static int getBaselineWindowSize() {
         return baselineWindowSize;
     }
 
+    public static void setBaselineWindowSize(int baselineWindowSize) {
+        SystemGeneralInfo.baselineWindowSize = baselineWindowSize;
+        informControllerAboutChanges();
+    }
+
     public static double getLeverValue() {
         return leverValue;
+    }
+
+    public static void setLeverValue(double leverValue) {
+        SystemGeneralInfo.leverValue = leverValue;
+        informControllerAboutChanges();
     }
 
     public static int getPort() {
         return port;
     }
 
+    public static void setPort(int port) {
+        SystemGeneralInfo.port = port;
+        informControllerAboutChanges();
+    }
+
     public static AnomalyOperationProtos.SystemGeneralMessage.Shift getShift() {
         return shift;
     }
 
+    public static void setShift(AnomalyOperationProtos.SystemGeneralMessage.Shift shift) {
+        SystemGeneralInfo.shift = shift;
+        informControllerAboutChanges();
+    }
+
     public static String getSystemDate() {
         return systemDate;
+    }
+
+    public static void setSystemDate(String systemDate) {
+        SystemGeneralInfo.systemDate = systemDate;
+        informControllerAboutChanges();
     }
 
     public static String getRoutesJSON() {
