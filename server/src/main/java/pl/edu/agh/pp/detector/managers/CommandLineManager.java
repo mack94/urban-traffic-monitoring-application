@@ -5,6 +5,7 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import pl.edu.agh.pp.detector.builders.IPatternBuilder;
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
+import pl.edu.agh.pp.detector.helpers.LeverInfoHelper;
 import pl.edu.agh.pp.detector.loaders.FilesLoader;
 import pl.edu.agh.pp.detector.serializers.FileBaselineSerializer;
 import pl.edu.agh.pp.detector.serializers.IBaselineSerializer;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class CommandLineManager extends Thread {
     private static final IPatternBuilder patternBuilder = PolynomialPatternBuilder.getInstance();
     private static final IBaselineSerializer baselineSerializer = FileBaselineSerializer.getInstance();
+    private static final LeverInfoHelper leverInfoHelper = LeverInfoHelper.getInstance();
 
     @Override
     public void run() {
@@ -41,6 +43,11 @@ public class CommandLineManager extends Thread {
                     if (baseline != null) {
                         patternBuilder.setBaseline(baseline);
                     }
+                } else if (buffer.startsWith("UPDATE_LEVER")) {
+                    buffer = StringUtils.removeStart(buffer, "UPDATE_LEVER ");
+                    String[] args = buffer.split(" ");
+                    int percentLeverValue = Integer.parseInt(args[0]);
+                    leverInfoHelper.setLeverValue(percentLeverValue);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

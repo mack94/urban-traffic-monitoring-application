@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.CronManager;
 import pl.edu.agh.pp.detector.DetectorManager;
 import pl.edu.agh.pp.detector.adapters.ChannelReceiver;
+import pl.edu.agh.pp.detector.adapters.Connector;
 import pl.edu.agh.pp.detector.adapters.ManagementServer;
 import pl.edu.agh.pp.detector.adapters.Server;
 import pl.edu.agh.pp.settings.IOptions;
@@ -59,24 +60,14 @@ public class Main {
 
             logger.info("Running server in 2 sec.");
             Thread.sleep(2000);
-            ManagementServer managementServer = new ManagementServer();
-            Server server = new Server();
-            ChannelReceiver channelReceiver = new ChannelReceiver();
-            try {
-                // TODO: I am not sure if we should start both management and anomalies channel both at the same time.
-                managementServer.start(bind_addr, port - 1, nio);
-                server.start(bind_addr, port, nio);
-                channelReceiver.start(bind_addr, port, nio);
-                logger.info("Server already running.");
-            } catch (Exception e) {
-                logger.error("Main :: Exception " + e);
-            }
 
-            Thread.sleep(10000);
-            if(args.length>1)
-                new CronManager(server).doSomething(args[1]);
-            else
-                new CronManager(server).doSomething("");
+            Connector.connect(args, bind_addr, port, nio);
+            //TODO:Uwaga! Usunąłem metody, które tutaj były (stawianie serwera i kanałów) i przeniosłem do Connectora.
+            // Jak są jakieś błędy to proszę zgłaszać
+            // Ponadto nie wiem czy działa teraz to co jest po else.
+            // Bo brakuje testów i sobie nie sprawdzę :-/
+            // ~Maciek
+
         } else {
             Server server = new Server();
             //new DetectorManager(server, args[1]).displayAnomaliesForRoute(1);

@@ -25,10 +25,6 @@ public interface IPatternBuilder {
         return new double[0];
     }
 
-    double getErrorSensitivity();
-
-    void setErrorSensitivity(double errorSensitivity);
-
     AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration);
 
     void setBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline);

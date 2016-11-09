@@ -9,12 +9,16 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.detector.adapters.Server;
 import pl.edu.agh.pp.detector.detectors.Detector;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
+import pl.edu.agh.pp.detector.helpers.LeverInfoHelper;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.detector.records.Record;
 import pl.edu.agh.pp.detector.serializers.FileBaselineSerializer;
 import pl.edu.agh.pp.detector.serializers.IBaselineSerializer;
 import pl.edu.agh.pp.detector.trackers.AnomalyTracker;
 import pl.edu.agh.pp.detector.trackers.IAnomalyTracker;
+import pl.edu.agh.pp.settings.IOptions;
+import pl.edu.agh.pp.settings.Options;
+import pl.edu.agh.pp.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.util.*;
 
@@ -24,12 +28,13 @@ import java.util.*;
  * Project: detector.
  */
 public final class PolynomialPatternBuilder implements IPatternBuilder, Detector {
+
     private static IAnomalyTracker anomalyTracker = AnomalyTracker.getInstance();
     private static IBaselineSerializer baselineSerializer = FileBaselineSerializer.getInstance();
     private static Map<DayOfWeek, List<Record>> recordsOfDay = new HashMap<>();
     private static Map<DayOfWeek, Map<Integer, PolynomialFunction>> polynomialFunctions = new HashMap<>();
+    private static LeverInfoHelper leverInfoHelper = new LeverInfoHelper();
     private final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
-    public double errorSensitivity = 0.0;
     private Server server;
 
     private PolynomialPatternBuilder() {
@@ -98,16 +103,6 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     }
 
     @Override
-    public double getErrorSensitivity() {
-        return errorSensitivity;
-    }
-
-    @Override
-    public void setErrorSensitivity(double errorSensitivity) {
-        this.errorSensitivity = errorSensitivity;
-    }
-
-    @Override
     public void setBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline) {
         this.polynomialFunctions = baseline;
     }
@@ -131,8 +126,10 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     public AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
 
         double predictedTravelDuration = function(dayOfWeek, routeIdx, (int) secondOfDay);
-        double bounds = 0.40;// + Math.abs(polynomialFunctions.get(dayOfWeek).get(routeIdx).polynomialDerivative().value(secondOfDay)) + 1.0* (errorSensitivity) % 1.0; //%
+        double errorSensitivity = leverInfoHelper.getLeverValue();
+        double bounds = 0.25 + errorSensitivity; //%
         double errorDelta = predictedTravelDuration * bounds;
+
 
         // TODO: It's a problematic thing, because it is not precise at 00:00 and next 4 minutes of next day. (it took last day)
         // TODO: But at 12am there is no big differences between days. - so this difference might be omitted.

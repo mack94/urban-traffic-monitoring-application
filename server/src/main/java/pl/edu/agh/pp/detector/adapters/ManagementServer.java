@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.utils.RoutesLoader;
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
+import pl.edu.agh.pp.detector.helpers.LeverInfoHelper;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
@@ -116,7 +117,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
 
         int anomalyLiveTime = (int) options.getPreference("AnomalyLiveTime", Integer.class);
         int baselineWindowSize = (int) options.getPreference("BaselineWindowSize", Integer.class);
-        double leverValue = Math.PI; // FIXME: Get lever value from somewhere (may be options)
+        double leverValue = LeverInfoHelper.getInstance().getLeverValue();
         int anomaliesChannelPort = (int) options.getPreference("AnomaliesChannelPort", Integer.class); // FIXME
         int messageID = 1; // FIXME
         RoutesLoader routesLoader = RoutesLoader.getInstance();
@@ -147,7 +148,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         }
     }
 
-    private void sendRoutesMessages(Address sender) {
+    private void sendRoutesMessages(Address destination) {
         RoutesLoader routesLoader = RoutesLoader.getInstance();
         JSONArray loadedRoutes = null;
         try {
@@ -177,7 +178,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
 
                 byte[] toSend = msg.toByteArray();
                 Thread.sleep(250);
-                server.send(sender, toSend, 0, toSend.length);
+                server.send(destination, toSend, 0, toSend.length);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -187,13 +188,12 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
     }
 
 
-    public void sendLeverInfoMessage(Address destination) {
+    public void sendLeverInfoMessage(double leverValue) { // send it to all users. TODO: Send to exact user if needed?
 
-        double leverInfo = 0.0; // FIXME
         String leverUpdateDate = ""; // FIXME
 
         AnomalyOperationProtos.LeverMessage msg = AnomalyOperationProtos.LeverMessage.newBuilder()
-                .setLeverValue(leverInfo)
+                .setLeverValue(leverValue)
                 .setLeverUpdateDate(leverUpdateDate)
                 .build();
 
@@ -205,13 +205,13 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         byte[] messageToSent = managementMessage.toByteArray();
 
         try {
-            server.send(destination, messageToSent, 0, messageToSent.length);
+            server.send(null, messageToSent, 0, messageToSent.length);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void sendBaselineMessage(Address sender, int routeID) {
+    private void sendBaselineMessage(Address destination, int routeID) {
         //TODO: Check if routeID is not -1
         //TODO: Be careful about sending message too fast - if you send it too fast, wgen PolynomialPatternBuilder is not loaded, then message will not be send.
         double[] values = PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.fromValue(DateTime.now().getDayOfWeek()), routeID);
@@ -237,7 +237,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         byte[] toSend = managementMessage.toByteArray();
 
         try {
-            server.send(sender, toSend, 0, toSend.length);
+            server.send(destination, toSend, 0, toSend.length);
             logger.info("Baseline sent");
         } catch (Exception e) {
             e.printStackTrace();

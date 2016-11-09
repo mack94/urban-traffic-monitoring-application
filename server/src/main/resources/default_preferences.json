@@ -24,6 +24,11 @@
       "name": "BaselineWindowSize",
       "type": "Integer",
       "value": "0"
+    },
+    {
+      "name": "LeverValue",
+      "type": "Integer",
+      "value": "-10"
     }
   ]
 }

@@ -27,7 +27,7 @@ public class Connector {
     private static ManagementChannelReceiver managementClient;
     private static ChannelReceiver client;
     private static MainWindowController mainWindowController;
-    private static double leverValue = 0.0;
+    private static double leverValue = 0.0; // TODO: remove?
     private static boolean isFromConnecting = false;
 
     public static void setMainWindowController(MainWindowController mwc) {
