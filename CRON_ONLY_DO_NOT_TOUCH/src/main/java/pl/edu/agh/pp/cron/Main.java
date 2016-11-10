@@ -8,32 +8,39 @@ import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
 import org.joda.time.Instant;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import pl.edu.agh.pp.cron.utils.ContextLoader;
 import pl.edu.agh.pp.cron.utils.Route;
 import pl.edu.agh.pp.cron.utils.RoutesLoader;
 
-public class Main {
+public class Main
+{
 
-    public static void main(String args[]) throws InterruptedException {
+    public static void main(String args[]) throws InterruptedException
+    {
 
         GeoApiContext context;
         ContextLoader contextLoader = new ContextLoader();
         RoutesLoader routesLoader = RoutesLoader.getInstance();
 
-        try {
+        try
+        {
             JSONArray loadedRoutes = routesLoader.loadJSON();
             context = contextLoader.geoApiContextLoader();
 
             int loadedRoutesAmount = loadedRoutes.length();
 
-            for (int i = 0; i < loadedRoutesAmount; i++) {
+            for (int i = 0; i < loadedRoutesAmount; i++)
+            {
+                JSONObject object = loadedRoutes.getJSONObject(i);
                 String destinations[] = new String[1];
                 String origins[] = new String[1];
-                String id = loadedRoutes.getJSONObject(i).get("id").toString();
-                destinations[0] = loadedRoutes.getJSONObject(i).get("destination").toString();
-                origins[0] = loadedRoutes.getJSONObject(i).get("origin").toString();
+                String id = object.get("id").toString();
+                destinations[0] = object.get("destination").toString();
+                origins[0] = object.get("origin").toString();
+                String waypoints = object.get("coords").toString();
 
-//              DistanceMatrixApiRequest distanceMatrixApiRequest = new DistanceMatrixApiRequest(context);
+                // DistanceMatrixApiRequest distanceMatrixApiRequest = new DistanceMatrixApiRequest(context);
                 TravelMode travelMode = TravelMode.DRIVING;
                 Instant departure = Instant.now();
 
@@ -45,15 +52,17 @@ public class Main {
                         .await();
 
                 DirectionsResult directionsApi = DirectionsApi
-                        .getDirections(context, destinations[0], origins[0])
+                        .getDirections(context, origins[0], destinations[0])
                         .alternatives(false)
                         .language("pl")
                         .departureTime(departure)
                         .await();
 
-                new Route(id, distanceMatrix, directionsApi);
+                new Route(id, distanceMatrix, directionsApi, waypoints);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 
