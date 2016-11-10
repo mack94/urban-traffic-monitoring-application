@@ -2,8 +2,8 @@ package pl.edu.agh.pp.charts.persistence;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.charts.input.Record;
-import pl.edu.agh.pp.charts.input.ResourcesHolder;
+import pl.edu.agh.pp.charts.data.local.Record;
+import pl.edu.agh.pp.charts.data.local.ResourcesHolder;
 
 import java.io.*;
 import java.text.DateFormat;

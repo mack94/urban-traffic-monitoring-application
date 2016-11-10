@@ -1,4 +1,4 @@
-package pl.edu.agh.pp.charts.input;
+package pl.edu.agh.pp.charts.data.local;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

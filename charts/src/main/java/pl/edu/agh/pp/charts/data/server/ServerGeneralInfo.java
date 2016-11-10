@@ -1,4 +1,4 @@
-package pl.edu.agh.pp.charts.system;
+package pl.edu.agh.pp.charts.data.server;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -16,7 +16,7 @@ import java.io.IOException;
  * 17:44
  * Project: charts.
  */
-public class SystemGeneralInfo {
+public class ServerGeneralInfo {
 
     private static int anomalyLiveTime;
     private static int baselineWindowSize;
@@ -86,7 +86,7 @@ public class SystemGeneralInfo {
     }
 
     public static void setAnomalyLiveTime(int anomalyLiveTime) {
-        SystemGeneralInfo.anomalyLiveTime = anomalyLiveTime;
+        ServerGeneralInfo.anomalyLiveTime = anomalyLiveTime;
         informControllerAboutChanges();
     }
 
@@ -95,7 +95,7 @@ public class SystemGeneralInfo {
     }
 
     public static void setBaselineWindowSize(int baselineWindowSize) {
-        SystemGeneralInfo.baselineWindowSize = baselineWindowSize;
+        ServerGeneralInfo.baselineWindowSize = baselineWindowSize;
         informControllerAboutChanges();
     }
 
@@ -104,7 +104,7 @@ public class SystemGeneralInfo {
     }
 
     public static void setLeverValue(double leverValue) {
-        SystemGeneralInfo.leverValue = leverValue;
+        ServerGeneralInfo.leverValue = leverValue;
         informControllerAboutChanges();
     }
 
@@ -113,7 +113,7 @@ public class SystemGeneralInfo {
     }
 
     public static void setPort(int port) {
-        SystemGeneralInfo.port = port;
+        ServerGeneralInfo.port = port;
         informControllerAboutChanges();
     }
 
@@ -122,7 +122,7 @@ public class SystemGeneralInfo {
     }
 
     public static void setShift(AnomalyOperationProtos.SystemGeneralMessage.Shift shift) {
-        SystemGeneralInfo.shift = shift;
+        ServerGeneralInfo.shift = shift;
         informControllerAboutChanges();
     }
 
@@ -131,7 +131,7 @@ public class SystemGeneralInfo {
     }
 
     public static void setSystemDate(String systemDate) {
-        SystemGeneralInfo.systemDate = systemDate;
+        ServerGeneralInfo.systemDate = systemDate;
         informControllerAboutChanges();
     }
 

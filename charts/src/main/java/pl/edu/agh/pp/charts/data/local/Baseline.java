@@ -1,4 +1,4 @@
-package pl.edu.agh.pp.charts.input;
+package pl.edu.agh.pp.charts.data.local;
 
 import javafx.scene.chart.XYChart;
 

@@ -98,7 +98,7 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
         buf.flip();
 //        try {
 //            AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf);
-//            Connector.onMessage(message);
+//            Connector.onAnomalyMessage(message);
 //        } catch (InvalidProtocolBufferException e) {
 //            logger.error("ChannelReceiver :: InvalidProtocolBufferException: " + e
 //                    + "\n Buf Array: " + Arrays.toString(buf.array())
@@ -144,7 +144,7 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 
         try {
             AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(result_parsable);
-            Connector.onMessage(message);
+            Connector.onAnomalyMessage(message);
             logger.info("\t Message parsing completed - success");
         } catch (InvalidProtocolBufferException e) {
             logger.error("ChannelReceiver: InvalidProtocolBufferException while parsing the received message. Error: " + e);

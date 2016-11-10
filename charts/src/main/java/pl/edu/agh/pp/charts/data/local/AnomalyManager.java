@@ -1,4 +1,4 @@
-package pl.edu.agh.pp.charts.input;
+package pl.edu.agh.pp.charts.data.local;
 
 import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;

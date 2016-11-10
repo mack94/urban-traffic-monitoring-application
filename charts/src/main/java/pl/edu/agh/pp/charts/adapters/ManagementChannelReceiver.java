@@ -8,8 +8,8 @@ import org.jgroups.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
-import pl.edu.agh.pp.charts.system.SystemBaselineInfo;
-import pl.edu.agh.pp.charts.system.SystemGeneralInfo;
+import pl.edu.agh.pp.charts.data.server.ServerBaselineInfo;
+import pl.edu.agh.pp.charts.data.server.ServerGeneralInfo;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -178,7 +178,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             AnomalyOperationProtos.SystemGeneralMessage generalMessage = AnomalyOperationProtos.SystemGeneralMessage.parseFrom(message.getSystemGeneralMessage().toByteArray());
             String routes = generalMessage.getRoutes();
             double leverValue = generalMessage.getLeverValue();
-            SystemGeneralInfo.setSystemGeneralMessage(generalMessage);
+            ServerGeneralInfo.setSystemGeneralMessage(generalMessage);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
@@ -188,7 +188,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         try {
             AnomalyOperationProtos.LeverMessage leverMessage = AnomalyOperationProtos.LeverMessage.parseFrom(message.getLeverMessage().toByteArray());
             double leverValue = leverMessage.getLeverValue();
-            SystemGeneralInfo.setLeverValue(leverValue);
+            ServerGeneralInfo.setLeverValue(leverValue);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
@@ -197,7 +197,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
     private void parseRouteMessage(AnomalyOperationProtos.ManagementMessage message) {
         try {
             AnomalyOperationProtos.RouteMessage routeMessage = AnomalyOperationProtos.RouteMessage.parseFrom(message.getRouteMessage().toByteArray());
-            SystemGeneralInfo.addRoute(routeMessage);
+            ServerGeneralInfo.addRoute(routeMessage);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
@@ -209,7 +209,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             int routeID = baselineMessage.getRouteIdx();
             AnomalyOperationProtos.BaselineMessage.Day day = baselineMessage.getDay();
             Map<Integer, Integer> baselineMap = baselineMessage.getBaselineMap();
-            SystemBaselineInfo.addBaselineInfo(routeID, day, baselineMap);
+            ServerBaselineInfo.addBaselineInfo(routeID, day, baselineMap);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package pl.edu.agh.pp.charts.system;
+package pl.edu.agh.pp.charts.data.server;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -13,7 +13,7 @@ import java.io.IOException;
  * 16:09
  * Project: charts.
  */
-public class SystemRoutesInfo {
+public class ServerRoutesInfo {
 
     private static JSONObject getRouteInfo(int routeID) {
         String jsonTxt;

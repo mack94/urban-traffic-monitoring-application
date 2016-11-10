@@ -20,8 +20,8 @@ import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
-import pl.edu.agh.pp.charts.input.Input;
-import pl.edu.agh.pp.charts.input.ResourcesHolder;
+import pl.edu.agh.pp.charts.data.local.Input;
+import pl.edu.agh.pp.charts.data.local.ResourcesHolder;
 import pl.edu.agh.pp.charts.parser.Parser;
 
 import java.io.File;
@@ -39,7 +39,8 @@ public class ChartsController {
     private Input input;
     private Set<Integer> idsSet = new HashSet<>();
     private Set<String> datesSet = new HashSet<>();
-    private ObservableList<String> idsList = FXCollections.observableArrayList();
+    private ObservableList<String> localRouteIdList = FXCollections.observableArrayList();
+    private ObservableList<String> serverRouteIdList = FXCollections.observableArrayList();
     private MainWindowController parent;
     @FXML
     private LineChart<Number, Number> lineChart;
@@ -91,6 +92,7 @@ public class ChartsController {
     public ChartsController(Stage primaryStage, MainWindowController parent) {
         this.primaryStage = primaryStage;
         this.parent = parent;
+        Connector.setChartsController(this);
     }
 
     public void show() {
@@ -167,17 +169,33 @@ public class ChartsController {
             parser.parse(input);
         }
 
-        idsList = FXCollections.observableArrayList();
-        idComboBox.setItems(idsList);
         for (String id : input.getIds()) {
             idsSet.add(Integer.parseInt(id));
         }
         List<Integer> ids = new ArrayList<>(idsSet);
         Collections.sort(ids);
         for (Integer id : ids) {
-            idsList.add(input.getRoute(String.valueOf(id)));
+            localRouteIdList.add(input.getRoute(String.valueOf(id)));
         }
-        idComboBox.setItems(idsList);
+        setupFields();
+    }
+
+    public void setServerRouteIds(){
+        //TODO
+    }
+
+    public void setServerDates(){
+        //TODO
+    }
+
+    private void setupFields() {
+        localRouteIdList.clear();
+        if(sourceComboBox.getSelectionModel().getSelectedItem()!=null && sourceComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("local data")){
+            idComboBox.setItems(localRouteIdList);
+        }
+        else {
+            idComboBox.setItems(serverRouteIdList);
+        }
         setupDatePicker();
     }
 

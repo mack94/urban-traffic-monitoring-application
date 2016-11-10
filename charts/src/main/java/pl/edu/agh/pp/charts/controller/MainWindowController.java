@@ -30,13 +30,13 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
-import pl.edu.agh.pp.charts.input.Anomaly;
-import pl.edu.agh.pp.charts.input.AnomalyManager;
-import pl.edu.agh.pp.charts.input.Input;
+import pl.edu.agh.pp.charts.data.local.Anomaly;
+import pl.edu.agh.pp.charts.data.local.AnomalyManager;
+import pl.edu.agh.pp.charts.data.local.Input;
 import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.ServerOptions;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
-import pl.edu.agh.pp.charts.system.SystemRoutesInfo;
+import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -214,8 +214,8 @@ public class MainWindowController {
         // Delete cookies
         java.net.CookieHandler.setDefault(new java.net.CookieManager());
         Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
-        String startCoord = SystemRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId()));
-        String endCoord = SystemRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId()));
+        String startCoord = ServerRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId()));
+        String endCoord = ServerRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId()));
         String startLat = startCoord.split(",")[0];
         String startLng = startCoord.split(",")[1];
         String endLat = endCoord.split(",")[0];

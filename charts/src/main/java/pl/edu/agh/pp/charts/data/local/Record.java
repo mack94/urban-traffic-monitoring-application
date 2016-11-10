@@ -1,4 +1,4 @@
-package pl.edu.agh.pp.charts.input;
+package pl.edu.agh.pp.charts.data.local;
 
 /**
  * Created by Dawid on 2016-05-20.

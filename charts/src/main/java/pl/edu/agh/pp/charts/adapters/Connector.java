@@ -3,9 +3,10 @@ package pl.edu.agh.pp.charts.adapters;
 import javafx.scene.paint.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.charts.controller.ChartsController;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
-import pl.edu.agh.pp.charts.input.AnomalyManager;
-import pl.edu.agh.pp.charts.input.BaselineManager;
+import pl.edu.agh.pp.charts.data.local.AnomalyManager;
+import pl.edu.agh.pp.charts.data.local.BaselineManager;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.ServerOptions;
@@ -21,19 +22,25 @@ import java.util.Properties;
 public class Connector {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(Connector.class);
-    private final static AnomalyManager anomalyManager = AnomalyManager.getInstance();
+    private static boolean isFromConnecting = false;
     private static String address;
     private static String port;
-    private static ManagementChannelReceiver managementClient;
-    private static ChannelReceiver client;
+
     private static MainWindowController mainWindowController;
-    private static boolean isFromConnecting = false;
+    private static ChartsController chartsController;
+    private static ChannelReceiver client;
+    private static ManagementChannelReceiver managementClient;
+    private final static AnomalyManager anomalyManager = AnomalyManager.getInstance();
+
 
     public static void setMainWindowController(MainWindowController mwc) {
         mainWindowController = mwc;
     }
+    public static void setChartsController(ChartsController cc) {
+        chartsController = cc;
+    }
 
-    public static void onMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
+    public static void onAnomalyMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
         if (anomalyMessage.getIsActive()) {
             anomalyManager.addAnomaly(anomalyMessage);
         } else {
@@ -141,6 +148,18 @@ public class Connector {
             mainWindowController.putSystemMessageOnScreen(message, Color.RED);
             if (!isFromConnecting)
                 mainWindowController.reconnecting();
+        }
+    }
+
+    public static void setServerAvailableRouteIds(){
+        if(chartsController != null) {
+            chartsController.setServerRouteIds();
+        }
+    }
+
+    public static void setServerAvailableDates(){
+        if(chartsController != null) {
+            chartsController.setServerDates();
         }
     }
 }

@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
-import pl.edu.agh.pp.charts.input.AnomalyManager;
+import pl.edu.agh.pp.charts.data.local.AnomalyManager;
 import pl.edu.agh.pp.charts.settings.IOptions;
 import pl.edu.agh.pp.charts.settings.Options;
 

@@ -2,7 +2,7 @@ package pl.edu.agh.pp.charts.parser;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.charts.input.Input;
+import pl.edu.agh.pp.charts.data.local.Input;
 
 import java.io.*;
 
