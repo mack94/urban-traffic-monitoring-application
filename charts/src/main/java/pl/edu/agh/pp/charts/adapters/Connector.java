@@ -27,7 +27,6 @@ public class Connector {
     private static ManagementChannelReceiver managementClient;
     private static ChannelReceiver client;
     private static MainWindowController mainWindowController;
-    private static double leverValue = 0.0; // TODO: remove?
     private static boolean isFromConnecting = false;
 
     public static void setMainWindowController(MainWindowController mwc) {
@@ -38,8 +37,8 @@ public class Connector {
         if (anomalyMessage.getIsActive()) {
             anomalyManager.addAnomaly(anomalyMessage);
         } else {
-            // TODO: Dawid please handle it
             logger.info("Received expiration of route {}, anomaly ID {}", anomalyMessage.getRouteIdx(), anomalyMessage.getAnomalyID());
+            anomalyManager.removeAnomaly(String.valueOf(anomalyMessage.getAnomalyID()));
         }
     }
 
@@ -91,7 +90,7 @@ public class Connector {
     }
 
     public static void getOptionsServerInfo() {
-        //TODO send message to server asking for options
+        //TODO send message to server asking for options @Maciek
         if (isConnectedToTheServer()) {
 
         }

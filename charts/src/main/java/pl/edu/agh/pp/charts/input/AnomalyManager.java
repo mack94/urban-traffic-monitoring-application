@@ -49,7 +49,9 @@ public class AnomalyManager {
         if (anomalyExists(id)) {
             anomaly = getAnomalyById(id);
             anomaly.addMessage(anomalyMessage);
-            addPointToChart(anomaly, anomalyMessage.getDate());
+            if(anomaly.getChartSeries() != null) {
+                addPointToChart(anomaly, anomalyMessage.getDate());
+            }
             if (mainWindowController != null) mainWindowController.updateAnomalyInfo(anomaly.getScreenMessage());
         } else {
             anomaly = new Anomaly(anomalyMessage);
@@ -84,10 +86,10 @@ public class AnomalyManager {
         Anomaly anomaly = getAnomalyById(anomalyId);
         if (anomaly != null && anomalyList.contains(anomaly)) {
             anomalyList.remove(anomaly);
+            mainWindowController.removeAnomalyFromList(anomaly.getScreenMessage());
         } else {
             logger.error("Trying to remove anomaly that doesn't exist");
         }
-        mainWindowController.removeAnomalyFromList(anomaly.getScreenMessage());
     }
 
     public void buildChart(String anomalyId) {

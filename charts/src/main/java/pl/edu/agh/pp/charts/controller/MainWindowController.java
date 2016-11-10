@@ -172,7 +172,6 @@ public class MainWindowController {
     }
 
     private void putChartOnScreen(Anomaly anomaly){
-        //TODO thread safe
         Platform.runLater(() -> {
             lineChart.setId("Chart" + anomaly.getRouteId());
             if(lineChart != null) {
@@ -215,7 +214,6 @@ public class MainWindowController {
         // Delete cookies
         java.net.CookieHandler.setDefault(new java.net.CookieManager());
         Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
-        //TODO execution line below with route coordinates, map should then mark both points and center route start
         String startCoord = SystemRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId()));
         String endCoord = SystemRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId()));
         String startLat = startCoord.split(",")[0];
