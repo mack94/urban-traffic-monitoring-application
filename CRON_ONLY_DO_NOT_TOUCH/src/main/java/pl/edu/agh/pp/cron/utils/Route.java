@@ -29,18 +29,18 @@ public class Route {
     private JSONObject jsonRoute;
     private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
-    public Route(String id, DistanceMatrix distanceMatrix, DirectionsResult directionsApi) throws Exception {
+    public Route(String id, DistanceMatrix distanceMatrix, DirectionsResult directionsApi, String waypoints) throws Exception {
         this.id = id;
         this.distanceMatrix = distanceMatrix;
         this.directionsApi = directionsApi;
         System.out.println("Directions API: " + directionsApi);
-        jsonRoute = loadRouteInfo();
+        jsonRoute = loadRouteInfo(waypoints);
         if (jsonRoute != null) {
             logger.error(jsonRoute.toString());
         }
     }
 
-    private JSONObject loadRouteInfo() throws Exception {
+    private JSONObject loadRouteInfo(String waypoints) throws Exception {
 
         DirectionsResult directionsResult = directionsApi;
         DirectionsRoute[] routes = directionsResult.routes;
@@ -53,7 +53,7 @@ public class Route {
 //            System.out.println(route.legs[0].steps[0].startLocation);
 //
 //        }
-        return buildResult(distanceMatrix.rows[0].elements[0], routes);
+        return buildResult(distanceMatrix.rows[0].elements[0], routes, waypoints);
 //        for (DistanceMatrixRow row: distanceMatrix.rows) {
 //            for (DistanceMatrixElement element: row.elements) {
 //                result = buildResult(element, routes);
@@ -62,7 +62,7 @@ public class Route {
 //        }
     }
 
-    private JSONObject buildResult(DistanceMatrixElement me_element, DirectionsRoute[] routes) {
+    private JSONObject buildResult(DistanceMatrixElement me_element, DirectionsRoute[] routes, String defaultWaypoints) {
 
         if ("OK".equals(me_element.status.toString())) {
             String duration = String.valueOf(me_element.duration.inSeconds);
@@ -72,13 +72,22 @@ public class Route {
             String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS").format(new Date());
             System.out.println("---------------------------" + timeStamp);
 
-            return new JSONObject()
+            JSONObject jsonObject = new JSONObject()
                     .put("timeStamp", timeStamp)
                     .put("id", id)
                     .put("distance", me_element.distance)
                     .put("duration", duration)
                     .put("durationInTraffic", durationInTraffic)
-                    .put("waypoints", waypoints);
+                    .put("isAnomaly", false);
+
+            if(waypoints.contains(defaultWaypoints)) {
+                jsonObject.put("waypoints", "default");
+            } else {
+                jsonObject.put("waypoints", waypoints);
+            }
+
+            return jsonObject;
+
 //            me_result = String.format("\"me_result\": {\"Distance\": \"%s\", \"Duration\": \"%s\", \"DurationInTraffic\": \"%s\", \"Status\": \"%s\", \"Waypoints\": [\"%s\"]}",
 //                    me_element.distance, duration, durationInTraffic, me_element.status, waypoints);
         }
