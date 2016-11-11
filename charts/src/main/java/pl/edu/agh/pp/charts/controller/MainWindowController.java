@@ -149,7 +149,7 @@ public class MainWindowController {
         primaryStage.setScene(scene);
     }
     public void updateAnomalyInfo(String screenId){
-        if(anomaliesListView.getSelectionModel().getSelectedItem().equalsIgnoreCase(screenId)) {
+        if(screenId != null && screenId.equalsIgnoreCase(anomaliesListView.getSelectionModel().getSelectedItem())) {
             putAnomalyInfoOnScreen(screenId);
         }
     }
