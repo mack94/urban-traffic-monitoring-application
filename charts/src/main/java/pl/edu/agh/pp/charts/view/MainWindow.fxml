@@ -36,6 +36,7 @@
                 </padding>
                 <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
                 <Button fx:id="hideButton" onAction="#handleHideAction" text="Hide/Show Server settings"/>
+                <Button text="Hide anomalies" onAction="#handleHideAnomaliesAction"/>
             </HBox>
             <VBox id="abox" alignment="CENTER" >
                 <BorderPane>
@@ -92,45 +93,47 @@
     </top>
     <center>
         <VBox spacing="2">
-            <padding>
-                <Insets bottom="0" left="0" right="0" top="8"/>
-            </padding>
-            <Label text="Anomalies List" style="-fx-font-weight: bold"/>
-            <HBox>
-                <Label text="Route ID" />
-                <!--<Label text="route desc" />-->
-                <Label text="    Start date" />
-            </HBox>
-            <HBox>
-                <ListView fx:id="anomaliesListView" prefWidth="200.0" prefHeight="250" onMouseClicked="#handleAnomalyClicked" onKeyReleased="#handleAnomalyPressed"/>
-                <GridPane>
-                    <padding>
-                        <Insets bottom="10" left="10" right="10" top="10"/>
-                    </padding>
-                    <Label text="Anomaly ID" GridPane.rowIndex="0" GridPane.columnIndex="0" prefWidth="150"/>
-                    <Label fx:id="anomalyIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="250"/>
-                    <Label text="Start Date" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="150"/>
-                    <Label fx:id="startDateLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="250"/>
-                    <Label text="Last received update" GridPane.rowIndex="2" GridPane.columnIndex="0" prefWidth="150"/>
-                    <Label fx:id="lastDateLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="250"/>
-                    <Label text="Nr of messages" GridPane.rowIndex="3" GridPane.columnIndex="0" prefWidth="150"/>
-                    <Label fx:id="anomaliesNumberLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" prefWidth="250"/>
-                    <Label text="Route ID" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="150"/>
-                    <Label fx:id="routeIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="4" prefWidth="250"/>
-                    <Label text="Route description" GridPane.rowIndex="1" GridPane.columnIndex="3" prefWidth="150"/>
-                    <Label fx:id="routeDescLabel" GridPane.rowIndex="1" GridPane.columnIndex="4" prefWidth="250"/>
-                    <Label text="Most recent duration" GridPane.rowIndex="2" GridPane.columnIndex="3" prefWidth="150"/>
-                    <Label fx:id="recentDuration" GridPane.rowIndex="2" GridPane.columnIndex="4" prefWidth="250"/>
-                </GridPane>
-            </HBox>
+            <VBox fx:id="anomaliesVBox">
+                <padding>
+                    <Insets bottom="0" left="0" right="0" top="8"/>
+                </padding>
+                <Label text="Anomalies List" style="-fx-font-weight: bold"/>
+                <HBox>
+                    <Label text="Route ID" />
+                    <!--<Label text="route desc" />-->
+                    <Label text="    Start date" />
+                </HBox>
+                <HBox>
+                    <ListView fx:id="anomaliesListView" prefWidth="200.0" prefHeight="250" onMouseClicked="#handleAnomalyClicked" onKeyReleased="#handleAnomalyPressed"/>
+                    <GridPane>
+                        <padding>
+                            <Insets bottom="10" left="10" right="10" top="10"/>
+                        </padding>
+                        <Label text="Anomaly ID" GridPane.rowIndex="0" GridPane.columnIndex="0" prefWidth="150"/>
+                        <Label fx:id="anomalyIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="250"/>
+                        <Label text="Start Date" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="150"/>
+                        <Label fx:id="startDateLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="250"/>
+                        <Label text="Last received update" GridPane.rowIndex="2" GridPane.columnIndex="0" prefWidth="150"/>
+                        <Label fx:id="lastDateLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="250"/>
+                        <Label text="Nr of messages" GridPane.rowIndex="3" GridPane.columnIndex="0" prefWidth="150"/>
+                        <Label fx:id="anomaliesNumberLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" prefWidth="250"/>
+                        <Label text="Route ID" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="150"/>
+                        <Label fx:id="routeIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="4" prefWidth="250"/>
+                        <Label text="Route description" GridPane.rowIndex="1" GridPane.columnIndex="3" prefWidth="150"/>
+                        <Label fx:id="routeDescLabel" GridPane.rowIndex="1" GridPane.columnIndex="4" prefWidth="250"/>
+                        <Label text="Most recent duration" GridPane.rowIndex="2" GridPane.columnIndex="3" prefWidth="150"/>
+                        <Label fx:id="recentDuration" GridPane.rowIndex="2" GridPane.columnIndex="4" prefWidth="250"/>
+                    </GridPane>
+                </HBox>
+            </VBox>
             <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="tabPane">
                 <Tab text="Anomaly chart">
-                    <LineChart fx:id="lineChart" title="Selected anomaly chart" style="-fx-font-weight: bold">
+                    <LineChart fx:id="lineChart" prefHeight="999999" style="-fx-font-weight: bold">
                         <xAxis>
-                            <NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis"/>
+                            <NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis" />
                         </xAxis>
                         <yAxis>
-                            <NumberAxis label="Duration (seconds)" tickUnit="1"/>
+                            <NumberAxis label="Duration (seconds)" tickUnit="1" />
                         </yAxis>
                     </LineChart>
                 </Tab>

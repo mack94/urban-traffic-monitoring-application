@@ -36,6 +36,7 @@ import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -110,7 +111,8 @@ public class MainWindowController {
     private Button hideButton;
     @FXML
     private VBox hideBox;
-
+    @FXML
+    private VBox anomaliesVBox;
 
     public MainWindowController(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -133,6 +135,7 @@ public class MainWindowController {
 
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
             hideBox.managedProperty().bind(hideBox.visibleProperty());
+            anomaliesVBox.managedProperty().bind(anomaliesVBox.visibleProperty());
             primaryStage.show();
         } catch (java.io.IOException e) {
             logger.error("exception while creating GUI " + e,e);
@@ -175,19 +178,24 @@ public class MainWindowController {
             recentDuration.setText("");
             anomaliesNumberLabel.setText("");
             if(!lineChart.getData().isEmpty())
-                 lineChart.getData().clear();
+                lineChart.getData().clear();
+                lineChart.setTitle("Selected anomaly chart");
         } );
     }
 
     private void putChartOnScreen(Anomaly anomaly){
         Platform.runLater(() -> {
             lineChart.setId("Chart" + anomaly.getRouteId());
+            lineChart.setTitle(anomaly.getRoute()+" anomaly "+ anomaly.getAnomalyId() + " chart");
             if(lineChart != null) {
                 if (lineChart.getData() != null) {
                     lineChart.getData().clear();
                 }
                 XYChart.Series<Number, Number> series = anomalyManager.getChartData(anomaly);
+                series.setName("Anomaly " + anomaly.getAnomalyId());
                 XYChart.Series<Number, Number> baseline = anomalyManager.getBaseline(anomaly);
+                String dayName = DayOfWeek.of(Integer.parseInt(anomaly.getDayOfWeek())).name();
+                baseline.setName("Baseline - normal " + dayName.substring(0,1) + dayName.substring(1).toLowerCase());
                 lineChart.getData().add(series);
                 if(baseline != null) {
                     lineChart.getData().add(baseline);
@@ -376,6 +384,7 @@ public class MainWindowController {
     @FXML
     private void initialize() throws IOException {
         lineChart.setAnimated(false);
+        lineChart.setTitle("Selected anomaly chart");
         systemTab.setGraphic(new Label("System info"));
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");
@@ -460,6 +469,7 @@ public class MainWindowController {
 
     @FXML
     private void handleAnomalyClicked(MouseEvent e) {
+        System.gc();
         String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
         if(selectedItem != null){
             putAnomalyInfoOnScreen(selectedItem);
@@ -500,10 +510,20 @@ public class MainWindowController {
     }
     @FXML
     private void handleAnomalyPressed(KeyEvent e){
+        System.gc();
         String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
         if(selectedItem != null){
             putAnomalyInfoOnScreen(selectedItem);
             putAnomalyOnMap(selectedItem);
+        }
+    }
+    @FXML
+    private void handleHideAnomaliesAction(ActionEvent e){
+        if(anomaliesVBox.isVisible()){
+            anomaliesVBox.setVisible(false);
+        }
+        else{
+            anomaliesVBox.setVisible(true);
         }
     }
 }
