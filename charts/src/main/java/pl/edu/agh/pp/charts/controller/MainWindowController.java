@@ -2,8 +2,6 @@ package pl.edu.agh.pp.charts.controller;
 
 import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,7 +44,6 @@ import java.util.regex.Pattern;
  */
 public class MainWindowController {
 
-    private ObservableList<String> anomaliesList = FXCollections.observableArrayList();
     private Stage primaryStage = null;
     private Scene scene = null;
     private ChartsController chartsController = null;
@@ -168,6 +165,20 @@ public class MainWindowController {
         putChartOnScreen(anomaly);
     }
 
+    public void clearInfoOnScreen() {
+        Platform.runLater(() -> {
+            anomalyIdLabel.setText("");
+            startDateLabel.setText("");
+            lastDateLabel.setText("");
+            routeIdLabel.setText("");
+            routeDescLabel.setText("");
+            recentDuration.setText("");
+            anomaliesNumberLabel.setText("");
+            if(!lineChart.getData().isEmpty())
+                 lineChart.getData().clear();
+        } );
+    }
+
     private void putChartOnScreen(Anomaly anomaly){
         Platform.runLater(() -> {
             lineChart.setId("Chart" + anomaly.getRouteId());
@@ -255,11 +266,16 @@ public class MainWindowController {
             logger.error("No screen message");
             return;
         }
-        if (anomaliesList.contains(screenMessage)){
-            anomaliesList.remove(screenMessage);
+        if (anomaliesListView.getItems().contains(screenMessage)){
+            Platform.runLater(() -> {
+                anomaliesListView.getItems().remove(screenMessage);
+                if(anomaliesListView.getItems().isEmpty()){
+                    clearInfoOnScreen();
+                }
+            });
         }
         else{
-            logger.error("Trying to remove anomaly that doesn't exist");
+            logger.error("MWC: Trying to remove anomaly that doesn't exist");
         }
     }
 

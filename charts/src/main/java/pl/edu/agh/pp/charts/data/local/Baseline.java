@@ -11,7 +11,6 @@ import java.util.Map;
 public class Baseline {
     private Map<Integer, Integer> baseline;
     private Integer routeID;
-    private XYChart.Series<Number, Number> baselineSeries = null;
     private DayOfWeek day;
     private String type;
     private String source;
@@ -27,12 +26,7 @@ public class Baseline {
     }
 
     public XYChart.Series<Number, Number> getBaselineSeries() {
-        if (baselineSeries == null) {
-            buildBaselineSeries();
-            return baselineSeries;
-        } else {
-            return baselineSeries;
-        }
+        return buildBaselineSeries();
     }
 
     public Integer getRouteID() {
@@ -43,8 +37,8 @@ public class Baseline {
         return day;
     }
 
-    private void buildBaselineSeries() {
-        baselineSeries = new XYChart.Series<>();
+    private XYChart.Series<Number, Number> buildBaselineSeries() {
+        XYChart.Series<Number, Number> baselineSeries = new XYChart.Series<>();
 
         for (Integer time : baseline.keySet()) {
             double h = time / 3600;
@@ -55,5 +49,6 @@ public class Baseline {
                 baselineSeries.getData().add(data);
             }
         }
+        return baselineSeries;
     }
 }

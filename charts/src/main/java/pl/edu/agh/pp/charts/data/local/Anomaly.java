@@ -22,7 +22,6 @@ public class Anomaly {
     private String severity;
     private String percent;
     private Map<String, String> durationHistory;
-    private XYChart.Series<Number, Number> anomalySeries = null;
     private int anomaliesNumber;
     private Baseline baseline = null;
 
@@ -97,14 +96,6 @@ public class Anomaly {
 
     private void buildScreenMessage() {
         this.screenMessage = routeId + "              " + startDate;
-    }
-
-    XYChart.Series<Number, Number> getChartSeries() {
-        return anomalySeries;
-    }
-
-    void setChartSeries(XYChart.Series<Number, Number> series) {
-        this.anomalySeries = series;
     }
 
     XYChart.Series<Number, Number> getBaselineSeries() {
