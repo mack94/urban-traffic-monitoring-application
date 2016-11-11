@@ -142,6 +142,9 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         byte[] messageToSent = managementMessage.toByteArray();
 
         try {
+            System.out.println(server.getNumConnections());
+            System.out.println(server.getNumOpenConnections());
+            System.out.println(server.printConnections());
             server.send(destination, messageToSent, 0, messageToSent.length);
         } catch (Exception e) {
             e.printStackTrace();

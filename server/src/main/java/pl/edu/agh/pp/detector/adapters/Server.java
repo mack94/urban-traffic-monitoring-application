@@ -2,6 +2,7 @@ package pl.edu.agh.pp.detector.adapters;
 
 import org.jgroups.Address;
 import org.jgroups.ReceiverAdapter;
+import org.jgroups.View;
 import org.jgroups.blocks.cs.BaseServer;
 import org.jgroups.blocks.cs.NioServer;
 import org.jgroups.blocks.cs.Receiver;

@@ -79,6 +79,7 @@ public class Connector {
 
     public static void disconnect() {
         client.disconnect();
+        managementClient.disconnect();
     }
 
     public static String getAddressServerInfo() {

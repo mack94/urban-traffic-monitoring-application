@@ -172,6 +172,13 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         return running && !((client == null) || !((Client) client).isConnected());
     }
 
+    public void disconnect() {
+        if (client != null) {
+            client.removeConnectionListener(this);
+            client.stop();
+        }
+    }
+
     private void parseGeneralMessage(AnomalyOperationProtos.ManagementMessage message) {
         try {
             AnomalyOperationProtos.SystemGeneralMessage generalMessage = AnomalyOperationProtos.SystemGeneralMessage.parseFrom(message.getSystemGeneralMessage().toByteArray());

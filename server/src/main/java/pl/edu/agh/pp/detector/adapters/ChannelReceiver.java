@@ -75,6 +75,7 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 
     @Override
     public void connectionClosed(Connection conn, String reason) {
+        client.removeConnectionListener(this);
         client.stop();
         running = false;
         Util.close(in);
@@ -83,7 +84,7 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
 
     @Override
     public void connectionEstablished(Connection conn) {
-
+        System.out.println(String.format("Connection to %s established", conn.peerAddress()));
     }
 
 
