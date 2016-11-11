@@ -70,6 +70,7 @@ public class ChartsController {
     private Label logsListLabel;
     @FXML
     private Label idLabel;
+    @FXML
     private Label dayLabel;
     @FXML
     private ComboBox<String> baselineTypeComboBox;
@@ -77,6 +78,7 @@ public class ChartsController {
     private Label baselineTypeLabel;
     @FXML
     private HBox dayHBox;
+    @FXML
     private DatePicker datePicker;
     @FXML
     private CheckBox drawBaselineCheckbox;

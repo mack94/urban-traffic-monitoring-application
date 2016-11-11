@@ -32,11 +32,10 @@ import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.data.local.Anomaly;
 import pl.edu.agh.pp.charts.data.local.AnomalyManager;
-import pl.edu.agh.pp.charts.data.local.Input;
+import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
 import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.ServerOptions;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
-import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -50,7 +49,6 @@ public class MainWindowController {
     private ObservableList<String> anomaliesList = FXCollections.observableArrayList();
     private Stage primaryStage = null;
     private Scene scene = null;
-    private Input input;
     private ChartsController chartsController = null;
     private boolean connectedFlag = false;
     private WebEngine webEngine;
@@ -137,7 +135,6 @@ public class MainWindowController {
             });
 
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
-//            hidePane.managedProperty().bind(hidePane.visibleProperty());
             hideBox.managedProperty().bind(hideBox.visibleProperty());
             primaryStage.show();
         } catch (java.io.IOException e) {
@@ -269,7 +266,7 @@ public class MainWindowController {
     public void setConnectedLabel(String msg, Color color){
         Platform.runLater(() -> {
             connectedLabel.setText(msg);
-            connectedLabel.setTextFill(Color.BLACK);
+            connectedLabel.setTextFill(color);
         });
     }
 
@@ -279,21 +276,28 @@ public class MainWindowController {
 
     private void setConnectedState(){
         if(connectedFlag){
+            this.setConnectedLabel(Connector.getAddressServerInfo(), Color.BLACK);
             Platform.runLater(() -> {
-                connectedLabel.setText(Connector.getAddressServerInfo());
-                connectedLabel.setTextFill(Color.BLACK);
                 connectButton.setDisable(true);
                 disconnectButton.setDisable(false);
             });
         }
         else {
+            this.setConnectedLabel("NOT CONNECTED", Color.RED);
             Platform.runLater(() -> {
-                connectedLabel.setText("NOT CONNECTED");
-                connectedLabel.setTextFill(Color.RED);
                 connectButton.setDisable(false);
                 disconnectButton.setDisable(true);
+                resetServerInfoLabels();
             });
         }
+    }
+
+    private void resetServerInfoLabels(){
+        leverValueLabel.setText("");
+        anomalyLiveTimeLabel.setText("");
+        BaselineWindowSizeLabel.setText("");
+        shiftLabel.setText("");
+        anomalyPortNrLabel.setText("");
     }
 
     private String formatDate(DateTime date){
@@ -386,7 +390,7 @@ public class MainWindowController {
         setConnectedLabel("connecting");
         try {
             String address = serverAddrTxtField.getText();
-            if(!Pattern.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}",address)){
+            if(!Pattern.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}",address.trim())){
                 logger.error("Wrong server address pattern");
                 serverAddrTxtField.setStyle("-fx-text-box-border: red;");
                 return;
@@ -395,7 +399,7 @@ public class MainWindowController {
                 serverAddrTxtField.setStyle("-fx-text-box-border: black;");
             }
             String port = serverPortTxtField.getText();
-            if(!Pattern.matches("\\d+",port)){
+            if(!Pattern.matches("\\d+",port.trim())){
                 logger.error("Wrong server port pattern");
                 serverPortTxtField.setStyle("-fx-text-box-border: red;");
                 return;
@@ -403,7 +407,7 @@ public class MainWindowController {
             else{
                 serverPortTxtField.setStyle("-fx-text-box-border: black;");
             }
-            Connector.connect(address, port);
+            Connector.connect(address.trim(), port.trim());
             Task<Void> sleeper = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {

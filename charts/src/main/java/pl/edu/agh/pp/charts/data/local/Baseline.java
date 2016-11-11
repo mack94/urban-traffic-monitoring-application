@@ -13,6 +13,8 @@ public class Baseline {
     private Integer routeID;
     private XYChart.Series<Number, Number> baselineSeries = null;
     private DayOfWeek day;
+    private String type;
+    private String source;
 
     public Baseline(Integer routeID, DayOfWeek day, Map<Integer, Integer> baseline) {
         this.baseline = baseline;
