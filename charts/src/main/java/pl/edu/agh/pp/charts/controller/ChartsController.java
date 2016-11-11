@@ -1,7 +1,10 @@
 package pl.edu.agh.pp.charts.controller;
 
+import ch.qos.logback.classic.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,13 +21,18 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
+import pl.edu.agh.pp.charts.data.local.Baseline;
+import pl.edu.agh.pp.charts.data.local.BaselineManager;
 import pl.edu.agh.pp.charts.data.local.Input;
 import pl.edu.agh.pp.charts.data.local.ResourcesHolder;
+import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
 import pl.edu.agh.pp.charts.parser.Parser;
 
 import java.io.File;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -42,6 +50,8 @@ public class ChartsController {
     private ObservableList<String> localRouteIdList = FXCollections.observableArrayList();
     private ObservableList<String> serverRouteIdList = FXCollections.observableArrayList();
     private MainWindowController parent;
+    private final Logger logger = (Logger) LoggerFactory.getLogger(MainWindowController.class);
+
     @FXML
     private LineChart<Number, Number> lineChart;
     @FXML
@@ -125,65 +135,13 @@ public class ChartsController {
     public void setScene(){
         primaryStage.setScene(scene);
     }
-    @FXML
-    private void initialize() {
-        datePicker = new DatePicker();
-        dayComboBox = new ComboBox<String>();
-        dayLabel = new Label("Day");
-        fileChooser = new FileChooser();
-        parser = new Parser();
-        input = new Input();
-        File file = new File("./");
-        fileChooser.setInitialDirectory(file);
-        fileChooser.setTitle("Open Resource File");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Log Files", "*.log"));
-        warn.setStyle("-fx-text-fill: red");
-        lineChart.setTitle("");
-        startButton.setDefaultButton(true);
-        clearCheckBox.setSelected(true);
-        typeComboBox.setVisible(false);
-        typeLabel.setVisible(false);
-        Image reverseButtonImage = new Image(Main.class.getResourceAsStream("/reverse.png"));
-        reverseRouteButton.setGraphic(new ImageView(reverseButtonImage));
-        dayComboBox.setVisible(false);
-        idComboBox.setVisible(false);
-        idLabel.setVisible(false);
-        reverseRouteButton.setVisible(false);
-        baselineTypeComboBox.setVisible(false);
-        baselineTypeLabel.setVisible(false);
-        baselineTypeComboBox.getItems().addAll("Normal","Holidays");
-        fillInDaysOfWeek();
-        drawBaselineCheckbox.setVisible(false);
-        drawBaselineLabel.setVisible(false);
-        sourceComboBox.getItems().addAll("Local Data","Server Data");
-    }
 
-    @FXML
-    private void handleFileButtonAction(ActionEvent e) {
-        List<File> files = fileChooser.showOpenMultipleDialog(primaryStage);
-        if (files == null || files.isEmpty()) {
-            return;
-        }
-        input.getRoutes();
-        for (File file : files) {
-            ResourcesHolder.getInstance().addLog(file.getName());
-            parser.setFile(file);
-            parser.parse(input);
-        }
-
-        for (String id : input.getIds()) {
-            idsSet.add(Integer.parseInt(id));
-        }
-        List<Integer> ids = new ArrayList<>(idsSet);
-        Collections.sort(ids);
-        for (Integer id : ids) {
-            localRouteIdList.add(input.getRoute(String.valueOf(id)));
-        }
-        setupFields();
-    }
 
     public void setServerRouteIds(){
-        //TODO
+        serverRouteIdList.clear();
+        List<String> routes = ServerRoutesInfo.getRoutes();
+        for(String r: routes)
+            serverRouteIdList.add(r);
     }
 
     public void setServerDates(){
@@ -191,11 +149,12 @@ public class ChartsController {
     }
 
     private void setupFields() {
-        localRouteIdList.clear();
+//        localRouteIdList.clear();
         if(sourceComboBox.getSelectionModel().getSelectedItem()!=null && sourceComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("local data")){
             idComboBox.setItems(localRouteIdList);
         }
         else {
+            Connector.setServerAvailableRouteIds();
             idComboBox.setItems(serverRouteIdList);
         }
         setupDatePicker();
@@ -260,7 +219,73 @@ public class ChartsController {
     }
 
     @FXML
+    private void initialize() {
+        datePicker = new DatePicker();
+        dayComboBox = new ComboBox<String>();
+        dayLabel = new Label("Day");
+        fileChooser = new FileChooser();
+        parser = new Parser();
+        input = new Input();
+        File file = new File("./");
+        fileChooser.setInitialDirectory(file);
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Log Files", "*.log"));
+        warn.setStyle("-fx-text-fill: red");
+        lineChart.setTitle("");
+        startButton.setDefaultButton(true);
+        clearCheckBox.setSelected(true);
+        typeComboBox.setVisible(false);
+        typeLabel.setVisible(false);
+        Image reverseButtonImage = new Image(Main.class.getResourceAsStream("/reverse.png"));
+        reverseRouteButton.setGraphic(new ImageView(reverseButtonImage));
+        dayComboBox.setVisible(false);
+        idComboBox.setVisible(false);
+        idLabel.setVisible(false);
+        reverseRouteButton.setVisible(false);
+        baselineTypeComboBox.setVisible(false);
+        baselineTypeLabel.setVisible(false);
+        baselineTypeComboBox.getItems().addAll("Normal","Holidays");
+        fillInDaysOfWeek();
+        drawBaselineCheckbox.setVisible(false);
+        drawBaselineLabel.setVisible(false);
+        sourceComboBox.getItems().addAll("Local Data","Server Data");
+    }
+
+    @FXML
+    private void handleFileButtonAction(ActionEvent e) {
+        List<File> files = fileChooser.showOpenMultipleDialog(primaryStage);
+        if (files == null || files.isEmpty()) {
+            return;
+        }
+        input.getRoutes();
+        for (File file : files) {
+            ResourcesHolder.getInstance().addLog(file.getName());
+            parser.setFile(file);
+            parser.parse(input);
+        }
+
+        for (String id : input.getIds()) {
+            idsSet.add(Integer.parseInt(id));
+        }
+        List<Integer> ids = new ArrayList<>(idsSet);
+        Collections.sort(ids);
+        for (Integer id : ids) {
+            localRouteIdList.add(input.getRoute(String.valueOf(id)));
+        }
+    }
+
+    @FXML
     private void handleStartAction(ActionEvent e) {
+        String source = sourceComboBox.getSelectionModel().getSelectedItem();
+        if(source != null && source.equalsIgnoreCase("local data")){
+            drawLocalData();
+        }
+        else{
+            drawServerData();
+        }
+    }
+
+    private void drawLocalData(){
         if (idComboBox.getSelectionModel().getSelectedItem() == null
                 || typeComboBox.getSelectionModel().getSelectedItem() == null) {
             if("historic data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
@@ -319,6 +344,61 @@ public class ChartsController {
         lineChart.getData().add(seriesDuration);
 
         createTooltips();
+    }
+
+    private void drawServerData(){
+        String type = typeComboBox.getSelectionModel().getSelectedItem();
+        String baselineType = baselineTypeComboBox.getSelectionModel().getSelectedItem();
+        String route = idComboBox.getSelectionModel().getSelectedItem();
+        String id = ServerRoutesInfo.getId(route);
+        String dayForHistoricData = null;
+        if(datePicker.getValue() != null)
+            dayForHistoricData = datePicker.getValue().toString();
+        String dayForBaseline = dayComboBox.getSelectionModel().getSelectedItem();
+        if(type == null || baselineType == null || id == null || (dayForBaseline == null && dayForHistoricData == null)){
+            warn.setText("Select all parameters");
+            return;
+        }
+        warn.setText("");
+        if (clearCheckBox.isSelected()) {
+            lineChart.getData().clear();
+        }
+        if(type.equalsIgnoreCase("baseline")){
+            Baseline baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase()));
+            if(baseline == null){
+                Connector.demandBaseline(DayOfWeek.valueOf(dayForBaseline.toUpperCase()), Integer.valueOf(id));
+                Task<Void> sleeper = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        try {
+                            Baseline baseline = null;
+                            int i = 0;
+                            while (i<3 && baseline == null) {
+                                baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase()));
+                                Thread.sleep(1000);
+                                i++;
+                            }
+                            if(baseline == null){
+                                logger.error("Didn't get a baseline after demand");
+                            }
+                            else {
+                                logger.info("got a response, basline found!");
+                                Platform.runLater(() -> {
+                                    lineChart.getData().add(BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase())).getBaselineSeries());
+                                } );
+                            }
+                        } catch (InterruptedException e) {
+                            logger.error("Interrupted exception");
+                        }
+                        return null;
+                    }
+                };
+                new Thread(sleeper).start();
+            }
+            else{
+                lineChart.getData().add(baseline.getBaselineSeries());
+            }
+        }
     }
 
     @FXML
@@ -493,6 +573,7 @@ public class ChartsController {
     @FXML
     private void handleSourceAction(ActionEvent e) {
         String notConnectedWarn = "Not connected to server!";
+        setupFields();
         if(sourceComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("server data")){
             if(!Connector.isConnectedToTheServer()){
                 warn.setText(notConnectedWarn);
@@ -518,4 +599,6 @@ public class ChartsController {
     private void handleBackButtonAction(ActionEvent e) {
         parent.setScene();
     }
+
+
 }

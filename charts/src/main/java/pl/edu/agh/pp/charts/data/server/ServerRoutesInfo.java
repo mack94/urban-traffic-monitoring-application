@@ -7,6 +7,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Maciej on 05.11.2016.
@@ -80,4 +82,37 @@ public class ServerRoutesInfo {
         return null;
     }
 
+    public static List<String> getRoutes(){
+        String jsonTxt;
+        StringBuffer result = new StringBuffer("");
+        File file = new File("./routes.json");
+        List<String> list = new ArrayList<>();
+        try {
+            if (file.length() == 0) {
+                jsonTxt = "{\"routes\": []}";
+            } else {
+                jsonTxt = IOUtils.toString(new FileInputStream(file));
+            }
+            JSONObject jsonObject = new JSONObject(jsonTxt);
+            JSONArray loadedRoutes = jsonObject.getJSONArray("routes");
+            int loadedRoutesAmount = loadedRoutes.length();
+
+            int i = 0;
+            while (i < loadedRoutesAmount) {
+                JSONObject route = loadedRoutes.getJSONObject(i);
+                list.add(route.get("id").toString()+ " " + route.get("origin") + " " + route.get("origin") + route.get("destination"));
+                i++;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return list;
+    }
+
+    public static String getId(String screenId){
+        return screenId.replaceAll("([\\d]+).*","$1");
+    }
 }

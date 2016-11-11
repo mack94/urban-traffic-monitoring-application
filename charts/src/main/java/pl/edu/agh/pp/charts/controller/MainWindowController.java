@@ -290,6 +290,7 @@ public class MainWindowController {
                 resetServerInfoLabels();
             });
         }
+        //TODO charts connected state
     }
 
     private void resetServerInfoLabels(){

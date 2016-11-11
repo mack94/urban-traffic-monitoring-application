@@ -7,9 +7,8 @@ import org.jgroups.util.ByteArrayDataInputStream;
 import org.jgroups.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
-import pl.edu.agh.pp.charts.data.server.ServerBaselineInfo;
 import pl.edu.agh.pp.charts.data.server.ServerGeneralInfo;
+import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -209,7 +208,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             int routeID = baselineMessage.getRouteIdx();
             AnomalyOperationProtos.BaselineMessage.Day day = baselineMessage.getDay();
             Map<Integer, Integer> baselineMap = baselineMessage.getBaselineMap();
-            ServerBaselineInfo.addBaselineInfo(routeID, day, baselineMap);
+            Connector.updateBaseline(routeID, day, baselineMap);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
