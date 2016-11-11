@@ -256,9 +256,4 @@ public class OptionsTest {
         assertEquals(keys[3], options.getFirstTruePreferenceFromPreferencesGroup("Preference type"));
     }
 
-    @Test
-    public void getServerOptions() {
-        assertNotNull(options.getServerOptions());
-    }
-
 }
