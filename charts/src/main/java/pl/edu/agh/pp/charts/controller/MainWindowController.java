@@ -33,8 +33,8 @@ import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.data.local.Anomaly;
 import pl.edu.agh.pp.charts.data.local.AnomalyManager;
 import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
+import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.charts.settings.Options;
-import pl.edu.agh.pp.charts.settings.ServerOptions;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
@@ -347,13 +347,13 @@ public class MainWindowController {
         webEngine.loadContent(htmlBuilder.loadMapStructure(defaultLat, defaultLng, defaultLat, defaultLng));
     }
 
-    public void updateServerInfo(ServerOptions options){
+    public void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort){
         Platform.runLater(() -> {
-            leverValueLabel.setText(options.getLeverValue());
-            anomalyLiveTimeLabel.setText(options.getAnomalyLiveTime());
-            BaselineWindowSizeLabel.setText(options.getBaselineWindowSize());
-            shiftLabel.setText(options.getShift());
-            anomalyPortNrLabel.setText(options.getAnomalyPortNr());
+            leverValueLabel.setText(String.valueOf(leverValue));
+            anomalyLiveTimeLabel.setText(String.valueOf(anomalyLiveTime));
+            BaselineWindowSizeLabel.setText(String.valueOf(baselineWindowSize));
+            shiftLabel.setText(String.valueOf(shift));
+            anomalyPortNrLabel.setText(String.valueOf(anomalyMessagesPort));
         } );
     }
 

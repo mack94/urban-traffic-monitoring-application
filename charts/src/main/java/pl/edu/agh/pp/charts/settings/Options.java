@@ -21,8 +21,6 @@ public class Options implements IOptions {
 
     private static Options instance = null;
 
-    private static ServerOptions serverOptions = null;
-
     private static Configuration configuration = new Configuration();
 
     private final Logger logger = (Logger) LoggerFactory.getLogger(Options.class);
@@ -153,13 +151,5 @@ public class Options implements IOptions {
             logger.error(msg);
             return false;
         }
-    }
-
-    @Override
-    public ServerOptions getServerOptions() {
-        if (serverOptions == null) {
-            serverOptions = new ServerOptions();
-        }
-        return serverOptions;
     }
 }
