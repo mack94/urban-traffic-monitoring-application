@@ -13,9 +13,11 @@ import java.util.Properties;
  * 23:49
  * Project: 1.
  */
+
 public class ContextLoader {
 
     private Properties properties;
+    private String propertiesFileName = "/config.properties";
     private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
     public GeoApiContext geoApiContextLoader() throws IOException {
@@ -29,7 +31,7 @@ public class ContextLoader {
         logger.info("<" + this.getClass().getCanonicalName() + "> Loading App properties");
 
         Properties properties = new Properties();
-        InputStream configStream = this.getClass().getResourceAsStream("/config.properties");
+        InputStream configStream = this.getClass().getResourceAsStream(propertiesFileName);
 
         properties.load(configStream);
 
