@@ -30,7 +30,7 @@ public class Timer {
         return INSTANCE;
     }
 
-    public long getWaitingTime() {
+    public long getWaitingTime(Calendar currentCalendar) {
         try {
             String string1 = null;
             try {
@@ -54,7 +54,7 @@ public class Timer {
             calendar2.add(Calendar.DATE, 1);
 
 
-            Calendar currentCalendar = Calendar.getInstance();
+
             String hours = String.valueOf(currentCalendar.get(Calendar.HOUR_OF_DAY));
             String minutes = String.valueOf(currentCalendar.get(Calendar.MINUTE));
             String seconds = String.valueOf(currentCalendar.get(Calendar.SECOND));

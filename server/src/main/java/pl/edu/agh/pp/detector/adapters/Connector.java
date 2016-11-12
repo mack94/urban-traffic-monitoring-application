@@ -4,6 +4,7 @@ import org.jgroups.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.CronManager;
+import pl.edu.agh.pp.cron.utils.ContextLoader;
 
 import java.net.InetAddress;
 

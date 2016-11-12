@@ -13,6 +13,8 @@ import pl.edu.agh.pp.cron.utils.Timer;
 import pl.edu.agh.pp.detector.DetectorManager;
 import pl.edu.agh.pp.detector.adapters.Server;
 
+import java.util.Calendar;
+
 public class CronManager {
 
     private final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
@@ -64,7 +66,7 @@ public class CronManager {
                         requestsExecutor.execute(id, context, origins, destinations, travelMode, departure, defaultWaypoints);
                     }
 
-                    long waitingTime = timer.getWaitingTime();
+                    long waitingTime = timer.getWaitingTime(Calendar.getInstance());
                     Thread.sleep(waitingTime);
                 } catch (Exception e) {
                     e.printStackTrace();
