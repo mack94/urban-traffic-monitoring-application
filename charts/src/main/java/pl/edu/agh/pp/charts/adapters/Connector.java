@@ -1,12 +1,14 @@
 package pl.edu.agh.pp.charts.adapters;
 
 import javafx.scene.paint.Color;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.controller.ChartsController;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
-import pl.edu.agh.pp.charts.data.local.AnomalyManager;
-import pl.edu.agh.pp.charts.data.local.BaselineManager;
+import pl.edu.agh.pp.charts.data.server.AnomalyManager;
+import pl.edu.agh.pp.charts.data.server.BaselineManager;
+import pl.edu.agh.pp.charts.data.server.HistoricalDataManager;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.net.InetAddress;
@@ -126,6 +128,16 @@ public class Connector {
         } catch (Exception e) {
             logger.error("Exception while demanding baseline " + e, e);
         }
+    }
+
+    public static void updateHistoricData(Integer routeID, DateTime date, Map<Integer, Integer> duration){
+        //TODO @Maciek
+        HistoricalDataManager.addHistoricalData(routeID, date, duration);
+    }
+
+    public static void demandHistoricalData(DateTime date, int routeID){
+        //TODO @Maciek
+
     }
 
     public static void connectionLost(String additionalInfo) {

@@ -21,14 +21,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
+import org.joda.time.DateTime;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
-import pl.edu.agh.pp.charts.data.local.Baseline;
-import pl.edu.agh.pp.charts.data.local.BaselineManager;
+import pl.edu.agh.pp.charts.data.server.*;
 import pl.edu.agh.pp.charts.data.local.Input;
 import pl.edu.agh.pp.charts.data.local.ResourcesHolder;
-import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
 import pl.edu.agh.pp.charts.parser.Parser;
 
 import java.io.File;
@@ -202,7 +201,7 @@ public class ChartsController {
                     }
                 };
         datePicker.setDayCellFactory(dayCellFactory);
-        if("historic data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
+        if("historical data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel, datePicker);
         }
@@ -288,7 +287,7 @@ public class ChartsController {
     private void drawLocalData(){
         if (idComboBox.getSelectionModel().getSelectedItem() == null
                 || typeComboBox.getSelectionModel().getSelectedItem() == null) {
-            if("historic data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
+            if("historical data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
                 if(dayComboBox.getSelectionModel().getSelectedItem() == null) {
                     warn.setText("Select all parameters");
                     return;
@@ -320,7 +319,7 @@ public class ChartsController {
         String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
         Map<Double, Double> trafficValues = null;
         Map<Double, Double> normalValues = null;
-        if ("historic data".equalsIgnoreCase(type)) {
+        if ("historical data".equalsIgnoreCase(type)) {
             trafficValues = input.getData(day, id, true, false);
             if (durationCheckBox.isSelected()) normalValues = input.getData(day, id, false, false);
         } else if (type.equals("Aggregated day of week")) {
@@ -351,11 +350,11 @@ public class ChartsController {
         String baselineType = baselineTypeComboBox.getSelectionModel().getSelectedItem();
         String route = idComboBox.getSelectionModel().getSelectedItem();
         String id = ServerRoutesInfo.getId(route);
-        String dayForHistoricData = null;
+        String dayForHistoricalData = null;
         if(datePicker.getValue() != null)
-            dayForHistoricData = datePicker.getValue().toString();
+            dayForHistoricalData = datePicker.getValue().toString();
         String dayForBaseline = dayComboBox.getSelectionModel().getSelectedItem();
-        if(type == null || baselineType == null || id == null || (dayForBaseline == null && dayForHistoricData == null)){
+        if(type == null || baselineType == null || id == null || (dayForBaseline == null && dayForHistoricalData == null)){
             warn.setText("Select all parameters");
             return;
         }
@@ -364,28 +363,34 @@ public class ChartsController {
             lineChart.getData().clear();
         }
         if(type.equalsIgnoreCase("baseline")){
-            Baseline baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase()));
-            if(baseline == null){
-                Connector.demandBaseline(DayOfWeek.valueOf(dayForBaseline.toUpperCase()), Integer.valueOf(id));
+            drawBaseline(id, dayForBaseline);
+        }
+        else if(type.equalsIgnoreCase("historical data")){
+            HistoricalData historicalData = HistoricalDataManager.getHistoricalData(Integer.valueOf(id), DateTime.parse(dayForHistoricalData));
+            if(historicalData == null) {
+                Connector.demandHistoricalData(DateTime.parse(dayForHistoricalData), Integer.valueOf(id));
                 Task<Void> sleeper = new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
                         try {
                             Baseline baseline = null;
                             int i = 0;
-                            while (i<3 && baseline == null) {
+                            while (i < 3 && baseline == null) {
                                 baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase()));
                                 Thread.sleep(1000);
                                 i++;
                             }
-                            if(baseline == null){
-                                logger.error("Didn't get a baseline after demand");
-                            }
-                            else {
-                                logger.info("got a response, basline found!");
+                            if (baseline == null) {
+                                logger.error("Did not get the historical after demand");
                                 Platform.runLater(() -> {
+                                    warn.setText("Server did not respond");
+                                });
+                            } else {
+                                logger.info("got a response, historical data found!");
+                                Platform.runLater(() -> {
+                                    warn.setText("");
                                     lineChart.getData().add(BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase())).getBaselineSeries());
-                                } );
+                                });
                             }
                         } catch (InterruptedException e) {
                             logger.error("Interrupted exception");
@@ -395,9 +400,53 @@ public class ChartsController {
                 };
                 new Thread(sleeper).start();
             }
-            else{
-                lineChart.getData().add(baseline.getBaselineSeries());
+            else {
+                lineChart.getData().add(historicalData.getHistoricalDataSeries());
             }
+            if(drawBaselineCheckbox.isSelected()){
+                drawBaseline(id,String.valueOf(DateTime.parse(dayForHistoricalData).dayOfWeek().get()));
+            }
+        }
+    }
+
+    private void drawBaseline(final String id, final String dayForBaseline) {
+        Baseline baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase()));
+        if(baseline == null){
+            Connector.demandBaseline(DayOfWeek.valueOf(dayForBaseline.toUpperCase()), Integer.valueOf(id));
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        Baseline baseline = null;
+                        int i = 0;
+                        while (i<3 && baseline == null) {
+                            baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase()));
+                            Thread.sleep(1000);
+                            i++;
+                        }
+                        if(baseline == null){
+                            logger.error("Did not get the baseline after demand");
+                            Platform.runLater(() -> {
+                                warn.setText("Server did not respond");
+                            });
+                        }
+                        else {
+                            logger.info("Got a response, baseline found!");
+                            Platform.runLater(() -> {
+                                warn.setText("");
+                                lineChart.getData().add(BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase())).getBaselineSeries());
+                            } );
+                        }
+                    } catch (InterruptedException e) {
+                        logger.error("Interrupted exception");
+                    }
+                    return null;
+                }
+            };
+            new Thread(sleeper).start();
+        }
+        else{
+            lineChart.getData().add(baseline.getBaselineSeries());
         }
     }
 
@@ -522,7 +571,7 @@ public class ChartsController {
             drawBaselineCheckbox.setVisible(false);
             drawBaselineLabel.setVisible(false);
         }
-        else if("historic data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
+        else if("historical data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel,datePicker);
             setupDatePicker();
@@ -537,7 +586,7 @@ public class ChartsController {
         if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("baseline")){
             fillInDaysOfWeek();
         }
-        else if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("Historic data")){
+        else if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("Historical data")){
             dayComboBox.getItems().clear();
         }
     }
@@ -582,7 +631,7 @@ public class ChartsController {
             typeComboBox.setVisible(true);
             typeLabel.setVisible(true);
             typeComboBox.getItems().clear();
-            typeComboBox.getItems().addAll("Baseline","Historic data");
+            typeComboBox.getItems().addAll("Baseline","Historical data");
         }
         else {
             if(warn.getText().equalsIgnoreCase(notConnectedWarn)){
@@ -591,7 +640,7 @@ public class ChartsController {
             typeLabel.setVisible(true);
             typeComboBox.setVisible(true);
             typeComboBox.getItems().clear();
-            typeComboBox.getItems().addAll("Historic data");
+            typeComboBox.getItems().addAll("Historical data");
         }
     }
 

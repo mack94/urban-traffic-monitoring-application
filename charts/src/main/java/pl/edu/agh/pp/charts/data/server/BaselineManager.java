@@ -1,4 +1,4 @@
-package pl.edu.agh.pp.charts.data.local;
+package pl.edu.agh.pp.charts.data.server;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;

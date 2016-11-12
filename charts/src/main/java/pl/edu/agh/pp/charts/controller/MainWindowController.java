@@ -19,8 +19,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -28,9 +26,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
-import pl.edu.agh.pp.charts.data.local.Anomaly;
-import pl.edu.agh.pp.charts.data.local.AnomalyManager;
-import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
+import pl.edu.agh.pp.charts.data.server.Anomaly;
+import pl.edu.agh.pp.charts.data.server.AnomalyManager;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
@@ -322,7 +319,7 @@ public class MainWindowController {
                         int i = 0;
                         while (i<3 && !Connector.isConnectedToTheServer()) {
                             Connector.connect(Connector.getAddress(), Connector.getPort());
-                            Thread.sleep(5000);
+                            Thread.sleep(3000);
                             i++;
                         }
                         connectedFlag = Connector.isConnectedToTheServer();
@@ -383,17 +380,19 @@ public class MainWindowController {
 
     @FXML
     private void handleConnectAction(ActionEvent e) {
+        Platform.runLater(() -> {
+            connectButton.setDisable(true);
+            setConnectedLabel("connecting");
+        } );
         Connector.setIsFromConnecting(true);
-        setConnectedLabel("connecting");
         try {
             String address = serverAddrTxtField.getText();
-            if(!Pattern.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}",address.trim())){
+            if (Pattern.matches("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",address.trim())) {
+                serverAddrTxtField.setStyle("-fx-text-box-border: black;");
+            } else {
                 logger.error("Wrong server address pattern");
                 serverAddrTxtField.setStyle("-fx-text-box-border: red;");
                 return;
-            }
-            else{
-                serverAddrTxtField.setStyle("-fx-text-box-border: black;");
             }
             String port = serverPortTxtField.getText();
             if(!Pattern.matches("\\d+",port.trim())){
@@ -409,8 +408,13 @@ public class MainWindowController {
                 @Override
                 protected Void call() throws Exception {
                     try {
-                        Thread.sleep(5000);
+                        int i = 0;
                         connectedFlag = Connector.isConnectedToTheServer();
+                        while(i<10 && !connectedFlag){
+                            connectedFlag = Connector.isConnectedToTheServer();
+                            Thread.sleep(500);
+                            i++;
+                        }
                         if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
                         else putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
                         setConnectedState();
@@ -434,7 +438,7 @@ public class MainWindowController {
     private void handleDisconnectAction(ActionEvent e) {
         Connector.disconnect();
         connectedFlag = Connector.isConnectedToTheServer();
-        if(connectedFlag) putSystemMessageOnScreen("Failed to disconnect from " + Connector.getAddressServerInfo());
+        if(connectedFlag) putSystemMessageOnScreen("Failed to disconnect from " + Connector.getAddressServerInfo(), Color.RED);
         setConnectedState();
     }
 
