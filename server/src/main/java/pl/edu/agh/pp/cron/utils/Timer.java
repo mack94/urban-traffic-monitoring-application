@@ -51,7 +51,7 @@ public class Timer {
             Date time2 = new SimpleDateFormat("HH:mm:ss").parse(string2);
             Calendar calendar2 = Calendar.getInstance();
             calendar2.setTime(time2);
-            calendar2.add(Calendar.DATE, 1);
+//            calendar2.add(Calendar.DATE, 1);
 
 
 
@@ -61,7 +61,7 @@ public class Timer {
             String currentTime = hours.concat(":").concat(minutes).concat(":").concat(seconds);
             Date d = new SimpleDateFormat("HH:mm:ss").parse(currentTime);
             currentCalendar.setTime(d);
-            currentCalendar.add(Calendar.DATE, 1);
+//            currentCalendar.add(Calendar.DATE, 1);
 
             Date x = currentCalendar.getTime();
             Random random = new Random();

@@ -64,10 +64,20 @@ public class TimerTest {
         timer.getWaitingTime(testCalendar);
         assertEquals("NIGHT SHIFT----------------------------------------------\r\n", consoleOutputCapturer.stop());
 
-        testCalendar.set(2016, 1, 3, 5, 0);
+        testCalendar.set(2016, 1, 3, 4, 59);
         consoleOutputCapturer.start();
         timer.getWaitingTime(testCalendar);
         assertEquals("NIGHT SHIFT----------------------------------------------\r\n", consoleOutputCapturer.stop());
+
+        testCalendar.set(2016, 1, 3, 5, 00, 00);
+        consoleOutputCapturer.start();
+        timer.getWaitingTime(testCalendar);
+        assertEquals("NIGHT SHIFT----------------------------------------------\r\n", consoleOutputCapturer.stop());
+
+        testCalendar.set(2016, 1, 3, 5, 00, 01);
+        consoleOutputCapturer.start();
+        timer.getWaitingTime(testCalendar);
+        assertEquals("DAY SHIFT-----------------------------------------------\r\n", consoleOutputCapturer.stop());
     }
 
 }
