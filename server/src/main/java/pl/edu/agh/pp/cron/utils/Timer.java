@@ -70,7 +70,7 @@ public class Timer {
             Random random = new Random();
             if (x.after(calendar1.getTime()) && x.before(calendar2.getTime())) {
                 System.out.println("DAY SHIFT-----------------------------------------------");
-                return random.nextInt(300_000) + 180_000;
+                return random.nextInt(300_000) + 200_000;
             } else {
                 System.out.println("NIGHT SHIFT----------------------------------------------");
                 if (!Timer.dayOfWeek.equals(DayOfWeek.of(DateTime.now().getDayOfWeek()))) {
@@ -78,7 +78,7 @@ public class Timer {
                     System.out.println("New day. GC will run!");
                     System.gc();
                 }
-                return random.nextInt(600_000) + 250_000;
+                return random.nextInt(400_000) + 450_000;
             }
         } catch (ParseException e) {
             logger.error("Error during calculating time to download traffic.");

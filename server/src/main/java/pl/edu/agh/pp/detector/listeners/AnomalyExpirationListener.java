@@ -60,7 +60,7 @@ public class AnomalyExpirationListener extends Thread
                     });
             try
             {
-                sleep(1000 * 60);
+                sleep(1000 * 90);
             }
             catch (InterruptedException e)
             {

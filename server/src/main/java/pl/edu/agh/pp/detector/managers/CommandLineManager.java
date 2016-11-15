@@ -2,6 +2,8 @@ package pl.edu.agh.pp.detector.managers;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.detector.builders.IPatternBuilder;
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
@@ -11,6 +13,8 @@ import pl.edu.agh.pp.detector.helpers.LeverInfoHelper;
 import pl.edu.agh.pp.detector.loaders.FilesLoader;
 import pl.edu.agh.pp.detector.serializers.FileBaselineSerializer;
 import pl.edu.agh.pp.detector.serializers.IBaselineSerializer;
+import pl.edu.agh.pp.settings.IOptions;
+import pl.edu.agh.pp.settings.Options;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -27,6 +31,8 @@ public class CommandLineManager extends Thread {
     private static final LeverInfoHelper leverInfoHelper = LeverInfoHelper.getInstance();
     private static final AnomalyLiveTimeInfoHelper anomalyLiveTimeInfoHelper = AnomalyLiveTimeInfoHelper.getInstance();
     private static final BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
+    private static IOptions options = Options.getInstance();
+    private final Logger logger = (Logger) LoggerFactory.getLogger(CommandLineManager.class);
 
     @Override
     public void run() {
@@ -62,6 +68,10 @@ public class CommandLineManager extends Thread {
                     String[] args = buffer.split(" ");
                     int baselineWindowSize = Integer.parseInt(args[0]);
                     baselineWindowSizeInfoHelper.setBaselineWindowSizeValue(baselineWindowSize);
+                } else if (buffer.startsWith("RESET_PREFERENCES")) {
+                    boolean result = options.resetPreferences();
+                    logger.info("Preferences reset - " + result);
+                    System.out.println("Preferences reset - " + result);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
