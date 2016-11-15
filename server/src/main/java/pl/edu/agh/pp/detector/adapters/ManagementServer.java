@@ -19,6 +19,10 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.utils.RoutesLoader;
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
+import pl.edu.agh.pp.detector.enums.DayShift;
+import pl.edu.agh.pp.detector.helpers.AnomalyLiveTimeInfoHelper;
+import pl.edu.agh.pp.detector.helpers.BaselineWindowSizeInfoHelper;
+import pl.edu.agh.pp.detector.helpers.DayShiftInfoHelper;
 import pl.edu.agh.pp.detector.helpers.LeverInfoHelper;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.settings.IOptions;
@@ -115,21 +119,20 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
 
     public void sendSystemGeneralMessage(Address destination) throws IllegalPreferenceObjectExpected, IOException {
 
-        int anomalyLiveTime = (int) options.getPreference("AnomalyLiveTime", Integer.class);
-        int baselineWindowSize = (int) options.getPreference("BaselineWindowSize", Integer.class);
+        int anomalyLiveTime = AnomalyLiveTimeInfoHelper.getInstance().getAnomalyLiveTimeValue();
+        int baselineWindowSize = BaselineWindowSizeInfoHelper.getInstance().getBaselineWindowSizeValue();
         double leverValue = LeverInfoHelper.getInstance().getLeverValue();
-        int anomaliesChannelPort = (int) options.getPreference("AnomaliesChannelPort", Integer.class); // FIXME
+        //int anomaliesChannelPort = (int) options.getPreference("AnomaliesChannelPort", Integer.class); // FIXME
         int messageID = 1; // FIXME
         RoutesLoader routesLoader = RoutesLoader.getInstance();
-        String loadedRoutes = routesLoader.loadJSON().toString(); // JSONArray
-        AnomalyOperationProtos.SystemGeneralMessage.Shift shift = AnomalyOperationProtos.SystemGeneralMessage.Shift.UNIVERSAL; // FIXME
+        AnomalyOperationProtos.SystemGeneralMessage.Shift shift = DayShiftInfoHelper.getInstance().getShiftProtos(); // FIXME
 
         AnomalyOperationProtos.SystemGeneralMessage msg = AnomalyOperationProtos.SystemGeneralMessage.newBuilder()
                 .setAnomalyLiveTime(anomalyLiveTime)
                 .setBaselineWindowSize(baselineWindowSize)
                 .setLeverValue(leverValue)
                 .setMessageIdx(messageID)
-                .setPort(anomaliesChannelPort)
+                .setPort(8079)
                 .setRoutes("")
                 .setShift(shift)
                 .build();

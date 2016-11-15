@@ -55,18 +55,13 @@ public class Main {
             } catch (UnknownHostException e) {
                 logger.error("Main :: UnknownHostException " + e);
             }
-            int port = 7500;
+            int port = 8080;
             boolean nio = false;
 
             logger.info("Running server in 2 sec.");
             Thread.sleep(2000);
 
             Connector.connect(args, bind_addr, port, nio);
-            //TODO:Uwaga! Usunąłem metody, które tutaj były (stawianie serwera i kanałów) i przeniosłem do Connectora.
-            // Jak są jakieś błędy to proszę zgłaszać
-            // Ponadto nie wiem czy działa teraz to co jest po else.
-            // Bo brakuje testów i sobie nie sprawdzę :-/
-            // ~Maciek
 
         } else {
             Server server = new Server();

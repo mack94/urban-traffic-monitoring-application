@@ -21,6 +21,7 @@ public class LeverInfoHelper {
     private static double leverValue = 0.0;
     private static boolean updated = false;
     private static final Object lock = new Object();
+    private static String preferenceName = "LeverValue";
 
     public static LeverInfoHelper getInstance() {
         return Holder.INSTANCE;
@@ -32,7 +33,7 @@ public class LeverInfoHelper {
                 return leverValue;
 
             try {
-                leverValue = ((int) options.getPreference("LeverValue", Integer.class)) / 100.0;
+                leverValue = ((int) options.getPreference(preferenceName, Integer.class)) / 100.0;
             } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
                 logger.error("LeverInfoHelper:  leverValue error! Could not getPreference LeverValue from registry!" + illegalPreferenceObjectExpected,
                         illegalPreferenceObjectExpected);
@@ -47,7 +48,7 @@ public class LeverInfoHelper {
     public void setLeverValue(int newLeverValue) {
 
         HashMap<String, Object> newPreference = new HashMap<>();
-        newPreference.put("LeverValue", newLeverValue);
+        newPreference.put(preferenceName, newLeverValue);
 
         synchronized (lock) {
             updated = false;

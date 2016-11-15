@@ -18,9 +18,6 @@ import java.util.List;
  */
 public class Route {
 
-    // private String[] origins;
-    // private String[] destinations;
-
     private String id;
     private DistanceMatrix distanceMatrix;
     private DirectionsResult directionsApi;

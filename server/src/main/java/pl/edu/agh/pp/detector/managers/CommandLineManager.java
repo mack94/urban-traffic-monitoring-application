@@ -5,6 +5,8 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import pl.edu.agh.pp.detector.builders.IPatternBuilder;
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
+import pl.edu.agh.pp.detector.helpers.AnomalyLiveTimeInfoHelper;
+import pl.edu.agh.pp.detector.helpers.BaselineWindowSizeInfoHelper;
 import pl.edu.agh.pp.detector.helpers.LeverInfoHelper;
 import pl.edu.agh.pp.detector.loaders.FilesLoader;
 import pl.edu.agh.pp.detector.serializers.FileBaselineSerializer;
@@ -23,6 +25,8 @@ public class CommandLineManager extends Thread {
     private static final IPatternBuilder patternBuilder = PolynomialPatternBuilder.getInstance();
     private static final IBaselineSerializer baselineSerializer = FileBaselineSerializer.getInstance();
     private static final LeverInfoHelper leverInfoHelper = LeverInfoHelper.getInstance();
+    private static final AnomalyLiveTimeInfoHelper anomalyLiveTimeInfoHelper = AnomalyLiveTimeInfoHelper.getInstance();
+    private static final BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
 
     @Override
     public void run() {
@@ -43,11 +47,21 @@ public class CommandLineManager extends Thread {
                     if (baseline != null) {
                         patternBuilder.setBaseline(baseline);
                     }
-                } else if (buffer.startsWith("UPDATE_LEVER")) {
-                    buffer = StringUtils.removeStart(buffer, "UPDATE_LEVER ");
+                } else if (buffer.startsWith("SET_LEVER")) {
+                    buffer = StringUtils.removeStart(buffer, "SET_LEVER ");
                     String[] args = buffer.split(" ");
                     int percentLeverValue = Integer.parseInt(args[0]);
                     leverInfoHelper.setLeverValue(percentLeverValue);
+                } else if (buffer.startsWith("SET_ANOMALY_LIVE_TIME")) {
+                    buffer = StringUtils.removeStart(buffer, "SET_ANOMALY_LIVE_TIME ");
+                    String[] args = buffer.split(" ");
+                    int secondsAnomalyLiveTime = Integer.parseInt(args[0]);
+                    anomalyLiveTimeInfoHelper.setAnomalyLiveTimeValue(secondsAnomalyLiveTime);
+                } else if (buffer.startsWith("SET_BASELINE_WINDOW_SIZE")) {
+                    buffer = StringUtils.removeStart(buffer, "SET_BASELINE_WINDOW_SIZE ");
+                    String[] args = buffer.split(" ");
+                    int baselineWindowSize = Integer.parseInt(args[0]);
+                    baselineWindowSizeInfoHelper.setBaselineWindowSizeValue(baselineWindowSize);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

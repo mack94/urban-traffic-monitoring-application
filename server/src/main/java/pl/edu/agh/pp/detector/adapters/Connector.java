@@ -1,11 +1,15 @@
 package pl.edu.agh.pp.detector.adapters;
 
+import org.jgroups.Address;
 import org.jgroups.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.CronManager;
 import pl.edu.agh.pp.cron.utils.ContextLoader;
+import pl.edu.agh.pp.detector.helpers.SystemScheduler;
+import pl.edu.agh.pp.settings.exceptions.IllegalPreferenceObjectExpected;
 
+import java.io.IOException;
 import java.net.InetAddress;
 
 /**
@@ -19,6 +23,7 @@ public class Connector {
     private static ChannelReceiver channelReceiver = new ChannelReceiver();
     private static ManagementServer managementServer = new ManagementServer();
     private static Server server;
+    private static SystemScheduler systemScheduler;
 
     public static void connect(String[] args, InetAddress bind_addr, int port, boolean nio) throws InterruptedException {
         managementServer = new ManagementServer();
@@ -36,6 +41,10 @@ public class Connector {
         }
 
         Thread.sleep(10000);
+
+        systemScheduler = new SystemScheduler();
+        systemScheduler.sendSystemGeneralMessageEveryHour();
+
         if(args.length>1)
             new CronManager(server).doSomething(args[1]);
         else
@@ -44,6 +53,10 @@ public class Connector {
 
     public static void updateLever(double leverValue) {
         managementServer.sendLeverInfoMessage(leverValue);
+    }
+
+    public static void updateSystem(Address destination) throws IOException, IllegalPreferenceObjectExpected {
+        managementServer.sendSystemGeneralMessage(destination);
     }
 
 }
