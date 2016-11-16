@@ -43,6 +43,12 @@ public class PersistenceManager {
         return path;
     }
 
+    /**
+     * Saves records given as parameter to temporary workspace directory.
+     * @param records List of type Record with records to be saved.
+     * @see Record
+     * @see ResourcesHolder
+     */
     public void saveToFiles(List<Record> records) {
         try {
             Map<String, BufferedWriter> files = new ConcurrentHashMap<>();
@@ -90,6 +96,15 @@ public class PersistenceManager {
         return record.getDate().substring(0, 10);
     }
 
+    /**
+     * Return mapping of time to duration or duration in traffic from temporary directory.
+     * @param day       Day of week, put String: SUN for sunday, MON for monday, TUE for tuesday, WED for wednesday,
+     *                  THU for thursday, FRI for friday, SAT for saturday.
+     * @param id        Route id as String.
+     * @param traffic   Boolean, pass true for duration in traffic or false for duration.
+     * @return          HashMap <time - duration> containing only the newest combinations of time to duration
+     *                  in files matching id and day parameter.
+     */
     public Map<Double, Double> readFromFile(String day, String id, boolean traffic) {
         try {
             File dir = new File(path);
@@ -127,6 +142,15 @@ public class PersistenceManager {
         return null;
     }
 
+    /**
+     * Return mapping of time to duration or duration in traffic from temporary directory.
+     * @param day       Day of week, put String: SUN for sunday, MON for monday, TUE for tuesday, WED for wednesday,
+     *                  THU for thursday, FRI for friday, SAT for saturday.
+     * @param id        Route id as String.
+     * @param traffic   Boolean, pass true for duration in traffic or false for duration.
+     * @return          HashMap <time - duration> containing average duration for each time key found
+     *                  in files matching id and day parameter.
+     */
     public Map<Double, Double> readFromFiles(String day, String id, boolean traffic) {
         try {
             File dir = new File(path);
@@ -179,6 +203,10 @@ public class PersistenceManager {
         return line != null && !line.equals("");
     }
 
+    /**
+     * Remove temporary directory and all of its contents.
+     * @see ResourcesHolder
+     */
     public void removeFiles() {
         String path = ResourcesHolder.getInstance().getPath();
         File dir = new File(path);
