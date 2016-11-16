@@ -11,15 +11,14 @@ import pl.edu.agh.pp.detector.records.Record;
  * 20:08
  * Project: detector.
  */
-public class InputParser {
-    public Record parse(String buffer) {
+public class InputParser
+{
+    public Record parse(String buffer)
+    {
         JSONObject json = new JSONObject(buffer);
-        // TODO: change after adding isAnomaly field to historical data
-        try {
-            if (Boolean.valueOf(json.getString("isAnomaly"))) {
-                return null;
-            }
-        } catch (Exception ignored) {
+        if (json.getBoolean("isAnomaly"))
+        {
+            return null;
         }
         Record record = new Record();
         record.setRouteID(Integer.valueOf(json.getString("id")));
@@ -27,10 +26,20 @@ public class InputParser {
         record.setDuration(Integer.valueOf(json.getString("duration")));
         record.setDurationInTraffic(Integer.valueOf(json.getString("durationInTraffic")));
         record.setDateTime(convertStringDateToDateTime(json.getString("timeStamp")));
+        // TODO: change after update of historical data
+        try
+        {
+            record.setWaypoints(json.getJSONArray("waypoints").getString(0));
+        }
+        catch (Exception e)
+        {
+            record.setWaypoints(json.getString("waypoints"));
+        }
         return record;
     }
 
-    private DateTime convertStringDateToDateTime(String Date) {
+    private DateTime convertStringDateToDateTime(String Date)
+    {
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss,SSS");
         return formatter.parseDateTime(Date);
     }
