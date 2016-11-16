@@ -250,7 +250,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             int routeID = historicalMessage.getRouteID();
             String date = historicalMessage.getDate();
             Map<Integer, Integer> historicalMap = historicalMessage.getMeasuresMap();
-            Connector.updateHistoricData(routeID, DateTime.parse(date), historicalMap);
+            Connector.updateHistoricalData(routeID, DateTime.parse(date), historicalMap);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }

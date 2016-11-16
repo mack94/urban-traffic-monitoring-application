@@ -48,6 +48,7 @@ public class ChartsController {
     private Set<String> datesSet = new HashSet<>();
     private ObservableList<String> localRouteIdList = FXCollections.observableArrayList();
     private ObservableList<String> serverRouteIdList = FXCollections.observableArrayList();
+    private ObservableList<String> serverDatesList = FXCollections.observableArrayList();
     private MainWindowController parent;
     private final Logger logger = (Logger) LoggerFactory.getLogger(MainWindowController.class);
 
@@ -144,7 +145,9 @@ public class ChartsController {
     }
 
     public void setServerDates(){
-        //TODO
+        serverDatesList.clear();
+        Map<String, Integer> map = ServerDatesInfo.getDates();
+        serverDatesList.addAll(map.keySet());
     }
 
     private void setupFields() {
@@ -152,7 +155,7 @@ public class ChartsController {
         if(sourceComboBox.getSelectionModel().getSelectedItem()!=null && sourceComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("local data")){
             idComboBox.setItems(localRouteIdList);
         }
-        else {
+        else if(sourceComboBox.getSelectionModel().getSelectedItem()!=null && sourceComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("server data")){
             Connector.setServerAvailableRouteIds();
             idComboBox.setItems(serverRouteIdList);
         }
@@ -212,8 +215,7 @@ public class ChartsController {
             return input.getDays().contains((date.getYear()+"-"+date.getMonthValue()+"-"+date.getDayOfMonth()));
         }
         else{
-            //todo implement server historic data
-            return false;
+            return serverDatesList.contains(String.valueOf(date));
         }
     }
 
@@ -366,46 +368,53 @@ public class ChartsController {
             drawBaseline(id, dayForBaseline);
         }
         else if(type.equalsIgnoreCase("historical data")){
-            HistoricalData historicalData = HistoricalDataManager.getHistoricalData(Integer.valueOf(id), DateTime.parse(dayForHistoricalData));
-            if(historicalData == null) {
-                Connector.demandHistoricalData(DateTime.parse(dayForHistoricalData), Integer.valueOf(id));
-                Task<Void> sleeper = new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
-                        try {
-                            Baseline baseline = null;
-                            int i = 0;
-                            while (i < 3 && baseline == null) {
-                                baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase()));
-                                Thread.sleep(1000);
-                                i++;
-                            }
-                            if (baseline == null) {
-                                logger.error("Did not get the historical after demand");
-                                Platform.runLater(() -> {
-                                    warn.setText("Server did not respond");
-                                });
-                            } else {
-                                logger.info("got a response, historical data found!");
-                                Platform.runLater(() -> {
-                                    warn.setText("");
-                                    lineChart.getData().add(BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase())).getBaselineSeries());
-                                });
-                            }
-                        } catch (InterruptedException e) {
-                            logger.error("Interrupted exception");
+            drawHistoricalData(id, dayForHistoricalData, dayForBaseline);
+        }
+        else if(type.equalsIgnoreCase("historical anomalies")){
+            //TODO
+        }
+    }
+
+    private void drawHistoricalData(final String id, String dayForHistoricalData, final String dayForBaseline) {
+        HistoricalData historicalData = HistoricalDataManager.getHistoricalData(Integer.valueOf(id), DateTime.parse(dayForHistoricalData));
+        if(historicalData == null) {
+            Connector.demandHistoricalData(DateTime.parse(dayForHistoricalData), Integer.valueOf(id));
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        Baseline baseline = null;
+                        int i = 0;
+                        while (i < 3 && baseline == null) {
+                            baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase()));
+                            Thread.sleep(1000);
+                            i++;
                         }
-                        return null;
+                        if (baseline == null) {
+                            logger.error("Did not get the historical after demand");
+                            Platform.runLater(() -> {
+                                warn.setText("Server did not respond");
+                            });
+                        } else {
+                            logger.info("got a response, historical data found!");
+                            Platform.runLater(() -> {
+                                warn.setText("");
+                                lineChart.getData().add(BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase())).getBaselineSeries());
+                            });
+                        }
+                    } catch (InterruptedException e) {
+                        logger.error("Interrupted exception");
                     }
-                };
-                new Thread(sleeper).start();
-            }
-            else {
-                lineChart.getData().add(historicalData.getHistoricalDataSeries());
-            }
-            if(drawBaselineCheckbox.isSelected()){
-                drawBaseline(id,String.valueOf(DateTime.parse(dayForHistoricalData).dayOfWeek().get()));
-            }
+                    return null;
+                }
+            };
+            new Thread(sleeper).start();
+        }
+        else {
+            lineChart.getData().add(historicalData.getHistoricalDataSeries());
+        }
+        if(drawBaselineCheckbox.isSelected()){
+            drawBaseline(id,String.valueOf(DateTime.parse(dayForHistoricalData).dayOfWeek().get()));
         }
     }
 
@@ -580,6 +589,9 @@ public class ChartsController {
             drawBaselineCheckbox.setVisible(true);
             drawBaselineLabel.setVisible(true);
         }
+        else if("historical anomalies".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
+            //TODO
+        }
     }
     @FXML
     private void handleBaselineTypeAction(ActionEvent e) {
@@ -588,6 +600,7 @@ public class ChartsController {
         }
         else if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("Historical data")){
             dayComboBox.getItems().clear();
+            //TODO historical
         }
     }
     @FXML
@@ -631,7 +644,7 @@ public class ChartsController {
             typeComboBox.setVisible(true);
             typeLabel.setVisible(true);
             typeComboBox.getItems().clear();
-            typeComboBox.getItems().addAll("Baseline","Historical data");
+            typeComboBox.getItems().addAll("Baseline","Historical data","Historical anomalies");
         }
         else {
             if(warn.getText().equalsIgnoreCase(notConnectedWarn)){

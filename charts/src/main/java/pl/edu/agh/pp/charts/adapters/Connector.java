@@ -9,6 +9,7 @@ import pl.edu.agh.pp.charts.controller.MainWindowController;
 import pl.edu.agh.pp.charts.data.server.AnomalyManager;
 import pl.edu.agh.pp.charts.data.server.BaselineManager;
 import pl.edu.agh.pp.charts.data.server.HistoricalDataManager;
+import pl.edu.agh.pp.charts.data.server.ServerDatesInfo;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.net.InetAddress;
@@ -148,7 +149,12 @@ public class Connector {
         }
     }
 
-    public static void updateHistoricData(Integer routeID, DateTime date, Map<Integer, Integer> duration){
+    public static void updateAvailableDates(Map<String,Integer> arg){
+        ServerDatesInfo.setMap(arg);
+        setServerAvailableDates();
+    }
+
+    public static void updateHistoricalData(Integer routeID, DateTime date, Map<Integer, Integer> duration){
         //TODO @Maciek
         HistoricalDataManager.addHistoricalData(routeID, date, duration);
     }
