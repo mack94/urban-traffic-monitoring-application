@@ -295,6 +295,10 @@ public class MainWindowController {
         //TODO charts connected state
     }
 
+    public void setChartsController(ChartsController chartsController){
+        this.chartsController = chartsController;
+    }
+
     private void resetServerInfoLabels(){
         leverValueLabel.setText("");
         anomalyLiveTimeLabel.setText("");
@@ -373,8 +377,11 @@ public class MainWindowController {
             chartsController = new ChartsController(primaryStage, this);
             chartsController.show();
         }
-        else{
+        else if(chartsController.isInitialized()){
             chartsController.setScene();
+        }
+        else {
+            chartsController.show();
         }
     }
 

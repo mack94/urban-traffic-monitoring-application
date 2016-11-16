@@ -25,12 +25,13 @@ import org.joda.time.DateTime;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
-import pl.edu.agh.pp.charts.data.server.*;
 import pl.edu.agh.pp.charts.data.local.Input;
 import pl.edu.agh.pp.charts.data.local.ResourcesHolder;
+import pl.edu.agh.pp.charts.data.server.*;
 import pl.edu.agh.pp.charts.parser.Parser;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
@@ -40,6 +41,7 @@ import java.util.*;
  */
 public class ChartsController {
     private Stage primaryStage = null;
+    private boolean initialized = false;
     private Scene scene = null;
     private FileChooser fileChooser = null;
     private Parser parser;
@@ -126,6 +128,7 @@ public class ChartsController {
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             baselineBox.managedProperty().bind(baselineTypeComboBox.visibleProperty());
             primaryStage.setScene(scene);
+            initialized = true;
 //            primaryStage.show();
         } catch (java.io.IOException e) {
             e.printStackTrace();
@@ -148,6 +151,10 @@ public class ChartsController {
         serverDatesList.clear();
         Map<String, Integer> map = ServerDatesInfo.getDates();
         serverDatesList.addAll(map.keySet());
+    }
+
+    boolean isInitialized(){
+        return initialized;
     }
 
     private void setupFields() {
@@ -211,11 +218,16 @@ public class ChartsController {
     }
 
     private boolean availableDate(LocalDate date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         if("local data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())){
             return input.getDays().contains((date.getYear()+"-"+date.getMonthValue()+"-"+date.getDayOfMonth()));
         }
         else{
-            return serverDatesList.contains(String.valueOf(date));
+            return serverDatesList.contains(date.toString());
+//            for(String d:serverDatesList){
+//                if(d.equals(date.toString()))return true;
+//            }
+//            return false;
         }
     }
 
@@ -356,10 +368,19 @@ public class ChartsController {
         if(datePicker.getValue() != null)
             dayForHistoricalData = datePicker.getValue().toString();
         String dayForBaseline = dayComboBox.getSelectionModel().getSelectedItem();
-        if(type == null || baselineType == null || id == null || (dayForBaseline == null && dayForHistoricalData == null)){
+        if(type == null || id == null ){
             warn.setText("Select all parameters");
             return;
         }
+        if(type.equalsIgnoreCase("baseline") && ( baselineType == null || dayForBaseline == null)){
+            warn.setText("Select all parameters");
+            return;
+        }
+        else if((type.equalsIgnoreCase("historical data") || type.equalsIgnoreCase("historical anomalies"))&& dayForHistoricalData == null){
+            warn.setText("Select all parameters");
+            return;
+        }
+
         warn.setText("");
         if (clearCheckBox.isSelected()) {
             lineChart.getData().clear();
@@ -383,14 +404,14 @@ public class ChartsController {
                 @Override
                 protected Void call() throws Exception {
                     try {
-                        Baseline baseline = null;
+                        HistoricalData historicalData = null;
                         int i = 0;
-                        while (i < 3 && baseline == null) {
-                            baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase()));
+                        while (i < 3 && historicalData == null) {
+                            historicalData = HistoricalDataManager.getHistoricalData(Integer.valueOf(id), DateTime.parse(dayForHistoricalData));
                             Thread.sleep(1000);
                             i++;
                         }
-                        if (baseline == null) {
+                        if (historicalData == null) {
                             logger.error("Did not get the historical after demand");
                             Platform.runLater(() -> {
                                 warn.setText("Server did not respond");
@@ -399,7 +420,7 @@ public class ChartsController {
                             logger.info("got a response, historical data found!");
                             Platform.runLater(() -> {
                                 warn.setText("");
-                                lineChart.getData().add(BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase())).getBaselineSeries());
+                                lineChart.getData().add(HistoricalDataManager.getHistoricalData(Integer.valueOf(id), DateTime.parse(dayForHistoricalData)).getHistoricalDataSeries());
                             });
                         }
                     } catch (InterruptedException e) {

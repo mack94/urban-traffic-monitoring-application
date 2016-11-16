@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.adapters.Connector;
+import pl.edu.agh.pp.charts.controller.ChartsController;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
 import pl.edu.agh.pp.charts.data.server.AnomalyManager;
 import pl.edu.agh.pp.charts.settings.IOptions;
@@ -50,6 +51,7 @@ public class Main extends Application {
         MainWindowController mainWindowController = new MainWindowController(primaryStage);
         AnomalyManager.getInstance().setController(mainWindowController);
         Connector.setMainWindowController(mainWindowController);
+        mainWindowController.setChartsController(new ChartsController(primaryStage, mainWindowController));
         mainWindowController.show();
     }
 }

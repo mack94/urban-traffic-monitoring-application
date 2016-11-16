@@ -156,6 +156,7 @@ public class Connector {
 
     public static void updateHistoricalData(Integer routeID, DateTime date, Map<Integer, Integer> duration){
         //TODO @Maciek
+        System.out.println("duration size: " + duration.size());
         HistoricalDataManager.addHistoricalData(routeID, date, duration);
     }
 

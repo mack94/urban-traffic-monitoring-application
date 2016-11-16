@@ -37,15 +37,14 @@ public class HistoricalData {
 
     private XYChart.Series<Number, Number> buildHistoricalDataSeries() {
         XYChart.Series<Number, Number> historicalDataSeries = new XYChart.Series<>();
-
         for (Integer time : duration.keySet()) {
             double h = time / 3600;
             double m = (time / 60) - (h * 60);
-            if (m % 5 == 0) {
+//            if (m % 5 == 0) {
                 XYChart.Data<Number, Number> data = new XYChart.Data<>(h + (m / 60), duration.get(time));
 
                 historicalDataSeries.getData().add(data);
-            }
+//            }
         }
         return historicalDataSeries;
     }
