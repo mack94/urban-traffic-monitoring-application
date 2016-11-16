@@ -3,7 +3,9 @@ package pl.edu.agh.pp.detector.helpers;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.detector.records.Record;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
  * Project: server.
  */
 public class HistoricalInfoHelper {
+
     private static List<Record> records = new LinkedList<>();
 
     public static void addRecord(Record record) {
@@ -24,9 +27,11 @@ public class HistoricalInfoHelper {
 
     public static Map<Integer, Integer> getRecords(String date, int routeID) {
         Map<Integer, Integer> result;
+
         result = records.stream().filter(x -> x.getDateTime().toString("yyyy-MM-dd").compareTo(date) == 0)
                 .filter(x -> x.getRouteID() == routeID)
                 .collect(Collectors.toMap(Record::getTimeInSeconds, Record::getDurationInTraffic));
+
         return result;
     }
 

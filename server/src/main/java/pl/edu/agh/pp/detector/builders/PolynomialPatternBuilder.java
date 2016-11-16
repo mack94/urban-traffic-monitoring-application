@@ -10,6 +10,7 @@ import pl.edu.agh.pp.detector.adapters.Server;
 import pl.edu.agh.pp.detector.detectors.Detector;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
 import pl.edu.agh.pp.detector.helpers.AvailableHistoricalInfoHelper;
+import pl.edu.agh.pp.detector.helpers.HistoricalInfoHelper;
 import pl.edu.agh.pp.detector.helpers.LeverInfoHelper;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.detector.records.Record;
@@ -56,6 +57,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
 
         List<Record> _records = new LinkedList<>();
         _records.addAll(records);
+        HistoricalInfoHelper.addRecords(_records);
 
         for (DayOfWeek day : DayOfWeek.values()) {
 
