@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Maciej on 14.05.2016.
@@ -70,7 +71,6 @@ public class Route {
 
             String waypoints = getWaypoints(routes);
             String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS").format(new Date());
-            System.out.println("---------------------------" + timeStamp);
 
             JSONObject jsonObject = new JSONObject()
                     .put("timeStamp", timeStamp)
@@ -117,25 +117,20 @@ public class Route {
     private String getWaypoints(DirectionsRoute[] routes) {
         String result = "";
 
-        for (DirectionsRoute route : routes) {
-            EncodedPolyline polyline = route.overviewPolyline;
-            String decodedPath = decodePolylinePath(polyline);
-
-            result = result.concat("[" + route.summary + "], " + " [" + decodedPath + "]");
+        for (DirectionsRoute route : routes)
+        {
+            result = result.concat(decodePolylinePath(route.overviewPolyline));
         }
 
         return result;
     }
 
     private String decodePolylinePath(EncodedPolyline polyline) {
-        String result = "";
         List<LatLng> polylineDecodedPath = polyline.decodePath();
 
-        for (LatLng polyPoint : polylineDecodedPath) {
-            result = result.concat(polyPoint.toString() + "; ");
-        }
-
-        return result;
+        return polylineDecodedPath.stream()
+                .map(LatLng::toString)
+                .collect(Collectors.joining(";"));
     }
 
     @Override
