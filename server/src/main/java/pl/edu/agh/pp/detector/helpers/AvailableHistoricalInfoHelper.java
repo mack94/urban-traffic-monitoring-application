@@ -19,10 +19,13 @@ public class AvailableHistoricalInfoHelper {
     }
 
     public static void addAvailableDateRoutes(Map<String, Integer> availableDateRoutes) {
+        System.out.println("I receive add Available DateRoutes");
+        System.out.println(availableDateRoutes);
         AvailableHistoricalInfoHelper.availableDateRoutes.putAll(availableDateRoutes);
     }
 
     public static AvailableHistoricalMessage getAvailableHistoricalMessage() {
+        System.out.println("I receive ask about Available DateRoutes message");
         return AvailableHistoricalMessage.newBuilder()
                 .putAllAvaiableDateRoutes(availableDateRoutes)
                 .build();

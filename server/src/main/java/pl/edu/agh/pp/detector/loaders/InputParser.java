@@ -16,10 +16,10 @@ public class InputParser
     public Record parse(String buffer)
     {
         JSONObject json = new JSONObject(buffer);
-        if (json.getBoolean("isAnomaly"))
-        {
-            return null;
-        }
+//        if (json.getBoolean("isAnomaly"))
+//        {
+//            return null;
+//        }
         Record record = new Record();
         record.setRouteID(Integer.valueOf(json.getString("id")));
         record.setDistance(json.getString("distance"));
