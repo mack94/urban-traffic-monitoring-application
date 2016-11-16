@@ -20,10 +20,7 @@ import pl.edu.agh.pp.cron.utils.RoutesLoader;
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
 import pl.edu.agh.pp.detector.enums.DayShift;
-import pl.edu.agh.pp.detector.helpers.AnomalyLiveTimeInfoHelper;
-import pl.edu.agh.pp.detector.helpers.BaselineWindowSizeInfoHelper;
-import pl.edu.agh.pp.detector.helpers.DayShiftInfoHelper;
-import pl.edu.agh.pp.detector.helpers.LeverInfoHelper;
+import pl.edu.agh.pp.detector.helpers.*;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
@@ -60,6 +57,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
     public void receive(Address sender, byte[] buf, int offset, int length) {
 
         int bytesRead = 0;
+        int routeID;
         byte[] result = buf.clone();
 
         logger.info("Management message received");
@@ -95,9 +93,21 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
                 case DEMANDBASELINEMESSAGE:
                     System.out.println("#3");
                     BaselineDemand parsedMessage = parseDemandBaselineMessage(message);
-                    int routeID = parsedMessage.routeID;
+                    routeID = parsedMessage.routeID;
                     AnomalyOperationProtos.DemandBaselineMessage.Day day = parsedMessage.day;
                     sendBaselineMessage(sender, routeID, day);
+                    break;
+                case DEMANDAVAILABLEHISTORICALMESSAGE:
+                    System.out.println("#4");
+                    sendAvailableHistoricalMessage(sender);
+                    break;
+                case DEMANDHISTORICALMESSAGE:
+                    System.out.println("#5");
+                    HistoricalDemand historicalDemand = parseDemandHistoricalMessage(message);
+                    //String date = "2016-09-27";
+                    String date = historicalDemand.date;
+                    routeID = historicalDemand.routeID;
+                    sendHistoricalMessage(sender, date, routeID);
                     break;
                 default:
                     logger.error("ManagementServer: Unknown management message type received.");
@@ -220,6 +230,44 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         }
     }
 
+    private void sendAvailableHistoricalMessage(Address destination) {
+
+        AnomalyOperationProtos.AvailableHistoricalMessage availableHistoricalMessage = AvailableHistoricalInfoHelper
+                .getAvailableHistoricalMessage();
+
+        AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                .setType(AnomalyOperationProtos.ManagementMessage.Type.AVAILABLEHISTORICALMESSAGE)
+                .setAvailableHistoricalMessage(availableHistoricalMessage)
+                .build();
+
+        byte[] messageToSent = managementMessage.toByteArray();
+
+        try {
+            server.send(destination, messageToSent, 0, messageToSent.length);
+        } catch (Exception e) {
+            logger.error("ManagementServer: Exception while sending available historical message! " + e, e);
+        }
+    }
+
+    private void sendHistoricalMessage(Address destination, String date, int routeID) {
+
+        AnomalyOperationProtos.HistoricalMessage historicalMessage = HistoricalInfoHelper
+                .getHistoricalMessage(date, routeID);
+
+        AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                .setType(AnomalyOperationProtos.ManagementMessage.Type.HISTORICALMESSAGE)
+                .setHistoricalMessage(historicalMessage)
+                .build();
+
+        byte[] messageToSent = managementMessage.toByteArray();
+
+        try {
+            server.send(destination, messageToSent, 0, messageToSent.length);
+        } catch (Exception e) {
+            logger.error("ManagementServer: Exception while sending historical message! " + e, e);
+        }
+    }
+
     private void sendBaselineMessage(Address destination, int routeID, AnomalyOperationProtos.DemandBaselineMessage.Day day) {
         //TODO: Check if routeID is not -1
         //TODO: Be careful about sending message too fast - if you send it too fast, wgen PolynomialPatternBuilder is not loaded, then message will not be send.
@@ -274,8 +322,31 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         return result;
     }
 
+    private HistoricalDemand parseDemandHistoricalMessage(AnomalyOperationProtos.ManagementMessage message) {
+
+        HistoricalDemand result = new HistoricalDemand();
+
+        try {
+            AnomalyOperationProtos.DemandHistoricalMessage demandHistoricalMessage = AnomalyOperationProtos.DemandHistoricalMessage.parseFrom(message.getDemandHistoricalMessage().toByteArray());
+            logger.info("Demand historical data for ID=" + demandHistoricalMessage.getRouteID()
+                    + " day: " + demandHistoricalMessage.getDate());
+            Integer routeID = demandHistoricalMessage.getRouteID();
+            String date = demandHistoricalMessage.getDate();
+            result.routeID = routeID;
+            result.date = date;
+        } catch (InvalidProtocolBufferException e) {
+            logger.error("ManagementServer: Exception while parsing demand historical message! " + e, e);
+        }
+        return result;
+    }
+
     private static class BaselineDemand {
         Integer routeID;
         AnomalyOperationProtos.DemandBaselineMessage.Day day;
+    }
+
+    private static class HistoricalDemand {
+        Integer routeID;
+        String date;
     }
 }

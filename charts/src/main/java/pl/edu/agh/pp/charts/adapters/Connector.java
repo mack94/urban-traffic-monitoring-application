@@ -130,13 +130,45 @@ public class Connector {
         }
     }
 
+    public static void demandAvailableHistorical() {
+        AnomalyOperationProtos.DemandAvailableHistoricalMessage demandAvailableHistoricalMessage = AnomalyOperationProtos
+                .DemandAvailableHistoricalMessage.newBuilder()
+                .build();
+
+        AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos
+                .ManagementMessage.newBuilder()
+                .setType(AnomalyOperationProtos.ManagementMessage.Type.DEMANDAVAILABLEHISTORICALMESSAGE)
+                .setDemandAvailableHistoricalMessage(demandAvailableHistoricalMessage)
+                .build();
+        try {
+            byte[] toSend = managementMessage.toByteArray();
+            managementClient.sendMessage(toSend, 0, toSend.length);
+        } catch (Exception e) {
+            logger.error("Exception while demanding baseline " + e, e);
+        }
+    }
+
     public static void updateHistoricData(Integer routeID, DateTime date, Map<Integer, Integer> duration){
         //TODO @Maciek
         HistoricalDataManager.addHistoricalData(routeID, date, duration);
     }
 
     public static void demandHistoricalData(DateTime date, int routeID){
-        //TODO @Maciek
+        AnomalyOperationProtos.DemandHistoricalMessage demandHistoricalMessage = AnomalyOperationProtos.DemandHistoricalMessage.newBuilder()
+                .setDate(date.toString("yyyy-MM-dd"))
+                .setRouteID(routeID)
+                .build();
+
+        AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                .setType(AnomalyOperationProtos.ManagementMessage.Type.DEMANDHISTORICALMESSAGE)
+                .setDemandHistoricalMessage(demandHistoricalMessage)
+                .build();
+        try {
+            byte[] toSend = managementMessage.toByteArray();
+            managementClient.sendMessage(toSend, 0, toSend.length);
+        } catch (Exception e) {
+            logger.error("Exception while demanding historical data " + e, e);
+        }
 
     }
 

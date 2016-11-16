@@ -8,6 +8,7 @@ import pl.edu.agh.pp.detector.builders.IPatternBuilder;
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
 import pl.edu.agh.pp.detector.helpers.AnomalyLiveTimeInfoHelper;
+import pl.edu.agh.pp.detector.helpers.AvailableHistoricalInfoHelper;
 import pl.edu.agh.pp.detector.helpers.BaselineWindowSizeInfoHelper;
 import pl.edu.agh.pp.detector.helpers.LeverInfoHelper;
 import pl.edu.agh.pp.detector.loaders.FilesLoader;
@@ -72,6 +73,8 @@ public class CommandLineManager extends Thread {
                     boolean result = options.resetPreferences();
                     logger.info("Preferences reset - " + result);
                     System.out.println("Preferences reset - " + result);
+                } else if (buffer.startsWith("AV_H")) {
+                    System.out.println(AvailableHistoricalInfoHelper.getAvailableDateRoutes().keySet());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
