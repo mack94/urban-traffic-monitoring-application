@@ -112,8 +112,7 @@ public class PersistenceManagerTest {
         persistenceManager.saveToFiles(setRecordsUp());
         Map<Double, Double> resultMap = persistenceManager.readFromFiles("MON", "1", false);
         assertTrue(resultMap.values().contains(228.5));
-        resultMap = persistenceManager.readFromFile("MON", "1", true);
-        //System.out.println(Arrays.toString(resultMap.values().toArray()));
+        resultMap = persistenceManager.readFromFiles("MON", "1", true);
         assertTrue(resultMap.values().contains(184.0));
         assertTrue(resultMap.values().contains(188.0));
     }
