@@ -241,6 +241,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                     AvailableHistoricalMessage.parseFrom(message.getAvailableHistoricalMessage().toByteArray());
             Map<String, Integer> availableHistoricalMap = availableHistoricalMessage.getAvaiableDateRoutesMap();
             Connector.updateAvailableDates(availableHistoricalMap);
+            System.out.println(availableHistoricalMap);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }

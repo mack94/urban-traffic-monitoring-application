@@ -87,9 +87,12 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
 
         baselineSerializer.serialize(baseline);
 
+        System.out.println("I will add ... ");
+        AvailableHistoricalInfoHelper.addAvailableDateRoutes(availableDateRoutes);
+
         if (shouldSetAfterComputing)
             polynomialFunctions = baseline;
-        AvailableHistoricalInfoHelper.addAvailableDateRoutes(availableDateRoutes);
+
     }
 
     // It should be discussed.
