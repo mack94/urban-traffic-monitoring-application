@@ -238,6 +238,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             AnomalyOperationProtos.AvailableHistoricalMessage availableHistoricalMessage = AnomalyOperationProtos.
                     AvailableHistoricalMessage.parseFrom(message.getAvailableHistoricalMessage().toByteArray());
             Map<String, Integer> availableHistoricalMap = availableHistoricalMessage.getAvaiableDateRoutesMap();
+            Connector.updateAvailableDates(availableHistoricalMap);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
