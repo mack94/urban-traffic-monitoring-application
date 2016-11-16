@@ -62,6 +62,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
 
         byte[] managementMessageToSent = managementMessage.toByteArray();
         ((Client) client).send(managementMessageToSent, 0, managementMessageToSent.length);
+
+        Connector.demandAvailableHistorical();
     }
 
     private void eventLoop() {
