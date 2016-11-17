@@ -16,25 +16,17 @@ public class InputParser
     public Record parse(String buffer)
     {
         JSONObject json = new JSONObject(buffer);
-//        if (json.getBoolean("isAnomaly"))
-//        {
-//            return null;
-//        }
+        if (json.getBoolean("isAnomaly"))
+        {
+            return null;
+        }
         Record record = new Record();
         record.setRouteID(Integer.valueOf(json.getString("id")));
         record.setDistance(json.getString("distance"));
         record.setDuration(Integer.valueOf(json.getString("duration")));
         record.setDurationInTraffic(Integer.valueOf(json.getString("durationInTraffic")));
         record.setDateTime(convertStringDateToDateTime(json.getString("timeStamp")));
-        // TODO: change after update of historical data
-        try
-        {
-            record.setWaypoints(json.getJSONArray("waypoints").getString(0));
-        }
-        catch (Exception e)
-        {
-            record.setWaypoints(json.getString("waypoints"));
-        }
+        record.setWaypoints(json.getString("waypoints"));
         return record;
     }
 
