@@ -61,7 +61,7 @@ public class Route
                     .put("duration", duration)
                     .put("durationInTraffic", durationInTraffic)
                     .put("waypoints", waypoints)
-                    .put("isAnomaly", false);
+                    .put("anomalyId", "");
         }
         return new JSONObject("");
     }
@@ -87,9 +87,9 @@ public class Route
                 .collect(Collectors.joining(";"));
     }
 
-    public void setAnomalyMarker()
+    public void setAnomalyId(String anomalyId)
     {
-        jsonRoute.put("isAnomaly", true);
+        jsonRoute.put("anomalyId", anomalyId);
     }
 
     @Override

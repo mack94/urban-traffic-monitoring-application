@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jfree.ui.RefineryUtilities;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -93,46 +94,40 @@ public class DetectorManager
         polynomialPatternBuilder.setServer(server);
     }
 
-    public boolean isAnomaly(String logEntry, String defaultWaypoints)
+    public String isAnomaly(String logEntry, String defaultWaypoints)
     {
         try
         {
-            boolean isAnomalyFound = false;
+            String anomalyId = StringUtils.EMPTY;
+            boolean areWaypointsDefault = true;
             Record record = inputParser.parse(logEntry);
             if (!"default".equals(record.getWaypoints()))
             {
                 HalfRouteManager halfRouteManager = new HalfRouteManager(record, defaultWaypoints);
                 logEntry = halfRouteManager.splitRoute();
                 record = inputParser.parse(logEntry);
-                logEntry = new JSONObject(logEntry).put("isAnomaly", true).toString();
-                logger.error(logEntry);
-                isAnomalyFound = true;
+                areWaypointsDefault = false;
             }
 
-            // TODO: is it still necessary?
-            if (!Objects.equals(logEntry, ""))
-            {
-                // LineChart_AWT chart;
-                // chart = new LineChart_AWT("-", "-", PolynomialPatternBuilder.getValueForEachMinuteOfDay(record.getDayOfWeek(), record.getRouteID() - 1));
-                // chart.pack();
-                // RefineryUtilities.centerFrameOnScreen(chart);
-                // chart.setVisible(true);
-            }
             AnomalyOperationProtos.AnomalyMessage isAnomaly = detector.isAnomaly(record.getDayOfWeek(), record.getRouteID(), record.getTimeInSeconds(), record.getDurationInTraffic());
 
             if (isAnomaly != null)
             {
+                anomalyId = String.valueOf(isAnomaly.getAnomalyID());
+                if(!areWaypointsDefault) {
+                    logEntry = new JSONObject(logEntry).put("anomalyId", anomalyId).toString();
+                    logger.error(logEntry);
+                }
                 server.send(isAnomaly.toByteArray());
-                isAnomalyFound = true;
             }
-            Thread.sleep(100);
-            return isAnomalyFound;
+
+            return anomalyId;
         }
         catch (Exception e)
         {
             logger.error("Some Error occurred", e);
         }
-        return false;
+        return StringUtils.EMPTY;
     }
 
     public void displayAnomaliesForRoute(int routeId)

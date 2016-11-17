@@ -87,7 +87,7 @@ public class HalfRouteManager
                 .put("duration", String.valueOf(first.getDuration() + second.getDuration()))
                 .put("durationInTraffic", String.valueOf(first.getDurationInTraffic() + second.getDurationInTraffic()))
                 .put("waypoints", "default")
-                .put("isAnomaly", false);
+                .put("anomalyId", "");
         return result.toString();
     }
 

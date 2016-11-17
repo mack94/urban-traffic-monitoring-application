@@ -16,7 +16,7 @@ public class InputParser
     public Record parse(String buffer)
     {
         JSONObject json = new JSONObject(buffer);
-        if (json.getBoolean("isAnomaly"))
+        if (!"".equals(json.getString("anomalyId")))
         {
             return null;
         }

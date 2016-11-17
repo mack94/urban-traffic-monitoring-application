@@ -19,7 +19,8 @@ import static org.junit.Assert.*;
 /**
  * Created by Krzysztof Węgrzyński on 2016-11-12.
  */
-public class RouteTest {
+public class RouteTest
+{
     private String defaultRoutesLoaderFileName;
     private Field routesLoaderFileNameField;
     private DistanceMatrix distanceMatrix;
@@ -28,7 +29,8 @@ public class RouteTest {
     private String id;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception
+    {
         ContextLoader contextLoader = new ContextLoader();
         Field contexLoaderFileNameField = contextLoader.getClass().getDeclaredField("propertiesFileName");
         contexLoaderFileNameField.setAccessible(true);
@@ -51,10 +53,8 @@ public class RouteTest {
         origins[0] = JSONroute.get("origin").toString();
         defaultWaypoints = JSONroute.getString("coords");
 
-
         TravelMode travelMode = TravelMode.DRIVING;
         Instant departure = Instant.now();
-
 
         distanceMatrix = DistanceMatrixApi
                 .getDistanceMatrix(context, origins, destinations)
@@ -72,13 +72,14 @@ public class RouteTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() throws Exception
+    {
         routesLoaderFileNameField.set(RoutesLoader.getInstance(), defaultRoutesLoaderFileName);
     }
 
     @Test
-    public void Route() throws Exception {
-
+    public void Route() throws Exception
+    {
 
         Route route = new Route(id, distanceMatrix, directionsApi, defaultWaypoints);
         String record = route.toString();
@@ -87,22 +88,14 @@ public class RouteTest {
 
         assertFalse(record.contains("\"Status\": \"NOT_FOUND\""));
 
-        //sprawdzanie czy rekord zawiera odpowiednie pola
+        // sprawdzanie czy rekord zawiera odpowiednie pola
         assertTrue(record.contains("timeStamp"));
         assertTrue(record.contains("duration"));
         assertTrue(record.contains("durationInTraffic"));
         assertTrue(record.contains("distance"));
         assertTrue(record.contains("id"));
-        assertTrue(record.contains("isAnomaly"));
         assertTrue(record.contains("waypoints"));
-    }
-
-    @Test
-    public void setAnomalyMarker() throws Exception {
-        Route route = new Route(id, distanceMatrix, directionsApi, defaultWaypoints);
-        route.setAnomalyMarker();
-
-        assertTrue(route.toString().contains("\"isAnomaly\":true"));
+        assertTrue(record.contains("anomalyId"));
     }
 
 }
