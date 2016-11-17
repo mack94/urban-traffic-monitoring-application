@@ -79,16 +79,16 @@ public class DetectorManager
             baselineFilesLoader = new FilesLoader(logFiles);
         }
 
+        detector = polynomialPatternBuilder;
         try
         {
-            baselineFilesLoader.processLineByLine();
+
+            PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-        detector = polynomialPatternBuilder;
-        PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.getRecords(), true);
         new CommandLineManager().start();
         this.server = server;
         polynomialPatternBuilder.setServer(server);
@@ -114,7 +114,8 @@ public class DetectorManager
             if (isAnomaly != null)
             {
                 anomalyId = String.valueOf(isAnomaly.getAnomalyID());
-                if(!areWaypointsDefault) {
+                if (!areWaypointsDefault)
+                {
                     logEntry = new JSONObject(logEntry).put("anomalyId", anomalyId).toString();
                     logger.error(logEntry);
                 }
@@ -134,13 +135,12 @@ public class DetectorManager
     {
         try
         {
-            anomalySearchFilesLoader.processLineByLine();
             XYLineChart_AWT chart;
 
             // while (true) {
             // String incoming = br.readLine();
             // Record record = inputParser.parse(logEntry);
-            List<Record> recordsTestedForAnomalies = anomalySearchFilesLoader.getRecords();
+            List<Record> recordsTestedForAnomalies = anomalySearchFilesLoader.processLineByLine();
             List<Record> anomalousRecords = new ArrayList<>();
             int counter = 0;
             for (Record record : recordsTestedForAnomalies)
@@ -193,23 +193,22 @@ public class DetectorManager
     {
         try
         {
-            anomalySearchFilesLoader.processLineByLine();
             XYLineChart_AWT chart;
 
             // while (true) {
             // String incoming = br.readLine();
             // Record record = inputParser.parse(logEntry);
-            List<Record> recordsTestedForAnomalies = anomalySearchFilesLoader.getRecords();
-            Map<DayOfWeek, Map<Integer, List<Record>>> anomalousRecords = new HashMap<DayOfWeek, Map<Integer, List<Record>>>();
+            List<Record> recordsTestedForAnomalies = anomalySearchFilesLoader.processLineByLine();
+            Map<DayOfWeek, Map<Integer, List<Record>>> anomalousRecords = new HashMap<>();
             Map<Integer, List<Record>> dayOfWeekRecords;
             List<Record> routeAndDayRecords;
             int startingRouteId = recordsTestedForAnomalies.get(0).getRouteID();
             for (DayOfWeek dayOfWeek : DayOfWeek.values())
             {
-                dayOfWeekRecords = new HashMap<Integer, List<Record>>();
+                dayOfWeekRecords = new HashMap<>();
                 for (int routeId = startingRouteId; routeId <= 8 + startingRouteId; routeId++)
                 {
-                    routeAndDayRecords = new ArrayList<Record>();
+                    routeAndDayRecords = new ArrayList<>();
                     dayOfWeekRecords.put(routeId, routeAndDayRecords);
                 }
                 anomalousRecords.put(dayOfWeek, dayOfWeekRecords);
@@ -280,22 +279,29 @@ public class DetectorManager
 
     public boolean areAllRoutesIncluded(JSONArray loadedRoutes)
     {
-        List<Record> list = baselineFilesLoader.getRecords();
+        Map<String, Set<DayOfWeek>> list = baselineFilesLoader.getLoadedRoutes();
         boolean contains;
         for (int i = 0; i < loadedRoutes.length(); i++)
         {
             contains = false;
             JSONObject route = loadedRoutes.getJSONObject(i);
             String id = route.get("id").toString();
-            for (Record record : list)
+            for (Map.Entry<String, Set<DayOfWeek>> entry : list.entrySet())
             {
-                if (String.valueOf(record.getRouteID()).equals(id))
+                if (entry.getKey().equals(id))
                 {
-                    if (record.getDayOfWeek() == DayOfWeek.fromValue(DateTime.now().getDayOfWeek()))
+                    for (DayOfWeek dayOfWeek : entry.getValue())
                     {
-                        contains = true;
-                        break;
+                        if (dayOfWeek == DayOfWeek.fromValue(DateTime.now().getDayOfWeek()))
+                        {
+                            contains = true;
+                            break;
+                        }
                     }
+                }
+                if (contains)
+                {
+                    break;
                 }
             }
             if (!contains)
