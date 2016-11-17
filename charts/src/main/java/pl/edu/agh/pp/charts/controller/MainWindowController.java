@@ -117,7 +117,7 @@ public class MainWindowController {
             loader.setController(this);
             BorderPane rootLayout = loader.load();
 
-            primaryStage.setTitle("Urban traffic monitoring - charts");
+            primaryStage.setTitle("©UTM - Cracow Urban Traffic Monitoring");
             scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             primaryStage.setScene(scene);
