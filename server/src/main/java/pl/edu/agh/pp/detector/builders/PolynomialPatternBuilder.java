@@ -140,6 +140,18 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
         this.polynomialFunctions.get(dayOfWeek).put(id, function);
     }
 
+    @Override
+    public void updateBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline)
+    {
+        for (DayOfWeek dayOfWeek : baseline.keySet())
+        {
+            for (Map.Entry<Integer, PolynomialFunction> entry : baseline.get(dayOfWeek).entrySet())
+            {
+                polynomialFunctions.get(dayOfWeek).put(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
     public void addRecord(DayOfWeek dayOfWeek, Record record)
     {
         // recordsOfDay.put(dayOfWeek, record); TODO

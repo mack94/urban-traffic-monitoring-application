@@ -18,4 +18,6 @@ public interface IPatternBuilder
     void setBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline);
 
     void setPartialBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline, DayOfWeek dayOfWeek, int id);
+
+    void updateBaseline(Map<DayOfWeek, Map<Integer,PolynomialFunction>> baseline);
 }
