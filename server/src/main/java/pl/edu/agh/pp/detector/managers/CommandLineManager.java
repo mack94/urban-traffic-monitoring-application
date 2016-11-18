@@ -1,7 +1,10 @@
 package pl.edu.agh.pp.detector.managers;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +38,7 @@ public class CommandLineManager extends Thread
     private static final BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
     private static IOptions options = Options.getInstance();
     private final Logger logger = (Logger) LoggerFactory.getLogger(CommandLineManager.class);
+    private final Map<String, DayOfWeek> daysOfWeek = getDaysMap();
 
     @Override
     public void run()
@@ -46,20 +50,59 @@ public class CommandLineManager extends Thread
             try
             {
                 buffer = in.readLine();
-                if (buffer.startsWith("count"))
+                // counts new baseline of files in logs/
+                if (buffer.equals("count_baseline"))
                 {
-                    buffer = StringUtils.removeStart(buffer, "count ");
-                    String[] args = buffer.split(" ");
-                    FilesLoader filesLoader = new FilesLoader(args);
+                    File baselineDir = new File("logs/");
+                    String[] filenames = Arrays.stream(baselineDir.listFiles())
+                            .map(f -> "logs/" + f.getName())
+                            .toArray(String[]::new);
+                    FilesLoader filesLoader = new FilesLoader(filenames);
                     PolynomialPatternBuilder.computePolynomial(filesLoader.processLineByLine(), false);
                 }
-                else if (buffer.startsWith("load"))
+                // loads baseline from file only for given day and route
+                else if (buffer.startsWith("load_partially "))
+                {
+                    String[] params = StringUtils.removeStart(buffer, "load_partially ").split(" ");
+                    DayOfWeek dayOfWeek = getDayOfWeek(params[0]);
+                    int id = Integer.valueOf(params[1]);
+                    String timestamp = params[2];
+                    Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserialize(timestamp);
+                    if (baseline != null && baselineSerializer.doesBaselineFitConditions(baseline, dayOfWeek, id))
+                    {
+                        patternBuilder.setPartialBaseline(baseline, dayOfWeek, id);
+                    }
+                    else
+                    {
+                        logger.warn("Command parameters are incorrect - cannot find baseline for given route on given day\nCommand is being ignored.");
+                    }
+                }
+                // loads baseline from file and replaces in PatternBuilder
+                else if (buffer.startsWith("load "))
                 {
                     String timestamp = StringUtils.removeStart(buffer, "load ");
                     Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserialize(timestamp);
                     if (baseline != null)
                     {
                         patternBuilder.setBaseline(baseline);
+                    }
+                    else
+                    {
+                        logger.warn("Command parameter is incorrect - cannot read baseline from given file\nCommand is being ignored.");
+                    }
+                }
+                // updates current baseline with data contained in given file
+                else if (buffer.startsWith("update_baseline "))
+                {
+                    String timestamp = StringUtils.removeStart(buffer, "update_baseline");
+                    Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserialize(timestamp);
+                    if (baseline != null)
+                    {
+                        patternBuilder.updateBaseline(baseline);
+                    }
+                    else
+                    {
+                        logger.warn("Command parameter is incorrect - cannot read baseline from given file\nCommand is being ignored.");
                     }
                 }
                 else if (buffer.startsWith("SET_LEVER"))
@@ -99,6 +142,24 @@ public class CommandLineManager extends Thread
                 e.printStackTrace();
             }
         }
+    }
+
+    private DayOfWeek getDayOfWeek(String day)
+    {
+        return daysOfWeek.get(day);
+    }
+
+    private Map<String, DayOfWeek> getDaysMap()
+    {
+        Map<String, DayOfWeek> map = new HashMap<>();
+        map.put("Mon", DayOfWeek.MONDAY);
+        map.put("Tue", DayOfWeek.TUESDAY);
+        map.put("Wed", DayOfWeek.WEDNESDAY);
+        map.put("Thu", DayOfWeek.THURSDAY);
+        map.put("Fri", DayOfWeek.FRIDAY);
+        map.put("Sat", DayOfWeek.SATURDAY);
+        map.put("Sun", DayOfWeek.SUNDAY);
+        return map;
     }
 
 }
