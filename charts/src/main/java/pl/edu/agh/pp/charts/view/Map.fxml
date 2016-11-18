@@ -5,13 +5,20 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
     <padding>
         <Insets bottom="5" left="5" right="5" top="5"/>
     </padding>
     <top>
         <HBox spacing="5">
+            <padding>
+                <Insets bottom="3" left="0" right="0" top="0"/>
+            </padding>
             <Button fx:id="backButton" onAction="#handleBackButtonAction" text="Go back to anomalies window"/>
         </HBox>
     </top>
+    <center>
+        <WebView fx:id="mapWebView" />
+    </center>
 </BorderPane>

@@ -186,7 +186,7 @@ public class MainWindowController {
         String startLng = startCoord.split(",")[1];
         String endLat = endCoord.split(",")[0];
         String endLng = endCoord.split(",")[1];
-        webEngine.loadContent(htmlBuilder.loadMapStructure(startLat, startLng, endLat, endLng));
+        webEngine.loadContent(htmlBuilder.loadAnomalyMapStructure(startLat, startLng, endLat, endLng));
     }
 
     public void clearInfoOnScreen() {
@@ -377,7 +377,7 @@ public class MainWindowController {
         webEngine = mapWebView.getEngine();
         String defaultLat = "50.07";
         String defaultLng = "19.94";
-        webEngine.loadContent(htmlBuilder.loadMapStructure(defaultLat, defaultLng, defaultLat, defaultLng));
+        webEngine.loadContent(htmlBuilder.loadAnomalyMapStructure(defaultLat, defaultLng, defaultLat, defaultLng));
     }
 
     public void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort){

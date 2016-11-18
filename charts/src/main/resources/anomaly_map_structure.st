@@ -20,10 +20,10 @@
 <script src="jquery-3.1.0.js"></script>
 <script>
     function initMap() {
-        //var routeStart = {lat: $startLat$, lng: $startLng$};
-        //var routeEnd = {lat: $endLat$, lng: $endLng$};
-		var routeStart = {lat: 50.07, lng: 19.94};
-		var routeEnd = {lat: 50.079, lng: 19.94};
+        var routeStart = {lat: $startLat$, lng: $startLng$};
+        var routeEnd = {lat: $endLat$, lng: $endLng$};
+		//var routeStart = {lat: 50.07, lng: 19.94};
+		//var routeEnd = {lat: 50.079, lng: 19.94};
         // Instantiate a directions service.
         var directionsService = new google.maps.DirectionsService;
         var map = new google.maps.Map(document.getElementById('map'), {
