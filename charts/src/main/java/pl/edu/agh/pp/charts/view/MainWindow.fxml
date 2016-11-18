@@ -14,10 +14,6 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.MenuButton?>
-<?import com.sun.javafx.scene.control.skin.ContextMenuContent.ArrowMenuItem?>
-<?import com.sun.javafx.scene.control.skin.ContextMenuContent.MenuBox?>
-<?import com.sun.javafx.scene.control.skin.ContextMenuContent.MenuItemContainer?>
-<?import com.sun.javafx.scene.control.skin.TabPaneSkin.TabControlButtons?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.GridPane?>
@@ -138,6 +134,7 @@
                     </LineChart>
                 </Tab>
                 <Tab text="Anomaly map" onSelectionChanged="#handleTabChanged">
+                    <WebView fx:id="mapWebView" />
                 </Tab>
                 <Tab fx:id="systemTab" onSelectionChanged="#handleTabChanged">
                     <TextFlow textAlignment="CENTER" fx:id="systemMsgTextFlow" />

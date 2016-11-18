@@ -19,6 +19,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -26,8 +28,10 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
+import pl.edu.agh.pp.charts.data.local.HtmlBuilder;
 import pl.edu.agh.pp.charts.data.server.Anomaly;
 import pl.edu.agh.pp.charts.data.server.AnomalyManager;
+import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
@@ -46,12 +50,16 @@ public class MainWindowController {
     private Scene scene = null;
     private ChartsController chartsController = null;
     private boolean connectedFlag = false;
+    private WebEngine webEngine;
+    private HtmlBuilder htmlBuilder;
     private final Logger logger = (Logger) LoggerFactory.getLogger(MainWindowController.class);
     private final AnomalyManager anomalyManager = AnomalyManager.getInstance();
     private final Options options = Options.getInstance();
 
     @FXML
     private volatile LineChart<Number, Number> lineChart;
+    @FXML
+    private WebView mapWebView;
     @FXML
     private Button chartsButton;
     @FXML
@@ -159,6 +167,21 @@ public class MainWindowController {
             anomaliesNumberLabel.setText(anomaly.getAnomaliesNumber());
         } );
         putChartOnScreen(anomaly);
+    }
+
+    public void putAnomalyOnMap(String screenMessage) {
+        // Delete cache for navigate back
+        webEngine.load("about:blank");
+        // Delete cookies
+        java.net.CookieHandler.setDefault(new java.net.CookieManager());
+        Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
+        String startCoord = ServerRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId()));
+        String endCoord = ServerRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId()));
+        String startLat = startCoord.split(",")[0];
+        String startLng = startCoord.split(",")[1];
+        String endLat = endCoord.split(",")[0];
+        String endLng = endCoord.split(",")[1];
+        webEngine.loadContent(htmlBuilder.loadMapStructure(startLat, startLng, endLat, endLng));
     }
 
     public void clearInfoOnScreen() {
@@ -344,6 +367,14 @@ public class MainWindowController {
         }
     }
 
+    private void setMapUp() {
+        htmlBuilder = new HtmlBuilder();
+        webEngine = mapWebView.getEngine();
+        String defaultLat = "50.07";
+        String defaultLng = "19.94";
+        webEngine.loadContent(htmlBuilder.loadMapStructure(defaultLat, defaultLng, defaultLat, defaultLng));
+    }
+
     public void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort){
         Platform.runLater(() -> {
             leverValueLabel.setText(String.valueOf(leverValue));
@@ -363,6 +394,7 @@ public class MainWindowController {
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");
         setConnectedState();
         connectButton.setDefaultButton(true);
+        setMapUp();
         try {
             serverAddrTxtField.setText((String) options.getPreference("Server_Address", String.class));
             serverPortTxtField.setText((String) options.getPreference("Server_Port", String.class));
@@ -456,7 +488,7 @@ public class MainWindowController {
         if(selectedItem != null){
             putAnomalyInfoOnScreen(selectedItem);
             if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
-                //putAnomalyOnMap(selectedItem);
+                putAnomalyOnMap(selectedItem);
             }
         }
     }
@@ -477,7 +509,7 @@ public class MainWindowController {
         else if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
             String a = anomaliesListView.getSelectionModel().getSelectedItem();
             if(a != null) {
-                //putAnomalyOnMap(anomaliesListView.getSelectionModel().getSelectedItem());
+                putAnomalyOnMap(anomaliesListView.getSelectionModel().getSelectedItem());
             }
         }
     }
@@ -496,7 +528,7 @@ public class MainWindowController {
         String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
         if(selectedItem != null){
             putAnomalyInfoOnScreen(selectedItem);
-            //putAnomalyOnMap(selectedItem);
+            putAnomalyOnMap(selectedItem);
         }
     }
     @FXML
