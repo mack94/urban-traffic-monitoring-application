@@ -40,6 +40,7 @@ import java.util.*;
  * Created by Dawid on 2016-05-20.
  */
 public class ChartsController {
+    private static final String CHARTS_STAGE_TITLE = "Urban traffic monitoring - charts";
     private Stage primaryStage = null;
     private boolean initialized = false;
     private Scene scene = null;
@@ -123,7 +124,7 @@ public class ChartsController {
                     }
                 }
             });
-            primaryStage.setTitle("Urban traffic monitoring - charts");
+            primaryStage.setTitle(CHARTS_STAGE_TITLE);
             scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             baselineBox.managedProperty().bind(baselineTypeComboBox.visibleProperty());
@@ -137,6 +138,7 @@ public class ChartsController {
 
     public void setScene(){
         primaryStage.setScene(scene);
+        primaryStage.setTitle(CHARTS_STAGE_TITLE);
     }
 
 

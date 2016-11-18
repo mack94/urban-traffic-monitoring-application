@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
  */
 public class MainWindowController {
 
+    private static final String MAIN_WINDOW_STAGE_TITLE = "©UTM - Cracow Urban Traffic Monitoring";
     private Stage primaryStage = null;
     private Scene scene = null;
     private ChartsController chartsController = null;
@@ -128,7 +129,7 @@ public class MainWindowController {
             loader.setController(this);
             BorderPane rootLayout = loader.load();
 
-            primaryStage.setTitle("©UTM - Cracow Urban Traffic Monitoring");
+            primaryStage.setTitle(MAIN_WINDOW_STAGE_TITLE);
             scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             primaryStage.setScene(scene);
@@ -151,6 +152,7 @@ public class MainWindowController {
     }
     public void setScene(){
         primaryStage.setScene(scene);
+        primaryStage.setTitle(MAIN_WINDOW_STAGE_TITLE);
     }
     public void updateAnomalyInfo(String screenId){
         if(screenId != null && screenId.equalsIgnoreCase(anomaliesListView.getSelectionModel().getSelectedItem())) {
