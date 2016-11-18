@@ -33,6 +33,7 @@
                 <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
                 <Button fx:id="hideButton" onAction="#handleHideAction" text="Hide/Show Server settings"/>
                 <Button text="Hide anomalies" onAction="#handleHideAnomaliesAction"/>
+                <Button fx:id="generalMapButton" onAction="#handleMapButtonAction" text="Map" />
             </HBox>
             <VBox id="abox" alignment="CENTER" >
                 <BorderPane>

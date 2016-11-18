@@ -49,6 +49,7 @@ public class MainWindowController {
     private Stage primaryStage = null;
     private Scene scene = null;
     private ChartsController chartsController = null;
+    private MapController mapController = null;
     private boolean connectedFlag = false;
     private WebEngine webEngine;
     private HtmlBuilder htmlBuilder;
@@ -60,6 +61,8 @@ public class MainWindowController {
     private volatile LineChart<Number, Number> lineChart;
     @FXML
     private WebView mapWebView;
+    @FXML
+    private Button mapButton;
     @FXML
     private Button chartsButton;
     @FXML
@@ -538,6 +541,19 @@ public class MainWindowController {
         }
         else{
             anomaliesVBox.setVisible(true);
+        }
+    }
+    @FXML
+    private void handleMapButtonAction(ActionEvent e) {
+        if (mapController == null) {
+            mapController = new MapController(primaryStage, this);
+            mapController.show();
+        }
+        else if(mapController.isInitialized()){
+            mapController.setScene();
+        }
+        else {
+            mapController.show();
         }
     }
 }
