@@ -1,7 +1,9 @@
 package pl.edu.agh.pp.detector.managers;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,11 +50,13 @@ public class CommandLineManager extends Thread
             try
             {
                 buffer = in.readLine();
-                if (buffer.startsWith("count"))
+                if (buffer.startsWith("count_baseline"))
                 {
-                    buffer = StringUtils.removeStart(buffer, "count ");
-                    String[] args = buffer.split(" ");
-                    FilesLoader filesLoader = new FilesLoader(args);
+                    File baselineDir = new File("logs/");
+                    String[] filenames = Arrays.stream(baselineDir.listFiles())
+                            .map(f -> "logs/" + f.getName())
+                            .toArray(String[]::new);
+                    FilesLoader filesLoader = new FilesLoader(filenames);
                     PolynomialPatternBuilder.computePolynomial(filesLoader.processLineByLine(), false);
                 }
                 else if (buffer.startsWith("load_partially"))
