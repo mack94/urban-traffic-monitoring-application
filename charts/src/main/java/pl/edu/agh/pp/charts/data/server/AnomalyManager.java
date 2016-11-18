@@ -1,4 +1,4 @@
-package pl.edu.agh.pp.charts.data.local;
+package pl.edu.agh.pp.charts.data.server;
 
 import ch.qos.logback.classic.Logger;
 import javafx.scene.chart.XYChart;

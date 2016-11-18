@@ -1,12 +1,15 @@
 package pl.edu.agh.pp.charts.adapters;
 
 import javafx.scene.paint.Color;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.controller.ChartsController;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
-import pl.edu.agh.pp.charts.data.local.AnomalyManager;
-import pl.edu.agh.pp.charts.data.local.BaselineManager;
+import pl.edu.agh.pp.charts.data.server.AnomalyManager;
+import pl.edu.agh.pp.charts.data.server.BaselineManager;
+import pl.edu.agh.pp.charts.data.server.HistoricalDataManager;
+import pl.edu.agh.pp.charts.data.server.ServerDatesInfo;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.net.InetAddress;
@@ -126,6 +129,54 @@ public class Connector {
         } catch (Exception e) {
             logger.error("Exception while demanding baseline " + e, e);
         }
+    }
+
+    public static void demandAvailableHistorical() {
+        AnomalyOperationProtos.DemandAvailableHistoricalMessage demandAvailableHistoricalMessage = AnomalyOperationProtos
+                .DemandAvailableHistoricalMessage.newBuilder()
+                .build();
+
+        AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos
+                .ManagementMessage.newBuilder()
+                .setType(AnomalyOperationProtos.ManagementMessage.Type.DEMANDAVAILABLEHISTORICALMESSAGE)
+                .setDemandAvailableHistoricalMessage(demandAvailableHistoricalMessage)
+                .build();
+        try {
+            byte[] toSend = managementMessage.toByteArray();
+            managementClient.sendMessage(toSend, 0, toSend.length);
+        } catch (Exception e) {
+            logger.error("Exception while demanding baseline " + e, e);
+        }
+    }
+
+    public static void updateAvailableDates(Map<String,Integer> arg){
+        ServerDatesInfo.setMap(arg);
+        setServerAvailableDates();
+    }
+
+    public static void updateHistoricalData(Integer routeID, DateTime date, Map<Integer, Integer> duration){
+        //TODO @Maciek
+        System.out.println("duration size: " + duration.size());
+        HistoricalDataManager.addHistoricalData(routeID, date, duration);
+    }
+
+    public static void demandHistoricalData(DateTime date, int routeID){
+        AnomalyOperationProtos.DemandHistoricalMessage demandHistoricalMessage = AnomalyOperationProtos.DemandHistoricalMessage.newBuilder()
+                .setDate(date.toString("yyyy-MM-dd"))
+                .setRouteID(routeID)
+                .build();
+
+        AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                .setType(AnomalyOperationProtos.ManagementMessage.Type.DEMANDHISTORICALMESSAGE)
+                .setDemandHistoricalMessage(demandHistoricalMessage)
+                .build();
+        try {
+            byte[] toSend = managementMessage.toByteArray();
+            managementClient.sendMessage(toSend, 0, toSend.length);
+        } catch (Exception e) {
+            logger.error("Exception while demanding historical data " + e, e);
+        }
+
     }
 
     public static void connectionLost(String additionalInfo) {

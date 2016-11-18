@@ -21,6 +21,11 @@
       "value": "250"
     },
     {
+      "name": "AnomalyExpirationBroadcastTime",
+      "type": "Integer",
+      "value": "3600"
+    },
+    {
       "name": "BaselineWindowSize",
       "type": "Integer",
       "value": "0"

@@ -40,6 +40,10 @@ message ManagementMessage {
         BASELINEMESSAGE = 3;
         DEMANDBASELINEMESSAGE = 4;
         ROUTEMESSAGE = 5;
+        AVAILABLEHISTORICALMESSAGE = 6;
+        DEMANDAVAILABLEHISTORICALMESSAGE = 7;
+        HISTORICALMESSAGE = 8;
+        DEMANDHISTORICALMESSAGE = 9;
     }
 
     // Identifies which field is filled in.
@@ -52,6 +56,10 @@ message ManagementMessage {
     BaselineMessage baselineMessage = 5;
     DemandBaselineMessage demandBaselineMessage = 6;
     RouteMessage routeMessage = 7;
+    AvailableHistoricalMessage availableHistoricalMessage = 8;
+    DemandAvailableHistoricalMessage demandAvailableHistoricalMessage = 9;
+    HistoricalMessage historicalMessage = 10;
+    DemandHistoricalMessage demandHistoricalMessage = 11;
 
 }
 
@@ -132,4 +140,26 @@ message DemandBaselineMessage {
     int32 routeIdx = 1;
     Day day = 2;
 
+}
+
+message DemandAvailableHistoricalMessage {
+    // the empty message
+}
+
+message AvailableHistoricalMessage {
+    // this is made on map structure, but please be aware of the limits of this solution.
+    // the max size is 8192 i think.
+    // <date, route> so its <string, int32>
+    map<string, int32> avaiableDateRoutes = 1;
+}
+
+message DemandHistoricalMessage {
+    int32 routeID = 1;
+    string date = 2;
+}
+
+message HistoricalMessage {
+    int32 routeID = 1;
+    string date = 2;
+    map<int32, int32> measures = 3;
 }

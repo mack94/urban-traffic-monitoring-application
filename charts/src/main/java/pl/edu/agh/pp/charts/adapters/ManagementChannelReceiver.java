@@ -5,6 +5,7 @@ import org.jgroups.Address;
 import org.jgroups.blocks.cs.*;
 import org.jgroups.util.ByteArrayDataInputStream;
 import org.jgroups.util.Util;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.data.server.ServerGeneralInfo;
@@ -42,6 +43,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         client.receiver(this);
         client.addConnectionListener(this);
         client.start();
+        //TODO remove thread sleep from this thread if possible
         Thread.sleep(100);
         running = true;
         byte[] buf = String.format("%s joined\n", name).getBytes();
@@ -60,6 +62,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
 
         byte[] managementMessageToSent = managementMessage.toByteArray();
         ((Client) client).send(managementMessageToSent, 0, managementMessageToSent.length);
+
+        Connector.demandAvailableHistorical();
     }
 
     private void eventLoop() {
@@ -126,6 +130,12 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                 case LEVERMESSAGE:
                     parseLeverMessage(message);
                     break;
+                case AVAILABLEHISTORICALMESSAGE:
+                    parseAvailableHistoricalMessage(message);
+                    break;
+                case HISTORICALMESSAGE:
+                    parseHistoricalMessage(message);
+                    break;
                 default:
                     logger.error("ManagementServer: Unknown management message type received.");
                     break;
@@ -181,7 +191,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
 
     private void parseGeneralMessage(AnomalyOperationProtos.ManagementMessage message) {
         try {
-            AnomalyOperationProtos.SystemGeneralMessage generalMessage = AnomalyOperationProtos.SystemGeneralMessage.parseFrom(message.getSystemGeneralMessage().toByteArray());
+            AnomalyOperationProtos.SystemGeneralMessage generalMessage = AnomalyOperationProtos
+                    .SystemGeneralMessage.parseFrom(message.getSystemGeneralMessage().toByteArray());
             String routes = generalMessage.getRoutes();
             double leverValue = generalMessage.getLeverValue();
             ServerGeneralInfo.setSystemGeneralMessage(generalMessage);
@@ -192,7 +203,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
 
     private void parseLeverMessage(AnomalyOperationProtos.ManagementMessage message) {
         try {
-            AnomalyOperationProtos.LeverMessage leverMessage = AnomalyOperationProtos.LeverMessage.parseFrom(message.getLeverMessage().toByteArray());
+            AnomalyOperationProtos.LeverMessage leverMessage = AnomalyOperationProtos
+                    .LeverMessage.parseFrom(message.getLeverMessage().toByteArray());
             double leverValue = leverMessage.getLeverValue();
             ServerGeneralInfo.setLeverValue(leverValue);
         } catch (InvalidProtocolBufferException e) {
@@ -202,7 +214,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
 
     private void parseRouteMessage(AnomalyOperationProtos.ManagementMessage message) {
         try {
-            AnomalyOperationProtos.RouteMessage routeMessage = AnomalyOperationProtos.RouteMessage.parseFrom(message.getRouteMessage().toByteArray());
+            AnomalyOperationProtos.RouteMessage routeMessage = AnomalyOperationProtos
+                    .RouteMessage.parseFrom(message.getRouteMessage().toByteArray());
             ServerGeneralInfo.addRoute(routeMessage);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
@@ -211,11 +224,37 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
 
     private void parseBaselineMessage(AnomalyOperationProtos.ManagementMessage message) {
         try {
-            AnomalyOperationProtos.BaselineMessage baselineMessage = AnomalyOperationProtos.BaselineMessage.parseFrom(message.getBaselineMessage().toByteArray());
+            AnomalyOperationProtos.BaselineMessage baselineMessage = AnomalyOperationProtos
+                    .BaselineMessage.parseFrom(message.getBaselineMessage().toByteArray());
             int routeID = baselineMessage.getRouteIdx();
             AnomalyOperationProtos.BaselineMessage.Day day = baselineMessage.getDay();
             Map<Integer, Integer> baselineMap = baselineMessage.getBaselineMap();
             Connector.updateBaseline(routeID, day, baselineMap);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseAvailableHistoricalMessage(AnomalyOperationProtos.ManagementMessage message) {
+        try {
+            AnomalyOperationProtos.AvailableHistoricalMessage availableHistoricalMessage = AnomalyOperationProtos.
+                    AvailableHistoricalMessage.parseFrom(message.getAvailableHistoricalMessage().toByteArray());
+            Map<String, Integer> availableHistoricalMap = availableHistoricalMessage.getAvaiableDateRoutesMap();
+            Connector.updateAvailableDates(availableHistoricalMap);
+            System.out.println(availableHistoricalMap);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseHistoricalMessage(AnomalyOperationProtos.ManagementMessage message) {
+        try {
+            AnomalyOperationProtos.HistoricalMessage historicalMessage  = AnomalyOperationProtos
+                    .HistoricalMessage.parseFrom(message.getHistoricalMessage().toByteArray());
+            int routeID = historicalMessage.getRouteID();
+            String date = historicalMessage.getDate();
+            Map<Integer, Integer> historicalMap = historicalMessage.getMeasuresMap();
+            Connector.updateHistoricalData(routeID, DateTime.parse(date), historicalMap);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }

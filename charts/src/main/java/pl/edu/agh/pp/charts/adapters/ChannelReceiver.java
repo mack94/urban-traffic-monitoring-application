@@ -46,6 +46,7 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
         client.receiver(this);
         client.addConnectionListener(this);
         client.start();
+        //TODO remove thread sleep from this thread if possible
         Thread.sleep(100);
         running = true;
         byte[] buf = String.format("%s joined\n", name).getBytes();

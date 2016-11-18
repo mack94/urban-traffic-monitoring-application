@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.detector.adapters.Server;
 import pl.edu.agh.pp.detector.detectors.Detector;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
+import pl.edu.agh.pp.detector.helpers.AvailableHistoricalInfoHelper;
+import pl.edu.agh.pp.detector.helpers.HistoricalInfoHelper;
 import pl.edu.agh.pp.detector.helpers.LeverInfoHelper;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.detector.records.Record;
@@ -51,9 +53,11 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     public static void computePolynomial(List<Record> records, boolean shouldSetAfterComputing) {
         Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = new HashMap<>();
         PolynomialCurveFitter fitter = PolynomialCurveFitter.create(15);
+        Map<String, Integer> availableDateRoutes = new HashMap<>();
 
         List<Record> _records = new LinkedList<>();
         _records.addAll(records);
+        HistoricalInfoHelper.addRecords(_records);
 
         for (DayOfWeek day : DayOfWeek.values()) {
 
@@ -70,6 +74,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
                     points.add(new WeightedObservedPoint(1, record.getTimeInSeconds(), record.getDurationInTraffic()));
                     weightedObservedPointsMap.put(recordRouteID, points);
                 }
+                availableDateRoutes.put(record.getDateTime().toString("yyyy-MM-dd"), record.getRouteID());
             }
 
             Map<Integer, PolynomialFunction> polynomialFunctionRoutes = new HashMap<>();
@@ -84,8 +89,12 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
 
         baselineSerializer.serialize(baseline);
 
+        System.out.println("I will add ... ");
+        AvailableHistoricalInfoHelper.addAvailableDateRoutes(availableDateRoutes);
+
         if (shouldSetAfterComputing)
             polynomialFunctions = baseline;
+
     }
 
     // It should be discussed.

@@ -1,6 +1,7 @@
-package pl.edu.agh.pp.charts.data.local;
+package pl.edu.agh.pp.charts.data.server;
 
 import javafx.scene.chart.XYChart;
+import pl.edu.agh.pp.charts.data.local.RoutesLoader;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.time.DayOfWeek;

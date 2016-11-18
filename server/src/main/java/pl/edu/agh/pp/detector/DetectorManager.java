@@ -1,22 +1,21 @@
 package pl.edu.agh.pp.detector;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jfree.ui.RefineryUtilities;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.cron.HalfRouteManager;
 import pl.edu.agh.pp.detector.adapters.Server;
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
-import pl.edu.agh.pp.detector.charts.LineChart_AWT;
 import pl.edu.agh.pp.detector.charts.XYLineChart_AWT;
 import pl.edu.agh.pp.detector.detectors.Detector;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
@@ -41,6 +40,7 @@ public class DetectorManager
     private static final String LOG_FILES_DIRECTORY_PATH = "./logs";
     private static final PolynomialPatternBuilder polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();
     private static final FilesLoader anomalySearchFilesLoader = new FilesLoader(ANOMALY_SEARCH_LOGS_PATH, "C:\\Inz\\appended_file.txt");
+    private final InputParser inputParser;
     private static Detector detector;
     private final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
     // private static ChannelReceiver client = new ChannelReceiver();
@@ -49,6 +49,7 @@ public class DetectorManager
 
     public DetectorManager(Server server, String... logFiles)
     {
+        this.inputParser = new InputParser();
         File folder = new File(LOG_FILES_DIRECTORY_PATH);
         File[] listOfFiles = folder.listFiles();
         if (folder.isDirectory() && listOfFiles != null)
@@ -78,67 +79,68 @@ public class DetectorManager
             baselineFilesLoader = new FilesLoader(logFiles);
         }
 
+        detector = polynomialPatternBuilder;
         try
         {
-            baselineFilesLoader.processLineByLine();
+
+            PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-        detector = polynomialPatternBuilder;
-        PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.getRecords(), true);
         new CommandLineManager().start();
         this.server = server;
         polynomialPatternBuilder.setServer(server);
     }
 
-    public boolean isAnomaly(String logEntry)
+    public String isAnomaly(String logEntry, String defaultWaypoints)
     {
         try
         {
-            LineChart_AWT chart;
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            InputParser inputParser = new InputParser();
-
+            String anomalyId = StringUtils.EMPTY;
+            boolean areWaypointsDefault = true;
             Record record = inputParser.parse(logEntry);
-
-            if (!Objects.equals(logEntry, ""))
+            if (!"default".equals(record.getWaypoints()))
             {
-                // chart = new LineChart_AWT("-", "-", PolynomialPatternBuilder.getValueForEachMinuteOfDay(record.getDayOfWeek(), record.getRouteID() - 1));
-                // chart.pack();
-                // RefineryUtilities.centerFrameOnScreen(chart);
-                // chart.setVisible(true);
+                HalfRouteManager halfRouteManager = new HalfRouteManager(record, defaultWaypoints);
+                logEntry = halfRouteManager.splitRoute();
+                record = inputParser.parse(logEntry);
+                areWaypointsDefault = false;
             }
+
             AnomalyOperationProtos.AnomalyMessage isAnomaly = detector.isAnomaly(record.getDayOfWeek(), record.getRouteID(), record.getTimeInSeconds(), record.getDurationInTraffic());
 
             if (isAnomaly != null)
             {
-                // server.send(ByteBuffer.wrap(isAnomaly.toByteArray())); TODO: Could be removed i think.
+                anomalyId = String.valueOf(isAnomaly.getAnomalyID());
+                if (!areWaypointsDefault)
+                {
+                    logEntry = new JSONObject(logEntry).put("anomalyId", anomalyId).toString();
+                    logger.error(logEntry);
+                }
                 server.send(isAnomaly.toByteArray());
-                return true;
             }
-            Thread.sleep(100);
+
+            return anomalyId;
         }
-        catch (InterruptedException e)
+        catch (Exception e)
         {
-            logger.error("DetectorManager :: InterruptedException " + e);
+            logger.error("Some Error occurred", e);
         }
-        return false;
+        return StringUtils.EMPTY;
     }
 
     public void displayAnomaliesForRoute(int routeId)
     {
         try
         {
-            anomalySearchFilesLoader.processLineByLine();
             XYLineChart_AWT chart;
 
             // while (true) {
             // String incoming = br.readLine();
             // Record record = inputParser.parse(logEntry);
-            List<Record> recordsTestedForAnomalies = anomalySearchFilesLoader.getRecords();
+            List<Record> recordsTestedForAnomalies = anomalySearchFilesLoader.processLineByLine();
             List<Record> anomalousRecords = new ArrayList<>();
             int counter = 0;
             for (Record record : recordsTestedForAnomalies)
@@ -191,23 +193,22 @@ public class DetectorManager
     {
         try
         {
-            anomalySearchFilesLoader.processLineByLine();
             XYLineChart_AWT chart;
 
             // while (true) {
             // String incoming = br.readLine();
             // Record record = inputParser.parse(logEntry);
-            List<Record> recordsTestedForAnomalies = anomalySearchFilesLoader.getRecords();
-            Map<DayOfWeek, Map<Integer, List<Record>>> anomalousRecords = new HashMap<DayOfWeek, Map<Integer, List<Record>>>();
+            List<Record> recordsTestedForAnomalies = anomalySearchFilesLoader.processLineByLine();
+            Map<DayOfWeek, Map<Integer, List<Record>>> anomalousRecords = new HashMap<>();
             Map<Integer, List<Record>> dayOfWeekRecords;
             List<Record> routeAndDayRecords;
             int startingRouteId = recordsTestedForAnomalies.get(0).getRouteID();
             for (DayOfWeek dayOfWeek : DayOfWeek.values())
             {
-                dayOfWeekRecords = new HashMap<Integer, List<Record>>();
+                dayOfWeekRecords = new HashMap<>();
                 for (int routeId = startingRouteId; routeId <= 8 + startingRouteId; routeId++)
                 {
-                    routeAndDayRecords = new ArrayList<Record>();
+                    routeAndDayRecords = new ArrayList<>();
                     dayOfWeekRecords.put(routeId, routeAndDayRecords);
                 }
                 anomalousRecords.put(dayOfWeek, dayOfWeekRecords);
@@ -278,22 +279,29 @@ public class DetectorManager
 
     public boolean areAllRoutesIncluded(JSONArray loadedRoutes)
     {
-        List<Record> list = baselineFilesLoader.getRecords();
+        Map<String, Set<DayOfWeek>> list = baselineFilesLoader.getLoadedRoutes();
         boolean contains;
         for (int i = 0; i < loadedRoutes.length(); i++)
         {
             contains = false;
             JSONObject route = loadedRoutes.getJSONObject(i);
             String id = route.get("id").toString();
-            for (Record record : list)
+            for (Map.Entry<String, Set<DayOfWeek>> entry : list.entrySet())
             {
-                if (String.valueOf(record.getRouteID()).equals(id))
+                if (entry.getKey().equals(id))
                 {
-                    if (record.getDayOfWeek() == DayOfWeek.fromValue(DateTime.now().getDayOfWeek()))
+                    for (DayOfWeek dayOfWeek : entry.getValue())
                     {
-                        contains = true;
-                        break;
+                        if (dayOfWeek == DayOfWeek.fromValue(DateTime.now().getDayOfWeek()))
+                        {
+                            contains = true;
+                            break;
+                        }
                     }
+                }
+                if (contains)
+                {
+                    break;
                 }
             }
             if (!contains)

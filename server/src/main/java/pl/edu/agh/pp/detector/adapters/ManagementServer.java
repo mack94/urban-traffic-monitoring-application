@@ -19,7 +19,8 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.utils.RoutesLoader;
 import pl.edu.agh.pp.detector.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detector.enums.DayOfWeek;
-import pl.edu.agh.pp.detector.helpers.LeverInfoHelper;
+import pl.edu.agh.pp.detector.enums.DayShift;
+import pl.edu.agh.pp.detector.helpers.*;
 import pl.edu.agh.pp.detector.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
@@ -49,13 +50,14 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         server.start();
         JmxConfigurator.register(server, Util.getMBeanServer(), "pub:name=pub-management-server");
         int local_port = server.localAddress() instanceof IpAddress ? ((IpAddress) server.localAddress()).getPort() : 0;
-        System.out.printf("\nManagement server listening at %s:%s\n", bind_addr != null ? bind_addr : "0.0.0.0", local_port);
+        logger.info("\nManagement server listening at %s:%s\n", bind_addr != null ? bind_addr : "0.0.0.0", local_port);
     }
 
     @Override
     public void receive(Address sender, byte[] buf, int offset, int length) {
 
         int bytesRead = 0;
+        int routeID;
         byte[] result = buf.clone();
 
         logger.info("Management message received");
@@ -90,20 +92,37 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
                     break;
                 case DEMANDBASELINEMESSAGE:
                     System.out.println("#3");
-                    int routeID = parseDemandBaselineMessage(message);
-                    sendBaselineMessage(sender, routeID);
+                    BaselineDemand parsedMessage = parseDemandBaselineMessage(message);
+                    routeID = parsedMessage.routeID;
+                    AnomalyOperationProtos.DemandBaselineMessage.Day day = parsedMessage.day;
+                    sendBaselineMessage(sender, routeID, day);
+                    break;
+                case DEMANDAVAILABLEHISTORICALMESSAGE:
+                    System.out.println("#4");
+                    sendAvailableHistoricalMessage(sender);
+                    break;
+                case DEMANDHISTORICALMESSAGE:
+                    System.out.println("#5");
+                    HistoricalDemand historicalDemand = parseDemandHistoricalMessage(message);
+                    //String date = "2016-09-27";
+                    String date = historicalDemand.date;
+                    routeID = historicalDemand.routeID;
+                    sendHistoricalMessage(sender, date, routeID);
                     break;
                 default:
                     logger.error("ManagementServer: Unknown management message type received.");
             }
         } catch (InvalidProtocolBufferException e) {
-            logger.error("ManagementServer: InvalidProtocolBufferException while parsing the received message. Error: " + e);
+            logger.error("ManagementServer: InvalidProtocolBufferException while parsing the received message. " +
+                    "Error: " + e);
             logger.error("Following bytes received:");
             logger.error("\t\t" + Arrays.toString(buf));
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-            illegalPreferenceObjectExpected.printStackTrace();
+            logger.error("ManagementServer: IllegalPreferenceObjectExpected while receiving message! "
+                    + illegalPreferenceObjectExpected, illegalPreferenceObjectExpected);
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error("ManagementServer: IOException while receiving message! " + e, e);
         }
 
     }
@@ -115,21 +134,20 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
 
     public void sendSystemGeneralMessage(Address destination) throws IllegalPreferenceObjectExpected, IOException {
 
-        int anomalyLiveTime = (int) options.getPreference("AnomalyLiveTime", Integer.class);
-        int baselineWindowSize = (int) options.getPreference("BaselineWindowSize", Integer.class);
+        int anomalyLiveTime = AnomalyLiveTimeInfoHelper.getInstance().getAnomalyLiveTimeValue();
+        int baselineWindowSize = BaselineWindowSizeInfoHelper.getInstance().getBaselineWindowSizeValue();
         double leverValue = LeverInfoHelper.getInstance().getLeverValue();
-        int anomaliesChannelPort = (int) options.getPreference("AnomaliesChannelPort", Integer.class); // FIXME
+        //int anomaliesChannelPort = (int) options.getPreference("AnomaliesChannelPort", Integer.class); // FIXME
         int messageID = 1; // FIXME
         RoutesLoader routesLoader = RoutesLoader.getInstance();
-        String loadedRoutes = routesLoader.loadJSON().toString(); // JSONArray
-        AnomalyOperationProtos.SystemGeneralMessage.Shift shift = AnomalyOperationProtos.SystemGeneralMessage.Shift.UNIVERSAL; // FIXME
+        AnomalyOperationProtos.SystemGeneralMessage.Shift shift = DayShiftInfoHelper.getInstance().getShiftProtos(); // FIXME
 
         AnomalyOperationProtos.SystemGeneralMessage msg = AnomalyOperationProtos.SystemGeneralMessage.newBuilder()
                 .setAnomalyLiveTime(anomalyLiveTime)
                 .setBaselineWindowSize(baselineWindowSize)
                 .setLeverValue(leverValue)
                 .setMessageIdx(messageID)
-                .setPort(anomaliesChannelPort)
+                .setPort(8079)
                 .setRoutes("")
                 .setShift(shift)
                 .build();
@@ -142,9 +160,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         byte[] messageToSent = managementMessage.toByteArray();
 
         try {
-            System.out.println(server.getNumConnections());
-            System.out.println(server.getNumOpenConnections());
-            System.out.println(server.printConnections());
+            logger.info(server.printConnections());
             server.send(destination, messageToSent, 0, messageToSent.length);
         } catch (Exception e) {
             e.printStackTrace();
@@ -184,9 +200,9 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
                 server.send(destination, toSend, 0, toSend.length);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("ManagementServer: IOException while parsing available routes! " + e, e);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("ManagementServer: Exception while parsing available routes! " + e, e);
         }
     }
 
@@ -210,14 +226,56 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         try {
             server.send(null, messageToSent, 0, messageToSent.length);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("ManagementServer: Exception while sending lever info! " + e, e);
         }
     }
 
-    private void sendBaselineMessage(Address destination, int routeID) {
+    private void sendAvailableHistoricalMessage(Address destination) {
+
+        AnomalyOperationProtos.AvailableHistoricalMessage availableHistoricalMessage = AvailableHistoricalInfoHelper
+                .getAvailableHistoricalMessage();
+
+        AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                .setType(AnomalyOperationProtos.ManagementMessage.Type.AVAILABLEHISTORICALMESSAGE)
+                .setAvailableHistoricalMessage(availableHistoricalMessage)
+                .build();
+
+        byte[] messageToSent = managementMessage.toByteArray();
+
+        try {
+            server.send(destination, messageToSent, 0, messageToSent.length);
+        } catch (Exception e) {
+            logger.error("ManagementServer: Exception while sending available historical message! " + e, e);
+        }
+    }
+
+    private void sendHistoricalMessage(Address destination, String date, int routeID) {
+
+        AnomalyOperationProtos.HistoricalMessage historicalMessage = HistoricalInfoHelper
+                .getHistoricalMessage(date, routeID);
+
+        AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                .setType(AnomalyOperationProtos.ManagementMessage.Type.HISTORICALMESSAGE)
+                .setHistoricalMessage(historicalMessage)
+                .build();
+
+        byte[] messageToSent = managementMessage.toByteArray();
+
+        try {
+            server.send(destination, messageToSent, 0, messageToSent.length);
+        } catch (Exception e) {
+            logger.error("ManagementServer: Exception while sending historical message! " + e, e);
+        }
+    }
+
+    private void sendBaselineMessage(Address destination, int routeID, AnomalyOperationProtos.DemandBaselineMessage.Day day) {
         //TODO: Check if routeID is not -1
         //TODO: Be careful about sending message too fast - if you send it too fast, wgen PolynomialPatternBuilder is not loaded, then message will not be send.
-        double[] values = PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.fromValue(DateTime.now().getDayOfWeek()), routeID);
+        int dayNumber = day.getNumber();
+        DayOfWeek dayOfWeek = DayOfWeek.fromValue(dayNumber);
+        logger.info("DAY NUMER = " + dayNumber + " and it's : " + dayOfWeek.name());
+        logger.info(" and come back parsing: " + AnomalyOperationProtos.BaselineMessage.Day.forNumber(dayNumber).name());
+        double[] values = PolynomialPatternBuilder.getValueForEachMinuteOfDay(dayOfWeek, routeID);
         Map<Integer, Integer> baselineMap = new HashMap<>();
         int second = 0;
         for (double value : values) {
@@ -229,7 +287,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         AnomalyOperationProtos.BaselineMessage baselineMessage = AnomalyOperationProtos.BaselineMessage.newBuilder()
                 .setRouteIdx(routeID)
                 .putAllBaseline(baselineMap)
-                .setDay(AnomalyOperationProtos.BaselineMessage.Day.forNumber(DateTime.now().getDayOfWeek()))
+                .setDay(AnomalyOperationProtos.BaselineMessage.Day.forNumber(dayNumber))
                 .build();
 
         AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
@@ -243,19 +301,52 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
             server.send(destination, toSend, 0, toSend.length);
             logger.info("Baseline sent");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("ManagementServer: Exception while sending baseline! " + e, e);
         }
     }
 
-    private int parseDemandBaselineMessage(AnomalyOperationProtos.ManagementMessage message) {
+    private BaselineDemand parseDemandBaselineMessage(AnomalyOperationProtos.ManagementMessage message) {
+
+        BaselineDemand result = new BaselineDemand();
+
         try {
             AnomalyOperationProtos.DemandBaselineMessage demandBaselineMessage = AnomalyOperationProtos.DemandBaselineMessage.parseFrom(message.getDemandBaselineMessage().toByteArray());
             logger.info("Demand baseline for ID=" + demandBaselineMessage.getRouteIdx() + " day: " + demandBaselineMessage.getDay());
-            return demandBaselineMessage.getRouteIdx();
+            Integer routeID = demandBaselineMessage.getRouteIdx();
+            AnomalyOperationProtos.DemandBaselineMessage.Day day = demandBaselineMessage.getDay();
+            result.routeID = routeID;
+            result.day = day;
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            logger.error("ManagementServer: Exception while parsing demand baseline message! " + e, e);
         }
-        return -1;
-        // TODO: Sth went wrong.
+        return result;
+    }
+
+    private HistoricalDemand parseDemandHistoricalMessage(AnomalyOperationProtos.ManagementMessage message) {
+
+        HistoricalDemand result = new HistoricalDemand();
+
+        try {
+            AnomalyOperationProtos.DemandHistoricalMessage demandHistoricalMessage = AnomalyOperationProtos.DemandHistoricalMessage.parseFrom(message.getDemandHistoricalMessage().toByteArray());
+            logger.info("Demand historical data for ID=" + demandHistoricalMessage.getRouteID()
+                    + " day: " + demandHistoricalMessage.getDate());
+            Integer routeID = demandHistoricalMessage.getRouteID();
+            String date = demandHistoricalMessage.getDate();
+            result.routeID = routeID;
+            result.date = date;
+        } catch (InvalidProtocolBufferException e) {
+            logger.error("ManagementServer: Exception while parsing demand historical message! " + e, e);
+        }
+        return result;
+    }
+
+    private static class BaselineDemand {
+        Integer routeID;
+        AnomalyOperationProtos.DemandBaselineMessage.Day day;
+    }
+
+    private static class HistoricalDemand {
+        Integer routeID;
+        String date;
     }
 }

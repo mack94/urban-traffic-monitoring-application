@@ -19,8 +19,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -28,9 +26,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
-import pl.edu.agh.pp.charts.data.local.Anomaly;
-import pl.edu.agh.pp.charts.data.local.AnomalyManager;
-import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
+import pl.edu.agh.pp.charts.data.server.Anomaly;
+import pl.edu.agh.pp.charts.data.server.AnomalyManager;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
@@ -49,16 +46,12 @@ public class MainWindowController {
     private Scene scene = null;
     private ChartsController chartsController = null;
     private boolean connectedFlag = false;
-    private WebEngine webEngine;
-    private HtmlBuilder htmlBuilder;
     private final Logger logger = (Logger) LoggerFactory.getLogger(MainWindowController.class);
     private final AnomalyManager anomalyManager = AnomalyManager.getInstance();
     private final Options options = Options.getInstance();
 
     @FXML
     private volatile LineChart<Number, Number> lineChart;
-    @FXML
-    private WebView mapWebView;
     @FXML
     private Button chartsButton;
     @FXML
@@ -124,7 +117,7 @@ public class MainWindowController {
             loader.setController(this);
             BorderPane rootLayout = loader.load();
 
-            primaryStage.setTitle("Urban traffic monitoring - charts");
+            primaryStage.setTitle("©UTM - Cracow Urban Traffic Monitoring");
             scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             primaryStage.setScene(scene);
@@ -224,21 +217,6 @@ public class MainWindowController {
         }
     }
 
-    public void putAnomalyOnMap(String screenMessage) {
-        // Delete cache for navigate back
-        webEngine.load("about:blank");
-        // Delete cookies
-        java.net.CookieHandler.setDefault(new java.net.CookieManager());
-        Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
-        String startCoord = ServerRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId()));
-        String endCoord = ServerRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId()));
-        String startLat = startCoord.split(",")[0];
-        String startLng = startCoord.split(",")[1];
-        String endLat = endCoord.split(",")[0];
-        String endLng = endCoord.split(",")[1];
-        webEngine.loadContent(htmlBuilder.loadMapStructure(startLat, startLng, endLat, endLng));
-    }
-
     public void putSystemMessageOnScreen(String message) {
         putSystemMessageOnScreen(message,DateTime.now(),Color.BLACK);
     }
@@ -317,6 +295,10 @@ public class MainWindowController {
         //TODO charts connected state
     }
 
+    public void setChartsController(ChartsController chartsController){
+        this.chartsController = chartsController;
+    }
+
     private void resetServerInfoLabels(){
         leverValueLabel.setText("");
         anomalyLiveTimeLabel.setText("");
@@ -341,7 +323,7 @@ public class MainWindowController {
                         int i = 0;
                         while (i<3 && !Connector.isConnectedToTheServer()) {
                             Connector.connect(Connector.getAddress(), Connector.getPort());
-                            Thread.sleep(5000);
+                            Thread.sleep(3000);
                             i++;
                         }
                         connectedFlag = Connector.isConnectedToTheServer();
@@ -360,15 +342,6 @@ public class MainWindowController {
         } catch (Exception e) {
             logger.error("Connecting error " + e, e);
         }
-    }
-
-
-    private void setMapUp() {
-        htmlBuilder = new HtmlBuilder();
-        webEngine = mapWebView.getEngine();
-        String defaultLat = "50.07";
-        String defaultLng = "19.94";
-        webEngine.loadContent(htmlBuilder.loadMapStructure(defaultLat, defaultLng, defaultLat, defaultLng));
     }
 
     public void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort){
@@ -390,7 +363,6 @@ public class MainWindowController {
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");
         setConnectedState();
         connectButton.setDefaultButton(true);
-        setMapUp();
         try {
             serverAddrTxtField.setText((String) options.getPreference("Server_Address", String.class));
             serverPortTxtField.setText((String) options.getPreference("Server_Port", String.class));
@@ -405,24 +377,29 @@ public class MainWindowController {
             chartsController = new ChartsController(primaryStage, this);
             chartsController.show();
         }
-        else{
+        else if(chartsController.isInitialized()){
             chartsController.setScene();
+        }
+        else {
+            chartsController.show();
         }
     }
 
     @FXML
     private void handleConnectAction(ActionEvent e) {
+        Platform.runLater(() -> {
+            connectButton.setDisable(true);
+            setConnectedLabel("connecting");
+        } );
         Connector.setIsFromConnecting(true);
-        setConnectedLabel("connecting");
         try {
             String address = serverAddrTxtField.getText();
-            if(!Pattern.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}",address.trim())){
+            if (Pattern.matches("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",address.trim())) {
+                serverAddrTxtField.setStyle("-fx-text-box-border: black;");
+            } else {
                 logger.error("Wrong server address pattern");
                 serverAddrTxtField.setStyle("-fx-text-box-border: red;");
                 return;
-            }
-            else{
-                serverAddrTxtField.setStyle("-fx-text-box-border: black;");
             }
             String port = serverPortTxtField.getText();
             if(!Pattern.matches("\\d+",port.trim())){
@@ -438,8 +415,13 @@ public class MainWindowController {
                 @Override
                 protected Void call() throws Exception {
                     try {
-                        Thread.sleep(5000);
+                        int i = 0;
                         connectedFlag = Connector.isConnectedToTheServer();
+                        while(i<10 && !connectedFlag){
+                            connectedFlag = Connector.isConnectedToTheServer();
+                            Thread.sleep(500);
+                            i++;
+                        }
                         if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
                         else putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
                         setConnectedState();
@@ -463,7 +445,7 @@ public class MainWindowController {
     private void handleDisconnectAction(ActionEvent e) {
         Connector.disconnect();
         connectedFlag = Connector.isConnectedToTheServer();
-        if(connectedFlag) putSystemMessageOnScreen("Failed to disconnect from " + Connector.getAddressServerInfo());
+        if(connectedFlag) putSystemMessageOnScreen("Failed to disconnect from " + Connector.getAddressServerInfo(), Color.RED);
         setConnectedState();
     }
 
@@ -474,7 +456,7 @@ public class MainWindowController {
         if(selectedItem != null){
             putAnomalyInfoOnScreen(selectedItem);
             if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
-                putAnomalyOnMap(selectedItem);
+                //putAnomalyOnMap(selectedItem);
             }
         }
     }
@@ -495,7 +477,7 @@ public class MainWindowController {
         else if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
             String a = anomaliesListView.getSelectionModel().getSelectedItem();
             if(a != null) {
-                putAnomalyOnMap(anomaliesListView.getSelectionModel().getSelectedItem());
+                //putAnomalyOnMap(anomaliesListView.getSelectionModel().getSelectedItem());
             }
         }
     }
@@ -514,7 +496,7 @@ public class MainWindowController {
         String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
         if(selectedItem != null){
             putAnomalyInfoOnScreen(selectedItem);
-            putAnomalyOnMap(selectedItem);
+            //putAnomalyOnMap(selectedItem);
         }
     }
     @FXML

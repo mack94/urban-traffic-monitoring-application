@@ -5,10 +5,9 @@ import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DistanceMatrix;
-import com.google.maps.model.TravelMode;
-import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.cron.utils.RequestParams;
 import pl.edu.agh.pp.cron.utils.Route;
 import pl.edu.agh.pp.detector.DetectorManager;
 
@@ -17,33 +16,36 @@ import pl.edu.agh.pp.detector.DetectorManager;
  * 18:15
  * server
  */
-public class RequestsExecutor {
+public class RequestsExecutor
+{
     private final Logger logger = LoggerFactory.getLogger(RequestsExecutor.class);
     private final DetectorManager detectorManager;
 
-    public RequestsExecutor(DetectorManager detectorManager) {
+    public RequestsExecutor(DetectorManager detectorManager)
+    {
         this.detectorManager = detectorManager;
     }
 
-    public synchronized void execute(String id, GeoApiContext context, String[] origins, String[] destinations, TravelMode travelMode, Instant departure, String defaultWaypoints) throws Exception {
+    public synchronized void execute(GeoApiContext context, RequestParams requestParams) throws Exception
+    {
         DistanceMatrix distanceMatrix = DistanceMatrixApi
-                .getDistanceMatrix(context, origins, destinations)
-                .mode(travelMode)
+                .getDistanceMatrix(context, requestParams.getOrigins(), requestParams.getDestinations())
+                .mode(requestParams.getTravelMode())
                 .language("pl")
-                .departureTime(departure)
+                .departureTime(requestParams.getDeparture())
                 .await();
 
         DirectionsResult directionsApi = DirectionsApi
-                .getDirections(context, origins[0], destinations[0])
+                .getDirections(context, requestParams.getOrigins()[0], requestParams.getDestinations()[0])
                 .alternatives(false)
                 .language("pl")
-                .departureTime(departure)
+                .mode(requestParams.getTravelMode())
+                .departureTime(requestParams.getDeparture())
                 .await();
 
-        Route route = new Route(id, distanceMatrix, directionsApi, defaultWaypoints);
-        if (detectorManager.isAnomaly(route.toString())) {
-            route.setAnomalyMarker();
-        }
+        String defaultWaypoints = requestParams.getDefaultWaypoints();
+        Route route = new Route(requestParams.getId(), distanceMatrix, directionsApi, defaultWaypoints);
+        route.setAnomalyId(detectorManager.isAnomaly(route.toString(), defaultWaypoints));
         logger.error(route.toString());
     }
 
