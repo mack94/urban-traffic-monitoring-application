@@ -16,14 +16,16 @@
         </HBox>
     </top>
     <center>
-        <LineChart fx:id="lineChart">
-            <xAxis>
-                <NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis"/>
-            </xAxis>
-            <yAxis>
-                <NumberAxis label="Duration (seconds)" tickUnit="1"/>
-            </yAxis>
-        </LineChart>
+        <VBox>
+            <LineChart fx:id="lineChart" prefHeight="999999" style="-fx-font-weight: bold">
+                <xAxis>
+                    <NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Duration (seconds)" tickUnit="1"/>
+                </yAxis>
+            </LineChart>
+        </VBox>
     </center>
     <bottom>
         <VBox alignment="CENTER">
@@ -57,12 +59,6 @@
                     <Label fx:id="idLabel" text="ID"/>
                     <ComboBox fx:id="idComboBox"/>
                     <Button fx:id="reverseRouteButton" onAction="#handleReverseRotuteAction"/>
-                </children>
-            </HBox>
-            <HBox spacing="10">
-                <children>
-                    <Label text="Duration visible: "/>
-                    <CheckBox fx:id="durationCheckBox" onAction="#handleDurationAction"/>
                 </children>
             </HBox>
             <HBox spacing="10">
