@@ -330,13 +330,12 @@ public class MainWindowController {
     }
 
     public void addAnomalyToList(Anomaly anomaly){
-        putAnomalyOnList(anomaly.getAnomalyId(),anomaly.getRouteId(),anomaly.getRoute(),anomaly.getStartDate(),anomaly.getPercent(),"");
+        putAnomalyOnList(anomaly.getAnomalyId(),anomaly.getRouteId(),anomaly.getRoute(),anomaly.getStartDate(),anomaly.getPercent(),anomaly.getTrend());
     }
 
     private void putAnomalyOnList(String anomalyID,String routeID, String routeName, String startDate, String excess, String Trend){
         HBox hBox = new HBox();
         hBox.setId(anomalyID);
-//        hBox.getChildren().addAll(addLabel("12345",50),addLabel("Rondo Turowicza 13 - Rondo Nowosadecka 1",300),addLabel("19-11-2016  14:50",150),addLabel("5000%",50),addLabel("↓",50));
         hBox.getChildren().addAll(addLabel(routeID,50),addLabel(routeName,300),addLabel(startDate,150),addLabel(excess,50),addLabel(Trend,50));
         //TODO sorting
         Platform.runLater(() -> {

@@ -88,11 +88,11 @@ public class Anomaly {
             if(Integer.valueOf(duration)<Integer.valueOf(previousDuration)){
                 return "↓";
             }
-            else{
+            else if (Integer.valueOf(duration)>Integer.valueOf(previousDuration)){
                 return "↑";
             }
         }
-        return "";
+        return "-";
     }
 
     void addMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
