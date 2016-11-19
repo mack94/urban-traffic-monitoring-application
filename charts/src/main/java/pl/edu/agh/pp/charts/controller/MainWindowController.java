@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -12,6 +13,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -23,6 +25,8 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import org.gillius.jfxutils.chart.ChartPanManager;
+import org.gillius.jfxutils.chart.JFXChartUtil;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -501,10 +505,68 @@ public class MainWindowController {
         serverPortLabel.setTooltip(new Tooltip("Port used to connect Client application to Management channel of Server application"));
     }
 
+    private void setupCharts(){
+        lineChart.setTitle("Selected anomaly chart");
+        lineChart.setAnimated(false);
+        allAnomaliesLineChart.setAnimated(false);
+        //Panning works via either secondary (right) mouse or primary with ctrl held down
+        ChartPanManager panner = new ChartPanManager( lineChart );
+        panner.setMouseFilter( new EventHandler<MouseEvent>() {
+            @Override
+            public void handle( MouseEvent mouseEvent ) {
+                if ( mouseEvent.getButton() == MouseButton.SECONDARY ||
+                        ( mouseEvent.getButton() == MouseButton.PRIMARY &&
+                                mouseEvent.isShortcutDown() ) ) {
+                    //let it through
+                } else {
+                    mouseEvent.consume();
+                }
+            }
+        } );
+        panner.start();
+
+        //Zooming works only via primary mouse button without ctrl held down
+        JFXChartUtil.setupZooming( lineChart, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle( MouseEvent mouseEvent ) {
+                if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
+                        mouseEvent.isShortcutDown() )
+                    mouseEvent.consume();
+            }
+        } );
+
+        JFXChartUtil.addDoublePrimaryClickAutoRangeHandler( lineChart );
+
+        ChartPanManager allAnomaliesPanner = new ChartPanManager( allAnomaliesLineChart );
+        allAnomaliesPanner.setMouseFilter( new EventHandler<MouseEvent>() {
+            @Override
+            public void handle( MouseEvent mouseEvent ) {
+                if ( mouseEvent.getButton() == MouseButton.SECONDARY ||
+                        ( mouseEvent.getButton() == MouseButton.PRIMARY &&
+                                mouseEvent.isShortcutDown() ) ) {
+                    //let it through
+                } else {
+                    mouseEvent.consume();
+                }
+            }
+        } );
+        allAnomaliesPanner.start();
+
+        //Zooming works only via primary mouse button without ctrl held down
+        JFXChartUtil.setupZooming( allAnomaliesLineChart, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle( MouseEvent mouseEvent ) {
+                if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
+                        mouseEvent.isShortcutDown() )
+                    mouseEvent.consume();
+            }
+        } );
+
+        JFXChartUtil.addDoublePrimaryClickAutoRangeHandler( allAnomaliesLineChart );
+    }
+
     @FXML
     private void initialize() throws IOException {
-        lineChart.setAnimated(false);
-        lineChart.setTitle("Selected anomaly chart");
         systemTab.setGraphic(new Label("System info"));
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");
@@ -517,6 +579,7 @@ public class MainWindowController {
             logger.error("Options exception " + illegalPreferenceObjectExpected,illegalPreferenceObjectExpected);
         }
         setupTooltips();
+        setupCharts();
     }
 
 

@@ -24,6 +24,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.web.WebView?>
+<?import javafx.scene.layout.AnchorPane?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
     <padding>
         <Insets bottom="5" left="5" right="5" top="5"/>
@@ -137,14 +138,16 @@
             </VBox>
             <TabPane tabClosingPolicy="UNAVAILABLE" fx:id="tabPane">
                 <Tab text="Anomaly chart" onSelectionChanged="#handleTabChanged">
-                    <LineChart fx:id="lineChart" prefHeight="999999" style="-fx-font-weight: bold">
-                        <xAxis>
-                            <NumberAxis label="Time of the day (hours)" autoRanging="false" lowerBound="0" upperBound="24" tickUnit="1" />
-                        </xAxis>
-                        <yAxis>
-                            <NumberAxis label="Duration (seconds)" tickUnit="1" />
-                        </yAxis>
-                    </LineChart>
+                    <VBox>
+                        <LineChart fx:id="lineChart" prefHeight="999999" style="-fx-font-weight: bold">
+                            <xAxis>
+                                <NumberAxis label="Time of the day (hours)"  tickUnit="1" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis label="Duration (seconds)" tickUnit="1" />
+                            </yAxis>
+                        </LineChart>
+                    </VBox>
                 </Tab>
                 <Tab text="Anomaly map" onSelectionChanged="#handleTabChanged">
                 </Tab>
@@ -152,14 +155,16 @@
                     <TextFlow textAlignment="CENTER" fx:id="systemMsgTextFlow" />
                 </Tab>
                 <Tab text="Anomalies summary chart" fx:id="allAnomaliesChart" onSelectionChanged="#handleTabChanged">
-                    <LineChart fx:id="allAnomaliesLineChart" prefHeight="999999" style="-fx-font-weight: bold">
-                        <xAxis>
-                            <NumberAxis label="Time of the day (hours)" autoRanging="false" lowerBound="0" upperBound="24" tickUnit="1"/>
-                        </xAxis>
-                        <yAxis>
-                            <NumberAxis label="Excess value [%]" tickUnit="1" />
-                        </yAxis>
-                    </LineChart>
+                    <VBox>
+                        <LineChart fx:id="allAnomaliesLineChart" prefHeight="999999" style="-fx-font-weight: bold">
+                            <xAxis>
+                                <NumberAxis label="Time of the day (hours)" tickUnit="1"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis label="Excess value [%]" tickUnit="1" />
+                            </yAxis>
+                        </LineChart>
+                    </VBox>
                 </Tab>
             </TabPane>
         </VBox>
