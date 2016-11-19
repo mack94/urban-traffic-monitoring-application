@@ -13,3 +13,10 @@
     -fx-border-color: GRAY;
     -fx-pref-width: 150;
 }
+#listLine {
+    -fx-border-color: GRAY;
+    -fx-border-width: 1px;
+    -fx-pref-height: 20;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}

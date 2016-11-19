@@ -73,7 +73,7 @@
             </HBox>
             <HBox spacing="10" >
                 <Label fx:id="drawBaselineLabel" text="Draw Baseline"/>
-                <CheckBox fx:id="drawBaselineCheckbox" onAction="#handleDrawBaselineCheckboxAction"/>
+                <CheckBox fx:id="drawBaselineCheckbox" />
             </HBox>
             <Label fx:id="warn"/>
             <HBox alignment="CENTER" spacing="10">

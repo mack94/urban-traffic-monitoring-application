@@ -14,6 +14,7 @@ public class Baseline {
     private DayOfWeek day;
     private String type;
     private String source;
+    //TODO type and maybe source
 
     public Baseline(Integer routeID, DayOfWeek day, Map<Integer, Integer> baseline) {
         this.baseline = baseline;
@@ -49,6 +50,7 @@ public class Baseline {
                 baselineSeries.getData().add(data);
             }
         }
+        baselineSeries.setName("Route : " + routeID + ". " + day);
         return baselineSeries;
     }
 }

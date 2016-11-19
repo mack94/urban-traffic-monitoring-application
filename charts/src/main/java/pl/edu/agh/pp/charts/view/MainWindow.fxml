@@ -93,18 +93,20 @@
     </top>
     <center>
         <VBox spacing="2">
-            <VBox fx:id="anomaliesVBox">
+            <VBox fx:id="anomaliesVBox" >
                 <padding>
                     <Insets bottom="0" left="0" right="0" top="8"/>
                 </padding>
                 <Label text="Anomalies List" style="-fx-font-weight: bold"/>
-                <HBox>
-                    <Label text="Route ID" />
-                    <!--<Label text="route desc" />-->
-                    <Label text="    Start date" />
+                <HBox >
+                    <Label text="Route ID" prefWidth="200" alignment="CENTER"/>
+                    <Label text="Route" prefWidth="300" alignment="CENTER"/>
+                    <Label text="Start time" prefWidth="170" alignment="CENTER"/>
+                    <Label text="current excess" prefWidth="100" alignment="CENTER"/>
+                    <Label text="trend" prefWidth="75" alignment="CENTER"/>
                 </HBox>
                 <HBox>
-                    <ListView fx:id="anomaliesListView" prefWidth="200.0" prefHeight="250" onMouseClicked="#handleAnomalyClicked" onKeyReleased="#handleAnomalyPressed"/>
+                    <ListView fx:id="anomaliesListView" minWidth="850.0" prefHeight="450" onMouseClicked="#handleAnomalyClicked" onKeyReleased="#handleAnomalyPressed"/>
                     <GridPane>
                         <padding>
                             <Insets bottom="10" left="10" right="10" top="10"/>
@@ -113,7 +115,7 @@
                         <Label fx:id="anomalyIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="250"/>
                         <Label text="Start Date" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="150"/>
                         <Label fx:id="startDateLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="250"/>
-                        <Label text="Last received update" GridPane.rowIndex="2" GridPane.columnIndex="0" prefWidth="150"/>
+                        <Label text="Last received update" GridPane.rowIndex="2" GridPane.columnIndex="0" prefWidth="150" minWidth="110"/>
                         <Label fx:id="lastDateLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="250"/>
                         <Label text="Nr of messages" GridPane.rowIndex="3" GridPane.columnIndex="0" prefWidth="150"/>
                         <Label fx:id="anomaliesNumberLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" prefWidth="250"/>
@@ -121,7 +123,7 @@
                         <Label fx:id="routeIdLabel" GridPane.rowIndex="0" GridPane.columnIndex="4" prefWidth="250"/>
                         <Label text="Route description" GridPane.rowIndex="1" GridPane.columnIndex="3" prefWidth="150"/>
                         <Label fx:id="routeDescLabel" GridPane.rowIndex="1" GridPane.columnIndex="4" prefWidth="250"/>
-                        <Label text="Most recent duration" GridPane.rowIndex="2" GridPane.columnIndex="3" prefWidth="150"/>
+                        <Label text="Most recent duration" GridPane.rowIndex="2" GridPane.columnIndex="3" prefWidth="150" minWidth="110"/>
                         <Label fx:id="recentDuration" GridPane.rowIndex="2" GridPane.columnIndex="4" prefWidth="250"/>
                     </GridPane>
                 </HBox>

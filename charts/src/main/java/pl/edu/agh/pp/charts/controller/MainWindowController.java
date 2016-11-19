@@ -6,6 +6,8 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -13,6 +15,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -67,7 +71,7 @@ public class MainWindowController {
     @FXML
     private Button disconnectButton;
     @FXML
-    private ListView<String> anomaliesListView;
+    private ListView<Node> anomaliesListView;
     @FXML
     private Label anomalyIdLabel;
     @FXML
@@ -142,9 +146,10 @@ public class MainWindowController {
         primaryStage.setScene(scene);
     }
     public void updateAnomalyInfo(String screenId){
-        if(screenId != null && screenId.equalsIgnoreCase(anomaliesListView.getSelectionModel().getSelectedItem())) {
-            putAnomalyInfoOnScreen(screenId);
-        }
+        //TODO
+//        if(screenId != null && screenId.equalsIgnoreCase(anomaliesListView.getSelectionModel().getSelectedItem())) {
+//            putAnomalyInfoOnScreen(screenId);
+//        }
     }
 
     public void putAnomalyInfoOnScreen(String screenMessage) {
@@ -242,9 +247,28 @@ public class MainWindowController {
     }
 
     public void addAnomalyToList(String text){
+//        Platform.runLater(() -> {
+//            anomaliesListView.getItems().add(0,text);
+//        } );
+    }
+
+    public void putAnomalyToList(){
+        HBox hBox = new HBox();
+        //width = 850
+        hBox.getChildren().addAll(addLabel("1234567891",200),addLabel("Turowicza 13 - Nowosadecka 1",300),addLabel("19-11-2016 14:50",150),addLabel("15%",100),addLabel("↓",70));
         Platform.runLater(() -> {
-            anomaliesListView.getItems().add(0,text);
+            anomaliesListView.getItems().add(0,hBox);
         } );
+    }
+
+    private Pane addLabel(String txt,double width){
+        Pane pane = new Pane();
+        pane.setId("listLine");
+        Label label = new Label(txt);
+        label.setPrefWidth(width);
+        label.setAlignment(Pos.CENTER);
+        pane.getChildren().addAll(label);
+        return pane;
     }
 
     public void removeAnomalyFromList(String screenMessage) {
@@ -369,6 +393,7 @@ public class MainWindowController {
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
             logger.error("Options exception " + illegalPreferenceObjectExpected,illegalPreferenceObjectExpected);
         }
+        putAnomalyToList();
     }
 
     @FXML
@@ -452,13 +477,14 @@ public class MainWindowController {
     @FXML
     private void handleAnomalyClicked(MouseEvent e) {
         System.gc();
-        String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
-        if(selectedItem != null){
-            putAnomalyInfoOnScreen(selectedItem);
-            if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
-                //putAnomalyOnMap(selectedItem);
-            }
-        }
+        //TODO
+//        String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
+//        if(selectedItem != null){
+//            putAnomalyInfoOnScreen(selectedItem);
+//            if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
+//                //putAnomalyOnMap(selectedItem);
+//            }
+//        }
     }
     @FXML
     private void handleSaveDefaultAction(ActionEvent e){
@@ -475,10 +501,11 @@ public class MainWindowController {
             lab.setStyle("-fx-text-fill: black;");
         }
         else if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
-            String a = anomaliesListView.getSelectionModel().getSelectedItem();
-            if(a != null) {
-                //putAnomalyOnMap(anomaliesListView.getSelectionModel().getSelectedItem());
-            }
+            //TODO
+//            String a = anomaliesListView.getSelectionModel().getSelectedItem();
+//            if(a != null) {
+//                //putAnomalyOnMap(anomaliesListView.getSelectionModel().getSelectedItem());
+//            }
         }
     }
     @FXML
@@ -493,11 +520,12 @@ public class MainWindowController {
     @FXML
     private void handleAnomalyPressed(KeyEvent e){
         System.gc();
-        String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
-        if(selectedItem != null){
-            putAnomalyInfoOnScreen(selectedItem);
-            //putAnomalyOnMap(selectedItem);
-        }
+        //TODO
+//        String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
+//        if(selectedItem != null){
+//            putAnomalyInfoOnScreen(selectedItem);
+//            //putAnomalyOnMap(selectedItem);
+//        }
     }
     @FXML
     private void handleHideAnomaliesAction(ActionEvent e){

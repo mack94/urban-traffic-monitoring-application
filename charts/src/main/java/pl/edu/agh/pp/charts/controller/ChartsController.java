@@ -648,10 +648,6 @@ public class ChartsController {
             warn.setText("Nothing to reverse");
         }
     }
-    @FXML
-    private void handleDrawBaselineCheckboxAction(ActionEvent e) {
-        //todo drawing baseline
-    }
 
     @FXML
     private void handleSourceAction(ActionEvent e) {
