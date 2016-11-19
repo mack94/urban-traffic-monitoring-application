@@ -2,12 +2,9 @@ package pl.edu.agh.pp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.cron.CronManager;
-import pl.edu.agh.pp.detector.DetectorManager;
-import pl.edu.agh.pp.detector.adapters.ChannelReceiver;
-import pl.edu.agh.pp.detector.adapters.Connector;
-import pl.edu.agh.pp.detector.adapters.ManagementServer;
-import pl.edu.agh.pp.detector.adapters.Server;
+import pl.edu.agh.pp.adapters.Connector;
+import pl.edu.agh.pp.adapters.Server;
+import pl.edu.agh.pp.detectors.DetectorManager;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
 

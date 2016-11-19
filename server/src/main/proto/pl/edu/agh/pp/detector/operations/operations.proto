@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "pl.edu.agh.pp.detector.operations";
+option java_package = "pl.edu.agh.pp.operations";
 
 option java_outer_classname = "AnomalyOperationProtos";
 
