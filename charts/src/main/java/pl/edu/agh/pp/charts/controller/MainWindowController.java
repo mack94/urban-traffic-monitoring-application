@@ -666,6 +666,8 @@ public class MainWindowController {
         System.gc();
         String selectedItem = getSelectedAnomalyId();
         if(selectedItem != null){
+            lineChart.getXAxis().setAutoRanging(true);
+            lineChart.getYAxis().setAutoRanging(true);
             putAnomalyInfoOnScreen(selectedItem);
             if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
                 //putAnomalyOnMap(selectedItem);
@@ -713,6 +715,8 @@ public class MainWindowController {
         System.gc();
         String selectedItem = getSelectedAnomalyId();
         if(selectedItem != null){
+            lineChart.getXAxis().setAutoRanging(true);
+            lineChart.getYAxis().setAutoRanging(true);
             putAnomalyInfoOnScreen(selectedItem);
             //putAnomalyOnMap(selectedItem);
         }
