@@ -6,6 +6,8 @@ import org.antlr.stringtemplate.StringTemplateGroup;
 import org.antlr.stringtemplate.language.DefaultTemplateLexer;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
  * Created by Maciej on 16.12.2015.
  * 17:05
@@ -42,14 +44,17 @@ public class HtmlBuilder {
         return messageStructure.toString();
     }
 
-    public String loadMapStructure(String startLat, String startLng, String endLat, String endLng) {
+    public String loadMapStructure(List<MapRoute> routes) {
         logger.info(Thread.currentThread().getStackTrace()[1].getMethodName());
 
         StringTemplate messageStructure = loadStringTemplate("map_structure");
-        messageStructure.setAttribute("startLat", startLat);
-        messageStructure.setAttribute("startLng", startLng);
-        messageStructure.setAttribute("endLat", endLat);
-        messageStructure.setAttribute("endLng", endLng);
+        StringBuilder routesInstructions = new StringBuilder();
+
+        for(MapRoute mapRoute: routes) {
+            routesInstructions.append(mapRoute.getRouteJavaScriptInstruction());
+            routesInstructions.append("\n");
+        }
+        messageStructure.setAttribute("routesInstructions", routesInstructions.toString());
 
         return messageStructure.toString();
     }

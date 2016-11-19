@@ -13,8 +13,12 @@ import javafx.stage.WindowEvent;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.data.local.HtmlBuilder;
+import pl.edu.agh.pp.charts.data.local.MapRoute;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Krzysztof on 2016-11-18.
@@ -60,12 +64,12 @@ public class MapController {
     private void setMapUp() {
         htmlBuilder = new HtmlBuilder();
         webEngine = mapWebView.getEngine();
-        String defaultStartLat = "50.07";
-        String defaultStartLng = "19.94";
-        String defaultEndLat = "50.079";
-        String defaultEndLng = "19.94";
-        webEngine.loadContent(htmlBuilder.loadMapStructure(
-                defaultStartLat, defaultStartLng, defaultEndLat, defaultEndLng));
+        MapRoute defaultRoute1 = new MapRoute("50.07", "19.94", "50.079", "19.94");
+        MapRoute defaultRoute2 = new MapRoute("50.065", "19.92", "50.073", "19.95");
+        List<MapRoute> routes = new ArrayList<>();
+        routes.add(defaultRoute1);
+        routes.add(defaultRoute2);
+        webEngine.loadContent(htmlBuilder.loadMapStructure(routes));
     }
 
     boolean isInitialized(){

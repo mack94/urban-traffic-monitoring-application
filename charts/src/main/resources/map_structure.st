@@ -22,17 +22,18 @@
     function initMap() {
         //var routeStart = {lat: $startLat$, lng: $startLng$};
         //var routeEnd = {lat: $endLat$, lng: $endLng$};
-		var routeStart = {lat: 50.07, lng: 19.94};
-		var routeEnd = {lat: 50.079, lng: 19.94};
+//		var routeStart = {lat: 50.07, lng: 19.94};
+//		var routeEnd = {lat: 50.079, lng: 19.94};
+//		var routeStart2 = {lat: 50.079, lng: 19.94};
+//        var routeEnd2 = {lat: 50.07, lng: 19.99};
         // Instantiate a directions service.
         var directionsService = new google.maps.DirectionsService;
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 15,
-            center: routeStart,
+            center: {lat: 50.07, lng: 19.94},
             streetViewControl: false
         });
         // Create a renderer for directions and bind it to the map.
-        var directionsDisplay = new google.maps.DirectionsRenderer({map: map});
 //        var markerStart = new google.maps.Marker({
 //            position: routeStart,
 //            map: map,
@@ -45,8 +46,9 @@
 //        });
         var trafficLayer = new google.maps.TrafficLayer();
         trafficLayer.setMap(map);
-        calculateAndDisplayRoute(
-                    directionsDisplay, directionsService, routeStart, routeEnd, map);
+
+        $routesInstructions$
+
         var mapStyle = [
             {
                 featureType: "administrative",
