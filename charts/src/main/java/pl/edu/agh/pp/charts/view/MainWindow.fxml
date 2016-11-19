@@ -99,14 +99,14 @@
                 </padding>
                 <Label text="Anomalies List" style="-fx-font-weight: bold"/>
                 <HBox >
-                    <Label text="Route ID" prefWidth="200" alignment="CENTER"/>
+                    <Label text="Route ID" prefWidth="50" alignment="CENTER"/>
                     <Label text="Route" prefWidth="300" alignment="CENTER"/>
                     <Label text="Start time" prefWidth="170" alignment="CENTER"/>
-                    <Label text="current excess" prefWidth="100" alignment="CENTER"/>
-                    <Label text="trend" prefWidth="75" alignment="CENTER"/>
+                    <Label text="excess" prefWidth="50" alignment="CENTER"/>
+                    <Label text="trend" prefWidth="50" alignment="CENTER"/>
                 </HBox>
                 <HBox>
-                    <ListView fx:id="anomaliesListView" minWidth="850.0" prefHeight="450" onMouseClicked="#handleAnomalyClicked" onKeyReleased="#handleAnomalyPressed"/>
+                    <ListView fx:id="anomaliesListView" minWidth="626.0" minHeight="150" prefHeight="450" onMouseClicked="#handleAnomalyClicked" onKeyReleased="#handleAnomalyPressed"/>
                     <GridPane>
                         <padding>
                             <Insets bottom="10" left="10" right="10" top="10"/>

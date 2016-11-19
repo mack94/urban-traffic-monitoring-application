@@ -255,9 +255,12 @@ public class MainWindowController {
     public void putAnomalyToList(){
         HBox hBox = new HBox();
         //width = 850
-        hBox.getChildren().addAll(addLabel("1234567891",200),addLabel("Turowicza 13 - Nowosadecka 1",300),addLabel("19-11-2016 14:50",150),addLabel("15%",100),addLabel("↓",70));
+        hBox.getChildren().addAll(addLabel("12345",50),addLabel("Rondo Turowicza 13 - Rondo Nowosadecka 1",300),addLabel("19-11-2016  14:50",150),addLabel("5000%",50),addLabel("↓",50));
+        HBox hBox1 = new HBox();
+        hBox1.getChildren().addAll(addLabel("12345",50),addLabel("Rondo Turowicza 13 - Rondo Nowosadecka 1",300),addLabel("19-11-2016  14:50",150),addLabel("5000%",50),addLabel("↓",50));
         Platform.runLater(() -> {
             anomaliesListView.getItems().add(0,hBox);
+            anomaliesListView.getItems().add(0,hBox1);
         } );
     }
 
