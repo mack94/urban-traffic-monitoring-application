@@ -30,4 +30,6 @@ sourceSets {
 jar {
     from configurations.compile.collect { zipTree it }
     manifest.attributes "Main-Class": "pl.edu.agh.pp.charts.Main"
+    baseName 'cutm'
+    version '2.0'
 }
