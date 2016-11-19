@@ -133,6 +133,7 @@ public class MainWindowController {
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
             hideBox.managedProperty().bind(hideBox.visibleProperty());
             anomaliesVBox.managedProperty().bind(anomaliesVBox.visibleProperty());
+            tabPane.managedProperty().bind(tabPane.visibleProperty());
             primaryStage.show();
         } catch (java.io.IOException e) {
             logger.error("exception while creating GUI " + e,e);
@@ -537,6 +538,15 @@ public class MainWindowController {
         }
         else{
             anomaliesVBox.setVisible(true);
+        }
+    }
+    @FXML
+    private void handleHideTabsAction(ActionEvent e){
+        if(tabPane.isVisible()){
+            tabPane.setVisible(false);
+        }
+        else{
+            tabPane.setVisible(true);
         }
     }
 }

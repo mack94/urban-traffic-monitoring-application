@@ -37,6 +37,7 @@
                 <Button fx:id="chartsButton" onAction="#handleChartsButtonAction" text="Go to charts"/>
                 <Button fx:id="hideButton" onAction="#handleHideAction" text="Hide/Show Server settings"/>
                 <Button text="Hide anomalies" onAction="#handleHideAnomaliesAction"/>
+                <Button text="Hide tabs" onAction="#handleHideTabsAction"/>
             </HBox>
             <VBox id="abox" alignment="CENTER" >
                 <BorderPane>
@@ -106,7 +107,7 @@
                     <Label text="trend" prefWidth="50" alignment="CENTER"/>
                 </HBox>
                 <HBox>
-                    <ListView fx:id="anomaliesListView" minWidth="626.0" minHeight="150" prefHeight="450" onMouseClicked="#handleAnomalyClicked" onKeyReleased="#handleAnomalyPressed"/>
+                    <ListView fx:id="anomaliesListView" minWidth="626.0" minHeight="150" prefHeight="99999" onMouseClicked="#handleAnomalyClicked" onKeyReleased="#handleAnomalyPressed"/>
                     <GridPane>
                         <padding>
                             <Insets bottom="10" left="10" right="10" top="10"/>
