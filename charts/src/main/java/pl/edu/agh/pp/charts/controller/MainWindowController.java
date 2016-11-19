@@ -7,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -71,7 +70,7 @@ public class MainWindowController {
     @FXML
     private Button disconnectButton;
     @FXML
-    private ListView<Node> anomaliesListView;
+    private ListView<HBox> anomaliesListView;
     @FXML
     private Label anomalyIdLabel;
     @FXML
@@ -146,15 +145,19 @@ public class MainWindowController {
     public void setScene(){
         primaryStage.setScene(scene);
     }
-    public void updateAnomalyInfo(String screenId){
-        //TODO
-//        if(screenId != null && screenId.equalsIgnoreCase(anomaliesListView.getSelectionModel().getSelectedItem())) {
-//            putAnomalyInfoOnScreen(screenId);
-//        }
+    public void updateAnomalyInfo(String anomalyId){
+        updateAnomalyList(anomalyId);
+        if(anomalyId != null && anomalyId.equalsIgnoreCase(getSelectedAnomalyId())) {
+            putAnomalyInfoOnScreen(anomalyId);
+        }
     }
 
-    public void putAnomalyInfoOnScreen(String screenMessage) {
-        Anomaly anomaly = anomalyManager.getAnomalyByScreenId(screenMessage);
+    private void putAnomalyInfoOnScreen(String anomalyId) {
+        Anomaly anomaly = anomalyManager.getAnomalyById(anomalyId);
+        if(anomaly == null ){
+            logger.error("null");
+            return;
+        }
         Platform.runLater(() -> {
             anomalyIdLabel.setText(anomaly.getAnomalyId());
             startDateLabel.setText(anomaly.getStartDate());
@@ -165,6 +168,18 @@ public class MainWindowController {
             anomaliesNumberLabel.setText(anomaly.getAnomaliesNumber());
         } );
         putChartOnScreen(anomaly);
+    }
+
+    private void updateAnomalyList(String anomalyId){
+        Anomaly anomaly = anomalyManager.getAnomalyById(anomalyId);
+        for(HBox hbox: anomaliesListView.getItems()){
+            if(hbox.getId().equalsIgnoreCase(anomalyId)){
+                Platform.runLater(() -> {
+                    ((Label)((Pane)hbox.getChildren().get(3)).getChildren().get(0)).setText(anomaly.getPercent());
+                    ((Label)((Pane)hbox.getChildren().get(4)).getChildren().get(0)).setText(anomaly.getTrend());
+                });
+            }
+        }
     }
 
     public void clearInfoOnScreen() {
@@ -194,9 +209,9 @@ public class MainWindowController {
                 series.setName("Anomaly " + anomaly.getAnomalyId());
                 XYChart.Series<Number, Number> baseline = anomalyManager.getBaseline(anomaly);
                 String dayName = DayOfWeek.of(Integer.parseInt(anomaly.getDayOfWeek())).name();
-                baseline.setName("Baseline - normal " + dayName.substring(0,1) + dayName.substring(1).toLowerCase());
                 lineChart.getData().add(series);
                 if(baseline != null) {
+                    baseline.setName("Baseline - normal " + dayName.substring(0,1) + dayName.substring(1).toLowerCase());
                     lineChart.getData().add(baseline);
                 }
                 createTooltips();
@@ -247,22 +262,33 @@ public class MainWindowController {
         } );
     }
 
-    public void addAnomalyToList(String text){
-//        Platform.runLater(() -> {
-//            anomaliesListView.getItems().add(0,text);
-//        } );
+    public void addAnomalyToList(Anomaly anomaly){
+        putAnomalyOnList(anomaly.getAnomalyId(),anomaly.getRouteId(),anomaly.getRoute(),anomaly.getStartDate(),anomaly.getPercent(),"");
     }
 
-    public void putAnomalyToList(){
+    private void putAnomalyOnList(String anomalyID,String routeID, String routeName, String startDate, String excess, String Trend){
         HBox hBox = new HBox();
-        //width = 850
-        hBox.getChildren().addAll(addLabel("12345",50),addLabel("Rondo Turowicza 13 - Rondo Nowosadecka 1",300),addLabel("19-11-2016  14:50",150),addLabel("5000%",50),addLabel("↓",50));
-        HBox hBox1 = new HBox();
-        hBox1.getChildren().addAll(addLabel("12345",50),addLabel("Rondo Turowicza 13 - Rondo Nowosadecka 1",300),addLabel("19-11-2016  14:50",150),addLabel("5000%",50),addLabel("↓",50));
+        hBox.setId(anomalyID);
+//        hBox.getChildren().addAll(addLabel("12345",50),addLabel("Rondo Turowicza 13 - Rondo Nowosadecka 1",300),addLabel("19-11-2016  14:50",150),addLabel("5000%",50),addLabel("↓",50));
+        hBox.getChildren().addAll(addLabel(routeID,50),addLabel(routeName,300),addLabel(startDate,150),addLabel(excess,50),addLabel(Trend,50));
+        //TODO sorting
         Platform.runLater(() -> {
             anomaliesListView.getItems().add(0,hBox);
-            anomaliesListView.getItems().add(0,hBox1);
         } );
+    }
+
+    public String getSelectedAnomalyId(){
+        HBox hBox = (HBox) anomaliesListView.getSelectionModel().getSelectedItem();
+        if(hBox != null) return hBox.getId();
+        return "";
+    }
+
+    public boolean isAnomalyOnScreen(String anomalyId){
+        for(HBox hbox: anomaliesListView.getItems()){
+            if(hbox.getId().equalsIgnoreCase(anomalyId))
+                return true;
+        }
+        return false;
     }
 
     private Pane addLabel(String txt,double width){
@@ -275,18 +301,22 @@ public class MainWindowController {
         return pane;
     }
 
-    public void removeAnomalyFromList(String screenMessage) {
-        if(screenMessage == null){
-            logger.error("No screen message");
+    public void removeAnomalyFromList(String anomalyId) {
+        if(anomalyId == null){
+            logger.error("No anomaly ID");
             return;
         }
-        if (anomaliesListView.getItems().contains(screenMessage)){
-            Platform.runLater(() -> {
-                anomaliesListView.getItems().remove(screenMessage);
-                if(anomaliesListView.getItems().isEmpty()){
-                    clearInfoOnScreen();
+        if (isAnomalyOnScreen(anomalyId)){
+            for(HBox hbox: anomaliesListView.getItems()){
+                if(hbox.getId().equalsIgnoreCase(anomalyId)){
+                    Platform.runLater(() -> {
+                        anomaliesListView.getItems().remove(hbox);
+                        if(anomaliesListView.getItems().isEmpty()){
+                            clearInfoOnScreen();
+                        }
+                    });
                 }
-            });
+            }
         }
         else{
             logger.error("MWC: Trying to remove anomaly that doesn't exist");
@@ -397,7 +427,6 @@ public class MainWindowController {
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
             logger.error("Options exception " + illegalPreferenceObjectExpected,illegalPreferenceObjectExpected);
         }
-        putAnomalyToList();
     }
 
     @FXML
@@ -481,14 +510,13 @@ public class MainWindowController {
     @FXML
     private void handleAnomalyClicked(MouseEvent e) {
         System.gc();
-        //TODO
-//        String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
-//        if(selectedItem != null){
-//            putAnomalyInfoOnScreen(selectedItem);
-//            if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
-//                //putAnomalyOnMap(selectedItem);
-//            }
-//        }
+        String selectedItem = getSelectedAnomalyId();
+        if(selectedItem != null){
+            putAnomalyInfoOnScreen(selectedItem);
+            if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
+                //putAnomalyOnMap(selectedItem);
+            }
+        }
     }
     @FXML
     private void handleSaveDefaultAction(ActionEvent e){
@@ -506,10 +534,10 @@ public class MainWindowController {
         }
         else if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
             //TODO
-//            String a = anomaliesListView.getSelectionModel().getSelectedItem();
-//            if(a != null) {
-//                //putAnomalyOnMap(anomaliesListView.getSelectionModel().getSelectedItem());
-//            }
+            String a = getSelectedAnomalyId();
+            if(a != null) {
+                //putAnomalyOnMap(anomaliesListView.getSelectionModel().getSelectedItem());
+            }
         }
     }
     @FXML
@@ -524,12 +552,11 @@ public class MainWindowController {
     @FXML
     private void handleAnomalyPressed(KeyEvent e){
         System.gc();
-        //TODO
-//        String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
-//        if(selectedItem != null){
-//            putAnomalyInfoOnScreen(selectedItem);
-//            //putAnomalyOnMap(selectedItem);
-//        }
+        String selectedItem = getSelectedAnomalyId();
+        if(selectedItem != null){
+            putAnomalyInfoOnScreen(selectedItem);
+            //putAnomalyOnMap(selectedItem);
+        }
     }
     @FXML
     private void handleHideAnomaliesAction(ActionEvent e){

@@ -12,13 +12,13 @@ import java.util.Map;
  * Created by Dawid on 2016-10-23.
  */
 public class Anomaly {
-    private String screenMessage;
     private String anomalyId;
     private String startDate;
     private String lastDate;
     private String routeId;
     private String route;
     private String dayOfWeek;
+    private String previousDuration;
     private String duration;
     private String severity;
     private String percent;
@@ -36,7 +36,6 @@ public class Anomaly {
         this.dayOfWeek = String.valueOf(anomalyMessage.getDayOfWeek());
         durationHistory = new HashMap<>();
         durationHistory.put(this.lastDate, this.duration);
-        buildScreenMessage();
         anomaliesNumber = 1;
     }
 
@@ -64,10 +63,6 @@ public class Anomaly {
         return percent;
     }
 
-    public String getScreenMessage() {
-        return screenMessage;
-    }
-
     public String getAnomaliesNumber() {
         return String.valueOf(anomaliesNumber);
     }
@@ -84,8 +79,22 @@ public class Anomaly {
         return dayOfWeek;
     }
 
+    public String getTrend() {
+        if(duration!=null && previousDuration != null){
+            if(Integer.valueOf(duration)<Integer.valueOf(previousDuration)){
+                return "↓";
+            }
+            else{
+                return "↑";
+            }
+        }
+        System.out.println("whyyyyyyyyyyyy duration: " + duration + " prev: " + previousDuration);
+        return "";
+    }
+
     void addMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
         this.lastDate = anomalyMessage.getDate();
+        this.previousDuration = this.duration;
         this.duration = String.valueOf(anomalyMessage.getDuration());
         durationHistory.put(this.lastDate, this.duration);
         anomaliesNumber++;
@@ -93,10 +102,6 @@ public class Anomaly {
 
     public Map<String, String> getDurationHistory() {
         return durationHistory;
-    }
-
-    private void buildScreenMessage() {
-        this.screenMessage = routeId + "              " + startDate;
     }
 
     XYChart.Series<Number, Number> getBaselineSeries() {

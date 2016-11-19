@@ -48,12 +48,12 @@ public class AnomalyManager {
         if (anomalyExists(id)) {
             anomaly = getAnomalyById(id);
             anomaly.addMessage(anomalyMessage);
-            if (mainWindowController != null) mainWindowController.updateAnomalyInfo(anomaly.getScreenMessage());
+            if (mainWindowController != null) mainWindowController.updateAnomalyInfo(anomaly.getAnomalyId());
         } else {
             anomaly = new Anomaly(anomalyMessage);
             Connector.demandBaseline(DayOfWeek.of(Integer.parseInt(anomaly.getDayOfWeek())), Integer.parseInt(anomaly.getRouteId()));
             anomalyList.add(anomaly);
-            if (mainWindowController != null) mainWindowController.addAnomalyToList(anomaly.getScreenMessage());
+            if (mainWindowController != null) mainWindowController.addAnomalyToList(anomaly);
         }
     }
 
@@ -80,17 +80,10 @@ public class AnomalyManager {
         }
     }
 
-    public Anomaly getAnomalyByScreenId(String screenId) {
-        for (Anomaly a : anomalyList) {
-            if (a.getScreenMessage().equals(screenId)) return a;
-        }
-        return null;
-    }
-
     public void removeAnomaly(String anomalyId) {
         Anomaly anomaly = getAnomalyById(anomalyId);
         if (anomaly != null) {
-            mainWindowController.removeAnomalyFromList(anomaly.getScreenMessage());
+            mainWindowController.removeAnomalyFromList(anomaly.getAnomalyId());
             removeFromList(anomalyId);
             logger.debug("Anomaly list size after remove: " + anomalyList.size());
         } else {
