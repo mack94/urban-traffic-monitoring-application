@@ -43,6 +43,10 @@ public class Anomaly {
         return duration;
     }
 
+    public String getPreviousDuration() {
+        return previousDuration;
+    }
+
     public String getLastDate() {
         return lastDate;
     }
@@ -88,7 +92,6 @@ public class Anomaly {
                 return "↑";
             }
         }
-        System.out.println("whyyyyyyyyyyyy duration: " + duration + " prev: " + previousDuration);
         return "";
     }
 
