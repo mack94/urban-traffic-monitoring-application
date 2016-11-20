@@ -682,6 +682,7 @@ public class ChartsController {
         if("current baselines".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel,dayComboBox);
+            dayHBox.setVisible(true);
             baselineTypeComboBox.setVisible(true);
             baselineTypeLabel.setVisible(true);
             drawBaselineCheckbox.setVisible(false);
@@ -692,17 +693,21 @@ public class ChartsController {
         else if("historical data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel,datePicker);
+            dayHBox.setVisible(true);
             setupDatePicker();
             baselineTypeComboBox.setVisible(false);
             baselineTypeLabel.setVisible(false);
-            drawBaselineCheckbox.setVisible(true);
-            drawBaselineLabel.setVisible(true);
-            drawAnomaliesCheckbox.setVisible(true);
-            drawAnomaliesLabel.setVisible(true);
+            if("server data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())) {
+                drawBaselineCheckbox.setVisible(true);
+                drawBaselineLabel.setVisible(true);
+                drawAnomaliesCheckbox.setVisible(true);
+                drawAnomaliesLabel.setVisible(true);
+            }
         }
         else if("historical anomalies".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel,datePicker);
+            dayHBox.setVisible(true);
             setupDatePicker();
             baselineTypeComboBox.setVisible(false);
             baselineTypeLabel.setVisible(false);
@@ -714,6 +719,7 @@ public class ChartsController {
     }
     @FXML
     private void handleBaselineTypeAction(ActionEvent e) {
+        dayHBox.setVisible(true);
         if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("current baselines")){
             fillInDaysOfWeek();
         }
@@ -754,26 +760,33 @@ public class ChartsController {
 
     @FXML
     private void handleSourceAction(ActionEvent e) {
-        String notConnectedWarn = "Not connected to server!";
         setupFields();
-        if(sourceComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("server data")){
-            if(!Connector.isConnectedToTheServer()){
-                warn.setText(notConnectedWarn);
-                warn.setVisible(true);
-            }
-            typeComboBox.setVisible(true);
-            typeLabel.setVisible(true);
-            typeComboBox.getItems().clear();
-            typeComboBox.getItems().addAll("Current baselines","Historical data","Historical anomalies");
+        checkConnection();
+        if("server data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())){
+            Platform.runLater(()->{
+                typeComboBox.setVisible(true);
+                typeLabel.setVisible(true);
+                typeComboBox.getItems().clear();
+                typeComboBox.getItems().addAll("Current baselines","Historical data","Historical anomalies");
+            });
         }
-        else {
-            if(warn.getText().equalsIgnoreCase(notConnectedWarn)){
-                warn.setVisible(false);
-            }
-            typeLabel.setVisible(true);
-            typeComboBox.setVisible(true);
-            typeComboBox.getItems().clear();
-            typeComboBox.getItems().addAll("Historical data");
+        else if("local data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())){
+            Platform.runLater(()->{
+                typeComboBox.getItems().clear();
+                typeComboBox.getItems().addAll("Historical data");
+                typeLabel.setVisible(true);
+                typeComboBox.setVisible(true);
+                baselineTypeComboBox.setVisible(false);
+                baselineTypeLabel.setVisible(false);
+                reverseRouteButton.setVisible(false);
+                drawAnomaliesCheckbox.setVisible(false);
+                drawBaselineCheckbox.setVisible(false);
+                drawBaselineLabel.setVisible(false);
+                drawAnomaliesLabel.setVisible(false);
+                dayHBox.setVisible(false);
+                idComboBox.setVisible(false);
+                idLabel.setVisible(false);
+            });
         }
     }
 
