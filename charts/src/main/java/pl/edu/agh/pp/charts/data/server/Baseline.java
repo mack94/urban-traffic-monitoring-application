@@ -16,7 +16,7 @@ public class Baseline {
     private String source;
     //TODO type and maybe source
 
-    public Baseline(Integer routeID, DayOfWeek day, Map<Integer, Integer> baseline) {
+    Baseline(Integer routeID, DayOfWeek day, Map<Integer, Integer> baseline) {
         this.baseline = baseline;
         this.routeID = routeID;
         this.day = day;

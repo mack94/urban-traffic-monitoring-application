@@ -457,7 +457,6 @@ public class MainWindowController {
                         }
                         connectedFlag = Connector.isConnectedToTheServer();
                         setConnectedState();
-                        Connector.getOptionsServerInfo();
                         Connector.setIsFromConnecting(false);
                     } catch (InterruptedException e) {
                         logger.error("Interrupted exception");
@@ -639,7 +638,6 @@ public class MainWindowController {
                         if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
                         else putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
                         setConnectedState();
-                        Connector.getOptionsServerInfo();
                         Connector.setIsFromConnecting(false);
                     } catch (InterruptedException e) {
                         logger.error("Interrupted exception");

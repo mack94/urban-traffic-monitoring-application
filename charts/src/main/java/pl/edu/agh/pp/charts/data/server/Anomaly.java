@@ -26,7 +26,7 @@ public class Anomaly {
     private int anomaliesNumber;
     private Baseline baseline = null;
 
-    public Anomaly(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
+    Anomaly(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
         this.anomalyId = String.valueOf(anomalyMessage.getAnomalyID());
         this.startDate = anomalyMessage.getDate();
         this.lastDate = anomalyMessage.getDate();
@@ -43,7 +43,7 @@ public class Anomaly {
         return duration;
     }
 
-    public String getPreviousDuration() {
+    public String  getPreviousDuration() {
         return previousDuration;
     }
 

@@ -68,8 +68,12 @@
                 </children>
             </HBox>
             <HBox spacing="10" >
-                <Label fx:id="drawBaselineLabel" text="Draw Baseline"/>
+                <Label fx:id="drawBaselineLabel" text="Draw Historical Baseline"/>
                 <CheckBox fx:id="drawBaselineCheckbox" />
+            </HBox>
+            <HBox spacing="10" >
+                <Label fx:id="drawAnomaliesLabel" text="Highlight Anomalies"/>
+                <CheckBox fx:id="drawAnomaliesCheckbox" />
             </HBox>
             <Label fx:id="warn"/>
             <HBox alignment="CENTER" spacing="10">

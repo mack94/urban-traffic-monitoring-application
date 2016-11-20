@@ -104,6 +104,12 @@ public class ChartsController {
     private Label typeLabel;
     @FXML
     private HBox baselineBox;
+    @FXML
+    private Label drawAnomaliesLabel;
+    @FXML
+    private CheckBox drawAnomaliesCheckbox;
+
+
 
     public ChartsController(Stage primaryStage, MainWindowController parent) {
         this.primaryStage = primaryStage;
@@ -213,7 +219,8 @@ public class ChartsController {
                     }
                 };
         datePicker.setDayCellFactory(dayCellFactory);
-        if("historical data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
+        String type = typeComboBox.getSelectionModel().getSelectedItem();
+        if("historical data".equalsIgnoreCase(type) || "historical anomalies".equalsIgnoreCase(type)) {
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel, datePicker);
         }
@@ -272,6 +279,8 @@ public class ChartsController {
         baselineTypeLabel.setVisible(false);
         drawBaselineCheckbox.setVisible(false);
         drawBaselineLabel.setVisible(false);
+        drawAnomaliesCheckbox.setVisible(false);
+        drawAnomaliesLabel.setVisible(false);
     }
 
     private void setupChart(){
@@ -428,13 +437,13 @@ public class ChartsController {
             lineChart.getData().clear();
         }
         if(type.equalsIgnoreCase("current baselines")){
-            drawBaseline(id, String.valueOf(DayOfWeek.valueOf(dayForBaseline.toUpperCase()).getValue()));
+            drawBaseline(id, String.valueOf(DayOfWeek.valueOf(dayForBaseline.toUpperCase()).getValue()),baselineType);
         }
         else if(type.equalsIgnoreCase("historical data")){
             drawHistoricalData(id, dayForHistoricalData, dayForBaseline);
         }
         else if(type.equalsIgnoreCase("historical anomalies")){
-            //TODO
+            drawHistoricalAnomalies(id, dayForHistoricalData, dayForBaseline);
         }
     }
 
@@ -474,17 +483,17 @@ public class ChartsController {
             new Thread(sleeper).start();
         }
         else {
-            lineChart.getData().add(historicalData.getHistoricalDataSeries());
+            Platform.runLater(() -> lineChart.getData().add(historicalData.getHistoricalDataSeries()));
         }
         if(drawBaselineCheckbox.isSelected()){
-            drawBaseline(id,String.valueOf(DateTime.parse(dayForHistoricalData).dayOfWeek().get()));
+            drawBaseline(id,String.valueOf(DateTime.parse(dayForHistoricalData).dayOfWeek().get()),dayForHistoricalData);
         }
     }
 
-    private void drawBaseline(final String id, final String dayForBaseline) {
+    private void drawBaseline(final String id, final String dayForBaseline,String type) {
         Baseline baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.of(Integer.valueOf(dayForBaseline)));
         if(baseline == null){
-            Connector.demandBaseline(DayOfWeek.of(Integer.valueOf(dayForBaseline)), Integer.valueOf(id));
+            Connector.demandBaseline(DayOfWeek.of(Integer.valueOf(dayForBaseline)), Integer.valueOf(id),type);
             Task<Void> sleeper = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
@@ -518,7 +527,59 @@ public class ChartsController {
             new Thread(sleeper).start();
         }
         else{
-            lineChart.getData().add(baseline.getBaselineSeries());
+            Platform.runLater(() -> lineChart.getData().add(baseline.getBaselineSeries()));
+        }
+    }
+
+    private void drawHistoricalAnomalies(final String id, final String dayForHistoricalAnomalies, final String dayForBaseline) {
+        //TODO
+        HistoricalAnomaly historicalAnomaly = HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
+        if(historicalAnomaly == null) {
+            Connector.demandHistoricalAnomalies(DateTime.parse(dayForHistoricalAnomalies), Integer.valueOf(id));
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        HistoricalAnomaly historicalAnomaly = null;
+                        int i = 0;
+                        while (i < 3 && historicalAnomaly == null) {
+                            historicalAnomaly = HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
+                            Thread.sleep(1000);
+                            i++;
+                        }
+                        if (historicalAnomaly == null) {
+                            logger.error("Did not get the historical anomalies after demand");
+                            Platform.runLater(() -> {
+                                warn.setText("Server did not respond");
+                            });
+                        } else {
+                            logger.info("got a response, historical anomalies found!");
+                            Platform.runLater(() -> {
+                                warn.setText("");
+                                final HistoricalAnomaly historicalAnomaliesContainer= HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
+                                for(HistoricalAnomaly ha: historicalAnomaliesContainer.getAnomalies()){
+                                    lineChart.getData().add(ha.getHistoricalAnomalySeries());
+                                }
+                            });
+                        }
+                    } catch (InterruptedException e) {
+                        logger.error("Interrupted exception");
+                    }
+                    return null;
+                }
+            };
+            new Thread(sleeper).start();
+        }
+        else {
+            Platform.runLater(() -> {
+                final HistoricalAnomaly historicalAnomaliesContainer= HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
+                for(HistoricalAnomaly ha: historicalAnomaliesContainer.getAnomalies()){
+                    lineChart.getData().add(ha.getHistoricalAnomalySeries());
+                }
+            });
+        }
+        if(drawBaselineCheckbox.isSelected()){
+            drawBaseline(id,String.valueOf(DateTime.parse(dayForHistoricalAnomalies).dayOfWeek().get()),dayForHistoricalAnomalies);
         }
     }
 
@@ -614,6 +675,8 @@ public class ChartsController {
             baselineTypeLabel.setVisible(true);
             drawBaselineCheckbox.setVisible(false);
             drawBaselineLabel.setVisible(false);
+            drawAnomaliesCheckbox.setVisible(false);
+            drawAnomaliesLabel.setVisible(false);
         }
         else if("historical data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
             dayHBox.getChildren().clear();
@@ -623,9 +686,19 @@ public class ChartsController {
             baselineTypeLabel.setVisible(false);
             drawBaselineCheckbox.setVisible(true);
             drawBaselineLabel.setVisible(true);
+            drawAnomaliesCheckbox.setVisible(true);
+            drawAnomaliesLabel.setVisible(true);
         }
         else if("historical anomalies".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
-            //TODO
+            dayHBox.getChildren().clear();
+            dayHBox.getChildren().addAll(dayLabel,datePicker);
+            setupDatePicker();
+            baselineTypeComboBox.setVisible(false);
+            baselineTypeLabel.setVisible(false);
+            drawBaselineCheckbox.setVisible(true);
+            drawBaselineLabel.setVisible(true);
+            drawAnomaliesCheckbox.setVisible(true);
+            drawAnomaliesLabel.setVisible(true);
         }
     }
     @FXML
