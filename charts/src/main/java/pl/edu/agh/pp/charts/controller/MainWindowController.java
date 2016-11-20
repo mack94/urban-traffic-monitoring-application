@@ -186,7 +186,6 @@ public class MainWindowController {
     private void putAnomalyInfoOnScreen(String anomalyId) {
         Anomaly anomaly = anomalyManager.getAnomalyById(anomalyId);
         if(anomaly == null ){
-            logger.error("null");
             return;
         }
         Platform.runLater(() -> {
@@ -336,10 +335,14 @@ public class MainWindowController {
         HBox hBox = new HBox();
         hBox.setId(anomalyID);
         hBox.getChildren().addAll(addLabel(routeID,50),addLabel(routeName,300),addLabel(startDate,150),addLabel(excess,50),addLabel(Trend,50));
-        //TODO sorting
-        Platform.runLater(() -> {
-            anomaliesListView.getItems().add(0,hBox);
-        } );
+
+        int i;
+        for(i = 0; i<anomaliesListView.getItems().size(); i++){
+            String stringExcess = ((Label)anomaliesListView.getItems().get(i).getChildren().get(3)).getText();
+            if(!"".equals(stringExcess) || Integer.parseInt(stringExcess) < Integer.parseInt(excess)) break;
+        }
+        int finalI = i;
+        Platform.runLater(() -> anomaliesListView.getItems().add(finalI,hBox));
     }
 
     private String getSelectedAnomalyId(){

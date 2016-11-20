@@ -736,11 +736,16 @@ public class ChartsController {
     }
 
     @FXML
-    private void handleReverseRotuteAction(ActionEvent e) {
+    private void handleReverseRouteAction(ActionEvent e) {
         try {
-            String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
-            if (id != null) {
-                idComboBox.getSelectionModel().select(input.getReverse(id));
+            if("local data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())) {
+                String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
+                if (id != null) {
+                    idComboBox.getSelectionModel().select(input.getReverse(id));
+                }
+            }
+            if("server data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())){
+
             }
         } catch (NullPointerException exception) {
             warn.setText("Nothing to reverse");
