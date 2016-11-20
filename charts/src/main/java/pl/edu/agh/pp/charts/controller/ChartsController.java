@@ -152,7 +152,8 @@ public class ChartsController {
     public void setServerDates(){
         serverDatesList.clear();
         Map<String,List<Integer>> map = ServerDatesInfo.getDates();
-        serverDatesList.addAll(map.keySet());
+        if(map!=null)
+            serverDatesList.addAll(map.keySet());
     }
 
     boolean isInitialized(){
