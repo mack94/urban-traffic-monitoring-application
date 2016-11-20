@@ -42,6 +42,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 /**
@@ -50,6 +54,8 @@ import java.util.regex.Pattern;
 public class MainWindowController {
 
     private static final String MAIN_WINDOW_STAGE_TITLE = "©UTM - Cracow Urban Traffic Monitoring";
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private ScheduledFuture<?> countdown;
     private Stage primaryStage = null;
     private Scene scene = null;
     private ChartsController chartsController = null;
@@ -286,8 +292,20 @@ public class MainWindowController {
     public void addAnomalyToList(String text){
         Platform.runLater(() -> {
             anomaliesListView.getItems().add(0,text);
-            updateAnomalyRoutesOnMap();
-        } );
+            if(countdown == null || countdown.isDone()) {
+                updateMapAfterDelay(3);
+            }
+        });
+    }
+
+    private void updateMapAfterDelay(int seconds) {
+        countdown = scheduler.schedule(new Runnable() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    updateAnomalyRoutesOnMap();
+                });
+            }}, seconds, TimeUnit.SECONDS);
     }
 
     public void removeAnomalyFromList(String screenMessage) {
@@ -301,7 +319,9 @@ public class MainWindowController {
                 if(anomaliesListView.getItems().isEmpty()){
                     clearInfoOnScreen();
                 }
-                updateAnomalyRoutesOnMap();
+                if(countdown == null || countdown.isDone()) {
+                    updateMapAfterDelay(3);
+                }
             });
         }
         else{
