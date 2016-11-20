@@ -611,12 +611,14 @@ public class MainWindowController {
             } else {
                 logger.error("Wrong server address pattern");
                 serverAddrTxtField.setStyle("-fx-text-box-border: red;");
+                Platform.runLater(() -> connectButton.setDisable(false));
                 return;
             }
             String port = serverPortTxtField.getText();
             if(!Pattern.matches("\\d+",port.trim())){
                 logger.error("Wrong server port pattern");
                 serverPortTxtField.setStyle("-fx-text-box-border: red;");
+                Platform.runLater(() -> connectButton.setDisable(false));
                 return;
             }
             else{
