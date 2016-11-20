@@ -184,6 +184,7 @@ public class Connector {
                 message = additionalInfo;
             }
             mainWindowController.setConnectedFlag();
+            mainWindowController.setConnectedState();
             mainWindowController.putSystemMessageOnScreen(message, Color.RED);
             if (!isFromConnecting)
                 mainWindowController.reconnecting();

@@ -405,7 +405,8 @@ public class MainWindowController {
         setConnectedLabel(msg,Color.BLACK);
     }
 
-    private void setConnectedState(){
+    public void setConnectedState(){
+        chartsController.checkConnection();
         if(connectedFlag){
             this.setConnectedLabel(Connector.getAddressServerInfo(), Color.BLACK);
             Platform.runLater(() -> {
@@ -421,7 +422,6 @@ public class MainWindowController {
                 resetServerInfoLabels();
             });
         }
-        //TODO charts connected state
     }
 
     public void setChartsController(ChartsController chartsController){

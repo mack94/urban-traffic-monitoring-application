@@ -165,6 +165,27 @@ public class ChartsController {
         return initialized;
     }
 
+    /**
+     * If the class was not initialized or source is set to Local data this method does nothing and returns value true.
+     *
+     * If source is set to Server data method checks whether Client is currently connected to the server.
+     * If it is not then sets warning Label. If it is connected and warning label was set to "Not connected to server!"
+     * the warning label is cleared.
+     *
+     * @return      true if connected to server or source set to Local data, false otherwise
+     */
+    public boolean checkConnection(){
+        if(isInitialized() && "server data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())) {
+            if (!Connector.isConnectedToTheServer()) {
+                Platform.runLater(()-> warn.setText("Not connected to server!"));
+                return false;
+            } else if ("Not connected to server!".equalsIgnoreCase(warn.getText())) {
+                Platform.runLater(()-> warn.setText(""));
+            }
+        }
+        return true;
+    }
+
     private void setupFields() {
 //        localRouteIdList.clear();
         if(sourceComboBox.getSelectionModel().getSelectedItem()!=null && sourceComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("local data")){
@@ -411,6 +432,7 @@ public class ChartsController {
     }
 
     private void drawServerData(){
+        if(!checkConnection())return;
         String type = typeComboBox.getSelectionModel().getSelectedItem();
         String baselineType = baselineTypeComboBox.getSelectionModel().getSelectedItem();
         String route = idComboBox.getSelectionModel().getSelectedItem();
