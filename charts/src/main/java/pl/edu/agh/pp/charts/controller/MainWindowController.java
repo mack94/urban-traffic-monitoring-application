@@ -32,7 +32,6 @@ import pl.edu.agh.pp.charts.data.local.HtmlBuilder;
 import pl.edu.agh.pp.charts.data.local.MapRoute;
 import pl.edu.agh.pp.charts.data.server.Anomaly;
 import pl.edu.agh.pp.charts.data.server.AnomalyManager;
-import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
@@ -41,6 +40,7 @@ import java.io.IOException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -177,19 +177,30 @@ public class MainWindowController {
         putChartOnScreen(anomaly);
     }
 
-    public void putAnomalyOnAnomalyMap(String screenMessage) {
+    public void putAnomalyRouteOnAnomalyMap(String screenMessage) {
         // Delete cache for navigate back
         anomalyMapWebEngine.load("about:blank");
         // Delete cookies
         java.net.CookieHandler.setDefault(new java.net.CookieManager());
         Anomaly anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
-        String startCoord = ServerRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId()));
-        String endCoord = ServerRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId()));
-        String startLat = startCoord.split(",")[0];
-        String startLng = startCoord.split(",")[1];
-        String endLat = endCoord.split(",")[0];
-        String endLng = endCoord.split(",")[1];
-        anomalyMapWebEngine.loadContent(htmlBuilder.loadAnomalyMapStructure(startLat, startLng, endLat, endLng));
+        MapRoute mapRoute = new MapRoute(anomaly);
+
+        anomalyMapWebEngine.loadContent(htmlBuilder.loadAnomalyMapStructure(mapRoute));
+    }
+
+    public void updateAnomalyRoutesOnMap() {
+        // Delete cache for navigate back
+        mapWebEngine.load("about:blank");
+        // Delete cookies
+        java.net.CookieHandler.setDefault(new java.net.CookieManager());
+        Anomaly anomaly;
+        List<MapRoute> mapRoutes = new LinkedList<>();
+        for(String screenMessage: anomaliesListView.getItems()) {
+            anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
+            mapRoutes.add(new MapRoute(anomaly));
+        }
+        System.out.println(htmlBuilder.loadMapStructure(mapRoutes));
+        mapWebEngine.loadContent(htmlBuilder.loadMapStructure(mapRoutes));
     }
 
     public void clearInfoOnScreen() {
@@ -275,6 +286,7 @@ public class MainWindowController {
     public void addAnomalyToList(String text){
         Platform.runLater(() -> {
             anomaliesListView.getItems().add(0,text);
+            updateAnomalyRoutesOnMap();
         } );
     }
 
@@ -289,6 +301,7 @@ public class MainWindowController {
                 if(anomaliesListView.getItems().isEmpty()){
                     clearInfoOnScreen();
                 }
+                updateAnomalyRoutesOnMap();
             });
         }
         else{
@@ -380,7 +393,8 @@ public class MainWindowController {
         anomalyMapWebEngine = anomalyMapWebView.getEngine();
         String defaultLat = "50.07";
         String defaultLng = "19.94";
-        anomalyMapWebEngine.loadContent(htmlBuilder.loadAnomalyMapStructure(defaultLat, defaultLng, defaultLat, defaultLng));
+        MapRoute defaultMapRoute = new MapRoute(defaultLat, defaultLng,defaultLat, defaultLng);
+        anomalyMapWebEngine.loadContent(htmlBuilder.loadAnomalyMapStructure(defaultMapRoute));
     }
 
     private void setMapUp() {
@@ -507,7 +521,7 @@ public class MainWindowController {
         if(selectedItem != null){
             putAnomalyInfoOnScreen(selectedItem);
             if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
-                putAnomalyOnAnomalyMap(selectedItem);
+                putAnomalyRouteOnAnomalyMap(selectedItem);
             }
         }
     }
@@ -528,8 +542,11 @@ public class MainWindowController {
         else if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
             String a = anomaliesListView.getSelectionModel().getSelectedItem();
             if(a != null) {
-                putAnomalyOnAnomalyMap(anomaliesListView.getSelectionModel().getSelectedItem());
+                putAnomalyRouteOnAnomalyMap(anomaliesListView.getSelectionModel().getSelectedItem());
             }
+        }
+        else if("map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
+
         }
     }
     @FXML
@@ -547,7 +564,7 @@ public class MainWindowController {
         String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
         if(selectedItem != null){
             putAnomalyInfoOnScreen(selectedItem);
-            putAnomalyOnAnomalyMap(selectedItem);
+            putAnomalyRouteOnAnomalyMap(selectedItem);
         }
     }
     @FXML

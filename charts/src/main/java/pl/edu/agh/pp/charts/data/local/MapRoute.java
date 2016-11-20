@@ -1,5 +1,9 @@
 package pl.edu.agh.pp.charts.data.local;
 
+import pl.edu.agh.pp.charts.data.server.Anomaly;
+import pl.edu.agh.pp.charts.data.server.AnomalyManager;
+import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
+
 /**
  * Created by Krzysztof on 2016-11-19.
  */
@@ -14,6 +18,15 @@ public class MapRoute {
         this.startLng = startLng;
         this.endLat = endLat;
         this.endLng = endLng;
+    }
+
+    public MapRoute(Anomaly anomaly) {
+        String startCoord = ServerRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId()));
+        String endCoord = ServerRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId()));
+        this.startLat = startCoord.split(",")[0];
+        this.startLng = startCoord.split(",")[1];
+        this.endLat = endCoord.split(",")[0];
+        this.endLng = endCoord.split(",")[1];
     }
 
     public String getStartLat() {

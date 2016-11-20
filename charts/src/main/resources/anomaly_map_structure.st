@@ -75,6 +75,24 @@
             console.log('mapReady----------------------------------------')
           }, 10)
 		});
+
+        var allowedBounds = new google.maps.LatLngBounds(
+             new google.maps.LatLng(49.9667, 19.7170),
+             new google.maps.LatLng(50.1404, 20.1989)
+        );
+        var lastValidCenter = map.getCenter();
+
+        google.maps.event.addListener(map, 'center_changed', function() {
+            if (allowedBounds.contains(map.getCenter())) {
+                // still within valid bounds, so save the last valid position
+                lastValidCenter = map.getCenter();
+                return;
+            }
+
+            // not valid anymore => return to last valid position
+            map.panTo(lastValidCenter);
+        });
+
 		function calculateAndDisplayRoute(directionsDisplay, directionsService,
                   routeStart, routeEnd, map) {
             // Retrieve the start and end locations and create a DirectionsRequest using

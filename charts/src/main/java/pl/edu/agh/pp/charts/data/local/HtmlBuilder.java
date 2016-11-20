@@ -32,14 +32,14 @@ public class HtmlBuilder {
         return group.getInstanceOf(template);
     }
 
-    public String loadAnomalyMapStructure(String startLat, String startLng, String endLat, String endLng) {
+    public String loadAnomalyMapStructure(MapRoute route) {
         logger.info(Thread.currentThread().getStackTrace()[1].getMethodName());
 
         StringTemplate messageStructure = loadStringTemplate("anomaly_map_structure");
-        messageStructure.setAttribute("startLat", startLat);
-        messageStructure.setAttribute("startLng", startLng);
-        messageStructure.setAttribute("endLat", endLat);
-        messageStructure.setAttribute("endLng", endLng);
+        messageStructure.setAttribute("startLat", route.getStartLat());
+        messageStructure.setAttribute("startLng", route.getStartLng());
+        messageStructure.setAttribute("endLat", route.getEndLat());
+        messageStructure.setAttribute("endLng", route.getEndLng());
 
         return messageStructure.toString();
     }
