@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,12 +15,10 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import org.gillius.jfxutils.chart.ChartPanManager;
 import org.gillius.jfxutils.chart.JFXChartUtil;
@@ -35,7 +32,6 @@ import pl.edu.agh.pp.charts.data.server.*;
 import pl.edu.agh.pp.charts.parser.Parser;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
@@ -117,18 +113,16 @@ public class ChartsController {
         Connector.setChartsController(this);
     }
 
-    public void show() {
+    void show() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("/Charts.fxml"));
             loader.setController(this);
             BorderPane rootLayout = loader.load();
 
-            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    if (input != null) {
-                        input.cleanUp();
-                    }
+            primaryStage.setOnCloseRequest(we -> {
+                if (input != null) {
+                    input.cleanUp();
                 }
             });
             primaryStage.setTitle("Urban traffic monitoring - charts");
@@ -143,7 +137,7 @@ public class ChartsController {
         }
     }
 
-    public void setScene(){
+    void setScene(){
         primaryStage.setScene(scene);
     }
 
@@ -157,7 +151,7 @@ public class ChartsController {
 
     public void setServerDates(){
         serverDatesList.clear();
-        Map<String, Integer> map = ServerDatesInfo.getDates();
+        Map<String,List<Integer>> map = ServerDatesInfo.getDates();
         serverDatesList.addAll(map.keySet());
     }
 
@@ -174,7 +168,7 @@ public class ChartsController {
      *
      * @return      true if connected to server or source set to Local data, false otherwise
      */
-    public boolean checkConnection(){
+    boolean checkConnection(){
         if(isInitialized() && "server data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())) {
             if (!Connector.isConnectedToTheServer()) {
                 Platform.runLater(()-> warn.setText("Not connected to server!"));
@@ -245,26 +239,32 @@ public class ChartsController {
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel, datePicker);
         }
+        datePicker.setOnAction(event -> {
+            LocalDate date = datePicker.getValue();
+            Map<String,List<Integer>> map= ServerDatesInfo.getDates();
+            List<Integer> routes = map.get(date.toString());
+            ObservableList<String> dateRouteIdList = FXCollections.observableArrayList();
+            for(Integer id: routes){
+                dateRouteIdList.add(String.valueOf(id));
+            }
+            idComboBox.setItems(dateRouteIdList);
+        });
+
     }
 
     private boolean availableDate(LocalDate date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         if("local data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())){
             return input.getDays().contains((date.getYear()+"-"+date.getMonthValue()+"-"+date.getDayOfMonth()));
         }
         else{
             return serverDatesList.contains(date.toString());
-//            for(String d:serverDatesList){
-//                if(d.equals(date.toString()))return true;
-//            }
-//            return false;
         }
     }
 
     private void initializeFields(){
         setupFileChooser();
         datePicker = new DatePicker();
-        dayComboBox = new ComboBox<String>();
+        dayComboBox = new ComboBox<>();
         dayLabel = new Label("Day");
         setupVisibility();
         warn.setStyle("-fx-text-fill: red");
@@ -309,29 +309,23 @@ public class ChartsController {
         lineChart.setAnimated(false);
         //Panning works via either secondary (right) mouse or primary with ctrl held down
         ChartPanManager panner = new ChartPanManager( lineChart );
-        panner.setMouseFilter( new EventHandler<MouseEvent>() {
-            @Override
-            public void handle( MouseEvent mouseEvent ) {
-                if ( mouseEvent.getButton() == MouseButton.SECONDARY ||
-                        ( mouseEvent.getButton() == MouseButton.PRIMARY &&
-                                mouseEvent.isShortcutDown() ) ) {
-                    //let it through
-                } else {
-                    mouseEvent.consume();
-                }
+        panner.setMouseFilter(mouseEvent -> {
+            if ( mouseEvent.getButton() == MouseButton.SECONDARY ||
+                    ( mouseEvent.getButton() == MouseButton.PRIMARY &&
+                            mouseEvent.isShortcutDown() ) ) {
+                //let it through
+            } else {
+                mouseEvent.consume();
             }
-        } );
+        });
         panner.start();
 
         //Zooming works only via primary mouse button without ctrl held down
-        JFXChartUtil.setupZooming( lineChart, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle( MouseEvent mouseEvent ) {
-                if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
-                        mouseEvent.isShortcutDown() )
-                    mouseEvent.consume();
-            }
-        } );
+        JFXChartUtil.setupZooming( lineChart, mouseEvent -> {
+            if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
+                    mouseEvent.isShortcutDown() )
+                mouseEvent.consume();
+        });
 
         JFXChartUtil.addDoublePrimaryClickAutoRangeHandler( lineChart );
     }
@@ -412,7 +406,6 @@ public class ChartsController {
         }
         String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
         Map<Double, Double> trafficValues = null;
-        Map<Double, Double> normalValues = null;
         if ("historical data".equalsIgnoreCase(type)) {
             trafficValues = input.getData(day, id, true, false);
         } else if (type.equals("Aggregated day of week")) {
@@ -422,7 +415,7 @@ public class ChartsController {
 
         for (Double key : trafficValues.keySet()) {
             seriesDurationInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + idComboBox.getSelectionModel().getSelectedItem());
-            seriesDurationInTraffic.getData().add(new XYChart.Data<Number, Number>(key, trafficValues.get(key)));
+            seriesDurationInTraffic.getData().add(new XYChart.Data<>(key, trafficValues.get(key)));
         }
 
         lineChart.getData().add(seriesDurationInTraffic);
@@ -486,9 +479,7 @@ public class ChartsController {
                         }
                         if (historicalData == null) {
                             logger.error("Did not get the historical after demand");
-                            Platform.runLater(() -> {
-                                warn.setText("Server did not respond");
-                            });
+                            Platform.runLater(() -> warn.setText("Server did not respond"));
                         } else {
                             logger.info("got a response, historical data found!");
                             Platform.runLater(() -> {
@@ -571,9 +562,7 @@ public class ChartsController {
                         }
                         if (historicalAnomaly == null) {
                             logger.error("Did not get the historical anomalies after demand");
-                            Platform.runLater(() -> {
-                                warn.setText("Server did not respond");
-                            });
+                            Platform.runLater(() -> warn.setText("Server did not respond"));
                         } else {
                             logger.info("got a response, historical anomalies found!");
                             Platform.runLater(() -> {

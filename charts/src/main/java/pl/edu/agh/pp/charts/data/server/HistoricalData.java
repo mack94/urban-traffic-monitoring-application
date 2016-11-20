@@ -41,11 +41,8 @@ public class HistoricalData {
         for (Integer time : duration.keySet()) {
             double h = time / 3600;
             double m = (time / 60) - (h * 60);
-//            if (m % 5 == 0) {
                 XYChart.Data<Number, Number> data = new XYChart.Data<>(h + (m / 60), duration.get(time));
-
                 historicalDataSeries.getData().add(data);
-//            }
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         historicalDataSeries.setName(routeID + ". " +sdf.format(date.toDate()));

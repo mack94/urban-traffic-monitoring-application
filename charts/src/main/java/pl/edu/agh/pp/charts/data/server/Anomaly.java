@@ -111,7 +111,7 @@ public class Anomaly {
         if (baseline != null) {
             return baseline.getBaselineSeries();
         } else {
-            this.baseline = BaselineManager.getBaseline(Integer.valueOf(routeId), DayOfWeek.of(Integer.parseInt(getDayOfWeek())));
+            this.baseline = BaselineManager.getBaseline(Integer.valueOf(routeId), DayOfWeek.of(Integer.parseInt(getDayOfWeek())),"default");
             if (baseline != null) {
                 return baseline.getBaselineSeries();
             }

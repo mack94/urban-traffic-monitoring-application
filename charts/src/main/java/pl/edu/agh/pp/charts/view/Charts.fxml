@@ -50,8 +50,6 @@
             <HBox spacing="10">
                 <children>
                     <HBox fx:id="dayHBox" />
-                    <!--<Label fx:id="dayLabel" text="Day"/>-->
-                    <!--<ComboBox fx:id="dayComboBox" onAction="#handleDurationAction"/>-->
                 </children>
             </HBox>
             <HBox spacing="10">

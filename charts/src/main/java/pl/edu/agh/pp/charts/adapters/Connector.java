@@ -11,6 +11,7 @@ import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.net.InetAddress;
 import java.time.DayOfWeek;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -140,7 +141,7 @@ public class Connector {
         }
     }
 
-    public static void updateAvailableDates(Map<String,Integer> arg){
+    public static void updateAvailableDates(Map<String,List<Integer>> arg){
         ServerDatesInfo.setMap(arg);
         setServerAvailableDates();
     }
