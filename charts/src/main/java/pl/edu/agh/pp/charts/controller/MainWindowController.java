@@ -338,7 +338,7 @@ public class MainWindowController {
 
         int i;
         for(i = 0; i<anomaliesListView.getItems().size(); i++){
-            String stringExcess = ((Label)anomaliesListView.getItems().get(i).getChildren().get(3)).getText();
+            String stringExcess = ((Label)((Pane)anomaliesListView.getItems().get(i).getChildren().get(3)).getChildren().get(0)).getText();
             if(!"".equals(stringExcess) || Integer.parseInt(stringExcess) < Integer.parseInt(excess)) break;
         }
         int finalI = i;
@@ -346,7 +346,7 @@ public class MainWindowController {
     }
 
     private String getSelectedAnomalyId(){
-        HBox hBox = (HBox) anomaliesListView.getSelectionModel().getSelectedItem();
+        HBox hBox = anomaliesListView.getSelectionModel().getSelectedItem();
         if(hBox != null) return hBox.getId();
         return "";
     }
