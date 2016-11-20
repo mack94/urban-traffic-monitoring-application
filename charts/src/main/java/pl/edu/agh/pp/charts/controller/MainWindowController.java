@@ -205,7 +205,7 @@ public class MainWindowController {
             anomaly = AnomalyManager.getInstance().getAnomalyByScreenId(screenMessage);
             mapRoutes.add(new MapRoute(anomaly));
         }
-        System.out.println(htmlBuilder.loadMapStructure(mapRoutes));
+
         mapWebEngine.loadContent(htmlBuilder.loadMapStructure(mapRoutes));
     }
 
