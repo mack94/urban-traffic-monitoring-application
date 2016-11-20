@@ -47,7 +47,6 @@ public class ChartsController {
     private Parser parser;
     private Input input;
     private Set<Integer> idsSet = new HashSet<>();
-    private Set<String> datesSet = new HashSet<>();
     private ObservableList<String> localRouteIdList = FXCollections.observableArrayList();
     private ObservableList<String> serverRouteIdList = FXCollections.observableArrayList();
     private ObservableList<String> serverDatesList = FXCollections.observableArrayList();
@@ -311,13 +310,10 @@ public class ChartsController {
         //Panning works via either secondary (right) mouse or primary with ctrl held down
         ChartPanManager panner = new ChartPanManager( lineChart );
         panner.setMouseFilter(mouseEvent -> {
-            if ( mouseEvent.getButton() == MouseButton.SECONDARY ||
-                    ( mouseEvent.getButton() == MouseButton.PRIMARY &&
-                            mouseEvent.isShortcutDown() ) ) {
-                //let it through
-            } else {
-                mouseEvent.consume();
-            }
+            if (mouseEvent.getButton() != MouseButton.SECONDARY &&
+                    (mouseEvent.getButton() != MouseButton.PRIMARY ||
+                            !mouseEvent.isShortcutDown()))
+                                mouseEvent.consume();
         });
         panner.start();
 
@@ -413,11 +409,11 @@ public class ChartsController {
             day = day.substring(0, 3).toUpperCase();
             trafficValues = input.getData(day, id, true, true);
         }
-
-        for (Double key : trafficValues.keySet()) {
-            seriesDurationInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + idComboBox.getSelectionModel().getSelectedItem());
-            seriesDurationInTraffic.getData().add(new XYChart.Data<>(key, trafficValues.get(key)));
-        }
+        if(trafficValues != null)
+            for (Double key : trafficValues.keySet()) {
+                seriesDurationInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + idComboBox.getSelectionModel().getSelectedItem());
+                seriesDurationInTraffic.getData().add(new XYChart.Data<>(key, trafficValues.get(key)));
+            }
 
         lineChart.getData().add(seriesDurationInTraffic);
         lineChart.getData().add(seriesDuration);
@@ -456,14 +452,14 @@ public class ChartsController {
             drawBaseline(id, String.valueOf(DayOfWeek.valueOf(dayForBaseline.toUpperCase()).getValue()),baselineType);
         }
         else if(type.equalsIgnoreCase("historical data")){
-            drawHistoricalData(id, dayForHistoricalData, dayForBaseline);
+            drawHistoricalData(id, dayForHistoricalData);
         }
         else if(type.equalsIgnoreCase("historical anomalies")){
-            drawHistoricalAnomalies(id, dayForHistoricalData, dayForBaseline);
+            drawHistoricalAnomalies(id, dayForHistoricalData);
         }
     }
 
-    private void drawHistoricalData(final String id, String dayForHistoricalData, final String dayForBaseline) {
+    private void drawHistoricalData(final String id, String dayForHistoricalData) {
         HistoricalData historicalData = HistoricalDataManager.getHistoricalData(Integer.valueOf(id), DateTime.parse(dayForHistoricalData));
         if(historicalData == null) {
             Connector.demandHistoricalData(DateTime.parse(dayForHistoricalData), Integer.valueOf(id));
@@ -521,9 +517,7 @@ public class ChartsController {
                         }
                         if(baseline == null){
                             logger.error("Did not get the baseline after demand");
-                            Platform.runLater(() -> {
-                                warn.setText("Server did not respond");
-                            });
+                            Platform.runLater(() -> warn.setText("Server did not respond"));
                         }
                         else {
                             logger.info("Got a response, baseline found!");
@@ -545,7 +539,7 @@ public class ChartsController {
         }
     }
 
-    private void drawHistoricalAnomalies(final String id, final String dayForHistoricalAnomalies, final String dayForBaseline) {
+    private void drawHistoricalAnomalies(final String id, final String dayForHistoricalAnomalies) {
         //TODO
         HistoricalAnomaly historicalAnomaly = HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
         if(historicalAnomaly == null) {
@@ -568,9 +562,11 @@ public class ChartsController {
                             logger.info("got a response, historical anomalies found!");
                             Platform.runLater(() -> {
                                 warn.setText("");
-                                final HistoricalAnomaly historicalAnomaliesContainer= HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
-                                for(HistoricalAnomaly ha: historicalAnomaliesContainer.getAnomalies()){
-                                    lineChart.getData().add(ha.getHistoricalAnomalySeries());
+                                final HistoricalAnomaly historicalAnomaliesContainer = HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
+                                if(historicalAnomaliesContainer != null) {
+                                    for (HistoricalAnomaly ha : historicalAnomaliesContainer.getAnomalies()) {
+                                        lineChart.getData().add(ha.getHistoricalAnomalySeries());
+                                    }
                                 }
                             });
                         }
@@ -584,9 +580,11 @@ public class ChartsController {
         }
         else {
             Platform.runLater(() -> {
-                final HistoricalAnomaly historicalAnomaliesContainer= HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
-                for(HistoricalAnomaly ha: historicalAnomaliesContainer.getAnomalies()){
-                    lineChart.getData().add(ha.getHistoricalAnomalySeries());
+                final HistoricalAnomaly historicalAnomaliesContainer = HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
+                if(historicalAnomaliesContainer != null) {
+                    for (HistoricalAnomaly ha : historicalAnomaliesContainer.getAnomalies()) {
+                        lineChart.getData().add(ha.getHistoricalAnomalySeries());
+                    }
                 }
             });
         }
@@ -627,9 +625,6 @@ public class ChartsController {
         Map<Double, Double> summaryTraffic = null;
         Map<Double, Double> traffic = null;
 
-        Map<Double, Double> durationSummaryTraffic = null;
-        Map<Double, Double> durationTraffic = null;
-
         if (type.equals("Exact date")) {
             if (route == 4) {
                 summaryTraffic = input.getSummary(day, 1, 3, true, false);
@@ -650,14 +645,18 @@ public class ChartsController {
         }
 
         String ids = route == 4 ? "1-3" : "5-7";
-        for (Double key : summaryTraffic.keySet()) {
-            seriesDurationSummaryInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + ids);
-            seriesDurationSummaryInTraffic.getData().add(new XYChart.Data<Number, Number>(key, summaryTraffic.get(key)));
+        if(summaryTraffic != null) {
+            for (Double key : summaryTraffic.keySet()) {
+                seriesDurationSummaryInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + ids);
+                seriesDurationSummaryInTraffic.getData().add(new XYChart.Data<>(key, summaryTraffic.get(key)));
+            }
         }
 
-        for (Double key : traffic.keySet()) {
-            seriesDurationInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + route);
-            seriesDurationInTraffic.getData().add(new XYChart.Data<Number, Number>(key, traffic.get(key)));
+        if(traffic != null) {
+            for (Double key : traffic.keySet()) {
+                seriesDurationInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + route);
+                seriesDurationInTraffic.getData().add(new XYChart.Data<>(key, traffic.get(key)));
+            }
         }
 
         lineChart.getData().add(seriesDurationSummaryInTraffic);

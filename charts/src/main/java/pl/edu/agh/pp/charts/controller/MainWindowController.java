@@ -4,7 +4,6 @@ import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -172,7 +171,7 @@ public class MainWindowController {
     public void setConnectedFlag(){
         this.connectedFlag = Connector.isConnectedToTheServer();
     }
-    public void setScene(){
+    void setScene(){
         primaryStage.setScene(scene);
     }
     public void updateAnomalyInfo(String anomalyId){
@@ -217,7 +216,7 @@ public class MainWindowController {
         }
     }
 
-    public void clearInfoOnScreen() {
+    private void clearInfoOnScreen() {
         Platform.runLater(() -> {
             anomalyIdLabel.setText("");
             startDateLabel.setText("");
@@ -266,9 +265,7 @@ public class MainWindowController {
                     try {
                         Thread.sleep(5000);
                         if(allAnomaliesLineChart != null && allAnomaliesLineChart.getData() != null && !allAnomaliesLineChart.getData().isEmpty()){
-                            Platform.runLater(() -> {
-                                allAnomaliesLineChart.getData().clear();
-                            });
+                            Platform.runLater(() -> allAnomaliesLineChart.getData().clear());
                         }
                         drawAnomaliesSummaryChart();
                         redrawThreadCreated = false;
@@ -284,9 +281,7 @@ public class MainWindowController {
 
     private void drawAnomaliesSummaryChart(){
         for(HBox hbox: anomaliesListView.getItems()){
-            Platform.runLater(() -> {
-                allAnomaliesLineChart.getData().add(anomalyManager.getChartData(hbox.getId()));
-            } );
+            Platform.runLater(() -> allAnomaliesLineChart.getData().add(anomalyManager.getChartData(hbox.getId())));
         }
     }
 
@@ -347,13 +342,13 @@ public class MainWindowController {
         } );
     }
 
-    public String getSelectedAnomalyId(){
+    private String getSelectedAnomalyId(){
         HBox hBox = (HBox) anomaliesListView.getSelectionModel().getSelectedItem();
         if(hBox != null) return hBox.getId();
         return "";
     }
 
-    public boolean isAnomalyOnScreen(String anomalyId){
+    private boolean isAnomalyOnScreen(String anomalyId){
         for(HBox hbox: anomaliesListView.getItems()){
             if(hbox.getId().equalsIgnoreCase(anomalyId))
                 return true;
@@ -394,14 +389,14 @@ public class MainWindowController {
         }
     }
 
-    public void setConnectedLabel(String msg, Color color){
+    private void setConnectedLabel(String msg, Color color){
         Platform.runLater(() -> {
             connectedLabel.setText(msg);
             connectedLabel.setTextFill(color);
         });
     }
 
-    public void setConnectedLabel(String msg){
+    private void setConnectedLabel(String msg){
         setConnectedLabel(msg,Color.BLACK);
     }
 
@@ -510,56 +505,40 @@ public class MainWindowController {
         allAnomaliesLineChart.setAnimated(false);
         //Panning works via either secondary (right) mouse or primary with ctrl held down
         ChartPanManager panner = new ChartPanManager( lineChart );
-        panner.setMouseFilter( new EventHandler<MouseEvent>() {
-            @Override
-            public void handle( MouseEvent mouseEvent ) {
-                if ( mouseEvent.getButton() == MouseButton.SECONDARY ||
-                        ( mouseEvent.getButton() == MouseButton.PRIMARY &&
-                                mouseEvent.isShortcutDown() ) ) {
-                    //let it through
-                } else {
-                    mouseEvent.consume();
-                }
-            }
-        } );
+        panner.setMouseFilter(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.SECONDARY &&
+                    (mouseEvent.getButton() != MouseButton.PRIMARY ||
+                            !mouseEvent.isShortcutDown()))
+                                mouseEvent.consume();
+
+        });
         panner.start();
 
         //Zooming works only via primary mouse button without ctrl held down
-        JFXChartUtil.setupZooming( lineChart, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle( MouseEvent mouseEvent ) {
-                if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
-                        mouseEvent.isShortcutDown() )
-                    mouseEvent.consume();
-            }
-        } );
+        JFXChartUtil.setupZooming( lineChart, mouseEvent -> {
+            if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
+                    mouseEvent.isShortcutDown() )
+                mouseEvent.consume();
+        });
 
         JFXChartUtil.addDoublePrimaryClickAutoRangeHandler( lineChart );
 
         ChartPanManager allAnomaliesPanner = new ChartPanManager( allAnomaliesLineChart );
-        allAnomaliesPanner.setMouseFilter( new EventHandler<MouseEvent>() {
-            @Override
-            public void handle( MouseEvent mouseEvent ) {
-                if ( mouseEvent.getButton() == MouseButton.SECONDARY ||
-                        ( mouseEvent.getButton() == MouseButton.PRIMARY &&
-                                mouseEvent.isShortcutDown() ) ) {
-                    //let it through
-                } else {
-                    mouseEvent.consume();
-                }
-            }
-        } );
+        allAnomaliesPanner.setMouseFilter(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.SECONDARY &&
+                    (mouseEvent.getButton() != MouseButton.PRIMARY ||
+                            !mouseEvent.isShortcutDown()))
+                                mouseEvent.consume();
+
+        });
         allAnomaliesPanner.start();
 
         //Zooming works only via primary mouse button without ctrl held down
-        JFXChartUtil.setupZooming( allAnomaliesLineChart, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle( MouseEvent mouseEvent ) {
-                if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
-                        mouseEvent.isShortcutDown() )
-                    mouseEvent.consume();
-            }
-        } );
+        JFXChartUtil.setupZooming( allAnomaliesLineChart, mouseEvent -> {
+            if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
+                    mouseEvent.isShortcutDown() )
+                mouseEvent.consume();
+        });
 
         JFXChartUtil.addDoublePrimaryClickAutoRangeHandler( allAnomaliesLineChart );
     }
