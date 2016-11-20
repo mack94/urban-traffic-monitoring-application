@@ -6,13 +6,17 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -20,6 +24,8 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import org.gillius.jfxutils.chart.ChartPanManager;
+import org.gillius.jfxutils.chart.JFXChartUtil;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -49,6 +55,7 @@ public class MainWindowController {
     private final Logger logger = (Logger) LoggerFactory.getLogger(MainWindowController.class);
     private final AnomalyManager anomalyManager = AnomalyManager.getInstance();
     private final Options options = Options.getInstance();
+    private boolean redrawThreadCreated = false;
 
     @FXML
     private volatile LineChart<Number, Number> lineChart;
@@ -67,7 +74,7 @@ public class MainWindowController {
     @FXML
     private Button disconnectButton;
     @FXML
-    private ListView<String> anomaliesListView;
+    private ListView<HBox> anomaliesListView;
     @FXML
     private Label anomalyIdLabel;
     @FXML
@@ -106,6 +113,31 @@ public class MainWindowController {
     private VBox hideBox;
     @FXML
     private VBox anomaliesVBox;
+    @FXML
+    private Label previousDurationLabel;
+    @FXML
+    private Label ExcessLabel;
+    @FXML
+    private Label trendLabel;
+    @FXML
+    private VBox leverBox;
+    @FXML
+    private Label leverValueLabelText;
+    @FXML
+    private Label anomalyLiveTimeLabelText;
+    @FXML
+    private Label BaselineWindowSizeLabelText;
+    @FXML
+    private Label shiftLabelText;
+    @FXML
+    private Label anomalyPortNrLabelText;
+    @FXML
+    private Label serverAddrLabel;
+    @FXML
+    private Label serverPortLabel;
+    @FXML
+    private LineChart<Number, Number> allAnomaliesLineChart;
+
 
     public MainWindowController(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -129,6 +161,7 @@ public class MainWindowController {
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
             hideBox.managedProperty().bind(hideBox.visibleProperty());
             anomaliesVBox.managedProperty().bind(anomaliesVBox.visibleProperty());
+            tabPane.managedProperty().bind(tabPane.visibleProperty());
             primaryStage.show();
         } catch (java.io.IOException e) {
             logger.error("exception while creating GUI " + e,e);
@@ -138,17 +171,23 @@ public class MainWindowController {
     public void setConnectedFlag(){
         this.connectedFlag = Connector.isConnectedToTheServer();
     }
-    public void setScene(){
+    void setScene(){
         primaryStage.setScene(scene);
     }
-    public void updateAnomalyInfo(String screenId){
-        if(screenId != null && screenId.equalsIgnoreCase(anomaliesListView.getSelectionModel().getSelectedItem())) {
-            putAnomalyInfoOnScreen(screenId);
+    public void updateAnomalyInfo(String anomalyId){
+        updateAnomalyList(anomalyId);
+        if("anomalies summary chart".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
+            redrawAllAnomaliesChart();
+        }
+        if(anomalyId != null && anomalyId.equalsIgnoreCase(getSelectedAnomalyId())) {
+            putAnomalyInfoOnScreen(anomalyId);
         }
     }
-
-    public void putAnomalyInfoOnScreen(String screenMessage) {
-        Anomaly anomaly = anomalyManager.getAnomalyByScreenId(screenMessage);
+    private void putAnomalyInfoOnScreen(String anomalyId) {
+        Anomaly anomaly = anomalyManager.getAnomalyById(anomalyId);
+        if(anomaly == null ){
+            return;
+        }
         Platform.runLater(() -> {
             anomalyIdLabel.setText(anomaly.getAnomalyId());
             startDateLabel.setText(anomaly.getStartDate());
@@ -157,11 +196,26 @@ public class MainWindowController {
             routeDescLabel.setText(anomaly.getRoute());
             recentDuration.setText(anomaly.getDuration());
             anomaliesNumberLabel.setText(anomaly.getAnomaliesNumber());
+            previousDurationLabel.setText(anomaly.getPreviousDuration());
+            ExcessLabel.setText(anomaly.getPercent());
+            trendLabel.setText(anomaly.getTrend());
         } );
         putChartOnScreen(anomaly);
     }
 
-    public void clearInfoOnScreen() {
+    private void updateAnomalyList(String anomalyId){
+        Anomaly anomaly = anomalyManager.getAnomalyById(anomalyId);
+        for(HBox hbox: anomaliesListView.getItems()){
+            if(hbox.getId().equalsIgnoreCase(anomalyId)){
+                Platform.runLater(() -> {
+                    ((Label)((Pane)hbox.getChildren().get(3)).getChildren().get(0)).setText(anomaly.getPercent());
+                    ((Label)((Pane)hbox.getChildren().get(4)).getChildren().get(0)).setText(anomaly.getTrend());
+                });
+            }
+        }
+    }
+
+    private void clearInfoOnScreen() {
         Platform.runLater(() -> {
             anomalyIdLabel.setText("");
             startDateLabel.setText("");
@@ -170,6 +224,9 @@ public class MainWindowController {
             routeDescLabel.setText("");
             recentDuration.setText("");
             anomaliesNumberLabel.setText("");
+            previousDurationLabel.setText("");
+            ExcessLabel.setText("");
+            trendLabel.setText("");
             if(!lineChart.getData().isEmpty())
                 lineChart.getData().clear();
                 lineChart.setTitle("Selected anomaly chart");
@@ -188,17 +245,46 @@ public class MainWindowController {
                 series.setName("Anomaly " + anomaly.getAnomalyId());
                 XYChart.Series<Number, Number> baseline = anomalyManager.getBaseline(anomaly);
                 String dayName = DayOfWeek.of(Integer.parseInt(anomaly.getDayOfWeek())).name();
-                baseline.setName("Baseline - normal " + dayName.substring(0,1) + dayName.substring(1).toLowerCase());
                 lineChart.getData().add(series);
                 if(baseline != null) {
+                    baseline.setName("Baseline - normal " + dayName.substring(0,1) + dayName.substring(1).toLowerCase());
                     lineChart.getData().add(baseline);
                 }
-                createTooltips();
+                createChartTooltips();
             }
         } );
     }
 
-    private void createTooltips() {
+    public void redrawAllAnomaliesChart(){
+        if(!redrawThreadCreated) {
+            redrawThreadCreated = true;
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        Thread.sleep(5000);
+                        if(allAnomaliesLineChart != null && allAnomaliesLineChart.getData() != null && !allAnomaliesLineChart.getData().isEmpty()){
+                            Platform.runLater(() -> allAnomaliesLineChart.getData().clear());
+                        }
+                        drawAnomaliesSummaryChart();
+                        redrawThreadCreated = false;
+                    } catch (InterruptedException e) {
+                        logger.error("Interrupted exception");
+                    }
+                    return null;
+                }
+            };
+            new Thread(sleeper).start();
+        }
+    }
+
+    private void drawAnomaliesSummaryChart(){
+        for(HBox hbox: anomaliesListView.getItems()){
+            Platform.runLater(() -> allAnomaliesLineChart.getData().add(anomalyManager.getChartData(hbox.getId())));
+        }
+    }
+
+    private void createChartTooltips() {
         for (XYChart.Series<Number, Number> s : lineChart.getData()) {
             for (XYChart.Data<Number, Number> d : s.getData()) {
                 double num = (double) d.getXValue();
@@ -241,42 +327,84 @@ public class MainWindowController {
         } );
     }
 
-    public void addAnomalyToList(String text){
-        Platform.runLater(() -> {
-            anomaliesListView.getItems().add(0,text);
-        } );
+    public void addAnomalyToList(Anomaly anomaly){
+        putAnomalyOnList(anomaly.getAnomalyId(),anomaly.getRouteId(),anomaly.getRoute(),anomaly.getStartDate(),anomaly.getPercent(),anomaly.getTrend());
     }
 
-    public void removeAnomalyFromList(String screenMessage) {
-        if(screenMessage == null){
-            logger.error("No screen message");
+    private void putAnomalyOnList(String anomalyID,String routeID, String routeName, String startDate, String excess, String Trend){
+        HBox hBox = new HBox();
+        hBox.setId(anomalyID);
+        hBox.getChildren().addAll(addLabel(routeID,50),addLabel(routeName,300),addLabel(startDate,150),addLabel(excess,50),addLabel(Trend,50));
+
+        int i;
+        for(i = 0; i<anomaliesListView.getItems().size(); i++){
+            String stringExcess = ((Label)((Pane)anomaliesListView.getItems().get(i).getChildren().get(3)).getChildren().get(0)).getText();
+            if(!"".equals(stringExcess) || Integer.parseInt(stringExcess) < Integer.parseInt(excess)) break;
+        }
+        int finalI = i;
+        Platform.runLater(() -> anomaliesListView.getItems().add(finalI,hBox));
+    }
+
+    private String getSelectedAnomalyId(){
+        HBox hBox = anomaliesListView.getSelectionModel().getSelectedItem();
+        if(hBox != null) return hBox.getId();
+        return "";
+    }
+
+    private boolean isAnomalyOnScreen(String anomalyId){
+        for(HBox hbox: anomaliesListView.getItems()){
+            if(hbox.getId().equalsIgnoreCase(anomalyId))
+                return true;
+        }
+        return false;
+    }
+
+    private Pane addLabel(String txt,double width){
+        Pane pane = new Pane();
+        pane.setId("listLine");
+        Label label = new Label(txt);
+        label.setPrefWidth(width);
+        label.setAlignment(Pos.CENTER);
+        pane.getChildren().addAll(label);
+        return pane;
+    }
+
+    public void removeAnomalyFromList(String anomalyId) {
+        if(anomalyId == null){
+            logger.error("No anomaly ID");
             return;
         }
-        if (anomaliesListView.getItems().contains(screenMessage)){
-            Platform.runLater(() -> {
-                anomaliesListView.getItems().remove(screenMessage);
-                if(anomaliesListView.getItems().isEmpty()){
-                    clearInfoOnScreen();
+        if (isAnomalyOnScreen(anomalyId)){
+            for(HBox hbox: anomaliesListView.getItems()){
+                if(hbox.getId().equalsIgnoreCase(anomalyId)){
+                    Platform.runLater(() -> {
+                        anomaliesListView.getItems().remove(hbox);
+                        redrawAllAnomaliesChart();
+                        if(anomaliesListView.getItems().isEmpty()){
+                            clearInfoOnScreen();
+                        }
+                    });
                 }
-            });
+            }
         }
         else{
             logger.error("MWC: Trying to remove anomaly that doesn't exist");
         }
     }
 
-    public void setConnectedLabel(String msg, Color color){
+    private void setConnectedLabel(String msg, Color color){
         Platform.runLater(() -> {
             connectedLabel.setText(msg);
             connectedLabel.setTextFill(color);
         });
     }
 
-    public void setConnectedLabel(String msg){
+    private void setConnectedLabel(String msg){
         setConnectedLabel(msg,Color.BLACK);
     }
 
-    private void setConnectedState(){
+    public void setConnectedState(){
+        chartsController.checkConnection();
         if(connectedFlag){
             this.setConnectedLabel(Connector.getAddressServerInfo(), Color.BLACK);
             Platform.runLater(() -> {
@@ -292,7 +420,6 @@ public class MainWindowController {
                 resetServerInfoLabels();
             });
         }
-        //TODO charts connected state
     }
 
     public void setChartsController(ChartsController chartsController){
@@ -328,7 +455,6 @@ public class MainWindowController {
                         }
                         connectedFlag = Connector.isConnectedToTheServer();
                         setConnectedState();
-                        Connector.getOptionsServerInfo();
                         Connector.setIsFromConnecting(false);
                     } catch (InterruptedException e) {
                         logger.error("Interrupted exception");
@@ -354,10 +480,74 @@ public class MainWindowController {
         } );
     }
 
+    private void setupTooltips() {
+        saveDefaultButton.setTooltip(new Tooltip("Save this Server Address and Server Port as default - " +
+                "next time you start this application saved values will be inserted there automatically"));
+
+        leverValueLabel.setTooltip(new Tooltip("HOW CAN YOU NOT KNOW WHAT A WAJCHA IS!?"));
+        leverValueLabelText.setTooltip(new Tooltip("HOW CAN YOU NOT KNOW WHAT A WAJCHA IS!?"));
+        anomalyLiveTimeLabel.setTooltip(new Tooltip("Time until an anomaly will be considered as expired unless another anomaly message arrives"));
+        anomalyLiveTimeLabelText.setTooltip(new Tooltip("Time until an anomaly will be considered as expired unless another anomaly message arrives"));
+        BaselineWindowSizeLabel.setTooltip(new Tooltip("Time window of baseline that Server application uses to compare " +
+                "current with duration of drive time when detecting anomalies"));
+        BaselineWindowSizeLabelText.setTooltip(new Tooltip("Time window of baseline that Server application uses to compare " +
+                "current with duration of drive time when detecting anomalies"));
+        shiftLabel.setTooltip(new Tooltip("Mode which Server application currently uses - Night shift means less frequent API requests"));
+        shiftLabelText.setTooltip(new Tooltip("Mode which Server application currently uses - Night shift means less frequent API requests"));
+        anomalyPortNrLabel.setTooltip(new Tooltip("Port used to receive anomalies from Server application"));
+        anomalyPortNrLabelText.setTooltip(new Tooltip("Port used to receive anomalies from Server application"));
+        serverAddrTxtField.setTooltip(new Tooltip("IP Address of the Server application"));
+        serverAddrLabel.setTooltip(new Tooltip("IP Address of the Server application"));
+        serverPortTxtField.setTooltip(new Tooltip("Port used to connect Client application to Management channel of Server application"));
+        serverPortLabel.setTooltip(new Tooltip("Port used to connect Client application to Management channel of Server application"));
+    }
+
+    private void setupCharts(){
+        lineChart.setTitle("Selected anomaly chart");
+        lineChart.setAnimated(false);
+        allAnomaliesLineChart.setAnimated(false);
+        //Panning works via either secondary (right) mouse or primary with ctrl held down
+        ChartPanManager panner = new ChartPanManager( lineChart );
+        panner.setMouseFilter(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.SECONDARY &&
+                    (mouseEvent.getButton() != MouseButton.PRIMARY ||
+                            !mouseEvent.isShortcutDown()))
+                                mouseEvent.consume();
+
+        });
+        panner.start();
+
+        //Zooming works only via primary mouse button without ctrl held down
+        JFXChartUtil.setupZooming( lineChart, mouseEvent -> {
+            if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
+                    mouseEvent.isShortcutDown() )
+                mouseEvent.consume();
+        });
+
+        JFXChartUtil.addDoublePrimaryClickAutoRangeHandler( lineChart );
+
+        ChartPanManager allAnomaliesPanner = new ChartPanManager( allAnomaliesLineChart );
+        allAnomaliesPanner.setMouseFilter(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.SECONDARY &&
+                    (mouseEvent.getButton() != MouseButton.PRIMARY ||
+                            !mouseEvent.isShortcutDown()))
+                                mouseEvent.consume();
+
+        });
+        allAnomaliesPanner.start();
+
+        //Zooming works only via primary mouse button without ctrl held down
+        JFXChartUtil.setupZooming( allAnomaliesLineChart, mouseEvent -> {
+            if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
+                    mouseEvent.isShortcutDown() )
+                mouseEvent.consume();
+        });
+
+        JFXChartUtil.addDoublePrimaryClickAutoRangeHandler( allAnomaliesLineChart );
+    }
+
     @FXML
     private void initialize() throws IOException {
-        lineChart.setAnimated(false);
-        lineChart.setTitle("Selected anomaly chart");
         systemTab.setGraphic(new Label("System info"));
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");
@@ -369,7 +559,10 @@ public class MainWindowController {
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
             logger.error("Options exception " + illegalPreferenceObjectExpected,illegalPreferenceObjectExpected);
         }
+        setupTooltips();
+        setupCharts();
     }
+
 
     @FXML
     private void handleChartsButtonAction(ActionEvent e) {
@@ -399,12 +592,14 @@ public class MainWindowController {
             } else {
                 logger.error("Wrong server address pattern");
                 serverAddrTxtField.setStyle("-fx-text-box-border: red;");
+                Platform.runLater(() -> connectButton.setDisable(false));
                 return;
             }
             String port = serverPortTxtField.getText();
             if(!Pattern.matches("\\d+",port.trim())){
                 logger.error("Wrong server port pattern");
                 serverPortTxtField.setStyle("-fx-text-box-border: red;");
+                Platform.runLater(() -> connectButton.setDisable(false));
                 return;
             }
             else{
@@ -425,7 +620,6 @@ public class MainWindowController {
                         if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
                         else putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
                         setConnectedState();
-                        Connector.getOptionsServerInfo();
                         Connector.setIsFromConnecting(false);
                     } catch (InterruptedException e) {
                         logger.error("Interrupted exception");
@@ -452,8 +646,10 @@ public class MainWindowController {
     @FXML
     private void handleAnomalyClicked(MouseEvent e) {
         System.gc();
-        String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
+        String selectedItem = getSelectedAnomalyId();
         if(selectedItem != null){
+            lineChart.getXAxis().setAutoRanging(true);
+            lineChart.getYAxis().setAutoRanging(true);
             putAnomalyInfoOnScreen(selectedItem);
             if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
                 //putAnomalyOnMap(selectedItem);
@@ -469,16 +665,22 @@ public class MainWindowController {
     }
     @FXML
     private void handleTabChanged(){
+        if(allAnomaliesLineChart != null && allAnomaliesLineChart.getData() != null && !allAnomaliesLineChart.getData().isEmpty()){
+            allAnomaliesLineChart.getData().clear();
+        }
         Label lab = (Label)tabPane.getSelectionModel().getSelectedItem().getGraphic();
 
         if(lab != null && lab.getText().equalsIgnoreCase("System info")){
             lab.setStyle("-fx-text-fill: black;");
         }
         else if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
-            String a = anomaliesListView.getSelectionModel().getSelectedItem();
+            String a = getSelectedAnomalyId();
             if(a != null) {
                 //putAnomalyOnMap(anomaliesListView.getSelectionModel().getSelectedItem());
             }
+        }
+        else if("anomalies summary chart".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
+            drawAnomaliesSummaryChart();
         }
     }
     @FXML
@@ -493,8 +695,10 @@ public class MainWindowController {
     @FXML
     private void handleAnomalyPressed(KeyEvent e){
         System.gc();
-        String selectedItem = anomaliesListView.getSelectionModel().getSelectedItem();
+        String selectedItem = getSelectedAnomalyId();
         if(selectedItem != null){
+            lineChart.getXAxis().setAutoRanging(true);
+            lineChart.getYAxis().setAutoRanging(true);
             putAnomalyInfoOnScreen(selectedItem);
             //putAnomalyOnMap(selectedItem);
         }
@@ -506,6 +710,15 @@ public class MainWindowController {
         }
         else{
             anomaliesVBox.setVisible(true);
+        }
+    }
+    @FXML
+    private void handleHideTabsAction(ActionEvent e){
+        if(tabPane.isVisible()){
+            tabPane.setVisible(false);
+        }
+        else{
+            tabPane.setVisible(true);
         }
     }
 }

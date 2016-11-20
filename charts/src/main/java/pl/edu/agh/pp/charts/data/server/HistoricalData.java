@@ -3,6 +3,7 @@ package pl.edu.agh.pp.charts.data.server;
 import javafx.scene.chart.XYChart;
 import org.joda.time.DateTime;
 
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -40,12 +41,11 @@ public class HistoricalData {
         for (Integer time : duration.keySet()) {
             double h = time / 3600;
             double m = (time / 60) - (h * 60);
-//            if (m % 5 == 0) {
                 XYChart.Data<Number, Number> data = new XYChart.Data<>(h + (m / 60), duration.get(time));
-
                 historicalDataSeries.getData().add(data);
-//            }
         }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        historicalDataSeries.setName(routeID + ". " +sdf.format(date.toDate()));
         return historicalDataSeries;
     }
 }

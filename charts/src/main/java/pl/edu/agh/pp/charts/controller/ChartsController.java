@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,12 +14,14 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Callback;
+import org.gillius.jfxutils.chart.ChartPanManager;
+import org.gillius.jfxutils.chart.JFXChartUtil;
 import org.joda.time.DateTime;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
@@ -31,7 +32,6 @@ import pl.edu.agh.pp.charts.data.server.*;
 import pl.edu.agh.pp.charts.parser.Parser;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
@@ -47,7 +47,6 @@ public class ChartsController {
     private Parser parser;
     private Input input;
     private Set<Integer> idsSet = new HashSet<>();
-    private Set<String> datesSet = new HashSet<>();
     private ObservableList<String> localRouteIdList = FXCollections.observableArrayList();
     private ObservableList<String> serverRouteIdList = FXCollections.observableArrayList();
     private ObservableList<String> serverDatesList = FXCollections.observableArrayList();
@@ -62,8 +61,6 @@ public class ChartsController {
     private Button startButton;
     @FXML
     private Label warn;
-    @FXML
-    private CheckBox durationCheckBox;
     @FXML
     private ComboBox<String> idComboBox;
     @FXML
@@ -102,6 +99,12 @@ public class ChartsController {
     private Label typeLabel;
     @FXML
     private HBox baselineBox;
+    @FXML
+    private Label drawAnomaliesLabel;
+    @FXML
+    private CheckBox drawAnomaliesCheckbox;
+
+
 
     public ChartsController(Stage primaryStage, MainWindowController parent) {
         this.primaryStage = primaryStage;
@@ -109,18 +112,16 @@ public class ChartsController {
         Connector.setChartsController(this);
     }
 
-    public void show() {
+    void show() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("/Charts.fxml"));
             loader.setController(this);
             BorderPane rootLayout = loader.load();
 
-            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    if (input != null) {
-                        input.cleanUp();
-                    }
+            primaryStage.setOnCloseRequest(we -> {
+                if (input != null) {
+                    input.cleanUp();
                 }
             });
             primaryStage.setTitle("Urban traffic monitoring - charts");
@@ -135,7 +136,7 @@ public class ChartsController {
         }
     }
 
-    public void setScene(){
+    void setScene(){
         primaryStage.setScene(scene);
     }
 
@@ -149,12 +150,34 @@ public class ChartsController {
 
     public void setServerDates(){
         serverDatesList.clear();
-        Map<String, Integer> map = ServerDatesInfo.getDates();
-        serverDatesList.addAll(map.keySet());
+        Map<String,List<Integer>> map = ServerDatesInfo.getDates();
+        if(map!=null)
+            serverDatesList.addAll(map.keySet());
     }
 
     boolean isInitialized(){
         return initialized;
+    }
+
+    /**
+     * If the class was not initialized or source is set to Local data this method does nothing and returns value true.
+     *
+     * If source is set to Server data method checks whether Client is currently connected to the server.
+     * If it is not then sets warning Label. If it is connected and warning label was set to "Not connected to server!"
+     * the warning label is cleared.
+     *
+     * @return      true if connected to server or source set to Local data, false otherwise
+     */
+    boolean checkConnection(){
+        if(isInitialized() && "server data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())) {
+            if (!Connector.isConnectedToTheServer()) {
+                Platform.runLater(()-> warn.setText("Not connected to server!"));
+                return false;
+            } else if ("Not connected to server!".equalsIgnoreCase(warn.getText())) {
+                Platform.runLater(()-> warn.setText(""));
+            }
+        }
+        return true;
     }
 
     private void setupFields() {
@@ -211,57 +234,105 @@ public class ChartsController {
                     }
                 };
         datePicker.setDayCellFactory(dayCellFactory);
-        if("historical data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
+        String type = typeComboBox.getSelectionModel().getSelectedItem();
+        if("historical data".equalsIgnoreCase(type) || "historical anomalies".equalsIgnoreCase(type)) {
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel, datePicker);
         }
+        datePicker.setOnAction(event -> {
+            LocalDate date = datePicker.getValue();
+            Map<String,List<Integer>> map= ServerDatesInfo.getDates();
+            List<Integer> routes = map.get(date.toString());
+            ObservableList<String> dateRouteIdList = FXCollections.observableArrayList();
+            for(Integer id: routes){
+                dateRouteIdList.add(String.valueOf(id));
+            }
+            idComboBox.setItems(dateRouteIdList);
+        });
+
     }
 
     private boolean availableDate(LocalDate date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         if("local data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())){
             return input.getDays().contains((date.getYear()+"-"+date.getMonthValue()+"-"+date.getDayOfMonth()));
         }
         else{
             return serverDatesList.contains(date.toString());
-//            for(String d:serverDatesList){
-//                if(d.equals(date.toString()))return true;
-//            }
-//            return false;
         }
     }
 
-    @FXML
-    private void initialize() {
+    private void initializeFields(){
+        setupFileChooser();
         datePicker = new DatePicker();
-        dayComboBox = new ComboBox<String>();
+        dayComboBox = new ComboBox<>();
         dayLabel = new Label("Day");
+        setupVisibility();
+        warn.setStyle("-fx-text-fill: red");
+
+        Image reverseButtonImage = new Image(Main.class.getResourceAsStream("/reverse.png"));
+        reverseRouteButton.setGraphic(new ImageView(reverseButtonImage));
+
+        baselineTypeComboBox.getItems().addAll("Normal","Holidays");
+        fillInDaysOfWeek();
+
+        sourceComboBox.getItems().addAll("Local Data","Server Data");
+    }
+
+    private void setupFileChooser(){
         fileChooser = new FileChooser();
-        parser = new Parser();
-        input = new Input();
         File file = new File("./");
         fileChooser.setInitialDirectory(file);
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Log Files", "*.log"));
-        warn.setStyle("-fx-text-fill: red");
-        lineChart.setTitle("");
+
+    }
+
+    private void setupVisibility(){
         startButton.setDefaultButton(true);
         clearCheckBox.setSelected(true);
         typeComboBox.setVisible(false);
         typeLabel.setVisible(false);
-        Image reverseButtonImage = new Image(Main.class.getResourceAsStream("/reverse.png"));
-        reverseRouteButton.setGraphic(new ImageView(reverseButtonImage));
         dayComboBox.setVisible(false);
         idComboBox.setVisible(false);
         idLabel.setVisible(false);
         reverseRouteButton.setVisible(false);
         baselineTypeComboBox.setVisible(false);
         baselineTypeLabel.setVisible(false);
-        baselineTypeComboBox.getItems().addAll("Normal","Holidays");
-        fillInDaysOfWeek();
         drawBaselineCheckbox.setVisible(false);
         drawBaselineLabel.setVisible(false);
-        sourceComboBox.getItems().addAll("Local Data","Server Data");
+        drawAnomaliesCheckbox.setVisible(false);
+        drawAnomaliesLabel.setVisible(false);
+    }
+
+    private void setupChart(){
+        lineChart.setTitle("");
+        lineChart.setAnimated(false);
+        //Panning works via either secondary (right) mouse or primary with ctrl held down
+        ChartPanManager panner = new ChartPanManager( lineChart );
+        panner.setMouseFilter(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.SECONDARY &&
+                    (mouseEvent.getButton() != MouseButton.PRIMARY ||
+                            !mouseEvent.isShortcutDown()))
+                                mouseEvent.consume();
+        });
+        panner.start();
+
+        //Zooming works only via primary mouse button without ctrl held down
+        JFXChartUtil.setupZooming( lineChart, mouseEvent -> {
+            if ( mouseEvent.getButton() != MouseButton.PRIMARY ||
+                    mouseEvent.isShortcutDown() )
+                mouseEvent.consume();
+        });
+
+        JFXChartUtil.addDoublePrimaryClickAutoRangeHandler( lineChart );
+    }
+
+    @FXML
+    private void initialize() {
+        initializeFields();
+        setupChart();
+        parser = new Parser();
+        input = new Input();
     }
 
     @FXML
@@ -324,7 +395,7 @@ public class ChartsController {
 
         String type = typeComboBox.getSelectionModel().getSelectedItem();
         String day;
-        if("baseline".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
+        if("current baselines".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
             day = dayComboBox.getSelectionModel().getSelectedItem();
         }
         else{
@@ -332,26 +403,17 @@ public class ChartsController {
         }
         String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
         Map<Double, Double> trafficValues = null;
-        Map<Double, Double> normalValues = null;
         if ("historical data".equalsIgnoreCase(type)) {
             trafficValues = input.getData(day, id, true, false);
-            if (durationCheckBox.isSelected()) normalValues = input.getData(day, id, false, false);
         } else if (type.equals("Aggregated day of week")) {
             day = day.substring(0, 3).toUpperCase();
             trafficValues = input.getData(day, id, true, true);
-            if (durationCheckBox.isSelected()) normalValues = input.getData(day, id, false, true);
         }
-
-        for (Double key : trafficValues.keySet()) {
-            seriesDurationInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + idComboBox.getSelectionModel().getSelectedItem());
-            seriesDurationInTraffic.getData().add(new XYChart.Data<Number, Number>(key, trafficValues.get(key)));
-        }
-        if (durationCheckBox.isSelected()) {
-            for (Double key : normalValues.keySet()) {
-                seriesDuration.setName("Duration - Day: " + day + ", ID: " + idComboBox.getSelectionModel().getSelectedItem());
-                seriesDuration.getData().add(new XYChart.Data<Number, Number>(key, normalValues.get(key)));
+        if(trafficValues != null)
+            for (Double key : trafficValues.keySet()) {
+                seriesDurationInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + idComboBox.getSelectionModel().getSelectedItem());
+                seriesDurationInTraffic.getData().add(new XYChart.Data<>(key, trafficValues.get(key)));
             }
-        }
 
         lineChart.getData().add(seriesDurationInTraffic);
         lineChart.getData().add(seriesDuration);
@@ -360,6 +422,7 @@ public class ChartsController {
     }
 
     private void drawServerData(){
+        if(!checkConnection())return;
         String type = typeComboBox.getSelectionModel().getSelectedItem();
         String baselineType = baselineTypeComboBox.getSelectionModel().getSelectedItem();
         String route = idComboBox.getSelectionModel().getSelectedItem();
@@ -372,7 +435,7 @@ public class ChartsController {
             warn.setText("Select all parameters");
             return;
         }
-        if(type.equalsIgnoreCase("baseline") && ( baselineType == null || dayForBaseline == null)){
+        if(type.equalsIgnoreCase("current baselines") && ( baselineType == null || dayForBaseline == null)){
             warn.setText("Select all parameters");
             return;
         }
@@ -385,18 +448,18 @@ public class ChartsController {
         if (clearCheckBox.isSelected()) {
             lineChart.getData().clear();
         }
-        if(type.equalsIgnoreCase("baseline")){
-            drawBaseline(id, dayForBaseline);
+        if(type.equalsIgnoreCase("current baselines")){
+            drawBaseline(id, String.valueOf(DayOfWeek.valueOf(dayForBaseline.toUpperCase()).getValue()),baselineType);
         }
         else if(type.equalsIgnoreCase("historical data")){
-            drawHistoricalData(id, dayForHistoricalData, dayForBaseline);
+            drawHistoricalData(id, dayForHistoricalData);
         }
         else if(type.equalsIgnoreCase("historical anomalies")){
-            //TODO
+            drawHistoricalAnomalies(id, dayForHistoricalData);
         }
     }
 
-    private void drawHistoricalData(final String id, String dayForHistoricalData, final String dayForBaseline) {
+    private void drawHistoricalData(final String id, String dayForHistoricalData) {
         HistoricalData historicalData = HistoricalDataManager.getHistoricalData(Integer.valueOf(id), DateTime.parse(dayForHistoricalData));
         if(historicalData == null) {
             Connector.demandHistoricalData(DateTime.parse(dayForHistoricalData), Integer.valueOf(id));
@@ -413,9 +476,7 @@ public class ChartsController {
                         }
                         if (historicalData == null) {
                             logger.error("Did not get the historical after demand");
-                            Platform.runLater(() -> {
-                                warn.setText("Server did not respond");
-                            });
+                            Platform.runLater(() -> warn.setText("Server did not respond"));
                         } else {
                             logger.info("got a response, historical data found!");
                             Platform.runLater(() -> {
@@ -432,17 +493,17 @@ public class ChartsController {
             new Thread(sleeper).start();
         }
         else {
-            lineChart.getData().add(historicalData.getHistoricalDataSeries());
+            Platform.runLater(() -> lineChart.getData().add(historicalData.getHistoricalDataSeries()));
         }
         if(drawBaselineCheckbox.isSelected()){
-            drawBaseline(id,String.valueOf(DateTime.parse(dayForHistoricalData).dayOfWeek().get()));
+            drawBaseline(id,String.valueOf(DateTime.parse(dayForHistoricalData).dayOfWeek().get()),dayForHistoricalData);
         }
     }
 
-    private void drawBaseline(final String id, final String dayForBaseline) {
-        Baseline baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase()));
+    private void drawBaseline(final String id, final String dayForBaseline,String type) {
+        Baseline baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.of(Integer.valueOf(dayForBaseline)),type);
         if(baseline == null){
-            Connector.demandBaseline(DayOfWeek.valueOf(dayForBaseline.toUpperCase()), Integer.valueOf(id));
+            Connector.demandBaseline(DayOfWeek.of(Integer.valueOf(dayForBaseline)), Integer.valueOf(id),type);
             Task<Void> sleeper = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
@@ -450,21 +511,19 @@ public class ChartsController {
                         Baseline baseline = null;
                         int i = 0;
                         while (i<3 && baseline == null) {
-                            baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase()));
+                            baseline = BaselineManager.getBaseline(Integer.valueOf(id),DayOfWeek.of(Integer.valueOf(dayForBaseline)),type);
                             Thread.sleep(1000);
                             i++;
                         }
                         if(baseline == null){
                             logger.error("Did not get the baseline after demand");
-                            Platform.runLater(() -> {
-                                warn.setText("Server did not respond");
-                            });
+                            Platform.runLater(() -> warn.setText("Server did not respond"));
                         }
                         else {
                             logger.info("Got a response, baseline found!");
                             Platform.runLater(() -> {
                                 warn.setText("");
-                                lineChart.getData().add(BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.valueOf(dayForBaseline.toUpperCase())).getBaselineSeries());
+                                lineChart.getData().add(BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.of(Integer.valueOf(dayForBaseline)),type).getBaselineSeries());
                             } );
                         }
                     } catch (InterruptedException e) {
@@ -476,7 +535,61 @@ public class ChartsController {
             new Thread(sleeper).start();
         }
         else{
-            lineChart.getData().add(baseline.getBaselineSeries());
+            Platform.runLater(() -> lineChart.getData().add(baseline.getBaselineSeries()));
+        }
+    }
+
+    private void drawHistoricalAnomalies(final String id, final String dayForHistoricalAnomalies) {
+        //TODO
+        HistoricalAnomaly historicalAnomaly = HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
+        if(historicalAnomaly == null) {
+            Connector.demandHistoricalAnomalies(DateTime.parse(dayForHistoricalAnomalies), Integer.valueOf(id));
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        HistoricalAnomaly historicalAnomaly = null;
+                        int i = 0;
+                        while (i < 3 && historicalAnomaly == null) {
+                            historicalAnomaly = HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
+                            Thread.sleep(1000);
+                            i++;
+                        }
+                        if (historicalAnomaly == null) {
+                            logger.error("Did not get the historical anomalies after demand");
+                            Platform.runLater(() -> warn.setText("Server did not respond"));
+                        } else {
+                            logger.info("got a response, historical anomalies found!");
+                            Platform.runLater(() -> {
+                                warn.setText("");
+                                final HistoricalAnomaly historicalAnomaliesContainer = HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
+                                if(historicalAnomaliesContainer != null) {
+                                    for (HistoricalAnomaly ha : historicalAnomaliesContainer.getAnomalies()) {
+                                        lineChart.getData().add(ha.getHistoricalAnomalySeries());
+                                    }
+                                }
+                            });
+                        }
+                    } catch (InterruptedException e) {
+                        logger.error("Interrupted exception");
+                    }
+                    return null;
+                }
+            };
+            new Thread(sleeper).start();
+        }
+        else {
+            Platform.runLater(() -> {
+                final HistoricalAnomaly historicalAnomaliesContainer = HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
+                if(historicalAnomaliesContainer != null) {
+                    for (HistoricalAnomaly ha : historicalAnomaliesContainer.getAnomalies()) {
+                        lineChart.getData().add(ha.getHistoricalAnomalySeries());
+                    }
+                }
+            });
+        }
+        if(drawBaselineCheckbox.isSelected()){
+            drawBaseline(id,String.valueOf(DateTime.parse(dayForHistoricalAnomalies).dayOfWeek().get()),dayForHistoricalAnomalies);
         }
     }
 
@@ -512,64 +625,37 @@ public class ChartsController {
         Map<Double, Double> summaryTraffic = null;
         Map<Double, Double> traffic = null;
 
-        Map<Double, Double> durationSummaryTraffic = null;
-        Map<Double, Double> durationTraffic = null;
-
         if (type.equals("Exact date")) {
             if (route == 4) {
                 summaryTraffic = input.getSummary(day, 1, 3, true, false);
                 traffic = input.getData(day, String.valueOf(route), true, false);
-                if (durationCheckBox.isSelected()) {
-                    durationSummaryTraffic = input.getSummary(day, 1, 3, false, false);
-                    durationTraffic = input.getData(day, String.valueOf(route), false, false);
-                }
             } else if (route == 8) {
                 summaryTraffic = input.getSummary(day, 5, 7, true, false);
                 traffic = input.getData(day, String.valueOf(route), true, false);
-                if (durationCheckBox.isSelected()) {
-                    durationSummaryTraffic = input.getSummary(day, 5, 7, false, false);
-                    durationTraffic = input.getData(day, String.valueOf(route), false, false);
-                }
             }
         } else if (type.equals("Aggregated day of week")) {
             day = day.substring(0, 3).toUpperCase();
             if (route == 4) {
                 summaryTraffic = input.getSummary(day, 1, 3, true, true);
                 traffic = input.getData(day, String.valueOf(route), true, true);
-                if (durationCheckBox.isSelected()) {
-                    durationSummaryTraffic = input.getSummary(day, 1, 3, false, true);
-                    durationTraffic = input.getData(day, String.valueOf(route), false, true);
-                }
             } else if (route == 8) {
                 summaryTraffic = input.getSummary(day, 5, 7, true, true);
                 traffic = input.getData(day, String.valueOf(route), true, true);
-                if (durationCheckBox.isSelected()) {
-                    durationSummaryTraffic = input.getSummary(day, 5, 7, false, true);
-                    durationTraffic = input.getData(day, String.valueOf(route), false, true);
-                }
             }
         }
 
         String ids = route == 4 ? "1-3" : "5-7";
-        for (Double key : summaryTraffic.keySet()) {
-            seriesDurationSummaryInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + ids);
-            seriesDurationSummaryInTraffic.getData().add(new XYChart.Data<Number, Number>(key, summaryTraffic.get(key)));
-        }
-        if (durationCheckBox.isSelected()) {
-            for (Double key : durationSummaryTraffic.keySet()) {
-                seriesDurationSummary.setName("Duration - Day: " + day + ", ID: " + ids);
-                seriesDurationSummary.getData().add(new XYChart.Data<Number, Number>(key, durationSummaryTraffic.get(key)));
+        if(summaryTraffic != null) {
+            for (Double key : summaryTraffic.keySet()) {
+                seriesDurationSummaryInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + ids);
+                seriesDurationSummaryInTraffic.getData().add(new XYChart.Data<>(key, summaryTraffic.get(key)));
             }
         }
 
-        for (Double key : traffic.keySet()) {
-            seriesDurationInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + route);
-            seriesDurationInTraffic.getData().add(new XYChart.Data<Number, Number>(key, traffic.get(key)));
-        }
-        if (durationCheckBox.isSelected()) {
-            for (Double key : durationTraffic.keySet()) {
-                seriesDuration.setName("Duration - Day: " + day + ", ID: " + route);
-                seriesDuration.getData().add(new XYChart.Data<Number, Number>(key, durationTraffic.get(key)));
+        if(traffic != null) {
+            for (Double key : traffic.keySet()) {
+                seriesDurationInTraffic.setName("Duration in traffic - Day: " + day + ", ID: " + route);
+                seriesDurationInTraffic.getData().add(new XYChart.Data<>(key, traffic.get(key)));
             }
         }
 
@@ -593,30 +679,48 @@ public class ChartsController {
         idLabel.setVisible(true);
         dayLabel.setVisible(true);
         reverseRouteButton.setVisible(true);
-        if("baseline".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
+        if("current baselines".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel,dayComboBox);
+            dayHBox.setVisible(true);
             baselineTypeComboBox.setVisible(true);
             baselineTypeLabel.setVisible(true);
             drawBaselineCheckbox.setVisible(false);
             drawBaselineLabel.setVisible(false);
+            drawAnomaliesCheckbox.setVisible(false);
+            drawAnomaliesLabel.setVisible(false);
         }
         else if("historical data".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel,datePicker);
+            dayHBox.setVisible(true);
+            setupDatePicker();
+            baselineTypeComboBox.setVisible(false);
+            baselineTypeLabel.setVisible(false);
+            if("server data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())) {
+                drawBaselineCheckbox.setVisible(true);
+                drawBaselineLabel.setVisible(true);
+                drawAnomaliesCheckbox.setVisible(true);
+                drawAnomaliesLabel.setVisible(true);
+            }
+        }
+        else if("historical anomalies".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
+            dayHBox.getChildren().clear();
+            dayHBox.getChildren().addAll(dayLabel,datePicker);
+            dayHBox.setVisible(true);
             setupDatePicker();
             baselineTypeComboBox.setVisible(false);
             baselineTypeLabel.setVisible(false);
             drawBaselineCheckbox.setVisible(true);
             drawBaselineLabel.setVisible(true);
-        }
-        else if("historical anomalies".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())){
-            //TODO
+            drawAnomaliesCheckbox.setVisible(true);
+            drawAnomaliesLabel.setVisible(true);
         }
     }
     @FXML
     private void handleBaselineTypeAction(ActionEvent e) {
-        if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("baseline")){
+        dayHBox.setVisible(true);
+        if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("current baselines")){
             fillInDaysOfWeek();
         }
         else if(typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("Historical data")){
@@ -638,43 +742,51 @@ public class ChartsController {
     }
 
     @FXML
-    private void handleReverseRotuteAction(ActionEvent e) {
+    private void handleReverseRouteAction(ActionEvent e) {
         try {
-            String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
-            if (id != null) {
-                idComboBox.getSelectionModel().select(input.getReverse(id));
+            if("local data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())) {
+                String id = input.getId(idComboBox.getSelectionModel().getSelectedItem());
+                if (id != null) {
+                    idComboBox.getSelectionModel().select(input.getReverse(id));
+                }
+            }
+            if("server data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())){
+
             }
         } catch (NullPointerException exception) {
             warn.setText("Nothing to reverse");
         }
     }
-    @FXML
-    private void handleDrawBaselineCheckboxAction(ActionEvent e) {
-        //todo drawing baseline
-    }
 
     @FXML
     private void handleSourceAction(ActionEvent e) {
-        String notConnectedWarn = "Not connected to server!";
         setupFields();
-        if(sourceComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("server data")){
-            if(!Connector.isConnectedToTheServer()){
-                warn.setText(notConnectedWarn);
-                warn.setVisible(true);
-            }
-            typeComboBox.setVisible(true);
-            typeLabel.setVisible(true);
-            typeComboBox.getItems().clear();
-            typeComboBox.getItems().addAll("Baseline","Historical data","Historical anomalies");
+        checkConnection();
+        if("server data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())){
+            Platform.runLater(()->{
+                typeComboBox.setVisible(true);
+                typeLabel.setVisible(true);
+                typeComboBox.getItems().clear();
+                typeComboBox.getItems().addAll("Current baselines","Historical data","Historical anomalies");
+            });
         }
-        else {
-            if(warn.getText().equalsIgnoreCase(notConnectedWarn)){
-                warn.setVisible(false);
-            }
-            typeLabel.setVisible(true);
-            typeComboBox.setVisible(true);
-            typeComboBox.getItems().clear();
-            typeComboBox.getItems().addAll("Historical data");
+        else if("local data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())){
+            Platform.runLater(()->{
+                typeComboBox.getItems().clear();
+                typeComboBox.getItems().addAll("Historical data");
+                typeLabel.setVisible(true);
+                typeComboBox.setVisible(true);
+                baselineTypeComboBox.setVisible(false);
+                baselineTypeLabel.setVisible(false);
+                reverseRouteButton.setVisible(false);
+                drawAnomaliesCheckbox.setVisible(false);
+                drawBaselineCheckbox.setVisible(false);
+                drawBaselineLabel.setVisible(false);
+                drawAnomaliesLabel.setVisible(false);
+                dayHBox.setVisible(false);
+                idComboBox.setVisible(false);
+                idLabel.setVisible(false);
+            });
         }
     }
 

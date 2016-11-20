@@ -13,12 +13,12 @@ public class Baseline {
     private Integer routeID;
     private DayOfWeek day;
     private String type;
-    private String source;
 
-    public Baseline(Integer routeID, DayOfWeek day, Map<Integer, Integer> baseline) {
+    Baseline(Integer routeID, DayOfWeek day, Map<Integer, Integer> baseline, String type) {
         this.baseline = baseline;
         this.routeID = routeID;
         this.day = day;
+        this.type = type;
     }
 
     public Map<Integer, Integer> getBaseline() {
@@ -37,6 +37,10 @@ public class Baseline {
         return day;
     }
 
+    public String getType() {
+        return type;
+    }
+
     private XYChart.Series<Number, Number> buildBaselineSeries() {
         XYChart.Series<Number, Number> baselineSeries = new XYChart.Series<>();
 
@@ -49,6 +53,7 @@ public class Baseline {
                 baselineSeries.getData().add(data);
             }
         }
+        baselineSeries.setName("Route : " + routeID + ". " + day);
         return baselineSeries;
     }
 }

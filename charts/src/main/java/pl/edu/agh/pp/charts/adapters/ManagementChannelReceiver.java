@@ -14,6 +14,7 @@ import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 import java.io.*;
 import java.net.InetAddress;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -229,7 +230,9 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             int routeID = baselineMessage.getRouteIdx();
             AnomalyOperationProtos.BaselineMessage.Day day = baselineMessage.getDay();
             Map<Integer, Integer> baselineMap = baselineMessage.getBaselineMap();
-            Connector.updateBaseline(routeID, day, baselineMap);
+            //TODO @Maciek
+            String type = null;
+            Connector.updateBaseline(routeID, day, baselineMap,type);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
@@ -240,8 +243,9 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             AnomalyOperationProtos.AvailableHistoricalMessage availableHistoricalMessage = AnomalyOperationProtos.
                     AvailableHistoricalMessage.parseFrom(message.getAvailableHistoricalMessage().toByteArray());
             Map<String, Integer> availableHistoricalMap = availableHistoricalMessage.getAvaiableDateRoutesMap();
-            Connector.updateAvailableDates(availableHistoricalMap);
-            System.out.println(availableHistoricalMap);
+            //TODO @Maciek
+            Map<String,List<Integer>> newMap = null;
+            Connector.updateAvailableDates(newMap);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
