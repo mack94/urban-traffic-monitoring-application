@@ -2,8 +2,6 @@ package pl.edu.agh.pp.charts.controller;
 
 import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,7 +22,6 @@ import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import netscape.javascript.JSObject;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -418,14 +415,6 @@ public class MainWindowController {
         String defaultLng = "19.94";
         MapRoute defaultMapRoute = new MapRoute(defaultLat, defaultLng,defaultLat, defaultLng);
         anomalyMapWebEngine.loadContent(htmlBuilder.loadAnomalyMapStructure(defaultMapRoute));
-    }
-
-    class JavaBridge
-    {
-        public void log(String text)
-        {
-            System.out.println(text);
-        }
     }
 
 
