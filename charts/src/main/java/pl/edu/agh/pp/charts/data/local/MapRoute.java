@@ -12,6 +12,7 @@ public class MapRoute {
     private String startLng;
     private String endLat;
     private String endLng;
+    private String routeId;
 
     public MapRoute(String startLat, String startLng, String endLat, String endLng) {
         this.startLat = startLat;
@@ -20,13 +21,20 @@ public class MapRoute {
         this.endLng = endLng;
     }
 
+    public MapRoute(String startLat, String startLng, String endLat, String endLng, String routeId) {
+        this(startLat, startLng, endLat, endLng);
+        this.routeId = routeId;
+    }
+
     public MapRoute(Anomaly anomaly) {
         String startCoord = ServerRoutesInfo.getRouteCoordsStart(Integer.parseInt(anomaly.getRouteId()));
         String endCoord = ServerRoutesInfo.getRouteCoordsEnd(Integer.parseInt(anomaly.getRouteId()));
+
         this.startLat = startCoord.split(",")[0];
         this.startLng = startCoord.split(",")[1];
         this.endLat = endCoord.split(",")[0];
         this.endLng = endCoord.split(",")[1];
+        this.routeId = anomaly.getRouteId();
     }
 
     public String getStartLat() {
@@ -72,9 +80,19 @@ public class MapRoute {
         stringBuilder.append(",");
         stringBuilder.append(" {lat: " + endLat + "," + "lng: " + endLng + "}");
         stringBuilder.append(",");
+        stringBuilder.append(" \"" + routeId + "\"");
+        stringBuilder.append(",");
         stringBuilder.append(" map");
         stringBuilder.append(");");
 
         return stringBuilder.toString();
+    }
+
+    public String getRouteId() {
+        return routeId;
+    }
+
+    public void setRouteId(String routeId) {
+        this.routeId = routeId;
     }
 }

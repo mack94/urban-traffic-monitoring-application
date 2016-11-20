@@ -2,6 +2,8 @@ package pl.edu.agh.pp.charts.controller;
 
 import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +24,7 @@ import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import netscape.javascript.JSObject;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -417,13 +420,23 @@ public class MainWindowController {
         anomalyMapWebEngine.loadContent(htmlBuilder.loadAnomalyMapStructure(defaultMapRoute));
     }
 
+    class JavaBridge
+    {
+        public void log(String text)
+        {
+            System.out.println(text);
+        }
+    }
+
+
     private void setMapUp() {
         mapWebEngine = mapWebView.getEngine();
-        MapRoute defaultRoute1 = new MapRoute("50.07", "19.94", "50.079", "19.94");
-        MapRoute defaultRoute2 = new MapRoute("50.065", "19.92", "50.073", "19.95");
+        MapRoute defaultRoute1 = new MapRoute("50.07", "19.94", "50.079", "19.94", "test1");
+        MapRoute defaultRoute2 = new MapRoute("50.065", "19.92", "50.073", "19.95", "test2");
         List<MapRoute> routes = new ArrayList<>();
         routes.add(defaultRoute1);
         routes.add(defaultRoute2);
+
         mapWebEngine.loadContent(htmlBuilder.loadMapStructure(routes));
     }
 
