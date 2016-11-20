@@ -13,13 +13,12 @@ public class Baseline {
     private Integer routeID;
     private DayOfWeek day;
     private String type;
-    private String source;
-    //TODO type and maybe source
 
-    Baseline(Integer routeID, DayOfWeek day, Map<Integer, Integer> baseline) {
+    Baseline(Integer routeID, DayOfWeek day, Map<Integer, Integer> baseline, String type) {
         this.baseline = baseline;
         this.routeID = routeID;
         this.day = day;
+        this.type = type;
     }
 
     public Map<Integer, Integer> getBaseline() {
@@ -36,6 +35,10 @@ public class Baseline {
 
     public DayOfWeek getDay() {
         return day;
+    }
+
+    public String getType() {
+        return type;
     }
 
     private XYChart.Series<Number, Number> buildBaselineSeries() {

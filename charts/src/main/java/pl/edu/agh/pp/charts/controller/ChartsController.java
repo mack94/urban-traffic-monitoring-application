@@ -513,7 +513,7 @@ public class ChartsController {
     }
 
     private void drawBaseline(final String id, final String dayForBaseline,String type) {
-        Baseline baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.of(Integer.valueOf(dayForBaseline)));
+        Baseline baseline = BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.of(Integer.valueOf(dayForBaseline)),type);
         if(baseline == null){
             Connector.demandBaseline(DayOfWeek.of(Integer.valueOf(dayForBaseline)), Integer.valueOf(id),type);
             Task<Void> sleeper = new Task<Void>() {
@@ -523,7 +523,7 @@ public class ChartsController {
                         Baseline baseline = null;
                         int i = 0;
                         while (i<3 && baseline == null) {
-                            baseline = BaselineManager.getBaseline(Integer.valueOf(id),DayOfWeek.of(Integer.valueOf(dayForBaseline)));
+                            baseline = BaselineManager.getBaseline(Integer.valueOf(id),DayOfWeek.of(Integer.valueOf(dayForBaseline)),type);
                             Thread.sleep(1000);
                             i++;
                         }
@@ -537,7 +537,7 @@ public class ChartsController {
                             logger.info("Got a response, baseline found!");
                             Platform.runLater(() -> {
                                 warn.setText("");
-                                lineChart.getData().add(BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.of(Integer.valueOf(dayForBaseline))).getBaselineSeries());
+                                lineChart.getData().add(BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.of(Integer.valueOf(dayForBaseline)),type).getBaselineSeries());
                             } );
                         }
                     } catch (InterruptedException e) {

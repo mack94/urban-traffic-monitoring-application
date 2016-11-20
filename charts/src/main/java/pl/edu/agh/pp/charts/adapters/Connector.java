@@ -99,8 +99,8 @@ public class Connector {
         mainWindowController.updateServerInfo(leverValue, anomalyLiveTime, baselineWindowSize, shift, anomalyMessagesPort);
     }
 
-    public static void updateBaseline(Integer routeID, AnomalyOperationProtos.BaselineMessage.Day day, Map<Integer, Integer> baseline) {
-        BaselineManager.addBaseline(routeID, DayOfWeek.valueOf(String.valueOf(day)), baseline);
+    public static void updateBaseline(Integer routeID, AnomalyOperationProtos.BaselineMessage.Day day, Map<Integer, Integer> baseline, String type) {
+        BaselineManager.addBaseline(routeID, DayOfWeek.valueOf(String.valueOf(day)), baseline, type);
     }
 
     public static void demandBaseline(DayOfWeek dayOfWeek, int routeID,String type) {
