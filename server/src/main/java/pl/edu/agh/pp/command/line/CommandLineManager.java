@@ -139,17 +139,17 @@ public class CommandLineManager extends Thread
                 }
                 else if(buffer.equalsIgnoreCase("help") || buffer.equalsIgnoreCase("-help") ||
                         buffer.equalsIgnoreCase("-h") || buffer.equalsIgnoreCase("h")){
-                    System.out.print("count_baseline - counts new baseline of files in logs");
-                    System.out.print("load_partially - loads baseline from file only for given day and route");
-                    System.out.print("load - loads baseline from file and replaces in PatternBuilder");
-                    System.out.print("update_baseline - updates current baseline with data contained in given file");
-                    System.out.print("SET_LEVER - changes the lever value");
-                    System.out.print("SET_ANOMALY_LIVE_TIME - changes time needed for anomaly to expire");
-                    System.out.print("SET_BASELINE_WINDOW_SIZE - changes baseline window size");
-                    System.out.print("RESET_PREFERENCES - resets current server preferences to default state");
-                    System.out.print("AV_H - lists available dates for historical data");
-                    System.out.print("CHANGE_API_KEY - changes the key used for requests to google APIS");
-                    System.out.print("help - displays commands list");
+                    System.out.println("count_baseline - counts new baseline of files in logs");
+                    System.out.println("load_partially - loads baseline from file only for given day and route");
+                    System.out.println("load - loads baseline from file and replaces in PatternBuilder");
+                    System.out.println("update_baseline - updates current baseline with data contained in given file");
+                    System.out.println("SET_LEVER - changes the lever value");
+                    System.out.println("SET_ANOMALY_LIVE_TIME - changes time needed for anomaly to expire");
+                    System.out.println("SET_BASELINE_WINDOW_SIZE - changes baseline window size");
+                    System.out.println("RESET_PREFERENCES - resets current server preferences to default state");
+                    System.out.println("AV_H - lists available dates for historical data");
+                    System.out.println("CHANGE_API_KEY - changes the key used for requests to google APIS");
+                    System.out.println("help - displays commands list");
                 }
                 else {
                     System.out.println("Command not found. type help to get the list of possible commands.");
