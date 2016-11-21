@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.utils;
 
 import com.google.protobuf.ByteString;
+import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos.AvailableHistoricalMessage;
 
 import java.util.*;
@@ -41,19 +42,24 @@ public class AvailableHistoricalInfoHelper {
     public static AvailableHistoricalMessage getAvailableHistoricalMessage() {
         System.out.println("I receive ask about Available DateRoutes message");
 
-        Map<String, ByteString> availableDateRoutesToSend = new HashMap<>();
+        Map<String, AnomalyOperationProtos.AvailableRoutes> availableDateRoutesToSend = new HashMap<>();
 
         for (String key : availableDateRoutes.keySet()) {
+            Map<Integer, Integer> allRoutes = new HashMap<>();
             List<Integer> values = availableDateRoutes.get(key);
             Iterator<Integer> iterator = values.iterator();
-            byte[] values_bytes = new byte[values.size()];
+            int i = 0;
             while (iterator.hasNext()) {
-                Integer i = iterator.next();
-                values_bytes[i - 1] = i.byteValue();
+                Integer route = iterator.next();
+                allRoutes.put(i, route);
+                i++;
             }
-            ByteString values_bytes_string = ByteString.copyFrom(values_bytes);
 
-            availableDateRoutesToSend.put(key, values_bytes_string);
+            AnomalyOperationProtos.AvailableRoutes availableRoutes = AnomalyOperationProtos.AvailableRoutes.newBuilder()
+                    .putAllRoutes(allRoutes)
+                    .build();
+
+            availableDateRoutesToSend.put(key, availableRoutes);
         }
 
         return AvailableHistoricalMessage.newBuilder()

@@ -10743,6 +10743,678 @@ public final class AnomalyOperationProtos {
 
   }
 
+  public interface AvailableRoutesOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:AvailableRoutes)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>map&lt;int32, int32&gt; routes = 1;</code>
+     */
+    int getRoutesCount();
+    /**
+     * <code>map&lt;int32, int32&gt; routes = 1;</code>
+     */
+    boolean containsRoutes(
+        int key);
+    /**
+     * Use {@link #getRoutesMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.Integer, java.lang.Integer>
+    getRoutes();
+    /**
+     * <code>map&lt;int32, int32&gt; routes = 1;</code>
+     */
+    java.util.Map<java.lang.Integer, java.lang.Integer>
+    getRoutesMap();
+    /**
+     * <code>map&lt;int32, int32&gt; routes = 1;</code>
+     */
+
+    int getRoutesOrDefault(
+        int key,
+        int defaultValue);
+    /**
+     * <code>map&lt;int32, int32&gt; routes = 1;</code>
+     */
+
+    int getRoutesOrThrow(
+        int key);
+  }
+  /**
+   * Protobuf type {@code AvailableRoutes}
+   */
+  public  static final class AvailableRoutes extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:AvailableRoutes)
+      AvailableRoutesOrBuilder {
+    // Use AvailableRoutes.newBuilder() to construct.
+    private AvailableRoutes(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AvailableRoutes() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private AvailableRoutes(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                routes_ = com.google.protobuf.MapField.newMapField(
+                    RoutesDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00000001;
+              }
+              com.google.protobuf.MapEntry<java.lang.Integer, java.lang.Integer>
+              routes = input.readMessage(
+                  RoutesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              routes_.getMutableMap().put(routes.getKey(), routes.getValue());
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_descriptor;
+    }
+
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 1:
+          return internalGetRoutes();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.Builder.class);
+    }
+
+    public static final int ROUTES_FIELD_NUMBER = 1;
+    private static final class RoutesDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.Integer, java.lang.Integer> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.Integer, java.lang.Integer>newDefaultInstance(
+                  pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_RoutesEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.INT32,
+                  0,
+                  com.google.protobuf.WireFormat.FieldType.INT32,
+                  0);
+    }
+    private com.google.protobuf.MapField<
+        java.lang.Integer, java.lang.Integer> routes_;
+    private com.google.protobuf.MapField<java.lang.Integer, java.lang.Integer>
+    internalGetRoutes() {
+      if (routes_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            RoutesDefaultEntryHolder.defaultEntry);
+      }
+      return routes_;
+    }
+
+    public int getRoutesCount() {
+      return internalGetRoutes().getMap().size();
+    }
+    /**
+     * <code>map&lt;int32, int32&gt; routes = 1;</code>
+     */
+
+    public boolean containsRoutes(
+        int key) {
+      
+      return internalGetRoutes().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getRoutesMap()} instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.Integer, java.lang.Integer> getRoutes() {
+      return getRoutesMap();
+    }
+    /**
+     * <code>map&lt;int32, int32&gt; routes = 1;</code>
+     */
+
+    public java.util.Map<java.lang.Integer, java.lang.Integer> getRoutesMap() {
+      return internalGetRoutes().getMap();
+    }
+    /**
+     * <code>map&lt;int32, int32&gt; routes = 1;</code>
+     */
+
+    public int getRoutesOrDefault(
+        int key,
+        int defaultValue) {
+      
+      java.util.Map<java.lang.Integer, java.lang.Integer> map =
+          internalGetRoutes().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <code>map&lt;int32, int32&gt; routes = 1;</code>
+     */
+
+    public int getRoutesOrThrow(
+        int key) {
+      
+      java.util.Map<java.lang.Integer, java.lang.Integer> map =
+          internalGetRoutes().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (java.util.Map.Entry<java.lang.Integer, java.lang.Integer> entry
+           : internalGetRoutes().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.Integer, java.lang.Integer>
+        routes = RoutesDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
+        output.writeMessage(1, routes);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (java.util.Map.Entry<java.lang.Integer, java.lang.Integer> entry
+           : internalGetRoutes().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.Integer, java.lang.Integer>
+        routes = RoutesDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(1, routes);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes)) {
+        return super.equals(obj);
+      }
+      pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes other = (pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes) obj;
+
+      boolean result = true;
+      result = result && internalGetRoutes().equals(
+          other.internalGetRoutes());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (!internalGetRoutes().getMap().isEmpty()) {
+        hash = (37 * hash) + ROUTES_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetRoutes().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code AvailableRoutes}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:AvailableRoutes)
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutesOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_descriptor;
+      }
+
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMapField(
+          int number) {
+        switch (number) {
+          case 1:
+            return internalGetRoutes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMutableMapField(
+          int number) {
+        switch (number) {
+          case 1:
+            return internalGetMutableRoutes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.Builder.class);
+      }
+
+      // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        internalGetMutableRoutes().clear();
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_descriptor;
+      }
+
+      public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getDefaultInstanceForType() {
+        return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.getDefaultInstance();
+      }
+
+      public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes build() {
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes buildPartial() {
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes result = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes(this);
+        int from_bitField0_ = bitField0_;
+        result.routes_ = internalGetRoutes();
+        result.routes_.makeImmutable();
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes) {
+          return mergeFrom((pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes other) {
+        if (other == pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.getDefaultInstance()) return this;
+        internalGetMutableRoutes().mergeFrom(
+            other.internalGetRoutes());
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.MapField<
+          java.lang.Integer, java.lang.Integer> routes_;
+      private com.google.protobuf.MapField<java.lang.Integer, java.lang.Integer>
+      internalGetRoutes() {
+        if (routes_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              RoutesDefaultEntryHolder.defaultEntry);
+        }
+        return routes_;
+      }
+      private com.google.protobuf.MapField<java.lang.Integer, java.lang.Integer>
+      internalGetMutableRoutes() {
+        onChanged();;
+        if (routes_ == null) {
+          routes_ = com.google.protobuf.MapField.newMapField(
+              RoutesDefaultEntryHolder.defaultEntry);
+        }
+        if (!routes_.isMutable()) {
+          routes_ = routes_.copy();
+        }
+        return routes_;
+      }
+
+      public int getRoutesCount() {
+        return internalGetRoutes().getMap().size();
+      }
+      /**
+       * <code>map&lt;int32, int32&gt; routes = 1;</code>
+       */
+
+      public boolean containsRoutes(
+          int key) {
+        
+        return internalGetRoutes().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getRoutesMap()} instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.Integer, java.lang.Integer> getRoutes() {
+        return getRoutesMap();
+      }
+      /**
+       * <code>map&lt;int32, int32&gt; routes = 1;</code>
+       */
+
+      public java.util.Map<java.lang.Integer, java.lang.Integer> getRoutesMap() {
+        return internalGetRoutes().getMap();
+      }
+      /**
+       * <code>map&lt;int32, int32&gt; routes = 1;</code>
+       */
+
+      public int getRoutesOrDefault(
+          int key,
+          int defaultValue) {
+        
+        java.util.Map<java.lang.Integer, java.lang.Integer> map =
+            internalGetRoutes().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;int32, int32&gt; routes = 1;</code>
+       */
+
+      public int getRoutesOrThrow(
+          int key) {
+        
+        java.util.Map<java.lang.Integer, java.lang.Integer> map =
+            internalGetRoutes().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public Builder clearRoutes() {
+        getMutableRoutes().clear();
+        return this;
+      }
+      /**
+       * <code>map&lt;int32, int32&gt; routes = 1;</code>
+       */
+
+      public Builder removeRoutes(
+          int key) {
+        
+        getMutableRoutes().remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.Integer, java.lang.Integer>
+      getMutableRoutes() {
+        return internalGetMutableRoutes().getMutableMap();
+      }
+      /**
+       * <code>map&lt;int32, int32&gt; routes = 1;</code>
+       */
+      public Builder putRoutes(
+          int key,
+          int value) {
+        
+        
+        getMutableRoutes().put(key, value);
+        return this;
+      }
+      /**
+       * <code>map&lt;int32, int32&gt; routes = 1;</code>
+       */
+
+      public Builder putAllRoutes(
+          java.util.Map<java.lang.Integer, java.lang.Integer> values) {
+        getMutableRoutes().putAll(values);
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:AvailableRoutes)
+    }
+
+    // @@protoc_insertion_point(class_scope:AvailableRoutes)
+    private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes();
+    }
+
+    public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AvailableRoutes>
+        PARSER = new com.google.protobuf.AbstractParser<AvailableRoutes>() {
+      public AvailableRoutes parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new AvailableRoutes(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AvailableRoutes> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AvailableRoutes> getParserForType() {
+      return PARSER;
+    }
+
+    public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface AvailableHistoricalMessageOrBuilder extends
       // @@protoc_insertion_point(interface_extends:AvailableHistoricalMessage)
       com.google.protobuf.MessageOrBuilder {
@@ -10754,7 +11426,7 @@ public final class AnomalyOperationProtos {
      * &lt;date, route&gt; so its &lt;string, int32&gt;
      * </pre>
      *
-     * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+     * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
      */
     int getAvaiableDateRoutesCount();
     /**
@@ -10764,7 +11436,7 @@ public final class AnomalyOperationProtos {
      * &lt;date, route&gt; so its &lt;string, int32&gt;
      * </pre>
      *
-     * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+     * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
      */
     boolean containsAvaiableDateRoutes(
         java.lang.String key);
@@ -10772,7 +11444,7 @@ public final class AnomalyOperationProtos {
      * Use {@link #getAvaiableDateRoutesMap()} instead.
      */
     @java.lang.Deprecated
-    java.util.Map<java.lang.String, com.google.protobuf.ByteString>
+    java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
     getAvaiableDateRoutes();
     /**
      * <pre>
@@ -10781,9 +11453,9 @@ public final class AnomalyOperationProtos {
      * &lt;date, route&gt; so its &lt;string, int32&gt;
      * </pre>
      *
-     * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+     * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
      */
-    java.util.Map<java.lang.String, com.google.protobuf.ByteString>
+    java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
     getAvaiableDateRoutesMap();
     /**
      * <pre>
@@ -10792,12 +11464,12 @@ public final class AnomalyOperationProtos {
      * &lt;date, route&gt; so its &lt;string, int32&gt;
      * </pre>
      *
-     * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+     * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
      */
 
-    com.google.protobuf.ByteString getAvaiableDateRoutesOrDefault(
+    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getAvaiableDateRoutesOrDefault(
         java.lang.String key,
-        com.google.protobuf.ByteString defaultValue);
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes defaultValue);
     /**
      * <pre>
      * this is made on map structure, but please be aware of the limits of this solution.
@@ -10805,10 +11477,10 @@ public final class AnomalyOperationProtos {
      * &lt;date, route&gt; so its &lt;string, int32&gt;
      * </pre>
      *
-     * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+     * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
      */
 
-    com.google.protobuf.ByteString getAvaiableDateRoutesOrThrow(
+    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getAvaiableDateRoutesOrThrow(
         java.lang.String key);
   }
   /**
@@ -10856,7 +11528,7 @@ public final class AnomalyOperationProtos {
                     AvaiableDateRoutesDefaultEntryHolder.defaultEntry);
                 mutable_bitField0_ |= 0x00000001;
               }
-              com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
+              com.google.protobuf.MapEntry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
               avaiableDateRoutes = input.readMessage(
                   AvaiableDateRoutesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
               avaiableDateRoutes_.getMutableMap().put(avaiableDateRoutes.getKey(), avaiableDateRoutes.getValue());
@@ -10899,18 +11571,18 @@ public final class AnomalyOperationProtos {
     public static final int AVAIABLEDATEROUTES_FIELD_NUMBER = 1;
     private static final class AvaiableDateRoutesDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
-          java.lang.String, com.google.protobuf.ByteString> defaultEntry =
+          java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> defaultEntry =
               com.google.protobuf.MapEntry
-              .<java.lang.String, com.google.protobuf.ByteString>newDefaultInstance(
+              .<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>newDefaultInstance(
                   pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableHistoricalMessage_AvaiableDateRoutesEntry_descriptor, 
                   com.google.protobuf.WireFormat.FieldType.STRING,
                   "",
-                  com.google.protobuf.WireFormat.FieldType.BYTES,
-                  com.google.protobuf.ByteString.EMPTY);
+                  com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                  pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.getDefaultInstance());
     }
     private com.google.protobuf.MapField<
-        java.lang.String, com.google.protobuf.ByteString> avaiableDateRoutes_;
-    private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.ByteString>
+        java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> avaiableDateRoutes_;
+    private com.google.protobuf.MapField<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
     internalGetAvaiableDateRoutes() {
       if (avaiableDateRoutes_ == null) {
         return com.google.protobuf.MapField.emptyMapField(
@@ -10929,7 +11601,7 @@ public final class AnomalyOperationProtos {
      * &lt;date, route&gt; so its &lt;string, int32&gt;
      * </pre>
      *
-     * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+     * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
      */
 
     public boolean containsAvaiableDateRoutes(
@@ -10941,7 +11613,7 @@ public final class AnomalyOperationProtos {
      * Use {@link #getAvaiableDateRoutesMap()} instead.
      */
     @java.lang.Deprecated
-    public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getAvaiableDateRoutes() {
+    public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> getAvaiableDateRoutes() {
       return getAvaiableDateRoutesMap();
     }
     /**
@@ -10951,10 +11623,10 @@ public final class AnomalyOperationProtos {
      * &lt;date, route&gt; so its &lt;string, int32&gt;
      * </pre>
      *
-     * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+     * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
      */
 
-    public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getAvaiableDateRoutesMap() {
+    public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> getAvaiableDateRoutesMap() {
       return internalGetAvaiableDateRoutes().getMap();
     }
     /**
@@ -10964,14 +11636,14 @@ public final class AnomalyOperationProtos {
      * &lt;date, route&gt; so its &lt;string, int32&gt;
      * </pre>
      *
-     * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+     * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
      */
 
-    public com.google.protobuf.ByteString getAvaiableDateRoutesOrDefault(
+    public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getAvaiableDateRoutesOrDefault(
         java.lang.String key,
-        com.google.protobuf.ByteString defaultValue) {
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes defaultValue) {
       if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
+      java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> map =
           internalGetAvaiableDateRoutes().getMap();
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
@@ -10982,13 +11654,13 @@ public final class AnomalyOperationProtos {
      * &lt;date, route&gt; so its &lt;string, int32&gt;
      * </pre>
      *
-     * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+     * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
      */
 
-    public com.google.protobuf.ByteString getAvaiableDateRoutesOrThrow(
+    public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getAvaiableDateRoutesOrThrow(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
+      java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> map =
           internalGetAvaiableDateRoutes().getMap();
       if (!map.containsKey(key)) {
         throw new java.lang.IllegalArgumentException();
@@ -11008,9 +11680,9 @@ public final class AnomalyOperationProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      for (java.util.Map.Entry<java.lang.String, com.google.protobuf.ByteString> entry
+      for (java.util.Map.Entry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> entry
            : internalGetAvaiableDateRoutes().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
+        com.google.protobuf.MapEntry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
         avaiableDateRoutes = AvaiableDateRoutesDefaultEntryHolder.defaultEntry.newBuilderForType()
             .setKey(entry.getKey())
             .setValue(entry.getValue())
@@ -11024,9 +11696,9 @@ public final class AnomalyOperationProtos {
       if (size != -1) return size;
 
       size = 0;
-      for (java.util.Map.Entry<java.lang.String, com.google.protobuf.ByteString> entry
+      for (java.util.Map.Entry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> entry
            : internalGetAvaiableDateRoutes().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
+        com.google.protobuf.MapEntry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
         avaiableDateRoutes = AvaiableDateRoutesDefaultEntryHolder.defaultEntry.newBuilderForType()
             .setKey(entry.getKey())
             .setValue(entry.getValue())
@@ -11303,8 +11975,8 @@ public final class AnomalyOperationProtos {
       private int bitField0_;
 
       private com.google.protobuf.MapField<
-          java.lang.String, com.google.protobuf.ByteString> avaiableDateRoutes_;
-      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.ByteString>
+          java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> avaiableDateRoutes_;
+      private com.google.protobuf.MapField<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
       internalGetAvaiableDateRoutes() {
         if (avaiableDateRoutes_ == null) {
           return com.google.protobuf.MapField.emptyMapField(
@@ -11312,7 +11984,7 @@ public final class AnomalyOperationProtos {
         }
         return avaiableDateRoutes_;
       }
-      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.ByteString>
+      private com.google.protobuf.MapField<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
       internalGetMutableAvaiableDateRoutes() {
         onChanged();;
         if (avaiableDateRoutes_ == null) {
@@ -11335,7 +12007,7 @@ public final class AnomalyOperationProtos {
        * &lt;date, route&gt; so its &lt;string, int32&gt;
        * </pre>
        *
-       * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+       * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
        */
 
       public boolean containsAvaiableDateRoutes(
@@ -11347,7 +12019,7 @@ public final class AnomalyOperationProtos {
        * Use {@link #getAvaiableDateRoutesMap()} instead.
        */
       @java.lang.Deprecated
-      public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getAvaiableDateRoutes() {
+      public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> getAvaiableDateRoutes() {
         return getAvaiableDateRoutesMap();
       }
       /**
@@ -11357,10 +12029,10 @@ public final class AnomalyOperationProtos {
        * &lt;date, route&gt; so its &lt;string, int32&gt;
        * </pre>
        *
-       * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+       * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
        */
 
-      public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getAvaiableDateRoutesMap() {
+      public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> getAvaiableDateRoutesMap() {
         return internalGetAvaiableDateRoutes().getMap();
       }
       /**
@@ -11370,14 +12042,14 @@ public final class AnomalyOperationProtos {
        * &lt;date, route&gt; so its &lt;string, int32&gt;
        * </pre>
        *
-       * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+       * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
        */
 
-      public com.google.protobuf.ByteString getAvaiableDateRoutesOrDefault(
+      public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getAvaiableDateRoutesOrDefault(
           java.lang.String key,
-          com.google.protobuf.ByteString defaultValue) {
+          pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes defaultValue) {
         if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
+        java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> map =
             internalGetAvaiableDateRoutes().getMap();
         return map.containsKey(key) ? map.get(key) : defaultValue;
       }
@@ -11388,13 +12060,13 @@ public final class AnomalyOperationProtos {
        * &lt;date, route&gt; so its &lt;string, int32&gt;
        * </pre>
        *
-       * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+       * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
        */
 
-      public com.google.protobuf.ByteString getAvaiableDateRoutesOrThrow(
+      public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getAvaiableDateRoutesOrThrow(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
+        java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> map =
             internalGetAvaiableDateRoutes().getMap();
         if (!map.containsKey(key)) {
           throw new java.lang.IllegalArgumentException();
@@ -11413,7 +12085,7 @@ public final class AnomalyOperationProtos {
        * &lt;date, route&gt; so its &lt;string, int32&gt;
        * </pre>
        *
-       * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+       * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
        */
 
       public Builder removeAvaiableDateRoutes(
@@ -11426,7 +12098,7 @@ public final class AnomalyOperationProtos {
        * Use alternate mutation accessors instead.
        */
       @java.lang.Deprecated
-      public java.util.Map<java.lang.String, com.google.protobuf.ByteString>
+      public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
       getMutableAvaiableDateRoutes() {
         return internalGetMutableAvaiableDateRoutes().getMutableMap();
       }
@@ -11437,11 +12109,11 @@ public final class AnomalyOperationProtos {
        * &lt;date, route&gt; so its &lt;string, int32&gt;
        * </pre>
        *
-       * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+       * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
        */
       public Builder putAvaiableDateRoutes(
           java.lang.String key,
-          com.google.protobuf.ByteString value) {
+          pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes value) {
         if (key == null) { throw new java.lang.NullPointerException(); }
         if (value == null) { throw new java.lang.NullPointerException(); }
         getMutableAvaiableDateRoutes().put(key, value);
@@ -11454,11 +12126,11 @@ public final class AnomalyOperationProtos {
        * &lt;date, route&gt; so its &lt;string, int32&gt;
        * </pre>
        *
-       * <code>map&lt;string, bytes&gt; avaiableDateRoutes = 1;</code>
+       * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
        */
 
       public Builder putAllAvaiableDateRoutes(
-          java.util.Map<java.lang.String, com.google.protobuf.ByteString> values) {
+          java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> values) {
         getMutableAvaiableDateRoutes().putAll(values);
         return this;
       }
@@ -13013,6 +13685,16 @@ public final class AnomalyOperationProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_DemandAvailableHistoricalMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_AvailableRoutes_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_AvailableRoutes_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_AvailableRoutes_RoutesEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_AvailableRoutes_RoutesEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AvailableHistoricalMessage_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -13100,19 +13782,22 @@ public final class AnomalyOperationProtos {
       "essage.Day\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY" +
       "\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010THURSD" +
       "AY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY" +
-      "\020\007\"\"\n DemandAvailableHistoricalMessage\"\250" +
-      "\001\n\032AvailableHistoricalMessage\022O\n\022avaiabl" +
-      "eDateRoutes\030\001 \003(\01323.AvailableHistoricalM" +
-      "essage.AvaiableDateRoutesEntry\0329\n\027Avaiab" +
-      "leDateRoutesEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030" +
-      "\002 \001(\014:\0028\001\"8\n\027DemandHistoricalMessage\022\017\n\007",
-      "routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\227\001\n\021Historic" +
-      "alMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t" +
-      "\0222\n\010measures\030\003 \003(\0132 .HistoricalMessage.M" +
-      "easuresEntry\032/\n\rMeasuresEntry\022\013\n\003key\030\001 \001" +
-      "(\005\022\r\n\005value\030\002 \001(\005:\0028\001B9\n\037pl.edu.agh.pp.c" +
-      "harts.operationsB\026AnomalyOperationProtos" +
-      "b\006proto3"
+      "\020\007\"\"\n DemandAvailableHistoricalMessage\"n" +
+      "\n\017AvailableRoutes\022,\n\006routes\030\001 \003(\0132\034.Avai" +
+      "lableRoutes.RoutesEntry\032-\n\013RoutesEntry\022\013" +
+      "\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"\272\001\n\032Avail" +
+      "ableHistoricalMessage\022O\n\022avaiableDateRou" +
+      "tes\030\001 \003(\01323.AvailableHistoricalMessage.A",
+      "vaiableDateRoutesEntry\032K\n\027AvaiableDateRo" +
+      "utesEntry\022\013\n\003key\030\001 \001(\t\022\037\n\005value\030\002 \001(\0132\020." +
+      "AvailableRoutes:\0028\001\"8\n\027DemandHistoricalM" +
+      "essage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\227\001" +
+      "\n\021HistoricalMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004" +
+      "date\030\002 \001(\t\0222\n\010measures\030\003 \003(\0132 .Historica" +
+      "lMessage.MeasuresEntry\032/\n\rMeasuresEntry\022" +
+      "\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001B9\n\037pl.ed" +
+      "u.agh.pp.charts.operationsB\026AnomalyOpera" +
+      "tionProtosb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -13198,8 +13883,20 @@ public final class AnomalyOperationProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DemandAvailableHistoricalMessage_descriptor,
         new java.lang.String[] { });
-    internal_static_AvailableHistoricalMessage_descriptor =
+    internal_static_AvailableRoutes_descriptor =
       getDescriptor().getMessageTypes().get(11);
+    internal_static_AvailableRoutes_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_AvailableRoutes_descriptor,
+        new java.lang.String[] { "Routes", });
+    internal_static_AvailableRoutes_RoutesEntry_descriptor =
+      internal_static_AvailableRoutes_descriptor.getNestedTypes().get(0);
+    internal_static_AvailableRoutes_RoutesEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_AvailableRoutes_RoutesEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_AvailableHistoricalMessage_descriptor =
+      getDescriptor().getMessageTypes().get(12);
     internal_static_AvailableHistoricalMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AvailableHistoricalMessage_descriptor,
@@ -13211,13 +13908,13 @@ public final class AnomalyOperationProtos {
         internal_static_AvailableHistoricalMessage_AvaiableDateRoutesEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_DemandHistoricalMessage_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_DemandHistoricalMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DemandHistoricalMessage_descriptor,
         new java.lang.String[] { "RouteID", "Date", });
     internal_static_HistoricalMessage_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_HistoricalMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_HistoricalMessage_descriptor,

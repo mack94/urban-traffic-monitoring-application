@@ -142,9 +142,7 @@ public class Connector {
     }
 
     public static void updateAvailableDates(Map<String,List<Integer>> arg){
-        System.out.println("###4 - ok");
         ServerDatesInfo.setMap(arg);
-        System.out.println("MAP::: " + arg);
         setServerAvailableDates();
     }
 
