@@ -231,7 +231,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             AnomalyOperationProtos.BaselineMessage.Day day = baselineMessage.getDay();
             Map<Integer, Integer> baselineMap = baselineMessage.getBaselineMap();
             //TODO @Maciek
-            String type = null;
+            String type = "";
             Connector.updateBaseline(routeID, day, baselineMap,type);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();

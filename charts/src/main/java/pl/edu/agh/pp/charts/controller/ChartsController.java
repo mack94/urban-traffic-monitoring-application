@@ -82,10 +82,6 @@ public class ChartsController {
     @FXML
     private Label dayLabel;
     @FXML
-    private ComboBox<String> baselineTypeComboBox;
-    @FXML
-    private Label baselineTypeLabel;
-    @FXML
     private HBox dayHBox;
     @FXML
     private DatePicker datePicker;
@@ -124,10 +120,8 @@ public class ChartsController {
                     input.cleanUp();
                 }
             });
-            primaryStage.setTitle("Urban traffic monitoring - charts");
             scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
-            baselineBox.managedProperty().bind(baselineTypeComboBox.visibleProperty());
             primaryStage.setScene(scene);
             initialized = true;
 //            primaryStage.show();
@@ -272,7 +266,6 @@ public class ChartsController {
         Image reverseButtonImage = new Image(Main.class.getResourceAsStream("/reverse.png"));
         reverseRouteButton.setGraphic(new ImageView(reverseButtonImage));
 
-        baselineTypeComboBox.getItems().addAll("Normal","Holidays");
         fillInDaysOfWeek();
 
         sourceComboBox.getItems().addAll("Local Data","Server Data");
@@ -296,8 +289,6 @@ public class ChartsController {
         idComboBox.setVisible(false);
         idLabel.setVisible(false);
         reverseRouteButton.setVisible(false);
-        baselineTypeComboBox.setVisible(false);
-        baselineTypeLabel.setVisible(false);
         drawBaselineCheckbox.setVisible(false);
         drawBaselineLabel.setVisible(false);
         drawAnomaliesCheckbox.setVisible(false);
@@ -424,7 +415,6 @@ public class ChartsController {
     private void drawServerData(){
         if(!checkConnection())return;
         String type = typeComboBox.getSelectionModel().getSelectedItem();
-        String baselineType = baselineTypeComboBox.getSelectionModel().getSelectedItem();
         String route = idComboBox.getSelectionModel().getSelectedItem();
         String id = ServerRoutesInfo.getId(route);
         String dayForHistoricalData = null;
@@ -435,7 +425,7 @@ public class ChartsController {
             warn.setText("Select all parameters");
             return;
         }
-        if(type.equalsIgnoreCase("current baselines") && ( baselineType == null || dayForBaseline == null)){
+        if(type.equalsIgnoreCase("current baselines") && dayForBaseline == null){
             warn.setText("Select all parameters");
             return;
         }
@@ -449,7 +439,7 @@ public class ChartsController {
             lineChart.getData().clear();
         }
         if(type.equalsIgnoreCase("current baselines")){
-            drawBaseline(id, String.valueOf(DayOfWeek.valueOf(dayForBaseline.toUpperCase()).getValue()),baselineType);
+            drawBaseline(id, String.valueOf(DayOfWeek.valueOf(dayForBaseline.toUpperCase()).getValue()),"");
         }
         else if(type.equalsIgnoreCase("historical data")){
             drawHistoricalData(id, dayForHistoricalData);
@@ -683,8 +673,6 @@ public class ChartsController {
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel,dayComboBox);
             dayHBox.setVisible(true);
-            baselineTypeComboBox.setVisible(true);
-            baselineTypeLabel.setVisible(true);
             drawBaselineCheckbox.setVisible(false);
             drawBaselineLabel.setVisible(false);
             drawAnomaliesCheckbox.setVisible(false);
@@ -695,8 +683,6 @@ public class ChartsController {
             dayHBox.getChildren().addAll(dayLabel,datePicker);
             dayHBox.setVisible(true);
             setupDatePicker();
-            baselineTypeComboBox.setVisible(false);
-            baselineTypeLabel.setVisible(false);
             if("server data".equalsIgnoreCase(sourceComboBox.getSelectionModel().getSelectedItem())) {
                 drawBaselineCheckbox.setVisible(true);
                 drawBaselineLabel.setVisible(true);
@@ -709,8 +695,6 @@ public class ChartsController {
             dayHBox.getChildren().addAll(dayLabel,datePicker);
             dayHBox.setVisible(true);
             setupDatePicker();
-            baselineTypeComboBox.setVisible(false);
-            baselineTypeLabel.setVisible(false);
             drawBaselineCheckbox.setVisible(true);
             drawBaselineLabel.setVisible(true);
             drawAnomaliesCheckbox.setVisible(true);
@@ -776,8 +760,6 @@ public class ChartsController {
                 typeComboBox.getItems().addAll("Historical data");
                 typeLabel.setVisible(true);
                 typeComboBox.setVisible(true);
-                baselineTypeComboBox.setVisible(false);
-                baselineTypeLabel.setVisible(false);
                 reverseRouteButton.setVisible(false);
                 drawAnomaliesCheckbox.setVisible(false);
                 drawBaselineCheckbox.setVisible(false);

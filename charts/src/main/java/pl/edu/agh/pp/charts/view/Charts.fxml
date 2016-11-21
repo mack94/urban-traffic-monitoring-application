@@ -41,12 +41,6 @@
                     <ComboBox fx:id="typeComboBox" onAction="#handleTypeAction"/>
                 </children>
             </HBox>
-            <HBox spacing="10" fx:id="baselineBox">
-                <children>
-                    <Label fx:id="baselineTypeLabel" text="Baseline Type"/>
-                    <ComboBox fx:id="baselineTypeComboBox" onAction="#handleBaselineTypeAction"/>
-                </children>
-            </HBox>
             <HBox spacing="10">
                 <children>
                     <HBox fx:id="dayHBox" />

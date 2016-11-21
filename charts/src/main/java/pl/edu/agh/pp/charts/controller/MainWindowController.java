@@ -24,8 +24,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
-import org.gillius.jfxutils.chart.ChartPanManager;
-import org.gillius.jfxutils.chart.JFXChartUtil;
+import org.gillius.jfxutils.chart.*;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -247,7 +246,7 @@ public class MainWindowController {
                 String dayName = DayOfWeek.of(Integer.parseInt(anomaly.getDayOfWeek())).name();
                 lineChart.getData().add(series);
                 if(baseline != null) {
-                    baseline.setName("Baseline - normal " + dayName.substring(0,1) + dayName.substring(1).toLowerCase());
+                    baseline.setName("Baseline - " + dayName.substring(0,1) + dayName.substring(1).toLowerCase());
                     lineChart.getData().add(baseline);
                 }
                 createChartTooltips();
