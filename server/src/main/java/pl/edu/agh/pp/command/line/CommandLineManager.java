@@ -1,28 +1,25 @@
 package pl.edu.agh.pp.command.line;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.builders.IPatternBuilder;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
-import pl.edu.agh.pp.utils.enums.DayOfWeek;
-import pl.edu.agh.pp.utils.AnomalyLiveTimeInfoHelper;
-import pl.edu.agh.pp.utils.AvailableHistoricalInfoHelper;
-import pl.edu.agh.pp.utils.BaselineWindowSizeInfoHelper;
-import pl.edu.agh.pp.utils.LeverInfoHelper;
 import pl.edu.agh.pp.loaders.FilesLoader;
 import pl.edu.agh.pp.serializers.FileBaselineSerializer;
 import pl.edu.agh.pp.serializers.IBaselineSerializer;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
+import pl.edu.agh.pp.utils.*;
+import pl.edu.agh.pp.utils.enums.DayOfWeek;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Jakub Janusz on 31.10.2016.
@@ -135,6 +132,27 @@ public class CommandLineManager extends Thread
                 else if (buffer.startsWith("AV_H"))
                 {
                     System.out.println(AvailableHistoricalInfoHelper.getAvailableDateRoutes().keySet());
+                }
+                else if(buffer.startsWith("CHANGE_API_KEY ")){
+                    ContextLoader.changeApiKey(StringUtils.removeStart(buffer, "CHANGE_API_KEY "));
+                    System.out.println("Api key changed to: " + StringUtils.removeStart(buffer, "CHANGE_API_KEY "));
+                }
+                else if(buffer.equalsIgnoreCase("help") || buffer.equalsIgnoreCase("-help") ||
+                        buffer.equalsIgnoreCase("-h") || buffer.equalsIgnoreCase("h")){
+                    System.out.println("count_baseline - counts new baseline of files in logs");
+                    System.out.println("load_partially - loads baseline from file only for given day and route");
+                    System.out.println("load - loads baseline from file and replaces in PatternBuilder");
+                    System.out.println("update_baseline - updates current baseline with data contained in given file");
+                    System.out.println("SET_LEVER - changes the lever value");
+                    System.out.println("SET_ANOMALY_LIVE_TIME - changes time needed for anomaly to expire");
+                    System.out.println("SET_BASELINE_WINDOW_SIZE - changes baseline window size");
+                    System.out.println("RESET_PREFERENCES - resets current server preferences to default state");
+                    System.out.println("AV_H - lists available dates for historical data");
+                    System.out.println("CHANGE_API_KEY - changes the key used for requests to google APIS");
+                    System.out.println("help - displays commands list");
+                }
+                else {
+                    System.out.println("Command not found. type help to get the list of possible commands.");
                 }
             }
             catch (Exception e)
