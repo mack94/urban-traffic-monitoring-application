@@ -54,8 +54,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
     public static void computePolynomial(List<Record> records, boolean shouldSetAfterComputing)
     {
         Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = new HashMap<>();
-        PolynomialCurveFitter fitter = PolynomialCurveFitter.create(15);
-        Map<String, Integer> availableDateRoutes = new HashMap<>();
+        PolynomialCurveFitter fitter = PolynomialCurveFitter.create(17);
 
         List<Record> _records = new LinkedList<>();
         _records.addAll(records);
@@ -80,7 +79,10 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
                     points.add(new WeightedObservedPoint(1, record.getTimeInSeconds(), record.getDurationInTraffic()));
                     weightedObservedPointsMap.put(recordRouteID, points);
                 }
-                availableDateRoutes.put(record.getDateTime().toString("yyyy-MM-dd"), record.getRouteID());
+                AvailableHistoricalInfoHelper.addAvailableDateRoute(
+                        record.getDateTime().toString("yyyy-MM-dd"),
+                        record.getRouteID()
+                );
             }
 
             Map<Integer, PolynomialFunction> polynomialFunctionRoutes = new HashMap<>();
@@ -102,9 +104,6 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
         {
             logger.debug("Error occurred while serializing baseline");
         }
-
-        System.out.println("I will add ... ");
-        AvailableHistoricalInfoHelper.addAvailableDateRoutes(availableDateRoutes);
 
         if (shouldSetAfterComputing)
             polynomialFunctions = baseline;

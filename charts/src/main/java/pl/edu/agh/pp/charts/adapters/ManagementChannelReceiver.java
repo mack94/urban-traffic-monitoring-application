@@ -1,5 +1,6 @@
 package pl.edu.agh.pp.charts.adapters;
 
+import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.jgroups.Address;
 import org.jgroups.blocks.cs.*;
@@ -13,9 +14,9 @@ import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.io.*;
 import java.net.InetAddress;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import java.util.*;
 
 /**
  * Created by Maciej on 30.10.2016.
@@ -232,7 +233,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             Map<Integer, Integer> baselineMap = baselineMessage.getBaselineMap();
             //TODO @Maciek
             String type = null;
-            Connector.updateBaseline(routeID, day, baselineMap,type);
+            Connector.updateBaseline(routeID, day, baselineMap, type);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
@@ -242,18 +243,56 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         try {
             AnomalyOperationProtos.AvailableHistoricalMessage availableHistoricalMessage = AnomalyOperationProtos.
                     AvailableHistoricalMessage.parseFrom(message.getAvailableHistoricalMessage().toByteArray());
-            Map<String, Integer> availableHistoricalMap = availableHistoricalMessage.getAvaiableDateRoutesMap();
-            //TODO @Maciek
-            Map<String,List<Integer>> newMap = null;
+            Map<String, ByteString> availableHistoricalMap_byte_string = availableHistoricalMessage
+                    .getAvaiableDateRoutesMap();
+            Map<String, List<Integer>> newMap = new HashMap<>();
+            for (String key: availableHistoricalMap_byte_string.keySet()) {
+                ByteArrayInputStream bais = new ByteArrayInputStream(availableHistoricalMap_byte_string
+                        .get(key)
+                        .toByteArray()
+                );
+                System.out.println(bais.available());
+                System.out.println(availableHistoricalMap_byte_string.get(key));
+                System.out.println("###0 - ok");
+                ByteBuffer.wrap(availableHistoricalMap_byte_string.get(key).toByteArray());
+                System.out.println("###0.5 - ok");
+//                @SuppressWarnings("unchecked")
+//                LinkedList<Integer> list = ByteBuffer.wrap(availableHistoricalMap_byte_string.get(key).toByteArray()).;
+                List<Integer> list = getIntegerList(availableHistoricalMap_byte_string.get(key));
+                newMap.put(key, list);
+                System.out.println("###2 - ok");
+            }
+            System.out.println("###3 - ok");
             Connector.updateAvailableDates(newMap);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
     }
 
+    private List<Integer> getIntegerList(ByteString bytes) {
+        System.out.println("###0.70 - ok");
+        ByteBuffer buffer = ByteBuffer.wrap(bytes.toByteArray());
+        buffer.rewind();
+        IntBuffer ib = ((ByteBuffer) buffer.rewind()).asIntBuffer();
+        System.out.println("###0.75 - ok");
+        IntBuffer intBuffer = buffer.asIntBuffer();
+        System.out.println("###0.80 - ok");
+        System.out.println(intBuffer.hasArray());
+        System.out.println(intBuffer.position());
+        System.out.println("###0.85 - ok");
+        List<Integer> result = new LinkedList<>();
+        System.out.println("###0.90 - ok");
+        while (ib.hasRemaining()) {
+            System.out.println("###0.95 - ok");
+            result.add(ib.get());
+        }
+        System.out.println("###1 - ok");
+        return result;
+    }
+
     private void parseHistoricalMessage(AnomalyOperationProtos.ManagementMessage message) {
         try {
-            AnomalyOperationProtos.HistoricalMessage historicalMessage  = AnomalyOperationProtos
+            AnomalyOperationProtos.HistoricalMessage historicalMessage = AnomalyOperationProtos
                     .HistoricalMessage.parseFrom(message.getHistoricalMessage().toByteArray());
             int routeID = historicalMessage.getRouteID();
             String date = historicalMessage.getDate();

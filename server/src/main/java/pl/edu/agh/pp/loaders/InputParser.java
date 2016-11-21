@@ -16,17 +16,17 @@ public class InputParser
     public Record parse(String buffer)
     {
         JSONObject json = new JSONObject(buffer);
-        if (!"".equals(json.getString("anomalyId")))
-        {
-            return null;
-        }
+//        if (!"".equals(json.getString("anomalyId")))
+//        {
+//            return null;
+//        }
         Record record = new Record();
         record.setRouteID(Integer.valueOf(json.getString("id")));
         record.setDistance(json.getString("distance"));
         record.setDuration(Integer.valueOf(json.getString("duration")));
         record.setDurationInTraffic(Integer.valueOf(json.getString("durationInTraffic")));
         record.setDateTime(convertStringDateToDateTime(json.getString("timeStamp")));
-        record.setWaypoints(json.getString("waypoints"));
+//        record.setWaypoints(json.getString("waypoints"));
         return record;
     }
 

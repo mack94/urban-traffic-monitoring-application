@@ -150,7 +150,7 @@ message AvailableHistoricalMessage {
     // this is made on map structure, but please be aware of the limits of this solution.
     // the max size is 8192 i think.
     // <date, route> so its <string, int32>
-    map<string, int32> avaiableDateRoutes = 1;
+    map<string, bytes> avaiableDateRoutes = 1;
 }
 
 message DemandHistoricalMessage {
