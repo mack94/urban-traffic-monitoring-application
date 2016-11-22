@@ -1637,6 +1637,11 @@ public final class AnomalyOperationProtos {
      */
     com.google.protobuf.ByteString
         getDateBytes();
+
+    /**
+     * <code>optional int32 normExceed = 10;</code>
+     */
+    int getNormExceed();
   }
   /**
    * Protobuf type {@code AnomalyMessage}
@@ -1659,6 +1664,7 @@ public final class AnomalyOperationProtos {
       message_ = "";
       anomalyID_ = 0L;
       date_ = "";
+      normExceed_ = 0;
     }
 
     @java.lang.Override
@@ -1731,6 +1737,11 @@ public final class AnomalyOperationProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               date_ = s;
+              break;
+            }
+            case 80: {
+
+              normExceed_ = input.readInt32();
               break;
             }
           }
@@ -1887,6 +1898,15 @@ public final class AnomalyOperationProtos {
       }
     }
 
+    public static final int NORMEXCEED_FIELD_NUMBER = 10;
+    private int normExceed_;
+    /**
+     * <code>optional int32 normExceed = 10;</code>
+     */
+    public int getNormExceed() {
+      return normExceed_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1925,6 +1945,9 @@ public final class AnomalyOperationProtos {
       }
       if (!getDateBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 9, date_);
+      }
+      if (normExceed_ != 0) {
+        output.writeInt32(10, normExceed_);
       }
     }
 
@@ -1967,6 +1990,10 @@ public final class AnomalyOperationProtos {
       if (!getDateBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, date_);
       }
+      if (normExceed_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, normExceed_);
+      }
       memoizedSize = size;
       return size;
     }
@@ -2001,6 +2028,8 @@ public final class AnomalyOperationProtos {
           == other.getAnomalyID());
       result = result && getDate()
           .equals(other.getDate());
+      result = result && (getNormExceed()
+          == other.getNormExceed());
       return result;
     }
 
@@ -2031,6 +2060,8 @@ public final class AnomalyOperationProtos {
           getAnomalyID());
       hash = (37 * hash) + DATE_FIELD_NUMBER;
       hash = (53 * hash) + getDate().hashCode();
+      hash = (37 * hash) + NORMEXCEED_FIELD_NUMBER;
+      hash = (53 * hash) + getNormExceed();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2167,6 +2198,8 @@ public final class AnomalyOperationProtos {
 
         date_ = "";
 
+        normExceed_ = 0;
+
         return this;
       }
 
@@ -2198,6 +2231,7 @@ public final class AnomalyOperationProtos {
         result.message_ = message_;
         result.anomalyID_ = anomalyID_;
         result.date_ = date_;
+        result.normExceed_ = normExceed_;
         onBuilt();
         return result;
       }
@@ -2267,6 +2301,9 @@ public final class AnomalyOperationProtos {
         if (!other.getDate().isEmpty()) {
           date_ = other.date_;
           onChanged();
+        }
+        if (other.getNormExceed() != 0) {
+          setNormExceed(other.getNormExceed());
         }
         onChanged();
         return this;
@@ -2610,6 +2647,32 @@ public final class AnomalyOperationProtos {
   checkByteStringIsUtf8(value);
         
         date_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int normExceed_ ;
+      /**
+       * <code>optional int32 normExceed = 10;</code>
+       */
+      public int getNormExceed() {
+        return normExceed_;
+      }
+      /**
+       * <code>optional int32 normExceed = 10;</code>
+       */
+      public Builder setNormExceed(int value) {
+        
+        normExceed_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 normExceed = 10;</code>
+       */
+      public Builder clearNormExceed() {
+        
+        normExceed_ = 0;
         onChanged();
         return this;
       }
@@ -14006,73 +14069,73 @@ public final class AnomalyOperationProtos {
       "action\030\001 \001(\0162\031.AnomalyAction.ActionType\022" +
       "\017\n\007channel\030\002 \001(\t\022\020\n\010nickname\030\003 \001(\t\"!\n\nAc" +
       "tionType\022\010\n\004JOIN\020\000\022\t\n\005LEAVE\020\001\"-\n\014Anomaly" +
-      "State\022\035\n\005state\030\001 \003(\0132\016.AnomalyAction\"\262\001\n" +
+      "State\022\035\n\005state\030\001 \003(\0132\016.AnomalyAction\"\306\001\n" +
       "\016AnomalyMessage\022\020\n\010routeIdx\030\001 \001(\005\022\023\n\013sec" +
       "ondOfDay\030\002 \001(\005\022\020\n\010isActive\030\003 \001(\010\022\020\n\010dura" +
       "tion\030\004 \001(\005\022\021\n\tdayOfWeek\030\005 \001(\005\022\020\n\010severit" +
       "y\030\006 \001(\005\022\017\n\007message\030\007 \001(\t\022\021\n\tanomalyID\030\010 " +
-      "\001(\003\022\014\n\004date\030\t \001(\t\"\301\006\n\021ManagementMessage\022",
-      "%\n\004type\030\001 \001(\0162\027.ManagementMessage.Type\022\'" +
-      "\n\016bonjourMessage\030\002 \001(\0132\017.BonjourMessage\022" +
-      "3\n\024systemGeneralMessage\030\003 \001(\0132\025.SystemGe" +
-      "neralMessage\022#\n\014leverMessage\030\004 \001(\0132\r.Lev" +
-      "erMessage\022)\n\017baselineMessage\030\005 \001(\0132\020.Bas" +
-      "elineMessage\0225\n\025demandBaselineMessage\030\006 " +
-      "\001(\0132\026.DemandBaselineMessage\022#\n\014routeMess" +
-      "age\030\007 \001(\0132\r.RouteMessage\022?\n\032availableHis" +
-      "toricalMessage\030\010 \001(\0132\033.AvailableHistoric" +
-      "alMessage\022K\n demandAvailableHistoricalMe",
-      "ssage\030\t \001(\0132!.DemandAvailableHistoricalM" +
-      "essage\022-\n\021historicalMessage\030\n \001(\0132\022.Hist" +
-      "oricalMessage\0229\n\027demandHistoricalMessage" +
-      "\030\013 \001(\0132\030.DemandHistoricalMessage\"\202\002\n\004Typ" +
-      "e\022\022\n\016BONJOURMESSAGE\020\000\022\030\n\024SYSTEMGENERALME" +
-      "SSAGE\020\001\022\020\n\014LEVERMESSAGE\020\002\022\023\n\017BASELINEMES" +
-      "SAGE\020\003\022\031\n\025DEMANDBASELINEMESSAGE\020\004\022\020\n\014ROU" +
-      "TEMESSAGE\020\005\022\036\n\032AVAILABLEHISTORICALMESSAG" +
-      "E\020\006\022$\n DEMANDAVAILABLEHISTORICALMESSAGE\020" +
-      "\007\022\025\n\021HISTORICALMESSAGE\020\010\022\033\n\027DEMANDHISTOR",
-      "ICALMESSAGE\020\t\"?\n\016BonjourMessage\022\r\n\005token" +
-      "\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\022\020\n\010userName\030\003 \001(\t\"\375" +
-      "\001\n\024SystemGeneralMessage\022\022\n\nmessageIdx\030\001 " +
-      "\001(\005\022\022\n\nleverValue\030\002 \001(\001\022\022\n\nsystemDate\030\003 " +
-      "\001(\t\022\027\n\017anomalyLiveTime\030\004 \001(\005\022\032\n\022baseline" +
-      "WindowSize\030\005 \001(\005\022*\n\005shift\030\006 \001(\0162\033.System" +
-      "GeneralMessage.Shift\022\014\n\004port\030\007 \001(\005\022\016\n\006ro" +
-      "utes\030\010 \001(\t\"*\n\005Shift\022\007\n\003DAY\020\000\022\t\n\005NIGHT\020\001\022" +
-      "\r\n\tUNIVERSAL\020\002\"T\n\014RouteMessage\022\017\n\007routeI" +
-      "D\030\001 \001(\005\022\016\n\006origin\030\002 \001(\t\022\023\n\013destination\030\003",
-      " \001(\t\022\016\n\006coords\030\004 \001(\t\";\n\014LeverMessage\022\022\n\n" +
-      "leverValue\030\001 \001(\001\022\027\n\017leverUpdateDate\030\002 \001(" +
-      "\t\"\257\002\n\017BaselineMessage\022\020\n\010routeIdx\030\001 \001(\005\022" +
-      "!\n\003day\030\002 \001(\0162\024.BaselineMessage.Day\0220\n\010ba" +
-      "seline\030\003 \003(\0132\036.BaselineMessage.BaselineE" +
-      "ntry\022\024\n\014baselineType\030\004 \001(\t\032/\n\rBaselineEn" +
-      "try\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"n\n\003D" +
-      "ay\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY\020\001\022\013\n\007TUESDAY\020\002" +
-      "\022\r\n\tWEDNESDAY\020\003\022\014\n\010THURSDAY\020\004\022\n\n\006FRIDAY\020" +
-      "\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY\020\007\"\330\001\n\025DemandBa",
-      "selineMessage\022\020\n\010routeIdx\030\001 \001(\005\022\'\n\003day\030\002" +
-      " \001(\0162\032.DemandBaselineMessage.Day\022\024\n\014base" +
-      "lineType\030\003 \001(\t\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MO" +
-      "NDAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010TH" +
-      "URSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SU" +
-      "NDAY\020\007\"\"\n DemandAvailableHistoricalMessa" +
-      "ge\"n\n\017AvailableRoutes\022,\n\006routes\030\001 \003(\0132\034." +
-      "AvailableRoutes.RoutesEntry\032-\n\013RoutesEnt" +
-      "ry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"\272\001\n\032A" +
-      "vailableHistoricalMessage\022O\n\022avaiableDat",
-      "eRoutes\030\001 \003(\01323.AvailableHistoricalMessa" +
-      "ge.AvaiableDateRoutesEntry\032K\n\027AvaiableDa" +
-      "teRoutesEntry\022\013\n\003key\030\001 \001(\t\022\037\n\005value\030\002 \001(" +
-      "\0132\020.AvailableRoutes:\0028\001\"8\n\027DemandHistori" +
-      "calMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(" +
-      "\t\"\227\001\n\021HistoricalMessage\022\017\n\007routeID\030\001 \001(\005" +
-      "\022\014\n\004date\030\002 \001(\t\0222\n\010measures\030\003 \003(\0132 .Histo" +
-      "ricalMessage.MeasuresEntry\032/\n\rMeasuresEn" +
-      "try\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001B2\n\030p" +
-      "l.edu.agh.pp.operationsB\026AnomalyOperatio",
-      "nProtosb\006proto3"
+      "\001(\003\022\014\n\004date\030\t \001(\t\022\022\n\nnormExceed\030\n \001(\005\"\301\006",
+      "\n\021ManagementMessage\022%\n\004type\030\001 \001(\0162\027.Mana" +
+      "gementMessage.Type\022\'\n\016bonjourMessage\030\002 \001" +
+      "(\0132\017.BonjourMessage\0223\n\024systemGeneralMess" +
+      "age\030\003 \001(\0132\025.SystemGeneralMessage\022#\n\014leve" +
+      "rMessage\030\004 \001(\0132\r.LeverMessage\022)\n\017baselin" +
+      "eMessage\030\005 \001(\0132\020.BaselineMessage\0225\n\025dema" +
+      "ndBaselineMessage\030\006 \001(\0132\026.DemandBaseline" +
+      "Message\022#\n\014routeMessage\030\007 \001(\0132\r.RouteMes" +
+      "sage\022?\n\032availableHistoricalMessage\030\010 \001(\013" +
+      "2\033.AvailableHistoricalMessage\022K\n demandA",
+      "vailableHistoricalMessage\030\t \001(\0132!.Demand" +
+      "AvailableHistoricalMessage\022-\n\021historical" +
+      "Message\030\n \001(\0132\022.HistoricalMessage\0229\n\027dem" +
+      "andHistoricalMessage\030\013 \001(\0132\030.DemandHisto" +
+      "ricalMessage\"\202\002\n\004Type\022\022\n\016BONJOURMESSAGE\020" +
+      "\000\022\030\n\024SYSTEMGENERALMESSAGE\020\001\022\020\n\014LEVERMESS" +
+      "AGE\020\002\022\023\n\017BASELINEMESSAGE\020\003\022\031\n\025DEMANDBASE" +
+      "LINEMESSAGE\020\004\022\020\n\014ROUTEMESSAGE\020\005\022\036\n\032AVAIL" +
+      "ABLEHISTORICALMESSAGE\020\006\022$\n DEMANDAVAILAB" +
+      "LEHISTORICALMESSAGE\020\007\022\025\n\021HISTORICALMESSA",
+      "GE\020\010\022\033\n\027DEMANDHISTORICALMESSAGE\020\t\"?\n\016Bon" +
+      "jourMessage\022\r\n\005token\030\001 \001(\005\022\014\n\004date\030\002 \001(\t" +
+      "\022\020\n\010userName\030\003 \001(\t\"\375\001\n\024SystemGeneralMess" +
+      "age\022\022\n\nmessageIdx\030\001 \001(\005\022\022\n\nleverValue\030\002 " +
+      "\001(\001\022\022\n\nsystemDate\030\003 \001(\t\022\027\n\017anomalyLiveTi" +
+      "me\030\004 \001(\005\022\032\n\022baselineWindowSize\030\005 \001(\005\022*\n\005" +
+      "shift\030\006 \001(\0162\033.SystemGeneralMessage.Shift" +
+      "\022\014\n\004port\030\007 \001(\005\022\016\n\006routes\030\010 \001(\t\"*\n\005Shift\022" +
+      "\007\n\003DAY\020\000\022\t\n\005NIGHT\020\001\022\r\n\tUNIVERSAL\020\002\"T\n\014Ro" +
+      "uteMessage\022\017\n\007routeID\030\001 \001(\005\022\016\n\006origin\030\002 ",
+      "\001(\t\022\023\n\013destination\030\003 \001(\t\022\016\n\006coords\030\004 \001(\t" +
+      "\";\n\014LeverMessage\022\022\n\nleverValue\030\001 \001(\001\022\027\n\017" +
+      "leverUpdateDate\030\002 \001(\t\"\257\002\n\017BaselineMessag" +
+      "e\022\020\n\010routeIdx\030\001 \001(\005\022!\n\003day\030\002 \001(\0162\024.Basel" +
+      "ineMessage.Day\0220\n\010baseline\030\003 \003(\0132\036.Basel" +
+      "ineMessage.BaselineEntry\022\024\n\014baselineType" +
+      "\030\004 \001(\t\032/\n\rBaselineEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005" +
+      "value\030\002 \001(\005:\0028\001\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006M" +
+      "ONDAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010T" +
+      "HURSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006S",
+      "UNDAY\020\007\"\330\001\n\025DemandBaselineMessage\022\020\n\010rou" +
+      "teIdx\030\001 \001(\005\022\'\n\003day\030\002 \001(\0162\032.DemandBaselin" +
+      "eMessage.Day\022\024\n\014baselineType\030\003 \001(\t\"n\n\003Da" +
+      "y\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY\020\001\022\013\n\007TUESDAY\020\002\022" +
+      "\r\n\tWEDNESDAY\020\003\022\014\n\010THURSDAY\020\004\022\n\n\006FRIDAY\020\005" +
+      "\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY\020\007\"\"\n DemandAvai" +
+      "lableHistoricalMessage\"n\n\017AvailableRoute" +
+      "s\022,\n\006routes\030\001 \003(\0132\034.AvailableRoutes.Rout" +
+      "esEntry\032-\n\013RoutesEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005v" +
+      "alue\030\002 \001(\005:\0028\001\"\272\001\n\032AvailableHistoricalMe",
+      "ssage\022O\n\022avaiableDateRoutes\030\001 \003(\01323.Avai" +
+      "lableHistoricalMessage.AvaiableDateRoute" +
+      "sEntry\032K\n\027AvaiableDateRoutesEntry\022\013\n\003key" +
+      "\030\001 \001(\t\022\037\n\005value\030\002 \001(\0132\020.AvailableRoutes:" +
+      "\0028\001\"8\n\027DemandHistoricalMessage\022\017\n\007routeI" +
+      "D\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\227\001\n\021HistoricalMess" +
+      "age\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\0222\n\010me" +
+      "asures\030\003 \003(\0132 .HistoricalMessage.Measure" +
+      "sEntry\032/\n\rMeasuresEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005" +
+      "value\030\002 \001(\005:\0028\001B2\n\030pl.edu.agh.pp.operati",
+      "onsB\026AnomalyOperationProtosb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -14103,7 +14166,7 @@ public final class AnomalyOperationProtos {
     internal_static_AnomalyMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AnomalyMessage_descriptor,
-        new java.lang.String[] { "RouteIdx", "SecondOfDay", "IsActive", "Duration", "DayOfWeek", "Severity", "Message", "AnomalyID", "Date", });
+        new java.lang.String[] { "RouteIdx", "SecondOfDay", "IsActive", "Duration", "DayOfWeek", "Severity", "Message", "AnomalyID", "Date", "NormExceed", });
     internal_static_ManagementMessage_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_ManagementMessage_fieldAccessorTable = new

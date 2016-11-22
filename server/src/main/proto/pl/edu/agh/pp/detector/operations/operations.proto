@@ -32,6 +32,7 @@ message AnomalyMessage {
     string message = 7;
     int64 anomalyID = 8;
     string date = 9;
+    int32 normExceed = 10;
 
 }
 

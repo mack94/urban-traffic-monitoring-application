@@ -34,6 +34,7 @@ public class Anomaly {
         this.route = RoutesLoader.getRoute(routeId);
         this.duration = String.valueOf(anomalyMessage.getDuration());
         this.dayOfWeek = String.valueOf(anomalyMessage.getDayOfWeek());
+        this.percent = String.valueOf(anomalyMessage.getNormExceed());
         durationHistory = new HashMap<>();
         durationHistory.put(this.lastDate, this.duration);
         anomaliesNumber = 1;
@@ -86,10 +87,10 @@ public class Anomaly {
     public String getTrend() {
         if(duration!=null && previousDuration != null){
             if(Integer.valueOf(duration)<Integer.valueOf(previousDuration)){
-                return "↓";
+                return "↘";
             }
             else if (Integer.valueOf(duration)>Integer.valueOf(previousDuration)){
-                return "↑";
+                return "↗";
             }
         }
         return "-";
