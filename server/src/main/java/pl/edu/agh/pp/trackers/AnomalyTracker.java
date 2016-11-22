@@ -29,7 +29,7 @@ public final class AnomalyTracker implements IAnomalyTracker {
     private final Logger logger = (Logger) LoggerFactory.getLogger(AnomalyTracker.class);
     // In the future, it can be replaced by the structure in which objects terminates - to make it more memory efficiently.
     private ConcurrentHashMap<Integer, DateTime> anomalyTime = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<Integer, Long> anomalyID = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Integer, String> anomalyID = new ConcurrentHashMap<>();
     private IOptions options = Options.getInstance();
     private Seconds liveTime;
     private Random random = new Random();
@@ -59,7 +59,7 @@ public final class AnomalyTracker implements IAnomalyTracker {
     }
 
     @Override
-    public synchronized long put(int routeID, DateTime dateTime) {
+    public synchronized String put(int routeID, DateTime dateTime) {
 
         DateTime lastAnomalyOnThisRoute = anomalyTime.get(routeID);
 
@@ -68,7 +68,7 @@ public final class AnomalyTracker implements IAnomalyTracker {
 
         Seconds diff = Seconds.secondsBetween(dateTime, lastAnomalyOnThisRoute);
         if (Math.abs(diff.getSeconds()) > liveTime.getSeconds()) {
-            long newAnomalyID = DateTime.now().getMillis() + random.nextInt(liveTime.getSeconds());
+            String newAnomalyID = String.format("%04d", routeID) +"_" + dateTime.toLocalDate() + "_" + dateTime.getHourOfDay()+"-"+dateTime.getMinuteOfHour();
             anomalyID.put(routeID, newAnomalyID);
         }
         anomalyTime.put(routeID, dateTime);
@@ -77,13 +77,13 @@ public final class AnomalyTracker implements IAnomalyTracker {
     }
 
     @Override
-    public long get(int routeID) {
+    public String get(int routeID) {
 
-        Long anomaly = anomalyID.get(routeID);
+        String anomalyId = anomalyID.get(routeID);
 
-        if (anomaly != null)
-            return anomaly;
-        return -1;
+        if (anomalyId != null)
+            return anomalyId;
+        return null;
     }
 
     @Override
