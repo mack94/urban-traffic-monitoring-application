@@ -1624,9 +1624,14 @@ public final class AnomalyOperationProtos {
         getMessageBytes();
 
     /**
-     * <code>optional int64 anomalyID = 8;</code>
+     * <code>optional string anomalyID = 8;</code>
      */
-    long getAnomalyID();
+    java.lang.String getAnomalyID();
+    /**
+     * <code>optional string anomalyID = 8;</code>
+     */
+    com.google.protobuf.ByteString
+        getAnomalyIDBytes();
 
     /**
      * <code>optional string date = 9;</code>
@@ -1662,7 +1667,7 @@ public final class AnomalyOperationProtos {
       dayOfWeek_ = 0;
       severity_ = 0;
       message_ = "";
-      anomalyID_ = 0L;
+      anomalyID_ = "";
       date_ = "";
       normExceed_ = 0;
     }
@@ -1728,9 +1733,10 @@ public final class AnomalyOperationProtos {
               message_ = s;
               break;
             }
-            case 64: {
+            case 66: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              anomalyID_ = input.readInt64();
+              anomalyID_ = s;
               break;
             }
             case 74: {
@@ -1856,12 +1862,37 @@ public final class AnomalyOperationProtos {
     }
 
     public static final int ANOMALYID_FIELD_NUMBER = 8;
-    private long anomalyID_;
+    private volatile java.lang.Object anomalyID_;
     /**
-     * <code>optional int64 anomalyID = 8;</code>
+     * <code>optional string anomalyID = 8;</code>
      */
-    public long getAnomalyID() {
-      return anomalyID_;
+    public java.lang.String getAnomalyID() {
+      java.lang.Object ref = anomalyID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        anomalyID_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string anomalyID = 8;</code>
+     */
+    public com.google.protobuf.ByteString
+        getAnomalyIDBytes() {
+      java.lang.Object ref = anomalyID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        anomalyID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int DATE_FIELD_NUMBER = 9;
@@ -1940,8 +1971,8 @@ public final class AnomalyOperationProtos {
       if (!getMessageBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 7, message_);
       }
-      if (anomalyID_ != 0L) {
-        output.writeInt64(8, anomalyID_);
+      if (!getAnomalyIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, anomalyID_);
       }
       if (!getDateBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 9, date_);
@@ -1983,9 +2014,8 @@ public final class AnomalyOperationProtos {
       if (!getMessageBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, message_);
       }
-      if (anomalyID_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(8, anomalyID_);
+      if (!getAnomalyIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, anomalyID_);
       }
       if (!getDateBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, date_);
@@ -2024,8 +2054,8 @@ public final class AnomalyOperationProtos {
           == other.getSeverity());
       result = result && getMessage()
           .equals(other.getMessage());
-      result = result && (getAnomalyID()
-          == other.getAnomalyID());
+      result = result && getAnomalyID()
+          .equals(other.getAnomalyID());
       result = result && getDate()
           .equals(other.getDate());
       result = result && (getNormExceed()
@@ -2056,8 +2086,7 @@ public final class AnomalyOperationProtos {
       hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
       hash = (53 * hash) + getMessage().hashCode();
       hash = (37 * hash) + ANOMALYID_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getAnomalyID());
+      hash = (53 * hash) + getAnomalyID().hashCode();
       hash = (37 * hash) + DATE_FIELD_NUMBER;
       hash = (53 * hash) + getDate().hashCode();
       hash = (37 * hash) + NORMEXCEED_FIELD_NUMBER;
@@ -2194,7 +2223,7 @@ public final class AnomalyOperationProtos {
 
         message_ = "";
 
-        anomalyID_ = 0L;
+        anomalyID_ = "";
 
         date_ = "";
 
@@ -2295,8 +2324,9 @@ public final class AnomalyOperationProtos {
           message_ = other.message_;
           onChanged();
         }
-        if (other.getAnomalyID() != 0L) {
-          setAnomalyID(other.getAnomalyID());
+        if (!other.getAnomalyID().isEmpty()) {
+          anomalyID_ = other.anomalyID_;
+          onChanged();
         }
         if (!other.getDate().isEmpty()) {
           date_ = other.date_;
@@ -2556,28 +2586,71 @@ public final class AnomalyOperationProtos {
         return this;
       }
 
-      private long anomalyID_ ;
+      private java.lang.Object anomalyID_ = "";
       /**
-       * <code>optional int64 anomalyID = 8;</code>
+       * <code>optional string anomalyID = 8;</code>
        */
-      public long getAnomalyID() {
-        return anomalyID_;
+      public java.lang.String getAnomalyID() {
+        java.lang.Object ref = anomalyID_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          anomalyID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional int64 anomalyID = 8;</code>
+       * <code>optional string anomalyID = 8;</code>
        */
-      public Builder setAnomalyID(long value) {
-        
+      public com.google.protobuf.ByteString
+          getAnomalyIDBytes() {
+        java.lang.Object ref = anomalyID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          anomalyID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string anomalyID = 8;</code>
+       */
+      public Builder setAnomalyID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         anomalyID_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int64 anomalyID = 8;</code>
+       * <code>optional string anomalyID = 8;</code>
        */
       public Builder clearAnomalyID() {
         
-        anomalyID_ = 0L;
+        anomalyID_ = getDefaultInstance().getAnomalyID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string anomalyID = 8;</code>
+       */
+      public Builder setAnomalyIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        anomalyID_ = value;
         onChanged();
         return this;
       }
@@ -14074,7 +14147,7 @@ public final class AnomalyOperationProtos {
       "ondOfDay\030\002 \001(\005\022\020\n\010isActive\030\003 \001(\010\022\020\n\010dura" +
       "tion\030\004 \001(\005\022\021\n\tdayOfWeek\030\005 \001(\005\022\020\n\010severit" +
       "y\030\006 \001(\005\022\017\n\007message\030\007 \001(\t\022\021\n\tanomalyID\030\010 " +
-      "\001(\003\022\014\n\004date\030\t \001(\t\022\022\n\nnormExceed\030\n \001(\005\"\301\006",
+      "\001(\t\022\014\n\004date\030\t \001(\t\022\022\n\nnormExceed\030\n \001(\005\"\301\006",
       "\n\021ManagementMessage\022%\n\004type\030\001 \001(\0162\027.Mana" +
       "gementMessage.Type\022\'\n\016bonjourMessage\030\002 \001" +
       "(\0132\017.BonjourMessage\0223\n\024systemGeneralMess" +
