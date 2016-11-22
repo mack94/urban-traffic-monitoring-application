@@ -22,8 +22,6 @@
     function initMap() {
         var routeStart = {lat: $startLat$, lng: $startLng$};
         var routeEnd = {lat: $endLat$, lng: $endLng$};
-		//var routeStart = {lat: 50.07, lng: 19.94};
-		//var routeEnd = {lat: 50.079, lng: 19.94};
         // Instantiate a directions service.
         var directionsService = new google.maps.DirectionsService;
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -33,20 +31,12 @@
         });
         // Create a renderer for directions and bind it to the map.
         var directionsDisplay = new google.maps.DirectionsRenderer({map: map});
-//        var markerStart = new google.maps.Marker({
-//            position: routeStart,
-//            map: map,
-//            title: 'Route start'
-//        });
-//        var markerEnd = new google.maps.Marker({
-//            position: routeEnd,
-//            map: map,
-//            title: 'Route end'
-//        });
         var trafficLayer = new google.maps.TrafficLayer();
         trafficLayer.setMap(map);
-        calculateAndDisplayRoute(
-                    directionsDisplay, directionsService, routeStart, routeEnd, map);
+        if ( !$default$ ) {
+            calculateAndDisplayRoute(
+                        directionsDisplay, directionsService, routeStart, routeEnd, map);
+        }
         var mapStyle = [
             {
                 featureType: "administrative",
@@ -69,12 +59,6 @@
             }
         ]
         map.set('styles', mapStyle);
-		google.maps.event.addListenerOnce(map, 'idle', function(){
-			// do something only the first time the map is loaded
-			setTimeout(function () {
-            console.log('mapReady----------------------------------------')
-          }, 10)
-		});
 
         var allowedBounds = new google.maps.LatLngBounds(
              new google.maps.LatLng(49.9667, 19.7170),

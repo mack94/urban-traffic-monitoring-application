@@ -2,7 +2,10 @@ package pl.edu.agh.pp.charts.controller;
 
 import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +25,7 @@ import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import netscape.javascript.JSObject;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -37,11 +41,9 @@ import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
+import java.net.URI;
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -411,22 +413,15 @@ public class MainWindowController {
     private void setAnomalyMapUp() {
         htmlBuilder = new HtmlBuilder();
         anomalyMapWebEngine = anomalyMapWebView.getEngine();
-        String defaultLat = "50.07";
-        String defaultLng = "19.94";
-        MapRoute defaultMapRoute = new MapRoute(defaultLat, defaultLng,defaultLat, defaultLng);
-        anomalyMapWebEngine.loadContent(htmlBuilder.loadAnomalyMapStructure(defaultMapRoute));
+
+        anomalyMapWebEngine.loadContent(htmlBuilder.loadDefaultAnomalyMapStructure());
     }
 
-
-    private void setMapUp() {
+    private void setMapUp() throws IOException {
         mapWebEngine = mapWebView.getEngine();
-        MapRoute defaultRoute1 = new MapRoute("50.07", "19.94", "50.079", "19.94", "test1");
-        MapRoute defaultRoute2 = new MapRoute("50.065", "19.92", "50.073", "19.95", "test2");
-        List<MapRoute> routes = new ArrayList<>();
-        routes.add(defaultRoute1);
-        routes.add(defaultRoute2);
 
-        mapWebEngine.loadContent(htmlBuilder.loadMapStructure(routes));
+        mapWebEngine.loadContent(htmlBuilder.loadDefaultMapStructure());
+
     }
 
     public void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort){

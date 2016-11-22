@@ -36,10 +36,26 @@ public class HtmlBuilder {
         logger.info(Thread.currentThread().getStackTrace()[1].getMethodName());
 
         StringTemplate messageStructure = loadStringTemplate("anomaly_map_structure");
+        messageStructure.setAttribute("default", "false");
         messageStructure.setAttribute("startLat", route.getStartLat());
         messageStructure.setAttribute("startLng", route.getStartLng());
         messageStructure.setAttribute("endLat", route.getEndLat());
         messageStructure.setAttribute("endLng", route.getEndLng());
+
+        return messageStructure.toString();
+    }
+    public String loadDefaultAnomalyMapStructure() {
+        logger.info(Thread.currentThread().getStackTrace()[1].getMethodName());
+
+        StringTemplate messageStructure = loadStringTemplate("anomaly_map_structure");
+        messageStructure.setAttribute("default", "true");
+        //center of default anomaly map
+        messageStructure.setAttribute("startLat", "50.07");
+        messageStructure.setAttribute("startLng", "19.94");
+
+        //these coords wont matter, but they have to be give a value
+        messageStructure.setAttribute("endLat", "0");
+        messageStructure.setAttribute("endLng", "0");
 
         return messageStructure.toString();
     }
@@ -54,7 +70,19 @@ public class HtmlBuilder {
             routesInstructions.append(mapRoute.getRouteJavaScriptInstruction());
             routesInstructions.append("\n");
         }
+        messageStructure.setAttribute("default", "false");
         messageStructure.setAttribute("routesInstructions", routesInstructions.toString());
+
+        return messageStructure.toString();
+    }
+
+    public String loadDefaultMapStructure() {
+        logger.info(Thread.currentThread().getStackTrace()[1].getMethodName());
+
+        StringTemplate messageStructure = loadStringTemplate("map_structure");
+
+        messageStructure.setAttribute("default", "true");
+        messageStructure.setAttribute("routesInstructions", "");
 
         return messageStructure.toString();
     }
