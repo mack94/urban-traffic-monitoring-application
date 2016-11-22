@@ -47,7 +47,10 @@
         });
 
         var trafficLayer = new google.maps.TrafficLayer();
-        trafficLayer.setMap(map);
+        var trafficControlDiv = document.createElement('div');
+        var trafficControl = new trafficControl(trafficControlDiv, map);
+        trafficControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(trafficControlDiv)
 
 		$routesInstructions$
 
@@ -100,6 +103,45 @@
 				scale: 2
 			};
 		};
+        function trafficControl(controlDiv, map) {
+              // Set CSS for the control border.
+              var controlUI = document.createElement('div');
+              controlUI.style.backgroundColor = '#fff';
+              controlUI.style.border = '2px solid #fff';
+              controlUI.style.borderRadius = '3px';
+              controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+              controlUI.style.cursor = 'pointer';
+              controlUI.style.marginBottom = '22px';
+              controlUI.style.marginTop = '3px';
+              controlUI.style.marginRight = '3px';
+              controlUI.style.textAlign = 'center';
+              controlUI.title = 'Click to enable/disable the traffic layer';
+              controlDiv.appendChild(controlUI);
+
+              // Set CSS for the control interior.
+              var controlText = document.createElement('div');
+              controlText.style.color = 'rgb(25,25,25)';
+              controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+              controlText.style.fontSize = '16px';
+              controlText.style.lineHeight = '38px';
+              controlText.style.paddingLeft = '5px';
+              controlText.style.paddingRight = '5px';
+              controlText.innerHTML = 'Enable traffic layer';
+              controlUI.appendChild(controlText);
+
+              // Setup the click event listener
+              controlUI.addEventListener('click', function() {
+                if( controlText.innerHTML == 'Disable traffic layer' ) {
+                    trafficLayer.setMap(null);
+                    controlText.innerHTML = 'Enable traffic layer';
+                }
+                else if( controlText.innerHTML == 'Enable traffic layer' ) {
+                    trafficLayer.setMap(map);
+                    controlText.innerHTML = 'Disable traffic layer';
+                }
+              });
+
+		}
 		function calculateAndDisplayRoute(directionsService,
                   routeStart, routeEnd, routeId, color, map) {
             // Retrieve the start and end locations and create a DirectionsRequest using
@@ -115,7 +157,7 @@
 				        map: map,
 				        suppressMarkers: true,
 				        preserveViewport: true,
-				        polylineOptions: { strokeColor: color }
+				        polylineOptions: { strokeColor: color, strokeWeight: 8.0 }
 				    });
 
 
