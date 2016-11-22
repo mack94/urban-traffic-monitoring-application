@@ -35,6 +35,7 @@ public class Connector {
     public static void setMainWindowController(MainWindowController mwc) {
         mainWindowController = mwc;
     }
+
     public static void setChartsController(ChartsController cc) {
         chartsController = cc;
     }
@@ -104,11 +105,12 @@ public class Connector {
         BaselineManager.addBaseline(routeID, DayOfWeek.valueOf(String.valueOf(day)), baseline, type);
     }
 
-    public static void demandBaseline(DayOfWeek dayOfWeek, int routeID,String type) {
-        //TODO add type to demand baseline
+    public static void demandBaseline(DayOfWeek dayOfWeek, int routeID, String type) {
+//        type = "2016-11-05_17-53-32";
         AnomalyOperationProtos.DemandBaselineMessage demandBaselineMessage = AnomalyOperationProtos.DemandBaselineMessage.newBuilder()
                 .setDay(AnomalyOperationProtos.DemandBaselineMessage.Day.forNumber(dayOfWeek.getValue()))
                 .setRouteIdx(routeID)
+                .setBaselineType(type)
                 .build();
 
         AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
@@ -141,16 +143,16 @@ public class Connector {
         }
     }
 
-    public static void updateAvailableDates(Map<String,List<Integer>> arg){
+    public static void updateAvailableDates(Map<String, List<Integer>> arg) {
         ServerDatesInfo.setMap(arg);
         setServerAvailableDates();
     }
 
-    public static void updateHistoricalData(Integer routeID, DateTime date, Map<Integer, Integer> duration){
+    public static void updateHistoricalData(Integer routeID, DateTime date, Map<Integer, Integer> duration) {
         HistoricalDataManager.addHistoricalData(routeID, date, duration);
     }
 
-    public static void demandHistoricalData(DateTime date, int routeID){
+    public static void demandHistoricalData(DateTime date, int routeID) {
         AnomalyOperationProtos.DemandHistoricalMessage demandHistoricalMessage = AnomalyOperationProtos.DemandHistoricalMessage.newBuilder()
                 .setDate(date.toString("yyyy-MM-dd"))
                 .setRouteID(routeID)
@@ -169,11 +171,11 @@ public class Connector {
 
     }
 
-    public static void updateHistoricalAnomalies(Integer routeID, DateTime date, Map<String,Map<Integer,Integer>> anomalies){
+    public static void updateHistoricalAnomalies(Integer routeID, DateTime date, Map<String, Map<Integer, Integer>> anomalies) {
         HistoricalAnomalyManager.addHistoricalAnomalies(routeID, date, anomalies);
     }
 
-    public static void demandHistoricalAnomalies(DateTime date, int routeID){
+    public static void demandHistoricalAnomalies(DateTime date, int routeID) {
         //TODO @Maciek
 
     }
@@ -192,14 +194,14 @@ public class Connector {
         }
     }
 
-    public static void setServerAvailableRouteIds(){
-        if(chartsController != null) {
+    public static void setServerAvailableRouteIds() {
+        if (chartsController != null) {
             chartsController.setServerRouteIds();
         }
     }
 
-    public static void setServerAvailableDates(){
-        if(chartsController != null) {
+    public static void setServerAvailableDates() {
+        if (chartsController != null) {
             chartsController.setServerDates();
         }
     }

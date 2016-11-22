@@ -8722,6 +8722,16 @@ public final class AnomalyOperationProtos {
 
     int getBaselineOrThrow(
         int key);
+
+    /**
+     * <code>optional string baselineType = 4;</code>
+     */
+    java.lang.String getBaselineType();
+    /**
+     * <code>optional string baselineType = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getBaselineTypeBytes();
   }
   /**
    * Protobuf type {@code BaselineMessage}
@@ -8737,6 +8747,7 @@ public final class AnomalyOperationProtos {
     private BaselineMessage() {
       routeIdx_ = 0;
       day_ = 0;
+      baselineType_ = "";
     }
 
     @java.lang.Override
@@ -8785,6 +8796,12 @@ public final class AnomalyOperationProtos {
               baseline = input.readMessage(
                   BaselineDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
               baseline_.getMutableMap().put(baseline.getKey(), baseline.getValue());
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              baselineType_ = s;
               break;
             }
           }
@@ -9091,6 +9108,40 @@ public final class AnomalyOperationProtos {
       return map.get(key);
     }
 
+    public static final int BASELINETYPE_FIELD_NUMBER = 4;
+    private volatile java.lang.Object baselineType_;
+    /**
+     * <code>optional string baselineType = 4;</code>
+     */
+    public java.lang.String getBaselineType() {
+      java.lang.Object ref = baselineType_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        baselineType_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string baselineType = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getBaselineTypeBytes() {
+      java.lang.Object ref = baselineType_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        baselineType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -9118,6 +9169,9 @@ public final class AnomalyOperationProtos {
             .build();
         output.writeMessage(3, baseline);
       }
+      if (!getBaselineTypeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, baselineType_);
+      }
     }
 
     public int getSerializedSize() {
@@ -9143,6 +9197,9 @@ public final class AnomalyOperationProtos {
         size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(3, baseline);
       }
+      if (!getBaselineTypeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, baselineType_);
+      }
       memoizedSize = size;
       return size;
     }
@@ -9164,6 +9221,8 @@ public final class AnomalyOperationProtos {
       result = result && day_ == other.day_;
       result = result && internalGetBaseline().equals(
           other.internalGetBaseline());
+      result = result && getBaselineType()
+          .equals(other.getBaselineType());
       return result;
     }
 
@@ -9182,6 +9241,8 @@ public final class AnomalyOperationProtos {
         hash = (37 * hash) + BASELINE_FIELD_NUMBER;
         hash = (53 * hash) + internalGetBaseline().hashCode();
       }
+      hash = (37 * hash) + BASELINETYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getBaselineType().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9327,6 +9388,8 @@ public final class AnomalyOperationProtos {
         day_ = 0;
 
         internalGetMutableBaseline().clear();
+        baselineType_ = "";
+
         return this;
       }
 
@@ -9355,6 +9418,7 @@ public final class AnomalyOperationProtos {
         result.day_ = day_;
         result.baseline_ = internalGetBaseline();
         result.baseline_.makeImmutable();
+        result.baselineType_ = baselineType_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -9405,6 +9469,10 @@ public final class AnomalyOperationProtos {
         }
         internalGetMutableBaseline().mergeFrom(
             other.internalGetBaseline());
+        if (!other.getBaselineType().isEmpty()) {
+          baselineType_ = other.baselineType_;
+          onChanged();
+        }
         onChanged();
         return this;
       }
@@ -9648,6 +9716,75 @@ public final class AnomalyOperationProtos {
         getMutableBaseline().putAll(values);
         return this;
       }
+
+      private java.lang.Object baselineType_ = "";
+      /**
+       * <code>optional string baselineType = 4;</code>
+       */
+      public java.lang.String getBaselineType() {
+        java.lang.Object ref = baselineType_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          baselineType_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string baselineType = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getBaselineTypeBytes() {
+        java.lang.Object ref = baselineType_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          baselineType_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string baselineType = 4;</code>
+       */
+      public Builder setBaselineType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        baselineType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string baselineType = 4;</code>
+       */
+      public Builder clearBaselineType() {
+        
+        baselineType_ = getDefaultInstance().getBaselineType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string baselineType = 4;</code>
+       */
+      public Builder setBaselineTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        baselineType_ = value;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return this;
@@ -9714,6 +9851,16 @@ public final class AnomalyOperationProtos {
      * <code>optional .DemandBaselineMessage.Day day = 2;</code>
      */
     pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandBaselineMessage.Day getDay();
+
+    /**
+     * <code>optional string baselineType = 3;</code>
+     */
+    java.lang.String getBaselineType();
+    /**
+     * <code>optional string baselineType = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getBaselineTypeBytes();
   }
   /**
    * Protobuf type {@code DemandBaselineMessage}
@@ -9729,6 +9876,7 @@ public final class AnomalyOperationProtos {
     private DemandBaselineMessage() {
       routeIdx_ = 0;
       day_ = 0;
+      baselineType_ = "";
     }
 
     @java.lang.Override
@@ -9765,6 +9913,12 @@ public final class AnomalyOperationProtos {
               int rawValue = input.readEnum();
 
               day_ = rawValue;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              baselineType_ = s;
               break;
             }
           }
@@ -9967,6 +10121,40 @@ public final class AnomalyOperationProtos {
       return result == null ? pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandBaselineMessage.Day.UNRECOGNIZED : result;
     }
 
+    public static final int BASELINETYPE_FIELD_NUMBER = 3;
+    private volatile java.lang.Object baselineType_;
+    /**
+     * <code>optional string baselineType = 3;</code>
+     */
+    public java.lang.String getBaselineType() {
+      java.lang.Object ref = baselineType_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        baselineType_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string baselineType = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getBaselineTypeBytes() {
+      java.lang.Object ref = baselineType_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        baselineType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -9985,6 +10173,9 @@ public final class AnomalyOperationProtos {
       if (day_ != pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandBaselineMessage.Day.NULLDAY.getNumber()) {
         output.writeEnum(2, day_);
       }
+      if (!getBaselineTypeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, baselineType_);
+      }
     }
 
     public int getSerializedSize() {
@@ -9999,6 +10190,9 @@ public final class AnomalyOperationProtos {
       if (day_ != pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandBaselineMessage.Day.NULLDAY.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, day_);
+      }
+      if (!getBaselineTypeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, baselineType_);
       }
       memoizedSize = size;
       return size;
@@ -10019,6 +10213,8 @@ public final class AnomalyOperationProtos {
       result = result && (getRouteIdx()
           == other.getRouteIdx());
       result = result && day_ == other.day_;
+      result = result && getBaselineType()
+          .equals(other.getBaselineType());
       return result;
     }
 
@@ -10033,6 +10229,8 @@ public final class AnomalyOperationProtos {
       hash = (53 * hash) + getRouteIdx();
       hash = (37 * hash) + DAY_FIELD_NUMBER;
       hash = (53 * hash) + day_;
+      hash = (37 * hash) + BASELINETYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getBaselineType().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -10155,6 +10353,8 @@ public final class AnomalyOperationProtos {
 
         day_ = 0;
 
+        baselineType_ = "";
+
         return this;
       }
 
@@ -10179,6 +10379,7 @@ public final class AnomalyOperationProtos {
         pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandBaselineMessage result = new pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandBaselineMessage(this);
         result.routeIdx_ = routeIdx_;
         result.day_ = day_;
+        result.baselineType_ = baselineType_;
         onBuilt();
         return result;
       }
@@ -10225,6 +10426,10 @@ public final class AnomalyOperationProtos {
         }
         if (other.day_ != 0) {
           setDayValue(other.getDayValue());
+        }
+        if (!other.getBaselineType().isEmpty()) {
+          baselineType_ = other.baselineType_;
+          onChanged();
         }
         onChanged();
         return this;
@@ -10318,6 +10523,75 @@ public final class AnomalyOperationProtos {
       public Builder clearDay() {
         
         day_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object baselineType_ = "";
+      /**
+       * <code>optional string baselineType = 3;</code>
+       */
+      public java.lang.String getBaselineType() {
+        java.lang.Object ref = baselineType_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          baselineType_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string baselineType = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getBaselineTypeBytes() {
+        java.lang.Object ref = baselineType_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          baselineType_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string baselineType = 3;</code>
+       */
+      public Builder setBaselineType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        baselineType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string baselineType = 3;</code>
+       */
+      public Builder clearBaselineType() {
+        
+        baselineType_ = getDefaultInstance().getBaselineType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string baselineType = 3;</code>
+       */
+      public Builder setBaselineTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        baselineType_ = value;
         onChanged();
         return this;
       }
@@ -13770,34 +14044,35 @@ public final class AnomalyOperationProtos {
       "D\030\001 \001(\005\022\016\n\006origin\030\002 \001(\t\022\023\n\013destination\030\003",
       " \001(\t\022\016\n\006coords\030\004 \001(\t\";\n\014LeverMessage\022\022\n\n" +
       "leverValue\030\001 \001(\001\022\027\n\017leverUpdateDate\030\002 \001(" +
-      "\t\"\231\002\n\017BaselineMessage\022\020\n\010routeIdx\030\001 \001(\005\022" +
+      "\t\"\257\002\n\017BaselineMessage\022\020\n\010routeIdx\030\001 \001(\005\022" +
       "!\n\003day\030\002 \001(\0162\024.BaselineMessage.Day\0220\n\010ba" +
       "seline\030\003 \003(\0132\036.BaselineMessage.BaselineE" +
-      "ntry\032/\n\rBaselineEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005va" +
-      "lue\030\002 \001(\005:\0028\001\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MON" +
-      "DAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010THU" +
-      "RSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUN" +
-      "DAY\020\007\"\302\001\n\025DemandBaselineMessage\022\020\n\010route",
-      "Idx\030\001 \001(\005\022\'\n\003day\030\002 \001(\0162\032.DemandBaselineM" +
-      "essage.Day\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY" +
-      "\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010THURSD" +
-      "AY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY" +
-      "\020\007\"\"\n DemandAvailableHistoricalMessage\"n" +
-      "\n\017AvailableRoutes\022,\n\006routes\030\001 \003(\0132\034.Avai" +
-      "lableRoutes.RoutesEntry\032-\n\013RoutesEntry\022\013" +
-      "\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"\272\001\n\032Avail" +
-      "ableHistoricalMessage\022O\n\022avaiableDateRou" +
-      "tes\030\001 \003(\01323.AvailableHistoricalMessage.A",
-      "vaiableDateRoutesEntry\032K\n\027AvaiableDateRo" +
-      "utesEntry\022\013\n\003key\030\001 \001(\t\022\037\n\005value\030\002 \001(\0132\020." +
-      "AvailableRoutes:\0028\001\"8\n\027DemandHistoricalM" +
-      "essage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\227\001" +
-      "\n\021HistoricalMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004" +
-      "date\030\002 \001(\t\0222\n\010measures\030\003 \003(\0132 .Historica" +
-      "lMessage.MeasuresEntry\032/\n\rMeasuresEntry\022" +
-      "\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001B2\n\030pl.ed" +
-      "u.agh.pp.operationsB\026AnomalyOperationPro" +
-      "tosb\006proto3"
+      "ntry\022\024\n\014baselineType\030\004 \001(\t\032/\n\rBaselineEn" +
+      "try\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"n\n\003D" +
+      "ay\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY\020\001\022\013\n\007TUESDAY\020\002" +
+      "\022\r\n\tWEDNESDAY\020\003\022\014\n\010THURSDAY\020\004\022\n\n\006FRIDAY\020" +
+      "\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY\020\007\"\330\001\n\025DemandBa",
+      "selineMessage\022\020\n\010routeIdx\030\001 \001(\005\022\'\n\003day\030\002" +
+      " \001(\0162\032.DemandBaselineMessage.Day\022\024\n\014base" +
+      "lineType\030\003 \001(\t\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MO" +
+      "NDAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010TH" +
+      "URSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SU" +
+      "NDAY\020\007\"\"\n DemandAvailableHistoricalMessa" +
+      "ge\"n\n\017AvailableRoutes\022,\n\006routes\030\001 \003(\0132\034." +
+      "AvailableRoutes.RoutesEntry\032-\n\013RoutesEnt" +
+      "ry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"\272\001\n\032A" +
+      "vailableHistoricalMessage\022O\n\022avaiableDat",
+      "eRoutes\030\001 \003(\01323.AvailableHistoricalMessa" +
+      "ge.AvaiableDateRoutesEntry\032K\n\027AvaiableDa" +
+      "teRoutesEntry\022\013\n\003key\030\001 \001(\t\022\037\n\005value\030\002 \001(" +
+      "\0132\020.AvailableRoutes:\0028\001\"8\n\027DemandHistori" +
+      "calMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(" +
+      "\t\"\227\001\n\021HistoricalMessage\022\017\n\007routeID\030\001 \001(\005" +
+      "\022\014\n\004date\030\002 \001(\t\0222\n\010measures\030\003 \003(\0132 .Histo" +
+      "ricalMessage.MeasuresEntry\032/\n\rMeasuresEn" +
+      "try\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001B2\n\030p" +
+      "l.edu.agh.pp.operationsB\026AnomalyOperatio",
+      "nProtosb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -13864,7 +14139,7 @@ public final class AnomalyOperationProtos {
     internal_static_BaselineMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BaselineMessage_descriptor,
-        new java.lang.String[] { "RouteIdx", "Day", "Baseline", });
+        new java.lang.String[] { "RouteIdx", "Day", "Baseline", "BaselineType", });
     internal_static_BaselineMessage_BaselineEntry_descriptor =
       internal_static_BaselineMessage_descriptor.getNestedTypes().get(0);
     internal_static_BaselineMessage_BaselineEntry_fieldAccessorTable = new
@@ -13876,7 +14151,7 @@ public final class AnomalyOperationProtos {
     internal_static_DemandBaselineMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_DemandBaselineMessage_descriptor,
-        new java.lang.String[] { "RouteIdx", "Day", });
+        new java.lang.String[] { "RouteIdx", "Day", "BaselineType", });
     internal_static_DemandAvailableHistoricalMessage_descriptor =
       getDescriptor().getMessageTypes().get(10);
     internal_static_DemandAvailableHistoricalMessage_fieldAccessorTable = new

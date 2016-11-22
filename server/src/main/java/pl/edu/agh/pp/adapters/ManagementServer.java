@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.adapters;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.jgroups.Address;
 import org.jgroups.ReceiverAdapter;
 import org.jgroups.blocks.cs.BaseServer;
@@ -15,6 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.serializers.FileBaselineSerializer;
+import pl.edu.agh.pp.serializers.IBaselineSerializer;
 import pl.edu.agh.pp.utils.*;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
@@ -47,7 +50,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         server.start();
         JmxConfigurator.register(server, Util.getMBeanServer(), "pub:name=pub-management-server");
         int local_port = server.localAddress() instanceof IpAddress ? ((IpAddress) server.localAddress()).getPort() : 0;
-        logger.info("\nManagement server listening at %s:%s\n", bind_addr != null ? bind_addr : "0.0.0.0", local_port);
+        logger.info(String.format("\nManagement server listening at %s:%s\n", bind_addr != null ? bind_addr : "0.0.0.0", local_port));
     }
 
     @Override
@@ -83,25 +86,20 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
                 case BONJOURMESSAGE:
                     // TODO: Check the message
                     sendSystemGeneralMessage(sender);
-                    System.out.println("#1");
                     sendRoutesMessages(sender);
-                    System.out.println("#2");
                     break;
                 case DEMANDBASELINEMESSAGE:
-                    System.out.println("#3");
                     BaselineDemand parsedMessage = parseDemandBaselineMessage(message);
                     routeID = parsedMessage.routeID;
                     AnomalyOperationProtos.DemandBaselineMessage.Day day = parsedMessage.day;
-                    sendBaselineMessage(sender, routeID, day);
+                    String baselineType = parsedMessage.baselineType;
+                    sendBaselineMessage(sender, routeID, day, baselineType);
                     break;
                 case DEMANDAVAILABLEHISTORICALMESSAGE:
-                    System.out.println("#4");
                     sendAvailableHistoricalMessage(sender);
                     break;
                 case DEMANDHISTORICALMESSAGE:
-                    System.out.println("#5");
                     HistoricalDemand historicalDemand = parseDemandHistoricalMessage(message);
-                    //String date = "2016-09-27";
                     String date = historicalDemand.date;
                     routeID = historicalDemand.routeID;
                     sendHistoricalMessage(sender, date, routeID);
@@ -265,20 +263,36 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         }
     }
 
-    private void sendBaselineMessage(Address destination, int routeID, AnomalyOperationProtos.DemandBaselineMessage.Day day) {
+    private void sendBaselineMessage(Address destination, int routeID, AnomalyOperationProtos.DemandBaselineMessage.Day day, String baselineType) {
         //TODO: Check if routeID is not -1
         //TODO: Be careful about sending message too fast - if you send it too fast, wgen PolynomialPatternBuilder is not loaded, then message will not be send.
         int dayNumber = day.getNumber();
         DayOfWeek dayOfWeek = DayOfWeek.fromValue(dayNumber);
         logger.info("DAY NUMER = " + dayNumber + " and it's : " + dayOfWeek.name());
         logger.info(" and come back parsing: " + AnomalyOperationProtos.BaselineMessage.Day.forNumber(dayNumber).name());
-        double[] values = PolynomialPatternBuilder.getValueForEachMinuteOfDay(dayOfWeek, routeID);
+        logger.info(" type is: " + baselineType);
+
         Map<Integer, Integer> baselineMap = new HashMap<>();
-        int second = 0;
-        for (double value : values) {
-            baselineMap.put(second, (int) value);
-            second += 60;
+
+        if (baselineType != null && baselineType.length() > 0) {
+            logger.info("It's from deserialization.");
+            Map<DayOfWeek, Map<Integer, PolynomialFunction>> fbs = FileBaselineSerializer.getInstance().deserialize(baselineType);
+            PolynomialFunction pf = fbs.get(dayOfWeek).get(routeID);
+            int second = 0;
+            while (second < 86400) {
+                baselineMap.put(second, (int) pf.value(second));
+                second += 60;
+            }
+        } else {
+            logger.info("It's from current baseline.");
+            double[] values = PolynomialPatternBuilder.getValueForEachMinuteOfDay(dayOfWeek, routeID);
+            int second = 0;
+            for (double value : values) {
+                baselineMap.put(second, (int) value);
+                second += 60;
+            }
         }
+
         // FIXME: Check if double necessary or int is enough.
 
         AnomalyOperationProtos.BaselineMessage baselineMessage = AnomalyOperationProtos.BaselineMessage.newBuilder()
@@ -292,9 +306,8 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
                 .setBaselineMessage(baselineMessage)
                 .build();
 
-        byte[] toSend = managementMessage.toByteArray();
-
         try {
+            byte[] toSend = managementMessage.toByteArray();
             server.send(destination, toSend, 0, toSend.length);
             logger.info("Baseline sent");
         } catch (Exception e) {
@@ -311,8 +324,10 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
             logger.info("Demand baseline for ID=" + demandBaselineMessage.getRouteIdx() + " day: " + demandBaselineMessage.getDay());
             Integer routeID = demandBaselineMessage.getRouteIdx();
             AnomalyOperationProtos.DemandBaselineMessage.Day day = demandBaselineMessage.getDay();
+            String baselineType = demandBaselineMessage.getBaselineType();
             result.routeID = routeID;
             result.day = day;
+            result.baselineType = baselineType;
         } catch (InvalidProtocolBufferException e) {
             logger.error("ManagementServer: Exception while parsing demand baseline message! " + e, e);
         }
@@ -340,6 +355,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
     private static class BaselineDemand {
         Integer routeID;
         AnomalyOperationProtos.DemandBaselineMessage.Day day;
+        String baselineType;
     }
 
     private static class HistoricalDemand {

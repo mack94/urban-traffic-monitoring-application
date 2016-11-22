@@ -29,8 +29,6 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
 
         System.out.println("Run: 'java -jar server.jar on/off path_to_logs'");
-
-        Thread.sleep(2000);
         try {
             options.initialize();
         } catch (BackingStoreException e) {
@@ -55,8 +53,7 @@ public class Main {
             int port = 8080;
             boolean nio = false;
 
-            logger.info("Running server in 2 sec.");
-            Thread.sleep(2000);
+            logger.info("---------------------Running server.--------------------------");
 
             Connector.connect(args, bind_addr, port, nio);
 
