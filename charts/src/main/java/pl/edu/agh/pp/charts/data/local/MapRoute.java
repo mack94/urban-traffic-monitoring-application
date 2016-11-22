@@ -72,8 +72,6 @@ public class MapRoute {
     public String getRouteJavaScriptInstruction() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("calculateAndDisplayRoute(");
-        stringBuilder.append(" new google.maps.DirectionsRenderer({map: map})");
-        stringBuilder.append(",");
         stringBuilder.append(" directionsService");
         stringBuilder.append(",");
         stringBuilder.append(" {lat: " + startLat + "," + "lng: " + startLng + "}");
@@ -81,6 +79,8 @@ public class MapRoute {
         stringBuilder.append(" {lat: " + endLat + "," + "lng: " + endLng + "}");
         stringBuilder.append(",");
         stringBuilder.append(" \"" + routeId + "\"");
+        stringBuilder.append(",");
+        stringBuilder.append(" \'" + "#" +Colors.getNextColor().toString().substring(2,8).toUpperCase()+"'");
         stringBuilder.append(",");
         stringBuilder.append(" map");
         stringBuilder.append(");");

@@ -33,42 +33,19 @@
 <script>
 	var polyline = null;
 	var totalDist = 0;
+	var defaultTimeout = 100;
+    var timeout = defaultTimeout;
+    var timeoutStep = 50;
     function initMap() {
-        //var routeStart = {lat: $startLat$, lng: $startLng$};
-        //var routeEnd = {lat: $endLat$, lng: $endLng$};
-//		var routeStart = {lat: 50.07, lng: 19.94};
-//		var routeEnd = {lat: 50.079, lng: 19.94};
-//		var routeStart2 = {lat: 50.079, lng: 19.94};
-//        var routeEnd2 = {lat: 50.07, lng: 19.99};
-        // Instantiate a directions service.
+
         var directionsService = new google.maps.DirectionsService;
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 15,
             center: {lat: 50.07, lng: 19.94},
-			minZoom: 13,
+			minZoom: 12,
             streetViewControl: false
         });
-        // Create a renderer for directions and bind it to the map.
-       //new MarkerWithLabel({
-       //    position: {lat: 50.073, lng: 19.94},
-       //    map: map,
-       //    draggable: false,
-       //    labelContent: "1234",
-       //    labelAnchor: new google.maps.Point(15, 65),
-       //    labelClass: "labels", // the CSS class for the label
-       //    labelInBackground: false,
-       //    icon: pinSymbol('red')
-       //});
-        var markerStart = new google.maps.Marker({
-            position: {lat: 50.073, lng: 19.94},
-            map: map,
-            title: 'Route start'
-        });
-//        var markerEnd = new google.maps.Marker({
-//            position: routeEnd,
-//            map: map,
-//            title: 'Route end'
-//        });
+
         var trafficLayer = new google.maps.TrafficLayer();
         trafficLayer.setMap(map);
 
@@ -96,12 +73,6 @@
             }
         ]
         map.set('styles', mapStyle);
-		google.maps.event.addListenerOnce(map, 'idle', function(){
-			// do something only the first time the map is loaded
-			setTimeout(function () {
-            console.log('mapReady----------------------------------------')
-          }, 10)
-		});
 
 		var allowedBounds = new google.maps.LatLngBounds(
              new google.maps.LatLng(49.9667, 19.7170),
@@ -129,8 +100,8 @@
 				scale: 2
 			};
 		};
-		function calculateAndDisplayRoute(directionsDisplay, directionsService,
-                  routeStart, routeEnd, routeId, map) {
+		function calculateAndDisplayRoute(directionsService,
+                  routeStart, routeEnd, routeId, color, map) {
             // Retrieve the start and end locations and create a DirectionsRequest using
             // DRIVING directions.
             directionsService.route({
@@ -139,6 +110,15 @@
                 travelMode: 'DRIVING'
             }, function(response, status) {
 				if (status === 'OK') {
+				    timeout = defaultTimeout;
+				    var directionsDisplay = new google.maps.DirectionsRenderer({
+				        map: map,
+				        suppressMarkers: true,
+				        preserveViewport: true,
+				        polylineOptions: { strokeColor: color }
+				    });
+
+
 					directionsDisplay.setDirections(response);
 					var polyline = new google.maps.Polyline({
 					  path: [],
@@ -173,7 +153,6 @@
 
 					  function putMarkerOnRoute(percentage) {
 						var distance = (percentage/100) * totalDist;
-						console.log('DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGggg');
 						new MarkerWithLabel({
 							position: polyline.GetPointAtDistance(distance),
 							map: map,
@@ -181,12 +160,18 @@
 							labelContent: routeId,
 							labelAnchor: new google.maps.Point(15, 65),
 							labelClass: "labels", // the CSS class for the label
+							labelStyle: {backgroundColor: color},
 							labelInBackground: false,
-							icon: pinSymbol('#73B9FF')
+							icon: pinSymbol(color)
 						});
 					  }
-				} else {
-					window.alert('Directions request failed due to ' + status);
+				}else if( status == google.maps.DirectionsStatus.OVER_QUERY_LIMIT ) {
+                    setTimeout( function() {
+                 	    calculateAndDisplayRoute(directionsService, routeStart, routeEnd, routeId, color, map);
+                 	}, timeout+=timeoutStep);
+                 }
+				else {
+				    window.alert('Directions request failed due to ' + status);
 				}
 			});
 		}
