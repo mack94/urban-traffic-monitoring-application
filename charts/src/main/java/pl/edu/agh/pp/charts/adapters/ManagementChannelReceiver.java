@@ -137,6 +137,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                     parseHistoricalMessage(message);
                     break;
                 case HISTORICALANOMALIESMESSAGE:
+                    System.out.println("$9999");
                     parseHistoricalAnomaliesMessage(message);
                     break;
                 default:
@@ -291,7 +292,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                 historicalAnomaliesMap.put(anomalyID, valuesMap);
             }
 
-            anomaliesMap.clear();
+            System.out.println(historicalAnomaliesMap);
 
             Connector.updateHistoricalAnomalies(routeID, DateTime.parse(date), historicalAnomaliesMap);
 

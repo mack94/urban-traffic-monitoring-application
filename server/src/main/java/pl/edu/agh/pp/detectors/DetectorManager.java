@@ -163,6 +163,7 @@ public class DetectorManager
                 }
             }
         }
+        System.out.println(result);
         return result;
     }
 
