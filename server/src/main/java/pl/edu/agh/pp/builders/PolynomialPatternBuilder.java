@@ -205,7 +205,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
             else
                 errorRate = (predictedTravelDuration) / travelDuration;
 
-            long anomalyID = anomalyTracker.put(routeIdx, DateTime.now());
+            String anomalyID = anomalyTracker.put(routeIdx, DateTime.now());
             int severity = (int) ((Math.abs(predictedTravelDuration / travelDuration) * 3) % 6);
 
             return AnomalyOperationProtos.AnomalyMessage.newBuilder()
@@ -218,7 +218,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
                     .setAnomalyID(anomalyID)
                     .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))
                     .setIsActive(true)
-                    .setNormExceed((int) (errorRate*100))
+                    .setNormExceed((int) (errorRate*100) - 100)
                     .build();
         }
         else if (anomalyTracker.has(routeIdx))

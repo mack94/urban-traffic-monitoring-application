@@ -63,11 +63,11 @@ public class AnomalyTrackerTest {
         DateTime dateTime5 = dateTime4.plusSeconds(anomalyLiveTime+1);
 
         assertEquals(anomalyTracker.put(routeID1, dateTime1), anomalyTracker.put(routeID1, dateTime2));
-        long anomalyID1 = anomalyTracker.put(routeID1, dateTime3);
+        String anomalyID1 = anomalyTracker.put(routeID1, dateTime3);
         assertEquals(anomalyID1, anomalyTracker.get(routeID1));
         assertEquals(-1, anomalyTracker.get(routeID2));
 
-        long anomalyID2 = anomalyTracker.put(routeID2, dateTime1);
+        String anomalyID2 = anomalyTracker.put(routeID2, dateTime1);
         assertEquals(anomalyID2, anomalyTracker.put(routeID2, dateTime4));
         assertNotEquals(anomalyID2, anomalyTracker.put(routeID2, dateTime5));
     }
@@ -112,10 +112,10 @@ public class AnomalyTrackerTest {
         DateTime dateTime3 = dateTime2.plusSeconds(
                 random.nextInt((Integer) options.getPreference("AnomalyLiveTime", Integer.class))/2);
 
-        long anomalyID1 = anomalyTracker.put(routeID1, dateTime1);
-        long anomalyID2 = anomalyTracker.put(routeID1, dateTime2);
+        String anomalyID1 = anomalyTracker.put(routeID1, dateTime1);
+        String anomalyID2 = anomalyTracker.put(routeID1, dateTime2);
         anomalyTracker.remove(routeID1);
-        long anomalyID3 = anomalyTracker.put(routeID1, dateTime3);
+        String anomalyID3 = anomalyTracker.put(routeID1, dateTime3);
         assertEquals(anomalyID1, anomalyID2);
         assertNotEquals(anomalyID1, anomalyID3);
     }

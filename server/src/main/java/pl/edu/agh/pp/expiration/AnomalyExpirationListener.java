@@ -13,12 +13,12 @@ import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 
 public class AnomalyExpirationListener extends Thread
 {
-    private ConcurrentHashMap<Integer, Long> anomalyID;
+    private ConcurrentHashMap<Integer, String> anomalyID;
     private ConcurrentHashMap<Integer, DateTime> anomalyTime;
-    private Set<Long> expiredAnomalies;
+    private Set<String> expiredAnomalies;
     private Server server;
 
-    public AnomalyExpirationListener(ConcurrentHashMap<Integer, Long> anomalyID, ConcurrentHashMap<Integer, DateTime> anomalyTime)
+    public AnomalyExpirationListener(ConcurrentHashMap<Integer, String> anomalyID, ConcurrentHashMap<Integer, DateTime> anomalyTime)
     {
         this.anomalyID = anomalyID;
         this.anomalyTime = anomalyTime;
@@ -69,7 +69,7 @@ public class AnomalyExpirationListener extends Thread
         }
     }
 
-    private void sendMessage(int routeId, long anomalyId)
+    private void sendMessage(int routeId, String anomalyId)
     {
         AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.newBuilder()
                 .setAnomalyID(anomalyId)

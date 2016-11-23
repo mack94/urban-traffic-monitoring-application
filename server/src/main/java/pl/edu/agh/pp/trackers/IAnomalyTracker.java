@@ -22,7 +22,7 @@ public interface IAnomalyTracker {
      * @param dateTime The Joda DateTime object with the Date and Time when the anomaly occurred.
      * @return The ID of persisted anomaly.
      */
-    long put(int routeID, DateTime dateTime);
+    String put(int routeID, DateTime dateTime);
 
     /**
      * Get the ID of the last anomaly on the desired route.
@@ -30,7 +30,7 @@ public interface IAnomalyTracker {
      * @param routeID The Index/ID of the route.
      * @return The ID of last anomaly on this route, or -1 if the anomaly never occurred there.
      */
-    long get(int routeID);
+    String get(int routeID);
 
     /**
      * Marks anomaly at given route ID as finished.
