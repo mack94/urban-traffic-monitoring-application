@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
+import pl.edu.agh.pp.detectors.DetectorManager;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.serializers.FileBaselineSerializer;
@@ -108,7 +109,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
                     HistoricalAnomaliesDemand historicalAnomaliesDemand = parseDemandHistoricalAnomaliesMessage(message);
                     date = historicalAnomaliesDemand.date;
                     routeID = historicalAnomaliesDemand.routeID;
-                    sendHistoricalAnomaliesMessage(sender, date, routeID);
+                    Connector.updateHistoricalAnomalies(sender, date, routeID);
                     break;
                 default:
                     logger.error("ManagementServer: Unknown management message type received.");
@@ -125,10 +126,6 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
             e.printStackTrace();
             logger.error("ManagementServer: IOException while receiving message! " + e, e);
         }
-
-    }
-
-    private void sendHistoricalAnomaliesMessage(Address sender, String date, int routeID) {
 
     }
 
@@ -322,6 +319,47 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
             logger.info("Baseline sent");
         } catch (Exception e) {
             logger.error("ManagementServer: Exception while sending baseline! " + e, e);
+        }
+    }
+
+
+    protected void sendHistoricalAnomaliesMessage(Address destination, String date, int routeID, Server dmServer) {
+
+        try {
+            Map<String, AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> result = new HashMap<>();
+
+            DetectorManager detectorManager = new DetectorManager(dmServer);
+            Map<String, Map<Integer, Integer>> anomalyForDateAndRoute = detectorManager
+                    .getAnomalyForDateAndRoute(date, routeID);
+
+            for (String anomalyID: anomalyForDateAndRoute.keySet()) {
+                AnomalyOperationProtos.HistoricalAnomalyPresenceMessage historicalAnomalyValue = AnomalyOperationProtos
+                        .HistoricalAnomalyPresenceMessage.newBuilder()
+                        .putAllPresence(anomalyForDateAndRoute.get(anomalyID))
+                        .build();
+                result.put(anomalyID, historicalAnomalyValue);
+            }
+
+            AnomalyOperationProtos.HistoricalAnomaliesMessage historicalAnomaliesMessage = AnomalyOperationProtos
+                    .HistoricalAnomaliesMessage.newBuilder()
+                    .setDate(date)
+                    .setRouteID(routeID)
+                    .putAllAnomalies(result)
+                    .build();
+
+            AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos
+                    .ManagementMessage.newBuilder()
+                    .setType(AnomalyOperationProtos.ManagementMessage.Type.HISTORICALANOMALIESMESSAGE)
+                    .setHistoricalAnomaliesMessage(historicalAnomaliesMessage)
+                    .build();
+
+            byte[] toSend = managementMessage.toByteArray();
+            server.send(destination, toSend, 0, toSend.length);
+            logger.info("Historical anomalies sent");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error("ManagementServer: Exception while sending historical anomalies! " + e, e);
         }
     }
 
