@@ -176,8 +176,22 @@ public class Connector {
     }
 
     public static void demandHistoricalAnomalies(DateTime date, int routeID) {
-        //TODO @Maciek
+        AnomalyOperationProtos.DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.newBuilder()
+                .setDate(date.toString("yyyy-MM-dd"))
+                .setRouteID(routeID)
+                .build();
 
+        AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                .setType(AnomalyOperationProtos.ManagementMessage.Type.DEMANDHISTORICALANOMALIESMESSAGE)
+                .setDemandHistoricalAnomaliesMessage(demandHistoricalAnomaliesMessage)
+                .build();
+        try {
+            byte[] toSend = managementMessage.toByteArray();
+            managementClient.sendMessage(toSend, 0, toSend.length);
+        } catch (Exception e) {
+            logger.error("Exception while demanding historical anomalies data " + e, e);
+        }
+        
     }
 
     public static void connectionLost(String additionalInfo) {

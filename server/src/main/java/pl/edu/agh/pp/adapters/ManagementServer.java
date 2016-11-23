@@ -16,15 +16,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.serializers.FileBaselineSerializer;
-import pl.edu.agh.pp.serializers.IBaselineSerializer;
-import pl.edu.agh.pp.utils.*;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
-import pl.edu.agh.pp.utils.enums.DayOfWeek;
+import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.serializers.FileBaselineSerializer;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
-import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
+import pl.edu.agh.pp.utils.*;
+import pl.edu.agh.pp.utils.enums.DayOfWeek;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -58,6 +57,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
 
         int bytesRead = 0;
         int routeID;
+        String date;
         byte[] result = buf.clone();
 
         logger.info("Management message received");
@@ -100,9 +100,15 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
                     break;
                 case DEMANDHISTORICALMESSAGE:
                     HistoricalDemand historicalDemand = parseDemandHistoricalMessage(message);
-                    String date = historicalDemand.date;
+                    date = historicalDemand.date;
                     routeID = historicalDemand.routeID;
                     sendHistoricalMessage(sender, date, routeID);
+                    break;
+                case DEMANDHISTORICALANOMALIESMESSAGE:
+                    HistoricalAnomaliesDemand historicalAnomaliesDemand = parseDemandHistoricalAnomaliesMessage(message);
+                    date = historicalAnomaliesDemand.date;
+                    routeID = historicalAnomaliesDemand.routeID;
+                    sendHistoricalAnomaliesMessage(sender, date, routeID);
                     break;
                 default:
                     logger.error("ManagementServer: Unknown management message type received.");
@@ -119,6 +125,10 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
             e.printStackTrace();
             logger.error("ManagementServer: IOException while receiving message! " + e, e);
         }
+
+    }
+
+    private void sendHistoricalAnomaliesMessage(Address sender, String date, int routeID) {
 
     }
 
@@ -339,7 +349,8 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         HistoricalDemand result = new HistoricalDemand();
 
         try {
-            AnomalyOperationProtos.DemandHistoricalMessage demandHistoricalMessage = AnomalyOperationProtos.DemandHistoricalMessage.parseFrom(message.getDemandHistoricalMessage().toByteArray());
+            AnomalyOperationProtos.DemandHistoricalMessage demandHistoricalMessage = AnomalyOperationProtos
+                    .DemandHistoricalMessage.parseFrom(message.getDemandHistoricalMessage().toByteArray());
             logger.info("Demand historical data for ID=" + demandHistoricalMessage.getRouteID()
                     + " day: " + demandHistoricalMessage.getDate());
             Integer routeID = demandHistoricalMessage.getRouteID();
@@ -349,6 +360,28 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         } catch (InvalidProtocolBufferException e) {
             logger.error("ManagementServer: Exception while parsing demand historical message! " + e, e);
         }
+
+        return result;
+    }
+
+    private HistoricalAnomaliesDemand parseDemandHistoricalAnomaliesMessage(AnomalyOperationProtos.ManagementMessage message) {
+
+        HistoricalAnomaliesDemand result = new HistoricalAnomaliesDemand();
+
+        try {
+            AnomalyOperationProtos.DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = AnomalyOperationProtos
+                    .DemandHistoricalAnomaliesMessage.parseFrom(message.getDemandHistoricalAnomaliesMessage().toByteArray());
+
+            logger.info("Demand historical anomalies data for ID=" + demandHistoricalAnomaliesMessage.getRouteID()
+                    + " day: " + demandHistoricalAnomaliesMessage.getDate());
+            Integer routeID = demandHistoricalAnomaliesMessage.getRouteID();
+            String date = demandHistoricalAnomaliesMessage.getDate();
+            result.routeID = routeID;
+            result.date = date;
+        } catch (InvalidProtocolBufferException e) {
+            logger.error("ManagementServer: Exception while parsing demand historical anomalies message! " + e, e);
+        }
+
         return result;
     }
 
@@ -359,6 +392,11 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
     }
 
     private static class HistoricalDemand {
+        Integer routeID;
+        String date;
+    }
+
+    private static class HistoricalAnomaliesDemand {
         Integer routeID;
         String date;
     }
