@@ -136,6 +136,9 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                 case HISTORICALMESSAGE:
                     parseHistoricalMessage(message);
                     break;
+                case HISTORICALANOMALIESMESSAGE:
+                    parseHistoricalAnomaliesMessage(message);
+                    break;
                 default:
                     logger.error("ManagementServer: Unknown management message type received.");
                     break;
@@ -267,6 +270,31 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             String date = historicalMessage.getDate();
             Map<Integer, Integer> historicalMap = historicalMessage.getMeasuresMap();
             Connector.updateHistoricalData(routeID, DateTime.parse(date), historicalMap);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseHistoricalAnomaliesMessage(AnomalyOperationProtos.ManagementMessage message) {
+        try {
+            AnomalyOperationProtos.HistoricalAnomaliesMessage historicalAnomaliesMessage = AnomalyOperationProtos
+                    .HistoricalAnomaliesMessage.parseFrom(message.getHistoricalAnomaliesMessage().toByteArray());
+
+            int routeID = historicalAnomaliesMessage.getRouteID();
+            String date = historicalAnomaliesMessage.getDate();
+            Map<String, AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> anomaliesMap =
+                    historicalAnomaliesMessage.getAnomaliesMap();
+            Map<String, Map<Integer, Integer>> historicalAnomaliesMap = new HashMap<>();
+
+            for (String anomalyID: anomaliesMap.keySet()) {
+                Map<Integer, Integer> valuesMap = anomaliesMap.get(anomalyID).getPresenceMap();
+                historicalAnomaliesMap.put(anomalyID, valuesMap);
+            }
+
+            anomaliesMap.clear();
+
+            Connector.updateHistoricalAnomalies(routeID, DateTime.parse(date), historicalAnomaliesMap);
+
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
