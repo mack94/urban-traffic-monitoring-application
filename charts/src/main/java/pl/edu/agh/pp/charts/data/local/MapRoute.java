@@ -1,7 +1,6 @@
 package pl.edu.agh.pp.charts.data.local;
 
 import pl.edu.agh.pp.charts.data.server.Anomaly;
-import pl.edu.agh.pp.charts.data.server.AnomalyManager;
 import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
 
 /**

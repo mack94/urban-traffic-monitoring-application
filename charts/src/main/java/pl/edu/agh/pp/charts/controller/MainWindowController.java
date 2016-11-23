@@ -2,10 +2,7 @@ package pl.edu.agh.pp.charts.controller;
 
 import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +22,6 @@ import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import netscape.javascript.JSObject;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -41,7 +37,6 @@ import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
-import java.net.URI;
 import java.time.DayOfWeek;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -56,12 +51,14 @@ import java.util.regex.Pattern;
 public class MainWindowController {
 
     private static final String MAIN_WINDOW_STAGE_TITLE = "©UTM - Cracow Urban Traffic Monitoring";
+    private static final String MAP_TAB_NAME = "map";
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private ScheduledFuture<?> countdown;
     private Stage primaryStage = null;
     private Scene scene = null;
     private ChartsController chartsController = null;
     private boolean connectedFlag = false;
+    private boolean anomalyListChangedFlag = false;
     private WebEngine anomalyMapWebEngine;
     private WebEngine mapWebEngine;
     private HtmlBuilder htmlBuilder;
@@ -291,12 +288,22 @@ public class MainWindowController {
         } );
     }
 
+    private void handleMapUpdate() {
+        if( MAP_TAB_NAME.equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText()) ) {
+            if(countdown == null || countdown.isDone()) {
+                anomalyListChangedFlag = false;
+                updateMapAfterDelay(3);
+            }
+        }
+        else {
+            anomalyListChangedFlag = true;
+        }
+    }
+
     public void addAnomalyToList(String text){
         Platform.runLater(() -> {
             anomaliesListView.getItems().add(0,text);
-            if(countdown == null || countdown.isDone()) {
-                updateMapAfterDelay(3);
-            }
+            handleMapUpdate();
         });
     }
 
@@ -321,9 +328,7 @@ public class MainWindowController {
                 if(anomaliesListView.getItems().isEmpty()){
                     clearInfoOnScreen();
                 }
-                if(countdown == null || countdown.isDone()) {
-                    updateMapAfterDelay(3);
-                }
+                handleMapUpdate();
             });
         }
         else{
@@ -562,8 +567,11 @@ public class MainWindowController {
                 putAnomalyRouteOnAnomalyMap(anomaliesListView.getSelectionModel().getSelectedItem());
             }
         }
-        else if("map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
-
+        else if(MAP_TAB_NAME.equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
+            if(anomalyListChangedFlag) {
+                updateAnomalyRoutesOnMap();
+                anomalyListChangedFlag = false;
+            }
         }
     }
     @FXML
