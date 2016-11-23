@@ -49,6 +49,8 @@ message ManagementMessage {
         DEMANDAVAILABLEHISTORICALMESSAGE = 7;
         HISTORICALMESSAGE = 8;
         DEMANDHISTORICALMESSAGE = 9;
+        DEMANDHISTORICALANOMALIESMESSAGE = 10;
+        HISTORICALANOMALIESMESSAGE = 11;
     }
 
     // Identifies which field is filled in.
@@ -65,6 +67,8 @@ message ManagementMessage {
     DemandAvailableHistoricalMessage demandAvailableHistoricalMessage = 9;
     HistoricalMessage historicalMessage = 10;
     DemandHistoricalMessage demandHistoricalMessage = 11;
+    DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;
+    HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;
 
 }
 
@@ -182,5 +186,24 @@ message HistoricalMessage {
     int32 routeID = 1;
     string date = 2;
     map<int32, int32> measures = 3;
+
+}
+
+message HistoricalAnomalyPresenceMessage {
+    map<int32, int32> presence = 1;
+}
+
+message DemandHistoricalAnomaliesMessage {
+
+    int32 routeID = 1;
+    string date = 2;
+
+}
+
+message HistoricalAnomaliesMessage {
+
+    int32 routeID = 1;
+    string date = 2;
+    map<string, HistoricalAnomalyPresenceMessage> anomalies = 3;
 
 }

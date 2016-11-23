@@ -45,12 +45,13 @@ public class DetectorManager
     // private static ChannelReceiver client = new ChannelReceiver();
     private Server server;
     private FilesLoader baselineFilesLoader;
+    private File[] listOfFiles;
 
     public DetectorManager(Server server, String... logFiles)
     {
         this.inputParser = new InputParser();
         File folder = new File(LOG_FILES_DIRECTORY_PATH);
-        File[] listOfFiles = folder.listFiles();
+        listOfFiles = folder.listFiles();
         if (folder.isDirectory() && listOfFiles != null)
         {
             String newLogFiles[] = new String[logFiles.length + listOfFiles.length];
@@ -128,6 +129,41 @@ public class DetectorManager
             logger.error("Some Error occurred", e);
         }
         return StringUtils.EMPTY;
+    }
+
+    public Map<String, Map<Integer, Integer>> getAnomalyForDateAndRoute(String date, int routeID) throws IOException {
+
+        Map<String, Map<Integer, Integer>> result = new HashMap<>();
+        DateTime dateTime = DateTime.parse(date);
+        int year = dateTime.getYear();
+        int month = dateTime.getMonthOfYear();
+        int day = dateTime.getDayOfMonth();
+        String filenameFormat = String.format("%d-%d-%d", (year%2000), month, day);
+        System.out.println("SEARCH DATE FILENAME: " + filenameFormat);
+
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                if (file.getName().contains(filenameFormat)) {
+                    FilesLoader filesLoader = new FilesLoader(file.getPath());
+                    List<Record> records = filesLoader.processLineByLine();
+                    for (Record record: records) {
+                        String anomalyID = record.getAnomalyID();
+                        if (anomalyID != null && anomalyID.length() != 0 && record.getRouteID() == routeID) {
+                            if (result.containsKey(anomalyID)) {
+                                Map<Integer, Integer> currentRecord = result.get(anomalyID);
+                                currentRecord.put(record.getTimeInSeconds(), record.getDurationInTraffic());
+                                result.replace(anomalyID, currentRecord);
+                            } else {
+                                Map<Integer, Integer> newRecord = new HashMap<>();
+                                newRecord.put(record.getTimeInSeconds(), record.getDurationInTraffic());
+                                result.put(anomalyID, newRecord);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     public void displayAnomaliesForRoute(int routeId)

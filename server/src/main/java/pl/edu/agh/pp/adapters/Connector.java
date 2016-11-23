@@ -57,4 +57,8 @@ public class Connector {
         managementServer.sendSystemGeneralMessage(destination);
     }
 
+    public static void updateHistoricalAnomalies(Address destination, String date, int routeID) {
+        managementServer.sendHistoricalAnomaliesMessage(destination, date, routeID, server);
+    }
+
 }

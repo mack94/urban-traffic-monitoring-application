@@ -16,6 +16,7 @@ public class Record {
     private int durationInTraffic;
     private String distance;
     private String waypoints;
+    private String anomalyID;
 
     public int getRouteID() {
         return routeID;
@@ -71,5 +72,13 @@ public class Record {
 
     public int getTimeInSeconds() {
         return getDateTime().getSecondOfDay();
+    }
+
+    public String getAnomalyID() {
+        return anomalyID;
+    }
+
+    public void setAnomalyID(String anomalyID) {
+        this.anomalyID = anomalyID;
     }
 }
