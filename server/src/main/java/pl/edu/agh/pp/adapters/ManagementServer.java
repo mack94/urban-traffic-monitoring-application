@@ -264,6 +264,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         byte[] messageToSent = managementMessage.toByteArray();
 
         try {
+            System.out.println("Send Historical message to: " + destination);
             server.send(destination, messageToSent, 0, messageToSent.length);
         } catch (Exception e) {
             logger.error("ManagementServer: Exception while sending historical message! " + e, e);
@@ -328,7 +329,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         try {
             Map<String, AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> result = new HashMap<>();
 
-            DetectorManager detectorManager = new DetectorManager(dmServer);
+            DetectorManager detectorManager = new DetectorManager(dmServer, true);
             Map<String, Map<Integer, Integer>> anomalyForDateAndRoute = detectorManager
                     .getAnomalyForDateAndRoute(date, routeID);
 

@@ -134,6 +134,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                     parseAvailableHistoricalMessage(message);
                     break;
                 case HISTORICALMESSAGE:
+                    System.out.println("7777");
                     parseHistoricalMessage(message);
                     break;
                 case HISTORICALANOMALIESMESSAGE:
@@ -270,6 +271,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             int routeID = historicalMessage.getRouteID();
             String date = historicalMessage.getDate();
             Map<Integer, Integer> historicalMap = historicalMessage.getMeasuresMap();
+            System.out.println("Historical message: " + historicalMessage);
             Connector.updateHistoricalData(routeID, DateTime.parse(date), historicalMap);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
