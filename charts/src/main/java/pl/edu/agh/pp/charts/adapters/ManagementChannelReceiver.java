@@ -271,7 +271,6 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             int routeID = historicalMessage.getRouteID();
             String date = historicalMessage.getDate();
             Map<Integer, Integer> historicalMap = historicalMessage.getMeasuresMap();
-            System.out.println("Historical message: " + historicalMessage);
             Connector.updateHistoricalData(routeID, DateTime.parse(date), historicalMap);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
@@ -293,8 +292,6 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                 Map<Integer, Integer> valuesMap = anomaliesMap.get(anomalyID).getPresenceMap();
                 historicalAnomaliesMap.put(anomalyID, valuesMap);
             }
-
-            System.out.println(historicalAnomaliesMap);
 
             Connector.updateHistoricalAnomalies(routeID, DateTime.parse(date), historicalAnomaliesMap);
 

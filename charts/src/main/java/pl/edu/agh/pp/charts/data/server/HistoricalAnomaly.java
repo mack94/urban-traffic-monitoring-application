@@ -58,7 +58,7 @@ public class HistoricalAnomaly {
             historicalAnomalySeries.getData().add(data);
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        historicalAnomalySeries.setName(routeID + ". " +sdf.format(date.toDate()));
+        historicalAnomalySeries.setName("Anomaly: " +anomalyID);
         return historicalAnomalySeries;
     }
 }

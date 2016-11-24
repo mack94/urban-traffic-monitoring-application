@@ -478,6 +478,9 @@ public class ChartsController {
         if (drawBaselineCheckbox.isSelected()) {
             drawBaseline(id, String.valueOf(DateTime.parse(dayForHistoricalData).dayOfWeek().get()), dayForHistoricalData);
         }
+        if (drawAnomaliesCheckbox.isSelected()) {
+            drawHistoricalAnomalies(id, dayForHistoricalData);
+        }
     }
 
     private void drawBaseline(final String id, final String dayForBaseline, String type) {
@@ -545,6 +548,50 @@ public class ChartsController {
                                     for (HistoricalAnomaly ha : historicalAnomaliesContainer.getAnomalies()) {
                                         lineChart.getData().add(ha.getHistoricalAnomalySeries());
                                     }
+                                    for(XYChart.Series<Number, Number> series: lineChart.getData()){
+                                        if(series.getName().startsWith("Anomaly")){
+                                            series.nodeProperty().get().setStyle("-fx-stroke-width: 5px; -fx-stroke: red; ");
+                                            for (XYChart.Data<Number, Number> d : series.getData()) {
+                                                double num = (double) d.getXValue();
+                                                long iPart;
+                                                double fPart;
+                                                iPart = (long) num;
+                                                fPart = num - iPart;
+//                                                d.nodeProperty().get().setStyle("-fx-background-color: red,white;");
+                                                d.nodeProperty().get().getStyleClass().add("AnomalyNode");
+                                                Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: "+ d.getYValue().toString() + " seconds"));
+                                                d.nodeProperty().get().setOnMouseEntered(event -> {
+                                                    d.getNode().getStyleClass().remove("AnomalyNode");
+                                                    d.getNode().getStyleClass().add("onHover");
+                                                });
+                                                d.nodeProperty().get().setOnMouseExited(event -> {
+                                                    d.getNode().getStyleClass().add("AnomalyNode");
+                                                    d.getNode().getStyleClass().remove("onHover");
+                                                });
+                                            }
+                                        }
+                                        else {
+                                            series.nodeProperty().get().setStyle("-fx-stroke-width: 2px; -fx-stroke: green; -fx-background-color: green, white;");
+                                            for (XYChart.Data<Number, Number> d : series.getData()) {
+                                                double num = (double) d.getXValue();
+                                                long iPart;
+                                                double fPart;
+                                                iPart = (long) num;
+                                                fPart = num - iPart;
+                                                d.nodeProperty().get().getStyleClass().add("HistoricalDataNode");
+                                                Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: "+ d.getYValue().toString() + " seconds"));
+                                                d.nodeProperty().get().setOnMouseEntered(event -> {
+                                                    d.getNode().getStyleClass().remove("HistoricalDataNode");
+                                                    d.getNode().getStyleClass().add("onHover");
+                                                });
+                                                d.nodeProperty().get().setOnMouseExited(event -> {
+                                                    d.getNode().getStyleClass().add("HistoricalDataNode");
+                                                    d.getNode().getStyleClass().remove("onHover");
+                                                });
+                                            }
+                                        }
+                                    }
+
                                 }
                             });
                         }
