@@ -37,7 +37,7 @@ public class DetectorManager
     private static final String BASELINE_LOGS_PATH = "C:\\Inz\\appended_file.txt";
     private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Inz\\appended_file.txt";
     private static final String LOG_FILES_DIRECTORY_PATH = "./logs";
-    private static final PolynomialPatternBuilder polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();
+    private static PolynomialPatternBuilder polynomialPatternBuilder;
     private static final FilesLoader anomalySearchFilesLoader = new FilesLoader(ANOMALY_SEARCH_LOGS_PATH, "C:\\Inz\\appended_file.txt");
     private final InputParser inputParser;
     private static Detector detector;
@@ -47,8 +47,16 @@ public class DetectorManager
     private FilesLoader baselineFilesLoader;
     private File[] listOfFiles;
 
+    public DetectorManager(Server server, Boolean isThis) {
+        this.server = server;
+        this.inputParser = new InputParser();
+        File folder = new File(LOG_FILES_DIRECTORY_PATH);
+        listOfFiles = folder.listFiles();
+    }
+
     public DetectorManager(Server server, String... logFiles)
     {
+        polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();
         this.inputParser = new InputParser();
         File folder = new File(LOG_FILES_DIRECTORY_PATH);
         listOfFiles = folder.listFiles();
@@ -144,8 +152,8 @@ public class DetectorManager
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
                 if (file.getName().contains(filenameFormat)) {
-                    FilesLoader filesLoader = new FilesLoader(file.getPath());
-                    List<Record> records = filesLoader.processLineByLine();
+                    FilesLoader filesLoader = new FilesLoader();
+                    List<Record> records = filesLoader.processFile(file.getPath());
                     for (Record record: records) {
                         String anomalyID = record.getAnomalyID();
                         if (anomalyID != null && anomalyID.length() != 0 && record.getRouteID() == routeID) {
