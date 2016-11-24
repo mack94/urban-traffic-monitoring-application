@@ -201,13 +201,13 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
         {
 
             if (travelDuration > predictedTravelDuration + errorDelta)
-                errorRate = (predictedTravelDuration) / travelDuration;
+                errorRate = travelDuration / predictedTravelDuration;
             else
-                errorRate = (predictedTravelDuration) / travelDuration;
+                errorRate = travelDuration / predictedTravelDuration;
 
             String anomalyID = anomalyTracker.put(routeIdx, DateTime.now());
             int severity = (int) ((Math.abs(predictedTravelDuration / travelDuration) * 3) % 6);
-
+            System.out.println("Exceed - " + errorRate*100);
             return AnomalyOperationProtos.AnomalyMessage.newBuilder()
                     .setDayOfWeek(dayOfWeek.ordinal())
                     .setRouteIdx(routeIdx)
