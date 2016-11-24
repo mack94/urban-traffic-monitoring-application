@@ -27,7 +27,7 @@ public class Anomaly {
     private Baseline baseline = null;
 
     Anomaly(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
-        this.anomalyId = String.valueOf(anomalyMessage.getAnomalyID());
+        this.anomalyId = anomalyMessage.getAnomalyID();
         this.startDate = anomalyMessage.getDate();
         this.lastDate = anomalyMessage.getDate();
         this.routeId = String.valueOf(anomalyMessage.getRouteIdx());

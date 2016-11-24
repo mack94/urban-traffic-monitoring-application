@@ -51,7 +51,7 @@ public class AnomalyManager {
             if (mainWindowController != null) mainWindowController.updateAnomalyInfo(anomaly.getAnomalyId());
         } else {
             anomaly = new Anomaly(anomalyMessage);
-            Connector.demandBaseline(DayOfWeek.of(Integer.parseInt(anomaly.getDayOfWeek())), Integer.parseInt(anomaly.getRouteId()),"default");
+            Connector.demandBaseline(DayOfWeek.of(Integer.parseInt(anomaly.getDayOfWeek())), Integer.parseInt(anomaly.getRouteId()),"");
             anomalyList.add(anomaly);
             if (mainWindowController != null) {
                 mainWindowController.addAnomalyToList(anomaly);

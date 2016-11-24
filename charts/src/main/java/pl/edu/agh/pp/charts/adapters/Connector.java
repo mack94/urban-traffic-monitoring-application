@@ -191,7 +191,6 @@ public class Connector {
         } catch (Exception e) {
             logger.error("Exception while demanding historical anomalies data " + e, e);
         }
-        
     }
 
     public static void connectionLost(String additionalInfo) {

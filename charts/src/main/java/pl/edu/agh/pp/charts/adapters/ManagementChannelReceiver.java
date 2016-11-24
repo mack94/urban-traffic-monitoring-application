@@ -287,7 +287,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                     historicalAnomaliesMessage.getAnomaliesMap();
             Map<String, Map<Integer, Integer>> historicalAnomaliesMap = new HashMap<>();
 
-            for (String anomalyID: anomaliesMap.keySet()) {
+            for (String anomalyID : anomaliesMap.keySet()) {
                 Map<Integer, Integer> valuesMap = anomaliesMap.get(anomalyID).getPresenceMap();
                 historicalAnomaliesMap.put(anomalyID, valuesMap);
             }
