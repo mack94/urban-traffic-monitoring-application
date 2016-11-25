@@ -23,16 +23,14 @@ public class SystemScheduler {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public void sendSystemGeneralMessageEveryHour() {
-        final Runnable sender = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Connector.updateSystem(null); // Send to all connected users.
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-                    illegalPreferenceObjectExpected.printStackTrace();
-                }
+        final Runnable sender = () -> {
+            try {
+                Connector.updateSystem(null); // Send to all connected users.
+            } catch (IOException e) {
+                logger.error("SystemScheduler: IOException while sending general message every hour: " + e, e);
+            } catch (IllegalPreferenceObjectExpected e) {
+                logger.error("SystemScheduler: IllegalPreferenceObjectExpected while sending general message every hour: "
+                        + e, e);
             }
         };
 

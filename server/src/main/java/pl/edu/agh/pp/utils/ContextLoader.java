@@ -43,8 +43,8 @@ public class ContextLoader {
         return properties;
     }
 
-    public static void changeApiKey(String newApiKey){
-        for(GeoApiContext context: contextList){
+    public static void changeApiKey(String newApiKey) {
+        for (GeoApiContext context : contextList) {
             context.setApiKey(newApiKey);
         }
     }

@@ -3,9 +3,9 @@ package pl.edu.agh.pp.utils;
 import ch.qos.logback.classic.Logger;
 import org.joda.time.DateTime;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
-import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,8 +38,8 @@ public class Timer {
             String string1 = null;
             try {
                 string1 = (String) options.getPreference("DayShiftStart", String.class);
-            } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-                illegalPreferenceObjectExpected.printStackTrace();
+            } catch (IllegalPreferenceObjectExpected e) {
+                logger.error("Timer: IllegalPreferenceObjectExpected Error while getWaitingTime" + e, e);
             }
             Date time1 = new SimpleDateFormat("HH:mm:ss").parse(string1);
             Calendar calendar1 = Calendar.getInstance();
@@ -48,14 +48,12 @@ public class Timer {
             String string2 = null;
             try {
                 string2 = (String) options.getPreference("NightShiftStart", String.class);
-            } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-                illegalPreferenceObjectExpected.printStackTrace();
+            } catch (IllegalPreferenceObjectExpected e) {
+                logger.error("Timer: IllegalPreferenceObjectExpected Error while getWaitingTime" + e, e);
             }
             Date time2 = new SimpleDateFormat("HH:mm:ss").parse(string2);
             Calendar calendar2 = Calendar.getInstance();
             calendar2.setTime(time2);
-//            calendar2.add(Calendar.DATE, 1);
-
 
 
             String hours = String.valueOf(currentCalendar.get(Calendar.HOUR_OF_DAY));
@@ -64,7 +62,7 @@ public class Timer {
             String currentTime = hours.concat(":").concat(minutes).concat(":").concat(seconds);
             Date d = new SimpleDateFormat("HH:mm:ss").parse(currentTime);
             currentCalendar.setTime(d);
-//            currentCalendar.add(Calendar.DATE, 1);
+
 
             Date x = currentCalendar.getTime();
             Random random = new Random();
@@ -75,7 +73,7 @@ public class Timer {
                 System.out.println("NIGHT SHIFT----------------------------------------------");
                 if (!Timer.dayOfWeek.equals(DayOfWeek.of(DateTime.now().getDayOfWeek()))) {
                     Timer.dayOfWeek = DayOfWeek.of(DateTime.now().getDayOfWeek());
-                    System.out.println("New day. GC will run!");
+                    logger.info("New day. GC will run!");
                     System.gc();
                 }
                 return random.nextInt(400_000) + 450_000;

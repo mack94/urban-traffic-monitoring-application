@@ -209,7 +209,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
     }
 
 
-    public void sendLeverInfoMessage(double leverValue) { // send it to all users. TODO: Send to exact user if needed?
+    public void sendLeverInfoMessage(double leverValue) {
 
         String leverUpdateDate = ""; // FIXME
 
@@ -273,13 +273,9 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
 
     private void sendBaselineMessage(Address destination, int routeID, AnomalyOperationProtos.DemandBaselineMessage.Day day, String baselineType) {
         //TODO: Check if routeID is not -1
-        //TODO: Be careful about sending message too fast - if you send it too fast, wgen PolynomialPatternBuilder is not loaded, then message will not be send.
+        //TODO: Be careful about sending message too fast - if you send it too fast, when PolynomialPatternBuilder is not loaded, then message will not be send.
         int dayNumber = day.getNumber();
         DayOfWeek dayOfWeek = DayOfWeek.fromValue(dayNumber);
-        logger.info("DAY NUMER = " + dayNumber + " and it's : " + dayOfWeek.name());
-        logger.info(" and come back parsing: " + AnomalyOperationProtos.BaselineMessage.Day.forNumber(dayNumber).name());
-        logger.info(" type is: " + baselineType);
-
         Map<Integer, Integer> baselineMap = new HashMap<>();
 
         if (baselineType != null && baselineType.length() > 0) {
@@ -300,8 +296,6 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
                 second += 60;
             }
         }
-
-        // FIXME: Check if double necessary or int is enough.
 
         AnomalyOperationProtos.BaselineMessage baselineMessage = AnomalyOperationProtos.BaselineMessage.newBuilder()
                 .setRouteIdx(routeID)

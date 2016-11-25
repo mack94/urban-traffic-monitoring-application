@@ -3,9 +3,9 @@ package pl.edu.agh.pp.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.Connector;
+import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
-import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 
 import java.util.HashMap;
 
@@ -22,6 +22,9 @@ public class LeverInfoHelper {
     private static boolean updated = false;
     private static final Object lock = new Object();
     private static String preferenceName = "LeverValue";
+
+    private LeverInfoHelper() {
+    }
 
     public static LeverInfoHelper getInstance() {
         return Holder.INSTANCE;

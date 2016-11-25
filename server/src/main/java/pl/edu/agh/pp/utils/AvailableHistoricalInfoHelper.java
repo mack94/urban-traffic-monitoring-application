@@ -1,6 +1,5 @@
 package pl.edu.agh.pp.utils;
 
-import com.google.protobuf.ByteString;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos.AvailableHistoricalMessage;
 

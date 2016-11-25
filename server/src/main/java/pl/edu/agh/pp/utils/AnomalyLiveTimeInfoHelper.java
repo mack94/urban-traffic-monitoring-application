@@ -3,9 +3,9 @@ package pl.edu.agh.pp.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.Connector;
+import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
-import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +24,9 @@ public class AnomalyLiveTimeInfoHelper {
     private static final Object lock = new Object();
     private static String preferenceName = "AnomalyLiveTime";
 
+    private AnomalyLiveTimeInfoHelper() {
+    }
+
     public static AnomalyLiveTimeInfoHelper getInstance() {
         return Holder.INSTANCE;
     }
@@ -37,7 +40,7 @@ public class AnomalyLiveTimeInfoHelper {
                 anomalyLiveTime = (int) options.getPreference(preferenceName, Integer.class);
             } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
                 logger.error("AnomalyLiveTimeInfoHelper:  anomalyLiveTime error! " +
-                        "Could not getPreference AnomalyLiveTimeValue from registry!" + illegalPreferenceObjectExpected,
+                                "Could not getPreference AnomalyLiveTimeValue from registry!" + illegalPreferenceObjectExpected,
                         illegalPreferenceObjectExpected);
                 anomalyLiveTime = 0;
                 logger.error("AnomalyLiveTimeInfoHelper:  anomalyLiveTime error! " +
@@ -61,9 +64,11 @@ public class AnomalyLiveTimeInfoHelper {
         try {
             Connector.updateSystem(null);
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-            illegalPreferenceObjectExpected.printStackTrace();
+            logger.error("AnomalyLiveTimeInfoHelper: IOException error while setting " +
+                    "anomaly live time value: " + e, e);
+        } catch (IllegalPreferenceObjectExpected e) {
+            logger.error("AnomalyLiveTimeInfoHelper: IllegalPreferenceObjectExpected error while setting " +
+                    "anomaly live time value: " + e, e);
         }
 
     }

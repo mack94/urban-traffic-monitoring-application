@@ -3,9 +3,9 @@ package pl.edu.agh.pp.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.Connector;
+import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
-import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +24,9 @@ public class BaselineWindowSizeInfoHelper {
     private static final Object lock = new Object();
     private static String preferenceName = "BaselineWindowSize";
 
+    private BaselineWindowSizeInfoHelper() {
+    }
+
     public static BaselineWindowSizeInfoHelper getInstance() {
         return Holder.INSTANCE;
     }
@@ -37,7 +40,7 @@ public class BaselineWindowSizeInfoHelper {
                 baselineWindowSize = ((int) options.getPreference(preferenceName, Integer.class));
             } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
                 logger.error("BaselineWindowSizeInfoHelper:  baselineWindowSize error! " +
-                        "Could not getPreference BaselineWindowSize from registry!" + illegalPreferenceObjectExpected,
+                                "Could not getPreference BaselineWindowSize from registry!" + illegalPreferenceObjectExpected,
                         illegalPreferenceObjectExpected);
                 baselineWindowSize = 0;
                 logger.error("BaselineWindowSizeInfoHelper:  baselineWindowSize error! " +
@@ -61,9 +64,11 @@ public class BaselineWindowSizeInfoHelper {
         try {
             Connector.updateSystem(null);
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-            illegalPreferenceObjectExpected.printStackTrace();
+            logger.error("AnomalyLiveTimeInfoHelper: IOException error while setting " +
+                    "baseline window size value: " + e, e);
+        } catch (IllegalPreferenceObjectExpected e) {
+            logger.error("AnomalyLiveTimeInfoHelper: IllegalPreferenceObjectExpected error while setting " +
+                    "baseline window size value: " + e, e);
         }
 
     }

@@ -4,11 +4,11 @@ import ch.qos.logback.classic.Logger;
 import org.joda.time.DateTime;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.Connector;
-import pl.edu.agh.pp.utils.enums.DayShift;
+import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
-import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
+import pl.edu.agh.pp.utils.enums.DayShift;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -43,9 +43,6 @@ public class DayShiftInfoHelper {
     // I don't want to make a spaghetti...
 
     private DayShift getShift() {
-
-        // TODO: Please add UNIVERSAL <?>
-        // But maybe universal will be removed...
 
         Calendar currentCalendar = Calendar.getInstance();
 
@@ -90,13 +87,12 @@ public class DayShiftInfoHelper {
 
                 return DayShift.NIGHT;
             }
-        } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-            illegalPreferenceObjectExpected.printStackTrace();
+        } catch (IllegalPreferenceObjectExpected e) {
+            logger.error("DayShiftInfoHelper: IllegalPreferenceObjectExpected while getting shift: " + e, e );
         } catch (ParseException e) {
-            e.printStackTrace();
+            logger.error("DayShiftInfoHelper: ParseException while getting shift: " + e, e );
         }
 
-        // It's an error i think. Not desired state.
         dayShift = DayShift.UNIVERSAL;
         return DayShift.NULLSHIFT;
     }
@@ -119,8 +115,11 @@ public class DayShiftInfoHelper {
             Connector.updateSystem(null); // To each user connected to the system;
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-            illegalPreferenceObjectExpected.printStackTrace();
+            logger.error("DayShiftInfoHelper: IOException while " +
+                    "updating system after change the shift: " + e, e );
+        } catch (IllegalPreferenceObjectExpected e) {
+            logger.error("DayShiftInfoHelper: IllegalPreferenceObjectExpected while " +
+                    "updating system after change the shift: " + e, e );
         }
     }
 
