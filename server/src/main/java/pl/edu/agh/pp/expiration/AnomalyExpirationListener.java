@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
-import pl.edu.agh.pp.adapters.Server;
+import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
@@ -16,7 +16,7 @@ public class AnomalyExpirationListener extends Thread
     private ConcurrentHashMap<Integer, String> anomalyID;
     private ConcurrentHashMap<Integer, DateTime> anomalyTime;
     private Set<String> expiredAnomalies;
-    private Server server;
+    private AnomaliesServer anomaliesServer;
 
     public AnomalyExpirationListener(ConcurrentHashMap<Integer, String> anomalyID, ConcurrentHashMap<Integer, DateTime> anomalyTime)
     {
@@ -77,11 +77,11 @@ public class AnomalyExpirationListener extends Thread
                 .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))
                 .setIsActive(false)
                 .build();
-        server.send(message.toByteArray());
+        anomaliesServer.send(message.toByteArray());
     }
 
-    public void setServer(Server server)
+    public void setAnomaliesServer(AnomaliesServer anomaliesServer)
     {
-        this.server = server;
+        this.anomaliesServer = anomaliesServer;
     }
 }

@@ -6,7 +6,7 @@ import org.apache.commons.math3.fitting.WeightedObservedPoint;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.adapters.Server;
+import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.detectors.Detector;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.serializers.FileBaselineSerializer;
@@ -179,8 +179,8 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
         return null;
     }
 
-    public void setServer(Server server) {
-        anomalyTracker.setServer(server);
+    public void setServer(AnomaliesServer anomaliesServer) {
+        anomalyTracker.setAnomaliesServer(anomaliesServer);
     }
 
     public static class Holder {

@@ -2,8 +2,8 @@ package pl.edu.agh.pp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.adapters.Connector;
-import pl.edu.agh.pp.adapters.Server;
 import pl.edu.agh.pp.detectors.DetectorManager;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
@@ -46,7 +46,7 @@ public class Main {
             InetAddress bind_addr = null;
             try {
                 bind_addr = InetAddress.getByName("0.0.0.0");
-                logger.info("Server listens on: " + bind_addr);
+                logger.info("AnomaliesServer listens on: " + bind_addr);
             } catch (UnknownHostException e) {
                 logger.error("Main :: UnknownHostException " + e);
             }
@@ -58,12 +58,12 @@ public class Main {
             Connector.connect(args, bind_addr, port, nio);
 
         } else {
-            Server server = new Server();
-            //new DetectorManager(server, args[1]).displayAnomaliesForRoute(1);
+            AnomaliesServer anomaliesServer = new AnomaliesServer();
+            //new DetectorManager(anomaliesServer, args[1]).displayAnomaliesForRoute(1);
             if(args.length>1)
-                new DetectorManager(server, Arrays.copyOfRange(args, 1, args.length)).displayAnomaliesForFile();
+                new DetectorManager(anomaliesServer, Arrays.copyOfRange(args, 1, args.length)).displayAnomaliesForFile();
             else
-                logger.error("Run: 'java -jar server.jar off path_to_logs'");
+                logger.error("Run: 'java -jar anomaliesServer.jar off path_to_logs'");
         }
     }
 }

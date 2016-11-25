@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.adapters.Server;
+import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.expiration.AnomalyExpirationListener;
 import pl.edu.agh.pp.utils.JodaTimeHelper;
 import pl.edu.agh.pp.settings.IOptions;
@@ -33,7 +33,7 @@ public final class AnomalyTracker implements IAnomalyTracker {
     private IOptions options = Options.getInstance();
     private Seconds liveTime;
     private Random random = new Random();
-    private Server server;
+    private AnomaliesServer anomaliesServer;
     private AnomalyExpirationListener anomalyExpirationListener;
 
     public AnomalyTracker() {
@@ -106,9 +106,9 @@ public final class AnomalyTracker implements IAnomalyTracker {
         return JodaTimeHelper.MINIMUM_ANOMALY_DATE;
     }
 
-    public void setServer(Server server) {
-        this.server = server;
-        this.anomalyExpirationListener.setServer(server);
+    public void setAnomaliesServer(AnomaliesServer anomaliesServer) {
+        this.anomaliesServer = anomaliesServer;
+        this.anomalyExpirationListener.setAnomaliesServer(anomaliesServer);
     }
 
     public static class Holder {

@@ -1,7 +1,7 @@
 package pl.edu.agh.pp.trackers;
 
 import org.joda.time.DateTime;
-import pl.edu.agh.pp.adapters.Server;
+import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.utils.JodaTimeHelper;
 
 import java.util.List;
@@ -67,5 +67,5 @@ public interface IAnomalyTracker {
      */
     List<Integer> getCurrentAnomaliesRoutesIds();
 
-    void setServer(Server server);
+    void setAnomaliesServer(AnomaliesServer anomaliesServer);
 }

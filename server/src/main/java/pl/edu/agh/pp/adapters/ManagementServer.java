@@ -3,15 +3,7 @@ package pl.edu.agh.pp.adapters;
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.jgroups.Address;
-import org.jgroups.ReceiverAdapter;
-import org.jgroups.blocks.cs.BaseServer;
-import org.jgroups.blocks.cs.NioServer;
-import org.jgroups.blocks.cs.Receiver;
-import org.jgroups.blocks.cs.TcpServer;
-import org.jgroups.jmx.JmxConfigurator;
-import org.jgroups.stack.IpAddress;
 import org.jgroups.util.ByteArrayDataInputStream;
-import org.jgroups.util.Util;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -27,7 +19,6 @@ import pl.edu.agh.pp.utils.*;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,20 +29,10 @@ import java.util.Map;
  * 00:15
  * Project: server.
  */
-public class ManagementServer extends ReceiverAdapter implements Receiver {
+public class ManagementServer extends Server {
 
     private final Logger logger = (Logger) LoggerFactory.getLogger(ManagementServer.class);
-    protected BaseServer server;
     private IOptions options = Options.getInstance();
-
-    public void start(InetAddress bind_addr, int port, boolean nio) throws Exception {
-        server = nio ? new NioServer(bind_addr, port) : new TcpServer(bind_addr, port);
-        server.receiver(this);
-        server.start();
-        JmxConfigurator.register(server, Util.getMBeanServer(), "pub:name=pub-management-server");
-        int local_port = server.localAddress() instanceof IpAddress ? ((IpAddress) server.localAddress()).getPort() : 0;
-        logger.info(String.format("\nManagement server listening at %s:%s\n", bind_addr != null ? bind_addr : "0.0.0.0", local_port));
-    }
 
     @Override
     public void receive(Address sender, byte[] buf, int offset, int length) {
@@ -141,7 +122,6 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
         double leverValue = LeverInfoHelper.getInstance().getLeverValue();
         //int anomaliesChannelPort = (int) options.getPreference("AnomaliesChannelPort", Integer.class); // FIXME
         int messageID = 1; // FIXME
-        RoutesLoader routesLoader = RoutesLoader.getInstance();
         AnomalyOperationProtos.SystemGeneralMessage.Shift shift = DayShiftInfoHelper.getInstance().getShiftProtos(); // FIXME
 
         AnomalyOperationProtos.SystemGeneralMessage msg = AnomalyOperationProtos.SystemGeneralMessage.newBuilder()
@@ -318,7 +298,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
     }
 
 
-    protected void sendHistoricalAnomaliesMessage(Address destination, String date, int routeID, Server dmServer) {
+    protected void sendHistoricalAnomaliesMessage(Address destination, String date, int routeID, AnomaliesServer dmServer) {
 
         try {
             Map<String, AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> result = new HashMap<>();
@@ -327,7 +307,7 @@ public class ManagementServer extends ReceiverAdapter implements Receiver {
             Map<String, Map<Integer, Integer>> anomalyForDateAndRoute = detectorManager
                     .getAnomalyForDateAndRoute(date, routeID);
 
-            for (String anomalyID: anomalyForDateAndRoute.keySet()) {
+            for (String anomalyID : anomalyForDateAndRoute.keySet()) {
                 AnomalyOperationProtos.HistoricalAnomalyPresenceMessage historicalAnomalyValue = AnomalyOperationProtos
                         .HistoricalAnomalyPresenceMessage.newBuilder()
                         .putAllPresence(anomalyForDateAndRoute.get(anomalyID))

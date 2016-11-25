@@ -13,7 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.adapters.Server;
+import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.charts.XYLineChart_AWT;
 import pl.edu.agh.pp.half.route.HalfRouteManager;
@@ -42,19 +42,18 @@ public class DetectorManager
     private final InputParser inputParser;
     private static Detector detector;
     private final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
-    // private static ChannelReceiver client = new ChannelReceiver();
-    private Server server;
+    private AnomaliesServer anomaliesServer;
     private FilesLoader baselineFilesLoader;
     private File[] listOfFiles;
 
-    public DetectorManager(Server server, Boolean isThis) {
-        this.server = server;
+    public DetectorManager(AnomaliesServer anomaliesServer, Boolean isThis) {
+        this.anomaliesServer = anomaliesServer;
         this.inputParser = new InputParser();
         File folder = new File(LOG_FILES_DIRECTORY_PATH);
         listOfFiles = folder.listFiles();
     }
 
-    public DetectorManager(Server server, String... logFiles)
+    public DetectorManager(AnomaliesServer anomaliesServer, String... logFiles)
     {
         polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();
         this.inputParser = new InputParser();
@@ -98,8 +97,8 @@ public class DetectorManager
             e.printStackTrace();
         }
         new CommandLineManager().start();
-        this.server = server;
-        polynomialPatternBuilder.setServer(server);
+        this.anomaliesServer = anomaliesServer;
+        polynomialPatternBuilder.setServer(anomaliesServer);
     }
 
     public String isAnomaly(String logEntry, String defaultWaypoints)
@@ -127,7 +126,7 @@ public class DetectorManager
                     logEntry = new JSONObject(logEntry).put("anomalyId", anomalyId).toString();
                     logger.error(logEntry);
                 }
-                server.send(isAnomaly.toByteArray());
+                anomaliesServer.send(isAnomaly.toByteArray());
             }
 
             return anomalyId;

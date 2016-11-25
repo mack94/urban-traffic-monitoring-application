@@ -4,8 +4,8 @@ import org.jgroups.Address;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.CronManager;
-import pl.edu.agh.pp.utils.SystemScheduler;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
+import pl.edu.agh.pp.utils.SystemScheduler;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -18,22 +18,19 @@ import java.net.InetAddress;
 public class Connector {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(Connector.class);
-    private static ChannelReceiver channelReceiver = new ChannelReceiver();
     private static ManagementServer managementServer = new ManagementServer();
-    private static Server server;
+    private static AnomaliesServer anomaliesServer;
     private static SystemScheduler systemScheduler;
 
     public static void connect(String[] args, InetAddress bind_addr, int port, boolean nio) throws InterruptedException {
         managementServer = new ManagementServer();
-        server = new Server();
-        channelReceiver = new ChannelReceiver();
+        anomaliesServer = new AnomaliesServer();
 
         try {
             // TODO: I am not sure if we should start both management and anomalies channel both at the same time.
-            managementServer.start(bind_addr, port - 1, nio);
-            server.start(bind_addr, port, nio);
-            channelReceiver.start(bind_addr, port, nio);
-            logger.info("Server already running.");
+            managementServer.start(bind_addr, port - 1, nio, "management");
+            anomaliesServer.start(bind_addr, port, nio, "anomalies");
+            logger.info("AnomaliesServer already running.");
         } catch (Exception e) {
             logger.error("Connector :: Exception " + e, e);
         }
@@ -43,10 +40,10 @@ public class Connector {
         systemScheduler = new SystemScheduler();
         systemScheduler.sendSystemGeneralMessageEveryHour();
 
-        if(args.length>1)
-            new CronManager(server).doSomething(args[1]);
+        if (args.length > 1)
+            new CronManager(anomaliesServer).doSomething(args[1]);
         else
-            new CronManager(server).doSomething("");
+            new CronManager(anomaliesServer).doSomething("");
     }
 
     public static void updateLever(double leverValue) {
@@ -58,7 +55,7 @@ public class Connector {
     }
 
     public static void updateHistoricalAnomalies(Address destination, String date, int routeID) {
-        managementServer.sendHistoricalAnomaliesMessage(destination, date, routeID, server);
+        managementServer.sendHistoricalAnomaliesMessage(destination, date, routeID, anomaliesServer);
     }
 
 }

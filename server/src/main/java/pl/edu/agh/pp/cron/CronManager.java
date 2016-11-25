@@ -10,24 +10,24 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.repeater.AnomalyRepeater;
 import pl.edu.agh.pp.utils.ContextLoader;
 import pl.edu.agh.pp.utils.RequestParams;
 import pl.edu.agh.pp.utils.RoutesLoader;
 import pl.edu.agh.pp.utils.Timer;
 import pl.edu.agh.pp.detectors.DetectorManager;
-import pl.edu.agh.pp.adapters.Server;
 
 public class CronManager
 {
 
     private final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
 
-    private Server server;
+    private AnomaliesServer anomaliesServer;
 
-    public CronManager(Server server)
+    public CronManager(AnomaliesServer anomaliesServer)
     {
-        this.server = server;
+        this.anomaliesServer = anomaliesServer;
     }
 
     public void doSomething(String logFile) throws InterruptedException
@@ -46,7 +46,7 @@ public class CronManager
                 return;
             }
             context = contextLoader.geoApiContextLoader();
-            DetectorManager detectorManager = new DetectorManager(server, logFile);
+            DetectorManager detectorManager = new DetectorManager(anomaliesServer, logFile);
             if (!detectorManager.areAllRoutesIncluded(loadedRoutes))
             {
                 logger.error("Supplied historical data does not coincide with chosen routes. Check your Routes.json " +
