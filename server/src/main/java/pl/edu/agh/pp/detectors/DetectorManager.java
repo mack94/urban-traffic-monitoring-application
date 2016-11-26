@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
+import pl.edu.agh.pp.builders.SupportVectorRegressionPatternBuilder;
 import pl.edu.agh.pp.charts.XYLineChart_AWT;
 import pl.edu.agh.pp.half.route.HalfRouteManager;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
@@ -89,11 +90,11 @@ public class DetectorManager
         detector = polynomialPatternBuilder;
         try
         {
-
-            PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
-        }
-        catch (IOException e)
-        {
+            //************************************TODO: DELETE TEST LINE
+            SupportVectorRegressionPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
+            //************************************
+            //PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         new CommandLineManager().start();
