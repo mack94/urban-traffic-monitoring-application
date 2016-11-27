@@ -1,21 +1,19 @@
 package pl.edu.agh.pp.builders;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.fitting.PolynomialCurveFitter;
-import org.apache.commons.math3.fitting.WeightedObservedPoint;
-import org.jfree.ui.RefineryUtilities;
-import pl.edu.agh.pp.charts.LineChart_AWT;
-import pl.edu.agh.pp.charts.XYLineChart_AWT;
-import pl.edu.agh.pp.utils.AvailableHistoricalInfoHelper;
-import pl.edu.agh.pp.utils.HistoricalInfoHelper;
-import pl.edu.agh.pp.utils.Record;
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.detectors.Detector;
+import pl.edu.agh.pp.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.serializers.FileBaselineSerializer;
+import pl.edu.agh.pp.serializers.IBaselineSerializer;
+import pl.edu.agh.pp.trackers.AnomalyTracker;
+import pl.edu.agh.pp.trackers.IAnomalyTracker;
+import pl.edu.agh.pp.utils.*;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
-import weka.classifiers.AbstractClassifier;
-import weka.classifiers.Evaluation;
 import weka.classifiers.functions.LibSVM;
 import weka.core.*;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
@@ -23,101 +21,179 @@ import java.util.List;
 /**
  * Created by Krzysztof Węgrzyński on 2016-04-21.
  */
-public class SupportVectorRegressionPatternBuilder {
-    private static final int SECONDS_IN_24_HOURS = 86400;
+public class SupportVectorRegressionPatternBuilder implements Detector {
 
-    private static double normalize(double min, double max, double value) {
-        return (value-min)/(max-min);
+    private static IAnomalyTracker anomalyTracker = AnomalyTracker.getInstance();
+    private static Map<DayOfWeek, Map<Integer, LibSVM>> svrMap = new HashMap<>();
+    private static IBaselineSerializer baselineSerializer = FileBaselineSerializer.getInstance();
+    private static Map<LibSVM, Instances> svmDatasets = new HashMap<>();
+    private static BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
+    private static LeverInfoHelper leverInfoHelper = LeverInfoHelper.getInstance();
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
+
+    private static double classify(DayOfWeek dayOfWeek, int routeIdx, int second) throws Exception {
+        LibSVM svr;
+        svr = svrMap.get(dayOfWeek).get(routeIdx);
+        Attribute timeInSeconds = new Attribute("time");
+        Instance instance = new DenseInstance(1);
+        instance.setDataset(svmDatasets.get(svr));
+        instance.setValue(svmDatasets.get(svr).attribute(0), second);
+        return svr.classifyInstance(instance);
     }
 
-    private static int denormalize(double min, double max, double normalizedValue) {
-        return (int)(normalizedValue*(max-min) + min);
-    }
-    public static void computePolynomial(List<Record> records, boolean shouldSetAfterComputing) throws Exception {
-        Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = new HashMap<>();
+    public static void computeClassifier(List<Record> records, boolean shouldSetAfterComputing) throws Exception {
+        Map<DayOfWeek, Map<Integer, LibSVM>> baseline = new HashMap<>();
 
         List<Record> _records = new LinkedList<>();
-        List<Integer> durationsInTraffic = new LinkedList<>();
         Map<Integer, List<Point2D.Double>> pointsMap = new HashMap<>();
         _records.addAll(records);
-        _records.stream().forEach(record -> durationsInTraffic.add(record.getDurationInTraffic()));
-        int minDurationInTraffic = Collections.min(durationsInTraffic);
-        int maxDurationInTraffic = Collections.max(durationsInTraffic);
-        LibSVM svm = new LibSVM();
+
 
 
         int recordRouteID;
         List<Point2D.Double> points;
-        for (Record record : _records) {
-            points = pointsMap.get(record.getRouteID());
-            if(points == null) {
-                points = new LinkedList<>();
-                pointsMap.put(record.getRouteID(), points);
-            }
-            //points.add(new Point2D.Double((double)record.getTimeInSeconds()/SECONDS_IN_24_HOURS, normalize(minDurationInTraffic, maxDurationInTraffic, record.getDurationInTraffic())));
-            points.add(new Point2D.Double(record.getTimeInSeconds(), record.getDurationInTraffic()));
-            //System.out.println("Time: " + (double)record.getTimeInSeconds()/SECONDS_IN_24_HOURS + " Duration in traffic: " + normalize(minDurationInTraffic, maxDurationInTraffic, record.getDurationInTraffic()));
-        }
-
         Attribute timeInSeconds = new Attribute("time");
         Attribute durationInTraffic = new Attribute("durationInTraffic");
         ArrayList<Attribute> attrs = new ArrayList<>();
         attrs.add(timeInSeconds);
         attrs.add(durationInTraffic);
-        final Instances dataset = new Instances("my_dataset", attrs, 0);
-        dataset.setClassIndex(dataset.numAttributes() - 1);
-        svm.setOptions("-S 3 -K 2 -Z -C 1000 -P 0.01".split(" "));
-//        svm.setKernelType(new SelectedTag(LibSVM.KERNELTYPE_RBF, LibSVM.TAGS_KERNELTYPE));
-//        svm.setSVMType(new SelectedTag(LibSVM.SVMTYPE_EPSILON_SVR, LibSVM.TAGS_SVMTYPE)); // -S 3=epsilon-SVR
 
 
-        pointsMap.get(1).stream().forEach(point -> {
-            Instance instance = new DenseInstance(2);
-            instance.setValue(timeInSeconds, point.getX());
-            instance.setValue(durationInTraffic, point.getY());
-            dataset.add(instance);
-        });
+        for (DayOfWeek day : DayOfWeek.values()) {
 
+            pointsMap.clear();
 
+            for (Record record : _records) {
+                recordRouteID = record.getRouteID();
+                points = pointsMap.get(recordRouteID);
+                if(points == null) {
+                    points = new LinkedList<>();
+                    pointsMap.put(recordRouteID, points);
+                }
+                if (record.getDayOfWeek().compareTo(day) == 0) {
+                    points.add(new Point2D.Double(record.getTimeInSeconds(), record.getDurationInTraffic()));
+                }
+                //TODO: sprawdzić, czy kod poniżej będzie kompatybilny z nowym baseline, nie jestem tego pewien
+//                AvailableHistoricalInfoHelper.addAvailableDateRoute(
+//                        record.getDateTime().toString("yyyy-MM-dd"),
+//                        record.getRouteID()
+//                );
+            }
 
+            final Map<Integer, LibSVM> svmRoutes = new HashMap<>();
 
-        svm.buildClassifier( dataset );
-        int trainSize = dataset.numInstances()-287;
-        int testSize = dataset.numInstances() - trainSize;
-        Instances train = new Instances(dataset, 0, trainSize);
-        train.setClassIndex(train.numAttributes() - 1);
-        Instances test = new Instances(dataset, trainSize, testSize);
-        test.setClassIndex(test.numAttributes() - 1);
+            pointsMap.keySet()
+                    .stream()
+                    .filter(routeID -> pointsMap.get(routeID).size() != 0)
+                    .forEach(routeID -> {
+                        Instances dataset = new Instances("routes_dataset", attrs, 0);
+                        dataset.setClassIndex(dataset.numAttributes() - 1);
+                        LibSVM svm = new LibSVM();
+                        try {
+                            svm.setOptions("-S 3 -K 2 -Z -C 1000 -P 0.01".split(" "));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-        Evaluation eval = new Evaluation(train); //trainset
-        eval.evaluateModel(svm, test); //testset
-        System.out.println(eval.toSummaryString());
-        eval.predictions().stream().forEach(prediction -> {
-            System.out.println("predicted: " + prediction.predicted() + " actual: " + prediction.actual());
-        });
+                        pointsMap.get(routeID).stream().forEach(point -> {
+                            Instance instance = new DenseInstance(2);
+                            instance.setValue(timeInSeconds, point.getX());
+                            instance.setValue(durationInTraffic, point.getY());
+                            dataset.add(instance);
+                        });
+                        try {
+                            svm.buildClassifier( dataset );
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        svmDatasets.put(svm, dataset);
+                        svmRoutes.put(routeID, svm);
+                    });
+            baseline.put(day, svmRoutes);
 
-        LineChart_AWT chart;
+        }
+
+        //TODO: poniższe nie działa, nie zgadzają się typy
+//        String baselineFilename = baselineSerializer.serialize(baseline);
+//        if (baselineFilename != null) {
+//            logger.info("Baseline has been serialized in {} file", baselineFilename);
+//        } else {
+//            logger.debug("Error occurred while serializing baseline");
+//        }
+
+        if (shouldSetAfterComputing)
+            svrMap = baseline;
+    }
+
+    public static double[] getValueForEachMinuteOfDay(DayOfWeek dayOfWeek, int routeIdx) throws Exception {
         double[] values = new double[1440];
         int idx = 0;
-
+        double value;
         for (int i = 0; i < 86400; i = i + 60) {
-            Instance instance = new DenseInstance(1);
-            instance.setValue(timeInSeconds, i);
-            instance.setDataset(dataset);
-            double value = svm.classifyInstance(instance);
-            System.out.println("Time: " + instance.value(0) + " predicted: " + value);
+            value = classify(dayOfWeek, routeIdx, i);
             values[idx] = value;
             idx++;
         }
+        return values;
+    }
 
-        chart = new LineChart_AWT("test", "Baseline i anomalie dla trasy " + 1, values);
-        chart.pack();
-        RefineryUtilities.centerFrameOnScreen(chart);
-        chart.setVisible(true);
-        //System.out.println(eval.weightedFMeasure());
-        //System.out.println(eval.weightedPrecision());
-        //System.out.println(eval.weightedRecall());
+    public AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
+        double predictedTravelDuration = 0;
+        try {
+            predictedTravelDuration = classify(dayOfWeek, routeIdx, (int) secondOfDay);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        double errorSensitivity = leverInfoHelper.getLeverValue();
+        double bounds = 0.25 + errorSensitivity; // %
+        double errorDelta = predictedTravelDuration * bounds;
+        int baselineWindowSize = baselineWindowSizeInfoHelper.getBaselineWindowSizeValue();
+        double predictedTravelDurationMinimum = Double.MAX_VALUE;
+        double predictedTravelDurationMaximum = Double.MIN_VALUE;
+        double errorRate = 0.0;
 
-        System.out.println("min: " + minDurationInTraffic + " max: " + maxDurationInTraffic);
+        for (int unitDiff = -baselineWindowSize; unitDiff <= baselineWindowSize; unitDiff++) {
+            double tempDuration = 0;
+            try {
+                tempDuration = classify(dayOfWeek, routeIdx, (int) secondOfDay + (unitDiff * 60));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            predictedTravelDurationMinimum = predictedTravelDurationMinimum < tempDuration ? predictedTravelDurationMinimum : tempDuration;
+            predictedTravelDurationMaximum = predictedTravelDurationMaximum < tempDuration ? tempDuration : predictedTravelDurationMaximum;
+        }
+
+        logger.info("#####################");
+        logger.info("Error rate: " + errorDelta);
+        logger.info(String.valueOf(predictedTravelDurationMinimum - errorDelta));
+        logger.info(String.valueOf(predictedTravelDurationMaximum + errorDelta));
+
+
+        if ((travelDuration > predictedTravelDurationMaximum + errorDelta) || (travelDuration < predictedTravelDurationMinimum - errorDelta)) {
+
+            if (travelDuration > predictedTravelDuration + errorDelta)
+                errorRate = travelDuration / predictedTravelDuration;
+            else
+                errorRate = travelDuration / predictedTravelDuration;
+
+            String anomalyID = anomalyTracker.put(routeIdx, DateTime.now());
+            int severity = (int) ((Math.abs(predictedTravelDuration / travelDuration) * 3) % 6);
+            System.out.println("Exceed - " + errorRate * 100);
+            return AnomalyOperationProtos.AnomalyMessage.newBuilder()
+                    .setDayOfWeek(dayOfWeek.ordinal())
+                    .setRouteIdx(routeIdx)
+                    .setSecondOfDay((int) secondOfDay)
+                    .setDuration((int) travelDuration)
+                    .setSeverity(1) // TODO: Fix it
+                    .setMessage(String.format("Error rate: > %f <", errorRate))
+                    .setAnomalyID(anomalyID)
+                    .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))
+                    .setIsActive(true)
+                    .setNormExceed((int) (errorRate * 100) - 100)
+                    .build();
+        } else if (anomalyTracker.has(routeIdx)) {
+            anomalyTracker.remove(routeIdx);
+        }
+        return null;
     }
 }
