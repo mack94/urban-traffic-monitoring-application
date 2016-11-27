@@ -3,25 +3,30 @@ package pl.edu.agh.pp.builders;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.detectors.Detector;
+import pl.edu.agh.pp.adapters.AnomaliesServer;
+import pl.edu.agh.pp.adapters.Server;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.serializers.FileBaselineSerializer;
 import pl.edu.agh.pp.serializers.IBaselineSerializer;
 import pl.edu.agh.pp.trackers.AnomalyTracker;
 import pl.edu.agh.pp.trackers.IAnomalyTracker;
-import pl.edu.agh.pp.utils.*;
+import pl.edu.agh.pp.utils.BaselineWindowSizeInfoHelper;
+import pl.edu.agh.pp.utils.LeverInfoHelper;
+import pl.edu.agh.pp.utils.Record;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
 import weka.classifiers.functions.LibSVM;
-import weka.core.*;
+import weka.core.Attribute;
+import weka.core.DenseInstance;
+import weka.core.Instance;
+import weka.core.Instances;
 
 import java.awt.geom.Point2D;
 import java.util.*;
-import java.util.List;
 
 /**
  * Created by Krzysztof Węgrzyński on 2016-04-21.
  */
-public class SupportVectorRegressionPatternBuilder implements Detector {
+public class SupportVectorRegressionPatternBuilder implements Strategy {
 
     private static IAnomalyTracker anomalyTracker = AnomalyTracker.getInstance();
     private static Map<DayOfWeek, Map<Integer, LibSVM>> svrMap = new HashMap<>();
@@ -49,7 +54,6 @@ public class SupportVectorRegressionPatternBuilder implements Detector {
         _records.addAll(records);
 
 
-
         int recordRouteID;
         List<Point2D.Double> points;
         Attribute timeInSeconds = new Attribute("time");
@@ -66,7 +70,7 @@ public class SupportVectorRegressionPatternBuilder implements Detector {
             for (Record record : _records) {
                 recordRouteID = record.getRouteID();
                 points = pointsMap.get(recordRouteID);
-                if(points == null) {
+                if (points == null) {
                     points = new LinkedList<>();
                     pointsMap.put(recordRouteID, points);
                 }
@@ -102,7 +106,7 @@ public class SupportVectorRegressionPatternBuilder implements Detector {
                             dataset.add(instance);
                         });
                         try {
-                            svm.buildClassifier( dataset );
+                            svm.buildClassifier(dataset);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -195,5 +199,10 @@ public class SupportVectorRegressionPatternBuilder implements Detector {
             anomalyTracker.remove(routeIdx);
         }
         return null;
+    }
+
+    @Override
+    public void setServer(Server server) {
+        anomalyTracker.setAnomaliesServer((AnomaliesServer) server);
     }
 }
