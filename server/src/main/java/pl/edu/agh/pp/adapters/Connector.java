@@ -18,7 +18,7 @@ import java.net.InetAddress;
 public class Connector {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(Connector.class);
-    private static ManagementServer managementServer = new ManagementServer();
+    private static ManagementServer managementServer;
     private static AnomaliesServer anomaliesServer;
     private static SystemScheduler systemScheduler;
 
@@ -35,7 +35,7 @@ public class Connector {
             logger.error("Connector :: Exception " + e, e);
         }
 
-        Thread.sleep(10000);
+        Thread.sleep(1000);
 
         systemScheduler = new SystemScheduler();
         systemScheduler.sendSystemGeneralMessageEveryHour();

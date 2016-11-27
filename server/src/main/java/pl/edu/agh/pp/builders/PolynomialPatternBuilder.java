@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.AnomaliesServer;
-import pl.edu.agh.pp.detectors.Detector;
+import pl.edu.agh.pp.adapters.Server;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.serializers.FileBaselineSerializer;
 import pl.edu.agh.pp.serializers.IBaselineSerializer;
@@ -23,7 +23,7 @@ import java.util.*;
  * 21:35
  * Project: detector.
  */
-public final class PolynomialPatternBuilder implements IPatternBuilder, Detector {
+public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy {
 
     private static IAnomalyTracker anomalyTracker = AnomalyTracker.getInstance();
     private static IBaselineSerializer baselineSerializer = FileBaselineSerializer.getInstance();
@@ -179,9 +179,11 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Detector
         return null;
     }
 
-    public void setServer(AnomaliesServer anomaliesServer) {
-        anomalyTracker.setAnomaliesServer(anomaliesServer);
+    @Override
+    public void setServer(Server server) {
+        anomalyTracker.setAnomaliesServer((AnomaliesServer) server);
     }
+
 
     public static class Holder {
         static final PolynomialPatternBuilder INSTANCE = new PolynomialPatternBuilder();

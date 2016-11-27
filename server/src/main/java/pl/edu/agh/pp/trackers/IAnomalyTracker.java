@@ -67,5 +67,12 @@ public interface IAnomalyTracker {
      */
     List<Integer> getCurrentAnomaliesRoutesIds();
 
+    /**
+     * Set the anomaly server - the server where the results of anomaly tracking will be send.
+     *
+     * @param anomaliesServer The AnomaliesServer that us clients are connected to.
+     * @see AnomaliesServer
+     * @see pl.edu.agh.pp.adapters.Server
+     */
     void setAnomaliesServer(AnomaliesServer anomaliesServer);
 }

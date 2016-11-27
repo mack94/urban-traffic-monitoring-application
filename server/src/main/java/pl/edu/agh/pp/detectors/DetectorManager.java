@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.AnomaliesServer;
+import pl.edu.agh.pp.builders.BuilderContext;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.builders.SupportVectorRegressionPatternBuilder;
 import pl.edu.agh.pp.charts.XYLineChart_AWT;
@@ -38,14 +39,13 @@ public class DetectorManager
     private static final String BASELINE_LOGS_PATH = "C:\\Inz\\appended_file.txt";
     private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Inz\\appended_file.txt";
     private static final String LOG_FILES_DIRECTORY_PATH = "./logs";
-    private static PolynomialPatternBuilder polynomialPatternBuilder;
     private static final FilesLoader anomalySearchFilesLoader = new FilesLoader(ANOMALY_SEARCH_LOGS_PATH, "C:\\Inz\\appended_file.txt");
     private final InputParser inputParser;
-    private static Detector detector;
     private final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
     private AnomaliesServer anomaliesServer;
     private FilesLoader baselineFilesLoader;
     private File[] listOfFiles;
+    private static BuilderContext builderContext;
 
     public DetectorManager(AnomaliesServer anomaliesServer, Boolean isThis) {
         this.anomaliesServer = anomaliesServer;
@@ -56,7 +56,6 @@ public class DetectorManager
 
     public DetectorManager(AnomaliesServer anomaliesServer, String... logFiles)
     {
-        polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();
         this.inputParser = new InputParser();
         File folder = new File(LOG_FILES_DIRECTORY_PATH);
         listOfFiles = folder.listFiles();
@@ -87,7 +86,7 @@ public class DetectorManager
             baselineFilesLoader = new FilesLoader(logFiles);
         }
 
-        detector = polynomialPatternBuilder;
+        builderContext = new BuilderContext(PolynomialPatternBuilder.getInstance());
         try
         {
             //************************************TODO: DELETE TEST LINE
@@ -99,7 +98,7 @@ public class DetectorManager
         }
         new CommandLineManager().start();
         this.anomaliesServer = anomaliesServer;
-        polynomialPatternBuilder.setServer(anomaliesServer);
+        builderContext.setServer(anomaliesServer);
     }
 
     public String isAnomaly(String logEntry, String defaultWaypoints)
@@ -117,7 +116,7 @@ public class DetectorManager
                 areWaypointsDefault = false;
             }
 
-            AnomalyOperationProtos.AnomalyMessage isAnomaly = detector.isAnomaly(record.getDayOfWeek(), record.getRouteID(), record.getTimeInSeconds(), record.getDurationInTraffic());
+            AnomalyOperationProtos.AnomalyMessage isAnomaly = builderContext.isAnomaly(record.getDayOfWeek(), record.getRouteID(), record.getTimeInSeconds(), record.getDurationInTraffic());
 
             if (isAnomaly != null)
             {
@@ -190,7 +189,7 @@ public class DetectorManager
             {
                 if (record.getRouteID() == routeId)
                 {
-                    if (detector.isAnomaly(record.getDayOfWeek(), record.getRouteID() - 1, record.getTimeInSeconds(), record.getDurationInTraffic()) != null)
+                    if (builderContext.isAnomaly(record.getDayOfWeek(), record.getRouteID() - 1, record.getTimeInSeconds(), record.getDurationInTraffic()) != null)
                     {
                         System.out.println("-------------------------------");
                         System.out.println("Day: " + record.getDayOfWeek());
@@ -260,7 +259,7 @@ public class DetectorManager
             int counter = 1;
             for (Record record : recordsTestedForAnomalies)
             {
-                if (detector.isAnomaly(record.getDayOfWeek(), record.getRouteID(), record.getTimeInSeconds(), record.getDurationInTraffic()) != null)
+                if (builderContext.isAnomaly(record.getDayOfWeek(), record.getRouteID(), record.getTimeInSeconds(), record.getDurationInTraffic()) != null)
                 {
                     System.out.println("-------------------------------");
                     System.out.println("Day: " + record.getDayOfWeek());

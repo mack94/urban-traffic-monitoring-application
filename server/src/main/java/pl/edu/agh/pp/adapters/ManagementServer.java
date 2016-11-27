@@ -31,7 +31,6 @@ import java.util.Map;
  */
 public class ManagementServer extends Server {
 
-    private final Logger logger = (Logger) LoggerFactory.getLogger(ManagementServer.class);
     private IOptions options = Options.getInstance();
 
     @Override
