@@ -1,15 +1,17 @@
 package pl.edu.agh.pp.detectors;
 
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
-import pl.edu.agh.pp.utils.enums.DayOfWeek;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.utils.enums.DayOfWeek;
 
 /**
  * Created by Maciej on 02.08.2016.
  * 20:26
  * Project: detector.
  */
-public class BasicDetector {
+
+// For instance the Basic Detector uses only PolynomialPattern Builder.
+public class BasicDetector implements Detector {
 
     //TODO przerobić na interfejs
     private PolynomialPatternBuilder polynomialPatternBuilder = PolynomialPatternBuilder.getInstance();

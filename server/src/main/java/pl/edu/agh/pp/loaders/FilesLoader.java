@@ -90,7 +90,6 @@ public class FilesLoader {
     }
 
     private Record processLine(String aLine) {
-        // \"\d+-\d+-\d+ \d+:\d+:\d+,\d+": \{ \{
         Scanner scanner = new Scanner(aLine);
         Pattern regex = Pattern.compile(" },");
 

@@ -8,6 +8,8 @@ import org.jgroups.blocks.cs.TcpServer;
 import org.jgroups.jmx.JmxConfigurator;
 import org.jgroups.stack.IpAddress;
 import org.jgroups.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
@@ -20,9 +22,12 @@ import java.nio.ByteBuffer;
 public abstract class Server extends ReceiverAdapter implements IServer {
 
     protected BaseServer server;
+    protected final Logger logger = (Logger) LoggerFactory.getLogger(Server.class);
+    protected String serverName;
 
     @Override
     public void start(InetAddress bind_addr, int port, boolean nio, String serverName) throws Exception {
+        this.serverName = serverName;
         setServer(nio ? new NioServer(bind_addr, port) : new TcpServer(bind_addr, port));
         getServer().receiver(this);
         getServer().start();
@@ -45,8 +50,10 @@ public abstract class Server extends ReceiverAdapter implements IServer {
     public void send(ByteBuffer buf) {
         try {
             server.send(null, buf);
+            logger.info("Server: Message has been sent to all clients connected to this server: " + serverName);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Server[" + serverName + "]: Exception error occurred while " +
+                    "sending the message to all clients: " + e, e);
         }
     }
 
@@ -54,8 +61,10 @@ public abstract class Server extends ReceiverAdapter implements IServer {
     public void send(byte[] buf) {
         try {
             server.send(null, buf, 0, buf.length);
+            logger.info("Server: Message has been sent to all clients connected to this server: " + serverName);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Server[" + serverName + "]: Exception error occurred while " +
+                    "sending the message to all clients: " + e, e);
         }
     }
 
