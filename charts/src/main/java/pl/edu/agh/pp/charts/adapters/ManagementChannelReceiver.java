@@ -222,6 +222,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             AnomalyOperationProtos.RouteMessage routeMessage = AnomalyOperationProtos
                     .RouteMessage.parseFrom(message.getRouteMessage().toByteArray());
             ServerGeneralInfo.addRoute(routeMessage);
+            Connector.updateAvailableRoutes();
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }

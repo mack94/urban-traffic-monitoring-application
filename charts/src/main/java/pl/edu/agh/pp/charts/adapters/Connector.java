@@ -149,7 +149,6 @@ public class Connector {
     }
 
     public static void updateAvailableRoutes() {
-        //TODO
         mainWindowController.setAvailableRoutes();
     }
 
