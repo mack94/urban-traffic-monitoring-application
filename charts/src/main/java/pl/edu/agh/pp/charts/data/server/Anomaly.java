@@ -5,8 +5,8 @@ import pl.edu.agh.pp.charts.data.local.RoutesLoader;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.time.DayOfWeek;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Dawid on 2016-10-23.
@@ -22,7 +22,8 @@ public class Anomaly {
     private String duration;
     private String severity;
     private String percent;
-    private Map<String, String> durationHistory;
+    private TreeMap<String, String> durationHistory;
+    private TreeMap<String, String> percentHistory;
     private int anomaliesNumber;
     private Baseline baseline = null;
 
@@ -35,8 +36,10 @@ public class Anomaly {
         this.duration = String.valueOf(anomalyMessage.getDuration());
         this.dayOfWeek = String.valueOf(anomalyMessage.getDayOfWeek());
         this.percent = String.valueOf(anomalyMessage.getNormExceed());
-        durationHistory = new HashMap<>();
+        durationHistory = new TreeMap<>(String::compareTo);
+        percentHistory = new TreeMap<>(String::compareTo);
         durationHistory.put(this.lastDate, this.duration);
+        percentHistory.put(this.lastDate, this.percent);
         anomaliesNumber = 1;
     }
 
@@ -85,14 +88,21 @@ public class Anomaly {
     }
 
     public String getTrend() {
-        if(duration!=null && previousDuration != null){
-            if(Integer.valueOf(duration)<Integer.valueOf(previousDuration)){
-                return "↘";
-            }
-            else if (Integer.valueOf(duration)>Integer.valueOf(previousDuration)){
-                return "↗";
+        int score = 0;
+        Map.Entry<String,String> currentEntry = percentHistory.lastEntry();
+        if(percentHistory.size()>1) {
+            Map.Entry<String,String> previousEntry = percentHistory.lowerEntry(currentEntry.getKey());
+            if(currentEntry.getValue().compareTo(previousEntry.getValue())>0) score += 2;
+            else if(currentEntry.getValue().compareTo(previousEntry.getValue())<0) score -= 2;
+            if(percentHistory.size()>2) {
+                if(previousEntry.getValue().compareTo(percentHistory.lowerEntry(previousEntry.getKey()).getValue())>0) score += 1;
+                else if(previousEntry.getValue().compareTo(percentHistory.lowerEntry(previousEntry.getKey()).getValue())<0) score -= 1;
             }
         }
+        if(score == 2 || score == 1) return "↗";
+        if(score == 3) return "↑";
+        if(score == -2 || score == -1) return "↘";
+        if(score == -3) return "↓";
         return "-";
     }
 
@@ -100,12 +110,18 @@ public class Anomaly {
         this.lastDate = anomalyMessage.getDate();
         this.previousDuration = this.duration;
         this.duration = String.valueOf(anomalyMessage.getDuration());
+        this.percent = String.valueOf(anomalyMessage.getNormExceed());
         durationHistory.put(this.lastDate, this.duration);
+        percentHistory.put(this.lastDate, this.percent);
         anomaliesNumber++;
     }
 
     public Map<String, String> getDurationHistory() {
         return durationHistory;
+    }
+
+    public Map<String, String> getPercentHistory() {
+        return percentHistory;
     }
 
     XYChart.Series<Number, Number> getBaselineSeries() {

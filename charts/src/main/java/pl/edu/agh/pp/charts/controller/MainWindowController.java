@@ -14,17 +14,15 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
-import org.gillius.jfxutils.chart.*;
+import org.gillius.jfxutils.chart.ChartPanManager;
+import org.gillius.jfxutils.chart.JFXChartUtil;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -33,6 +31,7 @@ import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.data.server.Anomaly;
 import pl.edu.agh.pp.charts.data.server.AnomalyManager;
+import pl.edu.agh.pp.charts.data.server.ServerDatesInfo;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
@@ -40,6 +39,8 @@ import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -107,7 +108,9 @@ public class MainWindowController {
     @FXML
     private Label anomaliesNumberLabel;
     @FXML
-    private Button hideButton;
+    private Button hideServerSettingsButton;
+    @FXML
+    private Button hideAnomaliesButton;
     @FXML
     private VBox hideBox;
     @FXML
@@ -136,6 +139,16 @@ public class MainWindowController {
     private Label serverPortLabel;
     @FXML
     private LineChart<Number, Number> allAnomaliesLineChart;
+    @FXML
+    private GridPane anomaliesGridPane;
+    @FXML
+    private Label anomaliesListLabel;
+    @FXML
+    private HBox anomaliesListHBox;
+    @FXML
+    private ComboBox<String> monitoredRoutesComboBox;
+    @FXML
+    private Button resetDefaultButton;
 
 
     public MainWindowController(Stage primaryStage) {
@@ -159,7 +172,10 @@ public class MainWindowController {
 
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
             hideBox.managedProperty().bind(hideBox.visibleProperty());
-            anomaliesVBox.managedProperty().bind(anomaliesVBox.visibleProperty());
+            anomaliesListView.managedProperty().bind(anomaliesListView.visibleProperty());
+            anomaliesListLabel.managedProperty().bind(anomaliesListLabel.visibleProperty());;
+            anomaliesListHBox.managedProperty().bind(anomaliesListHBox.visibleProperty());
+            anomaliesGridPane.managedProperty().bind(anomaliesGridPane.visibleProperty());
             tabPane.managedProperty().bind(tabPane.visibleProperty());
             primaryStage.show();
         } catch (java.io.IOException e) {
@@ -209,6 +225,13 @@ public class MainWindowController {
                 Platform.runLater(() -> {
                     ((Label)((Pane)hbox.getChildren().get(3)).getChildren().get(0)).setText(anomaly.getPercent());
                     ((Label)((Pane)hbox.getChildren().get(4)).getChildren().get(0)).setText(anomaly.getTrend());
+                    anomaliesListView.getItems().sort((o1, o2) -> {
+                        if (Integer.parseInt(((Label) ((Pane) o1.getChildren().get(3)).getChildren().get(0)).getText()) < Integer.parseInt(
+                                ((Label) ((Pane) o2.getChildren().get(3)).getChildren().get(0)).getText())) return 1;
+                        else if (Integer.parseInt(((Label) ((Pane) o1.getChildren().get(3)).getChildren().get(0)).getText()) > Integer.parseInt(
+                                ((Label) ((Pane) o2.getChildren().get(3)).getChildren().get(0)).getText())) return -1;
+                        else return 0;
+                    });
                 });
             }
         }
@@ -279,7 +302,7 @@ public class MainWindowController {
 
     private void drawAnomaliesSummaryChart(){
         for(HBox hbox: anomaliesListView.getItems()){
-            Platform.runLater(() -> allAnomaliesLineChart.getData().add(anomalyManager.getChartData(hbox.getId())));
+            Platform.runLater(() -> allAnomaliesLineChart.getData().add(anomalyManager.getPercentChartData(hbox.getId())));
         }
     }
 
@@ -341,7 +364,17 @@ public class MainWindowController {
             if(!"".equals(stringExcess) || Integer.parseInt(stringExcess) < Integer.parseInt(excess)) break;
         }
         int finalI = i;
-        Platform.runLater(() -> anomaliesListView.getItems().add(finalI,hBox));
+        Platform.runLater(() -> {
+            anomaliesListView.getItems().add(finalI,hBox);
+            anomaliesListView.getItems().sort((o1, o2) -> {
+                if (Integer.parseInt(((Label) ((Pane) o1.getChildren().get(3)).getChildren().get(0)).getText()) < Integer.parseInt(
+                        ((Label) ((Pane) o2.getChildren().get(3)).getChildren().get(0)).getText())) return 1;
+                else if (Integer.parseInt(((Label) ((Pane) o1.getChildren().get(3)).getChildren().get(0)).getText()) > Integer.parseInt(
+                        ((Label) ((Pane) o2.getChildren().get(3)).getChildren().get(0)).getText())) return -1;
+                else return 0;
+            });
+        });
+
     }
 
     private String getSelectedAnomalyId(){
@@ -438,6 +471,16 @@ public class MainWindowController {
         return dtf.print(date);
     }
 
+    public void setAvailableRoutes(){
+        Platform.runLater(()->{
+            monitoredRoutesComboBox.getItems().clear();
+            Map<String, List<Integer>> map = ServerDatesInfo.getDates();
+            if (map != null)
+                monitoredRoutesComboBox.getItems().addAll(map.keySet());
+
+        });
+    }
+
     public void reconnecting(){
         Connector.setIsFromConnecting(true);
         try {
@@ -482,9 +525,14 @@ public class MainWindowController {
     private void setupTooltips() {
         saveDefaultButton.setTooltip(new Tooltip("Save this Server Address and Server Port as default - " +
                 "next time you start this application saved values will be inserted there automatically"));
-
-        leverValueLabel.setTooltip(new Tooltip("HOW CAN YOU NOT KNOW WHAT A WAJCHA IS!?"));
-        leverValueLabelText.setTooltip(new Tooltip("HOW CAN YOU NOT KNOW WHAT A WAJCHA IS!?"));
+        resetDefaultButton.setTooltip(new Tooltip("Load Server address and Port number saved as default"));
+        chartsButton.setTooltip(new Tooltip("Go to the charts module to check local or server historical data"));
+        hideServerSettingsButton.setTooltip(new Tooltip("Hides/Shows Server Settings section to make more space for other modules"));
+        hideAnomaliesButton.setTooltip(new Tooltip("Hides/Shows Anomalies section to make more space for other modules"));
+        leverValueLabel.setTooltip(new Tooltip("User defined number representing how much baseline can be exceeded in " +
+                "addition to regularly calculated margin for a duration to be qualified as an anomaly"));
+        leverValueLabelText.setTooltip(new Tooltip("User defined number representing how much baseline can be exceeded in " +
+                "addition to regularly calculated margin for a duration to be qualified as an anomaly"));
         anomalyLiveTimeLabel.setTooltip(new Tooltip("Time until an anomaly will be considered as expired unless another anomaly message arrives"));
         anomalyLiveTimeLabelText.setTooltip(new Tooltip("Time until an anomaly will be considered as expired unless another anomaly message arrives"));
         BaselineWindowSizeLabel.setTooltip(new Tooltip("Time window of baseline that Server application uses to compare " +
@@ -552,6 +600,8 @@ public class MainWindowController {
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");
         setConnectedState();
         connectButton.setDefaultButton(true);
+        hideServerSettingsButton.setText("Hide Server Settings");
+        hideAnomaliesButton.setText("Hide Anomalies");
         try {
             serverAddrTxtField.setText((String) options.getPreference("Server_Address", String.class));
             serverPortTxtField.setText((String) options.getPreference("Server_Port", String.class));
@@ -560,6 +610,7 @@ public class MainWindowController {
         }
         setupTooltips();
         setupCharts();
+        monitoredRoutesComboBox.setPromptText("Show List");
     }
 
 
@@ -686,9 +737,11 @@ public class MainWindowController {
     private  void  handleHideAction(){
         if(hideBox.isVisible()){
             hideBox.setVisible(false);
+            Platform.runLater(()->hideServerSettingsButton.setText("Show Server Settings"));
         }
         else {
             hideBox.setVisible(true);
+            Platform.runLater(()->hideServerSettingsButton.setText("Hide Server Settings"));
         }
     }
     @FXML
@@ -704,11 +757,19 @@ public class MainWindowController {
     }
     @FXML
     private void handleHideAnomaliesAction(ActionEvent e){
-        if(anomaliesVBox.isVisible()){
-            anomaliesVBox.setVisible(false);
+        if(anomaliesListView.isVisible()){
+            anomaliesListView.setVisible(false);
+            anomaliesGridPane.setVisible(false);
+            anomaliesListLabel.setVisible(false);
+            anomaliesListHBox.setVisible(false);
+            Platform.runLater(()->hideAnomaliesButton.setText("Show Anomalies"));
         }
         else{
-            anomaliesVBox.setVisible(true);
+            anomaliesListView.setVisible(true);
+            anomaliesGridPane.setVisible(true);
+            anomaliesListLabel.setVisible(true);
+            anomaliesListHBox.setVisible(true);
+            Platform.runLater(()->hideAnomaliesButton.setText("Hide Anomalies"));
         }
     }
     @FXML
@@ -720,6 +781,18 @@ public class MainWindowController {
             tabPane.setVisible(true);
         }
     }
+    @FXML
+    private void handleResetDefaultAction(ActionEvent e){
+        Platform.runLater(()->{
+            try {
+                serverAddrTxtField.setText((String) options.getPreference("Server_Address", String.class));
+                serverPortTxtField.setText((String) options.getPreference("Server_Port", String.class));
+            } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
+                logger.error("Options exception " + illegalPreferenceObjectExpected,illegalPreferenceObjectExpected);
+            }
+        });
+    }
+
 }
 
 

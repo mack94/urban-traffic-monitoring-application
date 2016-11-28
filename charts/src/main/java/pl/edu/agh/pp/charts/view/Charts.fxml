@@ -50,7 +50,7 @@
                 <children>
                     <Label fx:id="idLabel" text="ID"/>
                     <ComboBox fx:id="idComboBox"/>
-                    <Button fx:id="reverseRouteButton" onAction="#handleReverseRouteAction"/>
+                    <!--<Button fx:id="reverseRouteButton" onAction="#handleReverseRouteAction"/>-->
                 </children>
             </HBox>
             <HBox spacing="10">

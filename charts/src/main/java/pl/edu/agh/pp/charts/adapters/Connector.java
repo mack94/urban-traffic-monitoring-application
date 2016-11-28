@@ -148,6 +148,11 @@ public class Connector {
         setServerAvailableDates();
     }
 
+    public static void updateAvailableRoutes() {
+        //TODO
+        mainWindowController.setAvailableRoutes();
+    }
+
     public static void updateHistoricalData(Integer routeID, DateTime date, Map<Integer, Integer> duration) {
         HistoricalDataManager.addHistoricalData(routeID, date, duration);
     }

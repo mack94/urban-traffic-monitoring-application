@@ -13,7 +13,6 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -73,8 +72,8 @@ public class ChartsController {
     private Button button134;
     @FXML
     private Button button578;
-    @FXML
-    private Button reverseRouteButton;
+//    @FXML
+//    private Button reverseRouteButton;
     @FXML
     private Label logsListLabel;
     @FXML
@@ -261,7 +260,7 @@ public class ChartsController {
         warn.setStyle("-fx-text-fill: red");
 
         Image reverseButtonImage = new Image(Main.class.getResourceAsStream("/reverse.png"));
-        reverseRouteButton.setGraphic(new ImageView(reverseButtonImage));
+//        reverseRouteButton.setGraphic(new ImageView(reverseButtonImage));
 
         fillInDaysOfWeek();
 
@@ -285,7 +284,7 @@ public class ChartsController {
         dayComboBox.setVisible(false);
         idComboBox.setVisible(false);
         idLabel.setVisible(false);
-        reverseRouteButton.setVisible(false);
+//        reverseRouteButton.setVisible(false);
         drawBaselineCheckbox.setVisible(false);
         drawBaselineLabel.setVisible(false);
         drawAnomaliesCheckbox.setVisible(false);
@@ -548,50 +547,7 @@ public class ChartsController {
                                     for (HistoricalAnomaly ha : historicalAnomaliesContainer.getAnomalies()) {
                                         lineChart.getData().add(ha.getHistoricalAnomalySeries());
                                     }
-                                    for(XYChart.Series<Number, Number> series: lineChart.getData()){
-                                        if(series.getName().startsWith("Anomaly")){
-                                            series.nodeProperty().get().setStyle("-fx-stroke-width: 5px; -fx-stroke: red; ");
-                                            for (XYChart.Data<Number, Number> d : series.getData()) {
-                                                double num = (double) d.getXValue();
-                                                long iPart;
-                                                double fPart;
-                                                iPart = (long) num;
-                                                fPart = num - iPart;
-//                                                d.nodeProperty().get().setStyle("-fx-background-color: red,white;");
-                                                d.nodeProperty().get().getStyleClass().add("AnomalyNode");
-                                                Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: "+ d.getYValue().toString() + " seconds"));
-                                                d.nodeProperty().get().setOnMouseEntered(event -> {
-                                                    d.getNode().getStyleClass().remove("AnomalyNode");
-                                                    d.getNode().getStyleClass().add("onHover");
-                                                });
-                                                d.nodeProperty().get().setOnMouseExited(event -> {
-                                                    d.getNode().getStyleClass().add("AnomalyNode");
-                                                    d.getNode().getStyleClass().remove("onHover");
-                                                });
-                                            }
-                                        }
-                                        else {
-                                            series.nodeProperty().get().setStyle("-fx-stroke-width: 2px; -fx-stroke: green; -fx-background-color: green, white;");
-                                            for (XYChart.Data<Number, Number> d : series.getData()) {
-                                                double num = (double) d.getXValue();
-                                                long iPart;
-                                                double fPart;
-                                                iPart = (long) num;
-                                                fPart = num - iPart;
-                                                d.nodeProperty().get().getStyleClass().add("HistoricalDataNode");
-                                                Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: "+ d.getYValue().toString() + " seconds"));
-                                                d.nodeProperty().get().setOnMouseEntered(event -> {
-                                                    d.getNode().getStyleClass().remove("HistoricalDataNode");
-                                                    d.getNode().getStyleClass().add("onHover");
-                                                });
-                                                d.nodeProperty().get().setOnMouseExited(event -> {
-                                                    d.getNode().getStyleClass().add("HistoricalDataNode");
-                                                    d.getNode().getStyleClass().remove("onHover");
-                                                });
-                                            }
-                                        }
-                                    }
-
+                                    setAnomalyChartStyles();
                                 }
                             });
                         }
@@ -609,11 +565,58 @@ public class ChartsController {
                     for (HistoricalAnomaly ha : historicalAnomaliesContainer.getAnomalies()) {
                         lineChart.getData().add(ha.getHistoricalAnomalySeries());
                     }
+                    setAnomalyChartStyles();
                 }
             });
         }
         if (drawBaselineCheckbox.isSelected()) {
             drawBaseline(id, String.valueOf(DateTime.parse(dayForHistoricalAnomalies).dayOfWeek().get()), dayForHistoricalAnomalies);
+        }
+    }
+
+    private void setAnomalyChartStyles() {
+        for(XYChart.Series<Number, Number> series: lineChart.getData()){
+            if(series.getName().startsWith("Anomaly")){
+                series.nodeProperty().get().setStyle("-fx-stroke-width: 5px; -fx-stroke: red; ");
+                for (XYChart.Data<Number, Number> d : series.getData()) {
+                    double num = (double) d.getXValue();
+                    long iPart;
+                    double fPart;
+                    iPart = (long) num;
+                    fPart = num - iPart;
+//                  d.nodeProperty().get().setStyle("-fx-background-color: red,white;");
+                    d.nodeProperty().get().getStyleClass().add("AnomalyNode");
+                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: "+ d.getYValue().toString() + " seconds"));
+                    d.nodeProperty().get().setOnMouseEntered(event -> {
+                        d.getNode().getStyleClass().remove("AnomalyNode");
+                        d.getNode().getStyleClass().add("onHover");
+                    });
+                    d.nodeProperty().get().setOnMouseExited(event -> {
+                        d.getNode().getStyleClass().add("AnomalyNode");
+                        d.getNode().getStyleClass().remove("onHover");
+                    });
+                }
+            }
+            else {
+                series.nodeProperty().get().setStyle("-fx-stroke-width: 2px; -fx-stroke: green; -fx-background-color: green, white;");
+                for (XYChart.Data<Number, Number> d : series.getData()) {
+                    double num = (double) d.getXValue();
+                    long iPart;
+                    double fPart;
+                    iPart = (long) num;
+                    fPart = num - iPart;
+                    d.nodeProperty().get().getStyleClass().add("HistoricalDataNode");
+                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: "+ d.getYValue().toString() + " seconds"));
+                    d.nodeProperty().get().setOnMouseEntered(event -> {
+                        d.getNode().getStyleClass().remove("HistoricalDataNode");
+                        d.getNode().getStyleClass().add("onHover");
+                    });
+                    d.nodeProperty().get().setOnMouseExited(event -> {
+                        d.getNode().getStyleClass().add("HistoricalDataNode");
+                        d.getNode().getStyleClass().remove("onHover");
+                    });
+                }
+            }
         }
     }
 
@@ -702,7 +705,7 @@ public class ChartsController {
         idComboBox.setVisible(true);
         idLabel.setVisible(true);
         dayLabel.setVisible(true);
-        reverseRouteButton.setVisible(true);
+//        reverseRouteButton.setVisible(true);
         if ("current baselines".equalsIgnoreCase(typeComboBox.getSelectionModel().getSelectedItem())) {
             dayHBox.getChildren().clear();
             dayHBox.getChildren().addAll(dayLabel, dayComboBox);
@@ -729,8 +732,8 @@ public class ChartsController {
             setupDatePicker();
             drawBaselineCheckbox.setVisible(true);
             drawBaselineLabel.setVisible(true);
-            drawAnomaliesCheckbox.setVisible(true);
-            drawAnomaliesLabel.setVisible(true);
+            drawAnomaliesCheckbox.setVisible(false);
+            drawAnomaliesLabel.setVisible(false);
         }
     }
 
@@ -792,7 +795,7 @@ public class ChartsController {
                 typeComboBox.getItems().addAll("Historical data");
                 typeLabel.setVisible(true);
                 typeComboBox.setVisible(true);
-                reverseRouteButton.setVisible(false);
+//                reverseRouteButton.setVisible(false);
                 drawAnomaliesCheckbox.setVisible(false);
                 drawBaselineCheckbox.setVisible(false);
                 drawBaselineLabel.setVisible(false);

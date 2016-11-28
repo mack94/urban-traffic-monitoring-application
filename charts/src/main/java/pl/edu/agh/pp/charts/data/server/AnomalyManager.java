@@ -117,6 +117,25 @@ public class AnomalyManager {
         return null;
     }
 
+    private XYChart.Series<Number, Number> buildPercentChart(Anomaly anomaly) {
+        try {
+            XYChart.Series<Number, Number> series = new XYChart.Series<>();
+            Map<String, String> percentHistory = anomaly.getPercentHistory();
+
+            for (String time : percentHistory.keySet()) {
+                double h = Integer.valueOf(hours.format(parser.parse(time)));
+                double m = Integer.valueOf(minutes.format(parser.parse(time)));
+                XYChart.Data<Number, Number> data = new XYChart.Data<>(h + (m / 60), Integer.valueOf(percentHistory.get(time)));
+                series.getData().add(data);
+            }
+            series.setName(anomaly.getRouteId() + ". " + anomaly.getRoute());
+            return series;
+        } catch (ParseException e) {
+            logger.error("chartException parse exception");
+        }
+        return null;
+    }
+
     public XYChart.Series<Number, Number> getChartData(String anomalyId) {
         Anomaly anomaly = getAnomalyById(anomalyId);
         return buildChart(anomaly);
@@ -128,5 +147,9 @@ public class AnomalyManager {
 
     public XYChart.Series<Number, Number> getBaseline(Anomaly anomaly) {
         return anomaly.getBaselineSeries();
+    }
+
+    public XYChart.Series<Number,Number> getPercentChartData(String id) {
+        return buildPercentChart(getAnomalyById(id));
     }
 }
