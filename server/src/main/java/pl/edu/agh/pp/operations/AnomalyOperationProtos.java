@@ -173,49 +173,50 @@ public final class AnomalyOperationProtos {
                         "ze\030\005 \001(\005\022*\n\005shift\030\006 \001(\0162\033.SystemGeneralM" +
                         "essage.Shift\022\014\n\004port\030\007 \001(\005\022\016\n\006routes\030\010 \001" +
                         "(\t\"*\n\005Shift\022\007\n\003DAY\020\000\022\t\n\005NIGHT\020\001\022\r\n\tUNIVE" +
-                        "RSAL\020\002\"T\n\014RouteMessage\022\017\n\007routeID\030\001 \001(\005\022" +
+                        "RSAL\020\002\"b\n\014RouteMessage\022\017\n\007routeID\030\001 \001(\005\022" +
                         "\016\n\006origin\030\002 \001(\t\022\023\n\013destination\030\003 \001(\t\022\016\n\006" +
-                        "coords\030\004 \001(\t\";\n\014LeverMessage\022\022\n\nleverVal" +
-                        "ue\030\001 \001(\001\022\027\n\017leverUpdateDate\030\002 \001(\t\"\257\002\n\017Ba" +
-                        "selineMessage\022\020\n\010routeIdx\030\001 \001(\005\022!\n\003day\030\002" +
-                        " \001(\0162\024.BaselineMessage.Day\0220\n\010baseline\030\003",
-                " \003(\0132\036.BaselineMessage.BaselineEntry\022\024\n\014" +
-                        "baselineType\030\004 \001(\t\032/\n\rBaselineEntry\022\013\n\003k" +
-                        "ey\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"n\n\003Day\022\013\n\007NU" +
-                        "LLDAY\020\000\022\n\n\006MONDAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDN" +
-                        "ESDAY\020\003\022\014\n\010THURSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SAT" +
-                        "URDAY\020\006\022\n\n\006SUNDAY\020\007\"\330\001\n\025DemandBaselineMe" +
-                        "ssage\022\020\n\010routeIdx\030\001 \001(\005\022\'\n\003day\030\002 \001(\0162\032.D" +
-                        "emandBaselineMessage.Day\022\024\n\014baselineType" +
-                        "\030\003 \001(\t\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY\020\001\022\013" +
-                        "\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010THURSDAY\020\004",
-                "\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY\020\007\"\"" +
-                        "\n DemandAvailableHistoricalMessage\"n\n\017Av" +
-                        "ailableRoutes\022,\n\006routes\030\001 \003(\0132\034.Availabl" +
-                        "eRoutes.RoutesEntry\032-\n\013RoutesEntry\022\013\n\003ke" +
-                        "y\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"\272\001\n\032Available" +
-                        "HistoricalMessage\022O\n\022avaiableDateRoutes\030" +
-                        "\001 \003(\01323.AvailableHistoricalMessage.Avaia" +
-                        "bleDateRoutesEntry\032K\n\027AvaiableDateRoutes" +
-                        "Entry\022\013\n\003key\030\001 \001(\t\022\037\n\005value\030\002 \001(\0132\020.Avai" +
-                        "lableRoutes:\0028\001\"8\n\027DemandHistoricalMessa",
-                "ge\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\227\001\n\021Hi" +
-                        "storicalMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date" +
-                        "\030\002 \001(\t\0222\n\010measures\030\003 \003(\0132 .HistoricalMes" +
-                        "sage.MeasuresEntry\032/\n\rMeasuresEntry\022\013\n\003k" +
-                        "ey\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"\226\001\n Historic" +
-                        "alAnomalyPresenceMessage\022A\n\010presence\030\001 \003" +
-                        "(\0132/.HistoricalAnomalyPresenceMessage.Pr" +
-                        "esenceEntry\032/\n\rPresenceEntry\022\013\n\003key\030\001 \001(" +
-                        "\005\022\r\n\005value\030\002 \001(\005:\0028\001\"A\n DemandHistorical" +
-                        "AnomaliesMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004dat",
-                "e\030\002 \001(\t\"\317\001\n\032HistoricalAnomaliesMessage\022\017" +
-                        "\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\022=\n\tanomali" +
-                        "es\030\003 \003(\0132*.HistoricalAnomaliesMessage.An" +
-                        "omaliesEntry\032S\n\016AnomaliesEntry\022\013\n\003key\030\001 " +
-                        "\001(\t\0220\n\005value\030\002 \001(\0132!.HistoricalAnomalyPr" +
-                        "esenceMessage:\0028\001B2\n\030pl.edu.agh.pp.opera" +
-                        "tionsB\026AnomalyOperationProtosb\006proto3"
+                        "coords\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\";\n\014LeverMessa" +
+                        "ge\022\022\n\nleverValue\030\001 \001(\001\022\027\n\017leverUpdateDat" +
+                        "e\030\002 \001(\t\"\257\002\n\017BaselineMessage\022\020\n\010routeIdx\030" +
+                        "\001 \001(\005\022!\n\003day\030\002 \001(\0162\024.BaselineMessage.Day",
+                "\0220\n\010baseline\030\003 \003(\0132\036.BaselineMessage.Bas" +
+                        "elineEntry\022\024\n\014baselineType\030\004 \001(\t\032/\n\rBase" +
+                        "lineEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028" +
+                        "\001\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY\020\001\022\013\n\007TUE" +
+                        "SDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010THURSDAY\020\004\022\n\n\006F" +
+                        "RIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY\020\007\"\330\001\n\025De" +
+                        "mandBaselineMessage\022\020\n\010routeIdx\030\001 \001(\005\022\'\n" +
+                        "\003day\030\002 \001(\0162\032.DemandBaselineMessage.Day\022\024" +
+                        "\n\014baselineType\030\003 \001(\t\"n\n\003Day\022\013\n\007NULLDAY\020\000" +
+                        "\022\n\n\006MONDAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003",
+                "\022\014\n\010THURSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006" +
+                        "\022\n\n\006SUNDAY\020\007\"\"\n DemandAvailableHistorica" +
+                        "lMessage\"n\n\017AvailableRoutes\022,\n\006routes\030\001 " +
+                        "\003(\0132\034.AvailableRoutes.RoutesEntry\032-\n\013Rou" +
+                        "tesEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001" +
+                        "\"\272\001\n\032AvailableHistoricalMessage\022O\n\022avaia" +
+                        "bleDateRoutes\030\001 \003(\01323.AvailableHistorica" +
+                        "lMessage.AvaiableDateRoutesEntry\032K\n\027Avai" +
+                        "ableDateRoutesEntry\022\013\n\003key\030\001 \001(\t\022\037\n\005valu" +
+                        "e\030\002 \001(\0132\020.AvailableRoutes:\0028\001\"8\n\027DemandH",
+                "istoricalMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004dat" +
+                        "e\030\002 \001(\t\"\227\001\n\021HistoricalMessage\022\017\n\007routeID" +
+                        "\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\0222\n\010measures\030\003 \003(\0132 " +
+                        ".HistoricalMessage.MeasuresEntry\032/\n\rMeas" +
+                        "uresEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028" +
+                        "\001\"\226\001\n HistoricalAnomalyPresenceMessage\022A" +
+                        "\n\010presence\030\001 \003(\0132/.HistoricalAnomalyPres" +
+                        "enceMessage.PresenceEntry\032/\n\rPresenceEnt" +
+                        "ry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"A\n De" +
+                        "mandHistoricalAnomaliesMessage\022\017\n\007routeI",
+                "D\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\317\001\n\032HistoricalAnom" +
+                        "aliesMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 " +
+                        "\001(\t\022=\n\tanomalies\030\003 \003(\0132*.HistoricalAnoma" +
+                        "liesMessage.AnomaliesEntry\032S\n\016AnomaliesE" +
+                        "ntry\022\013\n\003key\030\001 \001(\t\0220\n\005value\030\002 \001(\0132!.Histo" +
+                        "ricalAnomalyPresenceMessage:\0028\001B2\n\030pl.ed" +
+                        "u.agh.pp.operationsB\026AnomalyOperationPro" +
+                        "tosb\006proto3"
         };
         com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
                 new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -270,7 +271,7 @@ public final class AnomalyOperationProtos {
         internal_static_RouteMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_RouteMessage_descriptor,
-                new java.lang.String[]{"RouteID", "Origin", "Destination", "Coords",});
+                new java.lang.String[]{"RouteID", "Origin", "Destination", "Coords", "Name",});
         internal_static_LeverMessage_descriptor =
                 getDescriptor().getMessageTypes().get(7);
         internal_static_LeverMessage_fieldAccessorTable = new
@@ -890,6 +891,17 @@ public final class AnomalyOperationProtos {
          */
         com.google.protobuf.ByteString
         getCoordsBytes();
+
+        /**
+         * <code>optional string name = 5;</code>
+         */
+        java.lang.String getName();
+
+        /**
+         * <code>optional string name = 5;</code>
+         */
+        com.google.protobuf.ByteString
+        getNameBytes();
     }
     public interface LeverMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:LeverMessage)
@@ -9132,6 +9144,7 @@ public final class AnomalyOperationProtos {
         public static final int ORIGIN_FIELD_NUMBER = 2;
         public static final int DESTINATION_FIELD_NUMBER = 3;
         public static final int COORDS_FIELD_NUMBER = 4;
+        public static final int NAME_FIELD_NUMBER = 5;
         private static final long serialVersionUID = 0L;
         // @@protoc_insertion_point(class_scope:RouteMessage)
         private static final pl.edu.agh.pp.operations.AnomalyOperationProtos.RouteMessage DEFAULT_INSTANCE;
@@ -9153,17 +9166,20 @@ public final class AnomalyOperationProtos {
         private volatile java.lang.Object origin_;
         private volatile java.lang.Object destination_;
         private volatile java.lang.Object coords_;
+        private volatile java.lang.Object name_;
         private byte memoizedIsInitialized = -1;
 
         // Use RouteMessage.newBuilder() to construct.
         private RouteMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
+
         private RouteMessage() {
             routeID_ = 0;
             origin_ = "";
             destination_ = "";
             coords_ = "";
+            name_ = "";
         }
 
         private RouteMessage(
@@ -9207,6 +9223,12 @@ public final class AnomalyOperationProtos {
                             java.lang.String s = input.readStringRequireUtf8();
 
                             coords_ = s;
+                            break;
+                        }
+                        case 42: {
+                            java.lang.String s = input.readStringRequireUtf8();
+
+                            name_ = s;
                             break;
                         }
                     }
@@ -9429,6 +9451,39 @@ public final class AnomalyOperationProtos {
             }
         }
 
+        /**
+         * <code>optional string name = 5;</code>
+         */
+        public java.lang.String getName() {
+            java.lang.Object ref = name_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                name_ = s;
+                return s;
+            }
+        }
+
+        /**
+         * <code>optional string name = 5;</code>
+         */
+        public com.google.protobuf.ByteString
+        getNameBytes() {
+            java.lang.Object ref = name_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                name_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
             if (isInitialized == 1) return true;
@@ -9452,6 +9507,9 @@ public final class AnomalyOperationProtos {
             if (!getCoordsBytes().isEmpty()) {
                 com.google.protobuf.GeneratedMessageV3.writeString(output, 4, coords_);
             }
+            if (!getNameBytes().isEmpty()) {
+                com.google.protobuf.GeneratedMessageV3.writeString(output, 5, name_);
+            }
         }
 
         public int getSerializedSize() {
@@ -9471,6 +9529,9 @@ public final class AnomalyOperationProtos {
             }
             if (!getCoordsBytes().isEmpty()) {
                 size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, coords_);
+            }
+            if (!getNameBytes().isEmpty()) {
+                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, name_);
             }
             memoizedSize = size;
             return size;
@@ -9495,6 +9556,8 @@ public final class AnomalyOperationProtos {
                     .equals(other.getDestination());
             result = result && getCoords()
                     .equals(other.getCoords());
+            result = result && getName()
+                    .equals(other.getName());
             return result;
         }
 
@@ -9513,6 +9576,8 @@ public final class AnomalyOperationProtos {
             hash = (53 * hash) + getDestination().hashCode();
             hash = (37 * hash) + COORDS_FIELD_NUMBER;
             hash = (53 * hash) + getCoords().hashCode();
+            hash = (37 * hash) + NAME_FIELD_NUMBER;
+            hash = (53 * hash) + getName().hashCode();
             hash = (29 * hash) + unknownFields.hashCode();
             memoizedHashCode = hash;
             return hash;
@@ -9554,6 +9619,7 @@ public final class AnomalyOperationProtos {
             private java.lang.Object origin_ = "";
             private java.lang.Object destination_ = "";
             private java.lang.Object coords_ = "";
+            private java.lang.Object name_ = "";
 
             // Construct using pl.edu.agh.pp.operations.AnomalyOperationProtos.RouteMessage.newBuilder()
             private Builder() {
@@ -9594,6 +9660,8 @@ public final class AnomalyOperationProtos {
 
                 coords_ = "";
 
+                name_ = "";
+
                 return this;
             }
 
@@ -9620,6 +9688,7 @@ public final class AnomalyOperationProtos {
                 result.origin_ = origin_;
                 result.destination_ = destination_;
                 result.coords_ = coords_;
+                result.name_ = name_;
                 onBuilt();
                 return result;
             }
@@ -9681,6 +9750,10 @@ public final class AnomalyOperationProtos {
                 }
                 if (!other.getCoords().isEmpty()) {
                     coords_ = other.coords_;
+                    onChanged();
+                }
+                if (!other.getName().isEmpty()) {
+                    name_ = other.name_;
                     onChanged();
                 }
                 onChanged();
@@ -9948,6 +10021,78 @@ public final class AnomalyOperationProtos {
             public Builder clearCoords() {
 
                 coords_ = getDefaultInstance().getCoords();
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string name = 5;</code>
+             */
+            public java.lang.String getName() {
+                java.lang.Object ref = name_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    name_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
+            }
+
+            /**
+             * <code>optional string name = 5;</code>
+             */
+            public Builder setName(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+
+                name_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string name = 5;</code>
+             */
+            public com.google.protobuf.ByteString
+            getNameBytes() {
+                java.lang.Object ref = name_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    name_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>optional string name = 5;</code>
+             */
+            public Builder setNameBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+
+                name_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string name = 5;</code>
+             */
+            public Builder clearName() {
+
+                name_ = getDefaultInstance().getName();
                 onChanged();
                 return this;
             }

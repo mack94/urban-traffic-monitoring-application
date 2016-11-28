@@ -105,6 +105,7 @@ message RouteMessage {
     string origin = 2;
     string destination = 3;
     string coords = 4;
+    string name = 5;
 
 }
 

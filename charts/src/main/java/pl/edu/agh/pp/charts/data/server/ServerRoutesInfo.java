@@ -82,7 +82,7 @@ public class ServerRoutesInfo {
         return null;
     }
 
-    public static List<String> getRoutes(){
+    public static List<String> getRoutes() {
         String jsonTxt;
         StringBuffer result = new StringBuffer("");
         File file = new File("./routes.json");
@@ -100,7 +100,7 @@ public class ServerRoutesInfo {
             int i = 0;
             while (i < loadedRoutesAmount) {
                 JSONObject route = loadedRoutes.getJSONObject(i);
-                list.add(route.get("id").toString()+ " " + route.get("origin") + " " + route.get("origin") + route.get("destination"));
+                list.add(route.get("id").toString() + " " + route.get("name"));
                 i++;
             }
 
@@ -112,7 +112,8 @@ public class ServerRoutesInfo {
         return list;
     }
 
-    public static String getId(String screenId){
-        return screenId.replaceAll("([\\d]+).*","$1");
+    public static String getId(String screenId) {
+        System.out.println("-----------------");
+        return screenId.replaceAll("([\\d]+).*", "$1");
     }
 }

@@ -161,6 +161,7 @@ public class ManagementServer extends Server {
                 String origins[] = new String[1];
                 String coords[] = new String[1];
                 String id = route.get("id").toString();
+                String name = route.get("name").toString();
                 destinations[0] = route.get("destination").toString();
                 origins[0] = route.get("origin").toString();
                 coords[0] = route.get("coords").toString();
@@ -170,6 +171,7 @@ public class ManagementServer extends Server {
                         .setOrigin(origins[0])
                         .setDestination(destinations[0])
                         .setCoords(coords[0])
+                        .setName(name)
                         .build();
                 AnomalyOperationProtos.ManagementMessage msg = AnomalyOperationProtos.ManagementMessage.newBuilder()
                         .setType(AnomalyOperationProtos.ManagementMessage.Type.ROUTEMESSAGE)
