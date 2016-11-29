@@ -246,10 +246,11 @@ public class MainWindowController {
         anomalyMapWebEngine.load("about:blank");
         // Delete cookies
         java.net.CookieHandler.setDefault(new java.net.CookieManager());
-        Anomaly anomaly = AnomalyManager.getInstance().getAnomalyById(id);
-        MapRoute mapRoute = new MapRoute(anomaly);
-
-        anomalyMapWebEngine.loadContent(htmlBuilder.loadAnomalyMapStructure(mapRoute));
+        Anomaly anomaly = anomalyManager.getAnomalyById(id);
+        if(anomaly!=null) {
+            MapRoute mapRoute = new MapRoute(anomaly);
+            anomalyMapWebEngine.loadContent(htmlBuilder.loadAnomalyMapStructure(mapRoute));
+        }
     }
 
     public void updateAnomalyRoutesOnMap() {
