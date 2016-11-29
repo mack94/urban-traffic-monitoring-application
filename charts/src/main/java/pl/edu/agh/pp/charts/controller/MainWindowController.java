@@ -171,6 +171,10 @@ public class MainWindowController {
     private Button resetDefaultButton;
     @FXML
     private Label requestFrequencyLabel;
+    @FXML
+    private Label requestFrequencyLabelText;
+    @FXML
+    private Label monitoredRoutesLabelText;
 
 
     public MainWindowController(Stage primaryStage) {
@@ -232,9 +236,9 @@ public class MainWindowController {
             lastDateLabel.setText(anomaly.getLastDate());
             routeIdLabel.setText(anomaly.getRouteId());
             routeDescLabel.setText(anomaly.getRoute());
-            recentDuration.setText(anomaly.getDuration());
+            recentDuration.setText(anomaly.getDuration()+" seconds");
             anomaliesNumberLabel.setText(anomaly.getAnomaliesNumber());
-            previousDurationLabel.setText(anomaly.getPreviousDuration());
+            previousDurationLabel.setText(anomaly.getPreviousDuration()+" seconds");
             ExcessLabel.setText(anomaly.getPercent());
             trendLabel.setText(anomaly.getTrend());
         } );
@@ -511,7 +515,7 @@ public class MainWindowController {
         if(connectedFlag){
             this.setConnectedLabel(Connector.getAddressServerInfo(), Color.BLACK);
             Platform.runLater(() -> {
-                requestFrequencyLabel.setText("3.5 - 7 min");
+                requestFrequencyLabel.setText("3.5 - 7");
                 connectButton.setDisable(true);
                 disconnectButton.setDisable(false);
             });
@@ -633,6 +637,10 @@ public class MainWindowController {
         serverAddrLabel.setTooltip(new Tooltip("IP Address of the Server application"));
         serverPortTxtField.setTooltip(new Tooltip("Port used to connect Client application to Management channel of Server application"));
         serverPortLabel.setTooltip(new Tooltip("Port used to connect Client application to Management channel of Server application"));
+        requestFrequencyLabel.setTooltip(new Tooltip("The frequency of requests sent to Google API by the server to ask for current travel duration"));
+        requestFrequencyLabelText.setTooltip(new Tooltip("The frequency of requests sent to Google API by the server to ask for current travel duration"));
+        monitoredRoutesLabelText.setTooltip(new Tooltip("List of routes monitored by the Server application"));
+        monitoredRoutesComboBox.setTooltip(new Tooltip("List of routes monitored by the Server application"));
     }
 
     private void setupCharts(){

@@ -11,7 +11,7 @@
 #spec_set {
     -fx-padding: 5;
     -fx-border-color: GRAY;
-    -fx-pref-width: 150;
+    -fx-pref-width: 160;
 }
 #listLine {
     -fx-border-color: GRAY;
@@ -19,4 +19,9 @@
     -fx-pref-height: 20;
     -fx-font-weight: bold;
     -fx-alignment: center;
+}
+
+#disabledComboBox .combo-box-popup .list-view .list-cell:filled:hover{
+    -fx-background-color: white;
+    -fx-text-fill: -fx-text-inner-color;
 }
