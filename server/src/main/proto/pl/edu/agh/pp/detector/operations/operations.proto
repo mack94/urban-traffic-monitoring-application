@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "pl.edu.agh.pp.detector.operations";
+option java_package = "pl.edu.agh.pp.operations";
 
 option java_outer_classname = "AnomalyOperationProtos";
 
@@ -16,10 +16,13 @@ message AnomalyAction {
 }
 
 message AnomalyState {
+
     repeated AnomalyAction state = 1;
+
 }
 
 message AnomalyMessage {
+
     int32 routeIdx = 1;
     int32 secondOfDay = 2;
     bool isActive = 3;
@@ -27,8 +30,10 @@ message AnomalyMessage {
     int32 dayOfWeek = 5;
     int32 severity = 6;
     string message = 7;
-    int64 anomalyID = 8;
+    string anomalyID = 8;
     string date = 9;
+    int32 normExceed = 10;
+
 }
 
 message ManagementMessage {
@@ -44,6 +49,8 @@ message ManagementMessage {
         DEMANDAVAILABLEHISTORICALMESSAGE = 7;
         HISTORICALMESSAGE = 8;
         DEMANDHISTORICALMESSAGE = 9;
+        DEMANDHISTORICALANOMALIESMESSAGE = 10;
+        HISTORICALANOMALIESMESSAGE = 11;
     }
 
     // Identifies which field is filled in.
@@ -60,6 +67,8 @@ message ManagementMessage {
     DemandAvailableHistoricalMessage demandAvailableHistoricalMessage = 9;
     HistoricalMessage historicalMessage = 10;
     DemandHistoricalMessage demandHistoricalMessage = 11;
+    DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;
+    HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;
 
 }
 
@@ -91,10 +100,13 @@ message SystemGeneralMessage {
 }
 
 message RouteMessage {
+
     int32 routeID = 1;
     string origin = 2;
     string destination = 3;
     string coords = 4;
+    string name = 5;
+
 }
 
 message LeverMessage {
@@ -121,6 +133,7 @@ message BaselineMessage {
     Day day = 2;
     //string baseline = 3;
     map<int32, int32> baseline = 3;
+    string baselineType = 4;
 
 }
 
@@ -139,6 +152,7 @@ message DemandBaselineMessage {
 
     int32 routeIdx = 1;
     Day day = 2;
+    string baselineType = 3;
 
 }
 
@@ -146,20 +160,51 @@ message DemandAvailableHistoricalMessage {
     // the empty message
 }
 
+message AvailableRoutes {
+
+    map <int32, int32> routes = 1;
+
+}
+
 message AvailableHistoricalMessage {
+
     // this is made on map structure, but please be aware of the limits of this solution.
     // the max size is 8192 i think.
     // <date, route> so its <string, int32>
-    map<string, int32> avaiableDateRoutes = 1;
+    map<string, AvailableRoutes> avaiableDateRoutes = 1;
+
 }
 
 message DemandHistoricalMessage {
+
     int32 routeID = 1;
     string date = 2;
+
 }
 
 message HistoricalMessage {
+
     int32 routeID = 1;
     string date = 2;
     map<int32, int32> measures = 3;
+
+}
+
+message HistoricalAnomalyPresenceMessage {
+    map<int32, int32> presence = 1;
+}
+
+message DemandHistoricalAnomaliesMessage {
+
+    int32 routeID = 1;
+    string date = 2;
+
+}
+
+message HistoricalAnomaliesMessage {
+
+    int32 routeID = 1;
+    string date = 2;
+    map<string, HistoricalAnomalyPresenceMessage> anomalies = 3;
+
 }

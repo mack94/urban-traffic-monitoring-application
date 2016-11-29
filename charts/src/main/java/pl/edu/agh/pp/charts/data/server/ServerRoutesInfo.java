@@ -82,7 +82,9 @@ public class ServerRoutesInfo {
         return null;
     }
 
-    public static List<String> getRoutes(){
+    public static String getRouteName(int routeID) {
+        String name = null;
+
         String jsonTxt;
         StringBuffer result = new StringBuffer("");
         File file = new File("./routes.json");
@@ -100,7 +102,39 @@ public class ServerRoutesInfo {
             int i = 0;
             while (i < loadedRoutesAmount) {
                 JSONObject route = loadedRoutes.getJSONObject(i);
-                list.add(route.get("id").toString()+ " " + route.get("origin") + " " + route.get("origin") + route.get("destination"));
+                list.add(route.get("id").toString() + " " + route.get("name"));
+                if (route.get("id").toString().compareTo(String.valueOf(routeID)) == 0) {
+                    name = (String) route.get("name");
+                    return name;
+                }
+                i++;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<String> getRoutes() {
+        String jsonTxt;
+        StringBuffer result = new StringBuffer("");
+        File file = new File("./routes.json");
+        List<String> list = new ArrayList<>();
+        try {
+            if (file.length() == 0) {
+                jsonTxt = "{\"routes\": []}";
+            } else {
+                jsonTxt = IOUtils.toString(new FileInputStream(file));
+            }
+            JSONObject jsonObject = new JSONObject(jsonTxt);
+            JSONArray loadedRoutes = jsonObject.getJSONArray("routes");
+            int loadedRoutesAmount = loadedRoutes.length();
+
+            int i = 0;
+            while (i < loadedRoutesAmount) {
+                JSONObject route = loadedRoutes.getJSONObject(i);
+                list.add(route.get("id").toString() + " " + getRouteName(route.getInt("id")));
                 i++;
             }
 
@@ -112,7 +146,8 @@ public class ServerRoutesInfo {
         return list;
     }
 
-    public static String getId(String screenId){
-        return screenId.replaceAll("([\\d]+).*","$1");
+    public static String getId(String screenId) {
+        System.out.println("-----------------");
+        return screenId.replaceAll("([\\d]+).*", "$1");
     }
 }

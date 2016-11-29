@@ -2,12 +2,9 @@ package pl.edu.agh.pp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.cron.CronManager;
-import pl.edu.agh.pp.detector.DetectorManager;
-import pl.edu.agh.pp.detector.adapters.ChannelReceiver;
-import pl.edu.agh.pp.detector.adapters.Connector;
-import pl.edu.agh.pp.detector.adapters.ManagementServer;
-import pl.edu.agh.pp.detector.adapters.Server;
+import pl.edu.agh.pp.adapters.AnomaliesServer;
+import pl.edu.agh.pp.adapters.Connector;
+import pl.edu.agh.pp.detectors.DetectorManager;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
 
@@ -32,8 +29,6 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
 
         System.out.println("Run: 'java -jar server.jar on/off path_to_logs'");
-
-        Thread.sleep(2000);
         try {
             options.initialize();
         } catch (BackingStoreException e) {
@@ -51,25 +46,25 @@ public class Main {
             InetAddress bind_addr = null;
             try {
                 bind_addr = InetAddress.getByName("0.0.0.0");
-                logger.info("Server listens on: " + bind_addr);
+                logger.info("AnomaliesServer listens on: " + bind_addr);
             } catch (UnknownHostException e) {
                 logger.error("Main :: UnknownHostException " + e);
             }
             int port = 8080;
             boolean nio = false;
 
-            logger.info("Running server in 2 sec.");
-            Thread.sleep(2000);
+            logger.info("---------------------Running server.--------------------------");
 
             Connector.connect(args, bind_addr, port, nio);
 
         } else {
-            Server server = new Server();
-            //new DetectorManager(server, args[1]).displayAnomaliesForRoute(1);
+            AnomaliesServer anomaliesServer = new AnomaliesServer();
+            //new DetectorManager(anomaliesServer, args[1]).displayAnomaliesForRoute(1);
+            new DetectorManager(anomaliesServer, "");
             if(args.length>1)
-                new DetectorManager(server, Arrays.copyOfRange(args, 1, args.length)).displayAnomaliesForFile();
+                new DetectorManager(anomaliesServer, Arrays.copyOfRange(args, 1, args.length)).displayAnomaliesForFile();
             else
-                logger.error("Run: 'java -jar server.jar off path_to_logs'");
+                logger.error("Run: 'java -jar anomaliesServer.jar off path_to_logs'");
         }
     }
 }

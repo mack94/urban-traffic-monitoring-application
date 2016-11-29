@@ -43,10 +43,11 @@ public class ServerGeneralInfo {
         String origin = routeMessage.getOrigin();
         String destination = routeMessage.getDestination();
         String coords = routeMessage.getCoords();
-        setRoutes(String.valueOf(routeID), origin, destination, coords);
+        String name = routeMessage.getName();
+        setRoutes(String.valueOf(routeID), origin, destination, coords, name);
     }
 
-    public static void setRoutes(String ID, String origin, String destination, String coords) {
+    public static void setRoutes(String ID, String origin, String destination, String coords, String name) {
         String jsonTxt;
         StringBuffer result = new StringBuffer("");
         File file = new File("./routes.json");
@@ -65,6 +66,7 @@ public class ServerGeneralInfo {
 
             JSONObject newRoute = new JSONObject();
             newRoute.put("id", ID);
+            newRoute.put("name", name);
             newRoute.put("origin", origin);
             newRoute.put("destination", destination);
             newRoute.put("coords", coords);

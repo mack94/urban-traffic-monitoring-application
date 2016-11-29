@@ -7,9 +7,9 @@ import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DistanceMatrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.cron.utils.RequestParams;
-import pl.edu.agh.pp.cron.utils.Route;
-import pl.edu.agh.pp.detector.DetectorManager;
+import pl.edu.agh.pp.utils.RequestParams;
+import pl.edu.agh.pp.utils.Route;
+import pl.edu.agh.pp.detectors.DetectorManager;
 
 /**
  * Created by Jakub Janusz on 12.10.2016.

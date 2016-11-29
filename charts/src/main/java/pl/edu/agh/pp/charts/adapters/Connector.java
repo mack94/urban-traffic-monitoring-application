@@ -6,14 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.controller.ChartsController;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
-import pl.edu.agh.pp.charts.data.server.AnomalyManager;
-import pl.edu.agh.pp.charts.data.server.BaselineManager;
-import pl.edu.agh.pp.charts.data.server.HistoricalDataManager;
-import pl.edu.agh.pp.charts.data.server.ServerDatesInfo;
+import pl.edu.agh.pp.charts.data.server.*;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.net.InetAddress;
 import java.time.DayOfWeek;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -37,6 +35,7 @@ public class Connector {
     public static void setMainWindowController(MainWindowController mwc) {
         mainWindowController = mwc;
     }
+
     public static void setChartsController(ChartsController cc) {
         chartsController = cc;
     }
@@ -98,25 +97,20 @@ public class Connector {
             client.killConnectionThread();
     }
 
-    public static void getOptionsServerInfo() {
-        //TODO send message to server asking for options @Maciek
-        if (isConnectedToTheServer()) {
-
-        }
-    }
-
     public static void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort) {
         mainWindowController.updateServerInfo(leverValue, anomalyLiveTime, baselineWindowSize, shift, anomalyMessagesPort);
     }
 
-    public static void updateBaseline(Integer routeID, AnomalyOperationProtos.BaselineMessage.Day day, Map<Integer, Integer> baseline) {
-        BaselineManager.addBaseline(routeID, DayOfWeek.valueOf(String.valueOf(day)), baseline);
+    public static void updateBaseline(Integer routeID, AnomalyOperationProtos.BaselineMessage.Day day, Map<Integer, Integer> baseline, String type) {
+        BaselineManager.addBaseline(routeID, DayOfWeek.valueOf(String.valueOf(day)), baseline, type);
     }
 
-    public static void demandBaseline(DayOfWeek dayOfWeek, int routeID) {
+    public static void demandBaseline(DayOfWeek dayOfWeek, int routeID, String type) {
+//        type = "2016-11-05_17-53-32";
         AnomalyOperationProtos.DemandBaselineMessage demandBaselineMessage = AnomalyOperationProtos.DemandBaselineMessage.newBuilder()
                 .setDay(AnomalyOperationProtos.DemandBaselineMessage.Day.forNumber(dayOfWeek.getValue()))
                 .setRouteIdx(routeID)
+                .setBaselineType(type)
                 .build();
 
         AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
@@ -149,18 +143,20 @@ public class Connector {
         }
     }
 
-    public static void updateAvailableDates(Map<String,Integer> arg){
+    public static void updateAvailableDates(Map<String, List<Integer>> arg) {
         ServerDatesInfo.setMap(arg);
         setServerAvailableDates();
     }
 
-    public static void updateHistoricalData(Integer routeID, DateTime date, Map<Integer, Integer> duration){
-        //TODO @Maciek
-        System.out.println("duration size: " + duration.size());
+    public static void updateAvailableRoutes() {
+        mainWindowController.setAvailableRoutes();
+    }
+
+    public static void updateHistoricalData(Integer routeID, DateTime date, Map<Integer, Integer> duration) {
         HistoricalDataManager.addHistoricalData(routeID, date, duration);
     }
 
-    public static void demandHistoricalData(DateTime date, int routeID){
+    public static void demandHistoricalData(DateTime date, int routeID) {
         AnomalyOperationProtos.DemandHistoricalMessage demandHistoricalMessage = AnomalyOperationProtos.DemandHistoricalMessage.newBuilder()
                 .setDate(date.toString("yyyy-MM-dd"))
                 .setRouteID(routeID)
@@ -179,6 +175,28 @@ public class Connector {
 
     }
 
+    public static void updateHistoricalAnomalies(Integer routeID, DateTime date, Map<String, Map<Integer, Integer>> anomalies) {
+        HistoricalAnomalyManager.addHistoricalAnomalies(routeID, date, anomalies);
+    }
+
+    public static void demandHistoricalAnomalies(DateTime date, int routeID) {
+        AnomalyOperationProtos.DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.newBuilder()
+                .setDate(date.toString("yyyy-MM-dd"))
+                .setRouteID(routeID)
+                .build();
+
+        AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
+                .setType(AnomalyOperationProtos.ManagementMessage.Type.DEMANDHISTORICALANOMALIESMESSAGE)
+                .setDemandHistoricalAnomaliesMessage(demandHistoricalAnomaliesMessage)
+                .build();
+        try {
+            byte[] toSend = managementMessage.toByteArray();
+            managementClient.sendMessage(toSend, 0, toSend.length);
+        } catch (Exception e) {
+            logger.error("Exception while demanding historical anomalies data " + e, e);
+        }
+    }
+
     public static void connectionLost(String additionalInfo) {
         if (mainWindowController != null) {
             String message = null;
@@ -186,20 +204,21 @@ public class Connector {
                 message = additionalInfo;
             }
             mainWindowController.setConnectedFlag();
+            mainWindowController.setConnectedState();
             mainWindowController.putSystemMessageOnScreen(message, Color.RED);
             if (!isFromConnecting)
                 mainWindowController.reconnecting();
         }
     }
 
-    public static void setServerAvailableRouteIds(){
-        if(chartsController != null) {
+    public static void setServerAvailableRouteIds() {
+        if (chartsController != null) {
             chartsController.setServerRouteIds();
         }
     }
 
-    public static void setServerAvailableDates(){
-        if(chartsController != null) {
+    public static void setServerAvailableDates() {
+        if (chartsController != null) {
             chartsController.setServerDates();
         }
     }

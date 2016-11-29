@@ -65,6 +65,16 @@ public final class AnomalyOperationProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internal_static_DemandAvailableHistoricalMessage_fieldAccessorTable;
     private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_AvailableRoutes_descriptor;
+    private static final
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internal_static_AvailableRoutes_fieldAccessorTable;
+    private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_AvailableRoutes_RoutesEntry_descriptor;
+    private static final
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internal_static_AvailableRoutes_RoutesEntry_fieldAccessorTable;
+    private static final com.google.protobuf.Descriptors.Descriptor
             internal_static_AvailableHistoricalMessage_descriptor;
     private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -89,6 +99,31 @@ public final class AnomalyOperationProtos {
     private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internal_static_HistoricalMessage_MeasuresEntry_fieldAccessorTable;
+    private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_HistoricalAnomalyPresenceMessage_descriptor;
+    private static final
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internal_static_HistoricalAnomalyPresenceMessage_fieldAccessorTable;
+    private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_HistoricalAnomalyPresenceMessage_PresenceEntry_descriptor;
+    private static final
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internal_static_HistoricalAnomalyPresenceMessage_PresenceEntry_fieldAccessorTable;
+    private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_DemandHistoricalAnomaliesMessage_descriptor;
+    private static final
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internal_static_DemandHistoricalAnomaliesMessage_fieldAccessorTable;
+    private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_HistoricalAnomaliesMessage_descriptor;
+    private static final
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internal_static_HistoricalAnomaliesMessage_fieldAccessorTable;
+    private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_HistoricalAnomaliesMessage_AnomaliesEntry_descriptor;
+    private static final
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internal_static_HistoricalAnomaliesMessage_AnomaliesEntry_fieldAccessorTable;
     private static com.google.protobuf.Descriptors.FileDescriptor
             descriptor;
 
@@ -98,69 +133,90 @@ public final class AnomalyOperationProtos {
                         "action\030\001 \001(\0162\031.AnomalyAction.ActionType\022" +
                         "\017\n\007channel\030\002 \001(\t\022\020\n\010nickname\030\003 \001(\t\"!\n\nAc" +
                         "tionType\022\010\n\004JOIN\020\000\022\t\n\005LEAVE\020\001\"-\n\014Anomaly" +
-                        "State\022\035\n\005state\030\001 \003(\0132\016.AnomalyAction\"\262\001\n" +
+                        "State\022\035\n\005state\030\001 \003(\0132\016.AnomalyAction\"\306\001\n" +
                         "\016AnomalyMessage\022\020\n\010routeIdx\030\001 \001(\005\022\023\n\013sec" +
                         "ondOfDay\030\002 \001(\005\022\020\n\010isActive\030\003 \001(\010\022\020\n\010dura" +
                         "tion\030\004 \001(\005\022\021\n\tdayOfWeek\030\005 \001(\005\022\020\n\010severit" +
                         "y\030\006 \001(\005\022\017\n\007message\030\007 \001(\t\022\021\n\tanomalyID\030\010 " +
-                        "\001(\003\022\014\n\004date\030\t \001(\t\"\301\006\n\021ManagementMessage\022",
-                "%\n\004type\030\001 \001(\0162\027.ManagementMessage.Type\022\'" +
-                        "\n\016bonjourMessage\030\002 \001(\0132\017.BonjourMessage\022" +
-                        "3\n\024systemGeneralMessage\030\003 \001(\0132\025.SystemGe" +
-                        "neralMessage\022#\n\014leverMessage\030\004 \001(\0132\r.Lev" +
-                        "erMessage\022)\n\017baselineMessage\030\005 \001(\0132\020.Bas" +
-                        "elineMessage\0225\n\025demandBaselineMessage\030\006 " +
-                        "\001(\0132\026.DemandBaselineMessage\022#\n\014routeMess" +
-                        "age\030\007 \001(\0132\r.RouteMessage\022?\n\032availableHis" +
-                        "toricalMessage\030\010 \001(\0132\033.AvailableHistoric" +
-                        "alMessage\022K\n demandAvailableHistoricalMe",
-                "ssage\030\t \001(\0132!.DemandAvailableHistoricalM" +
-                        "essage\022-\n\021historicalMessage\030\n \001(\0132\022.Hist" +
-                        "oricalMessage\0229\n\027demandHistoricalMessage" +
-                        "\030\013 \001(\0132\030.DemandHistoricalMessage\"\202\002\n\004Typ" +
-                        "e\022\022\n\016BONJOURMESSAGE\020\000\022\030\n\024SYSTEMGENERALME" +
-                        "SSAGE\020\001\022\020\n\014LEVERMESSAGE\020\002\022\023\n\017BASELINEMES" +
-                        "SAGE\020\003\022\031\n\025DEMANDBASELINEMESSAGE\020\004\022\020\n\014ROU" +
-                        "TEMESSAGE\020\005\022\036\n\032AVAILABLEHISTORICALMESSAG" +
-                        "E\020\006\022$\n DEMANDAVAILABLEHISTORICALMESSAGE\020" +
-                        "\007\022\025\n\021HISTORICALMESSAGE\020\010\022\033\n\027DEMANDHISTOR",
-                "ICALMESSAGE\020\t\"?\n\016BonjourMessage\022\r\n\005token" +
-                        "\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\022\020\n\010userName\030\003 \001(\t\"\375" +
-                        "\001\n\024SystemGeneralMessage\022\022\n\nmessageIdx\030\001 " +
-                        "\001(\005\022\022\n\nleverValue\030\002 \001(\001\022\022\n\nsystemDate\030\003 " +
-                        "\001(\t\022\027\n\017anomalyLiveTime\030\004 \001(\005\022\032\n\022baseline" +
-                        "WindowSize\030\005 \001(\005\022*\n\005shift\030\006 \001(\0162\033.System" +
-                        "GeneralMessage.Shift\022\014\n\004port\030\007 \001(\005\022\016\n\006ro" +
-                        "utes\030\010 \001(\t\"*\n\005Shift\022\007\n\003DAY\020\000\022\t\n\005NIGHT\020\001\022" +
-                        "\r\n\tUNIVERSAL\020\002\"T\n\014RouteMessage\022\017\n\007routeI" +
-                        "D\030\001 \001(\005\022\016\n\006origin\030\002 \001(\t\022\023\n\013destination\030\003",
-                " \001(\t\022\016\n\006coords\030\004 \001(\t\";\n\014LeverMessage\022\022\n\n" +
-                        "leverValue\030\001 \001(\001\022\027\n\017leverUpdateDate\030\002 \001(" +
-                        "\t\"\231\002\n\017BaselineMessage\022\020\n\010routeIdx\030\001 \001(\005\022" +
-                        "!\n\003day\030\002 \001(\0162\024.BaselineMessage.Day\0220\n\010ba" +
-                        "seline\030\003 \003(\0132\036.BaselineMessage.BaselineE" +
-                        "ntry\032/\n\rBaselineEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005va" +
-                        "lue\030\002 \001(\005:\0028\001\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MON" +
-                        "DAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010THU" +
-                        "RSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUN" +
-                        "DAY\020\007\"\302\001\n\025DemandBaselineMessage\022\020\n\010route",
-                "Idx\030\001 \001(\005\022\'\n\003day\030\002 \001(\0162\032.DemandBaselineM" +
-                        "essage.Day\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY" +
-                        "\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010THURSD" +
-                        "AY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY" +
-                        "\020\007\"\"\n DemandAvailableHistoricalMessage\"\250" +
-                        "\001\n\032AvailableHistoricalMessage\022O\n\022avaiabl" +
-                        "eDateRoutes\030\001 \003(\01323.AvailableHistoricalM" +
-                        "essage.AvaiableDateRoutesEntry\0329\n\027Avaiab" +
-                        "leDateRoutesEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030" +
-                        "\002 \001(\005:\0028\001\"8\n\027DemandHistoricalMessage\022\017\n\007",
-                "routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\227\001\n\021Historic" +
-                        "alMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t" +
-                        "\0222\n\010measures\030\003 \003(\0132 .HistoricalMessage.M" +
-                        "easuresEntry\032/\n\rMeasuresEntry\022\013\n\003key\030\001 \001" +
-                        "(\005\022\r\n\005value\030\002 \001(\005:\0028\001B9\n\037pl.edu.agh.pp.c" +
-                        "harts.operationsB\026AnomalyOperationProtos" +
-                        "b\006proto3"
+                        "\001(\t\022\014\n\004date\030\t \001(\t\022\022\n\nnormExceed\030\n \001(\005\"\225\010",
+                "\n\021ManagementMessage\022%\n\004type\030\001 \001(\0162\027.Mana" +
+                        "gementMessage.Type\022\'\n\016bonjourMessage\030\002 \001" +
+                        "(\0132\017.BonjourMessage\0223\n\024systemGeneralMess" +
+                        "age\030\003 \001(\0132\025.SystemGeneralMessage\022#\n\014leve" +
+                        "rMessage\030\004 \001(\0132\r.LeverMessage\022)\n\017baselin" +
+                        "eMessage\030\005 \001(\0132\020.BaselineMessage\0225\n\025dema" +
+                        "ndBaselineMessage\030\006 \001(\0132\026.DemandBaseline" +
+                        "Message\022#\n\014routeMessage\030\007 \001(\0132\r.RouteMes" +
+                        "sage\022?\n\032availableHistoricalMessage\030\010 \001(\013" +
+                        "2\033.AvailableHistoricalMessage\022K\n demandA",
+                "vailableHistoricalMessage\030\t \001(\0132!.Demand" +
+                        "AvailableHistoricalMessage\022-\n\021historical" +
+                        "Message\030\n \001(\0132\022.HistoricalMessage\0229\n\027dem" +
+                        "andHistoricalMessage\030\013 \001(\0132\030.DemandHisto" +
+                        "ricalMessage\022K\n demandHistoricalAnomalie" +
+                        "sMessage\030\014 \001(\0132!.DemandHistoricalAnomali" +
+                        "esMessage\022?\n\032historicalAnomaliesMessage\030" +
+                        "\r \001(\0132\033.HistoricalAnomaliesMessage\"\310\002\n\004T" +
+                        "ype\022\022\n\016BONJOURMESSAGE\020\000\022\030\n\024SYSTEMGENERAL" +
+                        "MESSAGE\020\001\022\020\n\014LEVERMESSAGE\020\002\022\023\n\017BASELINEM",
+                "ESSAGE\020\003\022\031\n\025DEMANDBASELINEMESSAGE\020\004\022\020\n\014R" +
+                        "OUTEMESSAGE\020\005\022\036\n\032AVAILABLEHISTORICALMESS" +
+                        "AGE\020\006\022$\n DEMANDAVAILABLEHISTORICALMESSAG" +
+                        "E\020\007\022\025\n\021HISTORICALMESSAGE\020\010\022\033\n\027DEMANDHIST" +
+                        "ORICALMESSAGE\020\t\022$\n DEMANDHISTORICALANOMA" +
+                        "LIESMESSAGE\020\n\022\036\n\032HISTORICALANOMALIESMESS" +
+                        "AGE\020\013\"?\n\016BonjourMessage\022\r\n\005token\030\001 \001(\005\022\014" +
+                        "\n\004date\030\002 \001(\t\022\020\n\010userName\030\003 \001(\t\"\375\001\n\024Syste" +
+                        "mGeneralMessage\022\022\n\nmessageIdx\030\001 \001(\005\022\022\n\nl" +
+                        "everValue\030\002 \001(\001\022\022\n\nsystemDate\030\003 \001(\t\022\027\n\017a",
+                "nomalyLiveTime\030\004 \001(\005\022\032\n\022baselineWindowSi" +
+                        "ze\030\005 \001(\005\022*\n\005shift\030\006 \001(\0162\033.SystemGeneralM" +
+                        "essage.Shift\022\014\n\004port\030\007 \001(\005\022\016\n\006routes\030\010 \001" +
+                        "(\t\"*\n\005Shift\022\007\n\003DAY\020\000\022\t\n\005NIGHT\020\001\022\r\n\tUNIVE" +
+                        "RSAL\020\002\"b\n\014RouteMessage\022\017\n\007routeID\030\001 \001(\005\022" +
+                        "\016\n\006origin\030\002 \001(\t\022\023\n\013destination\030\003 \001(\t\022\016\n\006" +
+                        "coords\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\";\n\014LeverMessa" +
+                        "ge\022\022\n\nleverValue\030\001 \001(\001\022\027\n\017leverUpdateDat" +
+                        "e\030\002 \001(\t\"\257\002\n\017BaselineMessage\022\020\n\010routeIdx\030" +
+                        "\001 \001(\005\022!\n\003day\030\002 \001(\0162\024.BaselineMessage.Day",
+                "\0220\n\010baseline\030\003 \003(\0132\036.BaselineMessage.Bas" +
+                        "elineEntry\022\024\n\014baselineType\030\004 \001(\t\032/\n\rBase" +
+                        "lineEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028" +
+                        "\001\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY\020\001\022\013\n\007TUE" +
+                        "SDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010THURSDAY\020\004\022\n\n\006F" +
+                        "RIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY\020\007\"\330\001\n\025De" +
+                        "mandBaselineMessage\022\020\n\010routeIdx\030\001 \001(\005\022\'\n" +
+                        "\003day\030\002 \001(\0162\032.DemandBaselineMessage.Day\022\024" +
+                        "\n\014baselineType\030\003 \001(\t\"n\n\003Day\022\013\n\007NULLDAY\020\000" +
+                        "\022\n\n\006MONDAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003",
+                "\022\014\n\010THURSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006" +
+                        "\022\n\n\006SUNDAY\020\007\"\"\n DemandAvailableHistorica" +
+                        "lMessage\"n\n\017AvailableRoutes\022,\n\006routes\030\001 " +
+                        "\003(\0132\034.AvailableRoutes.RoutesEntry\032-\n\013Rou" +
+                        "tesEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001" +
+                        "\"\272\001\n\032AvailableHistoricalMessage\022O\n\022avaia" +
+                        "bleDateRoutes\030\001 \003(\01323.AvailableHistorica" +
+                        "lMessage.AvaiableDateRoutesEntry\032K\n\027Avai" +
+                        "ableDateRoutesEntry\022\013\n\003key\030\001 \001(\t\022\037\n\005valu" +
+                        "e\030\002 \001(\0132\020.AvailableRoutes:\0028\001\"8\n\027DemandH",
+                "istoricalMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004dat" +
+                        "e\030\002 \001(\t\"\227\001\n\021HistoricalMessage\022\017\n\007routeID" +
+                        "\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\0222\n\010measures\030\003 \003(\0132 " +
+                        ".HistoricalMessage.MeasuresEntry\032/\n\rMeas" +
+                        "uresEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028" +
+                        "\001\"\226\001\n HistoricalAnomalyPresenceMessage\022A" +
+                        "\n\010presence\030\001 \003(\0132/.HistoricalAnomalyPres" +
+                        "enceMessage.PresenceEntry\032/\n\rPresenceEnt" +
+                        "ry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"A\n De" +
+                        "mandHistoricalAnomaliesMessage\022\017\n\007routeI",
+                "D\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\317\001\n\032HistoricalAnom" +
+                        "aliesMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 " +
+                        "\001(\t\022=\n\tanomalies\030\003 \003(\0132*.HistoricalAnoma" +
+                        "liesMessage.AnomaliesEntry\032S\n\016AnomaliesE" +
+                        "ntry\022\013\n\003key\030\001 \001(\t\0220\n\005value\030\002 \001(\0132!.Histo" +
+                        "ricalAnomalyPresenceMessage:\0028\001B9\n\037pl.ed" +
+                        "u.agh.pp.charts.operationsB\026AnomalyOpera" +
+                        "tionProtosb\006proto3"
         };
         com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
                 new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -191,13 +247,13 @@ public final class AnomalyOperationProtos {
         internal_static_AnomalyMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_AnomalyMessage_descriptor,
-                new java.lang.String[]{"RouteIdx", "SecondOfDay", "IsActive", "Duration", "DayOfWeek", "Severity", "Message", "AnomalyID", "Date",});
+                new java.lang.String[]{"RouteIdx", "SecondOfDay", "IsActive", "Duration", "DayOfWeek", "Severity", "Message", "AnomalyID", "Date", "NormExceed",});
         internal_static_ManagementMessage_descriptor =
                 getDescriptor().getMessageTypes().get(3);
         internal_static_ManagementMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_ManagementMessage_descriptor,
-                new java.lang.String[]{"Type", "BonjourMessage", "SystemGeneralMessage", "LeverMessage", "BaselineMessage", "DemandBaselineMessage", "RouteMessage", "AvailableHistoricalMessage", "DemandAvailableHistoricalMessage", "HistoricalMessage", "DemandHistoricalMessage",});
+                new java.lang.String[]{"Type", "BonjourMessage", "SystemGeneralMessage", "LeverMessage", "BaselineMessage", "DemandBaselineMessage", "RouteMessage", "AvailableHistoricalMessage", "DemandAvailableHistoricalMessage", "HistoricalMessage", "DemandHistoricalMessage", "DemandHistoricalAnomaliesMessage", "HistoricalAnomaliesMessage",});
         internal_static_BonjourMessage_descriptor =
                 getDescriptor().getMessageTypes().get(4);
         internal_static_BonjourMessage_fieldAccessorTable = new
@@ -215,7 +271,7 @@ public final class AnomalyOperationProtos {
         internal_static_RouteMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_RouteMessage_descriptor,
-                new java.lang.String[]{"RouteID", "Origin", "Destination", "Coords",});
+                new java.lang.String[]{"RouteID", "Origin", "Destination", "Coords", "Name",});
         internal_static_LeverMessage_descriptor =
                 getDescriptor().getMessageTypes().get(7);
         internal_static_LeverMessage_fieldAccessorTable = new
@@ -227,7 +283,7 @@ public final class AnomalyOperationProtos {
         internal_static_BaselineMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_BaselineMessage_descriptor,
-                new java.lang.String[]{"RouteIdx", "Day", "Baseline",});
+                new java.lang.String[]{"RouteIdx", "Day", "Baseline", "BaselineType",});
         internal_static_BaselineMessage_BaselineEntry_descriptor =
                 internal_static_BaselineMessage_descriptor.getNestedTypes().get(0);
         internal_static_BaselineMessage_BaselineEntry_fieldAccessorTable = new
@@ -239,15 +295,27 @@ public final class AnomalyOperationProtos {
         internal_static_DemandBaselineMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_DemandBaselineMessage_descriptor,
-                new java.lang.String[]{"RouteIdx", "Day",});
+                new java.lang.String[]{"RouteIdx", "Day", "BaselineType",});
         internal_static_DemandAvailableHistoricalMessage_descriptor =
                 getDescriptor().getMessageTypes().get(10);
         internal_static_DemandAvailableHistoricalMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_DemandAvailableHistoricalMessage_descriptor,
                 new java.lang.String[]{});
-        internal_static_AvailableHistoricalMessage_descriptor =
+        internal_static_AvailableRoutes_descriptor =
                 getDescriptor().getMessageTypes().get(11);
+        internal_static_AvailableRoutes_fieldAccessorTable = new
+                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+                internal_static_AvailableRoutes_descriptor,
+                new java.lang.String[]{"Routes",});
+        internal_static_AvailableRoutes_RoutesEntry_descriptor =
+                internal_static_AvailableRoutes_descriptor.getNestedTypes().get(0);
+        internal_static_AvailableRoutes_RoutesEntry_fieldAccessorTable = new
+                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+                internal_static_AvailableRoutes_RoutesEntry_descriptor,
+                new java.lang.String[]{"Key", "Value",});
+        internal_static_AvailableHistoricalMessage_descriptor =
+                getDescriptor().getMessageTypes().get(12);
         internal_static_AvailableHistoricalMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_AvailableHistoricalMessage_descriptor,
@@ -259,13 +327,13 @@ public final class AnomalyOperationProtos {
                 internal_static_AvailableHistoricalMessage_AvaiableDateRoutesEntry_descriptor,
                 new java.lang.String[]{"Key", "Value",});
         internal_static_DemandHistoricalMessage_descriptor =
-                getDescriptor().getMessageTypes().get(12);
+                getDescriptor().getMessageTypes().get(13);
         internal_static_DemandHistoricalMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_DemandHistoricalMessage_descriptor,
                 new java.lang.String[]{"RouteID", "Date",});
         internal_static_HistoricalMessage_descriptor =
-                getDescriptor().getMessageTypes().get(13);
+                getDescriptor().getMessageTypes().get(14);
         internal_static_HistoricalMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_HistoricalMessage_descriptor,
@@ -276,8 +344,37 @@ public final class AnomalyOperationProtos {
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_HistoricalMessage_MeasuresEntry_descriptor,
                 new java.lang.String[]{"Key", "Value",});
+        internal_static_HistoricalAnomalyPresenceMessage_descriptor =
+                getDescriptor().getMessageTypes().get(15);
+        internal_static_HistoricalAnomalyPresenceMessage_fieldAccessorTable = new
+                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+                internal_static_HistoricalAnomalyPresenceMessage_descriptor,
+                new java.lang.String[]{"Presence",});
+        internal_static_HistoricalAnomalyPresenceMessage_PresenceEntry_descriptor =
+                internal_static_HistoricalAnomalyPresenceMessage_descriptor.getNestedTypes().get(0);
+        internal_static_HistoricalAnomalyPresenceMessage_PresenceEntry_fieldAccessorTable = new
+                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+                internal_static_HistoricalAnomalyPresenceMessage_PresenceEntry_descriptor,
+                new java.lang.String[]{"Key", "Value",});
+        internal_static_DemandHistoricalAnomaliesMessage_descriptor =
+                getDescriptor().getMessageTypes().get(16);
+        internal_static_DemandHistoricalAnomaliesMessage_fieldAccessorTable = new
+                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+                internal_static_DemandHistoricalAnomaliesMessage_descriptor,
+                new java.lang.String[]{"RouteID", "Date",});
+        internal_static_HistoricalAnomaliesMessage_descriptor =
+                getDescriptor().getMessageTypes().get(17);
+        internal_static_HistoricalAnomaliesMessage_fieldAccessorTable = new
+                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+                internal_static_HistoricalAnomaliesMessage_descriptor,
+                new java.lang.String[]{"RouteID", "Date", "Anomalies",});
+        internal_static_HistoricalAnomaliesMessage_AnomaliesEntry_descriptor =
+                internal_static_HistoricalAnomaliesMessage_descriptor.getNestedTypes().get(0);
+        internal_static_HistoricalAnomaliesMessage_AnomaliesEntry_fieldAccessorTable = new
+                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+                internal_static_HistoricalAnomaliesMessage_AnomaliesEntry_descriptor,
+                new java.lang.String[]{"Key", "Value",});
     }
-
     private AnomalyOperationProtos() {
     }
 
@@ -295,7 +392,6 @@ public final class AnomalyOperationProtos {
     getDescriptor() {
         return descriptor;
     }
-
     public interface AnomalyActionOrBuilder extends
             // @@protoc_insertion_point(interface_extends:AnomalyAction)
             com.google.protobuf.MessageOrBuilder {
@@ -332,7 +428,6 @@ public final class AnomalyOperationProtos {
         com.google.protobuf.ByteString
         getNicknameBytes();
     }
-
     public interface AnomalyStateOrBuilder extends
             // @@protoc_insertion_point(interface_extends:AnomalyState)
             com.google.protobuf.MessageOrBuilder {
@@ -365,7 +460,6 @@ public final class AnomalyOperationProtos {
         pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyActionOrBuilder getStateOrBuilder(
                 int index);
     }
-
     public interface AnomalyMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:AnomalyMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -412,9 +506,15 @@ public final class AnomalyOperationProtos {
         getMessageBytes();
 
         /**
-         * <code>optional int64 anomalyID = 8;</code>
+         * <code>optional string anomalyID = 8;</code>
          */
-        long getAnomalyID();
+        java.lang.String getAnomalyID();
+
+        /**
+         * <code>optional string anomalyID = 8;</code>
+         */
+        com.google.protobuf.ByteString
+        getAnomalyIDBytes();
 
         /**
          * <code>optional string date = 9;</code>
@@ -426,8 +526,12 @@ public final class AnomalyOperationProtos {
          */
         com.google.protobuf.ByteString
         getDateBytes();
-    }
 
+        /**
+         * <code>optional int32 normExceed = 10;</code>
+         */
+        int getNormExceed();
+    }
     public interface ManagementMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:ManagementMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -611,8 +715,37 @@ public final class AnomalyOperationProtos {
          * <code>optional .DemandHistoricalMessage demandHistoricalMessage = 11;</code>
          */
         pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalMessageOrBuilder getDemandHistoricalMessageOrBuilder();
-    }
 
+        /**
+         * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+         */
+        boolean hasDemandHistoricalAnomaliesMessage();
+
+        /**
+         * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+         */
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage getDemandHistoricalAnomaliesMessage();
+
+        /**
+         * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+         */
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessageOrBuilder getDemandHistoricalAnomaliesMessageOrBuilder();
+
+        /**
+         * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+         */
+        boolean hasHistoricalAnomaliesMessage();
+
+        /**
+         * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+         */
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage getHistoricalAnomaliesMessage();
+
+        /**
+         * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+         */
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessageOrBuilder getHistoricalAnomaliesMessageOrBuilder();
+    }
     public interface BonjourMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:BonjourMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -644,7 +777,6 @@ public final class AnomalyOperationProtos {
         com.google.protobuf.ByteString
         getUserNameBytes();
     }
-
     public interface SystemGeneralMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:SystemGeneralMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -718,7 +850,6 @@ public final class AnomalyOperationProtos {
         com.google.protobuf.ByteString
         getRoutesBytes();
     }
-
     public interface RouteMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:RouteMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -760,8 +891,18 @@ public final class AnomalyOperationProtos {
          */
         com.google.protobuf.ByteString
         getCoordsBytes();
-    }
 
+        /**
+         * <code>optional string name = 5;</code>
+         */
+        java.lang.String getName();
+
+        /**
+         * <code>optional string name = 5;</code>
+         */
+        com.google.protobuf.ByteString
+        getNameBytes();
+    }
     public interface LeverMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:LeverMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -782,7 +923,6 @@ public final class AnomalyOperationProtos {
         com.google.protobuf.ByteString
         getLeverUpdateDateBytes();
     }
-
     public interface BaselineMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:BaselineMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -860,8 +1000,18 @@ public final class AnomalyOperationProtos {
 
         int getBaselineOrThrow(
                 int key);
-    }
 
+        /**
+         * <code>optional string baselineType = 4;</code>
+         */
+        java.lang.String getBaselineType();
+
+        /**
+         * <code>optional string baselineType = 4;</code>
+         */
+        com.google.protobuf.ByteString
+        getBaselineTypeBytes();
+    }
     public interface DemandBaselineMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:DemandBaselineMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -880,13 +1030,65 @@ public final class AnomalyOperationProtos {
          * <code>optional .DemandBaselineMessage.Day day = 2;</code>
          */
         pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage.Day getDay();
-    }
 
+        /**
+         * <code>optional string baselineType = 3;</code>
+         */
+        java.lang.String getBaselineType();
+
+        /**
+         * <code>optional string baselineType = 3;</code>
+         */
+        com.google.protobuf.ByteString
+        getBaselineTypeBytes();
+    }
     public interface DemandAvailableHistoricalMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:DemandAvailableHistoricalMessage)
             com.google.protobuf.MessageOrBuilder {
     }
+    public interface AvailableRoutesOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:AvailableRoutes)
+            com.google.protobuf.MessageOrBuilder {
 
+        /**
+         * <code>map&lt;int32, int32&gt; routes = 1;</code>
+         */
+        int getRoutesCount();
+
+        /**
+         * <code>map&lt;int32, int32&gt; routes = 1;</code>
+         */
+        boolean containsRoutes(
+                int key);
+
+        /**
+         * Use {@link #getRoutesMap()} instead.
+         */
+        @java.lang.Deprecated
+        java.util.Map<java.lang.Integer, java.lang.Integer>
+        getRoutes();
+
+        /**
+         * <code>map&lt;int32, int32&gt; routes = 1;</code>
+         */
+        java.util.Map<java.lang.Integer, java.lang.Integer>
+        getRoutesMap();
+
+        /**
+         * <code>map&lt;int32, int32&gt; routes = 1;</code>
+         */
+
+        int getRoutesOrDefault(
+                int key,
+                int defaultValue);
+
+        /**
+         * <code>map&lt;int32, int32&gt; routes = 1;</code>
+         */
+
+        int getRoutesOrThrow(
+                int key);
+    }
     public interface AvailableHistoricalMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:AvailableHistoricalMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -898,7 +1100,7 @@ public final class AnomalyOperationProtos {
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
-         * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+         * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
          */
         int getAvaiableDateRoutesCount();
 
@@ -909,7 +1111,7 @@ public final class AnomalyOperationProtos {
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
-         * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+         * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
          */
         boolean containsAvaiableDateRoutes(
                 java.lang.String key);
@@ -918,7 +1120,7 @@ public final class AnomalyOperationProtos {
          * Use {@link #getAvaiableDateRoutesMap()} instead.
          */
         @java.lang.Deprecated
-        java.util.Map<java.lang.String, java.lang.Integer>
+        java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
         getAvaiableDateRoutes();
 
         /**
@@ -928,9 +1130,9 @@ public final class AnomalyOperationProtos {
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
-         * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+         * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
          */
-        java.util.Map<java.lang.String, java.lang.Integer>
+        java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
         getAvaiableDateRoutesMap();
 
         /**
@@ -940,12 +1142,12 @@ public final class AnomalyOperationProtos {
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
-         * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+         * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
          */
 
-        int getAvaiableDateRoutesOrDefault(
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getAvaiableDateRoutesOrDefault(
                 java.lang.String key,
-                int defaultValue);
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes defaultValue);
 
         /**
          * <pre>
@@ -954,13 +1156,12 @@ public final class AnomalyOperationProtos {
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
-         * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+         * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
          */
 
-        int getAvaiableDateRoutesOrThrow(
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getAvaiableDateRoutesOrThrow(
                 java.lang.String key);
     }
-
     public interface DemandHistoricalMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:DemandHistoricalMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -981,7 +1182,6 @@ public final class AnomalyOperationProtos {
         com.google.protobuf.ByteString
         getDateBytes();
     }
-
     public interface HistoricalMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:HistoricalMessage)
             com.google.protobuf.MessageOrBuilder {
@@ -1041,6 +1241,128 @@ public final class AnomalyOperationProtos {
         int getMeasuresOrThrow(
                 int key);
     }
+    public interface HistoricalAnomalyPresenceMessageOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:HistoricalAnomalyPresenceMessage)
+            com.google.protobuf.MessageOrBuilder {
+
+        /**
+         * <code>map&lt;int32, int32&gt; presence = 1;</code>
+         */
+        int getPresenceCount();
+
+        /**
+         * <code>map&lt;int32, int32&gt; presence = 1;</code>
+         */
+        boolean containsPresence(
+                int key);
+
+        /**
+         * Use {@link #getPresenceMap()} instead.
+         */
+        @java.lang.Deprecated
+        java.util.Map<java.lang.Integer, java.lang.Integer>
+        getPresence();
+
+        /**
+         * <code>map&lt;int32, int32&gt; presence = 1;</code>
+         */
+        java.util.Map<java.lang.Integer, java.lang.Integer>
+        getPresenceMap();
+
+        /**
+         * <code>map&lt;int32, int32&gt; presence = 1;</code>
+         */
+
+        int getPresenceOrDefault(
+                int key,
+                int defaultValue);
+
+        /**
+         * <code>map&lt;int32, int32&gt; presence = 1;</code>
+         */
+
+        int getPresenceOrThrow(
+                int key);
+    }
+    public interface DemandHistoricalAnomaliesMessageOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:DemandHistoricalAnomaliesMessage)
+            com.google.protobuf.MessageOrBuilder {
+
+        /**
+         * <code>optional int32 routeID = 1;</code>
+         */
+        int getRouteID();
+
+        /**
+         * <code>optional string date = 2;</code>
+         */
+        java.lang.String getDate();
+
+        /**
+         * <code>optional string date = 2;</code>
+         */
+        com.google.protobuf.ByteString
+        getDateBytes();
+    }
+    public interface HistoricalAnomaliesMessageOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:HistoricalAnomaliesMessage)
+            com.google.protobuf.MessageOrBuilder {
+
+        /**
+         * <code>optional int32 routeID = 1;</code>
+         */
+        int getRouteID();
+
+        /**
+         * <code>optional string date = 2;</code>
+         */
+        java.lang.String getDate();
+
+        /**
+         * <code>optional string date = 2;</code>
+         */
+        com.google.protobuf.ByteString
+        getDateBytes();
+
+        /**
+         * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+         */
+        int getAnomaliesCount();
+
+        /**
+         * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+         */
+        boolean containsAnomalies(
+                java.lang.String key);
+
+        /**
+         * Use {@link #getAnomaliesMap()} instead.
+         */
+        @java.lang.Deprecated
+        java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage>
+        getAnomalies();
+
+        /**
+         * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+         */
+        java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage>
+        getAnomaliesMap();
+
+        /**
+         * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+         */
+
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage getAnomaliesOrDefault(
+                java.lang.String key,
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage defaultValue);
+
+        /**
+         * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+         */
+
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage getAnomaliesOrThrow(
+                java.lang.String key);
+    }
 
     /**
      * Protobuf type {@code AnomalyAction}
@@ -1078,7 +1400,6 @@ public final class AnomalyOperationProtos {
         private AnomalyAction(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
-
         private AnomalyAction() {
             action_ = 0;
             channel_ = "";
@@ -1912,7 +2233,6 @@ public final class AnomalyOperationProtos {
 
         private java.util.List<pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyAction> state_;
         private byte memoizedIsInitialized = -1;
-
         // Use AnomalyState.newBuilder() to construct.
         private AnomalyState(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
@@ -2660,6 +2980,7 @@ public final class AnomalyOperationProtos {
         public static final int MESSAGE_FIELD_NUMBER = 7;
         public static final int ANOMALYID_FIELD_NUMBER = 8;
         public static final int DATE_FIELD_NUMBER = 9;
+        public static final int NORMEXCEED_FIELD_NUMBER = 10;
         private static final long serialVersionUID = 0L;
         // @@protoc_insertion_point(class_scope:AnomalyMessage)
         private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage DEFAULT_INSTANCE;
@@ -2684,10 +3005,10 @@ public final class AnomalyOperationProtos {
         private int dayOfWeek_;
         private int severity_;
         private volatile java.lang.Object message_;
-        private long anomalyID_;
+        private volatile java.lang.Object anomalyID_;
         private volatile java.lang.Object date_;
+        private int normExceed_;
         private byte memoizedIsInitialized = -1;
-
         // Use AnomalyMessage.newBuilder() to construct.
         private AnomalyMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
@@ -2701,8 +3022,9 @@ public final class AnomalyOperationProtos {
             dayOfWeek_ = 0;
             severity_ = 0;
             message_ = "";
-            anomalyID_ = 0L;
+            anomalyID_ = "";
             date_ = "";
+            normExceed_ = 0;
         }
 
         private AnomalyMessage(
@@ -2761,15 +3083,21 @@ public final class AnomalyOperationProtos {
                             message_ = s;
                             break;
                         }
-                        case 64: {
+                        case 66: {
+                            java.lang.String s = input.readStringRequireUtf8();
 
-                            anomalyID_ = input.readInt64();
+                            anomalyID_ = s;
                             break;
                         }
                         case 74: {
                             java.lang.String s = input.readStringRequireUtf8();
 
                             date_ = s;
+                            break;
+                        }
+                        case 80: {
+
+                            normExceed_ = input.readInt32();
                             break;
                         }
                     }
@@ -2962,10 +3290,36 @@ public final class AnomalyOperationProtos {
         }
 
         /**
-         * <code>optional int64 anomalyID = 8;</code>
+         * <code>optional string anomalyID = 8;</code>
          */
-        public long getAnomalyID() {
-            return anomalyID_;
+        public java.lang.String getAnomalyID() {
+            java.lang.Object ref = anomalyID_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                anomalyID_ = s;
+                return s;
+            }
+        }
+
+        /**
+         * <code>optional string anomalyID = 8;</code>
+         */
+        public com.google.protobuf.ByteString
+        getAnomalyIDBytes() {
+            java.lang.Object ref = anomalyID_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                anomalyID_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
         }
 
         /**
@@ -3001,6 +3355,13 @@ public final class AnomalyOperationProtos {
             }
         }
 
+        /**
+         * <code>optional int32 normExceed = 10;</code>
+         */
+        public int getNormExceed() {
+            return normExceed_;
+        }
+
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
             if (isInitialized == 1) return true;
@@ -3033,11 +3394,14 @@ public final class AnomalyOperationProtos {
             if (!getMessageBytes().isEmpty()) {
                 com.google.protobuf.GeneratedMessageV3.writeString(output, 7, message_);
             }
-            if (anomalyID_ != 0L) {
-                output.writeInt64(8, anomalyID_);
+            if (!getAnomalyIDBytes().isEmpty()) {
+                com.google.protobuf.GeneratedMessageV3.writeString(output, 8, anomalyID_);
             }
             if (!getDateBytes().isEmpty()) {
                 com.google.protobuf.GeneratedMessageV3.writeString(output, 9, date_);
+            }
+            if (normExceed_ != 0) {
+                output.writeInt32(10, normExceed_);
             }
         }
 
@@ -3073,12 +3437,15 @@ public final class AnomalyOperationProtos {
             if (!getMessageBytes().isEmpty()) {
                 size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, message_);
             }
-            if (anomalyID_ != 0L) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeInt64Size(8, anomalyID_);
+            if (!getAnomalyIDBytes().isEmpty()) {
+                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, anomalyID_);
             }
             if (!getDateBytes().isEmpty()) {
                 size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, date_);
+            }
+            if (normExceed_ != 0) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeInt32Size(10, normExceed_);
             }
             memoizedSize = size;
             return size;
@@ -3109,10 +3476,12 @@ public final class AnomalyOperationProtos {
                     == other.getSeverity());
             result = result && getMessage()
                     .equals(other.getMessage());
-            result = result && (getAnomalyID()
-                    == other.getAnomalyID());
+            result = result && getAnomalyID()
+                    .equals(other.getAnomalyID());
             result = result && getDate()
                     .equals(other.getDate());
+            result = result && (getNormExceed()
+                    == other.getNormExceed());
             return result;
         }
 
@@ -3139,10 +3508,11 @@ public final class AnomalyOperationProtos {
             hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
             hash = (53 * hash) + getMessage().hashCode();
             hash = (37 * hash) + ANOMALYID_FIELD_NUMBER;
-            hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-                    getAnomalyID());
+            hash = (53 * hash) + getAnomalyID().hashCode();
             hash = (37 * hash) + DATE_FIELD_NUMBER;
             hash = (53 * hash) + getDate().hashCode();
+            hash = (37 * hash) + NORMEXCEED_FIELD_NUMBER;
+            hash = (53 * hash) + getNormExceed();
             hash = (29 * hash) + unknownFields.hashCode();
             memoizedHashCode = hash;
             return hash;
@@ -3187,8 +3557,9 @@ public final class AnomalyOperationProtos {
             private int dayOfWeek_;
             private int severity_;
             private java.lang.Object message_ = "";
-            private long anomalyID_;
+            private java.lang.Object anomalyID_ = "";
             private java.lang.Object date_ = "";
+            private int normExceed_;
 
             // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage.newBuilder()
             private Builder() {
@@ -3235,9 +3606,11 @@ public final class AnomalyOperationProtos {
 
                 message_ = "";
 
-                anomalyID_ = 0L;
+                anomalyID_ = "";
 
                 date_ = "";
+
+                normExceed_ = 0;
 
                 return this;
             }
@@ -3270,6 +3643,7 @@ public final class AnomalyOperationProtos {
                 result.message_ = message_;
                 result.anomalyID_ = anomalyID_;
                 result.date_ = date_;
+                result.normExceed_ = normExceed_;
                 onBuilt();
                 return result;
             }
@@ -3340,12 +3714,16 @@ public final class AnomalyOperationProtos {
                     message_ = other.message_;
                     onChanged();
                 }
-                if (other.getAnomalyID() != 0L) {
-                    setAnomalyID(other.getAnomalyID());
+                if (!other.getAnomalyID().isEmpty()) {
+                    anomalyID_ = other.anomalyID_;
+                    onChanged();
                 }
                 if (!other.getDate().isEmpty()) {
                     date_ = other.date_;
                     onChanged();
+                }
+                if (other.getNormExceed() != 0) {
+                    setNormExceed(other.getNormExceed());
                 }
                 onChanged();
                 return this;
@@ -3608,16 +3986,29 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <code>optional int64 anomalyID = 8;</code>
+             * <code>optional string anomalyID = 8;</code>
              */
-            public long getAnomalyID() {
-                return anomalyID_;
+            public java.lang.String getAnomalyID() {
+                java.lang.Object ref = anomalyID_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    anomalyID_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
             }
 
             /**
-             * <code>optional int64 anomalyID = 8;</code>
+             * <code>optional string anomalyID = 8;</code>
              */
-            public Builder setAnomalyID(long value) {
+            public Builder setAnomalyID(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
 
                 anomalyID_ = value;
                 onChanged();
@@ -3625,11 +4016,43 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <code>optional int64 anomalyID = 8;</code>
+             * <code>optional string anomalyID = 8;</code>
+             */
+            public com.google.protobuf.ByteString
+            getAnomalyIDBytes() {
+                java.lang.Object ref = anomalyID_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    anomalyID_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>optional string anomalyID = 8;</code>
+             */
+            public Builder setAnomalyIDBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+
+                anomalyID_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string anomalyID = 8;</code>
              */
             public Builder clearAnomalyID() {
 
-                anomalyID_ = 0L;
+                anomalyID_ = getDefaultInstance().getAnomalyID();
                 onChanged();
                 return this;
             }
@@ -3706,6 +4129,33 @@ public final class AnomalyOperationProtos {
                 return this;
             }
 
+            /**
+             * <code>optional int32 normExceed = 10;</code>
+             */
+            public int getNormExceed() {
+                return normExceed_;
+            }
+
+            /**
+             * <code>optional int32 normExceed = 10;</code>
+             */
+            public Builder setNormExceed(int value) {
+
+                normExceed_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional int32 normExceed = 10;</code>
+             */
+            public Builder clearNormExceed() {
+
+                normExceed_ = 0;
+                onChanged();
+                return this;
+            }
+
             public final Builder setUnknownFields(
                     final com.google.protobuf.UnknownFieldSet unknownFields) {
                 return this;
@@ -3740,6 +4190,8 @@ public final class AnomalyOperationProtos {
         public static final int DEMANDAVAILABLEHISTORICALMESSAGE_FIELD_NUMBER = 9;
         public static final int HISTORICALMESSAGE_FIELD_NUMBER = 10;
         public static final int DEMANDHISTORICALMESSAGE_FIELD_NUMBER = 11;
+        public static final int DEMANDHISTORICALANOMALIESMESSAGE_FIELD_NUMBER = 12;
+        public static final int HISTORICALANOMALIESMESSAGE_FIELD_NUMBER = 13;
         private static final long serialVersionUID = 0L;
         // @@protoc_insertion_point(class_scope:ManagementMessage)
         private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.ManagementMessage DEFAULT_INSTANCE;
@@ -3768,13 +4220,14 @@ public final class AnomalyOperationProtos {
         private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandAvailableHistoricalMessage demandAvailableHistoricalMessage_;
         private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalMessage historicalMessage_;
         private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalMessage demandHistoricalMessage_;
+        private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage_;
+        private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage historicalAnomaliesMessage_;
         private byte memoizedIsInitialized = -1;
 
         // Use ManagementMessage.newBuilder() to construct.
         private ManagementMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
-
         private ManagementMessage() {
             type_ = 0;
         }
@@ -3931,6 +4384,32 @@ public final class AnomalyOperationProtos {
                             if (subBuilder != null) {
                                 subBuilder.mergeFrom(demandHistoricalMessage_);
                                 demandHistoricalMessage_ = subBuilder.buildPartial();
+                            }
+
+                            break;
+                        }
+                        case 98: {
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.Builder subBuilder = null;
+                            if (demandHistoricalAnomaliesMessage_ != null) {
+                                subBuilder = demandHistoricalAnomaliesMessage_.toBuilder();
+                            }
+                            demandHistoricalAnomaliesMessage_ = input.readMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.parser(), extensionRegistry);
+                            if (subBuilder != null) {
+                                subBuilder.mergeFrom(demandHistoricalAnomaliesMessage_);
+                                demandHistoricalAnomaliesMessage_ = subBuilder.buildPartial();
+                            }
+
+                            break;
+                        }
+                        case 106: {
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.Builder subBuilder = null;
+                            if (historicalAnomaliesMessage_ != null) {
+                                subBuilder = historicalAnomaliesMessage_.toBuilder();
+                            }
+                            historicalAnomaliesMessage_ = input.readMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.parser(), extensionRegistry);
+                            if (subBuilder != null) {
+                                subBuilder.mergeFrom(historicalAnomaliesMessage_);
+                                historicalAnomaliesMessage_ = subBuilder.buildPartial();
                             }
 
                             break;
@@ -4294,6 +4773,48 @@ public final class AnomalyOperationProtos {
             return getDemandHistoricalMessage();
         }
 
+        /**
+         * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+         */
+        public boolean hasDemandHistoricalAnomaliesMessage() {
+            return demandHistoricalAnomaliesMessage_ != null;
+        }
+
+        /**
+         * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+         */
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage getDemandHistoricalAnomaliesMessage() {
+            return demandHistoricalAnomaliesMessage_ == null ? pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.getDefaultInstance() : demandHistoricalAnomaliesMessage_;
+        }
+
+        /**
+         * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+         */
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessageOrBuilder getDemandHistoricalAnomaliesMessageOrBuilder() {
+            return getDemandHistoricalAnomaliesMessage();
+        }
+
+        /**
+         * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+         */
+        public boolean hasHistoricalAnomaliesMessage() {
+            return historicalAnomaliesMessage_ != null;
+        }
+
+        /**
+         * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+         */
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage getHistoricalAnomaliesMessage() {
+            return historicalAnomaliesMessage_ == null ? pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.getDefaultInstance() : historicalAnomaliesMessage_;
+        }
+
+        /**
+         * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+         */
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessageOrBuilder getHistoricalAnomaliesMessageOrBuilder() {
+            return getHistoricalAnomaliesMessage();
+        }
+
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
             if (isInitialized == 1) return true;
@@ -4337,6 +4858,12 @@ public final class AnomalyOperationProtos {
             }
             if (demandHistoricalMessage_ != null) {
                 output.writeMessage(11, getDemandHistoricalMessage());
+            }
+            if (demandHistoricalAnomaliesMessage_ != null) {
+                output.writeMessage(12, getDemandHistoricalAnomaliesMessage());
+            }
+            if (historicalAnomaliesMessage_ != null) {
+                output.writeMessage(13, getHistoricalAnomaliesMessage());
             }
         }
 
@@ -4388,6 +4915,14 @@ public final class AnomalyOperationProtos {
             if (demandHistoricalMessage_ != null) {
                 size += com.google.protobuf.CodedOutputStream
                         .computeMessageSize(11, getDemandHistoricalMessage());
+            }
+            if (demandHistoricalAnomaliesMessage_ != null) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeMessageSize(12, getDemandHistoricalAnomaliesMessage());
+            }
+            if (historicalAnomaliesMessage_ != null) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeMessageSize(13, getHistoricalAnomaliesMessage());
             }
             memoizedSize = size;
             return size;
@@ -4455,6 +4990,16 @@ public final class AnomalyOperationProtos {
                 result = result && getDemandHistoricalMessage()
                         .equals(other.getDemandHistoricalMessage());
             }
+            result = result && (hasDemandHistoricalAnomaliesMessage() == other.hasDemandHistoricalAnomaliesMessage());
+            if (hasDemandHistoricalAnomaliesMessage()) {
+                result = result && getDemandHistoricalAnomaliesMessage()
+                        .equals(other.getDemandHistoricalAnomaliesMessage());
+            }
+            result = result && (hasHistoricalAnomaliesMessage() == other.hasHistoricalAnomaliesMessage());
+            if (hasHistoricalAnomaliesMessage()) {
+                result = result && getHistoricalAnomaliesMessage()
+                        .equals(other.getHistoricalAnomaliesMessage());
+            }
             return result;
         }
 
@@ -4506,6 +5051,14 @@ public final class AnomalyOperationProtos {
             if (hasDemandHistoricalMessage()) {
                 hash = (37 * hash) + DEMANDHISTORICALMESSAGE_FIELD_NUMBER;
                 hash = (53 * hash) + getDemandHistoricalMessage().hashCode();
+            }
+            if (hasDemandHistoricalAnomaliesMessage()) {
+                hash = (37 * hash) + DEMANDHISTORICALANOMALIESMESSAGE_FIELD_NUMBER;
+                hash = (53 * hash) + getDemandHistoricalAnomaliesMessage().hashCode();
+            }
+            if (hasHistoricalAnomaliesMessage()) {
+                hash = (37 * hash) + HISTORICALANOMALIESMESSAGE_FIELD_NUMBER;
+                hash = (53 * hash) + getHistoricalAnomaliesMessage().hashCode();
             }
             hash = (29 * hash) + unknownFields.hashCode();
             memoizedHashCode = hash;
@@ -4582,6 +5135,14 @@ public final class AnomalyOperationProtos {
              * <code>DEMANDHISTORICALMESSAGE = 9;</code>
              */
             DEMANDHISTORICALMESSAGE(9),
+            /**
+             * <code>DEMANDHISTORICALANOMALIESMESSAGE = 10;</code>
+             */
+            DEMANDHISTORICALANOMALIESMESSAGE(10),
+            /**
+             * <code>HISTORICALANOMALIESMESSAGE = 11;</code>
+             */
+            HISTORICALANOMALIESMESSAGE(11),
             UNRECOGNIZED(-1),;
 
             /**
@@ -4624,6 +5185,14 @@ public final class AnomalyOperationProtos {
              * <code>DEMANDHISTORICALMESSAGE = 9;</code>
              */
             public static final int DEMANDHISTORICALMESSAGE_VALUE = 9;
+            /**
+             * <code>DEMANDHISTORICALANOMALIESMESSAGE = 10;</code>
+             */
+            public static final int DEMANDHISTORICALANOMALIESMESSAGE_VALUE = 10;
+            /**
+             * <code>HISTORICALANOMALIESMESSAGE = 11;</code>
+             */
+            public static final int HISTORICALANOMALIESMESSAGE_VALUE = 11;
             private static final com.google.protobuf.Internal.EnumLiteMap<
                     Type> internalValueMap =
                     new com.google.protobuf.Internal.EnumLiteMap<Type>() {
@@ -4668,6 +5237,10 @@ public final class AnomalyOperationProtos {
                         return HISTORICALMESSAGE;
                     case 9:
                         return DEMANDHISTORICALMESSAGE;
+                    case 10:
+                        return DEMANDHISTORICALANOMALIESMESSAGE;
+                    case 11:
+                        return HISTORICALANOMALIESMESSAGE;
                     default:
                         return null;
                 }
@@ -4754,6 +5327,12 @@ public final class AnomalyOperationProtos {
             private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalMessage demandHistoricalMessage_ = null;
             private com.google.protobuf.SingleFieldBuilderV3<
                     pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalMessage, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalMessage.Builder, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalMessageOrBuilder> demandHistoricalMessageBuilder_;
+            private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage_ = null;
+            private com.google.protobuf.SingleFieldBuilderV3<
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.Builder, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessageOrBuilder> demandHistoricalAnomaliesMessageBuilder_;
+            private pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage historicalAnomaliesMessage_ = null;
+            private com.google.protobuf.SingleFieldBuilderV3<
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.Builder, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessageOrBuilder> historicalAnomaliesMessageBuilder_;
 
             // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.ManagementMessage.newBuilder()
             private Builder() {
@@ -4848,6 +5427,18 @@ public final class AnomalyOperationProtos {
                     demandHistoricalMessage_ = null;
                     demandHistoricalMessageBuilder_ = null;
                 }
+                if (demandHistoricalAnomaliesMessageBuilder_ == null) {
+                    demandHistoricalAnomaliesMessage_ = null;
+                } else {
+                    demandHistoricalAnomaliesMessage_ = null;
+                    demandHistoricalAnomaliesMessageBuilder_ = null;
+                }
+                if (historicalAnomaliesMessageBuilder_ == null) {
+                    historicalAnomaliesMessage_ = null;
+                } else {
+                    historicalAnomaliesMessage_ = null;
+                    historicalAnomaliesMessageBuilder_ = null;
+                }
                 return this;
             }
 
@@ -4920,6 +5511,16 @@ public final class AnomalyOperationProtos {
                     result.demandHistoricalMessage_ = demandHistoricalMessage_;
                 } else {
                     result.demandHistoricalMessage_ = demandHistoricalMessageBuilder_.build();
+                }
+                if (demandHistoricalAnomaliesMessageBuilder_ == null) {
+                    result.demandHistoricalAnomaliesMessage_ = demandHistoricalAnomaliesMessage_;
+                } else {
+                    result.demandHistoricalAnomaliesMessage_ = demandHistoricalAnomaliesMessageBuilder_.build();
+                }
+                if (historicalAnomaliesMessageBuilder_ == null) {
+                    result.historicalAnomaliesMessage_ = historicalAnomaliesMessage_;
+                } else {
+                    result.historicalAnomaliesMessage_ = historicalAnomaliesMessageBuilder_.build();
                 }
                 onBuilt();
                 return result;
@@ -5001,6 +5602,12 @@ public final class AnomalyOperationProtos {
                 }
                 if (other.hasDemandHistoricalMessage()) {
                     mergeDemandHistoricalMessage(other.getDemandHistoricalMessage());
+                }
+                if (other.hasDemandHistoricalAnomaliesMessage()) {
+                    mergeDemandHistoricalAnomaliesMessage(other.getDemandHistoricalAnomaliesMessage());
+                }
+                if (other.hasHistoricalAnomaliesMessage()) {
+                    mergeHistoricalAnomaliesMessage(other.getHistoricalAnomaliesMessage());
                 }
                 onChanged();
                 return this;
@@ -5128,15 +5735,13 @@ public final class AnomalyOperationProtos {
              * <p>
              * <code>optional .BonjourMessage bonjourMessage = 2;</code>
              */
-            public Builder setBonjourMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BonjourMessage value) {
+            public Builder setBonjourMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BonjourMessage.Builder builderForValue) {
                 if (bonjourMessageBuilder_ == null) {
-                    if (value == null) {
-                        throw new NullPointerException();
-                    }
-                    bonjourMessage_ = value;
+                    bonjourMessage_ = builderForValue.build();
                     onChanged();
                 } else {
-                    bonjourMessageBuilder_.setMessage(value);
+                    bonjourMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -5149,13 +5754,15 @@ public final class AnomalyOperationProtos {
              * <p>
              * <code>optional .BonjourMessage bonjourMessage = 2;</code>
              */
-            public Builder setBonjourMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BonjourMessage.Builder builderForValue) {
+            public Builder setBonjourMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BonjourMessage value) {
                 if (bonjourMessageBuilder_ == null) {
-                    bonjourMessage_ = builderForValue.build();
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    bonjourMessage_ = value;
                     onChanged();
                 } else {
-                    bonjourMessageBuilder_.setMessage(builderForValue.build());
+                    bonjourMessageBuilder_.setMessage(value);
                 }
 
                 return this;
@@ -5274,6 +5881,21 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .SystemGeneralMessage systemGeneralMessage = 3;</code>
              */
+            public Builder setSystemGeneralMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage.Builder builderForValue) {
+                if (systemGeneralMessageBuilder_ == null) {
+                    systemGeneralMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    systemGeneralMessageBuilder_.setMessage(builderForValue.build());
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .SystemGeneralMessage systemGeneralMessage = 3;</code>
+             */
             public Builder setSystemGeneralMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage value) {
                 if (systemGeneralMessageBuilder_ == null) {
                     if (value == null) {
@@ -5283,21 +5905,6 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     systemGeneralMessageBuilder_.setMessage(value);
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .SystemGeneralMessage systemGeneralMessage = 3;</code>
-             */
-            public Builder setSystemGeneralMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage.Builder builderForValue) {
-                if (systemGeneralMessageBuilder_ == null) {
-                    systemGeneralMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    systemGeneralMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -5396,6 +6003,21 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .LeverMessage leverMessage = 4;</code>
              */
+            public Builder setLeverMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.LeverMessage.Builder builderForValue) {
+                if (leverMessageBuilder_ == null) {
+                    leverMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    leverMessageBuilder_.setMessage(builderForValue.build());
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .LeverMessage leverMessage = 4;</code>
+             */
             public Builder setLeverMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.LeverMessage value) {
                 if (leverMessageBuilder_ == null) {
                     if (value == null) {
@@ -5405,21 +6027,6 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     leverMessageBuilder_.setMessage(value);
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .LeverMessage leverMessage = 4;</code>
-             */
-            public Builder setLeverMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.LeverMessage.Builder builderForValue) {
-                if (leverMessageBuilder_ == null) {
-                    leverMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    leverMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -5518,6 +6125,21 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .BaselineMessage baselineMessage = 5;</code>
              */
+            public Builder setBaselineMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BaselineMessage.Builder builderForValue) {
+                if (baselineMessageBuilder_ == null) {
+                    baselineMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    baselineMessageBuilder_.setMessage(builderForValue.build());
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .BaselineMessage baselineMessage = 5;</code>
+             */
             public Builder setBaselineMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BaselineMessage value) {
                 if (baselineMessageBuilder_ == null) {
                     if (value == null) {
@@ -5527,21 +6149,6 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     baselineMessageBuilder_.setMessage(value);
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .BaselineMessage baselineMessage = 5;</code>
-             */
-            public Builder setBaselineMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BaselineMessage.Builder builderForValue) {
-                if (baselineMessageBuilder_ == null) {
-                    baselineMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    baselineMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -5640,6 +6247,21 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .DemandBaselineMessage demandBaselineMessage = 6;</code>
              */
+            public Builder setDemandBaselineMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage.Builder builderForValue) {
+                if (demandBaselineMessageBuilder_ == null) {
+                    demandBaselineMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    demandBaselineMessageBuilder_.setMessage(builderForValue.build());
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .DemandBaselineMessage demandBaselineMessage = 6;</code>
+             */
             public Builder setDemandBaselineMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage value) {
                 if (demandBaselineMessageBuilder_ == null) {
                     if (value == null) {
@@ -5649,21 +6271,6 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     demandBaselineMessageBuilder_.setMessage(value);
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .DemandBaselineMessage demandBaselineMessage = 6;</code>
-             */
-            public Builder setDemandBaselineMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage.Builder builderForValue) {
-                if (demandBaselineMessageBuilder_ == null) {
-                    demandBaselineMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    demandBaselineMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -5762,6 +6369,21 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .RouteMessage routeMessage = 7;</code>
              */
+            public Builder setRouteMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.Builder builderForValue) {
+                if (routeMessageBuilder_ == null) {
+                    routeMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    routeMessageBuilder_.setMessage(builderForValue.build());
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .RouteMessage routeMessage = 7;</code>
+             */
             public Builder setRouteMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage value) {
                 if (routeMessageBuilder_ == null) {
                     if (value == null) {
@@ -5771,21 +6393,6 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     routeMessageBuilder_.setMessage(value);
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .RouteMessage routeMessage = 7;</code>
-             */
-            public Builder setRouteMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.Builder builderForValue) {
-                if (routeMessageBuilder_ == null) {
-                    routeMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    routeMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -5884,6 +6491,21 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .AvailableHistoricalMessage availableHistoricalMessage = 8;</code>
              */
+            public Builder setAvailableHistoricalMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableHistoricalMessage.Builder builderForValue) {
+                if (availableHistoricalMessageBuilder_ == null) {
+                    availableHistoricalMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    availableHistoricalMessageBuilder_.setMessage(builderForValue.build());
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .AvailableHistoricalMessage availableHistoricalMessage = 8;</code>
+             */
             public Builder setAvailableHistoricalMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableHistoricalMessage value) {
                 if (availableHistoricalMessageBuilder_ == null) {
                     if (value == null) {
@@ -5893,21 +6515,6 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     availableHistoricalMessageBuilder_.setMessage(value);
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .AvailableHistoricalMessage availableHistoricalMessage = 8;</code>
-             */
-            public Builder setAvailableHistoricalMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableHistoricalMessage.Builder builderForValue) {
-                if (availableHistoricalMessageBuilder_ == null) {
-                    availableHistoricalMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    availableHistoricalMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -6006,6 +6613,21 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .DemandAvailableHistoricalMessage demandAvailableHistoricalMessage = 9;</code>
              */
+            public Builder setDemandAvailableHistoricalMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandAvailableHistoricalMessage.Builder builderForValue) {
+                if (demandAvailableHistoricalMessageBuilder_ == null) {
+                    demandAvailableHistoricalMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    demandAvailableHistoricalMessageBuilder_.setMessage(builderForValue.build());
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .DemandAvailableHistoricalMessage demandAvailableHistoricalMessage = 9;</code>
+             */
             public Builder setDemandAvailableHistoricalMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandAvailableHistoricalMessage value) {
                 if (demandAvailableHistoricalMessageBuilder_ == null) {
                     if (value == null) {
@@ -6015,21 +6637,6 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     demandAvailableHistoricalMessageBuilder_.setMessage(value);
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .DemandAvailableHistoricalMessage demandAvailableHistoricalMessage = 9;</code>
-             */
-            public Builder setDemandAvailableHistoricalMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandAvailableHistoricalMessage.Builder builderForValue) {
-                if (demandAvailableHistoricalMessageBuilder_ == null) {
-                    demandAvailableHistoricalMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    demandAvailableHistoricalMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -6128,6 +6735,21 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .HistoricalMessage historicalMessage = 10;</code>
              */
+            public Builder setHistoricalMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalMessage.Builder builderForValue) {
+                if (historicalMessageBuilder_ == null) {
+                    historicalMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    historicalMessageBuilder_.setMessage(builderForValue.build());
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .HistoricalMessage historicalMessage = 10;</code>
+             */
             public Builder setHistoricalMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalMessage value) {
                 if (historicalMessageBuilder_ == null) {
                     if (value == null) {
@@ -6137,21 +6759,6 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     historicalMessageBuilder_.setMessage(value);
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .HistoricalMessage historicalMessage = 10;</code>
-             */
-            public Builder setHistoricalMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalMessage.Builder builderForValue) {
-                if (historicalMessageBuilder_ == null) {
-                    historicalMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    historicalMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -6250,6 +6857,21 @@ public final class AnomalyOperationProtos {
             /**
              * <code>optional .DemandHistoricalMessage demandHistoricalMessage = 11;</code>
              */
+            public Builder setDemandHistoricalMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalMessage.Builder builderForValue) {
+                if (demandHistoricalMessageBuilder_ == null) {
+                    demandHistoricalMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    demandHistoricalMessageBuilder_.setMessage(builderForValue.build());
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .DemandHistoricalMessage demandHistoricalMessage = 11;</code>
+             */
             public Builder setDemandHistoricalMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalMessage value) {
                 if (demandHistoricalMessageBuilder_ == null) {
                     if (value == null) {
@@ -6259,21 +6881,6 @@ public final class AnomalyOperationProtos {
                     onChanged();
                 } else {
                     demandHistoricalMessageBuilder_.setMessage(value);
-                }
-
-                return this;
-            }
-
-            /**
-             * <code>optional .DemandHistoricalMessage demandHistoricalMessage = 11;</code>
-             */
-            public Builder setDemandHistoricalMessage(
-                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalMessage.Builder builderForValue) {
-                if (demandHistoricalMessageBuilder_ == null) {
-                    demandHistoricalMessage_ = builderForValue.build();
-                    onChanged();
-                } else {
-                    demandHistoricalMessageBuilder_.setMessage(builderForValue.build());
                 }
 
                 return this;
@@ -6349,6 +6956,250 @@ public final class AnomalyOperationProtos {
                     demandHistoricalMessage_ = null;
                 }
                 return demandHistoricalMessageBuilder_;
+            }
+
+            /**
+             * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+             */
+            public boolean hasDemandHistoricalAnomaliesMessage() {
+                return demandHistoricalAnomaliesMessageBuilder_ != null || demandHistoricalAnomaliesMessage_ != null;
+            }
+
+            /**
+             * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+             */
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage getDemandHistoricalAnomaliesMessage() {
+                if (demandHistoricalAnomaliesMessageBuilder_ == null) {
+                    return demandHistoricalAnomaliesMessage_ == null ? pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.getDefaultInstance() : demandHistoricalAnomaliesMessage_;
+                } else {
+                    return demandHistoricalAnomaliesMessageBuilder_.getMessage();
+                }
+            }
+
+            /**
+             * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+             */
+            public Builder setDemandHistoricalAnomaliesMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.Builder builderForValue) {
+                if (demandHistoricalAnomaliesMessageBuilder_ == null) {
+                    demandHistoricalAnomaliesMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    demandHistoricalAnomaliesMessageBuilder_.setMessage(builderForValue.build());
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+             */
+            public Builder setDemandHistoricalAnomaliesMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage value) {
+                if (demandHistoricalAnomaliesMessageBuilder_ == null) {
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    demandHistoricalAnomaliesMessage_ = value;
+                    onChanged();
+                } else {
+                    demandHistoricalAnomaliesMessageBuilder_.setMessage(value);
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+             */
+            public Builder mergeDemandHistoricalAnomaliesMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage value) {
+                if (demandHistoricalAnomaliesMessageBuilder_ == null) {
+                    if (demandHistoricalAnomaliesMessage_ != null) {
+                        demandHistoricalAnomaliesMessage_ =
+                                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.newBuilder(demandHistoricalAnomaliesMessage_).mergeFrom(value).buildPartial();
+                    } else {
+                        demandHistoricalAnomaliesMessage_ = value;
+                    }
+                    onChanged();
+                } else {
+                    demandHistoricalAnomaliesMessageBuilder_.mergeFrom(value);
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+             */
+            public Builder clearDemandHistoricalAnomaliesMessage() {
+                if (demandHistoricalAnomaliesMessageBuilder_ == null) {
+                    demandHistoricalAnomaliesMessage_ = null;
+                    onChanged();
+                } else {
+                    demandHistoricalAnomaliesMessage_ = null;
+                    demandHistoricalAnomaliesMessageBuilder_ = null;
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+             */
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.Builder getDemandHistoricalAnomaliesMessageBuilder() {
+
+                onChanged();
+                return getDemandHistoricalAnomaliesMessageFieldBuilder().getBuilder();
+            }
+
+            /**
+             * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+             */
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessageOrBuilder getDemandHistoricalAnomaliesMessageOrBuilder() {
+                if (demandHistoricalAnomaliesMessageBuilder_ != null) {
+                    return demandHistoricalAnomaliesMessageBuilder_.getMessageOrBuilder();
+                } else {
+                    return demandHistoricalAnomaliesMessage_ == null ?
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.getDefaultInstance() : demandHistoricalAnomaliesMessage_;
+                }
+            }
+
+            /**
+             * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
+             */
+            private com.google.protobuf.SingleFieldBuilderV3<
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.Builder, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessageOrBuilder>
+            getDemandHistoricalAnomaliesMessageFieldBuilder() {
+                if (demandHistoricalAnomaliesMessageBuilder_ == null) {
+                    demandHistoricalAnomaliesMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.Builder, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessageOrBuilder>(
+                            getDemandHistoricalAnomaliesMessage(),
+                            getParentForChildren(),
+                            isClean());
+                    demandHistoricalAnomaliesMessage_ = null;
+                }
+                return demandHistoricalAnomaliesMessageBuilder_;
+            }
+
+            /**
+             * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+             */
+            public boolean hasHistoricalAnomaliesMessage() {
+                return historicalAnomaliesMessageBuilder_ != null || historicalAnomaliesMessage_ != null;
+            }
+
+            /**
+             * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+             */
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage getHistoricalAnomaliesMessage() {
+                if (historicalAnomaliesMessageBuilder_ == null) {
+                    return historicalAnomaliesMessage_ == null ? pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.getDefaultInstance() : historicalAnomaliesMessage_;
+                } else {
+                    return historicalAnomaliesMessageBuilder_.getMessage();
+                }
+            }
+
+            /**
+             * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+             */
+            public Builder setHistoricalAnomaliesMessage(
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.Builder builderForValue) {
+                if (historicalAnomaliesMessageBuilder_ == null) {
+                    historicalAnomaliesMessage_ = builderForValue.build();
+                    onChanged();
+                } else {
+                    historicalAnomaliesMessageBuilder_.setMessage(builderForValue.build());
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+             */
+            public Builder setHistoricalAnomaliesMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage value) {
+                if (historicalAnomaliesMessageBuilder_ == null) {
+                    if (value == null) {
+                        throw new NullPointerException();
+                    }
+                    historicalAnomaliesMessage_ = value;
+                    onChanged();
+                } else {
+                    historicalAnomaliesMessageBuilder_.setMessage(value);
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+             */
+            public Builder mergeHistoricalAnomaliesMessage(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage value) {
+                if (historicalAnomaliesMessageBuilder_ == null) {
+                    if (historicalAnomaliesMessage_ != null) {
+                        historicalAnomaliesMessage_ =
+                                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.newBuilder(historicalAnomaliesMessage_).mergeFrom(value).buildPartial();
+                    } else {
+                        historicalAnomaliesMessage_ = value;
+                    }
+                    onChanged();
+                } else {
+                    historicalAnomaliesMessageBuilder_.mergeFrom(value);
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+             */
+            public Builder clearHistoricalAnomaliesMessage() {
+                if (historicalAnomaliesMessageBuilder_ == null) {
+                    historicalAnomaliesMessage_ = null;
+                    onChanged();
+                } else {
+                    historicalAnomaliesMessage_ = null;
+                    historicalAnomaliesMessageBuilder_ = null;
+                }
+
+                return this;
+            }
+
+            /**
+             * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+             */
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.Builder getHistoricalAnomaliesMessageBuilder() {
+
+                onChanged();
+                return getHistoricalAnomaliesMessageFieldBuilder().getBuilder();
+            }
+
+            /**
+             * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+             */
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessageOrBuilder getHistoricalAnomaliesMessageOrBuilder() {
+                if (historicalAnomaliesMessageBuilder_ != null) {
+                    return historicalAnomaliesMessageBuilder_.getMessageOrBuilder();
+                } else {
+                    return historicalAnomaliesMessage_ == null ?
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.getDefaultInstance() : historicalAnomaliesMessage_;
+                }
+            }
+
+            /**
+             * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
+             */
+            private com.google.protobuf.SingleFieldBuilderV3<
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.Builder, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessageOrBuilder>
+            getHistoricalAnomaliesMessageFieldBuilder() {
+                if (historicalAnomaliesMessageBuilder_ == null) {
+                    historicalAnomaliesMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.Builder, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessageOrBuilder>(
+                            getHistoricalAnomaliesMessage(),
+                            getParentForChildren(),
+                            isClean());
+                    historicalAnomaliesMessage_ = null;
+                }
+                return historicalAnomaliesMessageBuilder_;
             }
 
             public final Builder setUnknownFields(
@@ -7124,7 +7975,6 @@ public final class AnomalyOperationProtos {
         private int port_;
         private volatile java.lang.Object routes_;
         private byte memoizedIsInitialized = -1;
-
         // Use SystemGeneralMessage.newBuilder() to construct.
         private SystemGeneralMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
@@ -8294,6 +9144,7 @@ public final class AnomalyOperationProtos {
         public static final int ORIGIN_FIELD_NUMBER = 2;
         public static final int DESTINATION_FIELD_NUMBER = 3;
         public static final int COORDS_FIELD_NUMBER = 4;
+        public static final int NAME_FIELD_NUMBER = 5;
         private static final long serialVersionUID = 0L;
         // @@protoc_insertion_point(class_scope:RouteMessage)
         private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage DEFAULT_INSTANCE;
@@ -8315,6 +9166,7 @@ public final class AnomalyOperationProtos {
         private volatile java.lang.Object origin_;
         private volatile java.lang.Object destination_;
         private volatile java.lang.Object coords_;
+        private volatile java.lang.Object name_;
         private byte memoizedIsInitialized = -1;
 
         // Use RouteMessage.newBuilder() to construct.
@@ -8327,6 +9179,7 @@ public final class AnomalyOperationProtos {
             origin_ = "";
             destination_ = "";
             coords_ = "";
+            name_ = "";
         }
 
         private RouteMessage(
@@ -8370,6 +9223,12 @@ public final class AnomalyOperationProtos {
                             java.lang.String s = input.readStringRequireUtf8();
 
                             coords_ = s;
+                            break;
+                        }
+                        case 42: {
+                            java.lang.String s = input.readStringRequireUtf8();
+
+                            name_ = s;
                             break;
                         }
                     }
@@ -8592,6 +9451,39 @@ public final class AnomalyOperationProtos {
             }
         }
 
+        /**
+         * <code>optional string name = 5;</code>
+         */
+        public java.lang.String getName() {
+            java.lang.Object ref = name_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                name_ = s;
+                return s;
+            }
+        }
+
+        /**
+         * <code>optional string name = 5;</code>
+         */
+        public com.google.protobuf.ByteString
+        getNameBytes() {
+            java.lang.Object ref = name_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                name_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
             if (isInitialized == 1) return true;
@@ -8615,6 +9507,9 @@ public final class AnomalyOperationProtos {
             if (!getCoordsBytes().isEmpty()) {
                 com.google.protobuf.GeneratedMessageV3.writeString(output, 4, coords_);
             }
+            if (!getNameBytes().isEmpty()) {
+                com.google.protobuf.GeneratedMessageV3.writeString(output, 5, name_);
+            }
         }
 
         public int getSerializedSize() {
@@ -8634,6 +9529,9 @@ public final class AnomalyOperationProtos {
             }
             if (!getCoordsBytes().isEmpty()) {
                 size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, coords_);
+            }
+            if (!getNameBytes().isEmpty()) {
+                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, name_);
             }
             memoizedSize = size;
             return size;
@@ -8658,6 +9556,8 @@ public final class AnomalyOperationProtos {
                     .equals(other.getDestination());
             result = result && getCoords()
                     .equals(other.getCoords());
+            result = result && getName()
+                    .equals(other.getName());
             return result;
         }
 
@@ -8676,6 +9576,8 @@ public final class AnomalyOperationProtos {
             hash = (53 * hash) + getDestination().hashCode();
             hash = (37 * hash) + COORDS_FIELD_NUMBER;
             hash = (53 * hash) + getCoords().hashCode();
+            hash = (37 * hash) + NAME_FIELD_NUMBER;
+            hash = (53 * hash) + getName().hashCode();
             hash = (29 * hash) + unknownFields.hashCode();
             memoizedHashCode = hash;
             return hash;
@@ -8717,6 +9619,7 @@ public final class AnomalyOperationProtos {
             private java.lang.Object origin_ = "";
             private java.lang.Object destination_ = "";
             private java.lang.Object coords_ = "";
+            private java.lang.Object name_ = "";
 
             // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.RouteMessage.newBuilder()
             private Builder() {
@@ -8757,6 +9660,8 @@ public final class AnomalyOperationProtos {
 
                 coords_ = "";
 
+                name_ = "";
+
                 return this;
             }
 
@@ -8783,6 +9688,7 @@ public final class AnomalyOperationProtos {
                 result.origin_ = origin_;
                 result.destination_ = destination_;
                 result.coords_ = coords_;
+                result.name_ = name_;
                 onBuilt();
                 return result;
             }
@@ -8844,6 +9750,10 @@ public final class AnomalyOperationProtos {
                 }
                 if (!other.getCoords().isEmpty()) {
                     coords_ = other.coords_;
+                    onChanged();
+                }
+                if (!other.getName().isEmpty()) {
+                    name_ = other.name_;
                     onChanged();
                 }
                 onChanged();
@@ -9115,6 +10025,78 @@ public final class AnomalyOperationProtos {
                 return this;
             }
 
+            /**
+             * <code>optional string name = 5;</code>
+             */
+            public java.lang.String getName() {
+                java.lang.Object ref = name_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    name_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
+            }
+
+            /**
+             * <code>optional string name = 5;</code>
+             */
+            public Builder setName(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+
+                name_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string name = 5;</code>
+             */
+            public com.google.protobuf.ByteString
+            getNameBytes() {
+                java.lang.Object ref = name_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    name_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>optional string name = 5;</code>
+             */
+            public Builder setNameBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+
+                name_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string name = 5;</code>
+             */
+            public Builder clearName() {
+
+                name_ = getDefaultInstance().getName();
+                onChanged();
+                return this;
+            }
+
             public final Builder setUnknownFields(
                     final com.google.protobuf.UnknownFieldSet unknownFields) {
                 return this;
@@ -9165,7 +10147,6 @@ public final class AnomalyOperationProtos {
         private LeverMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
-
         private LeverMessage() {
             leverValue_ = 0D;
             leverUpdateDate_ = "";
@@ -9728,6 +10709,7 @@ public final class AnomalyOperationProtos {
         public static final int ROUTEIDX_FIELD_NUMBER = 1;
         public static final int DAY_FIELD_NUMBER = 2;
         public static final int BASELINE_FIELD_NUMBER = 3;
+        public static final int BASELINETYPE_FIELD_NUMBER = 4;
         private static final long serialVersionUID = 0L;
         // @@protoc_insertion_point(class_scope:BaselineMessage)
         private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BaselineMessage DEFAULT_INSTANCE;
@@ -9750,6 +10732,7 @@ public final class AnomalyOperationProtos {
         private int day_;
         private com.google.protobuf.MapField<
                 java.lang.Integer, java.lang.Integer> baseline_;
+        private volatile java.lang.Object baselineType_;
         private byte memoizedIsInitialized = -1;
 
         // Use BaselineMessage.newBuilder() to construct.
@@ -9760,6 +10743,7 @@ public final class AnomalyOperationProtos {
         private BaselineMessage() {
             routeIdx_ = 0;
             day_ = 0;
+            baselineType_ = "";
         }
 
         private BaselineMessage(
@@ -9803,6 +10787,12 @@ public final class AnomalyOperationProtos {
                                     baseline = input.readMessage(
                                     BaselineDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
                             baseline_.getMutableMap().put(baseline.getKey(), baseline.getValue());
+                            break;
+                        }
+                        case 34: {
+                            java.lang.String s = input.readStringRequireUtf8();
+
+                            baselineType_ = s;
                             break;
                         }
                     }
@@ -10036,6 +11026,39 @@ public final class AnomalyOperationProtos {
             return map.get(key);
         }
 
+        /**
+         * <code>optional string baselineType = 4;</code>
+         */
+        public java.lang.String getBaselineType() {
+            java.lang.Object ref = baselineType_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                baselineType_ = s;
+                return s;
+            }
+        }
+
+        /**
+         * <code>optional string baselineType = 4;</code>
+         */
+        public com.google.protobuf.ByteString
+        getBaselineTypeBytes() {
+            java.lang.Object ref = baselineType_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                baselineType_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
             if (isInitialized == 1) return true;
@@ -10062,6 +11085,9 @@ public final class AnomalyOperationProtos {
                         .build();
                 output.writeMessage(3, baseline);
             }
+            if (!getBaselineTypeBytes().isEmpty()) {
+                com.google.protobuf.GeneratedMessageV3.writeString(output, 4, baselineType_);
+            }
         }
 
         public int getSerializedSize() {
@@ -10087,6 +11113,9 @@ public final class AnomalyOperationProtos {
                 size += com.google.protobuf.CodedOutputStream
                         .computeMessageSize(3, baseline);
             }
+            if (!getBaselineTypeBytes().isEmpty()) {
+                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, baselineType_);
+            }
             memoizedSize = size;
             return size;
         }
@@ -10107,6 +11136,8 @@ public final class AnomalyOperationProtos {
             result = result && day_ == other.day_;
             result = result && internalGetBaseline().equals(
                     other.internalGetBaseline());
+            result = result && getBaselineType()
+                    .equals(other.getBaselineType());
             return result;
         }
 
@@ -10125,6 +11156,8 @@ public final class AnomalyOperationProtos {
                 hash = (37 * hash) + BASELINE_FIELD_NUMBER;
                 hash = (53 * hash) + internalGetBaseline().hashCode();
             }
+            hash = (37 * hash) + BASELINETYPE_FIELD_NUMBER;
+            hash = (53 * hash) + getBaselineType().hashCode();
             hash = (29 * hash) + unknownFields.hashCode();
             memoizedHashCode = hash;
             return hash;
@@ -10338,6 +11371,7 @@ public final class AnomalyOperationProtos {
             private int day_ = 0;
             private com.google.protobuf.MapField<
                     java.lang.Integer, java.lang.Integer> baseline_;
+            private java.lang.Object baselineType_ = "";
 
             // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BaselineMessage.newBuilder()
             private Builder() {
@@ -10399,6 +11433,8 @@ public final class AnomalyOperationProtos {
                 day_ = 0;
 
                 internalGetMutableBaseline().clear();
+                baselineType_ = "";
+
                 return this;
             }
 
@@ -10427,6 +11463,7 @@ public final class AnomalyOperationProtos {
                 result.day_ = day_;
                 result.baseline_ = internalGetBaseline();
                 result.baseline_.makeImmutable();
+                result.baselineType_ = baselineType_;
                 result.bitField0_ = to_bitField0_;
                 onBuilt();
                 return result;
@@ -10484,6 +11521,10 @@ public final class AnomalyOperationProtos {
                 }
                 internalGetMutableBaseline().mergeFrom(
                         other.internalGetBaseline());
+                if (!other.getBaselineType().isEmpty()) {
+                    baselineType_ = other.baselineType_;
+                    onChanged();
+                }
                 onChanged();
                 return this;
             }
@@ -10740,6 +11781,78 @@ public final class AnomalyOperationProtos {
                 return this;
             }
 
+            /**
+             * <code>optional string baselineType = 4;</code>
+             */
+            public java.lang.String getBaselineType() {
+                java.lang.Object ref = baselineType_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    baselineType_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
+            }
+
+            /**
+             * <code>optional string baselineType = 4;</code>
+             */
+            public Builder setBaselineType(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+
+                baselineType_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string baselineType = 4;</code>
+             */
+            public com.google.protobuf.ByteString
+            getBaselineTypeBytes() {
+                java.lang.Object ref = baselineType_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    baselineType_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>optional string baselineType = 4;</code>
+             */
+            public Builder setBaselineTypeBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+
+                baselineType_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string baselineType = 4;</code>
+             */
+            public Builder clearBaselineType() {
+
+                baselineType_ = getDefaultInstance().getBaselineType();
+                onChanged();
+                return this;
+            }
+
             public final Builder setUnknownFields(
                     final com.google.protobuf.UnknownFieldSet unknownFields) {
                 return this;
@@ -10765,6 +11878,7 @@ public final class AnomalyOperationProtos {
             DemandBaselineMessageOrBuilder {
         public static final int ROUTEIDX_FIELD_NUMBER = 1;
         public static final int DAY_FIELD_NUMBER = 2;
+        public static final int BASELINETYPE_FIELD_NUMBER = 3;
         private static final long serialVersionUID = 0L;
         // @@protoc_insertion_point(class_scope:DemandBaselineMessage)
         private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage DEFAULT_INSTANCE;
@@ -10784,8 +11898,8 @@ public final class AnomalyOperationProtos {
 
         private int routeIdx_;
         private int day_;
+        private volatile java.lang.Object baselineType_;
         private byte memoizedIsInitialized = -1;
-
         // Use DemandBaselineMessage.newBuilder() to construct.
         private DemandBaselineMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
@@ -10794,6 +11908,7 @@ public final class AnomalyOperationProtos {
         private DemandBaselineMessage() {
             routeIdx_ = 0;
             day_ = 0;
+            baselineType_ = "";
         }
 
         private DemandBaselineMessage(
@@ -10825,6 +11940,12 @@ public final class AnomalyOperationProtos {
                             int rawValue = input.readEnum();
 
                             day_ = rawValue;
+                            break;
+                        }
+                        case 26: {
+                            java.lang.String s = input.readStringRequireUtf8();
+
+                            baselineType_ = s;
                             break;
                         }
                     }
@@ -10963,6 +12084,39 @@ public final class AnomalyOperationProtos {
             return result == null ? pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage.Day.UNRECOGNIZED : result;
         }
 
+        /**
+         * <code>optional string baselineType = 3;</code>
+         */
+        public java.lang.String getBaselineType() {
+            java.lang.Object ref = baselineType_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                baselineType_ = s;
+                return s;
+            }
+        }
+
+        /**
+         * <code>optional string baselineType = 3;</code>
+         */
+        public com.google.protobuf.ByteString
+        getBaselineTypeBytes() {
+            java.lang.Object ref = baselineType_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                baselineType_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
             if (isInitialized == 1) return true;
@@ -10980,6 +12134,9 @@ public final class AnomalyOperationProtos {
             if (day_ != pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage.Day.NULLDAY.getNumber()) {
                 output.writeEnum(2, day_);
             }
+            if (!getBaselineTypeBytes().isEmpty()) {
+                com.google.protobuf.GeneratedMessageV3.writeString(output, 3, baselineType_);
+            }
         }
 
         public int getSerializedSize() {
@@ -10994,6 +12151,9 @@ public final class AnomalyOperationProtos {
             if (day_ != pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage.Day.NULLDAY.getNumber()) {
                 size += com.google.protobuf.CodedOutputStream
                         .computeEnumSize(2, day_);
+            }
+            if (!getBaselineTypeBytes().isEmpty()) {
+                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, baselineType_);
             }
             memoizedSize = size;
             return size;
@@ -11013,6 +12173,8 @@ public final class AnomalyOperationProtos {
             result = result && (getRouteIdx()
                     == other.getRouteIdx());
             result = result && day_ == other.day_;
+            result = result && getBaselineType()
+                    .equals(other.getBaselineType());
             return result;
         }
 
@@ -11027,6 +12189,8 @@ public final class AnomalyOperationProtos {
             hash = (53 * hash) + getRouteIdx();
             hash = (37 * hash) + DAY_FIELD_NUMBER;
             hash = (53 * hash) + day_;
+            hash = (37 * hash) + BASELINETYPE_FIELD_NUMBER;
+            hash = (53 * hash) + getBaselineType().hashCode();
             hash = (29 * hash) + unknownFields.hashCode();
             memoizedHashCode = hash;
             return hash;
@@ -11225,6 +12389,7 @@ public final class AnomalyOperationProtos {
                 pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessageOrBuilder {
             private int routeIdx_;
             private int day_ = 0;
+            private java.lang.Object baselineType_ = "";
 
             // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage.newBuilder()
             private Builder() {
@@ -11261,6 +12426,8 @@ public final class AnomalyOperationProtos {
 
                 day_ = 0;
 
+                baselineType_ = "";
+
                 return this;
             }
 
@@ -11285,6 +12452,7 @@ public final class AnomalyOperationProtos {
                 pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage result = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandBaselineMessage(this);
                 result.routeIdx_ = routeIdx_;
                 result.day_ = day_;
+                result.baselineType_ = baselineType_;
                 onBuilt();
                 return result;
             }
@@ -11338,6 +12506,10 @@ public final class AnomalyOperationProtos {
                 }
                 if (other.day_ != 0) {
                     setDayValue(other.getDayValue());
+                }
+                if (!other.getBaselineType().isEmpty()) {
+                    baselineType_ = other.baselineType_;
+                    onChanged();
                 }
                 onChanged();
                 return this;
@@ -11435,6 +12607,78 @@ public final class AnomalyOperationProtos {
             public Builder clearDay() {
 
                 day_ = 0;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string baselineType = 3;</code>
+             */
+            public java.lang.String getBaselineType() {
+                java.lang.Object ref = baselineType_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    baselineType_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
+            }
+
+            /**
+             * <code>optional string baselineType = 3;</code>
+             */
+            public Builder setBaselineType(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+
+                baselineType_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string baselineType = 3;</code>
+             */
+            public com.google.protobuf.ByteString
+            getBaselineTypeBytes() {
+                java.lang.Object ref = baselineType_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    baselineType_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>optional string baselineType = 3;</code>
+             */
+            public Builder setBaselineTypeBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+
+                baselineType_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string baselineType = 3;</code>
+             */
+            public Builder clearBaselineType() {
+
+                baselineType_ = getDefaultInstance().getBaselineType();
                 onChanged();
                 return this;
             }
@@ -11854,6 +13098,690 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * Protobuf type {@code AvailableRoutes}
+     */
+    public static final class AvailableRoutes extends
+            com.google.protobuf.GeneratedMessageV3 implements
+            // @@protoc_insertion_point(message_implements:AvailableRoutes)
+            AvailableRoutesOrBuilder {
+        public static final int ROUTES_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0L;
+        // @@protoc_insertion_point(class_scope:AvailableRoutes)
+        private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes DEFAULT_INSTANCE;
+        private static final com.google.protobuf.Parser<AvailableRoutes>
+                PARSER = new com.google.protobuf.AbstractParser<AvailableRoutes>() {
+            public AvailableRoutes parsePartialFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws com.google.protobuf.InvalidProtocolBufferException {
+                return new AvailableRoutes(input, extensionRegistry);
+            }
+        };
+
+        static {
+            DEFAULT_INSTANCE = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes();
+        }
+
+        private com.google.protobuf.MapField<
+                java.lang.Integer, java.lang.Integer> routes_;
+        private byte memoizedIsInitialized = -1;
+
+        // Use AvailableRoutes.newBuilder() to construct.
+        private AvailableRoutes(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+        }
+
+        private AvailableRoutes() {
+        }
+
+        private AvailableRoutes(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            this();
+            int mutable_bitField0_ = 0;
+            try {
+                boolean done = false;
+                while (!done) {
+                    int tag = input.readTag();
+                    switch (tag) {
+                        case 0:
+                            done = true;
+                            break;
+                        default: {
+                            if (!input.skipField(tag)) {
+                                done = true;
+                            }
+                            break;
+                        }
+                        case 10: {
+                            if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                                routes_ = com.google.protobuf.MapField.newMapField(
+                                        RoutesDefaultEntryHolder.defaultEntry);
+                                mutable_bitField0_ |= 0x00000001;
+                            }
+                            com.google.protobuf.MapEntry<java.lang.Integer, java.lang.Integer>
+                                    routes = input.readMessage(
+                                    RoutesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                            routes_.getMutableMap().put(routes.getKey(), routes.getValue());
+                            break;
+                        }
+                    }
+                }
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                throw e.setUnfinishedMessage(this);
+            } catch (java.io.IOException e) {
+                throw new com.google.protobuf.InvalidProtocolBufferException(
+                        e).setUnfinishedMessage(this);
+            } finally {
+                makeExtensionsImmutable();
+            }
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+            return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_descriptor;
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(
+                com.google.protobuf.ByteString data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(
+                com.google.protobuf.ByteString data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(byte[] data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(
+                byte[] data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseDelimitedFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseDelimitedWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseDelimitedFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(
+                com.google.protobuf.CodedInputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parseFrom(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.toBuilder();
+        }
+
+        public static Builder newBuilder(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes prototype) {
+            return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static com.google.protobuf.Parser<AvailableRoutes> parser() {
+            return PARSER;
+        }
+
+        @java.lang.Override
+        public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+            return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+        }
+
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapField internalGetMapField(
+                int number) {
+            switch (number) {
+                case 1:
+                    return internalGetRoutes();
+                default:
+                    throw new RuntimeException(
+                            "Invalid map field number: " + number);
+            }
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+            return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_fieldAccessorTable
+                    .ensureFieldAccessorsInitialized(
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.Builder.class);
+        }
+
+        private com.google.protobuf.MapField<java.lang.Integer, java.lang.Integer>
+        internalGetRoutes() {
+            if (routes_ == null) {
+                return com.google.protobuf.MapField.emptyMapField(
+                        RoutesDefaultEntryHolder.defaultEntry);
+            }
+            return routes_;
+        }
+
+        public int getRoutesCount() {
+            return internalGetRoutes().getMap().size();
+        }
+
+        /**
+         * <code>map&lt;int32, int32&gt; routes = 1;</code>
+         */
+
+        public boolean containsRoutes(
+                int key) {
+
+            return internalGetRoutes().getMap().containsKey(key);
+        }
+
+        /**
+         * Use {@link #getRoutesMap()} instead.
+         */
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.Integer, java.lang.Integer> getRoutes() {
+            return getRoutesMap();
+        }
+
+        /**
+         * <code>map&lt;int32, int32&gt; routes = 1;</code>
+         */
+
+        public java.util.Map<java.lang.Integer, java.lang.Integer> getRoutesMap() {
+            return internalGetRoutes().getMap();
+        }
+
+        /**
+         * <code>map&lt;int32, int32&gt; routes = 1;</code>
+         */
+
+        public int getRoutesOrDefault(
+                int key,
+                int defaultValue) {
+
+            java.util.Map<java.lang.Integer, java.lang.Integer> map =
+                    internalGetRoutes().getMap();
+            return map.containsKey(key) ? map.get(key) : defaultValue;
+        }
+
+        /**
+         * <code>map&lt;int32, int32&gt; routes = 1;</code>
+         */
+
+        public int getRoutesOrThrow(
+                int key) {
+
+            java.util.Map<java.lang.Integer, java.lang.Integer> map =
+                    internalGetRoutes().getMap();
+            if (!map.containsKey(key)) {
+                throw new java.lang.IllegalArgumentException();
+            }
+            return map.get(key);
+        }
+
+        public final boolean isInitialized() {
+            byte isInitialized = memoizedIsInitialized;
+            if (isInitialized == 1) return true;
+            if (isInitialized == 0) return false;
+
+            memoizedIsInitialized = 1;
+            return true;
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                throws java.io.IOException {
+            for (java.util.Map.Entry<java.lang.Integer, java.lang.Integer> entry
+                    : internalGetRoutes().getMap().entrySet()) {
+                com.google.protobuf.MapEntry<java.lang.Integer, java.lang.Integer>
+                        routes = RoutesDefaultEntryHolder.defaultEntry.newBuilderForType()
+                        .setKey(entry.getKey())
+                        .setValue(entry.getValue())
+                        .build();
+                output.writeMessage(1, routes);
+            }
+        }
+
+        public int getSerializedSize() {
+            int size = memoizedSize;
+            if (size != -1) return size;
+
+            size = 0;
+            for (java.util.Map.Entry<java.lang.Integer, java.lang.Integer> entry
+                    : internalGetRoutes().getMap().entrySet()) {
+                com.google.protobuf.MapEntry<java.lang.Integer, java.lang.Integer>
+                        routes = RoutesDefaultEntryHolder.defaultEntry.newBuilderForType()
+                        .setKey(entry.getKey())
+                        .setValue(entry.getValue())
+                        .build();
+                size += com.google.protobuf.CodedOutputStream
+                        .computeMessageSize(1, routes);
+            }
+            memoizedSize = size;
+            return size;
+        }
+
+        @java.lang.Override
+        public boolean equals(final java.lang.Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes)) {
+                return super.equals(obj);
+            }
+            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes other = (pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes) obj;
+
+            boolean result = true;
+            result = result && internalGetRoutes().equals(
+                    other.internalGetRoutes());
+            return result;
+        }
+
+        @java.lang.Override
+        public int hashCode() {
+            if (memoizedHashCode != 0) {
+                return memoizedHashCode;
+            }
+            int hash = 41;
+            hash = (19 * hash) + getDescriptorForType().hashCode();
+            if (!internalGetRoutes().getMap().isEmpty()) {
+                hash = (37 * hash) + ROUTES_FIELD_NUMBER;
+                hash = (53 * hash) + internalGetRoutes().hashCode();
+            }
+            hash = (29 * hash) + unknownFields.hashCode();
+            memoizedHashCode = hash;
+            return hash;
+        }
+
+        public Builder newBuilderForType() {
+            return newBuilder();
+        }
+
+        public Builder toBuilder() {
+            return this == DEFAULT_INSTANCE
+                    ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+                com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            Builder builder = new Builder(parent);
+            return builder;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<AvailableRoutes> getParserForType() {
+            return PARSER;
+        }
+
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        private static final class RoutesDefaultEntryHolder {
+            static final com.google.protobuf.MapEntry<
+                    java.lang.Integer, java.lang.Integer> defaultEntry =
+                    com.google.protobuf.MapEntry
+                            .<java.lang.Integer, java.lang.Integer>newDefaultInstance(
+                                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_RoutesEntry_descriptor,
+                                    com.google.protobuf.WireFormat.FieldType.INT32,
+                                    0,
+                                    com.google.protobuf.WireFormat.FieldType.INT32,
+                                    0);
+        }
+
+        /**
+         * Protobuf type {@code AvailableRoutes}
+         */
+        public static final class Builder extends
+                com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+                // @@protoc_insertion_point(builder_implements:AvailableRoutes)
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutesOrBuilder {
+            private int bitField0_;
+            private com.google.protobuf.MapField<
+                    java.lang.Integer, java.lang.Integer> routes_;
+
+            // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.newBuilder()
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(
+                    com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+                super(parent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_descriptor;
+            }
+
+            @SuppressWarnings({"rawtypes"})
+            protected com.google.protobuf.MapField internalGetMapField(
+                    int number) {
+                switch (number) {
+                    case 1:
+                        return internalGetRoutes();
+                    default:
+                        throw new RuntimeException(
+                                "Invalid map field number: " + number);
+                }
+            }
+
+            @SuppressWarnings({"rawtypes"})
+            protected com.google.protobuf.MapField internalGetMutableMapField(
+                    int number) {
+                switch (number) {
+                    case 1:
+                        return internalGetMutableRoutes();
+                    default:
+                        throw new RuntimeException(
+                                "Invalid map field number: " + number);
+                }
+            }
+
+            protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_fieldAccessorTable
+                        .ensureFieldAccessorsInitialized(
+                                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (com.google.protobuf.GeneratedMessageV3
+                        .alwaysUseFieldBuilders) {
+                }
+            }
+
+            public Builder clear() {
+                super.clear();
+                internalGetMutableRoutes().clear();
+                return this;
+            }
+
+            public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_descriptor;
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getDefaultInstanceForType() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.getDefaultInstance();
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes build() {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes result = buildPartial();
+                if (!result.isInitialized()) {
+                    throw newUninitializedMessageException(result);
+                }
+                return result;
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes buildPartial() {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes result = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes(this);
+                int from_bitField0_ = bitField0_;
+                result.routes_ = internalGetRoutes();
+                result.routes_.makeImmutable();
+                onBuilt();
+                return result;
+            }
+
+            public Builder clone() {
+                return (Builder) super.clone();
+            }
+
+            public Builder setField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    Object value) {
+                return (Builder) super.setField(field, value);
+            }
+
+            public Builder clearField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field) {
+                return (Builder) super.clearField(field);
+            }
+
+            public Builder clearOneof(
+                    com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+                return (Builder) super.clearOneof(oneof);
+            }
+
+            public Builder setRepeatedField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    int index, Object value) {
+                return (Builder) super.setRepeatedField(field, index, value);
+            }
+
+            public Builder addRepeatedField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    Object value) {
+                return (Builder) super.addRepeatedField(field, value);
+            }
+
+            public Builder mergeFrom(com.google.protobuf.Message other) {
+                if (other instanceof pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes) {
+                    return mergeFrom((pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes) other);
+                } else {
+                    super.mergeFrom(other);
+                    return this;
+                }
+            }
+
+            public Builder mergeFrom(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes other) {
+                if (other == pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.getDefaultInstance())
+                    return this;
+                internalGetMutableRoutes().mergeFrom(
+                        other.internalGetRoutes());
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            public Builder mergeFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws java.io.IOException {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes parsedMessage = null;
+                try {
+                    parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                    parsedMessage = (pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes) e.getUnfinishedMessage();
+                    throw e.unwrapIOException();
+                } finally {
+                    if (parsedMessage != null) {
+                        mergeFrom(parsedMessage);
+                    }
+                }
+                return this;
+            }
+
+            private com.google.protobuf.MapField<java.lang.Integer, java.lang.Integer>
+            internalGetRoutes() {
+                if (routes_ == null) {
+                    return com.google.protobuf.MapField.emptyMapField(
+                            RoutesDefaultEntryHolder.defaultEntry);
+                }
+                return routes_;
+            }
+
+            private com.google.protobuf.MapField<java.lang.Integer, java.lang.Integer>
+            internalGetMutableRoutes() {
+                onChanged();
+                ;
+                if (routes_ == null) {
+                    routes_ = com.google.protobuf.MapField.newMapField(
+                            RoutesDefaultEntryHolder.defaultEntry);
+                }
+                if (!routes_.isMutable()) {
+                    routes_ = routes_.copy();
+                }
+                return routes_;
+            }
+
+            public int getRoutesCount() {
+                return internalGetRoutes().getMap().size();
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; routes = 1;</code>
+             */
+
+            public boolean containsRoutes(
+                    int key) {
+
+                return internalGetRoutes().getMap().containsKey(key);
+            }
+
+            /**
+             * Use {@link #getRoutesMap()} instead.
+             */
+            @java.lang.Deprecated
+            public java.util.Map<java.lang.Integer, java.lang.Integer> getRoutes() {
+                return getRoutesMap();
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; routes = 1;</code>
+             */
+
+            public java.util.Map<java.lang.Integer, java.lang.Integer> getRoutesMap() {
+                return internalGetRoutes().getMap();
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; routes = 1;</code>
+             */
+
+            public int getRoutesOrDefault(
+                    int key,
+                    int defaultValue) {
+
+                java.util.Map<java.lang.Integer, java.lang.Integer> map =
+                        internalGetRoutes().getMap();
+                return map.containsKey(key) ? map.get(key) : defaultValue;
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; routes = 1;</code>
+             */
+
+            public int getRoutesOrThrow(
+                    int key) {
+
+                java.util.Map<java.lang.Integer, java.lang.Integer> map =
+                        internalGetRoutes().getMap();
+                if (!map.containsKey(key)) {
+                    throw new java.lang.IllegalArgumentException();
+                }
+                return map.get(key);
+            }
+
+            public Builder clearRoutes() {
+                getMutableRoutes().clear();
+                return this;
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; routes = 1;</code>
+             */
+
+            public Builder removeRoutes(
+                    int key) {
+
+                getMutableRoutes().remove(key);
+                return this;
+            }
+
+            /**
+             * Use alternate mutation accessors instead.
+             */
+            @java.lang.Deprecated
+            public java.util.Map<java.lang.Integer, java.lang.Integer>
+            getMutableRoutes() {
+                return internalGetMutableRoutes().getMutableMap();
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; routes = 1;</code>
+             */
+            public Builder putRoutes(
+                    int key,
+                    int value) {
+
+
+                getMutableRoutes().put(key, value);
+                return this;
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; routes = 1;</code>
+             */
+
+            public Builder putAllRoutes(
+                    java.util.Map<java.lang.Integer, java.lang.Integer> values) {
+                getMutableRoutes().putAll(values);
+                return this;
+            }
+
+            public final Builder setUnknownFields(
+                    final com.google.protobuf.UnknownFieldSet unknownFields) {
+                return this;
+            }
+
+            public final Builder mergeUnknownFields(
+                    final com.google.protobuf.UnknownFieldSet unknownFields) {
+                return this;
+            }
+
+
+            // @@protoc_insertion_point(builder_scope:AvailableRoutes)
+        }
+
+    }
+
+    /**
      * Protobuf type {@code AvailableHistoricalMessage}
      */
     public static final class AvailableHistoricalMessage extends
@@ -11879,7 +13807,7 @@ public final class AnomalyOperationProtos {
         }
 
         private com.google.protobuf.MapField<
-                java.lang.String, java.lang.Integer> avaiableDateRoutes_;
+                java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> avaiableDateRoutes_;
         private byte memoizedIsInitialized = -1;
 
         // Use AvailableHistoricalMessage.newBuilder() to construct.
@@ -11916,7 +13844,7 @@ public final class AnomalyOperationProtos {
                                         AvaiableDateRoutesDefaultEntryHolder.defaultEntry);
                                 mutable_bitField0_ |= 0x00000001;
                             }
-                            com.google.protobuf.MapEntry<java.lang.String, java.lang.Integer>
+                            com.google.protobuf.MapEntry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
                                     avaiableDateRoutes = input.readMessage(
                                     AvaiableDateRoutesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
                             avaiableDateRoutes_.getMutableMap().put(avaiableDateRoutes.getKey(), avaiableDateRoutes.getValue());
@@ -12048,7 +13976,7 @@ public final class AnomalyOperationProtos {
                             pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableHistoricalMessage.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableHistoricalMessage.Builder.class);
         }
 
-        private com.google.protobuf.MapField<java.lang.String, java.lang.Integer>
+        private com.google.protobuf.MapField<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
         internalGetAvaiableDateRoutes() {
             if (avaiableDateRoutes_ == null) {
                 return com.google.protobuf.MapField.emptyMapField(
@@ -12068,7 +13996,7 @@ public final class AnomalyOperationProtos {
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
-         * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+         * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
          */
 
         public boolean containsAvaiableDateRoutes(
@@ -12083,7 +14011,7 @@ public final class AnomalyOperationProtos {
          * Use {@link #getAvaiableDateRoutesMap()} instead.
          */
         @java.lang.Deprecated
-        public java.util.Map<java.lang.String, java.lang.Integer> getAvaiableDateRoutes() {
+        public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> getAvaiableDateRoutes() {
             return getAvaiableDateRoutesMap();
         }
 
@@ -12094,10 +14022,10 @@ public final class AnomalyOperationProtos {
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
-         * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+         * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
          */
 
-        public java.util.Map<java.lang.String, java.lang.Integer> getAvaiableDateRoutesMap() {
+        public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> getAvaiableDateRoutesMap() {
             return internalGetAvaiableDateRoutes().getMap();
         }
 
@@ -12108,16 +14036,16 @@ public final class AnomalyOperationProtos {
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
-         * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+         * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
          */
 
-        public int getAvaiableDateRoutesOrDefault(
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getAvaiableDateRoutesOrDefault(
                 java.lang.String key,
-                int defaultValue) {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes defaultValue) {
             if (key == null) {
                 throw new java.lang.NullPointerException();
             }
-            java.util.Map<java.lang.String, java.lang.Integer> map =
+            java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> map =
                     internalGetAvaiableDateRoutes().getMap();
             return map.containsKey(key) ? map.get(key) : defaultValue;
         }
@@ -12129,15 +14057,15 @@ public final class AnomalyOperationProtos {
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
-         * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+         * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
          */
 
-        public int getAvaiableDateRoutesOrThrow(
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getAvaiableDateRoutesOrThrow(
                 java.lang.String key) {
             if (key == null) {
                 throw new java.lang.NullPointerException();
             }
-            java.util.Map<java.lang.String, java.lang.Integer> map =
+            java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> map =
                     internalGetAvaiableDateRoutes().getMap();
             if (!map.containsKey(key)) {
                 throw new java.lang.IllegalArgumentException();
@@ -12156,9 +14084,9 @@ public final class AnomalyOperationProtos {
 
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                 throws java.io.IOException {
-            for (java.util.Map.Entry<java.lang.String, java.lang.Integer> entry
+            for (java.util.Map.Entry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> entry
                     : internalGetAvaiableDateRoutes().getMap().entrySet()) {
-                com.google.protobuf.MapEntry<java.lang.String, java.lang.Integer>
+                com.google.protobuf.MapEntry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
                         avaiableDateRoutes = AvaiableDateRoutesDefaultEntryHolder.defaultEntry.newBuilderForType()
                         .setKey(entry.getKey())
                         .setValue(entry.getValue())
@@ -12172,9 +14100,9 @@ public final class AnomalyOperationProtos {
             if (size != -1) return size;
 
             size = 0;
-            for (java.util.Map.Entry<java.lang.String, java.lang.Integer> entry
+            for (java.util.Map.Entry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> entry
                     : internalGetAvaiableDateRoutes().getMap().entrySet()) {
-                com.google.protobuf.MapEntry<java.lang.String, java.lang.Integer>
+                com.google.protobuf.MapEntry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
                         avaiableDateRoutes = AvaiableDateRoutesDefaultEntryHolder.defaultEntry.newBuilderForType()
                         .setKey(entry.getKey())
                         .setValue(entry.getValue())
@@ -12245,14 +14173,14 @@ public final class AnomalyOperationProtos {
 
         private static final class AvaiableDateRoutesDefaultEntryHolder {
             static final com.google.protobuf.MapEntry<
-                    java.lang.String, java.lang.Integer> defaultEntry =
+                    java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> defaultEntry =
                     com.google.protobuf.MapEntry
-                            .<java.lang.String, java.lang.Integer>newDefaultInstance(
+                            .<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>newDefaultInstance(
                                     pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_AvailableHistoricalMessage_AvaiableDateRoutesEntry_descriptor,
                                     com.google.protobuf.WireFormat.FieldType.STRING,
                                     "",
-                                    com.google.protobuf.WireFormat.FieldType.INT32,
-                                    0);
+                                    com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes.getDefaultInstance());
         }
 
         /**
@@ -12264,7 +14192,7 @@ public final class AnomalyOperationProtos {
                 pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableHistoricalMessageOrBuilder {
             private int bitField0_;
             private com.google.protobuf.MapField<
-                    java.lang.String, java.lang.Integer> avaiableDateRoutes_;
+                    java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> avaiableDateRoutes_;
 
             // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableHistoricalMessage.newBuilder()
             private Builder() {
@@ -12423,7 +14351,7 @@ public final class AnomalyOperationProtos {
                 return this;
             }
 
-            private com.google.protobuf.MapField<java.lang.String, java.lang.Integer>
+            private com.google.protobuf.MapField<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
             internalGetAvaiableDateRoutes() {
                 if (avaiableDateRoutes_ == null) {
                     return com.google.protobuf.MapField.emptyMapField(
@@ -12432,7 +14360,7 @@ public final class AnomalyOperationProtos {
                 return avaiableDateRoutes_;
             }
 
-            private com.google.protobuf.MapField<java.lang.String, java.lang.Integer>
+            private com.google.protobuf.MapField<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
             internalGetMutableAvaiableDateRoutes() {
                 onChanged();
                 ;
@@ -12457,7 +14385,7 @@ public final class AnomalyOperationProtos {
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
-             * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+             * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
              */
 
             public boolean containsAvaiableDateRoutes(
@@ -12472,7 +14400,7 @@ public final class AnomalyOperationProtos {
              * Use {@link #getAvaiableDateRoutesMap()} instead.
              */
             @java.lang.Deprecated
-            public java.util.Map<java.lang.String, java.lang.Integer> getAvaiableDateRoutes() {
+            public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> getAvaiableDateRoutes() {
                 return getAvaiableDateRoutesMap();
             }
 
@@ -12483,10 +14411,10 @@ public final class AnomalyOperationProtos {
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
-             * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+             * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
              */
 
-            public java.util.Map<java.lang.String, java.lang.Integer> getAvaiableDateRoutesMap() {
+            public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> getAvaiableDateRoutesMap() {
                 return internalGetAvaiableDateRoutes().getMap();
             }
 
@@ -12497,16 +14425,16 @@ public final class AnomalyOperationProtos {
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
-             * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+             * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
              */
 
-            public int getAvaiableDateRoutesOrDefault(
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getAvaiableDateRoutesOrDefault(
                     java.lang.String key,
-                    int defaultValue) {
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes defaultValue) {
                 if (key == null) {
                     throw new java.lang.NullPointerException();
                 }
-                java.util.Map<java.lang.String, java.lang.Integer> map =
+                java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> map =
                         internalGetAvaiableDateRoutes().getMap();
                 return map.containsKey(key) ? map.get(key) : defaultValue;
             }
@@ -12518,15 +14446,15 @@ public final class AnomalyOperationProtos {
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
-             * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+             * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
              */
 
-            public int getAvaiableDateRoutesOrThrow(
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes getAvaiableDateRoutesOrThrow(
                     java.lang.String key) {
                 if (key == null) {
                     throw new java.lang.NullPointerException();
                 }
-                java.util.Map<java.lang.String, java.lang.Integer> map =
+                java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> map =
                         internalGetAvaiableDateRoutes().getMap();
                 if (!map.containsKey(key)) {
                     throw new java.lang.IllegalArgumentException();
@@ -12546,7 +14474,7 @@ public final class AnomalyOperationProtos {
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
-             * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+             * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
              */
 
             public Builder removeAvaiableDateRoutes(
@@ -12562,7 +14490,7 @@ public final class AnomalyOperationProtos {
              * Use alternate mutation accessors instead.
              */
             @java.lang.Deprecated
-            public java.util.Map<java.lang.String, java.lang.Integer>
+            public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes>
             getMutableAvaiableDateRoutes() {
                 return internalGetMutableAvaiableDateRoutes().getMutableMap();
             }
@@ -12574,15 +14502,17 @@ public final class AnomalyOperationProtos {
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
-             * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+             * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
              */
             public Builder putAvaiableDateRoutes(
                     java.lang.String key,
-                    int value) {
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes value) {
                 if (key == null) {
                     throw new java.lang.NullPointerException();
                 }
-
+                if (value == null) {
+                    throw new java.lang.NullPointerException();
+                }
                 getMutableAvaiableDateRoutes().put(key, value);
                 return this;
             }
@@ -12594,11 +14524,11 @@ public final class AnomalyOperationProtos {
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
-             * <code>map&lt;string, int32&gt; avaiableDateRoutes = 1;</code>
+             * <code>map&lt;string, .AvailableRoutes&gt; avaiableDateRoutes = 1;</code>
              */
 
             public Builder putAllAvaiableDateRoutes(
-                    java.util.Map<java.lang.String, java.lang.Integer> values) {
+                    java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AvailableRoutes> values) {
                 getMutableAvaiableDateRoutes().putAll(values);
                 return this;
             }
@@ -12653,7 +14583,6 @@ public final class AnomalyOperationProtos {
         private DemandHistoricalMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
-
         private DemandHistoricalMessage() {
             routeID_ = 0;
             date_ = "";
@@ -13236,7 +15165,6 @@ public final class AnomalyOperationProtos {
         private com.google.protobuf.MapField<
                 java.lang.Integer, java.lang.Integer> measures_;
         private byte memoizedIsInitialized = -1;
-
         // Use HistoricalMessage.newBuilder() to construct.
         private HistoricalMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
@@ -14078,6 +16006,2169 @@ public final class AnomalyOperationProtos {
 
 
             // @@protoc_insertion_point(builder_scope:HistoricalMessage)
+        }
+
+    }
+
+    /**
+     * Protobuf type {@code HistoricalAnomalyPresenceMessage}
+     */
+    public static final class HistoricalAnomalyPresenceMessage extends
+            com.google.protobuf.GeneratedMessageV3 implements
+            // @@protoc_insertion_point(message_implements:HistoricalAnomalyPresenceMessage)
+            HistoricalAnomalyPresenceMessageOrBuilder {
+        public static final int PRESENCE_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0L;
+        // @@protoc_insertion_point(class_scope:HistoricalAnomalyPresenceMessage)
+        private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage DEFAULT_INSTANCE;
+        private static final com.google.protobuf.Parser<HistoricalAnomalyPresenceMessage>
+                PARSER = new com.google.protobuf.AbstractParser<HistoricalAnomalyPresenceMessage>() {
+            public HistoricalAnomalyPresenceMessage parsePartialFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws com.google.protobuf.InvalidProtocolBufferException {
+                return new HistoricalAnomalyPresenceMessage(input, extensionRegistry);
+            }
+        };
+
+        static {
+            DEFAULT_INSTANCE = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage();
+        }
+
+        private com.google.protobuf.MapField<
+                java.lang.Integer, java.lang.Integer> presence_;
+        private byte memoizedIsInitialized = -1;
+
+        // Use HistoricalAnomalyPresenceMessage.newBuilder() to construct.
+        private HistoricalAnomalyPresenceMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+        }
+
+        private HistoricalAnomalyPresenceMessage() {
+        }
+
+        private HistoricalAnomalyPresenceMessage(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            this();
+            int mutable_bitField0_ = 0;
+            try {
+                boolean done = false;
+                while (!done) {
+                    int tag = input.readTag();
+                    switch (tag) {
+                        case 0:
+                            done = true;
+                            break;
+                        default: {
+                            if (!input.skipField(tag)) {
+                                done = true;
+                            }
+                            break;
+                        }
+                        case 10: {
+                            if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                                presence_ = com.google.protobuf.MapField.newMapField(
+                                        PresenceDefaultEntryHolder.defaultEntry);
+                                mutable_bitField0_ |= 0x00000001;
+                            }
+                            com.google.protobuf.MapEntry<java.lang.Integer, java.lang.Integer>
+                                    presence = input.readMessage(
+                                    PresenceDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                            presence_.getMutableMap().put(presence.getKey(), presence.getValue());
+                            break;
+                        }
+                    }
+                }
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                throw e.setUnfinishedMessage(this);
+            } catch (java.io.IOException e) {
+                throw new com.google.protobuf.InvalidProtocolBufferException(
+                        e).setUnfinishedMessage(this);
+            } finally {
+                makeExtensionsImmutable();
+            }
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+            return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_HistoricalAnomalyPresenceMessage_descriptor;
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage parseFrom(
+                com.google.protobuf.ByteString data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage parseFrom(
+                com.google.protobuf.ByteString data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage parseFrom(byte[] data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage parseFrom(
+                byte[] data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage parseFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage parseFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage parseDelimitedFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseDelimitedWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage parseDelimitedFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage parseFrom(
+                com.google.protobuf.CodedInputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage parseFrom(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.toBuilder();
+        }
+
+        public static Builder newBuilder(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage prototype) {
+            return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static com.google.protobuf.Parser<HistoricalAnomalyPresenceMessage> parser() {
+            return PARSER;
+        }
+
+        @java.lang.Override
+        public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+            return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+        }
+
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapField internalGetMapField(
+                int number) {
+            switch (number) {
+                case 1:
+                    return internalGetPresence();
+                default:
+                    throw new RuntimeException(
+                            "Invalid map field number: " + number);
+            }
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+            return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_HistoricalAnomalyPresenceMessage_fieldAccessorTable
+                    .ensureFieldAccessorsInitialized(
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage.Builder.class);
+        }
+
+        private com.google.protobuf.MapField<java.lang.Integer, java.lang.Integer>
+        internalGetPresence() {
+            if (presence_ == null) {
+                return com.google.protobuf.MapField.emptyMapField(
+                        PresenceDefaultEntryHolder.defaultEntry);
+            }
+            return presence_;
+        }
+
+        public int getPresenceCount() {
+            return internalGetPresence().getMap().size();
+        }
+
+        /**
+         * <code>map&lt;int32, int32&gt; presence = 1;</code>
+         */
+
+        public boolean containsPresence(
+                int key) {
+
+            return internalGetPresence().getMap().containsKey(key);
+        }
+
+        /**
+         * Use {@link #getPresenceMap()} instead.
+         */
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.Integer, java.lang.Integer> getPresence() {
+            return getPresenceMap();
+        }
+
+        /**
+         * <code>map&lt;int32, int32&gt; presence = 1;</code>
+         */
+
+        public java.util.Map<java.lang.Integer, java.lang.Integer> getPresenceMap() {
+            return internalGetPresence().getMap();
+        }
+
+        /**
+         * <code>map&lt;int32, int32&gt; presence = 1;</code>
+         */
+
+        public int getPresenceOrDefault(
+                int key,
+                int defaultValue) {
+
+            java.util.Map<java.lang.Integer, java.lang.Integer> map =
+                    internalGetPresence().getMap();
+            return map.containsKey(key) ? map.get(key) : defaultValue;
+        }
+
+        /**
+         * <code>map&lt;int32, int32&gt; presence = 1;</code>
+         */
+
+        public int getPresenceOrThrow(
+                int key) {
+
+            java.util.Map<java.lang.Integer, java.lang.Integer> map =
+                    internalGetPresence().getMap();
+            if (!map.containsKey(key)) {
+                throw new java.lang.IllegalArgumentException();
+            }
+            return map.get(key);
+        }
+
+        public final boolean isInitialized() {
+            byte isInitialized = memoizedIsInitialized;
+            if (isInitialized == 1) return true;
+            if (isInitialized == 0) return false;
+
+            memoizedIsInitialized = 1;
+            return true;
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                throws java.io.IOException {
+            for (java.util.Map.Entry<java.lang.Integer, java.lang.Integer> entry
+                    : internalGetPresence().getMap().entrySet()) {
+                com.google.protobuf.MapEntry<java.lang.Integer, java.lang.Integer>
+                        presence = PresenceDefaultEntryHolder.defaultEntry.newBuilderForType()
+                        .setKey(entry.getKey())
+                        .setValue(entry.getValue())
+                        .build();
+                output.writeMessage(1, presence);
+            }
+        }
+
+        public int getSerializedSize() {
+            int size = memoizedSize;
+            if (size != -1) return size;
+
+            size = 0;
+            for (java.util.Map.Entry<java.lang.Integer, java.lang.Integer> entry
+                    : internalGetPresence().getMap().entrySet()) {
+                com.google.protobuf.MapEntry<java.lang.Integer, java.lang.Integer>
+                        presence = PresenceDefaultEntryHolder.defaultEntry.newBuilderForType()
+                        .setKey(entry.getKey())
+                        .setValue(entry.getValue())
+                        .build();
+                size += com.google.protobuf.CodedOutputStream
+                        .computeMessageSize(1, presence);
+            }
+            memoizedSize = size;
+            return size;
+        }
+
+        @java.lang.Override
+        public boolean equals(final java.lang.Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage)) {
+                return super.equals(obj);
+            }
+            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage other = (pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage) obj;
+
+            boolean result = true;
+            result = result && internalGetPresence().equals(
+                    other.internalGetPresence());
+            return result;
+        }
+
+        @java.lang.Override
+        public int hashCode() {
+            if (memoizedHashCode != 0) {
+                return memoizedHashCode;
+            }
+            int hash = 41;
+            hash = (19 * hash) + getDescriptorForType().hashCode();
+            if (!internalGetPresence().getMap().isEmpty()) {
+                hash = (37 * hash) + PRESENCE_FIELD_NUMBER;
+                hash = (53 * hash) + internalGetPresence().hashCode();
+            }
+            hash = (29 * hash) + unknownFields.hashCode();
+            memoizedHashCode = hash;
+            return hash;
+        }
+
+        public Builder newBuilderForType() {
+            return newBuilder();
+        }
+
+        public Builder toBuilder() {
+            return this == DEFAULT_INSTANCE
+                    ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+                com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            Builder builder = new Builder(parent);
+            return builder;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<HistoricalAnomalyPresenceMessage> getParserForType() {
+            return PARSER;
+        }
+
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        private static final class PresenceDefaultEntryHolder {
+            static final com.google.protobuf.MapEntry<
+                    java.lang.Integer, java.lang.Integer> defaultEntry =
+                    com.google.protobuf.MapEntry
+                            .<java.lang.Integer, java.lang.Integer>newDefaultInstance(
+                                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_HistoricalAnomalyPresenceMessage_PresenceEntry_descriptor,
+                                    com.google.protobuf.WireFormat.FieldType.INT32,
+                                    0,
+                                    com.google.protobuf.WireFormat.FieldType.INT32,
+                                    0);
+        }
+
+        /**
+         * Protobuf type {@code HistoricalAnomalyPresenceMessage}
+         */
+        public static final class Builder extends
+                com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+                // @@protoc_insertion_point(builder_implements:HistoricalAnomalyPresenceMessage)
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessageOrBuilder {
+            private int bitField0_;
+            private com.google.protobuf.MapField<
+                    java.lang.Integer, java.lang.Integer> presence_;
+
+            // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage.newBuilder()
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(
+                    com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+                super(parent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_HistoricalAnomalyPresenceMessage_descriptor;
+            }
+
+            @SuppressWarnings({"rawtypes"})
+            protected com.google.protobuf.MapField internalGetMapField(
+                    int number) {
+                switch (number) {
+                    case 1:
+                        return internalGetPresence();
+                    default:
+                        throw new RuntimeException(
+                                "Invalid map field number: " + number);
+                }
+            }
+
+            @SuppressWarnings({"rawtypes"})
+            protected com.google.protobuf.MapField internalGetMutableMapField(
+                    int number) {
+                switch (number) {
+                    case 1:
+                        return internalGetMutablePresence();
+                    default:
+                        throw new RuntimeException(
+                                "Invalid map field number: " + number);
+                }
+            }
+
+            protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_HistoricalAnomalyPresenceMessage_fieldAccessorTable
+                        .ensureFieldAccessorsInitialized(
+                                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage.Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (com.google.protobuf.GeneratedMessageV3
+                        .alwaysUseFieldBuilders) {
+                }
+            }
+
+            public Builder clear() {
+                super.clear();
+                internalGetMutablePresence().clear();
+                return this;
+            }
+
+            public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_HistoricalAnomalyPresenceMessage_descriptor;
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage getDefaultInstanceForType() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage.getDefaultInstance();
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage build() {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage result = buildPartial();
+                if (!result.isInitialized()) {
+                    throw newUninitializedMessageException(result);
+                }
+                return result;
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage buildPartial() {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage result = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage(this);
+                int from_bitField0_ = bitField0_;
+                result.presence_ = internalGetPresence();
+                result.presence_.makeImmutable();
+                onBuilt();
+                return result;
+            }
+
+            public Builder clone() {
+                return (Builder) super.clone();
+            }
+
+            public Builder setField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    Object value) {
+                return (Builder) super.setField(field, value);
+            }
+
+            public Builder clearField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field) {
+                return (Builder) super.clearField(field);
+            }
+
+            public Builder clearOneof(
+                    com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+                return (Builder) super.clearOneof(oneof);
+            }
+
+            public Builder setRepeatedField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    int index, Object value) {
+                return (Builder) super.setRepeatedField(field, index, value);
+            }
+
+            public Builder addRepeatedField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    Object value) {
+                return (Builder) super.addRepeatedField(field, value);
+            }
+
+            public Builder mergeFrom(com.google.protobuf.Message other) {
+                if (other instanceof pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage) {
+                    return mergeFrom((pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage) other);
+                } else {
+                    super.mergeFrom(other);
+                    return this;
+                }
+            }
+
+            public Builder mergeFrom(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage other) {
+                if (other == pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage.getDefaultInstance())
+                    return this;
+                internalGetMutablePresence().mergeFrom(
+                        other.internalGetPresence());
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            public Builder mergeFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws java.io.IOException {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage parsedMessage = null;
+                try {
+                    parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                    parsedMessage = (pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage) e.getUnfinishedMessage();
+                    throw e.unwrapIOException();
+                } finally {
+                    if (parsedMessage != null) {
+                        mergeFrom(parsedMessage);
+                    }
+                }
+                return this;
+            }
+
+            private com.google.protobuf.MapField<java.lang.Integer, java.lang.Integer>
+            internalGetPresence() {
+                if (presence_ == null) {
+                    return com.google.protobuf.MapField.emptyMapField(
+                            PresenceDefaultEntryHolder.defaultEntry);
+                }
+                return presence_;
+            }
+
+            private com.google.protobuf.MapField<java.lang.Integer, java.lang.Integer>
+            internalGetMutablePresence() {
+                onChanged();
+                ;
+                if (presence_ == null) {
+                    presence_ = com.google.protobuf.MapField.newMapField(
+                            PresenceDefaultEntryHolder.defaultEntry);
+                }
+                if (!presence_.isMutable()) {
+                    presence_ = presence_.copy();
+                }
+                return presence_;
+            }
+
+            public int getPresenceCount() {
+                return internalGetPresence().getMap().size();
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; presence = 1;</code>
+             */
+
+            public boolean containsPresence(
+                    int key) {
+
+                return internalGetPresence().getMap().containsKey(key);
+            }
+
+            /**
+             * Use {@link #getPresenceMap()} instead.
+             */
+            @java.lang.Deprecated
+            public java.util.Map<java.lang.Integer, java.lang.Integer> getPresence() {
+                return getPresenceMap();
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; presence = 1;</code>
+             */
+
+            public java.util.Map<java.lang.Integer, java.lang.Integer> getPresenceMap() {
+                return internalGetPresence().getMap();
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; presence = 1;</code>
+             */
+
+            public int getPresenceOrDefault(
+                    int key,
+                    int defaultValue) {
+
+                java.util.Map<java.lang.Integer, java.lang.Integer> map =
+                        internalGetPresence().getMap();
+                return map.containsKey(key) ? map.get(key) : defaultValue;
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; presence = 1;</code>
+             */
+
+            public int getPresenceOrThrow(
+                    int key) {
+
+                java.util.Map<java.lang.Integer, java.lang.Integer> map =
+                        internalGetPresence().getMap();
+                if (!map.containsKey(key)) {
+                    throw new java.lang.IllegalArgumentException();
+                }
+                return map.get(key);
+            }
+
+            public Builder clearPresence() {
+                getMutablePresence().clear();
+                return this;
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; presence = 1;</code>
+             */
+
+            public Builder removePresence(
+                    int key) {
+
+                getMutablePresence().remove(key);
+                return this;
+            }
+
+            /**
+             * Use alternate mutation accessors instead.
+             */
+            @java.lang.Deprecated
+            public java.util.Map<java.lang.Integer, java.lang.Integer>
+            getMutablePresence() {
+                return internalGetMutablePresence().getMutableMap();
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; presence = 1;</code>
+             */
+            public Builder putPresence(
+                    int key,
+                    int value) {
+
+
+                getMutablePresence().put(key, value);
+                return this;
+            }
+
+            /**
+             * <code>map&lt;int32, int32&gt; presence = 1;</code>
+             */
+
+            public Builder putAllPresence(
+                    java.util.Map<java.lang.Integer, java.lang.Integer> values) {
+                getMutablePresence().putAll(values);
+                return this;
+            }
+
+            public final Builder setUnknownFields(
+                    final com.google.protobuf.UnknownFieldSet unknownFields) {
+                return this;
+            }
+
+            public final Builder mergeUnknownFields(
+                    final com.google.protobuf.UnknownFieldSet unknownFields) {
+                return this;
+            }
+
+
+            // @@protoc_insertion_point(builder_scope:HistoricalAnomalyPresenceMessage)
+        }
+
+    }
+
+    /**
+     * Protobuf type {@code DemandHistoricalAnomaliesMessage}
+     */
+    public static final class DemandHistoricalAnomaliesMessage extends
+            com.google.protobuf.GeneratedMessageV3 implements
+            // @@protoc_insertion_point(message_implements:DemandHistoricalAnomaliesMessage)
+            DemandHistoricalAnomaliesMessageOrBuilder {
+        public static final int ROUTEID_FIELD_NUMBER = 1;
+        public static final int DATE_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0L;
+        // @@protoc_insertion_point(class_scope:DemandHistoricalAnomaliesMessage)
+        private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage DEFAULT_INSTANCE;
+        private static final com.google.protobuf.Parser<DemandHistoricalAnomaliesMessage>
+                PARSER = new com.google.protobuf.AbstractParser<DemandHistoricalAnomaliesMessage>() {
+            public DemandHistoricalAnomaliesMessage parsePartialFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws com.google.protobuf.InvalidProtocolBufferException {
+                return new DemandHistoricalAnomaliesMessage(input, extensionRegistry);
+            }
+        };
+
+        static {
+            DEFAULT_INSTANCE = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage();
+        }
+
+        private int routeID_;
+        private volatile java.lang.Object date_;
+        private byte memoizedIsInitialized = -1;
+
+        // Use DemandHistoricalAnomaliesMessage.newBuilder() to construct.
+        private DemandHistoricalAnomaliesMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+        }
+        private DemandHistoricalAnomaliesMessage() {
+            routeID_ = 0;
+            date_ = "";
+        }
+
+        private DemandHistoricalAnomaliesMessage(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            this();
+            int mutable_bitField0_ = 0;
+            try {
+                boolean done = false;
+                while (!done) {
+                    int tag = input.readTag();
+                    switch (tag) {
+                        case 0:
+                            done = true;
+                            break;
+                        default: {
+                            if (!input.skipField(tag)) {
+                                done = true;
+                            }
+                            break;
+                        }
+                        case 8: {
+
+                            routeID_ = input.readInt32();
+                            break;
+                        }
+                        case 18: {
+                            java.lang.String s = input.readStringRequireUtf8();
+
+                            date_ = s;
+                            break;
+                        }
+                    }
+                }
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                throw e.setUnfinishedMessage(this);
+            } catch (java.io.IOException e) {
+                throw new com.google.protobuf.InvalidProtocolBufferException(
+                        e).setUnfinishedMessage(this);
+            } finally {
+                makeExtensionsImmutable();
+            }
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+            return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_DemandHistoricalAnomaliesMessage_descriptor;
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage parseFrom(
+                com.google.protobuf.ByteString data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage parseFrom(
+                com.google.protobuf.ByteString data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage parseFrom(byte[] data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage parseFrom(
+                byte[] data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage parseFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage parseFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage parseDelimitedFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseDelimitedWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage parseDelimitedFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage parseFrom(
+                com.google.protobuf.CodedInputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage parseFrom(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.toBuilder();
+        }
+
+        public static Builder newBuilder(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage prototype) {
+            return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static com.google.protobuf.Parser<DemandHistoricalAnomaliesMessage> parser() {
+            return PARSER;
+        }
+
+        @java.lang.Override
+        public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+            return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+            return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_DemandHistoricalAnomaliesMessage_fieldAccessorTable
+                    .ensureFieldAccessorsInitialized(
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.Builder.class);
+        }
+
+        /**
+         * <code>optional int32 routeID = 1;</code>
+         */
+        public int getRouteID() {
+            return routeID_;
+        }
+
+        /**
+         * <code>optional string date = 2;</code>
+         */
+        public java.lang.String getDate() {
+            java.lang.Object ref = date_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                date_ = s;
+                return s;
+            }
+        }
+
+        /**
+         * <code>optional string date = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+        getDateBytes() {
+            java.lang.Object ref = date_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                date_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
+        public final boolean isInitialized() {
+            byte isInitialized = memoizedIsInitialized;
+            if (isInitialized == 1) return true;
+            if (isInitialized == 0) return false;
+
+            memoizedIsInitialized = 1;
+            return true;
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                throws java.io.IOException {
+            if (routeID_ != 0) {
+                output.writeInt32(1, routeID_);
+            }
+            if (!getDateBytes().isEmpty()) {
+                com.google.protobuf.GeneratedMessageV3.writeString(output, 2, date_);
+            }
+        }
+
+        public int getSerializedSize() {
+            int size = memoizedSize;
+            if (size != -1) return size;
+
+            size = 0;
+            if (routeID_ != 0) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeInt32Size(1, routeID_);
+            }
+            if (!getDateBytes().isEmpty()) {
+                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, date_);
+            }
+            memoizedSize = size;
+            return size;
+        }
+
+        @java.lang.Override
+        public boolean equals(final java.lang.Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage)) {
+                return super.equals(obj);
+            }
+            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage other = (pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage) obj;
+
+            boolean result = true;
+            result = result && (getRouteID()
+                    == other.getRouteID());
+            result = result && getDate()
+                    .equals(other.getDate());
+            return result;
+        }
+
+        @java.lang.Override
+        public int hashCode() {
+            if (memoizedHashCode != 0) {
+                return memoizedHashCode;
+            }
+            int hash = 41;
+            hash = (19 * hash) + getDescriptorForType().hashCode();
+            hash = (37 * hash) + ROUTEID_FIELD_NUMBER;
+            hash = (53 * hash) + getRouteID();
+            hash = (37 * hash) + DATE_FIELD_NUMBER;
+            hash = (53 * hash) + getDate().hashCode();
+            hash = (29 * hash) + unknownFields.hashCode();
+            memoizedHashCode = hash;
+            return hash;
+        }
+
+        public Builder newBuilderForType() {
+            return newBuilder();
+        }
+
+        public Builder toBuilder() {
+            return this == DEFAULT_INSTANCE
+                    ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+                com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            Builder builder = new Builder(parent);
+            return builder;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<DemandHistoricalAnomaliesMessage> getParserForType() {
+            return PARSER;
+        }
+
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        /**
+         * Protobuf type {@code DemandHistoricalAnomaliesMessage}
+         */
+        public static final class Builder extends
+                com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+                // @@protoc_insertion_point(builder_implements:DemandHistoricalAnomaliesMessage)
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessageOrBuilder {
+            private int routeID_;
+            private java.lang.Object date_ = "";
+
+            // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.newBuilder()
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(
+                    com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+                super(parent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_DemandHistoricalAnomaliesMessage_descriptor;
+            }
+
+            protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_DemandHistoricalAnomaliesMessage_fieldAccessorTable
+                        .ensureFieldAccessorsInitialized(
+                                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (com.google.protobuf.GeneratedMessageV3
+                        .alwaysUseFieldBuilders) {
+                }
+            }
+
+            public Builder clear() {
+                super.clear();
+                routeID_ = 0;
+
+                date_ = "";
+
+                return this;
+            }
+
+            public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_DemandHistoricalAnomaliesMessage_descriptor;
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage getDefaultInstanceForType() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.getDefaultInstance();
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage build() {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage result = buildPartial();
+                if (!result.isInitialized()) {
+                    throw newUninitializedMessageException(result);
+                }
+                return result;
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage buildPartial() {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage result = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage(this);
+                result.routeID_ = routeID_;
+                result.date_ = date_;
+                onBuilt();
+                return result;
+            }
+
+            public Builder clone() {
+                return (Builder) super.clone();
+            }
+
+            public Builder setField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    Object value) {
+                return (Builder) super.setField(field, value);
+            }
+
+            public Builder clearField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field) {
+                return (Builder) super.clearField(field);
+            }
+
+            public Builder clearOneof(
+                    com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+                return (Builder) super.clearOneof(oneof);
+            }
+
+            public Builder setRepeatedField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    int index, Object value) {
+                return (Builder) super.setRepeatedField(field, index, value);
+            }
+
+            public Builder addRepeatedField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    Object value) {
+                return (Builder) super.addRepeatedField(field, value);
+            }
+
+            public Builder mergeFrom(com.google.protobuf.Message other) {
+                if (other instanceof pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage) {
+                    return mergeFrom((pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage) other);
+                } else {
+                    super.mergeFrom(other);
+                    return this;
+                }
+            }
+
+            public Builder mergeFrom(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage other) {
+                if (other == pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.getDefaultInstance())
+                    return this;
+                if (other.getRouteID() != 0) {
+                    setRouteID(other.getRouteID());
+                }
+                if (!other.getDate().isEmpty()) {
+                    date_ = other.date_;
+                    onChanged();
+                }
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            public Builder mergeFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws java.io.IOException {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage parsedMessage = null;
+                try {
+                    parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                    parsedMessage = (pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage) e.getUnfinishedMessage();
+                    throw e.unwrapIOException();
+                } finally {
+                    if (parsedMessage != null) {
+                        mergeFrom(parsedMessage);
+                    }
+                }
+                return this;
+            }
+
+            /**
+             * <code>optional int32 routeID = 1;</code>
+             */
+            public int getRouteID() {
+                return routeID_;
+            }
+
+            /**
+             * <code>optional int32 routeID = 1;</code>
+             */
+            public Builder setRouteID(int value) {
+
+                routeID_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional int32 routeID = 1;</code>
+             */
+            public Builder clearRouteID() {
+
+                routeID_ = 0;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string date = 2;</code>
+             */
+            public java.lang.String getDate() {
+                java.lang.Object ref = date_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    date_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
+            }
+
+            /**
+             * <code>optional string date = 2;</code>
+             */
+            public Builder setDate(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+
+                date_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string date = 2;</code>
+             */
+            public com.google.protobuf.ByteString
+            getDateBytes() {
+                java.lang.Object ref = date_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    date_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>optional string date = 2;</code>
+             */
+            public Builder setDateBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+
+                date_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string date = 2;</code>
+             */
+            public Builder clearDate() {
+
+                date_ = getDefaultInstance().getDate();
+                onChanged();
+                return this;
+            }
+
+            public final Builder setUnknownFields(
+                    final com.google.protobuf.UnknownFieldSet unknownFields) {
+                return this;
+            }
+
+            public final Builder mergeUnknownFields(
+                    final com.google.protobuf.UnknownFieldSet unknownFields) {
+                return this;
+            }
+
+
+            // @@protoc_insertion_point(builder_scope:DemandHistoricalAnomaliesMessage)
+        }
+
+    }
+
+    /**
+     * Protobuf type {@code HistoricalAnomaliesMessage}
+     */
+    public static final class HistoricalAnomaliesMessage extends
+            com.google.protobuf.GeneratedMessageV3 implements
+            // @@protoc_insertion_point(message_implements:HistoricalAnomaliesMessage)
+            HistoricalAnomaliesMessageOrBuilder {
+        public static final int ROUTEID_FIELD_NUMBER = 1;
+        public static final int DATE_FIELD_NUMBER = 2;
+        public static final int ANOMALIES_FIELD_NUMBER = 3;
+        private static final long serialVersionUID = 0L;
+        // @@protoc_insertion_point(class_scope:HistoricalAnomaliesMessage)
+        private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage DEFAULT_INSTANCE;
+        private static final com.google.protobuf.Parser<HistoricalAnomaliesMessage>
+                PARSER = new com.google.protobuf.AbstractParser<HistoricalAnomaliesMessage>() {
+            public HistoricalAnomaliesMessage parsePartialFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws com.google.protobuf.InvalidProtocolBufferException {
+                return new HistoricalAnomaliesMessage(input, extensionRegistry);
+            }
+        };
+
+        static {
+            DEFAULT_INSTANCE = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage();
+        }
+
+        private int bitField0_;
+        private int routeID_;
+        private volatile java.lang.Object date_;
+        private com.google.protobuf.MapField<
+                java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> anomalies_;
+        private byte memoizedIsInitialized = -1;
+        // Use HistoricalAnomaliesMessage.newBuilder() to construct.
+        private HistoricalAnomaliesMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+        }
+
+        private HistoricalAnomaliesMessage() {
+            routeID_ = 0;
+            date_ = "";
+        }
+
+        private HistoricalAnomaliesMessage(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            this();
+            int mutable_bitField0_ = 0;
+            try {
+                boolean done = false;
+                while (!done) {
+                    int tag = input.readTag();
+                    switch (tag) {
+                        case 0:
+                            done = true;
+                            break;
+                        default: {
+                            if (!input.skipField(tag)) {
+                                done = true;
+                            }
+                            break;
+                        }
+                        case 8: {
+
+                            routeID_ = input.readInt32();
+                            break;
+                        }
+                        case 18: {
+                            java.lang.String s = input.readStringRequireUtf8();
+
+                            date_ = s;
+                            break;
+                        }
+                        case 26: {
+                            if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                                anomalies_ = com.google.protobuf.MapField.newMapField(
+                                        AnomaliesDefaultEntryHolder.defaultEntry);
+                                mutable_bitField0_ |= 0x00000004;
+                            }
+                            com.google.protobuf.MapEntry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage>
+                                    anomalies = input.readMessage(
+                                    AnomaliesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                            anomalies_.getMutableMap().put(anomalies.getKey(), anomalies.getValue());
+                            break;
+                        }
+                    }
+                }
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                throw e.setUnfinishedMessage(this);
+            } catch (java.io.IOException e) {
+                throw new com.google.protobuf.InvalidProtocolBufferException(
+                        e).setUnfinishedMessage(this);
+            } finally {
+                makeExtensionsImmutable();
+            }
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+            return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_HistoricalAnomaliesMessage_descriptor;
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage parseFrom(
+                com.google.protobuf.ByteString data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage parseFrom(
+                com.google.protobuf.ByteString data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage parseFrom(byte[] data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage parseFrom(
+                byte[] data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage parseFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage parseFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage parseDelimitedFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseDelimitedWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage parseDelimitedFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage parseFrom(
+                com.google.protobuf.CodedInputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage parseFrom(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageV3
+                    .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.toBuilder();
+        }
+
+        public static Builder newBuilder(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage prototype) {
+            return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+
+        public static pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static com.google.protobuf.Parser<HistoricalAnomaliesMessage> parser() {
+            return PARSER;
+        }
+
+        @java.lang.Override
+        public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+            return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+        }
+
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapField internalGetMapField(
+                int number) {
+            switch (number) {
+                case 3:
+                    return internalGetAnomalies();
+                default:
+                    throw new RuntimeException(
+                            "Invalid map field number: " + number);
+            }
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+            return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_HistoricalAnomaliesMessage_fieldAccessorTable
+                    .ensureFieldAccessorsInitialized(
+                            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.Builder.class);
+        }
+
+        /**
+         * <code>optional int32 routeID = 1;</code>
+         */
+        public int getRouteID() {
+            return routeID_;
+        }
+
+        /**
+         * <code>optional string date = 2;</code>
+         */
+        public java.lang.String getDate() {
+            java.lang.Object ref = date_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                date_ = s;
+                return s;
+            }
+        }
+
+        /**
+         * <code>optional string date = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+        getDateBytes() {
+            java.lang.Object ref = date_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                date_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
+        private com.google.protobuf.MapField<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage>
+        internalGetAnomalies() {
+            if (anomalies_ == null) {
+                return com.google.protobuf.MapField.emptyMapField(
+                        AnomaliesDefaultEntryHolder.defaultEntry);
+            }
+            return anomalies_;
+        }
+
+        public int getAnomaliesCount() {
+            return internalGetAnomalies().getMap().size();
+        }
+
+        /**
+         * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+         */
+
+        public boolean containsAnomalies(
+                java.lang.String key) {
+            if (key == null) {
+                throw new java.lang.NullPointerException();
+            }
+            return internalGetAnomalies().getMap().containsKey(key);
+        }
+
+        /**
+         * Use {@link #getAnomaliesMap()} instead.
+         */
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> getAnomalies() {
+            return getAnomaliesMap();
+        }
+
+        /**
+         * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+         */
+
+        public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> getAnomaliesMap() {
+            return internalGetAnomalies().getMap();
+        }
+
+        /**
+         * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+         */
+
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage getAnomaliesOrDefault(
+                java.lang.String key,
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage defaultValue) {
+            if (key == null) {
+                throw new java.lang.NullPointerException();
+            }
+            java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> map =
+                    internalGetAnomalies().getMap();
+            return map.containsKey(key) ? map.get(key) : defaultValue;
+        }
+
+        /**
+         * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+         */
+
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage getAnomaliesOrThrow(
+                java.lang.String key) {
+            if (key == null) {
+                throw new java.lang.NullPointerException();
+            }
+            java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> map =
+                    internalGetAnomalies().getMap();
+            if (!map.containsKey(key)) {
+                throw new java.lang.IllegalArgumentException();
+            }
+            return map.get(key);
+        }
+
+        public final boolean isInitialized() {
+            byte isInitialized = memoizedIsInitialized;
+            if (isInitialized == 1) return true;
+            if (isInitialized == 0) return false;
+
+            memoizedIsInitialized = 1;
+            return true;
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                throws java.io.IOException {
+            if (routeID_ != 0) {
+                output.writeInt32(1, routeID_);
+            }
+            if (!getDateBytes().isEmpty()) {
+                com.google.protobuf.GeneratedMessageV3.writeString(output, 2, date_);
+            }
+            for (java.util.Map.Entry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> entry
+                    : internalGetAnomalies().getMap().entrySet()) {
+                com.google.protobuf.MapEntry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage>
+                        anomalies = AnomaliesDefaultEntryHolder.defaultEntry.newBuilderForType()
+                        .setKey(entry.getKey())
+                        .setValue(entry.getValue())
+                        .build();
+                output.writeMessage(3, anomalies);
+            }
+        }
+
+        public int getSerializedSize() {
+            int size = memoizedSize;
+            if (size != -1) return size;
+
+            size = 0;
+            if (routeID_ != 0) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeInt32Size(1, routeID_);
+            }
+            if (!getDateBytes().isEmpty()) {
+                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, date_);
+            }
+            for (java.util.Map.Entry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> entry
+                    : internalGetAnomalies().getMap().entrySet()) {
+                com.google.protobuf.MapEntry<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage>
+                        anomalies = AnomaliesDefaultEntryHolder.defaultEntry.newBuilderForType()
+                        .setKey(entry.getKey())
+                        .setValue(entry.getValue())
+                        .build();
+                size += com.google.protobuf.CodedOutputStream
+                        .computeMessageSize(3, anomalies);
+            }
+            memoizedSize = size;
+            return size;
+        }
+
+        @java.lang.Override
+        public boolean equals(final java.lang.Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage)) {
+                return super.equals(obj);
+            }
+            pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage other = (pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage) obj;
+
+            boolean result = true;
+            result = result && (getRouteID()
+                    == other.getRouteID());
+            result = result && getDate()
+                    .equals(other.getDate());
+            result = result && internalGetAnomalies().equals(
+                    other.internalGetAnomalies());
+            return result;
+        }
+
+        @java.lang.Override
+        public int hashCode() {
+            if (memoizedHashCode != 0) {
+                return memoizedHashCode;
+            }
+            int hash = 41;
+            hash = (19 * hash) + getDescriptorForType().hashCode();
+            hash = (37 * hash) + ROUTEID_FIELD_NUMBER;
+            hash = (53 * hash) + getRouteID();
+            hash = (37 * hash) + DATE_FIELD_NUMBER;
+            hash = (53 * hash) + getDate().hashCode();
+            if (!internalGetAnomalies().getMap().isEmpty()) {
+                hash = (37 * hash) + ANOMALIES_FIELD_NUMBER;
+                hash = (53 * hash) + internalGetAnomalies().hashCode();
+            }
+            hash = (29 * hash) + unknownFields.hashCode();
+            memoizedHashCode = hash;
+            return hash;
+        }
+
+        public Builder newBuilderForType() {
+            return newBuilder();
+        }
+
+        public Builder toBuilder() {
+            return this == DEFAULT_INSTANCE
+                    ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+                com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            Builder builder = new Builder(parent);
+            return builder;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<HistoricalAnomaliesMessage> getParserForType() {
+            return PARSER;
+        }
+
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        private static final class AnomaliesDefaultEntryHolder {
+            static final com.google.protobuf.MapEntry<
+                    java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> defaultEntry =
+                    com.google.protobuf.MapEntry
+                            .<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage>newDefaultInstance(
+                                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_HistoricalAnomaliesMessage_AnomaliesEntry_descriptor,
+                                    com.google.protobuf.WireFormat.FieldType.STRING,
+                                    "",
+                                    com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage.getDefaultInstance());
+        }
+
+        /**
+         * Protobuf type {@code HistoricalAnomaliesMessage}
+         */
+        public static final class Builder extends
+                com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+                // @@protoc_insertion_point(builder_implements:HistoricalAnomaliesMessage)
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessageOrBuilder {
+            private int bitField0_;
+            private int routeID_;
+            private java.lang.Object date_ = "";
+            private com.google.protobuf.MapField<
+                    java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> anomalies_;
+
+            // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.newBuilder()
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(
+                    com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+                super(parent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_HistoricalAnomaliesMessage_descriptor;
+            }
+
+            @SuppressWarnings({"rawtypes"})
+            protected com.google.protobuf.MapField internalGetMapField(
+                    int number) {
+                switch (number) {
+                    case 3:
+                        return internalGetAnomalies();
+                    default:
+                        throw new RuntimeException(
+                                "Invalid map field number: " + number);
+                }
+            }
+
+            @SuppressWarnings({"rawtypes"})
+            protected com.google.protobuf.MapField internalGetMutableMapField(
+                    int number) {
+                switch (number) {
+                    case 3:
+                        return internalGetMutableAnomalies();
+                    default:
+                        throw new RuntimeException(
+                                "Invalid map field number: " + number);
+                }
+            }
+
+            protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_HistoricalAnomaliesMessage_fieldAccessorTable
+                        .ensureFieldAccessorsInitialized(
+                                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.class, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (com.google.protobuf.GeneratedMessageV3
+                        .alwaysUseFieldBuilders) {
+                }
+            }
+
+            public Builder clear() {
+                super.clear();
+                routeID_ = 0;
+
+                date_ = "";
+
+                internalGetMutableAnomalies().clear();
+                return this;
+            }
+
+            public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_HistoricalAnomaliesMessage_descriptor;
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage getDefaultInstanceForType() {
+                return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.getDefaultInstance();
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage build() {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage result = buildPartial();
+                if (!result.isInitialized()) {
+                    throw newUninitializedMessageException(result);
+                }
+                return result;
+            }
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage buildPartial() {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage result = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage(this);
+                int from_bitField0_ = bitField0_;
+                int to_bitField0_ = 0;
+                result.routeID_ = routeID_;
+                result.date_ = date_;
+                result.anomalies_ = internalGetAnomalies();
+                result.anomalies_.makeImmutable();
+                result.bitField0_ = to_bitField0_;
+                onBuilt();
+                return result;
+            }
+
+            public Builder clone() {
+                return (Builder) super.clone();
+            }
+
+            public Builder setField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    Object value) {
+                return (Builder) super.setField(field, value);
+            }
+
+            public Builder clearField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field) {
+                return (Builder) super.clearField(field);
+            }
+
+            public Builder clearOneof(
+                    com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+                return (Builder) super.clearOneof(oneof);
+            }
+
+            public Builder setRepeatedField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    int index, Object value) {
+                return (Builder) super.setRepeatedField(field, index, value);
+            }
+
+            public Builder addRepeatedField(
+                    com.google.protobuf.Descriptors.FieldDescriptor field,
+                    Object value) {
+                return (Builder) super.addRepeatedField(field, value);
+            }
+
+            public Builder mergeFrom(com.google.protobuf.Message other) {
+                if (other instanceof pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage) {
+                    return mergeFrom((pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage) other);
+                } else {
+                    super.mergeFrom(other);
+                    return this;
+                }
+            }
+
+            public Builder mergeFrom(pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage other) {
+                if (other == pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.getDefaultInstance())
+                    return this;
+                if (other.getRouteID() != 0) {
+                    setRouteID(other.getRouteID());
+                }
+                if (!other.getDate().isEmpty()) {
+                    date_ = other.date_;
+                    onChanged();
+                }
+                internalGetMutableAnomalies().mergeFrom(
+                        other.internalGetAnomalies());
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            public Builder mergeFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws java.io.IOException {
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage parsedMessage = null;
+                try {
+                    parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                    parsedMessage = (pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage) e.getUnfinishedMessage();
+                    throw e.unwrapIOException();
+                } finally {
+                    if (parsedMessage != null) {
+                        mergeFrom(parsedMessage);
+                    }
+                }
+                return this;
+            }
+
+            /**
+             * <code>optional int32 routeID = 1;</code>
+             */
+            public int getRouteID() {
+                return routeID_;
+            }
+
+            /**
+             * <code>optional int32 routeID = 1;</code>
+             */
+            public Builder setRouteID(int value) {
+
+                routeID_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional int32 routeID = 1;</code>
+             */
+            public Builder clearRouteID() {
+
+                routeID_ = 0;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string date = 2;</code>
+             */
+            public java.lang.String getDate() {
+                java.lang.Object ref = date_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    date_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
+            }
+
+            /**
+             * <code>optional string date = 2;</code>
+             */
+            public Builder setDate(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+
+                date_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string date = 2;</code>
+             */
+            public com.google.protobuf.ByteString
+            getDateBytes() {
+                java.lang.Object ref = date_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    date_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>optional string date = 2;</code>
+             */
+            public Builder setDateBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+
+                date_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string date = 2;</code>
+             */
+            public Builder clearDate() {
+
+                date_ = getDefaultInstance().getDate();
+                onChanged();
+                return this;
+            }
+
+            private com.google.protobuf.MapField<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage>
+            internalGetAnomalies() {
+                if (anomalies_ == null) {
+                    return com.google.protobuf.MapField.emptyMapField(
+                            AnomaliesDefaultEntryHolder.defaultEntry);
+                }
+                return anomalies_;
+            }
+
+            private com.google.protobuf.MapField<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage>
+            internalGetMutableAnomalies() {
+                onChanged();
+                ;
+                if (anomalies_ == null) {
+                    anomalies_ = com.google.protobuf.MapField.newMapField(
+                            AnomaliesDefaultEntryHolder.defaultEntry);
+                }
+                if (!anomalies_.isMutable()) {
+                    anomalies_ = anomalies_.copy();
+                }
+                return anomalies_;
+            }
+
+            public int getAnomaliesCount() {
+                return internalGetAnomalies().getMap().size();
+            }
+
+            /**
+             * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+             */
+
+            public boolean containsAnomalies(
+                    java.lang.String key) {
+                if (key == null) {
+                    throw new java.lang.NullPointerException();
+                }
+                return internalGetAnomalies().getMap().containsKey(key);
+            }
+
+            /**
+             * Use {@link #getAnomaliesMap()} instead.
+             */
+            @java.lang.Deprecated
+            public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> getAnomalies() {
+                return getAnomaliesMap();
+            }
+
+            /**
+             * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+             */
+
+            public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> getAnomaliesMap() {
+                return internalGetAnomalies().getMap();
+            }
+
+            /**
+             * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+             */
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage getAnomaliesOrDefault(
+                    java.lang.String key,
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage defaultValue) {
+                if (key == null) {
+                    throw new java.lang.NullPointerException();
+                }
+                java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> map =
+                        internalGetAnomalies().getMap();
+                return map.containsKey(key) ? map.get(key) : defaultValue;
+            }
+
+            /**
+             * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+             */
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage getAnomaliesOrThrow(
+                    java.lang.String key) {
+                if (key == null) {
+                    throw new java.lang.NullPointerException();
+                }
+                java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> map =
+                        internalGetAnomalies().getMap();
+                if (!map.containsKey(key)) {
+                    throw new java.lang.IllegalArgumentException();
+                }
+                return map.get(key);
+            }
+
+            public Builder clearAnomalies() {
+                getMutableAnomalies().clear();
+                return this;
+            }
+
+            /**
+             * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+             */
+
+            public Builder removeAnomalies(
+                    java.lang.String key) {
+                if (key == null) {
+                    throw new java.lang.NullPointerException();
+                }
+                getMutableAnomalies().remove(key);
+                return this;
+            }
+
+            /**
+             * Use alternate mutation accessors instead.
+             */
+            @java.lang.Deprecated
+            public java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage>
+            getMutableAnomalies() {
+                return internalGetMutableAnomalies().getMutableMap();
+            }
+
+            /**
+             * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+             */
+            public Builder putAnomalies(
+                    java.lang.String key,
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage value) {
+                if (key == null) {
+                    throw new java.lang.NullPointerException();
+                }
+                if (value == null) {
+                    throw new java.lang.NullPointerException();
+                }
+                getMutableAnomalies().put(key, value);
+                return this;
+            }
+
+            /**
+             * <code>map&lt;string, .HistoricalAnomalyPresenceMessage&gt; anomalies = 3;</code>
+             */
+
+            public Builder putAllAnomalies(
+                    java.util.Map<java.lang.String, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> values) {
+                getMutableAnomalies().putAll(values);
+                return this;
+            }
+
+            public final Builder setUnknownFields(
+                    final com.google.protobuf.UnknownFieldSet unknownFields) {
+                return this;
+            }
+
+            public final Builder mergeUnknownFields(
+                    final com.google.protobuf.UnknownFieldSet unknownFields) {
+                return this;
+            }
+
+
+            // @@protoc_insertion_point(builder_scope:HistoricalAnomaliesMessage)
         }
 
     }

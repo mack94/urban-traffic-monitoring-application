@@ -48,12 +48,15 @@ public class AnomalyManager {
         if (anomalyExists(id)) {
             anomaly = getAnomalyById(id);
             anomaly.addMessage(anomalyMessage);
-            if (mainWindowController != null) mainWindowController.updateAnomalyInfo(anomaly.getScreenMessage());
+            if (mainWindowController != null) mainWindowController.updateAnomalyInfo(anomaly.getAnomalyId());
         } else {
             anomaly = new Anomaly(anomalyMessage);
-            Connector.demandBaseline(DayOfWeek.of(Integer.parseInt(anomaly.getDayOfWeek())), Integer.parseInt(anomaly.getRouteId()));
+            Connector.demandBaseline(DayOfWeek.of(Integer.parseInt(anomaly.getDayOfWeek())), Integer.parseInt(anomaly.getRouteId()),"");
             anomalyList.add(anomaly);
-            if (mainWindowController != null) mainWindowController.addAnomalyToList(anomaly.getScreenMessage());
+            if (mainWindowController != null) {
+                mainWindowController.addAnomalyToList(anomaly);
+                mainWindowController.redrawAllAnomaliesChart();
+            }
         }
     }
 
@@ -80,17 +83,10 @@ public class AnomalyManager {
         }
     }
 
-    public Anomaly getAnomalyByScreenId(String screenId) {
-        for (Anomaly a : anomalyList) {
-            if (a.getScreenMessage().equals(screenId)) return a;
-        }
-        return null;
-    }
-
     public void removeAnomaly(String anomalyId) {
         Anomaly anomaly = getAnomalyById(anomalyId);
         if (anomaly != null) {
-            mainWindowController.removeAnomalyFromList(anomaly.getScreenMessage());
+            mainWindowController.removeAnomalyFromList(anomaly.getAnomalyId());
             removeFromList(anomalyId);
             logger.debug("Anomaly list size after remove: " + anomalyList.size());
         } else {
@@ -111,9 +107,28 @@ public class AnomalyManager {
                 double h = Integer.valueOf(hours.format(parser.parse(time)));
                 double m = Integer.valueOf(minutes.format(parser.parse(time)));
                 XYChart.Data<Number, Number> data = new XYChart.Data<>(h + (m / 60), Integer.valueOf(durationHistory.get(time)));
-
                 series.getData().add(data);
             }
+            series.setName(anomaly.getRouteId() + ". " + anomaly.getRoute());
+            return series;
+        } catch (ParseException e) {
+            logger.error("chartException parse exception");
+        }
+        return null;
+    }
+
+    private XYChart.Series<Number, Number> buildPercentChart(Anomaly anomaly) {
+        try {
+            XYChart.Series<Number, Number> series = new XYChart.Series<>();
+            Map<String, String> percentHistory = anomaly.getPercentHistory();
+
+            for (String time : percentHistory.keySet()) {
+                double h = Integer.valueOf(hours.format(parser.parse(time)));
+                double m = Integer.valueOf(minutes.format(parser.parse(time)));
+                XYChart.Data<Number, Number> data = new XYChart.Data<>(h + (m / 60), Integer.valueOf(percentHistory.get(time)));
+                series.getData().add(data);
+            }
+            series.setName(anomaly.getRouteId() + ". " + anomaly.getRoute());
             return series;
         } catch (ParseException e) {
             logger.error("chartException parse exception");
@@ -132,5 +147,9 @@ public class AnomalyManager {
 
     public XYChart.Series<Number, Number> getBaseline(Anomaly anomaly) {
         return anomaly.getBaselineSeries();
+    }
+
+    public XYChart.Series<Number,Number> getPercentChartData(String id) {
+        return buildPercentChart(getAnomalyById(id));
     }
 }

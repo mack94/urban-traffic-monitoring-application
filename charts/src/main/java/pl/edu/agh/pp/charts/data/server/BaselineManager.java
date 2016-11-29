@@ -10,13 +10,13 @@ import java.util.Map;
 public class BaselineManager {
     private static ArrayList<Baseline> baselines = new ArrayList<>();
 
-    public static void addBaseline(Integer routeID, DayOfWeek day, Map<Integer, Integer> baseline) {
-        baselines.add(new Baseline(routeID, day, baseline));
+    public static void addBaseline(Integer routeID, DayOfWeek day, Map<Integer, Integer> baseline, String type) {
+        baselines.add(new Baseline(routeID, day, baseline,type));
     }
 
-    public static Baseline getBaseline(Integer routeID, DayOfWeek dayOfWeek) {
+    public static Baseline getBaseline(Integer routeID, DayOfWeek dayOfWeek,String type) {
         for (Baseline baseline : baselines) {
-            if (baseline.getRouteID().equals(routeID) && dayOfWeek.equals(baseline.getDay())) {
+            if (baseline.getRouteID().equals(routeID) && dayOfWeek.equals(baseline.getDay()) && type.equalsIgnoreCase((baseline.getType()))) {
                 return baseline;
             }
         }

@@ -3,8 +3,7 @@ package pl.edu.agh.pp.settings;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import pl.edu.agh.pp.settings.Options;
-import pl.edu.agh.pp.settings.exceptions.IllegalPreferenceObjectExpected;
+import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 
 import java.util.HashMap;
 import java.util.Random;

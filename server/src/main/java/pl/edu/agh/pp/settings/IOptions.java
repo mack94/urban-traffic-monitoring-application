@@ -1,6 +1,6 @@
 package pl.edu.agh.pp.settings;
 
-import pl.edu.agh.pp.settings.exceptions.IllegalPreferenceObjectExpected;
+import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
 import java.util.HashMap;

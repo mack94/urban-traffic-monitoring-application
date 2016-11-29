@@ -4,7 +4,7 @@ import ch.qos.logback.classic.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.settings.exceptions.IllegalPreferenceObjectExpected;
+import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

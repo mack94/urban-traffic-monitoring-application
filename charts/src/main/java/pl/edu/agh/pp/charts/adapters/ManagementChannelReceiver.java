@@ -13,8 +13,8 @@ import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.io.*;
 import java.net.InetAddress;
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Maciej on 30.10.2016.
@@ -134,7 +134,12 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                     parseAvailableHistoricalMessage(message);
                     break;
                 case HISTORICALMESSAGE:
+                    System.out.println("7777");
                     parseHistoricalMessage(message);
+                    break;
+                case HISTORICALANOMALIESMESSAGE:
+                    System.out.println("$9999");
+                    parseHistoricalAnomaliesMessage(message);
                     break;
                 default:
                     logger.error("ManagementServer: Unknown management message type received.");
@@ -217,6 +222,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             AnomalyOperationProtos.RouteMessage routeMessage = AnomalyOperationProtos
                     .RouteMessage.parseFrom(message.getRouteMessage().toByteArray());
             ServerGeneralInfo.addRoute(routeMessage);
+            Connector.updateAvailableRoutes();
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
@@ -229,7 +235,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             int routeID = baselineMessage.getRouteIdx();
             AnomalyOperationProtos.BaselineMessage.Day day = baselineMessage.getDay();
             Map<Integer, Integer> baselineMap = baselineMessage.getBaselineMap();
-            Connector.updateBaseline(routeID, day, baselineMap);
+            String type = baselineMessage.getBaselineType();
+            Connector.updateBaseline(routeID, day, baselineMap, type);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
@@ -239,9 +246,20 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         try {
             AnomalyOperationProtos.AvailableHistoricalMessage availableHistoricalMessage = AnomalyOperationProtos.
                     AvailableHistoricalMessage.parseFrom(message.getAvailableHistoricalMessage().toByteArray());
-            Map<String, Integer> availableHistoricalMap = availableHistoricalMessage.getAvaiableDateRoutesMap();
-            Connector.updateAvailableDates(availableHistoricalMap);
-            System.out.println(availableHistoricalMap);
+            Map<String, AnomalyOperationProtos.AvailableRoutes> availableHistoricalMap = availableHistoricalMessage
+                    .getAvaiableDateRoutesMap();
+            Map<String, List<Integer>> resultMap = new HashMap<>();
+            for (String key : availableHistoricalMap.keySet()) {
+                AnomalyOperationProtos.AvailableRoutes availableRoutes = availableHistoricalMap.get(key);
+                Map<Integer, Integer> availableRoutesMap = availableRoutes.getRoutesMap();
+                List<Integer> routes = availableRoutesMap
+                        .values()
+                        .stream()
+                        .collect(Collectors.toCollection(LinkedList::new));
+                resultMap.put(key, routes);
+            }
+
+            Connector.updateAvailableDates(resultMap);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
@@ -249,12 +267,35 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
 
     private void parseHistoricalMessage(AnomalyOperationProtos.ManagementMessage message) {
         try {
-            AnomalyOperationProtos.HistoricalMessage historicalMessage  = AnomalyOperationProtos
+            AnomalyOperationProtos.HistoricalMessage historicalMessage = AnomalyOperationProtos
                     .HistoricalMessage.parseFrom(message.getHistoricalMessage().toByteArray());
             int routeID = historicalMessage.getRouteID();
             String date = historicalMessage.getDate();
             Map<Integer, Integer> historicalMap = historicalMessage.getMeasuresMap();
             Connector.updateHistoricalData(routeID, DateTime.parse(date), historicalMap);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseHistoricalAnomaliesMessage(AnomalyOperationProtos.ManagementMessage message) {
+        try {
+            AnomalyOperationProtos.HistoricalAnomaliesMessage historicalAnomaliesMessage = AnomalyOperationProtos
+                    .HistoricalAnomaliesMessage.parseFrom(message.getHistoricalAnomaliesMessage().toByteArray());
+
+            int routeID = historicalAnomaliesMessage.getRouteID();
+            String date = historicalAnomaliesMessage.getDate();
+            Map<String, AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> anomaliesMap =
+                    historicalAnomaliesMessage.getAnomaliesMap();
+            Map<String, Map<Integer, Integer>> historicalAnomaliesMap = new HashMap<>();
+
+            for (String anomalyID : anomaliesMap.keySet()) {
+                Map<Integer, Integer> valuesMap = anomaliesMap.get(anomalyID).getPresenceMap();
+                historicalAnomaliesMap.put(anomalyID, valuesMap);
+            }
+
+            Connector.updateHistoricalAnomalies(routeID, DateTime.parse(date), historicalAnomaliesMap);
+
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }

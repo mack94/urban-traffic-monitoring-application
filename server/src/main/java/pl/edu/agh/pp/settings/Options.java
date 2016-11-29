@@ -2,7 +2,7 @@ package pl.edu.agh.pp.settings;
 
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.settings.exceptions.IllegalPreferenceObjectExpected;
+import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.*;
 import java.util.HashMap;
