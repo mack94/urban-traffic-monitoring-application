@@ -31,7 +31,7 @@ import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.data.server.Anomaly;
 import pl.edu.agh.pp.charts.data.server.AnomalyManager;
-import pl.edu.agh.pp.charts.data.server.ServerDatesInfo;
+import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.charts.settings.Options;
 import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
@@ -40,7 +40,6 @@ import java.io.IOException;
 import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -149,6 +148,8 @@ public class MainWindowController {
     private ComboBox<String> monitoredRoutesComboBox;
     @FXML
     private Button resetDefaultButton;
+    @FXML
+    private Label requestFrequencyLabel;
 
 
     public MainWindowController(Stage primaryStage) {
@@ -440,6 +441,7 @@ public class MainWindowController {
         if(connectedFlag){
             this.setConnectedLabel(Connector.getAddressServerInfo(), Color.BLACK);
             Platform.runLater(() -> {
+                requestFrequencyLabel.setText("3.5 - 7 min");
                 connectButton.setDisable(true);
                 disconnectButton.setDisable(false);
             });
@@ -474,10 +476,9 @@ public class MainWindowController {
     public void setAvailableRoutes(){
         Platform.runLater(()->{
             monitoredRoutesComboBox.getItems().clear();
-            Map<String, List<Integer>> map = ServerDatesInfo.getDates();
-            if (map != null)
-                monitoredRoutesComboBox.getItems().addAll(map.keySet());
-
+            List<String> list = ServerRoutesInfo.getRoutes();
+            if (list != null)
+                monitoredRoutesComboBox.getItems().addAll(list);
         });
     }
 
@@ -611,6 +612,10 @@ public class MainWindowController {
         setupTooltips();
         setupCharts();
         monitoredRoutesComboBox.setPromptText("Show List");
+        monitoredRoutesComboBox.setVisibleRowCount(5);
+        monitoredRoutesComboBox.setOnAction((event) -> {
+            Platform.runLater(()->monitoredRoutesComboBox.getSelectionModel().clearSelection());
+        });
     }
 
 

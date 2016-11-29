@@ -65,7 +65,7 @@
                         <VBox alignment="CENTER">
                             <HBox spacing="20" prefWidth="150">
                                 <VBox id="spec_set">
-                                    <Label text="Wartość wajchy: " fx:id="leverValueLabelText"/>
+                                    <Label text="Sensitivity factor: " fx:id="leverValueLabelText"/>
                                     <Label fx:id="leverValueLabel" />
                                 </VBox>
                                 <VBox id="spec_set">
