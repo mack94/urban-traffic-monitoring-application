@@ -79,18 +79,18 @@ public class DetectorManager {
 
         builderContext = new BuilderContext(PolynomialPatternBuilder.getInstance());
         try {
-            //************************************ FOR TESTING
+//            ************************************ FOR TESTING
 //            SupportVectorRegressionPatternBuilder.computeClassifier(baselineFilesLoader.processLineByLine(), true);
 //            XYLineChart_AWT chart;
 //            chart = new XYLineChart_AWT("testSVR", "Baseline i anomalie dla trasy " + 1, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 1), new ArrayList<Record>());
 //            chart.pack();
 //            RefineryUtilities.centerFrameOnScreen(chart);
 //            chart.setVisible(true);
-//            chart = new XYLineChart_AWT("testSVR", "Baseline i anomalie dla trasy " + 3, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 3), new ArrayList<Record>());
+//            chart = new XYLineChart_AWT("testSVR", "Baseline i anomalie dla trasy " + 8, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 8), new ArrayList<Record>());
 //            chart.pack();
 //            RefineryUtilities.centerFrameOnScreen(chart);
 //            chart.setVisible(true);
-            //************************************
+//            ************************************
             PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
             //************************************
 //            chart = new XYLineChart_AWT("testSVM", "Baseline i anomalie dla trasy " + 1, PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 1), new ArrayList<Record>());
@@ -98,7 +98,7 @@ public class DetectorManager {
 //            RefineryUtilities.centerFrameOnScreen(chart);
 //            chart.setVisible(true);
 //            PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
-//            chart = new XYLineChart_AWT("testSVM", "Baseline i anomalie dla trasy " + 3, PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 3), new ArrayList<Record>());
+//            chart = new XYLineChart_AWT("testSVM", "Baseline i anomalie dla trasy " + 8, PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 8), new ArrayList<Record>());
 //            chart.pack();
 //            RefineryUtilities.centerFrameOnScreen(chart);
 //            chart.setVisible(true);
