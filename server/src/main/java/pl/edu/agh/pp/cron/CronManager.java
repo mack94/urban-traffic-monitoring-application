@@ -30,7 +30,7 @@ public class CronManager
         this.anomaliesServer = anomaliesServer;
     }
 
-    public void doSomething(String logFile) throws InterruptedException
+    public void getAPIData(String logFile) throws InterruptedException
     {
 
         try

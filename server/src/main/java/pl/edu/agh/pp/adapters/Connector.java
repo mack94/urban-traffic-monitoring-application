@@ -41,9 +41,9 @@ public class Connector {
         systemScheduler.sendSystemGeneralMessageEveryHour();
 
         if (args.length > 1)
-            new CronManager(anomaliesServer).doSomething(args[1]);
+            new CronManager(anomaliesServer).getAPIData(args[1]);
         else
-            new CronManager(anomaliesServer).doSomething("");
+            new CronManager(anomaliesServer).getAPIData("");
     }
 
     public static void updateLever(double leverValue) {
