@@ -68,6 +68,7 @@ public class CommandLineManager extends Thread
                     if (baseline != null && baselineSerializer.doesBaselineFitConditions(baseline, dayOfWeek, id))
                     {
                         patternBuilder.setPartialBaseline(baseline, dayOfWeek, id);
+                        logger.info("Baseline {} for route {} on {} has been set successfully", timestamp, id, dayOfWeek);
                     }
                     else
                     {
@@ -82,6 +83,7 @@ public class CommandLineManager extends Thread
                     if (baseline != null)
                     {
                         patternBuilder.setBaseline(baseline);
+                        logger.info("Baseline {} has been set successfully", timestamp);
                     }
                     else
                     {
@@ -96,6 +98,7 @@ public class CommandLineManager extends Thread
                     if (baseline != null)
                     {
                         patternBuilder.updateBaseline(baseline);
+                        logger.info("Current baseline has been successfully updated by {}", timestamp);
                     }
                     else
                     {
