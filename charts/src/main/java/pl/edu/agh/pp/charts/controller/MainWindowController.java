@@ -825,7 +825,7 @@ public class MainWindowController {
         }
         else if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
             String a = getSelectedAnomalyId();
-            if(a != null) {
+            if(a != null && !a.equals("")) {
                 putAnomalyRouteOnAnomalyMap(getSelectedAnomalyId());
             }
         }

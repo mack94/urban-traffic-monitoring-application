@@ -15,10 +15,7 @@ import pl.edu.agh.pp.utils.LeverInfoHelper;
 import pl.edu.agh.pp.utils.Record;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
 import weka.classifiers.functions.LibSVM;
-import weka.core.Attribute;
-import weka.core.DenseInstance;
-import weka.core.Instance;
-import weka.core.Instances;
+import weka.core.*;
 
 import java.awt.geom.Point2D;
 import java.util.*;
@@ -28,8 +25,9 @@ import java.util.*;
  */
 public class SupportVectorRegressionPatternBuilder implements Strategy {
 
+    private static final int DAY_INTERVALS = 32;
     private static IAnomalyTracker anomalyTracker = AnomalyTracker.getInstance();
-    private static Map<DayOfWeek, Map<Integer, LibSVM>> svrMap = new HashMap<>();
+    private static Map<DayOfWeek, Map<Integer, List<LibSVM>>> svrMap = new HashMap<>();
     private static IBaselineSerializer baselineSerializer = FileBaselineSerializer.getInstance();
     private static Map<LibSVM, Instances> svmDatasets = new HashMap<>();
     private static BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
@@ -37,17 +35,46 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
     private static final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
 
     private static double classify(DayOfWeek dayOfWeek, int routeIdx, int second) throws Exception {
-        LibSVM svr;
-        svr = svrMap.get(dayOfWeek).get(routeIdx);
+        LibSVM svr = null;
+        int interval = 86400/DAY_INTERVALS;
+        for(int i = 0; i < DAY_INTERVALS; i++) {
+            if( i+1 == DAY_INTERVALS ) {
+                svr = svrMap.get(dayOfWeek).get(routeIdx).get(i);
+            }
+            else if (second < interval*(i+1)) {
+                svr = svrMap.get(dayOfWeek).get(routeIdx).get(i);
+                break;
+            }
+        }
+
         Attribute timeInSeconds = new Attribute("time");
-        Instance instance = new DenseInstance(1);
-        instance.setDataset(svmDatasets.get(svr));
-        instance.setValue(svmDatasets.get(svr).attribute(0), second);
+        Instance instance = new Instance(1);
+        instance.setDataset(svmDatasets.get(svrMap.get(dayOfWeek).get(routeIdx).get(0)));
+        instance.setValue(svmDatasets.get(svrMap.get(dayOfWeek).get(routeIdx).get(0)).attribute(0), second);
         return svr.classifyInstance(instance);
     }
 
+    private static void addInstance(int intervalMargin, Point2D.Double point, List<Instances> datasets, Attribute timeInSeconds, Attribute durationInTraffic) {
+        int interval = 86400/DAY_INTERVALS;
+        for(int i = 0; i < DAY_INTERVALS; i++) {
+            Instance instance = new Instance(2);
+            instance.setValue(timeInSeconds, point.getX());
+            instance.setValue(durationInTraffic, point.getY());
+            if( i+1 == DAY_INTERVALS ) {
+                datasets.get(i).add(instance);
+            }
+            else if (point.getX() < interval*(i+1)) {
+                if (point.getX() > interval*(i+1) - intervalMargin && datasets.get(i + 1) != null) {
+                    datasets.get(i + 1).add(instance);
+                }
+                datasets.get(i).add(instance);
+                break;
+            }
+        }
+    }
+
     public static void computeClassifier(List<Record> records, boolean shouldSetAfterComputing) throws Exception {
-        Map<DayOfWeek, Map<Integer, LibSVM>> baseline = new HashMap<>();
+        Map<DayOfWeek, Map<Integer, List<LibSVM>>> baseline = new HashMap<>();
 
         List<Record> _records = new LinkedList<>();
         Map<Integer, List<Point2D.Double>> pointsMap = new HashMap<>();
@@ -58,9 +85,10 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
         List<Point2D.Double> points;
         Attribute timeInSeconds = new Attribute("time");
         Attribute durationInTraffic = new Attribute("durationInTraffic");
-        ArrayList<Attribute> attrs = new ArrayList<>();
-        attrs.add(timeInSeconds);
-        attrs.add(durationInTraffic);
+        //ArrayList<Attribute> attrs = new ArrayList<>();
+        FastVector attrs = new FastVector();
+        attrs.addElement(timeInSeconds);
+        attrs.addElement(durationInTraffic);
 
 
         for (DayOfWeek day : DayOfWeek.values()) {
@@ -84,34 +112,40 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
 //                );
             }
 
-            final Map<Integer, LibSVM> svmRoutes = new HashMap<>();
+            final Map<Integer, List<LibSVM>> svmRoutes = new HashMap<>();
 
             pointsMap.keySet()
                     .stream()
                     .filter(routeID -> pointsMap.get(routeID).size() != 0)
                     .forEach(routeID -> {
-                        Instances dataset = new Instances("routes_dataset", attrs, 0);
-                        dataset.setClassIndex(dataset.numAttributes() - 1);
-                        LibSVM svm = new LibSVM();
-                        try {
-                            svm.setOptions("-S 3 -K 2 -Z -C 1000 -P 0.01".split(" "));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        List<Instances> datasets = new ArrayList<>();
+                        List<LibSVM> classifiers = new LinkedList<>();
+                        for(int i = 0; i < DAY_INTERVALS; i++) datasets.add(new Instances("routes_dataset", attrs, 0));
+                        datasets.forEach(instances -> instances.setClassIndex(1));
 
-                        pointsMap.get(routeID).stream().forEach(point -> {
-                            Instance instance = new DenseInstance(2);
-                            instance.setValue(timeInSeconds, point.getX());
-                            instance.setValue(durationInTraffic, point.getY());
-                            dataset.add(instance);
+                        for(int i = 0; i < DAY_INTERVALS; i++) classifiers.add(new LibSVM());
+
+
+
+                        classifiers.forEach(classifier -> {
+                            try {
+                                classifier.setOptions("-S 3 -K 2 -Z -C 1000 -P 0.01".split(" "));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+
+
+                        pointsMap.get(routeID).forEach(point -> {
+                            addInstance(1200, point, datasets, timeInSeconds, durationInTraffic);
                         });
                         try {
-                            svm.buildClassifier(dataset);
+                            for(int i = 0; i < DAY_INTERVALS; i++) classifiers.get(i).buildClassifier(datasets.get(i));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        svmDatasets.put(svm, dataset);
-                        svmRoutes.put(routeID, svm);
+                        svmDatasets.put(classifiers.get(0), datasets.get(0));
+                        svmRoutes.put(routeID, classifiers);
                     });
             baseline.put(day, svmRoutes);
 
@@ -173,7 +207,7 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
         logger.info(String.valueOf(predictedTravelDurationMaximum + errorDelta));
 
 
-        if ((travelDuration > predictedTravelDurationMaximum + errorDelta) || (travelDuration < predictedTravelDurationMinimum - errorDelta)) {
+        if ((travelDuration > predictedTravelDurationMaximum + errorDelta) ) {
 
             if (travelDuration > predictedTravelDuration + errorDelta)
                 errorRate = travelDuration / predictedTravelDuration;

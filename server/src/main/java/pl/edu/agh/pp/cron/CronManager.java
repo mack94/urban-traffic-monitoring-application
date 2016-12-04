@@ -81,7 +81,10 @@ public class CronManager
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    // TODO: Catch this.
+                    logger.error("CronManager: Some Exception occured while executing requestsExecutor: " + e, e);
+                    System.out.println("Please, check your API KEY. It's very possible the new one is desired.");
+                    Thread.sleep(10000);
                 }
             }
         }

@@ -59,8 +59,8 @@ public class Main {
 
         } else {
             AnomaliesServer anomaliesServer = new AnomaliesServer();
-            //new DetectorManager(anomaliesServer, args[1]).displayAnomaliesForRoute(1);
             new DetectorManager(anomaliesServer, "");
+            //new DetectorManager(anomaliesServer).displayAnomaliesForFile();
             if(args.length>1)
                 new DetectorManager(anomaliesServer, Arrays.copyOfRange(args, 1, args.length)).displayAnomaliesForFile();
             else

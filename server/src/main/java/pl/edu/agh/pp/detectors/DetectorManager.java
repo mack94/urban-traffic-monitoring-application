@@ -36,9 +36,9 @@ import java.util.*;
 public class DetectorManager {
 
     private static final String BASELINE_LOGS_PATH = "C:\\Inz\\appended_file.txt";
-    private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Inz\\appended_file.txt";
+    private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Inz\\f.log";
     private static final String LOG_FILES_DIRECTORY_PATH = "./logs";
-    private static final FilesLoader anomalySearchFilesLoader = new FilesLoader(ANOMALY_SEARCH_LOGS_PATH, "C:\\Inz\\appended_file.txt");
+    private static final FilesLoader anomalySearchFilesLoader = new FilesLoader(ANOMALY_SEARCH_LOGS_PATH);
     private final InputParser inputParser;
     private final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
     private AnomaliesServer anomaliesServer;
@@ -79,18 +79,18 @@ public class DetectorManager {
 
         builderContext = new BuilderContext(PolynomialPatternBuilder.getInstance());
         try {
-            //************************************ FOR TESTING
+//            ************************************ FOR TESTING
 //            SupportVectorRegressionPatternBuilder.computeClassifier(baselineFilesLoader.processLineByLine(), true);
 //            XYLineChart_AWT chart;
 //            chart = new XYLineChart_AWT("testSVR", "Baseline i anomalie dla trasy " + 1, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 1), new ArrayList<Record>());
 //            chart.pack();
 //            RefineryUtilities.centerFrameOnScreen(chart);
 //            chart.setVisible(true);
-//            chart = new XYLineChart_AWT("testSVR", "Baseline i anomalie dla trasy " + 3, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 3), new ArrayList<Record>());
+//            chart = new XYLineChart_AWT("testSVR", "Baseline i anomalie dla trasy " + 8, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 8), new ArrayList<Record>());
 //            chart.pack();
 //            RefineryUtilities.centerFrameOnScreen(chart);
 //            chart.setVisible(true);
-            //************************************
+//            ************************************
             PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
             //************************************
 //            chart = new XYLineChart_AWT("testSVM", "Baseline i anomalie dla trasy " + 1, PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 1), new ArrayList<Record>());
@@ -98,7 +98,7 @@ public class DetectorManager {
 //            RefineryUtilities.centerFrameOnScreen(chart);
 //            chart.setVisible(true);
 //            PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
-//            chart = new XYLineChart_AWT("testSVM", "Baseline i anomalie dla trasy " + 3, PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 3), new ArrayList<Record>());
+//            chart = new XYLineChart_AWT("testSVM", "Baseline i anomalie dla trasy " + 8, PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 8), new ArrayList<Record>());
 //            chart.pack();
 //            RefineryUtilities.centerFrameOnScreen(chart);
 //            chart.setVisible(true);
@@ -269,9 +269,9 @@ public class DetectorManager {
                 for (int routeId = startingRouteId; routeId < 8 + startingRouteId; routeId++) {
                     if (anomalousRecords.get(dayOfWeek).get(routeId).size() != 0) {
                         // TODO: inferring from which file baseline and anomalies are from, non trivial
-                        chart = new XYLineChart_AWT("Anomaly and baseline chart", "Baseline: " + "baseline_file_name" + System.lineSeparator()
-                                + "Anomalie: " + "anomaly_file_name" + System.lineSeparator()
-                                + "Trasa: " + (routeId + 1), PolynomialPatternBuilder.getValueForEachMinuteOfDay(dayOfWeek, routeId), anomalousRecords.get(dayOfWeek).get(routeId));
+                        chart = new XYLineChart_AWT("Anomaly and baseline chart", "Baseline: " + "Baseline_time" + System.lineSeparator()
+                                + "Anomalie: " + "anomaly search day" + System.lineSeparator()
+                                + "Trasa: " + (routeId), PolynomialPatternBuilder.getValueForEachMinuteOfDay(dayOfWeek, routeId), anomalousRecords.get(dayOfWeek).get(routeId));
                         chart.pack();
                         RefineryUtilities.centerFrameOnScreen(chart);
                         chart.setVisible(true);
@@ -279,16 +279,6 @@ public class DetectorManager {
                     }
                 }
             }
-            // for (Record record : recordsTestedForAnomalies) {
-            // if (record.getRouteID() == routeId) {
-            // chart = new XYLineChart_AWT(file, "Baseline i anomalie dla trasy " + record.getRouteID(), PolynomialPatternBuilder.getValueForEachMinuteOfDay(record.getDayOfWeek(), record.getRouteID() - 1),
-            // anomalousRecords);
-            // chart.pack();
-            // RefineryUtilities.centerFrameOnScreen(chart);
-            // chart.setVisible(true);
-            // break;
-            // }
-            // }
 
             Thread.sleep(100);
 
