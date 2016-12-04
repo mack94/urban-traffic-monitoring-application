@@ -1,4 +1,4 @@
-package pl.edu.agh.pp.command.line;
+package pl.edu.agh.pp.commandline;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;

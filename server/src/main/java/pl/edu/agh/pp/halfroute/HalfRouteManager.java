@@ -1,4 +1,4 @@
-package pl.edu.agh.pp.half.route;
+package pl.edu.agh.pp.halfroute;
 
 import com.google.maps.DirectionsApi;
 import com.google.maps.DistanceMatrixApi;
