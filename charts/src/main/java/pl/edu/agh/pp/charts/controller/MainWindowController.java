@@ -56,7 +56,7 @@ import java.util.regex.Pattern;
  */
 public class MainWindowController {
 
-    private static final String MAIN_WINDOW_STAGE_TITLE = "©UTM - Cracow Urban Traffic Monitoring";
+    private static final String MAIN_WINDOW_STAGE_TITLE = "CUTM - Cracow Urban Traffic Monitoring";
     private static final String MAP_TAB_NAME = "map";
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private ScheduledFuture<?> countdown;
@@ -604,7 +604,7 @@ public class MainWindowController {
 
     public void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort){
         Platform.runLater(() -> {
-            leverValueLabel.setText(String.valueOf(leverValue));
+            leverValueLabel.setText(String.valueOf(leverValue*100));
             anomalyLiveTimeLabel.setText(String.valueOf(anomalyLiveTime));
             BaselineWindowSizeLabel.setText(String.valueOf(baselineWindowSize));
             shiftLabel.setText(String.valueOf(shift));

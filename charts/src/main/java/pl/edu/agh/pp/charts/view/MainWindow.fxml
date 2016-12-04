@@ -69,7 +69,7 @@
                                     <Label fx:id="leverValueLabel" />
                                 </VBox>
                                 <VBox id="spec_set">
-                                    <Label text="Anomaly live time [s]: "  fx:id="anomalyLiveTimeLabelText"/>
+                                    <Label text="Anomaly lifetime [s]: "  fx:id="anomalyLiveTimeLabelText"/>
                                     <Label fx:id="anomalyLiveTimeLabel" />
                                 </VBox>
                                 <VBox id="spec_set">
