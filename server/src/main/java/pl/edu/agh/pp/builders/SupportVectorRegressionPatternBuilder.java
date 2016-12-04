@@ -207,7 +207,7 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
         logger.info(String.valueOf(predictedTravelDurationMaximum + errorDelta));
 
 
-        if ((travelDuration > predictedTravelDurationMaximum + errorDelta) || (travelDuration < predictedTravelDurationMinimum - errorDelta)) {
+        if ((travelDuration > predictedTravelDurationMaximum + errorDelta) ) {
 
             if (travelDuration > predictedTravelDuration + errorDelta)
                 errorRate = travelDuration / predictedTravelDuration;
