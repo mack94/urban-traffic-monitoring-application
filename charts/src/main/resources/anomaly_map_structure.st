@@ -27,6 +27,7 @@
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 15,
             center: routeStart,
+            minZoom: 12,
             streetViewControl: false
         });
         // Create a renderer for directions and bind it to the map.
@@ -98,7 +99,7 @@
 	}
 </script>
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsYDVCEI0HyxmPmsSiIbBRVC033odkXGs&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=$API_KEY$&callback=initMap">
 </script>
 </body>
 </html>

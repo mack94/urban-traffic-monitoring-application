@@ -24,6 +24,11 @@
       "name": "Nio_Server_Mode",
       "type": "Boolean",
       "value": "true"
+    },
+    {
+      "name": "API_KEY",
+      "type": "String",
+      "value": "AIzaSyCsYDVCEI0HyxmPmsSiIbBRVC033odkXGs"
     }
   ]
 }

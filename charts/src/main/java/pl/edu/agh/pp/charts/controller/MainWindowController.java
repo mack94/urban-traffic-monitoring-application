@@ -588,7 +588,7 @@ public class MainWindowController {
         }
     }
 
-    private void setAnomalyMapUp() {
+    private void setAnomalyMapUp() throws IllegalPreferenceObjectExpected {
         htmlBuilder = new HtmlBuilder();
         anomalyMapWebEngine = anomalyMapWebView.getEngine();
 
@@ -694,11 +694,11 @@ public class MainWindowController {
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");
         setConnectedState();
         connectButton.setDefaultButton(true);
-        setAnomalyMapUp();
-        setMapUp();
-        hideServerSettingsButton.setText("Hide Server Settings");
-        hideAnomaliesButton.setText("Hide Anomalies");
         try {
+            setAnomalyMapUp();
+            setMapUp();
+            hideServerSettingsButton.setText("Hide Server Settings");
+            hideAnomaliesButton.setText("Hide Anomalies");
             serverAddrTxtField.setText((String) options.getPreference("Server_Address", String.class));
             serverPortTxtField.setText((String) options.getPreference("Server_Port", String.class));
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {

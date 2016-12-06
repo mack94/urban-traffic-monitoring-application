@@ -5,8 +5,12 @@ import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.antlr.stringtemplate.language.DefaultTemplateLexer;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.charts.settings.Options;
+import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
 
 /**
  * Created by Maciej on 16.12.2015.
@@ -18,9 +22,12 @@ public class HtmlBuilder {
 
     private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass().toString());
     private String rootDir;
+    private String Google_Maps_Javascript_API_KEY;
 
-    public HtmlBuilder() {
+    public HtmlBuilder() throws IllegalPreferenceObjectExpected {
         this.rootDir = System.getProperty("user.dir");
+        Options options = Options.getInstance();
+        this.Google_Maps_Javascript_API_KEY = (String)options.getPreference("API_KEY",String.class);
     }
 
     private StringTemplate loadStringTemplate(String template) {
@@ -41,6 +48,7 @@ public class HtmlBuilder {
         messageStructure.setAttribute("startLng", route.getStartLng());
         messageStructure.setAttribute("endLat", route.getEndLat());
         messageStructure.setAttribute("endLng", route.getEndLng());
+        messageStructure.setAttribute("API_KEY", Google_Maps_Javascript_API_KEY);
 
         return messageStructure.toString();
     }
@@ -52,6 +60,7 @@ public class HtmlBuilder {
         //center of default anomaly map
         messageStructure.setAttribute("startLat", "50.07");
         messageStructure.setAttribute("startLng", "19.94");
+        messageStructure.setAttribute("API_KEY", Google_Maps_Javascript_API_KEY);
 
         //these coords wont matter, but they have to be give a value
         messageStructure.setAttribute("endLat", "0");
@@ -72,6 +81,7 @@ public class HtmlBuilder {
         }
         messageStructure.setAttribute("default", "false");
         messageStructure.setAttribute("routesInstructions", routesInstructions.toString());
+        messageStructure.setAttribute("API_KEY", Google_Maps_Javascript_API_KEY);
 
         return messageStructure.toString();
     }
@@ -83,6 +93,7 @@ public class HtmlBuilder {
 
         messageStructure.setAttribute("default", "true");
         messageStructure.setAttribute("routesInstructions", "");
+        messageStructure.setAttribute("API_KEY", Google_Maps_Javascript_API_KEY);
 
         return messageStructure.toString();
     }
