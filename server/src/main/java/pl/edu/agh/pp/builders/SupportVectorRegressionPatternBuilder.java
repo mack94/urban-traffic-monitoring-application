@@ -25,7 +25,8 @@ import java.util.*;
  */
 public class SupportVectorRegressionPatternBuilder implements Strategy {
 
-    private static final int DAY_INTERVALS = 32;
+    private static int DAY_INTERVALS = 4;
+    private static int INTERVAL = 1200;
     private static IAnomalyTracker anomalyTracker = AnomalyTracker.getInstance();
     private static Map<DayOfWeek, Map<Integer, List<LibSVM>>> svrMap = new HashMap<>();
     private static IBaselineSerializer baselineSerializer = FileBaselineSerializer.getInstance();
@@ -96,6 +97,8 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
             pointsMap.clear();
 
             for (Record record : _records) {
+                if(!record.getAnomalyID().equals("")) continue;
+
                 recordRouteID = record.getRouteID();
                 points = pointsMap.get(recordRouteID);
                 if (points == null) {
@@ -137,7 +140,7 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
 
 
                         pointsMap.get(routeID).forEach(point -> {
-                            addInstance(1200, point, datasets, timeInSeconds, durationInTraffic);
+                            addInstance(INTERVAL, point, datasets, timeInSeconds, durationInTraffic);
                         });
                         try {
                             for(int i = 0; i < DAY_INTERVALS; i++) classifiers.get(i).buildClassifier(datasets.get(i));
@@ -238,5 +241,13 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
     @Override
     public void setServer(Server server) {
         anomalyTracker.setAnomaliesServer((AnomaliesServer) server);
+    }
+
+    public static void setDayIntervals(int dayIntervals) {
+        DAY_INTERVALS = dayIntervals;
+    }
+
+    public static void setInterval(int INTERVAL) {
+        SupportVectorRegressionPatternBuilder.INTERVAL = INTERVAL;
     }
 }
