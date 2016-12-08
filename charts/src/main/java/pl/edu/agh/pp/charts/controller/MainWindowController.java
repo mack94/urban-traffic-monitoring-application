@@ -801,7 +801,7 @@ public class MainWindowController {
             lineChart.getXAxis().setAutoRanging(true);
             lineChart.getYAxis().setAutoRanging(true);
             putAnomalyInfoOnScreen(selectedItem);
-            if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
+            if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText()) && !selectedItem.isEmpty()) {
                 putAnomalyRouteOnAnomalyMap(selectedItem);
             }
         }
