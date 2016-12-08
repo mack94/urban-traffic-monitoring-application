@@ -50,6 +50,8 @@ public class XYLineChart_AWT extends ApplicationFrame {
         renderer.setSeriesShapesVisible(0, false);
         renderer.setSeriesLinesVisible(1, false);
         plot.setRenderer(renderer);
+        plot.getDomainAxis().setLabel("Time of day[h]");
+        plot.getRangeAxis().setLabel("Duration in traffic[s]");
     }
 
     public void setSampleDataset(double[] values, List<Record> anomalousRecords) {

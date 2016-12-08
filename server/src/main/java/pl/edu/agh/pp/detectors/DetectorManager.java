@@ -19,6 +19,9 @@ import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.utils.Record;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -35,9 +38,9 @@ import java.util.*;
 public class DetectorManager {
 
     private static final String BASELINE_LOGS_PATH = "C:\\Inz\\appended_file.txt";
-    private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Inz\\appended_file.txt";
+    private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Inz\\f.log";
     private static final String LOG_FILES_DIRECTORY_PATH = "./logs";
-    private static final FilesLoader anomalySearchFilesLoader = new FilesLoader(ANOMALY_SEARCH_LOGS_PATH, "C:\\Inz\\appended_file.txt");
+    private static final FilesLoader anomalySearchFilesLoader = new FilesLoader(ANOMALY_SEARCH_LOGS_PATH);
     private final InputParser inputParser;
     private final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
     private AnomaliesServer anomaliesServer;
@@ -73,23 +76,35 @@ public class DetectorManager {
             }
             baselineFilesLoader = new FilesLoader(newLogFiles);
         } else {
+            folder = new File(logFiles[0]);
+            if(folder.isDirectory() && folder.listFiles() != null) {
+                String newLogFiles[] = new String[folder.listFiles().length];
+                int i = 0;
+                for (File file : folder.listFiles()) {
+                    if (file.isFile() && file.getAbsolutePath().endsWith(".log")) {
+                        newLogFiles[i] = file.getAbsolutePath();
+                        i++;
+                    }
+                }
+                baselineFilesLoader = new FilesLoader(newLogFiles);
+            }
             baselineFilesLoader = new FilesLoader(logFiles);
         }
 
         builderContext = new BuilderContext(PolynomialPatternBuilder.getInstance());
         try {
-            //************************************ FOR TESTING
+//            ************************************ FOR TESTING
 //            SupportVectorRegressionPatternBuilder.computeClassifier(baselineFilesLoader.processLineByLine(), true);
 //            XYLineChart_AWT chart;
 //            chart = new XYLineChart_AWT("testSVR", "Baseline i anomalie dla trasy " + 1, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 1), new ArrayList<Record>());
 //            chart.pack();
 //            RefineryUtilities.centerFrameOnScreen(chart);
 //            chart.setVisible(true);
-//            chart = new XYLineChart_AWT("testSVR", "Baseline i anomalie dla trasy " + 3, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 3), new ArrayList<Record>());
+//            chart = new XYLineChart_AWT("testSVR", "Baseline i anomalie dla trasy " + 8, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 8), new ArrayList<Record>());
 //            chart.pack();
 //            RefineryUtilities.centerFrameOnScreen(chart);
 //            chart.setVisible(true);
-            //************************************
+//            ************************************
             PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
             //************************************
 //            chart = new XYLineChart_AWT("testSVM", "Baseline i anomalie dla trasy " + 1, PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 1), new ArrayList<Record>());
@@ -97,7 +112,7 @@ public class DetectorManager {
 //            RefineryUtilities.centerFrameOnScreen(chart);
 //            chart.setVisible(true);
 //            PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
-//            chart = new XYLineChart_AWT("testSVM", "Baseline i anomalie dla trasy " + 3, PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 3), new ArrayList<Record>());
+//            chart = new XYLineChart_AWT("testSVM", "Baseline i anomalie dla trasy " + 8, PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 8), new ArrayList<Record>());
 //            chart.pack();
 //            RefineryUtilities.centerFrameOnScreen(chart);
 //            chart.setVisible(true);
@@ -223,6 +238,53 @@ public class DetectorManager {
         }
     }
 
+    public void buildAndShowBaseline(int routeID, DayOfWeek day, String arg, String[] algorithm_options) throws Exception {
+        XYLineChart_AWT chart;
+        if(Objects.equals(arg, "poly") || Objects.equals(arg, "p")) {
+            for(int i=0; i<algorithm_options.length; i++) {
+                if(Objects.equals(algorithm_options[i], "-d") && algorithm_options.length >= i+1){
+                    PolynomialPatternBuilder.setPolymonialDegree(Integer.parseInt(algorithm_options[i+1]));
+                    i++;
+                }
+            }
+            logger.info("Building baseline with method: poly");
+            PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
+
+            chart = new XYLineChart_AWT("Polymonial", "Baseline dla trasy " + routeID, PolynomialPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<Record>());
+            chart.pack();
+            RefineryUtilities.centerFrameOnScreen(chart);
+            chart.setVisible(true);
+            chart.addWindowListener(new WindowAdapter(){
+                public void windowClosing(WindowEvent we){
+                    System.exit(0);
+                }
+            });
+        } else if(Objects.equals(arg, "svr") || Objects.equals(arg, "s")) {
+            for(int i=0; i<algorithm_options.length; i++) {
+                if(Objects.equals(algorithm_options[i], "-n") && algorithm_options.length >= i+2){
+                    SupportVectorRegressionPatternBuilder.setDayIntervals(Integer.parseInt(algorithm_options[i+1]));
+                    i++;
+                }
+                if(Objects.equals(algorithm_options[i], "-i") && algorithm_options.length >= i+2){
+                    SupportVectorRegressionPatternBuilder.setInterval(Integer.parseInt(algorithm_options[i+1]));
+                    i++;
+                }
+            }
+            logger.info("Building baseline with method: svr");
+            SupportVectorRegressionPatternBuilder.computeClassifier(baselineFilesLoader.processLineByLine(), true);
+
+            chart = new XYLineChart_AWT("SVR", "Baseline dla trasy " + routeID, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<Record>());
+            chart.pack();
+            RefineryUtilities.centerFrameOnScreen(chart);
+            chart.setVisible(true);
+            chart.addWindowListener(new WindowAdapter(){
+                public void windowClosing(WindowEvent we){
+                    System.exit(0);
+                }
+            });
+        }
+    }
+
     public void displayAnomaliesForFile() {
         try {
             XYLineChart_AWT chart;
@@ -268,9 +330,9 @@ public class DetectorManager {
                 for (int routeId = startingRouteId; routeId < 8 + startingRouteId; routeId++) {
                     if (anomalousRecords.get(dayOfWeek).get(routeId).size() != 0) {
                         // TODO: inferring from which file baseline and anomalies are from, non trivial
-                        chart = new XYLineChart_AWT("Anomaly and baseline chart", "Baseline: " + "baseline_file_name" + System.lineSeparator()
-                                + "Anomalie: " + "anomaly_file_name" + System.lineSeparator()
-                                + "Trasa: " + (routeId + 1), PolynomialPatternBuilder.getValueForEachMinuteOfDay(dayOfWeek, routeId), anomalousRecords.get(dayOfWeek).get(routeId));
+                        chart = new XYLineChart_AWT("Anomaly and baseline chart", "Baseline: " + "Baseline_time" + System.lineSeparator()
+                                + "Anomalie: " + "anomaly search day" + System.lineSeparator()
+                                + "Trasa: " + (routeId), PolynomialPatternBuilder.getValueForEachMinuteOfDay(dayOfWeek, routeId), anomalousRecords.get(dayOfWeek).get(routeId));
                         chart.pack();
                         RefineryUtilities.centerFrameOnScreen(chart);
                         chart.setVisible(true);
@@ -278,16 +340,6 @@ public class DetectorManager {
                     }
                 }
             }
-            // for (Record record : recordsTestedForAnomalies) {
-            // if (record.getRouteID() == routeId) {
-            // chart = new XYLineChart_AWT(file, "Baseline i anomalie dla trasy " + record.getRouteID(), PolynomialPatternBuilder.getValueForEachMinuteOfDay(record.getDayOfWeek(), record.getRouteID() - 1),
-            // anomalousRecords);
-            // chart.pack();
-            // RefineryUtilities.centerFrameOnScreen(chart);
-            // chart.setVisible(true);
-            // break;
-            // }
-            // }
 
             Thread.sleep(100);
 

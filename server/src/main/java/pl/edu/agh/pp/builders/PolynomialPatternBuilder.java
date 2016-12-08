@@ -31,6 +31,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
     private static LeverInfoHelper leverInfoHelper = LeverInfoHelper.getInstance();
     private static BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
     private static final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
+    private static int polymonialDegree = 17;
 
     private PolynomialPatternBuilder() {
     }
@@ -45,7 +46,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
 
     public static void computePolynomial(List<Record> records, boolean shouldSetAfterComputing) {
         Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = new HashMap<>();
-        PolynomialCurveFitter fitter = PolynomialCurveFitter.create(17);
+        PolynomialCurveFitter fitter = PolynomialCurveFitter.create(polymonialDegree);
 
         List<Record> _records = new LinkedList<>();
         _records.addAll(records);
@@ -56,6 +57,8 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
             Map<Integer, List<WeightedObservedPoint>> weightedObservedPointsMap = new HashMap<>();
 
             for (Record record : _records) {
+                if(!record.getAnomalyID().equals("")) continue;
+
                 int recordRouteID = record.getRouteID();
                 List<WeightedObservedPoint> points = weightedObservedPointsMap.get(recordRouteID);
                 if (points == null) {
@@ -151,7 +154,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
         logger.info(String.valueOf(predictedTravelDurationMaximum + errorDelta));
 
 
-        if ((travelDuration > predictedTravelDurationMaximum + errorDelta) || (travelDuration < predictedTravelDurationMinimum - errorDelta)) {
+        if ((travelDuration > predictedTravelDurationMaximum + errorDelta) ) {
 
             if (travelDuration > predictedTravelDuration + errorDelta)
                 errorRate = travelDuration / predictedTravelDuration;
@@ -187,5 +190,9 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
 
     public static class Holder {
         static final PolynomialPatternBuilder INSTANCE = new PolynomialPatternBuilder();
+    }
+
+    public static void setPolymonialDegree(int newDegree) {
+        polymonialDegree = newDegree;
     }
 }

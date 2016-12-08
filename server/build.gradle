@@ -25,8 +25,10 @@ dependencies {
     compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.0.0'
     compile group: 'org.json', name: 'json', version: '20160810'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
-    // https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/LibSVM
-    compile group: 'nz.ac.waikato.cms.weka', name: 'LibSVM', version: '1.0.10'
+    compile group: 'com.datumbox', name: 'libsvm', version: '3.21'
+    compile group: 'nz.ac.waikato.cms.weka', name: 'weka-stable', version: '3.6.6'
+
+
 
 
     testCompile 'org.mockito:mockito-core:1.+'

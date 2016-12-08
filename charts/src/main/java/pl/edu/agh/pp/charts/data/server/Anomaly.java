@@ -1,7 +1,6 @@
 package pl.edu.agh.pp.charts.data.server;
 
 import javafx.scene.chart.XYChart;
-import pl.edu.agh.pp.charts.data.local.RoutesLoader;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
 import java.time.DayOfWeek;
@@ -32,7 +31,7 @@ public class Anomaly {
         this.startDate = anomalyMessage.getDate();
         this.lastDate = anomalyMessage.getDate();
         this.routeId = String.valueOf(anomalyMessage.getRouteIdx());
-        this.route = RoutesLoader.getRoute(routeId);
+        this.route = ServerRoutesInfo.getRouteName(Integer.valueOf(routeId));
         this.duration = String.valueOf(anomalyMessage.getDuration());
         this.dayOfWeek = String.valueOf(anomalyMessage.getDayOfWeek());
         this.percent = String.valueOf(anomalyMessage.getNormExceed());
@@ -99,6 +98,7 @@ public class Anomaly {
                 else if(previousEntry.getValue().compareTo(percentHistory.lowerEntry(previousEntry.getKey()).getValue())<0) score -= 1;
             }
         }
+
         if(score == 2 || score == 1) return "↗";
         if(score == 3) return "↑";
         if(score == -2 || score == -1) return "↘";

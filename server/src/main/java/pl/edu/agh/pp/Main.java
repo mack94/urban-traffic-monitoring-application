@@ -7,7 +7,9 @@ import pl.edu.agh.pp.adapters.Connector;
 import pl.edu.agh.pp.detectors.DetectorManager;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
+import pl.edu.agh.pp.utils.enums.DayOfWeek;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -26,7 +28,7 @@ public class Main {
     private static boolean running_mode = true;
     private static IOptions options = Options.getInstance();
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
 
         System.out.println("Run: 'java -jar server.jar on/off path_to_logs'");
         try {
@@ -58,13 +60,38 @@ public class Main {
             Connector.connect(args, bind_addr, port, nio);
 
         } else {
-            AnomaliesServer anomaliesServer = new AnomaliesServer();
-            //new DetectorManager(anomaliesServer, args[1]).displayAnomaliesForRoute(1);
-            new DetectorManager(anomaliesServer, "");
-            if(args.length>1)
-                new DetectorManager(anomaliesServer, Arrays.copyOfRange(args, 1, args.length)).displayAnomaliesForFile();
-            else
-                logger.error("Run: 'java -jar anomaliesServer.jar off path_to_logs'");
+            logger.info("---------------------Offline mode.--------------------------");
+            handleOfflineMode(args);
+
+        }
+    }
+
+    private static void handleOfflineMode(String[] args) throws Exception {
+        AnomaliesServer anomaliesServer = new AnomaliesServer();
+        new DetectorManager(anomaliesServer, "");
+        //new DetectorManager(anomaliesServer).displayAnomaliesForFile();
+        File logDir = null;
+        if(args.length>=5) {
+            if (Objects.equals(args[1], "build")) {
+                logDir = new File(args[args.length-1]);
+
+                if(logDir != null && logDir.isDirectory()) {
+                    new DetectorManager(anomaliesServer,logDir.getAbsolutePath())
+                            .buildAndShowBaseline(Integer.parseInt(args[2]), DayOfWeek.fromValue(Integer.parseInt(args[3])), args[4], Arrays.copyOfRange(args, 5, args.length));
+                }
+                else{
+                    new DetectorManager(anomaliesServer,"")
+                            .buildAndShowBaseline(Integer.parseInt(args[2]), DayOfWeek.fromValue(Integer.parseInt(args[3])), args[4], Arrays.copyOfRange(args, 5, args.length));
+                }
+
+            } else if (Objects.equals(args[1], "anomaly")) {
+                //TODO ?
+            }
+            //new DetectorManager(anomaliesServer, Arrays.copyOfRange(args, 1, args.length)).displayAnomaliesForFile();
+        }
+        else {
+            logger.error("Run: 'java -jar anomaliesServer.jar off <command> <options>'");
+            System.exit(0);
         }
     }
 }

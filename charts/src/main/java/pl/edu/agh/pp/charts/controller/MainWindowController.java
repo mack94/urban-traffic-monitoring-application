@@ -20,6 +20,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import org.gillius.jfxutils.chart.ChartPanManager;
 import org.gillius.jfxutils.chart.JFXChartUtil;
@@ -29,6 +31,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.Main;
 import pl.edu.agh.pp.charts.adapters.Connector;
+import pl.edu.agh.pp.charts.data.local.HtmlBuilder;
+import pl.edu.agh.pp.charts.data.local.MapRoute;
 import pl.edu.agh.pp.charts.data.server.Anomaly;
 import pl.edu.agh.pp.charts.data.server.AnomalyManager;
 import pl.edu.agh.pp.charts.data.server.ServerRoutesInfo;
@@ -38,6 +42,11 @@ import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -47,10 +56,18 @@ import java.util.regex.Pattern;
  */
 public class MainWindowController {
 
+    private static final String MAIN_WINDOW_STAGE_TITLE = "CUTM - Cracow Urban Traffic Monitoring";
+    private static final String MAP_TAB_NAME = "map";
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private ScheduledFuture<?> countdown;
     private Stage primaryStage = null;
     private Scene scene = null;
     private ChartsController chartsController = null;
     private boolean connectedFlag = false;
+    private boolean anomalyListChangedFlag = false;
+    private WebEngine anomalyMapWebEngine;
+    private WebEngine mapWebEngine;
+    private HtmlBuilder htmlBuilder;
     private final Logger logger = (Logger) LoggerFactory.getLogger(MainWindowController.class);
     private final AnomalyManager anomalyManager = AnomalyManager.getInstance();
     private final Options options = Options.getInstance();
@@ -58,6 +75,10 @@ public class MainWindowController {
 
     @FXML
     private volatile LineChart<Number, Number> lineChart;
+    @FXML
+    private WebView anomalyMapWebView;
+    @FXML
+    private WebView mapWebView;
     @FXML
     private Button chartsButton;
     @FXML
@@ -150,6 +171,10 @@ public class MainWindowController {
     private Button resetDefaultButton;
     @FXML
     private Label requestFrequencyLabel;
+    @FXML
+    private Label requestFrequencyLabelText;
+    @FXML
+    private Label monitoredRoutesLabelText;
 
 
     public MainWindowController(Stage primaryStage) {
@@ -162,7 +187,7 @@ public class MainWindowController {
             loader.setController(this);
             BorderPane rootLayout = loader.load();
 
-            primaryStage.setTitle("©UTM - Cracow Urban Traffic Monitoring");
+            primaryStage.setTitle(MAIN_WINDOW_STAGE_TITLE);
             scene = new Scene(rootLayout);
             scene.getStylesheets().add(Main.class.getResource("/chart.css").toExternalForm());
             primaryStage.setScene(scene);
@@ -189,6 +214,7 @@ public class MainWindowController {
     }
     void setScene(){
         primaryStage.setScene(scene);
+        primaryStage.setTitle(MAIN_WINDOW_STAGE_TITLE);
     }
     public void updateAnomalyInfo(String anomalyId){
         updateAnomalyList(anomalyId);
@@ -210,13 +236,39 @@ public class MainWindowController {
             lastDateLabel.setText(anomaly.getLastDate());
             routeIdLabel.setText(anomaly.getRouteId());
             routeDescLabel.setText(anomaly.getRoute());
-            recentDuration.setText(anomaly.getDuration());
+            recentDuration.setText(anomaly.getDuration()+" seconds");
             anomaliesNumberLabel.setText(anomaly.getAnomaliesNumber());
-            previousDurationLabel.setText(anomaly.getPreviousDuration());
+            previousDurationLabel.setText(anomaly.getPreviousDuration()+" seconds");
             ExcessLabel.setText(anomaly.getPercent());
             trendLabel.setText(anomaly.getTrend());
         } );
         putChartOnScreen(anomaly);
+    }
+
+    public void putAnomalyRouteOnAnomalyMap(String id) {
+        // Delete cache for navigate back
+        anomalyMapWebEngine.load("about:blank");
+        // Delete cookies
+        java.net.CookieHandler.setDefault(new java.net.CookieManager());
+        Anomaly anomaly = anomalyManager.getAnomalyById(id);
+        if(anomaly!=null) {
+            MapRoute mapRoute = new MapRoute(anomaly);
+            anomalyMapWebEngine.loadContent(htmlBuilder.loadAnomalyMapStructure(mapRoute));
+        }
+    }
+
+    public void updateAnomalyRoutesOnMap() {
+        // Delete cache for navigate back
+        mapWebEngine.load("about:blank");
+        // Delete cookies
+        java.net.CookieHandler.setDefault(new java.net.CookieManager());
+        Anomaly anomaly;
+        List<MapRoute> mapRoutes = new LinkedList<>();
+        for(HBox hbox: anomaliesListView.getItems()){
+            anomaly = anomalyManager.getAnomalyById(hbox.getId());
+            mapRoutes.add(new MapRoute(anomaly));
+        }
+        mapWebEngine.loadContent(htmlBuilder.loadMapStructure(mapRoutes));
     }
 
     private void updateAnomalyList(String anomalyId){
@@ -350,8 +402,30 @@ public class MainWindowController {
         } );
     }
 
+    private void handleMapUpdate() {
+        if( MAP_TAB_NAME.equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText()) ) {
+            if(countdown == null || countdown.isDone()) {
+                anomalyListChangedFlag = false;
+                updateMapAfterDelay(3);
+            }
+        }
+        else {
+            anomalyListChangedFlag = true;
+        }
+    }
+
+    private void updateMapAfterDelay(int seconds) {
+        countdown = scheduler.schedule(new Runnable() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    updateAnomalyRoutesOnMap();
+                });
+            }}, seconds, TimeUnit.SECONDS);
+    }
     public void addAnomalyToList(Anomaly anomaly){
         putAnomalyOnList(anomaly.getAnomalyId(),anomaly.getRouteId(),anomaly.getRoute(),anomaly.getStartDate(),anomaly.getPercent(),anomaly.getTrend());
+        handleMapUpdate();
     }
 
     private void putAnomalyOnList(String anomalyID,String routeID, String routeName, String startDate, String excess, String Trend){
@@ -375,7 +449,6 @@ public class MainWindowController {
                 else return 0;
             });
         });
-
     }
 
     private String getSelectedAnomalyId(){
@@ -418,6 +491,7 @@ public class MainWindowController {
                         }
                     });
                 }
+                handleMapUpdate();
             }
         }
         else{
@@ -441,7 +515,7 @@ public class MainWindowController {
         if(connectedFlag){
             this.setConnectedLabel(Connector.getAddressServerInfo(), Color.BLACK);
             Platform.runLater(() -> {
-                requestFrequencyLabel.setText("3.5 - 7 min");
+                requestFrequencyLabel.setText("3.5 - 7");
                 connectButton.setDisable(true);
                 disconnectButton.setDisable(false);
             });
@@ -449,6 +523,7 @@ public class MainWindowController {
         else {
             this.setConnectedLabel("NOT CONNECTED", Color.RED);
             Platform.runLater(() -> {
+                requestFrequencyLabel.setText("");
                 connectButton.setDisable(false);
                 disconnectButton.setDisable(true);
                 resetServerInfoLabels();
@@ -513,9 +588,23 @@ public class MainWindowController {
         }
     }
 
+    private void setAnomalyMapUp() throws IllegalPreferenceObjectExpected {
+        htmlBuilder = new HtmlBuilder();
+        anomalyMapWebEngine = anomalyMapWebView.getEngine();
+
+        anomalyMapWebEngine.loadContent(htmlBuilder.loadDefaultAnomalyMapStructure());
+    }
+
+    private void setMapUp() throws IOException {
+        mapWebEngine = mapWebView.getEngine();
+
+        mapWebEngine.loadContent(htmlBuilder.loadDefaultMapStructure());
+
+    }
+
     public void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort){
         Platform.runLater(() -> {
-            leverValueLabel.setText(String.valueOf(leverValue));
+            leverValueLabel.setText(String.valueOf(leverValue*100));
             anomalyLiveTimeLabel.setText(String.valueOf(anomalyLiveTime));
             BaselineWindowSizeLabel.setText(String.valueOf(baselineWindowSize));
             shiftLabel.setText(String.valueOf(shift));
@@ -548,6 +637,10 @@ public class MainWindowController {
         serverAddrLabel.setTooltip(new Tooltip("IP Address of the Server application"));
         serverPortTxtField.setTooltip(new Tooltip("Port used to connect Client application to Management channel of Server application"));
         serverPortLabel.setTooltip(new Tooltip("Port used to connect Client application to Management channel of Server application"));
+        requestFrequencyLabel.setTooltip(new Tooltip("The frequency of requests sent to Google API by the server to ask for current travel duration"));
+        requestFrequencyLabelText.setTooltip(new Tooltip("The frequency of requests sent to Google API by the server to ask for current travel duration"));
+        monitoredRoutesLabelText.setTooltip(new Tooltip("List of routes monitored by the Server application"));
+        monitoredRoutesComboBox.setTooltip(new Tooltip("List of routes monitored by the Server application"));
     }
 
     private void setupCharts(){
@@ -601,9 +694,11 @@ public class MainWindowController {
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");
         setConnectedState();
         connectButton.setDefaultButton(true);
-        hideServerSettingsButton.setText("Hide Server Settings");
-        hideAnomaliesButton.setText("Hide Anomalies");
         try {
+            setAnomalyMapUp();
+            setMapUp();
+            hideServerSettingsButton.setText("Hide Server Settings");
+            hideAnomaliesButton.setText("Hide Anomalies");
             serverAddrTxtField.setText((String) options.getPreference("Server_Address", String.class));
             serverPortTxtField.setText((String) options.getPreference("Server_Port", String.class));
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
@@ -706,8 +801,8 @@ public class MainWindowController {
             lineChart.getXAxis().setAutoRanging(true);
             lineChart.getYAxis().setAutoRanging(true);
             putAnomalyInfoOnScreen(selectedItem);
-            if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())) {
-                //putAnomalyOnMap(selectedItem);
+            if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText()) && !selectedItem.isEmpty()) {
+                putAnomalyRouteOnAnomalyMap(selectedItem);
             }
         }
     }
@@ -730,8 +825,14 @@ public class MainWindowController {
         }
         else if("anomaly map".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
             String a = getSelectedAnomalyId();
-            if(a != null) {
-                //putAnomalyOnMap(anomaliesListView.getSelectionModel().getSelectedItem());
+            if(a != null && !a.equals("")) {
+                putAnomalyRouteOnAnomalyMap(getSelectedAnomalyId());
+            }
+        }
+        else if(MAP_TAB_NAME.equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
+            if(anomalyListChangedFlag) {
+                updateAnomalyRoutesOnMap();
+                anomalyListChangedFlag = false;
             }
         }
         else if("anomalies summary chart".equalsIgnoreCase(tabPane.getSelectionModel().getSelectedItem().getText())){
@@ -757,7 +858,7 @@ public class MainWindowController {
             lineChart.getXAxis().setAutoRanging(true);
             lineChart.getYAxis().setAutoRanging(true);
             putAnomalyInfoOnScreen(selectedItem);
-            //putAnomalyOnMap(selectedItem);
+            putAnomalyRouteOnAnomalyMap(selectedItem);
         }
     }
     @FXML

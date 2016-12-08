@@ -98,6 +98,8 @@ public class ChartsController {
     private Label drawAnomaliesLabel;
     @FXML
     private CheckBox drawAnomaliesCheckbox;
+    @FXML
+    private Label clearLabel;
 
 
     public ChartsController(Stage primaryStage, MainWindowController parent) {
@@ -277,6 +279,8 @@ public class ChartsController {
     }
 
     private void setupVisibility() {
+        clearCheckBox.setVisible(false);
+        clearLabel.setVisible(false);
         startButton.setDefaultButton(true);
         clearCheckBox.setSelected(true);
         typeComboBox.setVisible(false);
@@ -786,6 +790,8 @@ public class ChartsController {
             Platform.runLater(() -> {
                 typeComboBox.setVisible(true);
                 typeLabel.setVisible(true);
+                clearLabel.setVisible(true);
+                clearCheckBox.setVisible(true);
                 typeComboBox.getItems().clear();
                 typeComboBox.getItems().addAll("Current baselines", "Historical data", "Historical anomalies");
             });
@@ -803,6 +809,8 @@ public class ChartsController {
                 dayHBox.setVisible(false);
                 idComboBox.setVisible(false);
                 idLabel.setVisible(false);
+                clearLabel.setVisible(true);
+                clearCheckBox.setVisible(true);
             });
         }
     }

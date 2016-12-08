@@ -8,12 +8,12 @@
     {
       "name": "Server_Address",
       "type": "String",
-      "value": "10.22.112.112"
+      "value": "52.35.199.30"
     },
     {
       "name": "Server_Port",
       "type": "String",
-      "value": "7500"
+      "value": "8080"
     },
     {
       "name": "Inform_from_severity",
@@ -24,6 +24,11 @@
       "name": "Nio_Server_Mode",
       "type": "Boolean",
       "value": "true"
+    },
+    {
+      "name": "API_KEY",
+      "type": "String",
+      "value": "AIzaSyCsYDVCEI0HyxmPmsSiIbBRVC033odkXGs"
     }
   ]
 }

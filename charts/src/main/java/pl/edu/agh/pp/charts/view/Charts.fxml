@@ -55,7 +55,7 @@
             </HBox>
             <HBox spacing="10">
                 <children>
-                    <Label text="Clear on draw "/>
+                    <Label fx:id="clearLabel" text="Clear on draw "/>
                     <CheckBox fx:id="clearCheckBox" onAction="#handleClearOnDrawAction"/>
                 </children>
             </HBox>
