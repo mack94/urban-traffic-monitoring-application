@@ -199,7 +199,7 @@ public class ChartsController {
                 double fPart;
                 iPart = (long) num;
                 fPart = num - iPart;
-                Tooltip.install(d.getNode(), new Tooltip("Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuration: " + d.getYValue().toString() + " seconds"));
+                Tooltip.install(d.getNode(), new Tooltip(s.getName()+"\nTime of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuration: " + d.getYValue().toString() + " seconds"));
 
                 //Adding class on hover
                 d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
@@ -238,7 +238,7 @@ public class ChartsController {
             List<Integer> routes = map.get(date.toString());
             ObservableList<String> dateRouteIdList = FXCollections.observableArrayList();
             for (Integer id : routes) {
-                dateRouteIdList.add(String.valueOf(id));
+                dateRouteIdList.add(String.valueOf(id) + " " +  ServerRoutesInfo.getRouteName(id));
             }
             idComboBox.setItems(dateRouteIdList);
         });
@@ -466,6 +466,7 @@ public class ChartsController {
                             Platform.runLater(() -> {
                                 warn.setText("");
                                 lineChart.getData().add(HistoricalDataManager.getHistoricalData(Integer.valueOf(id), DateTime.parse(dayForHistoricalData)).getHistoricalDataSeries());
+                                createTooltips();
                             });
                         }
                     } catch (InterruptedException e) {
@@ -477,6 +478,7 @@ public class ChartsController {
             new Thread(sleeper).start();
         } else {
             Platform.runLater(() -> lineChart.getData().add(historicalData.getHistoricalDataSeries()));
+            createTooltips();
         }
         if (drawBaselineCheckbox.isSelected()) {
             drawBaseline(id, String.valueOf(DateTime.parse(dayForHistoricalData).dayOfWeek().get()), dayForHistoricalData);
@@ -509,6 +511,7 @@ public class ChartsController {
                             Platform.runLater(() -> {
                                 warn.setText("");
                                 lineChart.getData().add(BaselineManager.getBaseline(Integer.valueOf(id), DayOfWeek.of(Integer.valueOf(dayForBaseline)), type).getBaselineSeries());
+                                createTooltips();
                             });
                         }
                     } catch (InterruptedException e) {
@@ -520,6 +523,7 @@ public class ChartsController {
             new Thread(sleeper).start();
         } else {
             Platform.runLater(() -> lineChart.getData().add(baseline.getBaselineSeries()));
+            createTooltips();
         }
     }
 
@@ -552,6 +556,7 @@ public class ChartsController {
                                         lineChart.getData().add(ha.getHistoricalAnomalySeries());
                                     }
                                     setAnomalyChartStyles();
+                                    createTooltips();
                                 }
                             });
                         }
@@ -570,6 +575,7 @@ public class ChartsController {
                         lineChart.getData().add(ha.getHistoricalAnomalySeries());
                     }
                     setAnomalyChartStyles();
+                    createTooltips();
                 }
             });
         }

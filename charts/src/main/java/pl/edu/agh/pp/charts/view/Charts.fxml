@@ -19,10 +19,10 @@
         <VBox>
             <LineChart fx:id="lineChart" prefHeight="999999" style="-fx-font-weight: bold">
                 <xAxis>
-                    <NumberAxis label="Time of the day (hours)" tickUnit="1" fx:id="xAxis"/>
+                    <NumberAxis label="Time of the day (hours)" fx:id="xAxis"/>
                 </xAxis>
                 <yAxis>
-                    <NumberAxis label="Duration (seconds)" tickUnit="1"/>
+                    <NumberAxis label="Duration (seconds)"/>
                 </yAxis>
             </LineChart>
         </VBox>
