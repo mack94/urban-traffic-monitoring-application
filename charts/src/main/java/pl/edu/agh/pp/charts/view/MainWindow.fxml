@@ -164,7 +164,7 @@
                                 <VBox>
                                     <LineChart fx:id="allAnomaliesLineChart" prefHeight="999999" style="-fx-font-weight: bold">
                                         <xAxis>
-                                            <NumberAxis label="Time of the day (hours)" tickUnit="1"/>
+                                            <NumberAxis label="Time of the day (hours)" />
                                         </xAxis>
                                         <yAxis>
                                             <NumberAxis label="Excess value [%]" tickUnit="1" />
