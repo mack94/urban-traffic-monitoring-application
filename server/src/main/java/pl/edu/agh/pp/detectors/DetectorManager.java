@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.builders.BuilderContext;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
+import pl.edu.agh.pp.builders.SupportVectorRegressionPatternBuilder;
 import pl.edu.agh.pp.charts.XYLineChart_AWT;
 import pl.edu.agh.pp.commandline.CommandLineManager;
 import pl.edu.agh.pp.halfroute.HalfRouteManager;
