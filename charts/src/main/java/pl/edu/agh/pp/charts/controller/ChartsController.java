@@ -298,6 +298,7 @@ public class ChartsController {
     private void setupChart() {
         lineChart.setTitle("");
         lineChart.setAnimated(false);
+        lineChart.setLegendVisible(false);
         //Panning works via either secondary (right) mouse or primary with ctrl held down
         ChartPanManager panner = new ChartPanManager(lineChart);
         panner.setMouseFilter(mouseEvent -> {
@@ -607,8 +608,29 @@ public class ChartsController {
                     });
                 }
             }
+            else if(series.getName().startsWith("Baseline")){
+                series.nodeProperty().get().setStyle("-fx-stroke-width: 2px; -fx-stroke: green;");
+                for (XYChart.Data<Number, Number> d : series.getData()) {
+                    double num = (double) d.getXValue();
+                    long iPart;
+                    double fPart;
+                    iPart = (long) num;
+                    fPart = num - iPart;
+                    d.nodeProperty().get().getStyleClass().add("BaselineDataNode");
+                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: "+ d.getYValue().toString() + " seconds"));
+                    d.nodeProperty().get().setOnMouseEntered(event -> {
+                        d.getNode().getStyleClass().remove("BaselineDataNode");
+                        d.getNode().getStyleClass().add("onHover");
+                    });
+                    d.nodeProperty().get().setOnMouseExited(event -> {
+                        d.getNode().getStyleClass().add("BaselineDataNode");
+                        d.getNode().getStyleClass().remove("onHover");
+                    });
+                }
+            }
             else {
-                series.nodeProperty().get().setStyle("-fx-stroke-width: 2px; -fx-stroke: green; -fx-background-color: green, white;");
+                System.out.println(series.getName());
+                series.nodeProperty().get().setStyle("-fx-stroke-width: 2px; -fx-stroke: blue;");
                 for (XYChart.Data<Number, Number> d : series.getData()) {
                     double num = (double) d.getXValue();
                     long iPart;

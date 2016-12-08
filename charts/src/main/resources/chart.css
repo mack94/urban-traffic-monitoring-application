@@ -1,12 +1,15 @@
-.onHover{
-    -fx-background-color: BLUE;
-}
 .AnomalyNode{
     -fx-background-color: red,white;
 }
 .HistoricalDataNode{
+    -fx-background-color: blue,white;
+}
+.BaselineDataNode{
     -fx-background-color: green,white;
 }
 .chart-line-symbol {
     -fx-padding: 4px;
+}
+.onHover{
+    -fx-background-color: BLUE;
 }

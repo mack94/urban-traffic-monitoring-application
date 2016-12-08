@@ -53,7 +53,7 @@ public class Baseline {
                 baselineSeries.getData().add(data);
             }
         }
-        baselineSeries.setName("Route : " + routeID + ". " + day);
+        baselineSeries.setName("Baseline - route: " + routeID + ". " + day);
         return baselineSeries;
     }
 }
