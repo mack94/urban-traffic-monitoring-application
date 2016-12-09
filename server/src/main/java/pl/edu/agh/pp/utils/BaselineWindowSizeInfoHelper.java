@@ -64,10 +64,10 @@ public class BaselineWindowSizeInfoHelper {
         try {
             Connector.updateSystem(null);
         } catch (IOException e) {
-            logger.error("AnomalyLiveTimeInfoHelper: IOException error while setting " +
+            logger.error("AnomalyLifeTimeInfoHelper: IOException error while setting " +
                     "baseline window size value: " + e, e);
         } catch (IllegalPreferenceObjectExpected e) {
-            logger.error("AnomalyLiveTimeInfoHelper: IllegalPreferenceObjectExpected error while setting " +
+            logger.error("AnomalyLifeTimeInfoHelper: IllegalPreferenceObjectExpected error while setting " +
                     "baseline window size value: " + e, e);
         }
 

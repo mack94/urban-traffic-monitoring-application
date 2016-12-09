@@ -6,8 +6,6 @@ import org.jgroups.Address;
 import org.jgroups.util.ByteArrayDataInputStream;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detectors.DetectorManager;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
@@ -116,7 +114,7 @@ public class ManagementServer extends Server {
 
     public void sendSystemGeneralMessage(Address destination) throws IllegalPreferenceObjectExpected, IOException {
 
-        int anomalyLiveTime = AnomalyLiveTimeInfoHelper.getInstance().getAnomalyLiveTimeValue();
+        int anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
         int baselineWindowSize = BaselineWindowSizeInfoHelper.getInstance().getBaselineWindowSizeValue();
         double leverValue = LeverInfoHelper.getInstance().getLeverValue();
         //int anomaliesChannelPort = (int) options.getPreference("AnomaliesChannelPort", Integer.class); // FIXME
@@ -124,7 +122,7 @@ public class ManagementServer extends Server {
         AnomalyOperationProtos.SystemGeneralMessage.Shift shift = DayShiftInfoHelper.getInstance().getShiftProtos(); // FIXME
 
         AnomalyOperationProtos.SystemGeneralMessage msg = AnomalyOperationProtos.SystemGeneralMessage.newBuilder()
-                .setAnomalyLiveTime(anomalyLiveTime)
+                .setAnomalyLifeTime(anomalyLifeTime)
                 .setBaselineWindowSize(baselineWindowSize)
                 .setLeverValue(leverValue)
                 .setMessageIdx(messageID)

@@ -16,7 +16,7 @@
       "value": "23:00:00"
     },
     {
-      "name": "AnomalyLiveTime",
+      "name": "AnomalyLifeTime",
       "type": "Integer",
       "value": "500"
     },

@@ -28,11 +28,11 @@ public class AnomalyExpirationListener extends Thread
     @Override
     public void run()
     {
-        int anomalyLiveTime;
+        int anomalyLifeTime;
         int expirationBroadcastTime;
         try
         {
-            anomalyLiveTime = (int) Options.getInstance().getPreference("AnomalyLiveTime", Integer.class);
+            anomalyLifeTime = (int) Options.getInstance().getPreference("AnomalyLifeTime", Integer.class);
             expirationBroadcastTime = (int) Options.getInstance().getPreference("AnomalyExpirationBroadcastTime", Integer.class);
         }
         catch (IllegalPreferenceObjectExpected e)
@@ -49,7 +49,7 @@ public class AnomalyExpirationListener extends Thread
                         DateTime anomaly = anomalyTime.get(entry.getKey());
                         DateTime now = DateTime.now();
                         int lastUpdateInSeconds = Seconds.secondsBetween(anomaly, now).getSeconds();
-                        if (lastUpdateInSeconds > anomalyLiveTime)
+                        if (lastUpdateInSeconds > anomalyLifeTime)
                         {
                             sendMessage(entry.getKey(), entry.getValue());
                             if (lastUpdateInSeconds > expirationBroadcastTime)

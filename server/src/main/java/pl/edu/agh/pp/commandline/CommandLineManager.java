@@ -31,7 +31,7 @@ public class CommandLineManager extends Thread
     private static final IPatternBuilder patternBuilder = PolynomialPatternBuilder.getInstance();
     private static final IBaselineSerializer baselineSerializer = FileBaselineSerializer.getInstance();
     private static final LeverInfoHelper leverInfoHelper = LeverInfoHelper.getInstance();
-    private static final AnomalyLiveTimeInfoHelper anomalyLiveTimeInfoHelper = AnomalyLiveTimeInfoHelper.getInstance();
+    private static final AnomalyLifeTimeInfoHelper ANOMALY_LIFE_TIME_INFO_HELPER = AnomalyLifeTimeInfoHelper.getInstance();
     private static final BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
     private static IOptions options = Options.getInstance();
     private final Logger logger = (Logger) LoggerFactory.getLogger(CommandLineManager.class);
@@ -48,7 +48,7 @@ public class CommandLineManager extends Thread
             {
                 buffer = in.readLine();
                 // counts new baseline of files in logs/
-                if (buffer.equals("count_baseline"))
+                if (buffer.equals("COUNT_BASELINE"))
                 {
                     File baselineDir = new File("logs/");
                     String[] filenames = Arrays.stream(baselineDir.listFiles())
@@ -58,9 +58,9 @@ public class CommandLineManager extends Thread
                     PolynomialPatternBuilder.computePolynomial(filesLoader.processLineByLine(), false);
                 }
                 // loads baseline from file only for given day and route
-                else if (buffer.startsWith("load_partially "))
+                else if (buffer.startsWith("LOAD_BASELINE_PARTIALLY"))
                 {
-                    String[] params = StringUtils.removeStart(buffer, "load_partially ").split(" ");
+                    String[] params = StringUtils.removeStart(buffer, "LOAD_BASELINE_PARTIALLY ").split(" ");
                     DayOfWeek dayOfWeek = getDayOfWeek(params[0]);
                     int id = Integer.valueOf(params[1]);
                     String timestamp = params[2];
@@ -76,9 +76,9 @@ public class CommandLineManager extends Thread
                     }
                 }
                 // loads baseline from file and replaces in PatternBuilder
-                else if (buffer.startsWith("load "))
+                else if (buffer.startsWith("LOAD_BASELINE"))
                 {
-                    String timestamp = StringUtils.removeStart(buffer, "load ");
+                    String timestamp = StringUtils.removeStart(buffer, "LOAD_BASELINE ");
                     Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserialize(timestamp);
                     if (baseline != null)
                     {
@@ -91,9 +91,9 @@ public class CommandLineManager extends Thread
                     }
                 }
                 // updates current baseline with data contained in given file
-                else if (buffer.startsWith("update_baseline "))
+                else if (buffer.startsWith("UPDATE_BASELINE"))
                 {
-                    String timestamp = StringUtils.removeStart(buffer, "update_baseline");
+                    String timestamp = StringUtils.removeStart(buffer, "UPDATE_BASELINE ");
                     Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserialize(timestamp);
                     if (baseline != null)
                     {
@@ -112,12 +112,12 @@ public class CommandLineManager extends Thread
                     int percentLeverValue = Integer.parseInt(args[0]);
                     leverInfoHelper.setLeverValue(percentLeverValue);
                 }
-                else if (buffer.startsWith("SET_ANOMALY_LIVE_TIME"))
+                else if (buffer.startsWith("SET_ANOMALY_LIFE_TIME"))
                 {
-                    buffer = StringUtils.removeStart(buffer, "SET_ANOMALY_LIVE_TIME ");
+                    buffer = StringUtils.removeStart(buffer, "SET_ANOMALY_LIFE_TIME ");
                     String[] args = buffer.split(" ");
-                    int secondsAnomalyLiveTime = Integer.parseInt(args[0]);
-                    anomalyLiveTimeInfoHelper.setAnomalyLiveTimeValue(secondsAnomalyLiveTime);
+                    int secondsAnomalyLifeTime = Integer.parseInt(args[0]);
+                    ANOMALY_LIFE_TIME_INFO_HELPER.setAnomalyLifeTimeValue(secondsAnomalyLifeTime);
                 }
                 else if (buffer.startsWith("SET_BASELINE_WINDOW_SIZE"))
                 {
@@ -136,18 +136,18 @@ public class CommandLineManager extends Thread
                 {
                     System.out.println(AvailableHistoricalInfoHelper.getAvailableDateRoutes().keySet());
                 }
-                else if(buffer.startsWith("CHANGE_API_KEY ")){
+                else if(buffer.startsWith("CHANGE_API_KEY")){
                     ContextLoader.changeApiKey(StringUtils.removeStart(buffer, "CHANGE_API_KEY "));
                     System.out.println("Api key changed to: " + StringUtils.removeStart(buffer, "CHANGE_API_KEY "));
                 }
                 else if(buffer.equalsIgnoreCase("help") || buffer.equalsIgnoreCase("-help") ||
                         buffer.equalsIgnoreCase("-h") || buffer.equalsIgnoreCase("h")){
-                    System.out.println("count_baseline - counts new baseline of files in logs");
-                    System.out.println("load_partially - loads baseline from file only for given day and route");
-                    System.out.println("load - loads baseline from file and replaces in PatternBuilder");
-                    System.out.println("update_baseline - updates current baseline with data contained in given file");
+                    System.out.println("COUNT_BASELINE - counts new baseline of files in logs directory");
+                    System.out.println("LOAD_BASELINE_PARTIALLY - loads baseline from file only for given day and route");
+                    System.out.println("LOAD_BASELINE - loads baseline from file and replaces in PatternBuilder");
+                    System.out.println("UPDATE_BASELINE - updates current baseline with data contained in given file");
                     System.out.println("SET_LEVER - changes the lever value");
-                    System.out.println("SET_ANOMALY_LIVE_TIME - changes time needed for anomaly to expire");
+                    System.out.println("SET_ANOMALY_LIFE_TIME - changes time needed for anomaly to expire");
                     System.out.println("SET_BASELINE_WINDOW_SIZE - changes baseline window size");
                     System.out.println("RESET_PREFERENCES - resets current server preferences to default state");
                     System.out.println("AV_H - lists available dates for historical data");

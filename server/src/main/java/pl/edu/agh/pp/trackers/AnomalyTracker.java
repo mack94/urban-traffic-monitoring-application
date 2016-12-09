@@ -31,16 +31,16 @@ public final class AnomalyTracker implements IAnomalyTracker {
     private ConcurrentHashMap<Integer, DateTime> anomalyTime = new ConcurrentHashMap<>();
     private ConcurrentHashMap<Integer, String> anomalyID = new ConcurrentHashMap<>();
     private IOptions options = Options.getInstance();
-    private Seconds liveTime;
+    private Seconds lifeTime;
     private Random random = new Random();
     private AnomaliesServer anomaliesServer;
     private AnomalyExpirationListener anomalyExpirationListener;
 
     public AnomalyTracker() {
         try {
-            liveTime = Seconds.seconds((Integer) options.getPreference("AnomalyLiveTime", Integer.class));
+            lifeTime = Seconds.seconds((Integer) options.getPreference("AnomalyLifeTime", Integer.class));
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-            logger.error("AnomalyTracker LiveTime ilegal preference object expected: " + illegalPreferenceObjectExpected);
+            logger.error("AnomalyTracker LifeTime illegal preference object expected: " + illegalPreferenceObjectExpected);
         }
         this.anomalyExpirationListener = new AnomalyExpirationListener(anomalyID, anomalyTime);
         anomalyExpirationListener.start();
@@ -67,7 +67,7 @@ public final class AnomalyTracker implements IAnomalyTracker {
             lastAnomalyOnThisRoute = JodaTimeHelper.MINIMUM_ANOMALY_DATE;
 
         Seconds diff = Seconds.secondsBetween(dateTime, lastAnomalyOnThisRoute);
-        if (Math.abs(diff.getSeconds()) > liveTime.getSeconds()) {
+        if (Math.abs(diff.getSeconds()) > lifeTime.getSeconds()) {
             String newAnomalyID = String.format("%04d", routeID) +"_" + dateTime.toLocalDate() + "_" + dateTime.getHourOfDay()+"-"+dateTime.getMinuteOfHour();
             anomalyID.put(routeID, newAnomalyID);
         }
