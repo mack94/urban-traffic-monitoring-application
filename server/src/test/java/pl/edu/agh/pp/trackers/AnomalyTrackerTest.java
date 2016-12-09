@@ -65,7 +65,7 @@ public class AnomalyTrackerTest {
         assertEquals(anomalyTracker.put(routeID1, dateTime1), anomalyTracker.put(routeID1, dateTime2));
         String anomalyID1 = anomalyTracker.put(routeID1, dateTime3);
         assertEquals(anomalyID1, anomalyTracker.get(routeID1));
-        assertEquals(-1, anomalyTracker.get(routeID2));
+        assertNull(anomalyTracker.get(routeID2));
 
         String anomalyID2 = anomalyTracker.put(routeID2, dateTime1);
         assertEquals(anomalyID2, anomalyTracker.put(routeID2, dateTime4));

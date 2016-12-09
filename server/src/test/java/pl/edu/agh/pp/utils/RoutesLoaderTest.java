@@ -42,7 +42,7 @@ public class RoutesLoaderTest {
 
         assertEquals("50.064690, 19.923898", route.get("destination").toString());
 
-        assertEquals("Slowackiego 66, Kraków", route.get("origin").toString());
+        assertEquals("Slowackiego 66, Krakow", route.get("origin").toString());
 
         assertEquals("50.073790,19.935490; 50.073650,19.934180; 50.073530,19.933700; 50.073310,19.932830;" +
                 " 50.073180,19.932450; 50.072970,19.931960; 50.072720,19.931430; 50.072570,19.931140;" +
