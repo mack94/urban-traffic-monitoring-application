@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.builders.BuilderContext;
+import pl.edu.agh.pp.builders.MeanPatternBuilder;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.builders.SupportVectorRegressionPatternBuilder;
 import pl.edu.agh.pp.charts.XYLineChart_AWT;
@@ -275,6 +276,19 @@ public class DetectorManager {
             SupportVectorRegressionPatternBuilder.computeClassifier(baselineFilesLoader.processLineByLine(), true);
 
             chart = new XYLineChart_AWT("SVR", "Baseline dla trasy " + routeID, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<Record>());
+            chart.pack();
+            RefineryUtilities.centerFrameOnScreen(chart);
+            chart.setVisible(true);
+            chart.addWindowListener(new WindowAdapter(){
+                public void windowClosing(WindowEvent we){
+                    System.exit(0);
+                }
+            });
+        } else if(Objects.equals(arg, "mean") || Objects.equals(arg, "average") || Objects.equals(arg, "simple")) {
+            logger.info("Building baseline with method: simple historical mean");
+            MeanPatternBuilder.computeFunction(baselineFilesLoader.processLineByLine(), true);
+
+            chart = new XYLineChart_AWT("Historical mean", "Baseline dla trasy " + routeID, MeanPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<Record>());
             chart.pack();
             RefineryUtilities.centerFrameOnScreen(chart);
             chart.setVisible(true);
