@@ -4,8 +4,8 @@ import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Paths;
 
 /**
  * Created by Maciej on 15.05.2016.
@@ -33,13 +33,30 @@ public class RoutesLoader {
     }
 
     public JSONArray loadJSON() throws IOException {
-
-        InputStream inputStream = System.class.getResourceAsStream(fileName);
+        createJSON();
+        InputStream inputStream = new FileInputStream("."+fileName);
 
         String jsonTxt = IOUtils.toString(inputStream);
         JSONObject jsonObject = new JSONObject(jsonTxt);
 
         return jsonObject.getJSONArray("routes");
+    }
+
+    private void createJSON() throws IOException {
+        File file = new File("."+fileName);
+        if ( !file.exists() ){
+            OutputStream outputStream = new FileOutputStream(file);
+            InputStream inputStream = System.class.getResourceAsStream(fileName);
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+
+            inputStream.close();
+            outputStream.close();
+        }
     }
 
 }
