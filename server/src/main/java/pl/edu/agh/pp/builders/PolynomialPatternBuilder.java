@@ -4,6 +4,7 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoint;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.AnomaliesServer;
@@ -32,6 +33,8 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
     private static BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
     private static final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
     private static int polymonialDegree = 17;
+    private static final double DECAY_STEP = 0.05;
+    private static final double MAX_DECAY = 0.3;
 
     private PolynomialPatternBuilder() {
     }
@@ -51,6 +54,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
         List<Record> _records = new LinkedList<>();
         _records.addAll(records);
         HistoricalInfoHelper.addRecords(_records);
+        DateTime now = DateTime.now();
 
         for (DayOfWeek day : DayOfWeek.values()) {
 
@@ -66,7 +70,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
                     points = weightedObservedPointsMap.get(recordRouteID);
                 }
                 if (record.getDayOfWeek().compareTo(day) == 0) {
-                    points.add(new WeightedObservedPoint(1, record.getTimeInSeconds(), record.getDurationInTraffic()));
+                    points.add(new WeightedObservedPoint(1-computeWeightDecay(now, record), record.getTimeInSeconds(), record.getDurationInTraffic()));
                     weightedObservedPointsMap.put(recordRouteID, points);
                 }
                 AvailableHistoricalInfoHelper.addAvailableDateRoute(
@@ -185,6 +189,18 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
     @Override
     public void setServer(Server server) {
         anomalyTracker.setAnomaliesServer((AnomaliesServer) server);
+    }
+
+    private static double computeWeightDecay(DateTime now, Record record) {
+        int dayDiff = Days.daysBetween(record.getDateTime(), now).getDays();
+        int counter = -1;
+        while(dayDiff > 0) {
+            dayDiff-=7;
+            counter++;
+        }
+
+        return DECAY_STEP*counter < MAX_DECAY ? DECAY_STEP*counter : MAX_DECAY;
+
     }
 
 
