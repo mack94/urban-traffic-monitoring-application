@@ -68,14 +68,12 @@ public class Main {
 
     private static void handleOfflineMode(String[] args) throws Exception {
         AnomaliesServer anomaliesServer = new AnomaliesServer();
-        new DetectorManager(anomaliesServer, "");
-        //new DetectorManager(anomaliesServer).displayAnomaliesForFile();
-        File logDir = null;
+        File logDir;
         if(args.length>=5) {
             if (Objects.equals(args[1], "build")) {
                 logDir = new File(args[args.length-1]);
 
-                if(logDir != null && logDir.isDirectory()) {
+                if(logDir.isDirectory()) {
                     new DetectorManager(anomaliesServer,logDir.getAbsolutePath())
                             .buildAndShowBaseline(Integer.parseInt(args[2]), DayOfWeek.fromValue(Integer.parseInt(args[3])), args[4], Arrays.copyOfRange(args, 5, args.length));
                 }
@@ -84,10 +82,7 @@ public class Main {
                             .buildAndShowBaseline(Integer.parseInt(args[2]), DayOfWeek.fromValue(Integer.parseInt(args[3])), args[4], Arrays.copyOfRange(args, 5, args.length));
                 }
 
-            } else if (Objects.equals(args[1], "anomaly")) {
-                //TODO ?
             }
-            //new DetectorManager(anomaliesServer, Arrays.copyOfRange(args, 1, args.length)).displayAnomaliesForFile();
         }
         else {
             logger.error("Run: 'java -jar anomaliesServer.jar off <command> <options>'");

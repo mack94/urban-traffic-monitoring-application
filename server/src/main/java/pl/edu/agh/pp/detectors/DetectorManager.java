@@ -25,6 +25,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.Point2D;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -95,36 +96,33 @@ public class DetectorManager {
 
         builderContext = new BuilderContext(PolynomialPatternBuilder.getInstance());
         try {
-//            ************************************ FOR TESTING
-//            SupportVectorRegressionPatternBuilder.computeClassifier(baselineFilesLoader.processLineByLine(), true);
-//            XYLineChart_AWT chart;
-//            chart = new XYLineChart_AWT("testSVR", "Baseline i anomalie dla trasy " + 1, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 1), new ArrayList<Record>());
-//            chart.pack();
-//            RefineryUtilities.centerFrameOnScreen(chart);
-//            chart.setVisible(true);
-//            chart = new XYLineChart_AWT("testSVR", "Baseline i anomalie dla trasy " + 8, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 8), new ArrayList<Record>());
-//            chart.pack();
-//            RefineryUtilities.centerFrameOnScreen(chart);
-//            chart.setVisible(true);
-//            ************************************
             PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
-            //************************************
-//            chart = new XYLineChart_AWT("testSVM", "Baseline i anomalie dla trasy " + 1, PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 1), new ArrayList<Record>());
-//            chart.pack();
-//            RefineryUtilities.centerFrameOnScreen(chart);
-//            chart.setVisible(true);
-//            PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
-//            chart = new XYLineChart_AWT("testSVM", "Baseline i anomalie dla trasy " + 8, PolynomialPatternBuilder.getValueForEachMinuteOfDay(DayOfWeek.FRIDAY, 8), new ArrayList<Record>());
-//            chart.pack();
-//            RefineryUtilities.centerFrameOnScreen(chart);
-//            chart.setVisible(true);
-            //************************************
         } catch (Exception e) {
             e.printStackTrace();
         }
         new CommandLineManager().start();
         this.anomaliesServer = anomaliesServer;
         builderContext.setServer(anomaliesServer);
+    }
+
+    public static void computeBaselineFromDefaultLogsLocation() throws IOException {
+        File folder = new File(LOG_FILES_DIRECTORY_PATH);
+        File[] listOfFiles = folder.listFiles();
+        if (folder.isDirectory() && listOfFiles != null) {
+            String newLogFiles[] = new String[listOfFiles.length];
+            int i=0;
+            for (File file : listOfFiles) {
+                if (file.isFile() && file.getAbsolutePath().endsWith(".log")) {
+                    newLogFiles[i] = file.getAbsolutePath();
+                    i++;
+                }
+            }
+            FilesLoader baselineFilesLoader = new FilesLoader(newLogFiles);
+
+            PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
+        }else {
+            throw new FileNotFoundException("DetectorManager: logs directory missing or no log files detected inside");
+        }
     }
 
     public String isAnomaly(String logEntry, String defaultWaypoints) {
@@ -193,13 +191,11 @@ public class DetectorManager {
         return result;
     }
 
+    @Deprecated
     public void displayAnomaliesForRoute(int routeId) {
         try {
             XYLineChart_AWT chart;
 
-            // while (true) {
-            // String incoming = br.readLine();
-            // Record record = inputParser.parse(logEntry);
             List<Record> recordsTestedForAnomalies = anomalySearchFilesLoader.processLineByLine();
             List<Record> anomalousRecords = new ArrayList<>();
             int counter = 0;
@@ -252,7 +248,7 @@ public class DetectorManager {
             logger.info("Building baseline with method: poly");
             PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
 
-            chart = new XYLineChart_AWT("Polymonial", "Baseline dla trasy " + routeID, PolynomialPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<Record>());
+            chart = new XYLineChart_AWT("Polymonial", "Baseline dla trasy " + routeID, PolynomialPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<>());
             chart.pack();
             RefineryUtilities.centerFrameOnScreen(chart);
             chart.setVisible(true);
@@ -275,7 +271,7 @@ public class DetectorManager {
             logger.info("Building baseline with method: svr");
             SupportVectorRegressionPatternBuilder.computeClassifier(baselineFilesLoader.processLineByLine(), true);
 
-            chart = new XYLineChart_AWT("SVR", "Baseline dla trasy " + routeID, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<Record>());
+            chart = new XYLineChart_AWT("SVR", "Baseline dla trasy " + routeID, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<>());
             chart.pack();
             RefineryUtilities.centerFrameOnScreen(chart);
             chart.setVisible(true);
@@ -288,7 +284,7 @@ public class DetectorManager {
             logger.info("Building baseline with method: simple historical mean");
             MeanPatternBuilder.computeFunction(baselineFilesLoader.processLineByLine(), true);
 
-            chart = new XYLineChart_AWT("Historical mean", "Baseline dla trasy " + routeID, MeanPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<Record>());
+            chart = new XYLineChart_AWT("Historical mean", "Baseline dla trasy " + routeID, MeanPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<>());
             chart.pack();
             RefineryUtilities.centerFrameOnScreen(chart);
             chart.setVisible(true);
@@ -300,13 +296,11 @@ public class DetectorManager {
         }
     }
 
+    @Deprecated
     public void displayAnomaliesForFile() {
         try {
             XYLineChart_AWT chart;
 
-            // while (true) {
-            // String incoming = br.readLine();
-            // Record record = inputParser.parse(logEntry);
             List<Record> recordsTestedForAnomalies = anomalySearchFilesLoader.processLineByLine();
             Map<DayOfWeek, Map<Integer, List<Record>>> anomalousRecords = new HashMap<>();
             Map<Integer, List<Record>> dayOfWeekRecords;
@@ -337,21 +331,15 @@ public class DetectorManager {
             }
             System.out.println("Number of anomalies: " + counter);
 
-            // Path p = Paths.get(ANOMALY_SEARCH_LOGS_PATH);
-            // String anomaly_search_logs_file_name = p.getFileName().toString();
-            // p = Paths.get(BASELINE_LOGS_PATH);
-            // String baseline_logs_file_name = p.getFileName().toString();
             for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
                 for (int routeId = startingRouteId; routeId < 8 + startingRouteId; routeId++) {
                     if (anomalousRecords.get(dayOfWeek).get(routeId).size() != 0) {
-                        // TODO: inferring from which file baseline and anomalies are from, non trivial
                         chart = new XYLineChart_AWT("Anomaly and baseline chart", "Baseline: " + "Baseline_time" + System.lineSeparator()
                                 + "Anomalie: " + "anomaly search day" + System.lineSeparator()
                                 + "Trasa: " + (routeId), PolynomialPatternBuilder.getValueForEachMinuteOfDay(dayOfWeek, routeId), anomalousRecords.get(dayOfWeek).get(routeId));
                         chart.pack();
                         RefineryUtilities.centerFrameOnScreen(chart);
                         chart.setVisible(true);
-                        // TODO: saving charts to file system instead of showing all of them at once
                     }
                 }
             }

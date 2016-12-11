@@ -39,6 +39,7 @@ public class Connector {
 
         systemScheduler = new SystemScheduler();
         systemScheduler.sendSystemGeneralMessageEveryHour();
+        systemScheduler.updateBaselinesOnWeeklyBasis();
 
         if (args.length > 1)
             new CronManager(anomaliesServer).getAPIData(args[1]);
