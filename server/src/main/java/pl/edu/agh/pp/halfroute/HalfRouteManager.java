@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.Instant;
 import org.json.JSONObject;
+import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.utils.ContextLoader;
 import pl.edu.agh.pp.utils.Route;
 import pl.edu.agh.pp.utils.WaypointsExtractor;
@@ -37,8 +38,7 @@ public class HalfRouteManager
     private final String waypoints;
     private final GeoApiContext context;
 
-    public HalfRouteManager(Record record, String waypoints) throws IOException
-    {
+    public HalfRouteManager(Record record, String waypoints) throws IOException, IllegalPreferenceObjectExpected {
         this.record = record;
         this.waypoints = waypoints;
         this.context = new ContextLoader().geoApiContextLoader();

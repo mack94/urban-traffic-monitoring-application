@@ -39,6 +39,11 @@
       "name": "AnomaliesServerPort",
       "type": "Integer",
       "value": "8080"
+    },
+    {
+      "name": "API_KEY",
+      "type": "String",
+      "value": ""
     }
   ]
 }

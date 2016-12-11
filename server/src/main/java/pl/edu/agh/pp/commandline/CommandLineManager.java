@@ -138,7 +138,6 @@ public class CommandLineManager extends Thread
                 }
                 else if(buffer.startsWith("CHANGE_API_KEY")){
                     ContextLoader.changeApiKey(StringUtils.removeStart(buffer, "CHANGE_API_KEY "));
-                    System.out.println("Api key changed to: " + StringUtils.removeStart(buffer, "CHANGE_API_KEY "));
                 }
                 else if(buffer.equalsIgnoreCase("help") || buffer.equalsIgnoreCase("-help") ||
                         buffer.equalsIgnoreCase("-h") || buffer.equalsIgnoreCase("h")){

@@ -31,10 +31,6 @@ public class RouteTest
     @Before
     public void setUp() throws Exception
     {
-        ContextLoader contextLoader = new ContextLoader();
-        Field contexLoaderFileNameField = contextLoader.getClass().getDeclaredField("propertiesFileName");
-        contexLoaderFileNameField.setAccessible(true);
-        contexLoaderFileNameField.set(contextLoader, "/test/test_config.properties");
 
         RoutesLoader routesLoaderInstance = RoutesLoader.getInstance();
         routesLoaderFileNameField = RoutesLoader.class.getDeclaredField("fileName");
@@ -45,7 +41,7 @@ public class RouteTest
         JSONArray loadedRoutes = routesLoaderInstance.loadJSON();
 
         JSONObject JSONroute = loadedRoutes.getJSONObject(0);
-        GeoApiContext context = contextLoader.geoApiContextLoader();
+        GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyA52rfjoPpYgxpJ0eyBznSq2ir1lhVpP0U");
         String[] origins = new String[1];
         String[] destinations = new String[1];
         id = JSONroute.get("id").toString();
