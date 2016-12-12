@@ -440,7 +440,7 @@ public class MainWindowController {
     private void putAnomalyOnList(String anomalyID,String routeID, String routeName, String startDate, String excess, Image trend){
         HBox hBox = new HBox();
         hBox.setId(anomalyID);
-        hBox.getChildren().addAll(addLabel(routeID,50),addLabel(routeName,300),addLabel(startDate,150),addLabel(excess,80),addImage(trend,50));
+        hBox.getChildren().addAll(addLabel(routeID,50),addLabel(routeName,300),addLabel(startDate,150),addLabel(excess,80),addImage(trend));
 
         int i;
         for(i = 0; i<anomaliesListView.getItems().size(); i++){
@@ -492,12 +492,10 @@ public class MainWindowController {
         return pane;
     }
 
-    private Pane addImage(Image image,double width){
+    private Pane addImage(Image image){
         Pane pane = new Pane();
         pane.setId("listLine");
         ImageView imageView = new ImageView(image);
-//        imageView.setPrefWidth(width);
-//        imageView.setAlignment(Pos.CENTER);
         pane.getChildren().addAll(imageView);
         return pane;
     }

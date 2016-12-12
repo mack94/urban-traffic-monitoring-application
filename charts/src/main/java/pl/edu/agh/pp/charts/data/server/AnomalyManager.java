@@ -152,4 +152,18 @@ public class AnomalyManager {
     public XYChart.Series<Number,Number> getPercentChartData(String id) {
         return buildPercentChart(getAnomalyById(id));
     }
+
+    public void clearAnomalies(){
+        int size = anomalyList.size();
+        for(int i = 0; i < size; i++) {
+            Anomaly anomaly = anomalyList.get(0);
+            if (anomaly != null) {
+                mainWindowController.removeAnomalyFromList(anomaly.getAnomalyId());
+                removeFromList(anomaly.getAnomalyId());
+                logger.debug("Anomaly list size after remove: " + anomalyList.size());
+            } else {
+                logger.error("Anomaly manager: Trying to remove anomaly that doesn't exist");
+            }
+        }
+    }
 }

@@ -84,6 +84,7 @@ public class Connector {
     public static void disconnect() {
         client.disconnect();
         managementClient.disconnect();
+        anomalyManager.clearAnomalies();
     }
 
     public static String getAddressServerInfo() {
@@ -200,6 +201,7 @@ public class Connector {
     }
 
     public static void connectionLost(String additionalInfo) {
+        anomalyManager.clearAnomalies();
         if (mainWindowController != null) {
             String message = null;
             if (additionalInfo != null) {
