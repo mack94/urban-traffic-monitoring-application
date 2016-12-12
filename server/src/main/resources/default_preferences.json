@@ -21,11 +21,6 @@
       "value": "500"
     },
     {
-      "name": "AnomalyExpirationBroadcastTime",
-      "type": "Integer",
-      "value": "3600"
-    },
-    {
       "name": "BaselineWindowSize",
       "type": "Integer",
       "value": "5"
@@ -44,6 +39,21 @@
       "name": "API_KEY",
       "type": "String",
       "value": ""
+    },
+    {
+      "name": "AnomalyRepeaterInterval",
+      "type": "Integer",
+      "value": "60"
+    },
+    {
+      "name": "AnomalyExpirationInterval",
+      "type": "Integer",
+      "value": "90"
+    },
+    {
+      "name": "AnomalyExpirationBroadcast",
+      "type": "Integer",
+      "value": "3600"
     }
   ]
 }

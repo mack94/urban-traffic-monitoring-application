@@ -9,10 +9,11 @@ import org.joda.time.Instant;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import pl.edu.agh.pp.cron.RequestsExecutor;
-import pl.edu.agh.pp.utils.RequestParams;
+import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
+import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.trackers.AnomalyTracker;
 import pl.edu.agh.pp.trackers.IAnomalyTracker;
-import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
+import pl.edu.agh.pp.utils.RequestParams;
 
 /**
  * Created by Jakub Janusz on 12.10.2016.
@@ -38,6 +39,7 @@ public class AnomalyRepeater extends Thread
     @Override
     public void run()
     {
+        int repeaterInterval;
         while (true)
         {
             synchronized (requestsExecutor)
@@ -69,9 +71,10 @@ public class AnomalyRepeater extends Thread
             }
             try
             {
-                Thread.sleep(1000 * 60);
+                repeaterInterval = (int) Options.getInstance().getPreference("AnomalyRepeaterInterval", Integer.class);
+                Thread.sleep(repeaterInterval * 1000);
             }
-            catch (InterruptedException e)
+            catch (InterruptedException | IllegalPreferenceObjectExpected e)
             {
                 e.printStackTrace();
             }
