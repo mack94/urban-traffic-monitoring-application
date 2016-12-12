@@ -8,9 +8,11 @@ import pl.edu.agh.pp.charts.controller.ChartsController;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
 import pl.edu.agh.pp.charts.data.server.*;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.charts.settings.Options;
 
 import java.net.InetAddress;
 import java.time.DayOfWeek;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -221,5 +223,12 @@ public class Connector {
         if (chartsController != null) {
             chartsController.setServerDates();
         }
+    }
+
+    public static void setApiKey(String apiKey){
+        //TODO @Maciek use this
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("API_KEY",apiKey);
+        Options.getInstance().setPreferences(map);
     }
 }

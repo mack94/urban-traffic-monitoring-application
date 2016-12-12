@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -72,6 +74,13 @@ public class MainWindowController {
     private final AnomalyManager anomalyManager = AnomalyManager.getInstance();
     private final Options options = Options.getInstance();
     private boolean redrawThreadCreated = false;
+    private Image doubleUpArrowImgage;
+    private Image upArrowImgage;
+    private Image middleArrowImgage;
+    private Image downArrowImgage;
+    private Image doubleDownArrowImgage;
+
+
 
     @FXML
     private volatile LineChart<Number, Number> lineChart;
@@ -240,7 +249,7 @@ public class MainWindowController {
             anomaliesNumberLabel.setText(anomaly.getAnomaliesNumber());
             previousDurationLabel.setText(anomaly.getPreviousDuration()+" seconds");
             ExcessLabel.setText(anomaly.getPercent());
-            trendLabel.setText(anomaly.getTrend());
+//            trendLabel.setText(anomaly.getTrend());
         } );
         putChartOnScreen(anomaly);
     }
@@ -277,7 +286,7 @@ public class MainWindowController {
             if(hbox.getId().equalsIgnoreCase(anomalyId)){
                 Platform.runLater(() -> {
                     ((Label)((Pane)hbox.getChildren().get(3)).getChildren().get(0)).setText(anomaly.getPercent());
-                    ((Label)((Pane)hbox.getChildren().get(4)).getChildren().get(0)).setText(anomaly.getTrend());
+                    ((ImageView)((Pane)hbox.getChildren().get(4)).getChildren().get(0)).setImage(getTrendImage(anomaly.getTrend()));
                     anomaliesListView.getItems().sort((o1, o2) -> {
                         if (Integer.parseInt(((Label) ((Pane) o1.getChildren().get(3)).getChildren().get(0)).getText()) < Integer.parseInt(
                                 ((Label) ((Pane) o2.getChildren().get(3)).getChildren().get(0)).getText())) return 1;
@@ -424,14 +433,14 @@ public class MainWindowController {
             }}, seconds, TimeUnit.SECONDS);
     }
     public void addAnomalyToList(Anomaly anomaly){
-        putAnomalyOnList(anomaly.getAnomalyId(),anomaly.getRouteId(),anomaly.getRoute(),anomaly.getStartDate(),anomaly.getPercent(),anomaly.getTrend());
+        putAnomalyOnList(anomaly.getAnomalyId(),anomaly.getRouteId(),anomaly.getRoute(),anomaly.getStartDate(),anomaly.getPercent(), getTrendImage(anomaly.getTrend()));
         handleMapUpdate();
     }
 
-    private void putAnomalyOnList(String anomalyID,String routeID, String routeName, String startDate, String excess, String Trend){
+    private void putAnomalyOnList(String anomalyID,String routeID, String routeName, String startDate, String excess, Image trend){
         HBox hBox = new HBox();
         hBox.setId(anomalyID);
-        hBox.getChildren().addAll(addLabel(routeID,50),addLabel(routeName,300),addLabel(startDate,150),addLabel(excess,50),addLabel(Trend,50));
+        hBox.getChildren().addAll(addLabel(routeID,50),addLabel(routeName,300),addLabel(startDate,150),addLabel(excess,80),addImage(trend,50));
 
         int i;
         for(i = 0; i<anomaliesListView.getItems().size(); i++){
@@ -457,6 +466,14 @@ public class MainWindowController {
         return "";
     }
 
+    private Image getTrendImage(int score){
+        if(score == 0) return middleArrowImgage;
+        if(score == 1 || score == 2) return upArrowImgage;
+        if(score > 2) return doubleUpArrowImgage;
+        if(score == -1 || score == -2) return downArrowImgage;
+        else return doubleDownArrowImgage;
+    }
+
     private boolean isAnomalyOnScreen(String anomalyId){
         for(HBox hbox: anomaliesListView.getItems()){
             if(hbox.getId().equalsIgnoreCase(anomalyId))
@@ -472,6 +489,16 @@ public class MainWindowController {
         label.setPrefWidth(width);
         label.setAlignment(Pos.CENTER);
         pane.getChildren().addAll(label);
+        return pane;
+    }
+
+    private Pane addImage(Image image,double width){
+        Pane pane = new Pane();
+        pane.setId("listLine");
+        ImageView imageView = new ImageView(image);
+//        imageView.setPrefWidth(width);
+//        imageView.setAlignment(Pos.CENTER);
+        pane.getChildren().addAll(imageView);
         return pane;
     }
 
@@ -711,6 +738,11 @@ public class MainWindowController {
         monitoredRoutesComboBox.setOnAction((event) -> {
             Platform.runLater(()->monitoredRoutesComboBox.getSelectionModel().clearSelection());
         });
+        doubleUpArrowImgage = new Image(Main.class.getResourceAsStream("/up.gif"));
+        upArrowImgage = new Image(Main.class.getResourceAsStream("/doubleUp.gif"));
+        middleArrowImgage = new Image(Main.class.getResourceAsStream("/middle.gif"));
+        downArrowImgage = new Image(Main.class.getResourceAsStream("/down.gif"));
+        doubleDownArrowImgage = new Image(Main.class.getResourceAsStream("/doubleDown.gif"));
     }
 
 

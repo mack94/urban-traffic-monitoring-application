@@ -110,8 +110,8 @@
                     <Label text="Route ID" prefWidth="50" alignment="CENTER"/>
                     <Label text="Route" prefWidth="300" alignment="CENTER"/>
                     <Label text="Start time" prefWidth="170" alignment="CENTER"/>
-                    <Label text="Excess [%]" prefWidth="60" alignment="CENTER"/>
-                    <Label text="Trend" prefWidth="50" alignment="CENTER"/>
+                    <Label text="Excess [%]" prefWidth="70" alignment="CENTER"/>
+                    <Label text="Trend" prefWidth="40" alignment="CENTER"/>
                 </HBox>
                 <HBox>
                     <ListView fx:id="anomaliesListView" minWidth="640.0" minHeight="150" prefHeight="99999" onMouseClicked="#handleAnomalyClicked" onKeyReleased="#handleAnomalyPressed"/>

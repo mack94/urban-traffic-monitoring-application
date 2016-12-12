@@ -86,7 +86,7 @@ public class Anomaly {
         return dayOfWeek;
     }
 
-    public String getTrend() {
+    public int getTrend() {
         int score = 0;
         Map.Entry<String,String> currentEntry = percentHistory.lastEntry();
         if(percentHistory.size()>1) {
@@ -98,12 +98,7 @@ public class Anomaly {
                 else if(previousEntry.getValue().compareTo(percentHistory.lowerEntry(previousEntry.getKey()).getValue())<0) score -= 1;
             }
         }
-
-        if(score == 2 || score == 1) return "↗";
-        if(score == 3) return "↑";
-        if(score == -2 || score == -1) return "↘";
-        if(score == -3) return "↓";
-        return "-";
+        return score;
     }
 
     void addMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
