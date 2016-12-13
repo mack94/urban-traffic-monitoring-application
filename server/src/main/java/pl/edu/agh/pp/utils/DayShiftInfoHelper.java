@@ -1,6 +1,14 @@
 package pl.edu.agh.pp.utils;
 
 import ch.qos.logback.classic.Logger;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.joda.time.DateTime;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.Connector;
@@ -10,13 +18,6 @@ import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 import pl.edu.agh.pp.utils.enums.DayShift;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Maciej on 14.11.2016.
@@ -28,14 +29,16 @@ import java.util.Date;
 // is being send and with this Connect.updateSystemGeneral ... but i want to have the shift updated on charts whenever
 // somebody will ask about shift or when the Scheduler run though this helper.
 
-public class DayShiftInfoHelper {
+public class DayShiftInfoHelper
+{
 
     private static Logger logger = (Logger) LoggerFactory.getLogger(DayShiftInfoHelper.class.getClass());
     private final IOptions options = Options.getInstance();
     private static DayOfWeek dayOfWeek = DayOfWeek.of(DateTime.now().getDayOfWeek());
     private static DayShift dayShift = DayShift.UNIVERSAL;
 
-    public static DayShiftInfoHelper getInstance() {
+    public static DayShiftInfoHelper getInstance()
+    {
         return Holder.INSTANCE;
     }
 
@@ -43,11 +46,13 @@ public class DayShiftInfoHelper {
     // Please consider whether it could be merged or not. (I mean especially the UML diagram and program structure)
     // I don't want to make a spaghetti...
 
-    private DayShift getShift() {
+    private DayShift getShift()
+    {
 
         Calendar currentCalendar = Calendar.getInstance();
 
-        try {
+        try
+        {
             String string1 = (String) options.getPreference(PreferencesNamesHolder.DAY_SHIFT_START, String.class);
 
             Date time1 = new SimpleDateFormat("HH:mm:ss").parse(string1);
@@ -68,37 +73,43 @@ public class DayShiftInfoHelper {
             currentCalendar.setTime(d);
 
             Date x = currentCalendar.getTime();
-            if (x.after(calendar1.getTime()) && x.before(calendar2.getTime())) {
+            if (x.after(calendar1.getTime()) && x.before(calendar2.getTime()))
+            {
 
-                if (dayShift.compareTo(DayShift.DAY) != 0) {
+                if (dayShift.compareTo(DayShift.DAY) != 0)
+                {
                     dayShift = DayShift.DAY;
                     updateSystemAfterChange();
                 }
 
                 return DayShift.DAY;
 
-            } else {
+            }
+            else
+            {
 
                 if (!DayShiftInfoHelper.dayOfWeek.equals(DayOfWeek.of(DateTime.now().getDayOfWeek())))
                     DayShiftInfoHelper.dayOfWeek = DayOfWeek.of(DateTime.now().getDayOfWeek());
-                if (dayShift.compareTo(DayShift.NIGHT) != 0) {
+                if (dayShift.compareTo(DayShift.NIGHT) != 0)
+                {
                     dayShift = DayShift.NIGHT;
                     updateSystemAfterChange();
                 }
 
                 return DayShift.NIGHT;
             }
-        } catch (IllegalPreferenceObjectExpected e) {
-            logger.error("DayShiftInfoHelper: IllegalPreferenceObjectExpected while getting shift: " + e, e );
-        } catch (ParseException e) {
-            logger.error("DayShiftInfoHelper: ParseException while getting shift: " + e, e );
+        }
+        catch (Exception e)
+        {
+            logger.error("Error occurred while getting shift", e);
         }
 
         dayShift = DayShift.UNIVERSAL;
         return DayShift.NULLSHIFT;
     }
 
-    public AnomalyOperationProtos.SystemGeneralMessage.Shift getShiftProtos() {
+    public AnomalyOperationProtos.SystemGeneralMessage.Shift getShiftProtos()
+    {
         getInstance().getShift();
         if (dayShift.compareTo(DayShift.DAY) == 0)
             return AnomalyOperationProtos.SystemGeneralMessage.Shift.DAY;
@@ -107,21 +118,14 @@ public class DayShiftInfoHelper {
         return AnomalyOperationProtos.SystemGeneralMessage.Shift.UNIVERSAL;
     }
 
-    public static class Holder {
+    public static class Holder
+    {
         static final DayShiftInfoHelper INSTANCE = new DayShiftInfoHelper();
     }
 
-    private void updateSystemAfterChange() {
-        try {
-            Connector.updateSystem(null); // To each user connected to the system;
-        } catch (IOException e) {
-            e.printStackTrace();
-            logger.error("DayShiftInfoHelper: IOException while " +
-                    "updating system after change the shift: " + e, e );
-        } catch (IllegalPreferenceObjectExpected e) {
-            logger.error("DayShiftInfoHelper: IllegalPreferenceObjectExpected while " +
-                    "updating system after change the shift: " + e, e );
-        }
+    private void updateSystemAfterChange() throws IOException
+    {
+        Connector.updateSystem(null); // To each user connected to the system;
     }
 
 }

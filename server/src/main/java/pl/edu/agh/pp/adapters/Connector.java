@@ -51,7 +51,7 @@ public class Connector {
         managementServer.sendLeverInfoMessage(leverValue);
     }
 
-    public static void updateSystem(Address destination) throws IOException, IllegalPreferenceObjectExpected {
+    public static void updateSystem(Address destination) throws IOException {
         managementServer.sendSystemGeneralMessage(destination);
     }
 

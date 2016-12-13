@@ -97,10 +97,7 @@ public class ManagementServer extends Server {
                     "Error: " + e);
             logger.error("Following bytes received:");
             logger.error("\t\t" + Arrays.toString(buf));
-        } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-            logger.error("ManagementServer: IllegalPreferenceObjectExpected while receiving message! "
-                    + illegalPreferenceObjectExpected, illegalPreferenceObjectExpected);
-        } catch (IOException e) {
+        }catch (IOException e) {
             e.printStackTrace();
             logger.error("ManagementServer: IOException while receiving message! " + e, e);
         }
@@ -112,7 +109,7 @@ public class ManagementServer extends Server {
 
     }
 
-    public void sendSystemGeneralMessage(Address destination) throws IllegalPreferenceObjectExpected, IOException {
+    public void sendSystemGeneralMessage(Address destination) throws IOException {
 
         int anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
         int baselineWindowSize = BaselineWindowSizeInfoHelper.getInstance().getBaselineWindowSizeValue();

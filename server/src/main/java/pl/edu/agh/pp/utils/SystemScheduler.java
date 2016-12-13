@@ -32,9 +32,6 @@ public class SystemScheduler {
                 Connector.updateSystem(null); // Send to all connected users.
             } catch (IOException e) {
                 logger.error("SystemScheduler: IOException while sending general message every hour: " + e, e);
-            } catch (IllegalPreferenceObjectExpected e) {
-                logger.error("SystemScheduler: IllegalPreferenceObjectExpected while sending general message every hour: "
-                        + e, e);
             }
         };
 

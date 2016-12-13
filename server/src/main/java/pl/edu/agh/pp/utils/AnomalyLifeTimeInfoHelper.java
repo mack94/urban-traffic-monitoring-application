@@ -1,5 +1,8 @@
 package pl.edu.agh.pp.utils;
 
+import java.io.IOException;
+import java.util.HashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.Connector;
@@ -8,15 +11,13 @@ import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 
-import java.io.IOException;
-import java.util.HashMap;
-
 /**
  * Created by Maciej on 14.11.2016.
  * 17:14
  * Project: server.
  */
-public class AnomalyLifeTimeInfoHelper {
+public class AnomalyLifeTimeInfoHelper
+{
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(AnomalyLifeTimeInfoHelper.class);
     private static IOptions options = Options.getInstance();
@@ -25,23 +26,30 @@ public class AnomalyLifeTimeInfoHelper {
     private static final Object lock = new Object();
     private static String preferenceName = PreferencesNamesHolder.ANOMALY_LIFE_TIME;
 
-    private AnomalyLifeTimeInfoHelper() {
+    private AnomalyLifeTimeInfoHelper()
+    {
     }
 
-    public static AnomalyLifeTimeInfoHelper getInstance() {
+    public static AnomalyLifeTimeInfoHelper getInstance()
+    {
         return Holder.INSTANCE;
     }
 
-    public int getAnomalyLifeTimeValue() {
-        synchronized (lock) {
+    public int getAnomalyLifeTimeValue()
+    {
+        synchronized (lock)
+        {
             if (updated)
                 return anomalyLifeTime;
 
-            try {
+            try
+            {
                 anomalyLifeTime = (int) options.getPreference(preferenceName, Integer.class);
-            } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
+            }
+            catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected)
+            {
                 logger.error("AnomalyLifeTimeInfoHelper:  anomalyLifeTime error! " +
-                                "Could not getPreference AnomalyLifeTimeValue from registry!" + illegalPreferenceObjectExpected,
+                        "Could not getPreference AnomalyLifeTimeValue from registry!" + illegalPreferenceObjectExpected,
                         illegalPreferenceObjectExpected);
                 anomalyLifeTime = 0;
                 logger.error("AnomalyLifeTimeInfoHelper:  anomalyLifeTime error! " +
@@ -52,29 +60,22 @@ public class AnomalyLifeTimeInfoHelper {
         }
     }
 
-    public void setAnomalyLifeTimeValue(int newAnomalyLifeTimeValue) {
+    public void setAnomalyLifeTimeValue(int newAnomalyLifeTimeValue) throws IOException {
 
         HashMap<String, Object> newPreference = new HashMap<>();
         newPreference.put(preferenceName, newAnomalyLifeTimeValue);
 
-        synchronized (lock) {
+        synchronized (lock)
+        {
             updated = false;
             options.setPreferences(newPreference);
         }
-
-        try {
-            Connector.updateSystem(null);
-        } catch (IOException e) {
-            logger.error("AnomalyLifeTimeInfoHelper: IOException error while setting " +
-                    "anomaly life time value: " + e, e);
-        } catch (IllegalPreferenceObjectExpected e) {
-            logger.error("AnomalyLifeTimeInfoHelper: IllegalPreferenceObjectExpected error while setting " +
-                    "anomaly life time value: " + e, e);
-        }
+        Connector.updateSystem(null);
 
     }
 
-    public static class Holder {
+    public static class Holder
+    {
         static final AnomalyLifeTimeInfoHelper INSTANCE = new AnomalyLifeTimeInfoHelper();
     }
 }
