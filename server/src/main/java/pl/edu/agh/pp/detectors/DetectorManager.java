@@ -47,8 +47,8 @@ public class DetectorManager {
     private final InputParser inputParser;
     private final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
     private AnomaliesServer anomaliesServer;
-    private FilesLoader baselineFilesLoader;
-    private File[] listOfFiles;
+    private static FilesLoader baselineFilesLoader;
+    private static File[] listOfFiles;
     private static BuilderContext builderContext;
 
     public DetectorManager(AnomaliesServer anomaliesServer, Boolean isThis) {
@@ -106,8 +106,13 @@ public class DetectorManager {
     }
 
     public static void computeBaselineFromDefaultLogsLocation() throws IOException {
+        refreshBaselineFilesLoader();
+        PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
+    }
+
+    public static void refreshBaselineFilesLoader() throws IOException {
         File folder = new File(LOG_FILES_DIRECTORY_PATH);
-        File[] listOfFiles = folder.listFiles();
+        listOfFiles = folder.listFiles();
         if (folder.isDirectory() && listOfFiles != null) {
             String newLogFiles[] = new String[listOfFiles.length];
             int i=0;
@@ -117,9 +122,8 @@ public class DetectorManager {
                     i++;
                 }
             }
-            FilesLoader baselineFilesLoader = new FilesLoader(newLogFiles);
-
-            PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
+            baselineFilesLoader = new FilesLoader(newLogFiles);
+            baselineFilesLoader.processLineByLine();
         }else {
             throw new FileNotFoundException("DetectorManager: logs directory missing or no log files detected inside");
         }
