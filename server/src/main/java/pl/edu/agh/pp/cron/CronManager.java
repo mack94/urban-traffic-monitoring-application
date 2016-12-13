@@ -65,7 +65,7 @@ public class CronManager {
                     }
 
                     long waitingTime = timer.getWaitingTime(Calendar.getInstance());
-                    Thread.sleep(waitingTime);
+                    Thread.sleep(waitingTime * 1000);
                     reloadRoutes();
                 } catch (Exception e) {
                     // TODO: Catch this.
