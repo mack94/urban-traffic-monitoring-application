@@ -169,16 +169,17 @@ public class DetectorManager
 
             AnomalyOperationProtos.AnomalyMessage isAnomaly = builderContext.isAnomaly(record.getDayOfWeek(), record.getRouteID(), record.getTimeInSeconds(), record.getDurationInTraffic());
 
-            if (isAnomaly != null)
+            if (!areWaypointsDefault)
             {
-                anomalyId = isAnomaly.getAnomalyID();
-                if (!areWaypointsDefault)
+                if (isAnomaly != null)
                 {
+                    anomalyId = isAnomaly.getAnomalyID();
                     logEntry = new JSONObject(logEntry).put("anomalyId", anomalyId).toString();
-                    trafficLogger.error(logEntry);
-                    logger.error(logEntry);
+
+                    anomaliesServer.send(isAnomaly.toByteArray());
                 }
-                anomaliesServer.send(isAnomaly.toByteArray());
+                trafficLogger.error(logEntry);
+                logger.error(logEntry);
             }
 
             return anomalyId;
