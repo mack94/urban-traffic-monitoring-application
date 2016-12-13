@@ -242,6 +242,10 @@ public class CommandLineManager extends Thread
             buffer = StringUtils.removeStart(buffer, "SET_LEVER ");
             String[] args = buffer.split(" ");
             int percentLeverValue = Integer.parseInt(args[0]);
+            if (percentLeverValue < -25 || percentLeverValue > 100)
+            {
+                throw new IllegalArgumentException("Wrong parameter");
+            }
             leverInfoHelper.setLeverValue(percentLeverValue);
         }
         catch (Exception e)
@@ -257,6 +261,10 @@ public class CommandLineManager extends Thread
             buffer = StringUtils.removeStart(buffer, "SET_ANOMALY_LIFE_TIME ");
             String[] args = buffer.split(" ");
             int secondsAnomalyLifeTime = Integer.parseInt(args[0]);
+            if (secondsAnomalyLifeTime < 0)
+            {
+                throw new IllegalArgumentException("Wrong parameter");
+            }
             ANOMALY_LIFE_TIME_INFO_HELPER.setAnomalyLifeTimeValue(secondsAnomalyLifeTime);
         }
         catch (Exception e)
@@ -272,6 +280,10 @@ public class CommandLineManager extends Thread
             buffer = StringUtils.removeStart(buffer, "SET_BASELINE_WINDOW_SIZE ");
             String[] args = buffer.split(" ");
             int baselineWindowSize = Integer.parseInt(args[0]);
+            if (baselineWindowSize < 0 || baselineWindowSize > 1440)
+            {
+                throw new IllegalArgumentException("Wrong parameter");
+            }
             baselineWindowSizeInfoHelper.setBaselineWindowSizeValue(baselineWindowSize);
         }
         catch (Exception e)
