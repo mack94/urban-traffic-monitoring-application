@@ -115,6 +115,14 @@ public class CommandLineManager extends Thread
             {
                 setNightRequestsFrequency(buffer);
             }
+            else if (buffer.startsWith("SET_DAY_SHIFT_START"))
+            {
+                setDayShiftStart(buffer);
+            }
+            else if (buffer.startsWith("SET_NIGHT_SHIFT_START"))
+            {
+                setNightShiftStart(buffer);
+            }
             else if (buffer.startsWith("AV_H"))
             {
                 System.out.println(AvailableHistoricalInfoHelper.getAvailableDateRoutes().keySet());
@@ -408,6 +416,102 @@ public class CommandLineManager extends Thread
         catch (Exception e)
         {
             logger.error("Error occurred while setting requests frequency for night shift", e);
+        }
+    }
+
+    private void setDayShiftStart(String buffer)
+    {
+        try
+        {
+            buffer = StringUtils.removeStart(buffer, "SET_DAY_SHIFT_START");
+            String[] values = buffer.split(":");
+            if (values.length < 2 && values.length > 3)
+            {
+                throw new IllegalArgumentException("Wrong time format. Expected HH:mm ot HH:mm:ss");
+            }
+            int hour = Integer.valueOf(values[0]);
+            if (hour < 0 || hour > 23)
+            {
+                throw new IllegalArgumentException("Hour must be between <0; 23>");
+            }
+            int minute = Integer.valueOf(values[1]);
+            if (minute < 0 || minute > 59)
+            {
+                throw new IllegalArgumentException("Minute must be between <0; 59>");
+            }
+            int second = 0;
+            if (values.length == 3)
+            {
+                second = Integer.valueOf(values[2]);
+            }
+            if (second < 0 || second > 59)
+            {
+                throw new IllegalArgumentException("Second must be between <0; 59>");
+            }
+            if (values.length == 2)
+            {
+                buffer = new StringBuilder(values[0])
+                        .append(":")
+                        .append(values[1])
+                        .append(":")
+                        .append("00")
+                        .toString();
+            }
+            HashMap<String, Object> preference = new HashMap<>();
+            preference.put(PreferencesNamesHolder.DAY_SHIFT_START, buffer);
+            Options.getInstance().setPreferences(preference);
+        }
+        catch (Exception e)
+        {
+            logger.error("Error occurred while setting day shift start", e);
+        }
+    }
+
+    private void setNightShiftStart(String buffer)
+    {
+        try
+        {
+            buffer = StringUtils.removeStart(buffer, "SET_NIGHT_SHIFT_START");
+            String[] values = buffer.split(":");
+            if (values.length < 2 && values.length > 3)
+            {
+                throw new IllegalArgumentException("Wrong time format. Expected HH:mm ot HH:mm:ss");
+            }
+            int hour = Integer.valueOf(values[0]);
+            if (hour < 0 || hour > 23)
+            {
+                throw new IllegalArgumentException("Hour must be between <0; 23>");
+            }
+            int minute = Integer.valueOf(values[1]);
+            if (minute < 0 || minute > 59)
+            {
+                throw new IllegalArgumentException("Minute must be between <0; 59>");
+            }
+            int second = 0;
+            if (values.length == 3)
+            {
+                second = Integer.valueOf(values[2]);
+            }
+            if (second < 0 || second > 59)
+            {
+                throw new IllegalArgumentException("Second must be between <0; 59>");
+            }
+            if (values.length == 2)
+            {
+                buffer = new StringBuilder(values[0])
+                        .append(":")
+                        .append(values[1])
+                        .append(":")
+                        .append("00")
+                        .toString();
+            }
+            HashMap<String, Object> preference = new HashMap<>();
+            preference.put(PreferencesNamesHolder.NIGHT_SHIFT_START, buffer);
+            Options.getInstance().setPreferences(preference);
+        }
+        catch (Exception e)
+        {
+            logger.error("Error occurred while setting night shift start", e);
         }
     }
 
