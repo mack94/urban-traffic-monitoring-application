@@ -36,7 +36,7 @@ public class CommandLineManager extends Thread
     private static final AnomalyLifeTimeInfoHelper ANOMALY_LIFE_TIME_INFO_HELPER = AnomalyLifeTimeInfoHelper.getInstance();
     private static final BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
     private static IOptions options = Options.getInstance();
-    private final Logger logger = (Logger) LoggerFactory.getLogger(CommandLineManager.class);
+    private final Logger logger = LoggerFactory.getLogger(CommandLineManager.class);
     private final Map<String, DayOfWeek> daysOfWeek = getDaysMap();
 
     @Override
@@ -55,6 +55,7 @@ public class CommandLineManager extends Thread
                 System.out.println("Error occurred while reading input: " + e);
                 continue;
             }
+            logger.info("Typed command: {}", buffer);
             // counts new baseline of files in logs/
             if (buffer.equals("COUNT_BASELINE"))
             {
