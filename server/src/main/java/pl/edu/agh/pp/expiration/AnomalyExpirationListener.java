@@ -10,29 +10,37 @@ import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.settings.Options;
+import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 
-public class AnomalyExpirationListener extends Thread {
+public class AnomalyExpirationListener extends Thread
+{
     private ConcurrentHashMap<Integer, String> anomalyID;
     private ConcurrentHashMap<Integer, DateTime> anomalyTime;
     private Set<String> expiredAnomalies;
     private AnomaliesServer anomaliesServer;
 
-    public AnomalyExpirationListener(ConcurrentHashMap<Integer, String> anomalyID, ConcurrentHashMap<Integer, DateTime> anomalyTime) {
+    public AnomalyExpirationListener(ConcurrentHashMap<Integer, String> anomalyID, ConcurrentHashMap<Integer, DateTime> anomalyTime)
+    {
         this.anomalyID = anomalyID;
         this.anomalyTime = anomalyTime;
         this.expiredAnomalies = new HashSet<>();
     }
 
     @Override
-    public void run() {
+    public void run()
+    {
         int anomalyLifeTime = 500;
         int expirationBroadcast = 3600;
         int expirationInterval;
-        while (true) {
-            try {
-                anomalyLifeTime = (int) Options.getInstance().getPreference("AnomalyLifeTime", Integer.class);
-                expirationBroadcast = (int) Options.getInstance().getPreference("AnomalyExpirationBroadcast", Integer.class);
-            } catch (IllegalPreferenceObjectExpected e) {
+        while (true)
+        {
+            try
+            {
+                anomalyLifeTime = (int) Options.getInstance().getPreference(PreferencesNamesHolder.ANOMALY_LIFE_TIME, Integer.class);
+                expirationBroadcast = (int) Options.getInstance().getPreference(PreferencesNamesHolder.ANOMALY_EXPIRATION_BROADCAST, Integer.class);
+            }
+            catch (IllegalPreferenceObjectExpected e)
+            {
                 e.printStackTrace();
             }
             int finalAnomalyLifeTime = anomalyLifeTime;
@@ -44,23 +52,29 @@ public class AnomalyExpirationListener extends Thread {
                         DateTime anomaly = anomalyTime.get(entry.getKey());
                         DateTime now = DateTime.now();
                         int lastUpdateInSeconds = Seconds.secondsBetween(anomaly, now).getSeconds();
-                        if (lastUpdateInSeconds > finalAnomalyLifeTime) {
+                        if (lastUpdateInSeconds > finalAnomalyLifeTime)
+                        {
                             sendMessage(entry.getKey(), entry.getValue());
-                            if (lastUpdateInSeconds > finalExpirationBroadcast) {
+                            if (lastUpdateInSeconds > finalExpirationBroadcast)
+                            {
                                 expiredAnomalies.add(entry.getValue());
                             }
                         }
                     });
-            try {
-                expirationInterval = (int) Options.getInstance().getPreference("AnomalyExpirationInterval", Integer.class);
+            try
+            {
+                expirationInterval = (int) Options.getInstance().getPreference(PreferencesNamesHolder.ANOMALY_EXPIRATION_INTERVAL, Integer.class);
                 sleep(expirationInterval * 1000);
-            } catch (InterruptedException | IllegalPreferenceObjectExpected e) {
+            }
+            catch (InterruptedException | IllegalPreferenceObjectExpected e)
+            {
                 e.printStackTrace();
             }
         }
     }
 
-    private void sendMessage(int routeId, String anomalyId) {
+    private void sendMessage(int routeId, String anomalyId)
+    {
         AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.newBuilder()
                 .setAnomalyID(anomalyId)
                 .setRouteIdx(routeId)
@@ -70,7 +84,8 @@ public class AnomalyExpirationListener extends Thread {
         anomaliesServer.send(message.toByteArray());
     }
 
-    public void setAnomaliesServer(AnomaliesServer anomaliesServer) {
+    public void setAnomaliesServer(AnomaliesServer anomaliesServer)
+    {
         this.anomaliesServer = anomaliesServer;
     }
 }

@@ -1,11 +1,6 @@
 {
   "preferences": [
     {
-      "name": "Password",
-      "type": "String",
-      "value": ""
-    },
-    {
       "name": "DayShiftStart",
       "type": "String",
       "value": "05:00:00"
@@ -36,7 +31,7 @@
       "value": "8080"
     },
     {
-      "name": "API_KEY",
+      "name": "ApiKey",
       "type": "String",
       "value": ""
     },

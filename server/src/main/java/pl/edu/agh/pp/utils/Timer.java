@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
+import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,7 +38,7 @@ public class Timer {
         try {
             String string1 = null;
             try {
-                string1 = (String) options.getPreference("DayShiftStart", String.class);
+                string1 = (String) options.getPreference(PreferencesNamesHolder.DAY_SHIFT_START, String.class);
             } catch (IllegalPreferenceObjectExpected e) {
                 logger.error("Timer: IllegalPreferenceObjectExpected Error while getWaitingTime" + e, e);
             }
@@ -47,7 +48,7 @@ public class Timer {
 
             String string2 = null;
             try {
-                string2 = (String) options.getPreference("NightShiftStart", String.class);
+                string2 = (String) options.getPreference(PreferencesNamesHolder.NIGHT_SHIFT_START, String.class);
             } catch (IllegalPreferenceObjectExpected e) {
                 logger.error("Timer: IllegalPreferenceObjectExpected Error while getWaitingTime" + e, e);
             }

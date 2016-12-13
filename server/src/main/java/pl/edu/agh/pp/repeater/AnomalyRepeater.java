@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import pl.edu.agh.pp.cron.RequestsExecutor;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.settings.Options;
+import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 import pl.edu.agh.pp.trackers.AnomalyTracker;
 import pl.edu.agh.pp.trackers.IAnomalyTracker;
 import pl.edu.agh.pp.utils.RequestParams;
@@ -71,7 +72,7 @@ public class AnomalyRepeater extends Thread
             }
             try
             {
-                repeaterInterval = (int) Options.getInstance().getPreference("AnomalyRepeaterInterval", Integer.class);
+                repeaterInterval = (int) Options.getInstance().getPreference(PreferencesNamesHolder.ANOMALY_REPEATER_INTERVAL, Integer.class);
                 Thread.sleep(repeaterInterval * 1000);
             }
             catch (InterruptedException | IllegalPreferenceObjectExpected e)

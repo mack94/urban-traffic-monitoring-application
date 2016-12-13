@@ -5,6 +5,7 @@ import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 import pl.edu.agh.pp.utils.JodaTimeHelper;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
@@ -54,12 +55,12 @@ public class AnomalyTrackerTest {
     public void putAndGet() throws IllegalPreferenceObjectExpected {
         int routeID1 = 1;
         int routeID2 = 2;
-        int anomalyLifeTime = (Integer) options.getPreference("AnomalyLifeTime", Integer.class);
+        int anomalyLifeTime = (Integer) options.getPreference(PreferencesNamesHolder.ANOMALY_LIFE_TIME, Integer.class);
         Random random = new Random();
         DateTime dateTime1 = new DateTime(2016, 1, 2, 0, 0, 0, DateTimeZone.UTC);
         DateTime dateTime2 = dateTime1.plusSeconds(random.nextInt(anomalyLifeTime));
         DateTime dateTime3 = new DateTime(2016, 1, 3, 0, 0, 0, DateTimeZone.UTC);
-        DateTime dateTime4 = dateTime1.plusSeconds((Integer) options.getPreference("AnomalyLifeTime", Integer.class));
+        DateTime dateTime4 = dateTime1.plusSeconds((Integer) options.getPreference(PreferencesNamesHolder.ANOMALY_LIFE_TIME, Integer.class));
         DateTime dateTime5 = dateTime4.plusSeconds(anomalyLifeTime+1);
 
         assertEquals(anomalyTracker.put(routeID1, dateTime1), anomalyTracker.put(routeID1, dateTime2));
@@ -108,9 +109,9 @@ public class AnomalyTrackerTest {
         int routeID1 = 1;
         DateTime dateTime1 = new DateTime(2016, 1, 2, 0, 0, 0, DateTimeZone.UTC);
         DateTime dateTime2 = dateTime1.plusSeconds(
-                random.nextInt((Integer) options.getPreference("AnomalyLifeTime", Integer.class))/2);
+                random.nextInt((Integer) options.getPreference(PreferencesNamesHolder.ANOMALY_LIFE_TIME, Integer.class))/2);
         DateTime dateTime3 = dateTime2.plusSeconds(
-                random.nextInt((Integer) options.getPreference("AnomalyLifeTime", Integer.class))/2);
+                random.nextInt((Integer) options.getPreference(PreferencesNamesHolder.ANOMALY_LIFE_TIME, Integer.class))/2);
 
         String anomalyID1 = anomalyTracker.put(routeID1, dateTime1);
         String anomalyID2 = anomalyTracker.put(routeID1, dateTime2);

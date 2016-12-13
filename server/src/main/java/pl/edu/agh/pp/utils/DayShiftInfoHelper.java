@@ -8,6 +8,7 @@ import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
+import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 import pl.edu.agh.pp.utils.enums.DayShift;
 
 import java.io.IOException;
@@ -47,13 +48,13 @@ public class DayShiftInfoHelper {
         Calendar currentCalendar = Calendar.getInstance();
 
         try {
-            String string1 = (String) options.getPreference("DayShiftStart", String.class);
+            String string1 = (String) options.getPreference(PreferencesNamesHolder.DAY_SHIFT_START, String.class);
 
             Date time1 = new SimpleDateFormat("HH:mm:ss").parse(string1);
             Calendar calendar1 = Calendar.getInstance();
             calendar1.setTime(time1);
 
-            String string2 = (String) options.getPreference("NightShiftStart", String.class);
+            String string2 = (String) options.getPreference(PreferencesNamesHolder.NIGHT_SHIFT_START, String.class);
 
             Date time2 = new SimpleDateFormat("HH:mm:ss").parse(string2);
             Calendar calendar2 = Calendar.getInstance();

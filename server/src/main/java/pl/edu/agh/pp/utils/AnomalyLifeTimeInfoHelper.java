@@ -6,6 +6,7 @@ import pl.edu.agh.pp.adapters.Connector;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
+import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class AnomalyLifeTimeInfoHelper {
     private static int anomalyLifeTime = 0;
     private static boolean updated = false;
     private static final Object lock = new Object();
-    private static String preferenceName = "AnomalyLifeTime";
+    private static String preferenceName = PreferencesNamesHolder.ANOMALY_LIFE_TIME;
 
     private AnomalyLifeTimeInfoHelper() {
     }

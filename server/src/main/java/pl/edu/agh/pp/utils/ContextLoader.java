@@ -5,6 +5,7 @@ import com.google.maps.GeoApiContext;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.settings.Options;
+import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,31 +20,16 @@ import java.util.prefs.BackingStoreException;
 
 public class ContextLoader {
 
-    private static final String API_KEY_PREFERENCES_NAME = "API_KEY";
-    private Properties properties;
-    private String propertiesFileName = "/config.properties";
-    private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+    private static final String preferenceName = PreferencesNamesHolder.API_KEY;
     private static List<GeoApiContext> contextList = new ArrayList<>();
 
     public GeoApiContext geoApiContextLoader() throws IOException, IllegalPreferenceObjectExpected {
         Options options = Options.getInstance();
-        String apiKey = (String)options.getPreference("API_KEY", String.class);
+        String apiKey = (String)options.getPreference(preferenceName, String.class);
 
         GeoApiContext context = new GeoApiContext().setApiKey(apiKey);
         contextList.add(context);
         return context;
-    }
-
-    @Deprecated
-    private Properties loadAppProperties() throws IOException {
-        logger.info("<" + this.getClass().getCanonicalName() + "> Loading App properties");
-
-        Properties properties = new Properties();
-        InputStream configStream = this.getClass().getResourceAsStream(propertiesFileName);
-
-        properties.load(configStream);
-
-        return properties;
     }
 
     public static void changeApiKey(String newApiKey) throws BackingStoreException, IllegalPreferenceObjectExpected {
@@ -56,10 +42,10 @@ public class ContextLoader {
     private static void updatePreferences(String newApiKey) throws BackingStoreException, IllegalPreferenceObjectExpected {
         Options options = Options.getInstance();
         HashMap<String, Object> currentOptions = options.getPreferences();
-        currentOptions.entrySet().stream().filter(entry -> Objects.equals(entry.getKey(), API_KEY_PREFERENCES_NAME))
+        currentOptions.entrySet().stream().filter(entry -> Objects.equals(entry.getKey(), preferenceName))
                 .forEach(entry -> entry.setValue(newApiKey));
 
         options.setPreferences(currentOptions);
-        System.out.println("Api key changed to: " + options.getPreference("API_KEY", String.class));
+        System.out.println("Api key changed to: " + options.getPreference(preferenceName, String.class));
     }
 }

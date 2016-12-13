@@ -6,6 +6,7 @@ import pl.edu.agh.pp.adapters.Connector;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
+import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 
 import java.util.HashMap;
 
@@ -21,7 +22,7 @@ public class LeverInfoHelper {
     private static double leverValue = 0.0;
     private static boolean updated = false;
     private static final Object lock = new Object();
-    private static String preferenceName = "LeverValue";
+    private static String preferenceName = PreferencesNamesHolder.LEVER_VALUE;
 
     private LeverInfoHelper() {
     }
