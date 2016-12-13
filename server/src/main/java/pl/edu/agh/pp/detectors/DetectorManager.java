@@ -1,5 +1,14 @@
 package pl.edu.agh.pp.detectors;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jfree.ui.RefineryUtilities;
 import org.joda.time.DateTime;
@@ -21,16 +30,6 @@ import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.utils.Record;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.geom.Point2D;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-
 /**
  * Created by Maciej on 18.07.2016.
  *
@@ -46,7 +45,8 @@ public class DetectorManager
     private static final String LOG_FILES_DIRECTORY_PATH = "./logs";
     private static final FilesLoader anomalySearchFilesLoader = new FilesLoader(ANOMALY_SEARCH_LOGS_PATH);
     private final InputParser inputParser;
-    private final Logger logger = (Logger) LoggerFactory.getLogger(DetectorManager.class);
+    private final Logger logger = LoggerFactory.getLogger(DetectorManager.class);
+    private final Logger trafficLogger = LoggerFactory.getLogger("traffic");
     private AnomaliesServer anomaliesServer;
     private static FilesLoader baselineFilesLoader;
     private static File[] listOfFiles;
@@ -175,6 +175,7 @@ public class DetectorManager
                 if (!areWaypointsDefault)
                 {
                     logEntry = new JSONObject(logEntry).put("anomalyId", anomalyId).toString();
+                    trafficLogger.error(logEntry);
                     logger.error(logEntry);
                 }
                 anomaliesServer.send(isAnomaly.toByteArray());

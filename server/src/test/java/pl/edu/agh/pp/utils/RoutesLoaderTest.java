@@ -23,7 +23,7 @@ public class RoutesLoaderTest {
         fileNameField = RoutesLoader.class.getDeclaredField("fileName");
         fileNameField.setAccessible(true);
         defualtFileName = instance.getDefaultJSONFileName();
-        fileNameField.set(RoutesLoader.getInstance(), "/test/test_routes.json");
+        fileNameField.set(RoutesLoader.getInstance(), "test_routes.json");
     }
 
     @After

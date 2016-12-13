@@ -18,6 +18,7 @@ import pl.edu.agh.pp.detectors.DetectorManager;
  */
 public class RequestsExecutor
 {
+    private final Logger trafficLogger = LoggerFactory.getLogger("traffic");
     private final Logger logger = LoggerFactory.getLogger(RequestsExecutor.class);
     private final DetectorManager detectorManager;
 
@@ -46,6 +47,7 @@ public class RequestsExecutor
         String defaultWaypoints = requestParams.getDefaultWaypoints();
         Route route = new Route(requestParams.getId(), distanceMatrix, directionsApi, defaultWaypoints);
         route.setAnomalyId(detectorManager.isAnomaly(route.toString(), defaultWaypoints));
+        trafficLogger.error(route.toString());
         logger.error(route.toString());
     }
 

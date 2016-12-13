@@ -36,7 +36,7 @@ public class RouteTest
         routesLoaderFileNameField = RoutesLoader.class.getDeclaredField("fileName");
         routesLoaderFileNameField.setAccessible(true);
         defaultRoutesLoaderFileName = routesLoaderInstance.getDefaultJSONFileName();
-        routesLoaderFileNameField.set(RoutesLoader.getInstance(), "/test/test_routes.json");
+        routesLoaderFileNameField.set(RoutesLoader.getInstance(), "/test_routes.json");
 
         JSONArray loadedRoutes = routesLoaderInstance.loadJSON();
 
