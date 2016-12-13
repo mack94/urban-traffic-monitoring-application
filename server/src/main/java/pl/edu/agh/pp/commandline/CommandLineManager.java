@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.adapters.Connector;
 import pl.edu.agh.pp.builders.IPatternBuilder;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.loaders.FilesLoader;
@@ -98,11 +99,21 @@ public class CommandLineManager extends Thread
             {
                 setRepeaterInterval(buffer);
             }
-            else if(buffer.startsWith("SET_EXPIRATION_INTERVAL")) {
+            else if (buffer.startsWith("SET_EXPIRATION_INTERVAL"))
+            {
                 setExpirationInterval(buffer);
             }
-            else if(buffer.startsWith("SET_EXPIRATION_BROADCAST")) {
+            else if (buffer.startsWith("SET_EXPIRATION_BROADCAST"))
+            {
                 setExpirationBroadcast(buffer);
+            }
+            else if (buffer.startsWith("SET_DAY_REQUESTS_FREQ"))
+            {
+                setDayRequestsFrequency(buffer);
+            }
+            else if (buffer.startsWith("SET_NIGHT_REQUESTS_FREQ"))
+            {
+                setNightRequestsFrequency(buffer);
             }
             else if (buffer.startsWith("AV_H"))
             {
@@ -306,7 +317,8 @@ public class CommandLineManager extends Thread
         }
     }
 
-    private void setExpirationInterval(String buffer) {
+    private void setExpirationInterval(String buffer)
+    {
         try
         {
             String interval = StringUtils.removeStart(buffer, "SET_EXPIRATION_INTERVAL ");
@@ -324,7 +336,8 @@ public class CommandLineManager extends Thread
         }
     }
 
-    private void setExpirationBroadcast(String buffer) {
+    private void setExpirationBroadcast(String buffer)
+    {
         try
         {
             String value = StringUtils.removeStart(buffer, "SET_EXPIRATION_BROADCAST ");
@@ -339,6 +352,62 @@ public class CommandLineManager extends Thread
         catch (Exception e)
         {
             logger.error("Error occurred while setting expiration broadcast", e);
+        }
+    }
+
+    private void setDayRequestsFrequency(String buffer)
+    {
+        try
+        {
+            buffer = StringUtils.removeStart(buffer, "SET_DAY_REQUESTS_FREQ ");
+            String[] values = buffer.split(" ");
+            if (values.length != 2)
+            {
+                throw new IllegalArgumentException("Expected 2 parameters, found " + values.length);
+            }
+            int from = Integer.valueOf(values[0]);
+            int to = Integer.valueOf(values[1]);
+            if (from < 0 || to < 0 || from > to)
+            {
+                throw new IllegalArgumentException("Wrong parameters");
+            }
+            HashMap<String, Object> preferences = new HashMap<>();
+            preferences.put(PreferencesNamesHolder.DAY_SHIFT_FREQUENCY_FROM, from);
+            preferences.put(PreferencesNamesHolder.DAY_SHIFT_FREQUENCY_TO, to);
+            Options.getInstance().setPreferences(preferences);
+            Connector.updateSystem(null);
+        }
+        catch (Exception e)
+        {
+            logger.error("Error occurred while setting requests frequency for day shift", e);
+        }
+    }
+
+    private void setNightRequestsFrequency(String buffer)
+    {
+        try
+        {
+            buffer = StringUtils.removeStart(buffer, "SET_NIGHT_REQUESTS_FREQ ");
+            String[] values = buffer.split(" ");
+            if (values.length != 2)
+            {
+                throw new IllegalArgumentException("Expected 2 parameters, found " + values.length);
+            }
+            int from = Integer.valueOf(values[0]);
+            int to = Integer.valueOf(values[1]);
+            if (from < 0 || to < 0 || from > to)
+            {
+                throw new IllegalArgumentException("Wrong parameters");
+            }
+            HashMap<String, Object> preferences = new HashMap<>();
+            preferences.put(PreferencesNamesHolder.NIGHT_SHIFT_FREQUENCY_FROM, from);
+            preferences.put(PreferencesNamesHolder.NIGHT_SHIFT_FREQUENCY_TO, to);
+            Options.getInstance().setPreferences(preferences);
+            Connector.updateSystem(null);
+        }
+        catch (Exception e)
+        {
+            logger.error("Error occurred while setting requests frequency for night shift", e);
         }
     }
 
