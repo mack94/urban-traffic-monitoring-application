@@ -49,6 +49,26 @@
       "name": "AnomalyExpirationBroadcast",
       "type": "Integer",
       "value": "3600"
+    },
+    {
+      "name": "DayShiftFrequencyFrom",
+      "type": "Integer",
+      "value": "200"
+    },
+    {
+      "name": "DayShiftFrequencyTo",
+      "type": "Integer",
+      "value": "500"
+    },
+    {
+      "name": "NightShiftFrequencyFrom",
+      "type": "Integer",
+      "value": "450"
+    },
+    {
+      "name": "NightShiftFrequencyTo",
+      "type": "Integer",
+      "value": "850"
     }
   ]
 }
