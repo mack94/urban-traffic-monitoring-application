@@ -177,7 +177,7 @@ public class CommandLineManager extends Thread
             Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserialize(timestamp);
             if (baseline != null && baselineSerializer.doesBaselineFitConditions(baseline, dayOfWeek, id))
             {
-                patternBuilder.setPartialBaseline(baseline, dayOfWeek, id);
+                patternBuilder.setPartialBaseline(baseline, dayOfWeek, id, timestamp);
                 logger.info("Baseline {} for route {} on {} has been set successfully", timestamp, id, dayOfWeek);
             }
             else
@@ -199,7 +199,7 @@ public class CommandLineManager extends Thread
             Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserialize(timestamp);
             if (baseline != null)
             {
-                patternBuilder.setBaseline(baseline);
+                patternBuilder.setBaseline(baseline, timestamp);
                 logger.info("Baseline {} has been set successfully", timestamp);
             }
             else
@@ -221,7 +221,7 @@ public class CommandLineManager extends Thread
             Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserialize(timestamp);
             if (baseline != null)
             {
-                patternBuilder.updateBaseline(baseline);
+                patternBuilder.updateBaseline(baseline, timestamp);
                 logger.info("Current baseline has been successfully updated by {}", timestamp);
             }
             else

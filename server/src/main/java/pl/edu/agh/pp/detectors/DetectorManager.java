@@ -38,7 +38,8 @@ import java.util.*;
  *         21:11
  *         Project: detector.
  */
-public class DetectorManager {
+public class DetectorManager
+{
 
     private static final String BASELINE_LOGS_PATH = "C:\\Inz\\appended_file.txt";
     private static final String ANOMALY_SEARCH_LOGS_PATH = "C:\\Inz\\f.log";
@@ -51,40 +52,52 @@ public class DetectorManager {
     private static File[] listOfFiles;
     private static BuilderContext builderContext;
 
-    public DetectorManager(AnomaliesServer anomaliesServer, Boolean isThis) {
+    public DetectorManager(AnomaliesServer anomaliesServer, Boolean isThis)
+    {
         this.anomaliesServer = anomaliesServer;
         this.inputParser = new InputParser();
         File folder = new File(LOG_FILES_DIRECTORY_PATH);
         listOfFiles = folder.listFiles();
     }
 
-    public DetectorManager(AnomaliesServer anomaliesServer, String... logFiles) {
+    public DetectorManager(AnomaliesServer anomaliesServer, String... logFiles)
+    {
         this.inputParser = new InputParser();
         File folder = new File(LOG_FILES_DIRECTORY_PATH);
         listOfFiles = folder.listFiles();
-        if (folder.isDirectory() && listOfFiles != null) {
+        if (folder.isDirectory() && listOfFiles != null)
+        {
             String newLogFiles[] = new String[logFiles.length + listOfFiles.length];
             int i = 0;
-            for (String file : logFiles) {
-                if (!file.trim().equals("")) {
+            for (String file : logFiles)
+            {
+                if (!file.trim().equals(""))
+                {
                     newLogFiles[i] = file;
                     i++;
                 }
             }
-            for (File file : listOfFiles) {
-                if (file.isFile() && file.getAbsolutePath().endsWith(".log")) {
+            for (File file : listOfFiles)
+            {
+                if (file.isFile() && file.getAbsolutePath().endsWith(".log"))
+                {
                     newLogFiles[i] = file.getAbsolutePath();
                     i++;
                 }
             }
             baselineFilesLoader = new FilesLoader(newLogFiles);
-        } else {
+        }
+        else
+        {
             folder = new File(logFiles[0]);
-            if(folder.isDirectory() && folder.listFiles() != null) {
+            if (folder.isDirectory() && folder.listFiles() != null)
+            {
                 String newLogFiles[] = new String[folder.listFiles().length];
                 int i = 0;
-                for (File file : folder.listFiles()) {
-                    if (file.isFile() && file.getAbsolutePath().endsWith(".log")) {
+                for (File file : folder.listFiles())
+                {
+                    if (file.isFile() && file.getAbsolutePath().endsWith(".log"))
+                    {
                         newLogFiles[i] = file.getAbsolutePath();
                         i++;
                     }
@@ -95,9 +108,12 @@ public class DetectorManager {
         }
 
         builderContext = new BuilderContext(PolynomialPatternBuilder.getInstance());
-        try {
+        try
+        {
             PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
         new CommandLineManager().start();
@@ -105,36 +121,46 @@ public class DetectorManager {
         builderContext.setServer(anomaliesServer);
     }
 
-    public static void computeBaselineFromDefaultLogsLocation() throws IOException {
+    public static void computeBaselineFromDefaultLogsLocation() throws IOException
+    {
         refreshBaselineFilesLoader();
         PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
     }
 
-    public static void refreshBaselineFilesLoader() throws IOException {
+    public static void refreshBaselineFilesLoader() throws IOException
+    {
         File folder = new File(LOG_FILES_DIRECTORY_PATH);
         listOfFiles = folder.listFiles();
-        if (folder.isDirectory() && listOfFiles != null) {
+        if (folder.isDirectory() && listOfFiles != null)
+        {
             String newLogFiles[] = new String[listOfFiles.length];
-            int i=0;
-            for (File file : listOfFiles) {
-                if (file.isFile() && file.getAbsolutePath().endsWith(".log")) {
+            int i = 0;
+            for (File file : listOfFiles)
+            {
+                if (file.isFile() && file.getAbsolutePath().endsWith(".log"))
+                {
                     newLogFiles[i] = file.getAbsolutePath();
                     i++;
                 }
             }
             baselineFilesLoader = new FilesLoader(newLogFiles);
             baselineFilesLoader.processLineByLine();
-        }else {
+        }
+        else
+        {
             throw new FileNotFoundException("DetectorManager: logs directory missing or no log files detected inside");
         }
     }
 
-    public String isAnomaly(String logEntry, String defaultWaypoints) {
-        try {
+    public String isAnomaly(String logEntry, String defaultWaypoints)
+    {
+        try
+        {
             String anomalyId = StringUtils.EMPTY;
             boolean areWaypointsDefault = true;
             Record record = inputParser.parse(logEntry);
-            if (!"default".equals(record.getWaypoints())) {
+            if (!"default".equals(record.getWaypoints()))
+            {
                 HalfRouteManager halfRouteManager = new HalfRouteManager(record, defaultWaypoints);
                 logEntry = halfRouteManager.splitRoute();
                 record = inputParser.parse(logEntry);
@@ -143,9 +169,11 @@ public class DetectorManager {
 
             AnomalyOperationProtos.AnomalyMessage isAnomaly = builderContext.isAnomaly(record.getDayOfWeek(), record.getRouteID(), record.getTimeInSeconds(), record.getDurationInTraffic());
 
-            if (isAnomaly != null) {
-                anomalyId = String.valueOf(isAnomaly.getAnomalyID());
-                if (!areWaypointsDefault) {
+            if (isAnomaly != null)
+            {
+                anomalyId = isAnomaly.getAnomalyID();
+                if (!areWaypointsDefault)
+                {
                     logEntry = new JSONObject(logEntry).put("anomalyId", anomalyId).toString();
                     logger.error(logEntry);
                 }
@@ -153,13 +181,16 @@ public class DetectorManager {
             }
 
             return anomalyId;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             logger.error("Some Error occurred", e);
         }
         return StringUtils.EMPTY;
     }
 
-    public Map<String, Map<Integer, Integer>> getAnomalyForDateAndRoute(String date, int routeID) throws IOException {
+    public Map<String, Map<Integer, Integer>> getAnomalyForDateAndRoute(String date, int routeID) throws IOException
+    {
 
         Map<String, Map<Integer, Integer>> result = new HashMap<>();
         DateTime dateTime = DateTime.parse(date);
@@ -169,19 +200,27 @@ public class DetectorManager {
         String filenameFormat = String.format("%d-%d-%d", (year % 2000), month, day);
         System.out.println("SEARCH DATE FILENAME: " + filenameFormat);
 
-        if (listOfFiles != null) {
-            for (File file : listOfFiles) {
-                if (file.getName().contains(filenameFormat)) {
+        if (listOfFiles != null)
+        {
+            for (File file : listOfFiles)
+            {
+                if (file.getName().contains(filenameFormat))
+                {
                     FilesLoader filesLoader = new FilesLoader();
                     List<Record> records = filesLoader.processFile(file.getPath());
-                    for (Record record : records) {
+                    for (Record record : records)
+                    {
                         String anomalyID = record.getAnomalyID();
-                        if (anomalyID != null && anomalyID.length() != 0 && record.getRouteID() == routeID) {
-                            if (result.containsKey(anomalyID)) {
+                        if (anomalyID != null && anomalyID.length() != 0 && record.getRouteID() == routeID)
+                        {
+                            if (result.containsKey(anomalyID))
+                            {
                                 Map<Integer, Integer> currentRecord = result.get(anomalyID);
                                 currentRecord.put(record.getTimeInSeconds(), record.getDurationInTraffic());
                                 result.replace(anomalyID, currentRecord);
-                            } else {
+                            }
+                            else
+                            {
                                 Map<Integer, Integer> newRecord = new HashMap<>();
                                 newRecord.put(record.getTimeInSeconds(), record.getDurationInTraffic());
                                 result.put(anomalyID, newRecord);
@@ -196,16 +235,21 @@ public class DetectorManager {
     }
 
     @Deprecated
-    public void displayAnomaliesForRoute(int routeId) {
-        try {
+    public void displayAnomaliesForRoute(int routeId)
+    {
+        try
+        {
             XYLineChart_AWT chart;
 
             List<Record> recordsTestedForAnomalies = anomalySearchFilesLoader.processLineByLine();
             List<Record> anomalousRecords = new ArrayList<>();
             int counter = 0;
-            for (Record record : recordsTestedForAnomalies) {
-                if (record.getRouteID() == routeId) {
-                    if (builderContext.isAnomaly(record.getDayOfWeek(), record.getRouteID() - 1, record.getTimeInSeconds(), record.getDurationInTraffic()) != null) {
+            for (Record record : recordsTestedForAnomalies)
+            {
+                if (record.getRouteID() == routeId)
+                {
+                    if (builderContext.isAnomaly(record.getDayOfWeek(), record.getRouteID() - 1, record.getTimeInSeconds(), record.getDurationInTraffic()) != null)
+                    {
                         System.out.println("-------------------------------");
                         System.out.println("Day: " + record.getDayOfWeek());
                         System.out.println("When: " + record.getDateTime());
@@ -220,8 +264,10 @@ public class DetectorManager {
 
             Path p = Paths.get(ANOMALY_SEARCH_LOGS_PATH);
             String file = p.getFileName().toString();
-            for (Record record : recordsTestedForAnomalies) {
-                if (record.getRouteID() == routeId) {
+            for (Record record : recordsTestedForAnomalies)
+            {
+                if (record.getRouteID() == routeId)
+                {
                     chart = new XYLineChart_AWT(file, "Baseline i anomalie dla trasy " + record.getRouteID(), PolynomialPatternBuilder.getValueForEachMinuteOfDay(record.getDayOfWeek(), record.getRouteID() - 1),
                             anomalousRecords);
                     chart.pack();
@@ -233,19 +279,27 @@ public class DetectorManager {
 
             Thread.sleep(100);
 
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e)
+        {
             logger.error("DetectorManager :: InterruptedException " + e);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             logger.error("DetectorManager :: IOException " + e);
         }
     }
 
-    public void buildAndShowBaseline(int routeID, DayOfWeek day, String arg, String[] algorithm_options) throws Exception {
+    public void buildAndShowBaseline(int routeID, DayOfWeek day, String arg, String[] algorithm_options) throws Exception
+    {
         XYLineChart_AWT chart;
-        if(Objects.equals(arg, "poly") || Objects.equals(arg, "p")) {
-            for(int i=0; i<algorithm_options.length; i++) {
-                if(Objects.equals(algorithm_options[i], "-d") && algorithm_options.length >= i+1){
-                    PolynomialPatternBuilder.setPolymonialDegree(Integer.parseInt(algorithm_options[i+1]));
+        if (Objects.equals(arg, "poly") || Objects.equals(arg, "p"))
+        {
+            for (int i = 0; i < algorithm_options.length; i++)
+            {
+                if (Objects.equals(algorithm_options[i], "-d") && algorithm_options.length >= i + 1)
+                {
+                    PolynomialPatternBuilder.setPolymonialDegree(Integer.parseInt(algorithm_options[i + 1]));
                     i++;
                 }
             }
@@ -256,19 +310,26 @@ public class DetectorManager {
             chart.pack();
             RefineryUtilities.centerFrameOnScreen(chart);
             chart.setVisible(true);
-            chart.addWindowListener(new WindowAdapter(){
-                public void windowClosing(WindowEvent we){
+            chart.addWindowListener(new WindowAdapter()
+            {
+                public void windowClosing(WindowEvent we)
+                {
                     System.exit(0);
                 }
             });
-        } else if(Objects.equals(arg, "svr") || Objects.equals(arg, "s")) {
-            for(int i=0; i<algorithm_options.length; i++) {
-                if(Objects.equals(algorithm_options[i], "-n") && algorithm_options.length >= i+2){
-                    SupportVectorRegressionPatternBuilder.setDayIntervals(Integer.parseInt(algorithm_options[i+1]));
+        }
+        else if (Objects.equals(arg, "svr") || Objects.equals(arg, "s"))
+        {
+            for (int i = 0; i < algorithm_options.length; i++)
+            {
+                if (Objects.equals(algorithm_options[i], "-n") && algorithm_options.length >= i + 2)
+                {
+                    SupportVectorRegressionPatternBuilder.setDayIntervals(Integer.parseInt(algorithm_options[i + 1]));
                     i++;
                 }
-                if(Objects.equals(algorithm_options[i], "-i") && algorithm_options.length >= i+2){
-                    SupportVectorRegressionPatternBuilder.setInterval(Integer.parseInt(algorithm_options[i+1]));
+                if (Objects.equals(algorithm_options[i], "-i") && algorithm_options.length >= i + 2)
+                {
+                    SupportVectorRegressionPatternBuilder.setInterval(Integer.parseInt(algorithm_options[i + 1]));
                     i++;
                 }
             }
@@ -279,12 +340,16 @@ public class DetectorManager {
             chart.pack();
             RefineryUtilities.centerFrameOnScreen(chart);
             chart.setVisible(true);
-            chart.addWindowListener(new WindowAdapter(){
-                public void windowClosing(WindowEvent we){
+            chart.addWindowListener(new WindowAdapter()
+            {
+                public void windowClosing(WindowEvent we)
+                {
                     System.exit(0);
                 }
             });
-        } else if(Objects.equals(arg, "mean") || Objects.equals(arg, "average") || Objects.equals(arg, "simple")) {
+        }
+        else if (Objects.equals(arg, "mean") || Objects.equals(arg, "average") || Objects.equals(arg, "simple"))
+        {
             logger.info("Building baseline with method: simple historical mean");
             MeanPatternBuilder.computeFunction(baselineFilesLoader.processLineByLine(), true);
 
@@ -292,8 +357,10 @@ public class DetectorManager {
             chart.pack();
             RefineryUtilities.centerFrameOnScreen(chart);
             chart.setVisible(true);
-            chart.addWindowListener(new WindowAdapter(){
-                public void windowClosing(WindowEvent we){
+            chart.addWindowListener(new WindowAdapter()
+            {
+                public void windowClosing(WindowEvent we)
+                {
                     System.exit(0);
                 }
             });
@@ -301,8 +368,10 @@ public class DetectorManager {
     }
 
     @Deprecated
-    public void displayAnomaliesForFile() {
-        try {
+    public void displayAnomaliesForFile()
+    {
+        try
+        {
             XYLineChart_AWT chart;
 
             List<Record> recordsTestedForAnomalies = anomalySearchFilesLoader.processLineByLine();
@@ -310,9 +379,11 @@ public class DetectorManager {
             Map<Integer, List<Record>> dayOfWeekRecords;
             List<Record> routeAndDayRecords;
             int startingRouteId = recordsTestedForAnomalies.get(0).getRouteID();
-            for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
+            for (DayOfWeek dayOfWeek : DayOfWeek.values())
+            {
                 dayOfWeekRecords = new HashMap<>();
-                for (int routeId = startingRouteId; routeId <= 8 + startingRouteId; routeId++) {
+                for (int routeId = startingRouteId; routeId <= 8 + startingRouteId; routeId++)
+                {
                     routeAndDayRecords = new ArrayList<>();
                     dayOfWeekRecords.put(routeId, routeAndDayRecords);
                 }
@@ -320,8 +391,10 @@ public class DetectorManager {
             }
 
             int counter = 1;
-            for (Record record : recordsTestedForAnomalies) {
-                if (builderContext.isAnomaly(record.getDayOfWeek(), record.getRouteID(), record.getTimeInSeconds(), record.getDurationInTraffic()) != null) {
+            for (Record record : recordsTestedForAnomalies)
+            {
+                if (builderContext.isAnomaly(record.getDayOfWeek(), record.getRouteID(), record.getTimeInSeconds(), record.getDurationInTraffic()) != null)
+                {
                     System.out.println("-------------------------------");
                     System.out.println("Day: " + record.getDayOfWeek());
                     System.out.println("When: " + record.getDateTime());
@@ -335,9 +408,12 @@ public class DetectorManager {
             }
             System.out.println("Number of anomalies: " + counter);
 
-            for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
-                for (int routeId = startingRouteId; routeId < 8 + startingRouteId; routeId++) {
-                    if (anomalousRecords.get(dayOfWeek).get(routeId).size() != 0) {
+            for (DayOfWeek dayOfWeek : DayOfWeek.values())
+            {
+                for (int routeId = startingRouteId; routeId < 8 + startingRouteId; routeId++)
+                {
+                    if (anomalousRecords.get(dayOfWeek).get(routeId).size() != 0)
+                    {
                         chart = new XYLineChart_AWT("Anomaly and baseline chart", "Baseline: " + "Baseline_time" + System.lineSeparator()
                                 + "Anomalie: " + "anomaly search day" + System.lineSeparator()
                                 + "Trasa: " + (routeId), PolynomialPatternBuilder.getValueForEachMinuteOfDay(dayOfWeek, routeId), anomalousRecords.get(dayOfWeek).get(routeId));
@@ -350,34 +426,46 @@ public class DetectorManager {
 
             Thread.sleep(100);
 
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e)
+        {
             logger.error("DetectorManager :: InterruptedException " + e);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             logger.error("DetectorManager :: IOException " + e);
         }
     }
 
-    public boolean areAllRoutesIncluded(JSONArray loadedRoutes) {
+    public boolean areAllRoutesIncluded(JSONArray loadedRoutes)
+    {
         Map<String, Set<DayOfWeek>> list = baselineFilesLoader.getLoadedRoutes();
         boolean contains;
-        for (int i = 0; i < loadedRoutes.length(); i++) {
+        for (int i = 0; i < loadedRoutes.length(); i++)
+        {
             contains = false;
             JSONObject route = loadedRoutes.getJSONObject(i);
             String id = route.get("id").toString();
-            for (Map.Entry<String, Set<DayOfWeek>> entry : list.entrySet()) {
-                if (entry.getKey().equals(id)) {
-                    for (DayOfWeek dayOfWeek : entry.getValue()) {
-                        if (dayOfWeek == DayOfWeek.fromValue(DateTime.now().getDayOfWeek())) {
+            for (Map.Entry<String, Set<DayOfWeek>> entry : list.entrySet())
+            {
+                if (entry.getKey().equals(id))
+                {
+                    for (DayOfWeek dayOfWeek : entry.getValue())
+                    {
+                        if (dayOfWeek == DayOfWeek.fromValue(DateTime.now().getDayOfWeek()))
+                        {
                             contains = true;
                             break;
                         }
                     }
                 }
-                if (contains) {
+                if (contains)
+                {
                     break;
                 }
             }
-            if (!contains) {
+            if (!contains)
+            {
                 return false;
             }
         }

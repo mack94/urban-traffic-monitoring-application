@@ -15,9 +15,9 @@ public interface IPatternBuilder
 {
     AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration);
 
-    void setBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline);
+    void setBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline, String filename);
 
-    void setPartialBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline, DayOfWeek dayOfWeek, int id);
+    void setPartialBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline, DayOfWeek dayOfWeek, int id, String filename);
 
-    void updateBaseline(Map<DayOfWeek, Map<Integer,PolynomialFunction>> baseline);
+    void updateBaseline(Map<DayOfWeek, Map<Integer,PolynomialFunction>> baseline, String filename);
 }
