@@ -63,7 +63,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
             Map<Integer, List<WeightedObservedPoint>> weightedObservedPointsMap = new HashMap<>();
 
             for (Record record : _records) {
-                if (!record.getAnomalyID().equals(""))
+                if (!"".equals(record.getAnomalyID()) || !"default".equals(record.getWaypoints()))
                     continue;
 
                 int recordRouteID = record.getRouteID();
