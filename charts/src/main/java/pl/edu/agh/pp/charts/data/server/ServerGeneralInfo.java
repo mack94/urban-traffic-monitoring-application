@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by Maciej on 04.11.2016.
@@ -38,7 +39,12 @@ public class ServerGeneralInfo {
         setShift(systemGeneralMessage.getShift());
         setSystemDate(systemGeneralMessage.getSystemDate());
         setMapsApiKey(systemGeneralMessage.getMapsApiKey());
+        setCurrentAnomalies(systemGeneralMessage.getCurrentAnomaliesMap());
         informControllerAboutChanges(); // FIXME: redundant??? ~Maciek
+    }
+
+    private static void setCurrentAnomalies(Map<Integer, AnomalyOperationProtos.AnomalyMessage> currentAnomaliesMap) {
+        currentAnomaliesMap.forEach((i, m) -> Connector.setCurrentAnomaly(m));
     }
 
     public static void addRoute(AnomalyOperationProtos.RouteMessage routeMessage) {

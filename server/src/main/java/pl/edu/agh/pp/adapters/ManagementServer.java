@@ -63,8 +63,8 @@ public class ManagementServer extends Server {
             switch (messageType) {
                 case BONJOURMESSAGE:
                     // TODO: Check the message
-                    sendSystemGeneralMessage(sender);
                     sendRoutesMessages(sender);
+                    sendSystemGeneralMessage(sender);
                     break;
                 case DEMANDBASELINEMESSAGE:
                     BaselineDemand parsedMessage = parseDemandBaselineMessage(message);
@@ -96,7 +96,7 @@ public class ManagementServer extends Server {
                     "Error: " + e);
             logger.error("Following bytes received:");
             logger.error("\t\t" + Arrays.toString(buf));
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             logger.error("ManagementServer: IOException while receiving message! " + e, e);
         }
@@ -114,6 +114,8 @@ public class ManagementServer extends Server {
         int baselineWindowSize = BaselineWindowSizeInfoHelper.getInstance().getBaselineWindowSizeValue();
         double leverValue = LeverInfoHelper.getInstance().getLeverValue();
         String mapsApiKey = ApisHelper.getInstance().getMapsApiKey();
+        HashMap<Integer, AnomalyOperationProtos.AnomalyMessage> currentAnomalies = CurrentAnomaliesHelper.getInstance()
+                .getCurrentAnomalies();
         //int anomaliesChannelPort = (int) options.getPreference("AnomaliesChannelPort", Integer.class); // FIXME
         int messageID = 1; // FIXME
         AnomalyOperationProtos.SystemGeneralMessage.Shift shift = DayShiftInfoHelper.getInstance().getShiftProtos(); // FIXME
@@ -127,6 +129,7 @@ public class ManagementServer extends Server {
                 .setRoutes("")
                 .setShift(shift)
                 .setMapsApiKey(mapsApiKey)
+                .putAllCurrentAnomalies(currentAnomalies)
                 .build();
 
         AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()

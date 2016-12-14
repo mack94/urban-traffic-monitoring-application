@@ -40,6 +40,7 @@ public class Connector {
         systemScheduler = new SystemScheduler();
         systemScheduler.sendSystemGeneralMessageEveryHour();
         systemScheduler.updateBaselinesOnWeeklyBasis();
+        systemScheduler.clearCurrentAnomaliesEveryAnomalyLifeTime();
 
         if (args.length > 1)
             new CronManager(anomaliesServer).getAPIData(args[1]);
@@ -57,6 +58,10 @@ public class Connector {
 
     public static void updateHistoricalAnomalies(Address destination, String date, int routeID) {
         managementServer.sendHistoricalAnomaliesMessage(destination, date, routeID, anomaliesServer);
+    }
+
+    public static void sendCurrentAnomaliesList(Address destination) {
+
     }
 
 }

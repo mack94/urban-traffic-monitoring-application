@@ -24,6 +24,7 @@ public class SystemScheduler {
     private static final Logger logger = (Logger) LoggerFactory.getLogger(LeverInfoHelper.class);
     private final ScheduledExecutorService generalMessageScheduler = Executors.newScheduledThreadPool(1);
     private final ScheduledExecutorService baselineUpdateScheduler = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService currentAnomaliesClearScheduler = Executors.newScheduledThreadPool(1);
 
     public void sendSystemGeneralMessageEveryHour() {
         final Runnable sender = () -> {
@@ -62,6 +63,17 @@ public class SystemScheduler {
 
         baselineUpdateScheduler.scheduleAtFixedRate(baselineUpdater, initalDelay,
                 7 * 24 * 60 * 60, TimeUnit.SECONDS);
+    }
+
+    public void clearCurrentAnomaliesEveryAnomalyLifeTime() {
+        //AnomalyLifeTime
+        final Runnable cleaner = () -> {
+            CurrentAnomaliesHelper.getInstance().clearCurrentAnomalies();
+        };
+
+        int anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
+        final ScheduledFuture<?> cleanerHandle = currentAnomaliesClearScheduler
+                .scheduleWithFixedDelay(cleaner, 60, anomalyLifeTime, TimeUnit.SECONDS);
     }
 
 }

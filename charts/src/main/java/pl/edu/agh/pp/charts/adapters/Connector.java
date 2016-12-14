@@ -233,4 +233,8 @@ public class Connector {
         Options.getInstance().setPreferences(map);
         HtmlBuilder.reloadApiKey();
     }
+
+    public static void setCurrentAnomaly(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
+        Connector.onAnomalyMessage(anomalyMessage);
+    }
 }

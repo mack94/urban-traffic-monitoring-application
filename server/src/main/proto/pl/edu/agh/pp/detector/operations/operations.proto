@@ -97,6 +97,7 @@ message SystemGeneralMessage {
     int32 port = 7;
     string routes = 8; // whole routes.json is 
     string mapsApiKey = 9;
+    map<int32, AnomalyMessage> currentAnomalies = 10;
 
 }
 

@@ -73,4 +73,5 @@ public abstract class Server extends ReceiverAdapter implements IServer {
 
     @Override
     public abstract void receive(Address sender, ByteBuffer buf);
+
 }

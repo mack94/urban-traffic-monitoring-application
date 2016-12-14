@@ -35,6 +35,11 @@ public final class AnomalyOperationProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internal_static_SystemGeneralMessage_fieldAccessorTable;
     private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_SystemGeneralMessage_CurrentAnomaliesEntry_descriptor;
+    private static final
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internal_static_SystemGeneralMessage_CurrentAnomaliesEntry_fieldAccessorTable;
+    private static final com.google.protobuf.Descriptors.Descriptor
             internal_static_RouteMessage_descriptor;
     private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -166,57 +171,61 @@ public final class AnomalyOperationProtos {
                         "ORICALMESSAGE\020\t\022$\n DEMANDHISTORICALANOMA" +
                         "LIESMESSAGE\020\n\022\036\n\032HISTORICALANOMALIESMESS" +
                         "AGE\020\013\"?\n\016BonjourMessage\022\r\n\005token\030\001 \001(\005\022\014" +
-                        "\n\004date\030\002 \001(\t\022\020\n\010userName\030\003 \001(\t\"\221\002\n\024Syste" +
+                        "\n\004date\030\002 \001(\t\022\020\n\010userName\030\003 \001(\t\"\242\003\n\024Syste" +
                         "mGeneralMessage\022\022\n\nmessageIdx\030\001 \001(\005\022\022\n\nl" +
                         "everValue\030\002 \001(\001\022\022\n\nsystemDate\030\003 \001(\t\022\027\n\017a",
                 "nomalyLiveTime\030\004 \001(\005\022\032\n\022baselineWindowSi" +
                         "ze\030\005 \001(\005\022*\n\005shift\030\006 \001(\0162\033.SystemGeneralM" +
                         "essage.Shift\022\014\n\004port\030\007 \001(\005\022\016\n\006routes\030\010 \001" +
-                        "(\t\022\022\n\nmapsApiKey\030\t \001(\t\"*\n\005Shift\022\007\n\003DAY\020\000" +
-                        "\022\t\n\005NIGHT\020\001\022\r\n\tUNIVERSAL\020\002\"b\n\014RouteMessa" +
-                        "ge\022\017\n\007routeID\030\001 \001(\005\022\016\n\006origin\030\002 \001(\t\022\023\n\013d" +
-                        "estination\030\003 \001(\t\022\016\n\006coords\030\004 \001(\t\022\014\n\004name" +
-                        "\030\005 \001(\t\";\n\014LeverMessage\022\022\n\nleverValue\030\001 \001" +
-                        "(\001\022\027\n\017leverUpdateDate\030\002 \001(\t\"\257\002\n\017Baseline" +
-                        "Message\022\020\n\010routeIdx\030\001 \001(\005\022!\n\003day\030\002 \001(\0162\024",
-                ".BaselineMessage.Day\0220\n\010baseline\030\003 \003(\0132\036" +
-                        ".BaselineMessage.BaselineEntry\022\024\n\014baseli" +
-                        "neType\030\004 \001(\t\032/\n\rBaselineEntry\022\013\n\003key\030\001 \001" +
-                        "(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"n\n\003Day\022\013\n\007NULLDAY\020" +
-                        "\000\022\n\n\006MONDAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020" +
-                        "\003\022\014\n\010THURSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020" +
-                        "\006\022\n\n\006SUNDAY\020\007\"\330\001\n\025DemandBaselineMessage\022" +
-                        "\020\n\010routeIdx\030\001 \001(\005\022\'\n\003day\030\002 \001(\0162\032.DemandB" +
-                        "aselineMessage.Day\022\024\n\014baselineType\030\003 \001(\t" +
-                        "\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY\020\001\022\013\n\007TUES",
-                "DAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010THURSDAY\020\004\022\n\n\006FR" +
-                        "IDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY\020\007\"\"\n Dema" +
-                        "ndAvailableHistoricalMessage\"n\n\017Availabl" +
-                        "eRoutes\022,\n\006routes\030\001 \003(\0132\034.AvailableRoute" +
-                        "s.RoutesEntry\032-\n\013RoutesEntry\022\013\n\003key\030\001 \001(" +
-                        "\005\022\r\n\005value\030\002 \001(\005:\0028\001\"\272\001\n\032AvailableHistor" +
-                        "icalMessage\022O\n\022avaiableDateRoutes\030\001 \003(\0132" +
-                        "3.AvailableHistoricalMessage.AvaiableDat" +
-                        "eRoutesEntry\032K\n\027AvaiableDateRoutesEntry\022" +
-                        "\013\n\003key\030\001 \001(\t\022\037\n\005value\030\002 \001(\0132\020.AvailableR",
-                "outes:\0028\001\"8\n\027DemandHistoricalMessage\022\017\n\007" +
-                        "routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\227\001\n\021Historic" +
-                        "alMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t" +
-                        "\0222\n\010measures\030\003 \003(\0132 .HistoricalMessage.M" +
-                        "easuresEntry\032/\n\rMeasuresEntry\022\013\n\003key\030\001 \001" +
-                        "(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"\226\001\n HistoricalAnom" +
-                        "alyPresenceMessage\022A\n\010presence\030\001 \003(\0132/.H" +
-                        "istoricalAnomalyPresenceMessage.Presence" +
-                        "Entry\032/\n\rPresenceEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005v" +
-                        "alue\030\002 \001(\005:\0028\001\"A\n DemandHistoricalAnomal",
-                "iesMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(" +
-                        "\t\"\317\001\n\032HistoricalAnomaliesMessage\022\017\n\007rout" +
-                        "eID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\022=\n\tanomalies\030\003 \003" +
-                        "(\0132*.HistoricalAnomaliesMessage.Anomalie" +
-                        "sEntry\032S\n\016AnomaliesEntry\022\013\n\003key\030\001 \001(\t\0220\n" +
-                        "\005value\030\002 \001(\0132!.HistoricalAnomalyPresence" +
-                        "Message:\0028\001B9\n\037pl.edu.agh.pp.charts.oper" +
-                        "ationsB\026AnomalyOperationProtosb\006proto3"
+                        "(\t\022\022\n\nmapsApiKey\030\t \001(\t\022E\n\020currentAnomali" +
+                        "es\030\n \003(\0132+.SystemGeneralMessage.CurrentA" +
+                        "nomaliesEntry\032H\n\025CurrentAnomaliesEntry\022\013" +
+                        "\n\003key\030\001 \001(\005\022\036\n\005value\030\002 \001(\0132\017.AnomalyMess" +
+                        "age:\0028\001\"*\n\005Shift\022\007\n\003DAY\020\000\022\t\n\005NIGHT\020\001\022\r\n\t" +
+                        "UNIVERSAL\020\002\"b\n\014RouteMessage\022\017\n\007routeID\030\001" +
+                        " \001(\005\022\016\n\006origin\030\002 \001(\t\022\023\n\013destination\030\003 \001(",
+                "\t\022\016\n\006coords\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\";\n\014Lever" +
+                        "Message\022\022\n\nleverValue\030\001 \001(\001\022\027\n\017leverUpda" +
+                        "teDate\030\002 \001(\t\"\257\002\n\017BaselineMessage\022\020\n\010rout" +
+                        "eIdx\030\001 \001(\005\022!\n\003day\030\002 \001(\0162\024.BaselineMessag" +
+                        "e.Day\0220\n\010baseline\030\003 \003(\0132\036.BaselineMessag" +
+                        "e.BaselineEntry\022\024\n\014baselineType\030\004 \001(\t\032/\n" +
+                        "\rBaselineEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001" +
+                        "(\005:\0028\001\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY\020\001\022\013" +
+                        "\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010THURSDAY\020\004" +
+                        "\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY\020\007\"\330",
+                "\001\n\025DemandBaselineMessage\022\020\n\010routeIdx\030\001 \001" +
+                        "(\005\022\'\n\003day\030\002 \001(\0162\032.DemandBaselineMessage." +
+                        "Day\022\024\n\014baselineType\030\003 \001(\t\"n\n\003Day\022\013\n\007NULL" +
+                        "DAY\020\000\022\n\n\006MONDAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNES" +
+                        "DAY\020\003\022\014\n\010THURSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATUR" +
+                        "DAY\020\006\022\n\n\006SUNDAY\020\007\"\"\n DemandAvailableHist" +
+                        "oricalMessage\"n\n\017AvailableRoutes\022,\n\006rout" +
+                        "es\030\001 \003(\0132\034.AvailableRoutes.RoutesEntry\032-" +
+                        "\n\013RoutesEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(" +
+                        "\005:\0028\001\"\272\001\n\032AvailableHistoricalMessage\022O\n\022",
+                "avaiableDateRoutes\030\001 \003(\01323.AvailableHist" +
+                        "oricalMessage.AvaiableDateRoutesEntry\032K\n" +
+                        "\027AvaiableDateRoutesEntry\022\013\n\003key\030\001 \001(\t\022\037\n" +
+                        "\005value\030\002 \001(\0132\020.AvailableRoutes:\0028\001\"8\n\027De" +
+                        "mandHistoricalMessage\022\017\n\007routeID\030\001 \001(\005\022\014" +
+                        "\n\004date\030\002 \001(\t\"\227\001\n\021HistoricalMessage\022\017\n\007ro" +
+                        "uteID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\0222\n\010measures\030\003 " +
+                        "\003(\0132 .HistoricalMessage.MeasuresEntry\032/\n" +
+                        "\rMeasuresEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001" +
+                        "(\005:\0028\001\"\226\001\n HistoricalAnomalyPresenceMess",
+                "age\022A\n\010presence\030\001 \003(\0132/.HistoricalAnomal" +
+                        "yPresenceMessage.PresenceEntry\032/\n\rPresen" +
+                        "ceEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"" +
+                        "A\n DemandHistoricalAnomaliesMessage\022\017\n\007r" +
+                        "outeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\317\001\n\032Historica" +
+                        "lAnomaliesMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004da" +
+                        "te\030\002 \001(\t\022=\n\tanomalies\030\003 \003(\0132*.Historical" +
+                        "AnomaliesMessage.AnomaliesEntry\032S\n\016Anoma" +
+                        "liesEntry\022\013\n\003key\030\001 \001(\t\0220\n\005value\030\002 \001(\0132!." +
+                        "HistoricalAnomalyPresenceMessage:\0028\001B9\n\037",
+                "pl.edu.agh.pp.charts.operationsB\026Anomaly" +
+                        "OperationProtosb\006proto3"
         };
         com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
                 new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -265,7 +274,13 @@ public final class AnomalyOperationProtos {
         internal_static_SystemGeneralMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_SystemGeneralMessage_descriptor,
-                new java.lang.String[]{"MessageIdx", "LeverValue", "SystemDate", "AnomalyLiveTime", "BaselineWindowSize", "Shift", "Port", "Routes", "MapsApiKey",});
+                new java.lang.String[]{"MessageIdx", "LeverValue", "SystemDate", "AnomalyLiveTime", "BaselineWindowSize", "Shift", "Port", "Routes", "MapsApiKey", "CurrentAnomalies",});
+        internal_static_SystemGeneralMessage_CurrentAnomaliesEntry_descriptor =
+                internal_static_SystemGeneralMessage_descriptor.getNestedTypes().get(0);
+        internal_static_SystemGeneralMessage_CurrentAnomaliesEntry_fieldAccessorTable = new
+                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+                internal_static_SystemGeneralMessage_CurrentAnomaliesEntry_descriptor,
+                new java.lang.String[]{"Key", "Value",});
         internal_static_RouteMessage_descriptor =
                 getDescriptor().getMessageTypes().get(6);
         internal_static_RouteMessage_fieldAccessorTable = new
@@ -860,6 +875,45 @@ public final class AnomalyOperationProtos {
          */
         com.google.protobuf.ByteString
         getMapsApiKeyBytes();
+
+        /**
+         * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+         */
+        int getCurrentAnomaliesCount();
+
+        /**
+         * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+         */
+        boolean containsCurrentAnomalies(
+                int key);
+
+        /**
+         * Use {@link #getCurrentAnomaliesMap()} instead.
+         */
+        @java.lang.Deprecated
+        java.util.Map<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage>
+        getCurrentAnomalies();
+
+        /**
+         * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+         */
+        java.util.Map<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage>
+        getCurrentAnomaliesMap();
+
+        /**
+         * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+         */
+
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage getCurrentAnomaliesOrDefault(
+                int key,
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage defaultValue);
+
+        /**
+         * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+         */
+
+        pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage getCurrentAnomaliesOrThrow(
+                int key);
     }
     public interface RouteMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:RouteMessage)
@@ -7961,6 +8015,7 @@ public final class AnomalyOperationProtos {
         public static final int PORT_FIELD_NUMBER = 7;
         public static final int ROUTES_FIELD_NUMBER = 8;
         public static final int MAPSAPIKEY_FIELD_NUMBER = 9;
+        public static final int CURRENTANOMALIES_FIELD_NUMBER = 10;
         private static final long serialVersionUID = 0L;
         // @@protoc_insertion_point(class_scope:SystemGeneralMessage)
         private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage DEFAULT_INSTANCE;
@@ -7978,6 +8033,7 @@ public final class AnomalyOperationProtos {
             DEFAULT_INSTANCE = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage();
         }
 
+        private int bitField0_;
         private int messageIdx_;
         private double leverValue_;
         private volatile java.lang.Object systemDate_;
@@ -7987,12 +8043,14 @@ public final class AnomalyOperationProtos {
         private int port_;
         private volatile java.lang.Object routes_;
         private volatile java.lang.Object mapsApiKey_;
+        private com.google.protobuf.MapField<
+                java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> currentAnomalies_;
         private byte memoizedIsInitialized = -1;
-
         // Use SystemGeneralMessage.newBuilder() to construct.
         private SystemGeneralMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
         }
+
         private SystemGeneralMessage() {
             messageIdx_ = 0;
             leverValue_ = 0D;
@@ -8072,6 +8130,18 @@ public final class AnomalyOperationProtos {
                             java.lang.String s = input.readStringRequireUtf8();
 
                             mapsApiKey_ = s;
+                            break;
+                        }
+                        case 82: {
+                            if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+                                currentAnomalies_ = com.google.protobuf.MapField.newMapField(
+                                        CurrentAnomaliesDefaultEntryHolder.defaultEntry);
+                                mutable_bitField0_ |= 0x00000200;
+                            }
+                            com.google.protobuf.MapEntry<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage>
+                                    currentAnomalies = input.readMessage(
+                                    CurrentAnomaliesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                            currentAnomalies_.getMutableMap().put(currentAnomalies.getKey(), currentAnomalies.getValue());
                             break;
                         }
                     }
@@ -8179,6 +8249,18 @@ public final class AnomalyOperationProtos {
         public final com.google.protobuf.UnknownFieldSet
         getUnknownFields() {
             return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+        }
+
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapField internalGetMapField(
+                int number) {
+            switch (number) {
+                case 10:
+                    return internalGetCurrentAnomalies();
+                default:
+                    throw new RuntimeException(
+                            "Invalid map field number: " + number);
+            }
         }
 
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -8349,6 +8431,73 @@ public final class AnomalyOperationProtos {
             }
         }
 
+        private com.google.protobuf.MapField<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage>
+        internalGetCurrentAnomalies() {
+            if (currentAnomalies_ == null) {
+                return com.google.protobuf.MapField.emptyMapField(
+                        CurrentAnomaliesDefaultEntryHolder.defaultEntry);
+            }
+            return currentAnomalies_;
+        }
+
+        public int getCurrentAnomaliesCount() {
+            return internalGetCurrentAnomalies().getMap().size();
+        }
+
+        /**
+         * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+         */
+
+        public boolean containsCurrentAnomalies(
+                int key) {
+
+            return internalGetCurrentAnomalies().getMap().containsKey(key);
+        }
+
+        /**
+         * Use {@link #getCurrentAnomaliesMap()} instead.
+         */
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> getCurrentAnomalies() {
+            return getCurrentAnomaliesMap();
+        }
+
+        /**
+         * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+         */
+
+        public java.util.Map<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> getCurrentAnomaliesMap() {
+            return internalGetCurrentAnomalies().getMap();
+        }
+
+        /**
+         * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+         */
+
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage getCurrentAnomaliesOrDefault(
+                int key,
+                pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage defaultValue) {
+
+            java.util.Map<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> map =
+                    internalGetCurrentAnomalies().getMap();
+            return map.containsKey(key) ? map.get(key) : defaultValue;
+        }
+
+        /**
+         * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+         */
+
+        public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage getCurrentAnomaliesOrThrow(
+                int key) {
+
+            java.util.Map<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> map =
+                    internalGetCurrentAnomalies().getMap();
+            if (!map.containsKey(key)) {
+                throw new java.lang.IllegalArgumentException();
+            }
+            return map.get(key);
+        }
+
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
             if (isInitialized == 1) return true;
@@ -8386,6 +8535,15 @@ public final class AnomalyOperationProtos {
             }
             if (!getMapsApiKeyBytes().isEmpty()) {
                 com.google.protobuf.GeneratedMessageV3.writeString(output, 9, mapsApiKey_);
+            }
+            for (java.util.Map.Entry<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> entry
+                    : internalGetCurrentAnomalies().getMap().entrySet()) {
+                com.google.protobuf.MapEntry<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage>
+                        currentAnomalies = CurrentAnomaliesDefaultEntryHolder.defaultEntry.newBuilderForType()
+                        .setKey(entry.getKey())
+                        .setValue(entry.getValue())
+                        .build();
+                output.writeMessage(10, currentAnomalies);
             }
         }
 
@@ -8427,6 +8585,16 @@ public final class AnomalyOperationProtos {
             if (!getMapsApiKeyBytes().isEmpty()) {
                 size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, mapsApiKey_);
             }
+            for (java.util.Map.Entry<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> entry
+                    : internalGetCurrentAnomalies().getMap().entrySet()) {
+                com.google.protobuf.MapEntry<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage>
+                        currentAnomalies = CurrentAnomaliesDefaultEntryHolder.defaultEntry.newBuilderForType()
+                        .setKey(entry.getKey())
+                        .setValue(entry.getValue())
+                        .build();
+                size += com.google.protobuf.CodedOutputStream
+                        .computeMessageSize(10, currentAnomalies);
+            }
             memoizedSize = size;
             return size;
         }
@@ -8461,6 +8629,8 @@ public final class AnomalyOperationProtos {
                     .equals(other.getRoutes());
             result = result && getMapsApiKey()
                     .equals(other.getMapsApiKey());
+            result = result && internalGetCurrentAnomalies().equals(
+                    other.internalGetCurrentAnomalies());
             return result;
         }
 
@@ -8490,6 +8660,10 @@ public final class AnomalyOperationProtos {
             hash = (53 * hash) + getRoutes().hashCode();
             hash = (37 * hash) + MAPSAPIKEY_FIELD_NUMBER;
             hash = (53 * hash) + getMapsApiKey().hashCode();
+            if (!internalGetCurrentAnomalies().getMap().isEmpty()) {
+                hash = (37 * hash) + CURRENTANOMALIES_FIELD_NUMBER;
+                hash = (53 * hash) + internalGetCurrentAnomalies().hashCode();
+            }
             hash = (29 * hash) + unknownFields.hashCode();
             memoizedHashCode = hash;
             return hash;
@@ -8629,6 +8803,18 @@ public final class AnomalyOperationProtos {
             // @@protoc_insertion_point(enum_scope:SystemGeneralMessage.Shift)
         }
 
+        private static final class CurrentAnomaliesDefaultEntryHolder {
+            static final com.google.protobuf.MapEntry<
+                    java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> defaultEntry =
+                    com.google.protobuf.MapEntry
+                            .<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage>newDefaultInstance(
+                                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_SystemGeneralMessage_CurrentAnomaliesEntry_descriptor,
+                                    com.google.protobuf.WireFormat.FieldType.INT32,
+                                    0,
+                                    com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage.getDefaultInstance());
+        }
+
         /**
          * Protobuf type {@code SystemGeneralMessage}
          */
@@ -8636,6 +8822,7 @@ public final class AnomalyOperationProtos {
                 com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:SystemGeneralMessage)
                 pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessageOrBuilder {
+            private int bitField0_;
             private int messageIdx_;
             private double leverValue_;
             private java.lang.Object systemDate_ = "";
@@ -8645,6 +8832,8 @@ public final class AnomalyOperationProtos {
             private int port_;
             private java.lang.Object routes_ = "";
             private java.lang.Object mapsApiKey_ = "";
+            private com.google.protobuf.MapField<
+                    java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> currentAnomalies_;
 
             // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage.newBuilder()
             private Builder() {
@@ -8660,6 +8849,30 @@ public final class AnomalyOperationProtos {
             public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
                 return pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.internal_static_SystemGeneralMessage_descriptor;
+            }
+
+            @SuppressWarnings({"rawtypes"})
+            protected com.google.protobuf.MapField internalGetMapField(
+                    int number) {
+                switch (number) {
+                    case 10:
+                        return internalGetCurrentAnomalies();
+                    default:
+                        throw new RuntimeException(
+                                "Invalid map field number: " + number);
+                }
+            }
+
+            @SuppressWarnings({"rawtypes"})
+            protected com.google.protobuf.MapField internalGetMutableMapField(
+                    int number) {
+                switch (number) {
+                    case 10:
+                        return internalGetMutableCurrentAnomalies();
+                    default:
+                        throw new RuntimeException(
+                                "Invalid map field number: " + number);
+                }
             }
 
             protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -8695,6 +8908,7 @@ public final class AnomalyOperationProtos {
 
                 mapsApiKey_ = "";
 
+                internalGetMutableCurrentAnomalies().clear();
                 return this;
             }
 
@@ -8717,6 +8931,8 @@ public final class AnomalyOperationProtos {
 
             public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage buildPartial() {
                 pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage result = new pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage(this);
+                int from_bitField0_ = bitField0_;
+                int to_bitField0_ = 0;
                 result.messageIdx_ = messageIdx_;
                 result.leverValue_ = leverValue_;
                 result.systemDate_ = systemDate_;
@@ -8726,6 +8942,9 @@ public final class AnomalyOperationProtos {
                 result.port_ = port_;
                 result.routes_ = routes_;
                 result.mapsApiKey_ = mapsApiKey_;
+                result.currentAnomalies_ = internalGetCurrentAnomalies();
+                result.currentAnomalies_.makeImmutable();
+                result.bitField0_ = to_bitField0_;
                 onBuilt();
                 return result;
             }
@@ -8804,6 +9023,8 @@ public final class AnomalyOperationProtos {
                     mapsApiKey_ = other.mapsApiKey_;
                     onChanged();
                 }
+                internalGetMutableCurrentAnomalies().mergeFrom(
+                        other.internalGetCurrentAnomalies());
                 onChanged();
                 return this;
             }
@@ -9257,6 +9478,136 @@ public final class AnomalyOperationProtos {
 
                 mapsApiKey_ = getDefaultInstance().getMapsApiKey();
                 onChanged();
+                return this;
+            }
+
+            private com.google.protobuf.MapField<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage>
+            internalGetCurrentAnomalies() {
+                if (currentAnomalies_ == null) {
+                    return com.google.protobuf.MapField.emptyMapField(
+                            CurrentAnomaliesDefaultEntryHolder.defaultEntry);
+                }
+                return currentAnomalies_;
+            }
+
+            private com.google.protobuf.MapField<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage>
+            internalGetMutableCurrentAnomalies() {
+                onChanged();
+                ;
+                if (currentAnomalies_ == null) {
+                    currentAnomalies_ = com.google.protobuf.MapField.newMapField(
+                            CurrentAnomaliesDefaultEntryHolder.defaultEntry);
+                }
+                if (!currentAnomalies_.isMutable()) {
+                    currentAnomalies_ = currentAnomalies_.copy();
+                }
+                return currentAnomalies_;
+            }
+
+            public int getCurrentAnomaliesCount() {
+                return internalGetCurrentAnomalies().getMap().size();
+            }
+
+            /**
+             * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+             */
+
+            public boolean containsCurrentAnomalies(
+                    int key) {
+
+                return internalGetCurrentAnomalies().getMap().containsKey(key);
+            }
+
+            /**
+             * Use {@link #getCurrentAnomaliesMap()} instead.
+             */
+            @java.lang.Deprecated
+            public java.util.Map<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> getCurrentAnomalies() {
+                return getCurrentAnomaliesMap();
+            }
+
+            /**
+             * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+             */
+
+            public java.util.Map<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> getCurrentAnomaliesMap() {
+                return internalGetCurrentAnomalies().getMap();
+            }
+
+            /**
+             * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+             */
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage getCurrentAnomaliesOrDefault(
+                    int key,
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage defaultValue) {
+
+                java.util.Map<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> map =
+                        internalGetCurrentAnomalies().getMap();
+                return map.containsKey(key) ? map.get(key) : defaultValue;
+            }
+
+            /**
+             * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+             */
+
+            public pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage getCurrentAnomaliesOrThrow(
+                    int key) {
+
+                java.util.Map<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> map =
+                        internalGetCurrentAnomalies().getMap();
+                if (!map.containsKey(key)) {
+                    throw new java.lang.IllegalArgumentException();
+                }
+                return map.get(key);
+            }
+
+            public Builder clearCurrentAnomalies() {
+                getMutableCurrentAnomalies().clear();
+                return this;
+            }
+
+            /**
+             * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+             */
+
+            public Builder removeCurrentAnomalies(
+                    int key) {
+
+                getMutableCurrentAnomalies().remove(key);
+                return this;
+            }
+
+            /**
+             * Use alternate mutation accessors instead.
+             */
+            @java.lang.Deprecated
+            public java.util.Map<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage>
+            getMutableCurrentAnomalies() {
+                return internalGetMutableCurrentAnomalies().getMutableMap();
+            }
+
+            /**
+             * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+             */
+            public Builder putCurrentAnomalies(
+                    int key,
+                    pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage value) {
+
+                if (value == null) {
+                    throw new java.lang.NullPointerException();
+                }
+                getMutableCurrentAnomalies().put(key, value);
+                return this;
+            }
+
+            /**
+             * <code>map&lt;int32, .AnomalyMessage&gt; currentAnomalies = 10;</code>
+             */
+
+            public Builder putAllCurrentAnomalies(
+                    java.util.Map<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> values) {
+                getMutableCurrentAnomalies().putAll(values);
                 return this;
             }
 

@@ -23,7 +23,7 @@
     {
       "name": "Nio_Server_Mode",
       "type": "Boolean",
-      "value": "true"
+      "value": "false"
     },
     {
       "name": "MAPS_API_KEY",
