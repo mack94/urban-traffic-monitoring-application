@@ -133,7 +133,7 @@ public class FileSerializer implements ISerializer
         }
         catch (Exception e)
         {
-            logger.error("Error occurred while deserializing anomalyTime", e);
+            logger.error("Error occurred while reading anomalyTime from file. Returning empty map.");
         }
         return new ConcurrentHashMap<>();
     }
@@ -149,7 +149,7 @@ public class FileSerializer implements ISerializer
         }
         catch (Exception e)
         {
-            logger.error("Error occurred while deserializing anomalyId", e);
+            logger.error("Error occurred while reading anomalyId from file. Returning empty map.");
         }
         return new ConcurrentHashMap<>();
     }
