@@ -42,7 +42,6 @@ public class CronManager
 
     public void getAPIData(String logFile) throws InterruptedException
     {
-
         try
         {
             GeoApiContext context;

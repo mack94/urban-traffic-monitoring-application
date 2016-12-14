@@ -301,7 +301,7 @@ public class ManagementServer extends Server {
         try {
             Map<String, AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> result = new HashMap<>();
 
-            DetectorManager detectorManager = new DetectorManager(dmServer, true);
+            DetectorManager detectorManager = new DetectorManager(dmServer);
             Map<String, Map<Integer, Integer>> anomalyForDateAndRoute = detectorManager
                     .getAnomalyForDateAndRoute(date, routeID);
 

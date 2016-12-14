@@ -102,7 +102,6 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
             polynomialFunctions = baseline;
             setBaselineNames(baseline, baselineFilename);
         }
-
     }
 
     // It should be discussed.
