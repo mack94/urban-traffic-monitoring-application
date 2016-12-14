@@ -6,6 +6,7 @@ import org.junit.Test;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.prefs.BackingStoreException;
 
@@ -21,10 +22,12 @@ import static org.junit.Assert.*;
 public class OptionsTest {
 
     private Options options;
+    private HashMap<String, Object> oldPreferences;
 
     @Before
     public void setUp() throws Exception {
         options = Options.getInstance();
+        oldPreferences = options.getPreferences();
         options.resetPreferences();
     }
 
@@ -140,5 +143,6 @@ public class OptionsTest {
     @After
     public void tearDown() throws Exception {
         options.resetPreferences();
+        options.setPreferences(oldPreferences);
     }
 }

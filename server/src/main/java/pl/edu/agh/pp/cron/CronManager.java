@@ -4,7 +4,10 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.model.TravelMode;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.joda.time.Instant;
 import org.json.JSONArray;
@@ -28,6 +31,7 @@ public class CronManager {
     private RoutesLoader routesLoader;
     private JSONArray loadedRoutes;
     private int loadedRoutesAmount;
+    private List<String> missingRoutesID = new LinkedList<>();
     private DetectorManager detectorManager;
 
     public CronManager(AnomaliesServer anomaliesServer) {
@@ -61,6 +65,12 @@ public class CronManager {
                                 .withDeparture(Instant.now())
                                 .withDefaultWaypoints(route.getString("coords"));
 
+                        if(missingRoutesID.contains(route.get("id").toString())){
+                            requestParams = requestParams.withMissingHistoricalData(true);
+                        }
+                        else{
+                            requestParams = requestParams.withMissingHistoricalData(false);
+                        }
                         requestsExecutor.execute(context, requestParams);
                     }
 
@@ -80,7 +90,6 @@ public class CronManager {
     }
 
     private void reloadRoutes() throws IOException, InterruptedException {
-        boolean computeBaseline = false;
         boolean routesChanged = false;
         while (true) {
             if(loadedRoutes != null){
@@ -110,17 +119,16 @@ public class CronManager {
                 Thread.sleep(MANAGMENT_DELAY_SECONDS*1000);
                 continue;
             }
-
-            if (!detectorManager.areAllRoutesIncluded(loadedRoutes)) {
+            if(!missingRoutesID.isEmpty()) DetectorManager.refreshBaselineFilesLoader();
+            missingRoutesID = detectorManager.areAllRoutesIncluded(loadedRoutes);
+            if (!missingRoutesID.isEmpty()) {
                 logger.error("Supplied historical data does not coincide with chosen routes. Check your Routes.json " +
                         "file and data in logs directory");
-                Thread.sleep(MANAGMENT_DELAY_SECONDS*1000);
-                DetectorManager.refreshBaselineFilesLoader();
-                computeBaseline = true;
-                continue;
+                logger.error("Routes with missing hitorical data won't be checked for anomalies. Those include(by id): " +
+                        Arrays.toString(missingRoutesID.toArray()));
             }
 
-            if(computeBaseline || routesChanged) {
+            if(routesChanged) {
                 DetectorManager.computeBaselineFromDefaultLogsLocation();
             }
             return;

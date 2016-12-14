@@ -439,10 +439,11 @@ public class DetectorManager
         }
     }
 
-    public boolean areAllRoutesIncluded(JSONArray loadedRoutes)
+    public List<String> areAllRoutesIncluded(JSONArray loadedRoutes)
     {
         Map<String, Set<DayOfWeek>> list = baselineFilesLoader.getLoadedRoutes();
         boolean contains;
+        List<String> missingRoutes = new LinkedList<>();
         for (int i = 0; i < loadedRoutes.length(); i++)
         {
             contains = false;
@@ -468,10 +469,10 @@ public class DetectorManager
             }
             if (!contains)
             {
-                return false;
+                missingRoutes.add(id);
             }
         }
-        return true;
+        return missingRoutes;
     }
 
 }

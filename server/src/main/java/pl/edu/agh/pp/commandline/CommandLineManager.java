@@ -312,6 +312,10 @@ public class CommandLineManager extends Thread
         {
             String key = StringUtils.removeStart(buffer, "CHANGE_API_KEY ");
             ContextLoader.changeApiKey(key);
+            ApisHelper apisHelper = ApisHelper.getInstance();
+            apisHelper.setDetectorApiKey(key);
+            apisHelper.setMapsApiKey(key);
+            System.out.println("Api key changed to: " + apisHelper.getDetectorApiKey());
         }
         catch (Exception e)
         {

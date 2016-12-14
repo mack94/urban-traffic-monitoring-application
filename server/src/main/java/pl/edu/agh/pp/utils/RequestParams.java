@@ -16,6 +16,7 @@ public class RequestParams
     private TravelMode travelMode;
     private Instant departure;
     private String defaultWaypoints;
+    private boolean missingHistoricalData;
 
     public RequestParams withId(String id)
     {
@@ -53,6 +54,11 @@ public class RequestParams
         return this;
     }
 
+    public RequestParams withMissingHistoricalData(boolean isHistoricalDataMissing) {
+        this.missingHistoricalData = isHistoricalDataMissing;
+        return this;
+    }
+
     public String getId()
     {
         return id;
@@ -82,4 +88,6 @@ public class RequestParams
     {
         return defaultWaypoints;
     }
+
+    public boolean isMissingHistoricalData() { return missingHistoricalData; }
 }

@@ -46,7 +46,9 @@ public class RequestsExecutor
 
         String defaultWaypoints = requestParams.getDefaultWaypoints();
         Route route = new Route(requestParams.getId(), distanceMatrix, directionsApi, defaultWaypoints);
-        route.setAnomalyId(detectorManager.isAnomaly(route.toString(), defaultWaypoints));
+        if(!requestParams.isMissingHistoricalData()) {
+            route.setAnomalyId(detectorManager.isAnomaly(route.toString(), defaultWaypoints));
+        }
         trafficLogger.error(route.toString());
         logger.error(route.toString());
     }

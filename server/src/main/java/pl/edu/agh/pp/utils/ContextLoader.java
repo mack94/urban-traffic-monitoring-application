@@ -33,19 +33,8 @@ public class ContextLoader {
     }
 
     public static void changeApiKey(String newApiKey) throws BackingStoreException, IllegalPreferenceObjectExpected {
-        updatePreferences(newApiKey);
         for (GeoApiContext context : contextList) {
             context.setApiKey(newApiKey);
         }
-    }
-
-    private static void updatePreferences(String newApiKey) throws BackingStoreException, IllegalPreferenceObjectExpected {
-        Options options = Options.getInstance();
-        HashMap<String, Object> currentOptions = options.getPreferences();
-        currentOptions.entrySet().stream().filter(entry -> Objects.equals(entry.getKey(), preferenceName))
-                .forEach(entry -> entry.setValue(newApiKey));
-
-        options.setPreferences(currentOptions);
-        System.out.println("Api key changed to: " + options.getPreference(preferenceName, String.class));
     }
 }
