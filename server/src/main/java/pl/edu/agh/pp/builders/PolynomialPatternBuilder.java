@@ -12,8 +12,8 @@ import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.adapters.Server;
 import pl.edu.agh.pp.detectors.BaselineNameHolder;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
-import pl.edu.agh.pp.serializers.FileBaselineSerializer;
-import pl.edu.agh.pp.serializers.IBaselineSerializer;
+import pl.edu.agh.pp.serializers.FileSerializer;
+import pl.edu.agh.pp.serializers.ISerializer;
 import pl.edu.agh.pp.trackers.AnomalyTracker;
 import pl.edu.agh.pp.trackers.IAnomalyTracker;
 import pl.edu.agh.pp.utils.*;
@@ -32,7 +32,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
     private static final double DECAY_STEP = 0.05;
     private static final double MAX_DECAY = 0.3;
     private static IAnomalyTracker anomalyTracker = AnomalyTracker.getInstance();
-    private static IBaselineSerializer baselineSerializer = FileBaselineSerializer.getInstance();
+    private static ISerializer baselineSerializer = FileSerializer.getInstance();
     private static Map<DayOfWeek, Map<Integer, PolynomialFunction>> polynomialFunctions = new HashMap<>();
     private static LeverInfoHelper leverInfoHelper = LeverInfoHelper.getInstance();
     private static BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
@@ -91,7 +91,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
             baseline.put(day, polynomialFunctionRoutes);
         }
 
-        String baselineFilename = baselineSerializer.serialize(baseline);
+        String baselineFilename = baselineSerializer.serializeBaseline(baseline);
         if (baselineFilename != null) {
             logger.info("Baseline has been serialized in {} file", baselineFilename);
         } else {

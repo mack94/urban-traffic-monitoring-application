@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.adapters.Server;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
-import pl.edu.agh.pp.serializers.FileBaselineSerializer;
-import pl.edu.agh.pp.serializers.IBaselineSerializer;
+import pl.edu.agh.pp.serializers.FileSerializer;
+import pl.edu.agh.pp.serializers.ISerializer;
 import pl.edu.agh.pp.trackers.AnomalyTracker;
 import pl.edu.agh.pp.trackers.IAnomalyTracker;
 import pl.edu.agh.pp.utils.BaselineWindowSizeInfoHelper;
@@ -33,7 +33,7 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
     private static int INTERVAL = 1200;
     private static IAnomalyTracker anomalyTracker = AnomalyTracker.getInstance();
     private static Map<DayOfWeek, Map<Integer, List<LibSVM>>> svrMap = new HashMap<>();
-    private static IBaselineSerializer baselineSerializer = FileBaselineSerializer.getInstance();
+    private static ISerializer baselineSerializer = FileSerializer.getInstance();
     private static Map<LibSVM, Instances> svmDatasets = new HashMap<>();
     private static BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
     private static LeverInfoHelper leverInfoHelper = LeverInfoHelper.getInstance();
@@ -155,7 +155,7 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
         }
 
         //TODO: poniższe nie działa, nie zgadzają się typy
-//        String baselineFilename = baselineSerializer.serialize(baseline);
+//        String baselineFilename = baselineSerializer.serializeBaseline(baseline);
 //        if (baselineFilename != null) {
 //            logger.info("Baseline has been serialized in {} file", baselineFilename);
 //        } else {

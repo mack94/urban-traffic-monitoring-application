@@ -8,9 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detectors.DetectorManager;
-import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
-import pl.edu.agh.pp.serializers.FileBaselineSerializer;
+import pl.edu.agh.pp.serializers.FileSerializer;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.utils.*;
@@ -258,7 +257,7 @@ public class ManagementServer extends Server {
 
         if (baselineType != null && baselineType.length() > 0) {
             logger.info("It's from deserialization.");
-            Map<DayOfWeek, Map<Integer, PolynomialFunction>> fbs = FileBaselineSerializer.getInstance().deserialize(baselineType);
+            Map<DayOfWeek, Map<Integer, PolynomialFunction>> fbs = FileSerializer.getInstance().deserializeBaseline(baselineType);
             PolynomialFunction pf = fbs.get(dayOfWeek).get(routeID);
             int second = 0;
             while (second < 86400) {

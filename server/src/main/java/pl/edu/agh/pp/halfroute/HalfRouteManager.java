@@ -17,6 +17,8 @@ import pl.edu.agh.pp.utils.Route;
 import pl.edu.agh.pp.utils.WaypointsExtractor;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -89,8 +91,11 @@ public class HalfRouteManager {
     private String countDistance(String first, String second) {
         double a = getDistance(first);
         double b = getDistance(second);
+        double distance = BigDecimal.valueOf(a + b)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
 
-        return String.valueOf(a + b).concat(" km");
+        return String.valueOf(distance).concat(" km");
     }
 
     private double getDistance(String distance) {

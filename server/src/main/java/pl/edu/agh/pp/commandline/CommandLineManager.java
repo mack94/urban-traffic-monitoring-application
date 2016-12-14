@@ -15,8 +15,8 @@ import pl.edu.agh.pp.adapters.Connector;
 import pl.edu.agh.pp.builders.IPatternBuilder;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.loaders.FilesLoader;
-import pl.edu.agh.pp.serializers.FileBaselineSerializer;
-import pl.edu.agh.pp.serializers.IBaselineSerializer;
+import pl.edu.agh.pp.serializers.FileSerializer;
+import pl.edu.agh.pp.serializers.ISerializer;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.settings.PreferencesNamesHolder;
@@ -31,7 +31,7 @@ import pl.edu.agh.pp.utils.enums.DayOfWeek;
 public class CommandLineManager extends Thread
 {
     private static final IPatternBuilder patternBuilder = PolynomialPatternBuilder.getInstance();
-    private static final IBaselineSerializer baselineSerializer = FileBaselineSerializer.getInstance();
+    private static final ISerializer baselineSerializer = FileSerializer.getInstance();
     private static final LeverInfoHelper leverInfoHelper = LeverInfoHelper.getInstance();
     private static final AnomalyLifeTimeInfoHelper ANOMALY_LIFE_TIME_INFO_HELPER = AnomalyLifeTimeInfoHelper.getInstance();
     private static final BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
@@ -187,7 +187,7 @@ public class CommandLineManager extends Thread
             DayOfWeek dayOfWeek = getDayOfWeek(params[0]);
             int id = Integer.valueOf(params[1]);
             String timestamp = params[2];
-            Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserialize(timestamp);
+            Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserializeBaseline(timestamp);
             if (baseline != null && baselineSerializer.doesBaselineFitConditions(baseline, dayOfWeek, id))
             {
                 patternBuilder.setPartialBaseline(baseline, dayOfWeek, id, timestamp);
@@ -209,7 +209,7 @@ public class CommandLineManager extends Thread
         try
         {
             String timestamp = StringUtils.removeStart(buffer, "LOAD_BASELINE ");
-            Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserialize(timestamp);
+            Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserializeBaseline(timestamp);
             if (baseline != null)
             {
                 patternBuilder.setBaseline(baseline, timestamp);
@@ -231,7 +231,7 @@ public class CommandLineManager extends Thread
         try
         {
             String timestamp = StringUtils.removeStart(buffer, "UPDATE_BASELINE ");
-            Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserialize(timestamp);
+            Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = baselineSerializer.deserializeBaseline(timestamp);
             if (baseline != null)
             {
                 patternBuilder.updateBaseline(baseline, timestamp);

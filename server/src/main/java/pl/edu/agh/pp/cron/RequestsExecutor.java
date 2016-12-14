@@ -68,14 +68,12 @@ public class RequestsExecutor
         {
             anomalyId = detectorManager.isAnomaly(record);
         }
-        if (anomalyId != null)
+        if (alternativeLogEntry != null)
         {
-            if (alternativeLogEntry != null)
-            {
-                addAnomalyIdAndLog(alternativeLogEntry, anomalyId);
-            }
-            addAnomalyIdAndLog(logEntry, anomalyId);
+            addAnomalyIdAndLog(alternativeLogEntry, anomalyId);
         }
+        addAnomalyIdAndLog(logEntry, anomalyId);
+
     }
 
     private void addAnomalyIdAndLog(String entry, String anomalyID)
