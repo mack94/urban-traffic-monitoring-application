@@ -5,8 +5,7 @@ package pl.edu.agh.pp.settings;
  * 19:30
  * server
  */
-public class PreferencesNamesHolder
-{
+public class PreferencesNamesHolder {
     public static String DAY_SHIFT_START = "DayShiftStart";
     public static String NIGHT_SHIFT_START = "NightShiftStart";
     public static String ANOMALY_LIFE_TIME = "AnomalyLifeTime";
@@ -22,7 +21,6 @@ public class PreferencesNamesHolder
     public static String NIGHT_SHIFT_FREQUENCY_FROM = "NightShiftFrequencyFrom";
     public static String NIGHT_SHIFT_FREQUENCY_TO = "NightShiftFrequencyTo";
 
-    private PreferencesNamesHolder()
-    {
+    private PreferencesNamesHolder() {
     }
 }

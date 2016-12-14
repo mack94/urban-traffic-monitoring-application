@@ -2,17 +2,12 @@ package pl.edu.agh.pp.builders;
 
 import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
-import org.jgroups.util.Average;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.Server;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.utils.Record;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
-import weka.classifiers.functions.LibSVM;
-import weka.core.Attribute;
-import weka.core.FastVector;
-import weka.core.Instances;
 
 import java.awt.geom.Point2D;
 import java.util.*;
@@ -22,8 +17,8 @@ import java.util.*;
  */
 public class MeanPatternBuilder implements Strategy {
 
-    private final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
     private static Map<DayOfWeek, Map<Integer, PolynomialSplineFunction>> meanMap = new HashMap<>();
+    private final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
 
     public static void computeFunction(List<Record> records, boolean shouldSetAfterComputing) throws Exception {
         Map<DayOfWeek, Map<Integer, PolynomialSplineFunction>> baseline = new HashMap<>();
@@ -42,7 +37,7 @@ public class MeanPatternBuilder implements Strategy {
             pointsMap.clear();
 
             for (Record record : _records) {
-                if(!record.getAnomalyID().equals("")) continue;
+                if (!record.getAnomalyID().equals("")) continue;
 
                 recordRouteID = record.getRouteID();
                 points = pointsMap.get(recordRouteID);
@@ -71,10 +66,10 @@ public class MeanPatternBuilder implements Strategy {
                         int len = pom.size();
 
 
-                        for(Point2D.Double point: pom){
+                        for (Point2D.Double point : pom) {
                             double time = point.getX();
                             double duration = point.getY();
-                            if(!averages.containsKey(time)) {
+                            if (!averages.containsKey(time)) {
                                 averages.put(time, new AverageCounter());
                             }
                             averages.get(time).addValue(duration);
@@ -82,7 +77,7 @@ public class MeanPatternBuilder implements Strategy {
                         double[] x = new double[averages.keySet().size()];
                         double[] y = new double[averages.keySet().size()];
                         int i = 0;
-                        for(Double time: averages.keySet()) {
+                        for (Double time : averages.keySet()) {
                             x[i] = time;
                             y[i] = averages.get(time).getAverage();
                             i++;
@@ -100,7 +95,7 @@ public class MeanPatternBuilder implements Strategy {
     }
 
     private static double function(DayOfWeek dayOfWeek, int routeIdx, int second) {
-        if(meanMap.get(dayOfWeek).get(routeIdx).isValidPoint(second))
+        if (meanMap.get(dayOfWeek).get(routeIdx).isValidPoint(second))
             return meanMap.get(dayOfWeek).get(routeIdx).value(second);
         else {
             return -1;
@@ -112,7 +107,7 @@ public class MeanPatternBuilder implements Strategy {
         int idx = 0;
         for (int i = 0; i < 86400; i = i + 60) {
             double value = function(dayOfWeek, routeIdx, i);
-            if(value == -1) continue;
+            if (value == -1) continue;
             values[idx] = value;
             idx++;
         }

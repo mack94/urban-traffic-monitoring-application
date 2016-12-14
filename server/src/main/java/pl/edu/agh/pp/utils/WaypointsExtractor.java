@@ -1,23 +1,20 @@
 package pl.edu.agh.pp.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created by Jakub Janusz on 14.11.2016.
  * 21:27
  * server
  */
-public class WaypointsExtractor
-{
+public class WaypointsExtractor {
 
-    public static String[] extractWaypoints(String waypoints)
-    {
+    public static String[] extractWaypoints(String waypoints) {
         String[] splitted = waypoints.split(";");
-        for (int i = 0; i < splitted.length; i++)
-        {
+        for (int i = 0; i < splitted.length; i++) {
             splitted[i] = StringUtils.trim(splitted[i]);
         }
         int ctrIdx = splitted.length / 2;
@@ -30,7 +27,7 @@ public class WaypointsExtractor
         String begin = head[0];
         String central = head[head.length - 1];
         String end = tail[tail.length - 1];
-        return new String[] { begin, central, end, first, second };
+        return new String[]{begin, central, end, first, second};
     }
 
 }

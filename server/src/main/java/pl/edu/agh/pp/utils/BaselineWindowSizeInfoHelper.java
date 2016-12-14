@@ -1,8 +1,5 @@
 package pl.edu.agh.pp.utils;
 
-import java.io.IOException;
-import java.util.HashMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.Connector;
@@ -11,45 +8,40 @@ import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 
+import java.io.IOException;
+import java.util.HashMap;
+
 /**
  * Created by Maciej on 15.11.2016.
  * 01:12
  * Project: server.
  */
-public class BaselineWindowSizeInfoHelper
-{
+public class BaselineWindowSizeInfoHelper {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(BaselineWindowSizeInfoHelper.class);
+    private static final Object lock = new Object();
     private static IOptions options = Options.getInstance();
     private static int baselineWindowSize = 0;
     private static boolean updated = false;
-    private static final Object lock = new Object();
     private static String preferenceName = PreferencesNamesHolder.BASELINE_WINDOW_SIZE;
 
-    private BaselineWindowSizeInfoHelper()
-    {
+    private BaselineWindowSizeInfoHelper() {
     }
 
-    public static BaselineWindowSizeInfoHelper getInstance()
-    {
+    public static BaselineWindowSizeInfoHelper getInstance() {
         return Holder.INSTANCE;
     }
 
-    public int getBaselineWindowSizeValue()
-    {
-        synchronized (lock)
-        {
+    public int getBaselineWindowSizeValue() {
+        synchronized (lock) {
             if (updated)
                 return baselineWindowSize;
 
-            try
-            {
+            try {
                 baselineWindowSize = ((int) options.getPreference(preferenceName, Integer.class));
-            }
-            catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected)
-            {
+            } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
                 logger.error("BaselineWindowSizeInfoHelper:  baselineWindowSize error! " +
-                        "Could not getPreference BaselineWindowSize from registry!" + illegalPreferenceObjectExpected,
+                                "Could not getPreference BaselineWindowSize from registry!" + illegalPreferenceObjectExpected,
                         illegalPreferenceObjectExpected);
                 baselineWindowSize = 0;
                 logger.error("BaselineWindowSizeInfoHelper:  baselineWindowSize error! " +
@@ -65,8 +57,7 @@ public class BaselineWindowSizeInfoHelper
         HashMap<String, Object> newPreference = new HashMap<>();
         newPreference.put(preferenceName, newBaselineWindowSizeValue);
 
-        synchronized (lock)
-        {
+        synchronized (lock) {
             updated = false;
             options.setPreferences(newPreference);
         }
@@ -75,8 +66,7 @@ public class BaselineWindowSizeInfoHelper
 
     }
 
-    public static class Holder
-    {
+    public static class Holder {
         static final BaselineWindowSizeInfoHelper INSTANCE = new BaselineWindowSizeInfoHelper();
     }
 

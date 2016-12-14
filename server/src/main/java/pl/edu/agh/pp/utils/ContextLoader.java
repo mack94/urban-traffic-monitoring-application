@@ -1,15 +1,13 @@
 package pl.edu.agh.pp.utils;
 
-import ch.qos.logback.classic.Logger;
 import com.google.maps.GeoApiContext;
-import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.prefs.BackingStoreException;
 
 /**
@@ -23,18 +21,18 @@ public class ContextLoader {
     private static final String preferenceName = PreferencesNamesHolder.DETECTOR_API_KEY;
     private static List<GeoApiContext> contextList = new ArrayList<>();
 
-    public GeoApiContext geoApiContextLoader() throws IOException, IllegalPreferenceObjectExpected {
-        Options options = Options.getInstance();
-        String apiKey = (String)options.getPreference(preferenceName, String.class);
-
-        GeoApiContext context = new GeoApiContext().setApiKey(apiKey);
-        contextList.add(context);
-        return context;
-    }
-
     public static void changeApiKey(String newApiKey) throws BackingStoreException, IllegalPreferenceObjectExpected {
         for (GeoApiContext context : contextList) {
             context.setApiKey(newApiKey);
         }
+    }
+
+    public GeoApiContext geoApiContextLoader() throws IOException, IllegalPreferenceObjectExpected {
+        Options options = Options.getInstance();
+        String apiKey = (String) options.getPreference(preferenceName, String.class);
+
+        GeoApiContext context = new GeoApiContext().setApiKey(apiKey);
+        contextList.add(context);
+        return context;
     }
 }

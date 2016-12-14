@@ -18,10 +18,10 @@ import java.util.HashMap;
 public class LeverInfoHelper {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(LeverInfoHelper.class);
+    private static final Object lock = new Object();
     private static IOptions options = Options.getInstance();
     private static double leverValue = 0.0;
     private static boolean updated = false;
-    private static final Object lock = new Object();
     private static String preferenceName = PreferencesNamesHolder.LEVER_VALUE;
 
     private LeverInfoHelper() {

@@ -11,7 +11,10 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.data.server.ServerGeneralInfo;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,7 +32,6 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
     protected BaseServer client;
     protected InputStream in;
     protected volatile boolean running = true;
-    protected Thread listenerThread;
 
     public void start(InetAddress srv_addr, int srv_port, boolean nio) throws Exception {
         // Initialize routes file
@@ -47,10 +49,6 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         Thread.sleep(100);
         running = true;
         byte[] buf = String.format("%s joined\n", name).getBytes();
-//        ((Client)client).send(buf, 0, buf.length);
-//        eventLoop();
-        listenerThread = new Thread(this::eventLoop);
-        listenerThread.start();
 
         AnomalyOperationProtos.BonjourMessage bonjourMessage = AnomalyOperationProtos.BonjourMessage.newBuilder()
                 .setUserName(name)
@@ -66,36 +64,11 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         Connector.demandAvailableHistorical();
     }
 
-    private void eventLoop() {
-
-        in = new BufferedInputStream(System.in);
-        Thread thisThread = Thread.currentThread();
-
-//        while (running && listenerThread == thisThread) {
-//            // TODO: Place where put stuff to send to server.
-//            try {
-//                byte[] buf = "".getBytes();
-//                ((Client) client).send(buf, 0, buf.length);
-//
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                logger.error("ChannelReceiver :: InterruptedException: " + e);
-//            } catch (IOException e) {
-//                logger.error("ChannelReceiver :: IOException: " + e);
-//            } catch (Exception e) {
-//                logger.error("ChannelReceiver :: Exception: " + e);
-//                break;
-//            }
-//        }
-    }
-
     @Override
     public void receive(Address sender, byte[] buf, int offset, int length) {
 
         int bytesRead = 0;
         byte[] result = buf.clone();
-
-//        logger.info("Management Message received");
 
         if (length < 0) {
             logger.error("Length is less then 0!");
@@ -198,13 +171,11 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         try {
             AnomalyOperationProtos.SystemGeneralMessage generalMessage = AnomalyOperationProtos
                     .SystemGeneralMessage.parseFrom(message.getSystemGeneralMessage().toByteArray());
-            String routes = generalMessage.getRoutes();
-            double leverValue = generalMessage.getLeverValue();
-            logger.info(generalMessage.getMapsApiKey()); // FIXME: CZEMU TU SIE NIC NIE WYPISUJE?!?!?! CO SIE STALO Z CHARTSAMI :/
-            logger.info("" + generalMessage.getLeverValue()); // FIXME: CZEMU TU SIE NIC NIE WYPISUJE?!?!?! CO SIE STALO Z CHARTSAMI :/
+
             ServerGeneralInfo.setSystemGeneralMessage(generalMessage);
+            
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // FIXME
         }
     }
 
@@ -213,9 +184,11 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             AnomalyOperationProtos.LeverMessage leverMessage = AnomalyOperationProtos
                     .LeverMessage.parseFrom(message.getLeverMessage().toByteArray());
             double leverValue = leverMessage.getLeverValue();
+
             ServerGeneralInfo.setLeverValue(leverValue);
+
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // FIXME
         }
     }
 
@@ -223,10 +196,12 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         try {
             AnomalyOperationProtos.RouteMessage routeMessage = AnomalyOperationProtos
                     .RouteMessage.parseFrom(message.getRouteMessage().toByteArray());
+
             ServerGeneralInfo.addRoute(routeMessage);
             Connector.updateAvailableRoutes();
+
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // FIXME
         }
     }
 
@@ -238,9 +213,11 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             AnomalyOperationProtos.BaselineMessage.Day day = baselineMessage.getDay();
             Map<Integer, Integer> baselineMap = baselineMessage.getBaselineMap();
             String type = baselineMessage.getBaselineType();
+
             Connector.updateBaseline(routeID, day, baselineMap, type);
+
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            e.printStackTrace(); //FIXME
         }
     }
 
@@ -251,6 +228,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             Map<String, AnomalyOperationProtos.AvailableRoutes> availableHistoricalMap = availableHistoricalMessage
                     .getAvaiableDateRoutesMap();
             Map<String, List<Integer>> resultMap = new HashMap<>();
+
             for (String key : availableHistoricalMap.keySet()) {
                 AnomalyOperationProtos.AvailableRoutes availableRoutes = availableHistoricalMap.get(key);
                 Map<Integer, Integer> availableRoutesMap = availableRoutes.getRoutesMap();
@@ -262,8 +240,9 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             }
 
             Connector.updateAvailableDates(resultMap);
+
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // FIXME
         }
     }
 
@@ -274,9 +253,11 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             int routeID = historicalMessage.getRouteID();
             String date = historicalMessage.getDate();
             Map<Integer, Integer> historicalMap = historicalMessage.getMeasuresMap();
+
             Connector.updateHistoricalData(routeID, DateTime.parse(date), historicalMap);
+
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // FIXME
         }
     }
 
@@ -299,7 +280,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             Connector.updateHistoricalAnomalies(routeID, DateTime.parse(date), historicalAnomaliesMap);
 
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // FIXME
         }
     }
 

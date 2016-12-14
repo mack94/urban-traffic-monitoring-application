@@ -3,8 +3,8 @@ package pl.edu.agh.pp.builders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.Server;
-import pl.edu.agh.pp.utils.enums.DayOfWeek;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.utils.enums.DayOfWeek;
 
 /**
  * Created by Maciej on 18.07.2016.

@@ -19,37 +19,30 @@ import java.util.HashMap;
 public class ApisHelper {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(ApisHelper.class);
+    private static final Object lock = new Object();
     private static IOptions options = Options.getInstance();
     private static String mapsApiKey = "";
     private static String detectorApiKey = "";
     private static boolean updatedMaps = false;
     private static boolean updatedDetector = false;
-    private static final Object lock = new Object();
     private static String mapsPreferenceName = PreferencesNamesHolder.MAPS_API_KEY;
     private static String detectorPreferenceName = PreferencesNamesHolder.DETECTOR_API_KEY;
 
-    private ApisHelper()
-    {
+    private ApisHelper() {
     }
 
-    public static ApisHelper getInstance()
-    {
+    public static ApisHelper getInstance() {
         return Holder.INSTANCE;
     }
 
-    public String getMapsApiKey()
-    {
-        synchronized (lock)
-        {
+    public String getMapsApiKey() {
+        synchronized (lock) {
             if (updatedMaps)
                 return mapsApiKey;
 
-            try
-            {
+            try {
                 mapsApiKey = (String) options.getPreference(mapsPreferenceName, String.class);
-            }
-            catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected)
-            {
+            } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
                 logger.error("ApisHelper:  mapsApiKey error! " +
                                 "Could not getPreference mapsApiKeyValue from registry!" + illegalPreferenceObjectExpected,
                         illegalPreferenceObjectExpected);
@@ -67,8 +60,7 @@ public class ApisHelper {
         HashMap<String, Object> newPreference = new HashMap<>();
         newPreference.put(mapsPreferenceName, newMapsApiKey);
 
-        synchronized (lock)
-        {
+        synchronized (lock) {
             updatedMaps = false;
             options.setPreferences(newPreference);
         }
@@ -76,19 +68,14 @@ public class ApisHelper {
 
     }
 
-    public String getDetectorApiKey()
-    {
-        synchronized (lock)
-        {
+    public String getDetectorApiKey() {
+        synchronized (lock) {
             if (updatedDetector)
                 return detectorApiKey;
 
-            try
-            {
+            try {
                 detectorApiKey = (String) options.getPreference(detectorPreferenceName, String.class);
-            }
-            catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected)
-            {
+            } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
                 logger.error("ApisHelper:  detectorApiKey error! " +
                                 "Could not getPreference detectorApiKeyValue from registry!" + illegalPreferenceObjectExpected,
                         illegalPreferenceObjectExpected);
@@ -106,8 +93,7 @@ public class ApisHelper {
         HashMap<String, Object> newPreference = new HashMap<>();
         newPreference.put(detectorPreferenceName, newDetectorApiKey);
 
-        synchronized (lock)
-        {
+        synchronized (lock) {
             updatedDetector = false;
             options.setPreferences(newPreference);
         }
@@ -115,8 +101,7 @@ public class ApisHelper {
 
     }
 
-    public static class Holder
-    {
+    public static class Holder {
         static final ApisHelper INSTANCE = new ApisHelper();
     }
 }

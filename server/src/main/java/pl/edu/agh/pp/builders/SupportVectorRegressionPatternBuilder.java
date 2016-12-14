@@ -15,7 +15,10 @@ import pl.edu.agh.pp.utils.LeverInfoHelper;
 import pl.edu.agh.pp.utils.Record;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
 import weka.classifiers.functions.LibSVM;
-import weka.core.*;
+import weka.core.Attribute;
+import weka.core.FastVector;
+import weka.core.Instance;
+import weka.core.Instances;
 
 import java.awt.geom.Point2D;
 import java.util.*;
@@ -25,6 +28,7 @@ import java.util.*;
  */
 public class SupportVectorRegressionPatternBuilder implements Strategy {
 
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
     private static int DAY_INTERVALS = 4;
     private static int INTERVAL = 1200;
     private static IAnomalyTracker anomalyTracker = AnomalyTracker.getInstance();
@@ -33,16 +37,14 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
     private static Map<LibSVM, Instances> svmDatasets = new HashMap<>();
     private static BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
     private static LeverInfoHelper leverInfoHelper = LeverInfoHelper.getInstance();
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
 
     private static double classify(DayOfWeek dayOfWeek, int routeIdx, int second) throws Exception {
         LibSVM svr = null;
-        int interval = 86400/DAY_INTERVALS;
-        for(int i = 0; i < DAY_INTERVALS; i++) {
-            if( i+1 == DAY_INTERVALS ) {
+        int interval = 86400 / DAY_INTERVALS;
+        for (int i = 0; i < DAY_INTERVALS; i++) {
+            if (i + 1 == DAY_INTERVALS) {
                 svr = svrMap.get(dayOfWeek).get(routeIdx).get(i);
-            }
-            else if (second < interval*(i+1)) {
+            } else if (second < interval * (i + 1)) {
                 svr = svrMap.get(dayOfWeek).get(routeIdx).get(i);
                 break;
             }
@@ -56,16 +58,15 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
     }
 
     private static void addInstance(int intervalMargin, Point2D.Double point, List<Instances> datasets, Attribute timeInSeconds, Attribute durationInTraffic) {
-        int interval = 86400/DAY_INTERVALS;
-        for(int i = 0; i < DAY_INTERVALS; i++) {
+        int interval = 86400 / DAY_INTERVALS;
+        for (int i = 0; i < DAY_INTERVALS; i++) {
             Instance instance = new Instance(2);
             instance.setValue(timeInSeconds, point.getX());
             instance.setValue(durationInTraffic, point.getY());
-            if( i+1 == DAY_INTERVALS ) {
+            if (i + 1 == DAY_INTERVALS) {
                 datasets.get(i).add(instance);
-            }
-            else if (point.getX() < interval*(i+1)) {
-                if (point.getX() > interval*(i+1) - intervalMargin && datasets.get(i + 1) != null) {
+            } else if (point.getX() < interval * (i + 1)) {
+                if (point.getX() > interval * (i + 1) - intervalMargin && datasets.get(i + 1) != null) {
                     datasets.get(i + 1).add(instance);
                 }
                 datasets.get(i).add(instance);
@@ -97,7 +98,7 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
             pointsMap.clear();
 
             for (Record record : _records) {
-                if(!record.getAnomalyID().equals("")) continue;
+                if (!record.getAnomalyID().equals("")) continue;
 
                 recordRouteID = record.getRouteID();
                 points = pointsMap.get(recordRouteID);
@@ -123,11 +124,10 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
                     .forEach(routeID -> {
                         List<Instances> datasets = new ArrayList<>();
                         List<LibSVM> classifiers = new LinkedList<>();
-                        for(int i = 0; i < DAY_INTERVALS; i++) datasets.add(new Instances("routes_dataset", attrs, 0));
+                        for (int i = 0; i < DAY_INTERVALS; i++) datasets.add(new Instances("routes_dataset", attrs, 0));
                         datasets.forEach(instances -> instances.setClassIndex(1));
 
-                        for(int i = 0; i < DAY_INTERVALS; i++) classifiers.add(new LibSVM());
-
+                        for (int i = 0; i < DAY_INTERVALS; i++) classifiers.add(new LibSVM());
 
 
                         classifiers.forEach(classifier -> {
@@ -143,7 +143,7 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
                             addInstance(INTERVAL, point, datasets, timeInSeconds, durationInTraffic);
                         });
                         try {
-                            for(int i = 0; i < DAY_INTERVALS; i++) classifiers.get(i).buildClassifier(datasets.get(i));
+                            for (int i = 0; i < DAY_INTERVALS; i++) classifiers.get(i).buildClassifier(datasets.get(i));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -178,6 +178,14 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
         return values;
     }
 
+    public static void setDayIntervals(int dayIntervals) {
+        DAY_INTERVALS = dayIntervals;
+    }
+
+    public static void setInterval(int INTERVAL) {
+        SupportVectorRegressionPatternBuilder.INTERVAL = INTERVAL;
+    }
+
     public AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
         double predictedTravelDuration = 0;
         try {
@@ -210,7 +218,7 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
         logger.info(String.valueOf(predictedTravelDurationMaximum + errorDelta));
 
 
-        if ((travelDuration > predictedTravelDurationMaximum + errorDelta) ) {
+        if ((travelDuration > predictedTravelDurationMaximum + errorDelta)) {
 
             if (travelDuration > predictedTravelDuration + errorDelta)
                 errorRate = travelDuration / predictedTravelDuration;
@@ -241,13 +249,5 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
     @Override
     public void setServer(Server server) {
         anomalyTracker.setAnomaliesServer((AnomaliesServer) server);
-    }
-
-    public static void setDayIntervals(int dayIntervals) {
-        DAY_INTERVALS = dayIntervals;
-    }
-
-    public static void setInterval(int INTERVAL) {
-        SupportVectorRegressionPatternBuilder.INTERVAL = INTERVAL;
     }
 }

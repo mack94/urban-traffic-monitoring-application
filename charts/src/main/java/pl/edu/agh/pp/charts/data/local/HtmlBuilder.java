@@ -26,6 +26,7 @@ public class HtmlBuilder {
         this.rootDir = System.getProperty("user.dir");
         Options options = Options.getInstance();
         this.Google_Maps_Javascript_API_KEY = (String) options.getPreference("MAPS_API_KEY", String.class);
+        System.out.println("Current aPi Key is: " + this.Google_Maps_Javascript_API_KEY);
     }
 
     private StringTemplate loadStringTemplate(String template) {

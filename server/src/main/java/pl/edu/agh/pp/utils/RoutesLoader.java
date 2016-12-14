@@ -5,7 +5,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.nio.file.Paths;
 
 /**
  * Created by Maciej on 15.05.2016.
@@ -34,7 +33,7 @@ public class RoutesLoader {
 
     public JSONArray loadJSON() throws IOException {
         createJSON();
-        InputStream inputStream = new FileInputStream("."+fileName);
+        InputStream inputStream = new FileInputStream("." + fileName);
 
         String jsonTxt = IOUtils.toString(inputStream);
         JSONObject jsonObject = new JSONObject(jsonTxt);
@@ -43,8 +42,8 @@ public class RoutesLoader {
     }
 
     private void createJSON() throws IOException {
-        File file = new File("."+fileName);
-        if ( !file.exists() ){
+        File file = new File("." + fileName);
+        if (!file.exists()) {
             OutputStream outputStream = new FileOutputStream(file);
             InputStream inputStream = System.class.getResourceAsStream(fileName);
             int read = 0;

@@ -6,6 +6,15 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.Instant;
+import org.json.JSONObject;
+import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
+import pl.edu.agh.pp.loaders.InputParser;
+import pl.edu.agh.pp.utils.ContextLoader;
+import pl.edu.agh.pp.utils.Record;
+import pl.edu.agh.pp.utils.Route;
+import pl.edu.agh.pp.utils.WaypointsExtractor;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -15,23 +24,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.Instant;
-import org.json.JSONObject;
-import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
-import pl.edu.agh.pp.utils.ContextLoader;
-import pl.edu.agh.pp.utils.Route;
-import pl.edu.agh.pp.utils.WaypointsExtractor;
-import pl.edu.agh.pp.loaders.InputParser;
-import pl.edu.agh.pp.utils.Record;
-
 /**
  * Created by Jakub Janusz on 14.11.2016.
  * 21:23
  * server
  */
-public class HalfRouteManager
-{
+public class HalfRouteManager {
     private final Pattern DISTANCE_PATTERN = Pattern.compile("(\\d+,\\d+) km");
 
     private final Record record;
@@ -44,8 +42,7 @@ public class HalfRouteManager
         this.context = new ContextLoader().geoApiContextLoader();
     }
 
-    public String splitRoute() throws Exception
-    {
+    public String splitRoute() throws Exception {
         String[] extractedWaypoints = WaypointsExtractor.extractWaypoints(waypoints);
         String first = executeRequest(extractedWaypoints[0], extractedWaypoints[1], extractedWaypoints[3]);
         String second = executeRequest(extractedWaypoints[1], extractedWaypoints[2], extractedWaypoints[4]);
@@ -53,10 +50,9 @@ public class HalfRouteManager
     }
 
     // TODO: I really don't like this solution, but can't see any better.
-    private String executeRequest(String origin, String destination, String waypoints) throws Exception
-    {
+    private String executeRequest(String origin, String destination, String waypoints) throws Exception {
         DistanceMatrix distanceMatrix = DistanceMatrixApi
-                .getDistanceMatrix(context, new String[] { origin }, new String[] { destination })
+                .getDistanceMatrix(context, new String[]{origin}, new String[]{destination})
                 .mode(TravelMode.DRIVING)
                 .language("pl")
                 .departureTime(Instant.now())
@@ -74,8 +70,7 @@ public class HalfRouteManager
         return route.toString();
     }
 
-    private String concatResults(String a, String b)
-    {
+    private String concatResults(String a, String b) {
         InputParser inputParser = new InputParser();
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS").format(new Date());
         Record first = inputParser.parse(a);
@@ -91,35 +86,29 @@ public class HalfRouteManager
         return result.toString();
     }
 
-    private String countDistance(String first, String second)
-    {
+    private String countDistance(String first, String second) {
         double a = getDistance(first);
         double b = getDistance(second);
 
         return String.valueOf(a + b).concat(" km");
     }
 
-    private double getDistance(String distance)
-    {
+    private double getDistance(String distance) {
         Matcher matcher = DISTANCE_PATTERN.matcher(distance);
-        if (matcher.find())
-        {
+        if (matcher.find()) {
             return Double.valueOf(matcher.group(1).replaceAll(",", "."));
         }
         throw new IllegalArgumentException("Improper distance format.");
     }
 
-    private String getWaypoints(String first, String second)
-    {
+    private String getWaypoints(String first, String second) {
         String[] a = first.split(";");
         String[] b = second.split(";");
         String[] result = new String[a.length + b.length - 1];
-        for (int i = 0; i < a.length; i++)
-        {
+        for (int i = 0; i < a.length; i++) {
             result[i] = StringUtils.trim(a[i]);
         }
-        for (int i = 1; i < b.length; i++)
-        {
+        for (int i = 1; i < b.length; i++) {
             result[i + a.length] = StringUtils.trim(b[i]);
         }
         return Arrays.stream(result).collect(Collectors.joining("; "));

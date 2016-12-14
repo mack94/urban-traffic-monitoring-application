@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.Connector;
 import pl.edu.agh.pp.detectors.DetectorManager;
-import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
 import java.time.*;
@@ -55,14 +54,14 @@ public class SystemScheduler {
         ZonedDateTime zonedNow = ZonedDateTime.of(localNow, currentZone);
         ZonedDateTime zonedNext5;
         zonedNext5 = zonedNow.with(TemporalAdjusters.next(DayOfWeek.SUNDAY)).withHour(14).withMinute(42).withSecond(0);
-        if(zonedNow.compareTo(zonedNext5) > 0)
+        if (zonedNow.compareTo(zonedNext5) > 0)
             zonedNext5 = zonedNext5.plusDays(1);
 
         Duration duration = Duration.between(zonedNow, zonedNext5);
         long initalDelay = duration.getSeconds();
 
         baselineUpdateScheduler.scheduleAtFixedRate(baselineUpdater, initalDelay,
-                7*24*60*60, TimeUnit.SECONDS);
+                7 * 24 * 60 * 60, TimeUnit.SECONDS);
     }
 
 }
