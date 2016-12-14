@@ -5,11 +5,15 @@ import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DistanceMatrix;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.detectors.DetectorManager;
+import pl.edu.agh.pp.halfroute.HalfRouteManager;
+import pl.edu.agh.pp.loaders.InputParser;
+import pl.edu.agh.pp.utils.Record;
 import pl.edu.agh.pp.utils.RequestParams;
 import pl.edu.agh.pp.utils.Route;
-import pl.edu.agh.pp.detectors.DetectorManager;
 
 /**
  * Created by Jakub Janusz on 12.10.2016.
@@ -21,6 +25,7 @@ public class RequestsExecutor
     private final Logger trafficLogger = LoggerFactory.getLogger("traffic");
     private final Logger logger = LoggerFactory.getLogger(RequestsExecutor.class);
     private final DetectorManager detectorManager;
+    private final InputParser inputParser = new InputParser();
 
     public RequestsExecutor(DetectorManager detectorManager)
     {
@@ -46,11 +51,40 @@ public class RequestsExecutor
 
         String defaultWaypoints = requestParams.getDefaultWaypoints();
         Route route = new Route(requestParams.getId(), distanceMatrix, directionsApi, defaultWaypoints);
-        if(!requestParams.isMissingHistoricalData()) {
-            route.setAnomalyId(detectorManager.isAnomaly(route.toString(), defaultWaypoints));
+        String logEntry = route.toString();
+        Record record = inputParser.parse(logEntry);
+
+        String alternativeLogEntry = null;
+        if (!"default".equals(record.getWaypoints()))
+        {
+            HalfRouteManager halfRouteManager = new HalfRouteManager(record, defaultWaypoints);
+            alternativeLogEntry = logEntry;
+            logEntry = halfRouteManager.splitRoute();
+            record = inputParser.parse(logEntry);
         }
-        trafficLogger.error(route.toString());
-        logger.error(route.toString());
+
+        String anomalyId = null;
+        if (!requestParams.isMissingHistoricalData())
+        {
+            anomalyId = detectorManager.isAnomaly(record);
+        }
+        if (anomalyId != null)
+        {
+            if (alternativeLogEntry != null)
+            {
+                addAnomalyIdAndLog(alternativeLogEntry, anomalyId);
+            }
+            addAnomalyIdAndLog(logEntry, anomalyId);
+        }
+    }
+
+    private void addAnomalyIdAndLog(String entry, String anomalyID)
+    {
+        JSONObject jsonObject = new JSONObject(entry);
+        jsonObject.put("anomalyId", anomalyID);
+
+        trafficLogger.error(jsonObject.toString());
+        logger.error(jsonObject.toString());
     }
 
 }
