@@ -27,7 +27,7 @@
 <body>
 <div id="map"></div>
 <script src="jquery-3.1.0.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3&key=$API_KEY$"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3&key=$MAPS_API_KEY$"></script>
 <script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/markerwithlabel/src/markerwithlabel.js"></script>
 <script src="epoly.js" type="text/javascript"> </script>
 <script>

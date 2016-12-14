@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import pl.edu.agh.pp.charts.adapters.Connector;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,7 +29,7 @@ public class ServerGeneralInfo {
     private static String mapsApiKey;
     //TODO: Check whether it's everything
 
-    public static void setSystemGeneralMessage(AnomalyOperationProtos.SystemGeneralMessage systemGeneralMessage) {
+    public static void setSystemGeneralMessage(AnomalyOperationProtos.SystemGeneralMessage systemGeneralMessage) throws IllegalPreferenceObjectExpected {
         setAnomalyLiveTime(systemGeneralMessage.getAnomalyLiveTime());
         setBaselineWindowSize(systemGeneralMessage.getBaselineWindowSize());
         setLeverValue(systemGeneralMessage.getLeverValue());
@@ -139,7 +140,7 @@ public class ServerGeneralInfo {
         informControllerAboutChanges();
     }
 
-    public static void setMapsApiKey(String mapsApiKey) {
+    public static void setMapsApiKey(String mapsApiKey) throws IllegalPreferenceObjectExpected {
         ServerGeneralInfo.mapsApiKey = mapsApiKey;
         informConnectorAboutNewMapsApiKey();
     }
@@ -167,7 +168,7 @@ public class ServerGeneralInfo {
         Connector.updateServerInfo(leverValue, anomalyLiveTime, baselineWindowSize, shift, port);
     }
 
-    private static void informConnectorAboutNewMapsApiKey() {
+    private static void informConnectorAboutNewMapsApiKey() throws IllegalPreferenceObjectExpected {
         Connector.setMapsApiKey(mapsApiKey);
         System.out.println("INFORMED");
     }

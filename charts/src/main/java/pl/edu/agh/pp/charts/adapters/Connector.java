@@ -6,9 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.controller.ChartsController;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
+import pl.edu.agh.pp.charts.data.local.HtmlBuilder;
 import pl.edu.agh.pp.charts.data.server.*;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.charts.settings.Options;
+import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.net.InetAddress;
 import java.time.DayOfWeek;
@@ -225,9 +227,10 @@ public class Connector {
         }
     }
 
-    public static void setMapsApiKey(String apiKey) {
+    public static void setMapsApiKey(String apiKey) throws IllegalPreferenceObjectExpected {
         HashMap<String, Object> map = new HashMap<>();
         map.put("MAPS_API_KEY", apiKey);
         Options.getInstance().setPreferences(map);
+        HtmlBuilder.reloadApiKey();
     }
 }

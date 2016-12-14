@@ -20,13 +20,21 @@ public class HtmlBuilder {
 
     private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass().toString());
     private String rootDir;
-    private String Google_Maps_Javascript_API_KEY;
+    private static String Google_Maps_Javascript_API_KEY;
+    private static final String MAP_KEY_ATTRIBUTE_NAME = "MAPS_API_KEY"; //do not change this value
 
     public HtmlBuilder() throws IllegalPreferenceObjectExpected {
         this.rootDir = System.getProperty("user.dir");
         Options options = Options.getInstance();
-        this.Google_Maps_Javascript_API_KEY = (String) options.getPreference("MAPS_API_KEY", String.class);
-        System.out.println("Current aPi Key is: " + this.Google_Maps_Javascript_API_KEY);
+        Google_Maps_Javascript_API_KEY = (String) options.getPreference("MAPS_API_KEY", String.class);
+        System.out.println("Current api Key is: " + Google_Maps_Javascript_API_KEY);
+
+    }
+
+    public static void reloadApiKey() throws IllegalPreferenceObjectExpected {
+        Options options = Options.getInstance();
+        Google_Maps_Javascript_API_KEY = (String) options.getPreference("MAPS_API_KEY", String.class);
+        System.out.println("Current api Key is: " + Google_Maps_Javascript_API_KEY);
     }
 
     private StringTemplate loadStringTemplate(String template) {
@@ -47,7 +55,7 @@ public class HtmlBuilder {
         messageStructure.setAttribute("startLng", route.getStartLng());
         messageStructure.setAttribute("endLat", route.getEndLat());
         messageStructure.setAttribute("endLng", route.getEndLng());
-        messageStructure.setAttribute("MAPS_API_KEY", Google_Maps_Javascript_API_KEY);
+        messageStructure.setAttribute(MAP_KEY_ATTRIBUTE_NAME, Google_Maps_Javascript_API_KEY);
 
         return messageStructure.toString();
     }
@@ -60,7 +68,7 @@ public class HtmlBuilder {
         //center of default anomaly map
         messageStructure.setAttribute("startLat", "50.07");
         messageStructure.setAttribute("startLng", "19.94");
-        messageStructure.setAttribute("MAPS_API_KEY", Google_Maps_Javascript_API_KEY);
+        messageStructure.setAttribute(MAP_KEY_ATTRIBUTE_NAME, Google_Maps_Javascript_API_KEY);
 
         //these coords wont matter, but they have to be give a value
         messageStructure.setAttribute("endLat", "0");
@@ -81,7 +89,7 @@ public class HtmlBuilder {
         }
         messageStructure.setAttribute("default", "false");
         messageStructure.setAttribute("routesInstructions", routesInstructions.toString());
-        messageStructure.setAttribute("MAPS_API_KEY", Google_Maps_Javascript_API_KEY);
+        messageStructure.setAttribute(MAP_KEY_ATTRIBUTE_NAME, Google_Maps_Javascript_API_KEY);
 
         return messageStructure.toString();
     }
@@ -93,7 +101,7 @@ public class HtmlBuilder {
 
         messageStructure.setAttribute("default", "true");
         messageStructure.setAttribute("routesInstructions", "");
-        messageStructure.setAttribute("MAPS_API_KEY", Google_Maps_Javascript_API_KEY);
+        messageStructure.setAttribute(MAP_KEY_ATTRIBUTE_NAME, Google_Maps_Javascript_API_KEY);
 
         return messageStructure.toString();
     }

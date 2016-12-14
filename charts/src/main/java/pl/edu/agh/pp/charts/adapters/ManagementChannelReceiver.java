@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.data.server.ServerGeneralInfo;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
+import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -173,9 +174,11 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                     .SystemGeneralMessage.parseFrom(message.getSystemGeneralMessage().toByteArray());
 
             ServerGeneralInfo.setSystemGeneralMessage(generalMessage);
-            
+
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace(); // FIXME
+            e.printStackTrace();
+        } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
+            illegalPreferenceObjectExpected.printStackTrace();
         }
     }
 
