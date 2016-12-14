@@ -38,12 +38,13 @@ public class Configuration {
         }
     }
 
-    protected synchronized void initialize() throws BackingStoreException, IOException {
+    protected void initialize() throws BackingStoreException, IOException {
         if (!preferences.getBoolean("UTMAClientInitialized", false)) {
             resetPreferences();
             preferences.putBoolean("UTMAClientInitialized", true);
             logger.info("First UTMA client INITIALIZATION! Preferences have been set up");
         }
+        logger.info("Preferences have been already set up");
     }
 
     protected void resetPreferences() throws BackingStoreException, IOException {

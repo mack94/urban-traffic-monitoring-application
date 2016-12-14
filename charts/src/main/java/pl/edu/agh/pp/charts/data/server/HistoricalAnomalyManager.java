@@ -11,7 +11,7 @@ import java.util.Map;
 public class HistoricalAnomalyManager {
     private static ArrayList<HistoricalAnomaly> historicalAnomalie = new ArrayList<>();
 
-    public static void addHistoricalAnomalies(Integer routeID, DateTime date, Map<String,Map<Integer,Integer>> anomalies) {
+    public static void addHistoricalAnomalies(Integer routeID, DateTime date, Map<String, Map<Integer, Integer>> anomalies) {
         historicalAnomalie.add(new HistoricalAnomaly(routeID, date, anomalies));
     }
 

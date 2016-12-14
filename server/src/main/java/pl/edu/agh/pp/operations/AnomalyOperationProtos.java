@@ -254,7 +254,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         channel_ = s;
@@ -268,7 +268,7 @@ public final class AnomalyOperationProtos {
         getChannelBytes() {
       java.lang.Object ref = channel_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         channel_ = b;
@@ -288,7 +288,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         nickname_ = s;
@@ -302,7 +302,7 @@ public final class AnomalyOperationProtos {
         getNicknameBytes() {
       java.lang.Object ref = nickname_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         nickname_ = b;
@@ -643,7 +643,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+
         action_ = value.getNumber();
         onChanged();
         return this;
@@ -652,7 +652,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .AnomalyAction.ActionType action = 1;</code>
        */
       public Builder clearAction() {
-        
+
         action_ = 0;
         onChanged();
         return this;
@@ -681,7 +681,7 @@ public final class AnomalyOperationProtos {
           getChannelBytes() {
         java.lang.Object ref = channel_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           channel_ = b;
@@ -698,7 +698,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         channel_ = value;
         onChanged();
         return this;
@@ -707,7 +707,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string channel = 2;</code>
        */
       public Builder clearChannel() {
-        
+
         channel_ = getDefaultInstance().getChannel();
         onChanged();
         return this;
@@ -721,7 +721,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         channel_ = value;
         onChanged();
         return this;
@@ -750,7 +750,7 @@ public final class AnomalyOperationProtos {
           getNicknameBytes() {
         java.lang.Object ref = nickname_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           nickname_ = b;
@@ -767,7 +767,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         nickname_ = value;
         onChanged();
         return this;
@@ -776,7 +776,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string nickname = 3;</code>
        */
       public Builder clearNickname() {
-        
+
         nickname_ = getDefaultInstance().getNickname();
         onChanged();
         return this;
@@ -790,7 +790,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         nickname_ = value;
         onChanged();
         return this;
@@ -851,7 +851,7 @@ public final class AnomalyOperationProtos {
     /**
      * <code>repeated .AnomalyAction state = 1;</code>
      */
-    java.util.List<pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyAction> 
+    java.util.List<pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyAction>
         getStateList();
     /**
      * <code>repeated .AnomalyAction state = 1;</code>
@@ -864,7 +864,7 @@ public final class AnomalyOperationProtos {
     /**
      * <code>repeated .AnomalyAction state = 1;</code>
      */
-    java.util.List<? extends pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyActionOrBuilder> 
+    java.util.List<? extends pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyActionOrBuilder>
         getStateOrBuilderList();
     /**
      * <code>repeated .AnomalyAction state = 1;</code>
@@ -958,7 +958,7 @@ public final class AnomalyOperationProtos {
     /**
      * <code>repeated .AnomalyAction state = 1;</code>
      */
-    public java.util.List<? extends pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyActionOrBuilder> 
+    public java.util.List<? extends pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyActionOrBuilder>
         getStateOrBuilderList() {
       return state_;
     }
@@ -1256,7 +1256,7 @@ public final class AnomalyOperationProtos {
               stateBuilder_ = null;
               state_ = other.state_;
               bitField0_ = (bitField0_ & ~0x00000001);
-              stateBuilder_ = 
+              stateBuilder_ =
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getStateFieldBuilder() : null;
             } else {
@@ -1486,7 +1486,7 @@ public final class AnomalyOperationProtos {
       /**
        * <code>repeated .AnomalyAction state = 1;</code>
        */
-      public java.util.List<? extends pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyActionOrBuilder> 
+      public java.util.List<? extends pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyActionOrBuilder>
            getStateOrBuilderList() {
         if (stateBuilder_ != null) {
           return stateBuilder_.getMessageOrBuilderList();
@@ -1512,12 +1512,12 @@ public final class AnomalyOperationProtos {
       /**
        * <code>repeated .AnomalyAction state = 1;</code>
        */
-      public java.util.List<pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyAction.Builder> 
+      public java.util.List<pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyAction.Builder>
            getStateBuilderList() {
         return getStateFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyAction, pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyAction.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyActionOrBuilder> 
+          pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyAction, pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyAction.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.AnomalyActionOrBuilder>
           getStateFieldBuilder() {
         if (stateBuilder_ == null) {
           stateBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
@@ -1837,7 +1837,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         message_ = s;
@@ -1851,7 +1851,7 @@ public final class AnomalyOperationProtos {
         getMessageBytes() {
       java.lang.Object ref = message_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         message_ = b;
@@ -1871,7 +1871,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         anomalyID_ = s;
@@ -1885,7 +1885,7 @@ public final class AnomalyOperationProtos {
         getAnomalyIDBytes() {
       java.lang.Object ref = anomalyID_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         anomalyID_ = b;
@@ -1905,7 +1905,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         date_ = s;
@@ -1919,7 +1919,7 @@ public final class AnomalyOperationProtos {
         getDateBytes() {
       java.lang.Object ref = date_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         date_ = b;
@@ -2372,7 +2372,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeIdx = 1;</code>
        */
       public Builder setRouteIdx(int value) {
-        
+
         routeIdx_ = value;
         onChanged();
         return this;
@@ -2381,7 +2381,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeIdx = 1;</code>
        */
       public Builder clearRouteIdx() {
-        
+
         routeIdx_ = 0;
         onChanged();
         return this;
@@ -2398,7 +2398,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 secondOfDay = 2;</code>
        */
       public Builder setSecondOfDay(int value) {
-        
+
         secondOfDay_ = value;
         onChanged();
         return this;
@@ -2407,7 +2407,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 secondOfDay = 2;</code>
        */
       public Builder clearSecondOfDay() {
-        
+
         secondOfDay_ = 0;
         onChanged();
         return this;
@@ -2424,7 +2424,7 @@ public final class AnomalyOperationProtos {
        * <code>optional bool isActive = 3;</code>
        */
       public Builder setIsActive(boolean value) {
-        
+
         isActive_ = value;
         onChanged();
         return this;
@@ -2433,7 +2433,7 @@ public final class AnomalyOperationProtos {
        * <code>optional bool isActive = 3;</code>
        */
       public Builder clearIsActive() {
-        
+
         isActive_ = false;
         onChanged();
         return this;
@@ -2450,7 +2450,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 duration = 4;</code>
        */
       public Builder setDuration(int value) {
-        
+
         duration_ = value;
         onChanged();
         return this;
@@ -2459,7 +2459,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 duration = 4;</code>
        */
       public Builder clearDuration() {
-        
+
         duration_ = 0;
         onChanged();
         return this;
@@ -2476,7 +2476,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 dayOfWeek = 5;</code>
        */
       public Builder setDayOfWeek(int value) {
-        
+
         dayOfWeek_ = value;
         onChanged();
         return this;
@@ -2485,7 +2485,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 dayOfWeek = 5;</code>
        */
       public Builder clearDayOfWeek() {
-        
+
         dayOfWeek_ = 0;
         onChanged();
         return this;
@@ -2502,7 +2502,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 severity = 6;</code>
        */
       public Builder setSeverity(int value) {
-        
+
         severity_ = value;
         onChanged();
         return this;
@@ -2511,7 +2511,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 severity = 6;</code>
        */
       public Builder clearSeverity() {
-        
+
         severity_ = 0;
         onChanged();
         return this;
@@ -2540,7 +2540,7 @@ public final class AnomalyOperationProtos {
           getMessageBytes() {
         java.lang.Object ref = message_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           message_ = b;
@@ -2557,7 +2557,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         message_ = value;
         onChanged();
         return this;
@@ -2566,7 +2566,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string message = 7;</code>
        */
       public Builder clearMessage() {
-        
+
         message_ = getDefaultInstance().getMessage();
         onChanged();
         return this;
@@ -2580,7 +2580,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         message_ = value;
         onChanged();
         return this;
@@ -2609,7 +2609,7 @@ public final class AnomalyOperationProtos {
           getAnomalyIDBytes() {
         java.lang.Object ref = anomalyID_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           anomalyID_ = b;
@@ -2626,7 +2626,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         anomalyID_ = value;
         onChanged();
         return this;
@@ -2635,7 +2635,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string anomalyID = 8;</code>
        */
       public Builder clearAnomalyID() {
-        
+
         anomalyID_ = getDefaultInstance().getAnomalyID();
         onChanged();
         return this;
@@ -2649,7 +2649,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         anomalyID_ = value;
         onChanged();
         return this;
@@ -2678,7 +2678,7 @@ public final class AnomalyOperationProtos {
           getDateBytes() {
         java.lang.Object ref = date_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           date_ = b;
@@ -2695,7 +2695,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         date_ = value;
         onChanged();
         return this;
@@ -2704,7 +2704,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string date = 9;</code>
        */
       public Builder clearDate() {
-        
+
         date_ = getDefaultInstance().getDate();
         onChanged();
         return this;
@@ -2718,7 +2718,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         date_ = value;
         onChanged();
         return this;
@@ -2735,7 +2735,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 normExceed = 10;</code>
        */
       public Builder setNormExceed(int value) {
-        
+
         normExceed_ = value;
         onChanged();
         return this;
@@ -2744,7 +2744,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 normExceed = 10;</code>
        */
       public Builder clearNormExceed() {
-        
+
         normExceed_ = 0;
         onChanged();
         return this;
@@ -4361,7 +4361,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+
         type_ = value.getNumber();
         onChanged();
         return this;
@@ -4374,7 +4374,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .ManagementMessage.Type type = 1;</code>
        */
       public Builder clearType() {
-        
+
         type_ = 0;
         onChanged();
         return this;
@@ -4493,7 +4493,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .BonjourMessage bonjourMessage = 2;</code>
        */
       public pl.edu.agh.pp.operations.AnomalyOperationProtos.BonjourMessage.Builder getBonjourMessageBuilder() {
-        
+
         onChanged();
         return getBonjourMessageFieldBuilder().getBuilder();
       }
@@ -4520,7 +4520,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .BonjourMessage bonjourMessage = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          pl.edu.agh.pp.operations.AnomalyOperationProtos.BonjourMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.BonjourMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.BonjourMessageOrBuilder> 
+          pl.edu.agh.pp.operations.AnomalyOperationProtos.BonjourMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.BonjourMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.BonjourMessageOrBuilder>
           getBonjourMessageFieldBuilder() {
         if (bonjourMessageBuilder_ == null) {
           bonjourMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -4618,7 +4618,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .SystemGeneralMessage systemGeneralMessage = 3;</code>
        */
       public pl.edu.agh.pp.operations.AnomalyOperationProtos.SystemGeneralMessage.Builder getSystemGeneralMessageBuilder() {
-        
+
         onChanged();
         return getSystemGeneralMessageFieldBuilder().getBuilder();
       }
@@ -4637,7 +4637,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .SystemGeneralMessage systemGeneralMessage = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          pl.edu.agh.pp.operations.AnomalyOperationProtos.SystemGeneralMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.SystemGeneralMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.SystemGeneralMessageOrBuilder> 
+          pl.edu.agh.pp.operations.AnomalyOperationProtos.SystemGeneralMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.SystemGeneralMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.SystemGeneralMessageOrBuilder>
           getSystemGeneralMessageFieldBuilder() {
         if (systemGeneralMessageBuilder_ == null) {
           systemGeneralMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -4735,7 +4735,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .LeverMessage leverMessage = 4;</code>
        */
       public pl.edu.agh.pp.operations.AnomalyOperationProtos.LeverMessage.Builder getLeverMessageBuilder() {
-        
+
         onChanged();
         return getLeverMessageFieldBuilder().getBuilder();
       }
@@ -4754,7 +4754,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .LeverMessage leverMessage = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          pl.edu.agh.pp.operations.AnomalyOperationProtos.LeverMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.LeverMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.LeverMessageOrBuilder> 
+          pl.edu.agh.pp.operations.AnomalyOperationProtos.LeverMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.LeverMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.LeverMessageOrBuilder>
           getLeverMessageFieldBuilder() {
         if (leverMessageBuilder_ == null) {
           leverMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -4852,7 +4852,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .BaselineMessage baselineMessage = 5;</code>
        */
       public pl.edu.agh.pp.operations.AnomalyOperationProtos.BaselineMessage.Builder getBaselineMessageBuilder() {
-        
+
         onChanged();
         return getBaselineMessageFieldBuilder().getBuilder();
       }
@@ -4871,7 +4871,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .BaselineMessage baselineMessage = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          pl.edu.agh.pp.operations.AnomalyOperationProtos.BaselineMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.BaselineMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.BaselineMessageOrBuilder> 
+          pl.edu.agh.pp.operations.AnomalyOperationProtos.BaselineMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.BaselineMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.BaselineMessageOrBuilder>
           getBaselineMessageFieldBuilder() {
         if (baselineMessageBuilder_ == null) {
           baselineMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -4969,7 +4969,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .DemandBaselineMessage demandBaselineMessage = 6;</code>
        */
       public pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandBaselineMessage.Builder getDemandBaselineMessageBuilder() {
-        
+
         onChanged();
         return getDemandBaselineMessageFieldBuilder().getBuilder();
       }
@@ -4988,7 +4988,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .DemandBaselineMessage demandBaselineMessage = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandBaselineMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandBaselineMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandBaselineMessageOrBuilder> 
+          pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandBaselineMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandBaselineMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandBaselineMessageOrBuilder>
           getDemandBaselineMessageFieldBuilder() {
         if (demandBaselineMessageBuilder_ == null) {
           demandBaselineMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -5086,7 +5086,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .RouteMessage routeMessage = 7;</code>
        */
       public pl.edu.agh.pp.operations.AnomalyOperationProtos.RouteMessage.Builder getRouteMessageBuilder() {
-        
+
         onChanged();
         return getRouteMessageFieldBuilder().getBuilder();
       }
@@ -5105,7 +5105,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .RouteMessage routeMessage = 7;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          pl.edu.agh.pp.operations.AnomalyOperationProtos.RouteMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.RouteMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.RouteMessageOrBuilder> 
+          pl.edu.agh.pp.operations.AnomalyOperationProtos.RouteMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.RouteMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.RouteMessageOrBuilder>
           getRouteMessageFieldBuilder() {
         if (routeMessageBuilder_ == null) {
           routeMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -5203,7 +5203,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .AvailableHistoricalMessage availableHistoricalMessage = 8;</code>
        */
       public pl.edu.agh.pp.operations.AnomalyOperationProtos.AvailableHistoricalMessage.Builder getAvailableHistoricalMessageBuilder() {
-        
+
         onChanged();
         return getAvailableHistoricalMessageFieldBuilder().getBuilder();
       }
@@ -5222,7 +5222,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .AvailableHistoricalMessage availableHistoricalMessage = 8;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          pl.edu.agh.pp.operations.AnomalyOperationProtos.AvailableHistoricalMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.AvailableHistoricalMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.AvailableHistoricalMessageOrBuilder> 
+          pl.edu.agh.pp.operations.AnomalyOperationProtos.AvailableHistoricalMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.AvailableHistoricalMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.AvailableHistoricalMessageOrBuilder>
           getAvailableHistoricalMessageFieldBuilder() {
         if (availableHistoricalMessageBuilder_ == null) {
           availableHistoricalMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -5320,7 +5320,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .DemandAvailableHistoricalMessage demandAvailableHistoricalMessage = 9;</code>
        */
       public pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandAvailableHistoricalMessage.Builder getDemandAvailableHistoricalMessageBuilder() {
-        
+
         onChanged();
         return getDemandAvailableHistoricalMessageFieldBuilder().getBuilder();
       }
@@ -5339,7 +5339,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .DemandAvailableHistoricalMessage demandAvailableHistoricalMessage = 9;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandAvailableHistoricalMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandAvailableHistoricalMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandAvailableHistoricalMessageOrBuilder> 
+          pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandAvailableHistoricalMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandAvailableHistoricalMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandAvailableHistoricalMessageOrBuilder>
           getDemandAvailableHistoricalMessageFieldBuilder() {
         if (demandAvailableHistoricalMessageBuilder_ == null) {
           demandAvailableHistoricalMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -5437,7 +5437,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .HistoricalMessage historicalMessage = 10;</code>
        */
       public pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalMessage.Builder getHistoricalMessageBuilder() {
-        
+
         onChanged();
         return getHistoricalMessageFieldBuilder().getBuilder();
       }
@@ -5456,7 +5456,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .HistoricalMessage historicalMessage = 10;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalMessageOrBuilder> 
+          pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalMessageOrBuilder>
           getHistoricalMessageFieldBuilder() {
         if (historicalMessageBuilder_ == null) {
           historicalMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -5554,7 +5554,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .DemandHistoricalMessage demandHistoricalMessage = 11;</code>
        */
       public pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalMessage.Builder getDemandHistoricalMessageBuilder() {
-        
+
         onChanged();
         return getDemandHistoricalMessageFieldBuilder().getBuilder();
       }
@@ -5573,7 +5573,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .DemandHistoricalMessage demandHistoricalMessage = 11;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalMessageOrBuilder> 
+          pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalMessageOrBuilder>
           getDemandHistoricalMessageFieldBuilder() {
         if (demandHistoricalMessageBuilder_ == null) {
           demandHistoricalMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -5671,7 +5671,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
        */
       public pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.Builder getDemandHistoricalAnomaliesMessageBuilder() {
-        
+
         onChanged();
         return getDemandHistoricalAnomaliesMessageFieldBuilder().getBuilder();
       }
@@ -5690,7 +5690,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .DemandHistoricalAnomaliesMessage demandHistoricalAnomaliesMessage = 12;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessageOrBuilder> 
+          pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.DemandHistoricalAnomaliesMessageOrBuilder>
           getDemandHistoricalAnomaliesMessageFieldBuilder() {
         if (demandHistoricalAnomaliesMessageBuilder_ == null) {
           demandHistoricalAnomaliesMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -5788,7 +5788,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
        */
       public pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.Builder getHistoricalAnomaliesMessageBuilder() {
-        
+
         onChanged();
         return getHistoricalAnomaliesMessageFieldBuilder().getBuilder();
       }
@@ -5807,7 +5807,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .HistoricalAnomaliesMessage historicalAnomaliesMessage = 13;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalAnomaliesMessageOrBuilder> 
+          pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage, pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalAnomaliesMessage.Builder, pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalAnomaliesMessageOrBuilder>
           getHistoricalAnomaliesMessageFieldBuilder() {
         if (historicalAnomaliesMessageBuilder_ == null) {
           historicalAnomaliesMessageBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -5998,7 +5998,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         date_ = s;
@@ -6012,7 +6012,7 @@ public final class AnomalyOperationProtos {
         getDateBytes() {
       java.lang.Object ref = date_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         date_ = b;
@@ -6032,7 +6032,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         userName_ = s;
@@ -6046,7 +6046,7 @@ public final class AnomalyOperationProtos {
         getUserNameBytes() {
       java.lang.Object ref = userName_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         userName_ = b;
@@ -6370,7 +6370,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 token = 1;</code>
        */
       public Builder setToken(int value) {
-        
+
         token_ = value;
         onChanged();
         return this;
@@ -6379,7 +6379,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 token = 1;</code>
        */
       public Builder clearToken() {
-        
+
         token_ = 0;
         onChanged();
         return this;
@@ -6408,7 +6408,7 @@ public final class AnomalyOperationProtos {
           getDateBytes() {
         java.lang.Object ref = date_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           date_ = b;
@@ -6425,7 +6425,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         date_ = value;
         onChanged();
         return this;
@@ -6434,7 +6434,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string date = 2;</code>
        */
       public Builder clearDate() {
-        
+
         date_ = getDefaultInstance().getDate();
         onChanged();
         return this;
@@ -6448,7 +6448,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         date_ = value;
         onChanged();
         return this;
@@ -6477,7 +6477,7 @@ public final class AnomalyOperationProtos {
           getUserNameBytes() {
         java.lang.Object ref = userName_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           userName_ = b;
@@ -6494,7 +6494,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         userName_ = value;
         onChanged();
         return this;
@@ -6503,7 +6503,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string userName = 3;</code>
        */
       public Builder clearUserName() {
-        
+
         userName_ = getDefaultInstance().getUserName();
         onChanged();
         return this;
@@ -6517,7 +6517,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         userName_ = value;
         onChanged();
         return this;
@@ -6615,17 +6615,13 @@ public final class AnomalyOperationProtos {
     pl.edu.agh.pp.operations.AnomalyOperationProtos.SystemGeneralMessage.Shift getShift();
 
     /**
-     * <pre>
-     * bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
-     * </pre>
-     *
      * <code>optional int32 port = 7;</code>
      */
     int getPort();
 
     /**
      * <pre>
-     * caly routes.json tutaj przesylamy
+     * whole routes.json is
      * </pre>
      *
      * <code>optional string routes = 8;</code>
@@ -6633,13 +6629,23 @@ public final class AnomalyOperationProtos {
     java.lang.String getRoutes();
     /**
      * <pre>
-     * caly routes.json tutaj przesylamy
+     * whole routes.json is
      * </pre>
      *
      * <code>optional string routes = 8;</code>
      */
     com.google.protobuf.ByteString
         getRoutesBytes();
+
+    /**
+     * <code>optional string mapsApiKey = 9;</code>
+     */
+    java.lang.String getMapsApiKey();
+    /**
+     * <code>optional string mapsApiKey = 9;</code>
+     */
+    com.google.protobuf.ByteString
+        getMapsApiKeyBytes();
   }
   /**
    * Protobuf type {@code SystemGeneralMessage}
@@ -6661,6 +6667,7 @@ public final class AnomalyOperationProtos {
       shift_ = 0;
       port_ = 0;
       routes_ = "";
+      mapsApiKey_ = "";
     }
 
     @java.lang.Override
@@ -6729,6 +6736,12 @@ public final class AnomalyOperationProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               routes_ = s;
+              break;
+            }
+            case 74: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              mapsApiKey_ = s;
               break;
             }
           }
@@ -6889,7 +6902,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         systemDate_ = s;
@@ -6903,7 +6916,7 @@ public final class AnomalyOperationProtos {
         getSystemDateBytes() {
       java.lang.Object ref = systemDate_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         systemDate_ = b;
@@ -6950,10 +6963,6 @@ public final class AnomalyOperationProtos {
     public static final int PORT_FIELD_NUMBER = 7;
     private int port_;
     /**
-     * <pre>
-     * bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
-     * </pre>
-     *
      * <code>optional int32 port = 7;</code>
      */
     public int getPort() {
@@ -6964,7 +6973,7 @@ public final class AnomalyOperationProtos {
     private volatile java.lang.Object routes_;
     /**
      * <pre>
-     * caly routes.json tutaj przesylamy
+     * whole routes.json is
      * </pre>
      *
      * <code>optional string routes = 8;</code>
@@ -6974,7 +6983,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         routes_ = s;
@@ -6983,7 +6992,7 @@ public final class AnomalyOperationProtos {
     }
     /**
      * <pre>
-     * caly routes.json tutaj przesylamy
+     * whole routes.json is
      * </pre>
      *
      * <code>optional string routes = 8;</code>
@@ -6992,10 +7001,44 @@ public final class AnomalyOperationProtos {
         getRoutesBytes() {
       java.lang.Object ref = routes_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         routes_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int MAPSAPIKEY_FIELD_NUMBER = 9;
+    private volatile java.lang.Object mapsApiKey_;
+    /**
+     * <code>optional string mapsApiKey = 9;</code>
+     */
+    public java.lang.String getMapsApiKey() {
+      java.lang.Object ref = mapsApiKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        mapsApiKey_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string mapsApiKey = 9;</code>
+     */
+    public com.google.protobuf.ByteString
+        getMapsApiKeyBytes() {
+      java.lang.Object ref = mapsApiKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b =
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        mapsApiKey_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -7038,6 +7081,9 @@ public final class AnomalyOperationProtos {
       if (!getRoutesBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 8, routes_);
       }
+      if (!getMapsApiKeyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, mapsApiKey_);
+      }
     }
 
     public int getSerializedSize() {
@@ -7075,6 +7121,9 @@ public final class AnomalyOperationProtos {
       if (!getRoutesBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, routes_);
       }
+      if (!getMapsApiKeyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, mapsApiKey_);
+      }
       memoizedSize = size;
       return size;
     }
@@ -7108,6 +7157,8 @@ public final class AnomalyOperationProtos {
           == other.getPort());
       result = result && getRoutes()
           .equals(other.getRoutes());
+      result = result && getMapsApiKey()
+          .equals(other.getMapsApiKey());
       return result;
     }
 
@@ -7135,6 +7186,8 @@ public final class AnomalyOperationProtos {
       hash = (53 * hash) + getPort();
       hash = (37 * hash) + ROUTES_FIELD_NUMBER;
       hash = (53 * hash) + getRoutes().hashCode();
+      hash = (37 * hash) + MAPSAPIKEY_FIELD_NUMBER;
+      hash = (53 * hash) + getMapsApiKey().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7269,6 +7322,8 @@ public final class AnomalyOperationProtos {
 
         routes_ = "";
 
+        mapsApiKey_ = "";
+
         return this;
       }
 
@@ -7299,6 +7354,7 @@ public final class AnomalyOperationProtos {
         result.shift_ = shift_;
         result.port_ = port_;
         result.routes_ = routes_;
+        result.mapsApiKey_ = mapsApiKey_;
         onBuilt();
         return result;
       }
@@ -7366,6 +7422,10 @@ public final class AnomalyOperationProtos {
           routes_ = other.routes_;
           onChanged();
         }
+        if (!other.getMapsApiKey().isEmpty()) {
+          mapsApiKey_ = other.mapsApiKey_;
+          onChanged();
+        }
         onChanged();
         return this;
       }
@@ -7403,7 +7463,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 messageIdx = 1;</code>
        */
       public Builder setMessageIdx(int value) {
-        
+
         messageIdx_ = value;
         onChanged();
         return this;
@@ -7412,7 +7472,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 messageIdx = 1;</code>
        */
       public Builder clearMessageIdx() {
-        
+
         messageIdx_ = 0;
         onChanged();
         return this;
@@ -7429,7 +7489,7 @@ public final class AnomalyOperationProtos {
        * <code>optional double leverValue = 2;</code>
        */
       public Builder setLeverValue(double value) {
-        
+
         leverValue_ = value;
         onChanged();
         return this;
@@ -7438,7 +7498,7 @@ public final class AnomalyOperationProtos {
        * <code>optional double leverValue = 2;</code>
        */
       public Builder clearLeverValue() {
-        
+
         leverValue_ = 0D;
         onChanged();
         return this;
@@ -7467,7 +7527,7 @@ public final class AnomalyOperationProtos {
           getSystemDateBytes() {
         java.lang.Object ref = systemDate_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           systemDate_ = b;
@@ -7484,7 +7544,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         systemDate_ = value;
         onChanged();
         return this;
@@ -7493,7 +7553,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string systemDate = 3;</code>
        */
       public Builder clearSystemDate() {
-        
+
         systemDate_ = getDefaultInstance().getSystemDate();
         onChanged();
         return this;
@@ -7507,7 +7567,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         systemDate_ = value;
         onChanged();
         return this;
@@ -7524,7 +7584,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 anomalyLifeTime = 4;</code>
        */
       public Builder setAnomalyLifeTime(int value) {
-        
+
         anomalyLifeTime_ = value;
         onChanged();
         return this;
@@ -7533,7 +7593,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 anomalyLifeTime = 4;</code>
        */
       public Builder clearAnomalyLifeTime() {
-        
+
         anomalyLifeTime_ = 0;
         onChanged();
         return this;
@@ -7550,7 +7610,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 baselineWindowSize = 5;</code>
        */
       public Builder setBaselineWindowSize(int value) {
-        
+
         baselineWindowSize_ = value;
         onChanged();
         return this;
@@ -7559,7 +7619,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 baselineWindowSize = 5;</code>
        */
       public Builder clearBaselineWindowSize() {
-        
+
         baselineWindowSize_ = 0;
         onChanged();
         return this;
@@ -7594,7 +7654,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+
         shift_ = value.getNumber();
         onChanged();
         return this;
@@ -7603,7 +7663,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .SystemGeneralMessage.Shift shift = 6;</code>
        */
       public Builder clearShift() {
-        
+
         shift_ = 0;
         onChanged();
         return this;
@@ -7611,37 +7671,25 @@ public final class AnomalyOperationProtos {
 
       private int port_ ;
       /**
-       * <pre>
-       * bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
-       * </pre>
-       *
        * <code>optional int32 port = 7;</code>
        */
       public int getPort() {
         return port_;
       }
       /**
-       * <pre>
-       * bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
-       * </pre>
-       *
        * <code>optional int32 port = 7;</code>
        */
       public Builder setPort(int value) {
-        
+
         port_ = value;
         onChanged();
         return this;
       }
       /**
-       * <pre>
-       * bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
-       * </pre>
-       *
        * <code>optional int32 port = 7;</code>
        */
       public Builder clearPort() {
-        
+
         port_ = 0;
         onChanged();
         return this;
@@ -7650,7 +7698,7 @@ public final class AnomalyOperationProtos {
       private java.lang.Object routes_ = "";
       /**
        * <pre>
-       * caly routes.json tutaj przesylamy
+       * whole routes.json is
        * </pre>
        *
        * <code>optional string routes = 8;</code>
@@ -7669,7 +7717,7 @@ public final class AnomalyOperationProtos {
       }
       /**
        * <pre>
-       * caly routes.json tutaj przesylamy
+       * whole routes.json is
        * </pre>
        *
        * <code>optional string routes = 8;</code>
@@ -7678,7 +7726,7 @@ public final class AnomalyOperationProtos {
           getRoutesBytes() {
         java.lang.Object ref = routes_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           routes_ = b;
@@ -7689,7 +7737,7 @@ public final class AnomalyOperationProtos {
       }
       /**
        * <pre>
-       * caly routes.json tutaj przesylamy
+       * whole routes.json is
        * </pre>
        *
        * <code>optional string routes = 8;</code>
@@ -7699,27 +7747,27 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         routes_ = value;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * caly routes.json tutaj przesylamy
+       * whole routes.json is
        * </pre>
        *
        * <code>optional string routes = 8;</code>
        */
       public Builder clearRoutes() {
-        
+
         routes_ = getDefaultInstance().getRoutes();
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * caly routes.json tutaj przesylamy
+       * whole routes.json is
        * </pre>
        *
        * <code>optional string routes = 8;</code>
@@ -7730,8 +7778,77 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         routes_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object mapsApiKey_ = "";
+      /**
+       * <code>optional string mapsApiKey = 9;</code>
+       */
+      public java.lang.String getMapsApiKey() {
+        java.lang.Object ref = mapsApiKey_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          mapsApiKey_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string mapsApiKey = 9;</code>
+       */
+      public com.google.protobuf.ByteString
+          getMapsApiKeyBytes() {
+        java.lang.Object ref = mapsApiKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b =
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          mapsApiKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string mapsApiKey = 9;</code>
+       */
+      public Builder setMapsApiKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+
+        mapsApiKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string mapsApiKey = 9;</code>
+       */
+      public Builder clearMapsApiKey() {
+
+        mapsApiKey_ = getDefaultInstance().getMapsApiKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string mapsApiKey = 9;</code>
+       */
+      public Builder setMapsApiKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+
+        mapsApiKey_ = value;
         onChanged();
         return this;
       }
@@ -7948,7 +8065,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         origin_ = s;
@@ -7962,7 +8079,7 @@ public final class AnomalyOperationProtos {
         getOriginBytes() {
       java.lang.Object ref = origin_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         origin_ = b;
@@ -7982,7 +8099,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         destination_ = s;
@@ -7996,7 +8113,7 @@ public final class AnomalyOperationProtos {
         getDestinationBytes() {
       java.lang.Object ref = destination_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         destination_ = b;
@@ -8016,7 +8133,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         coords_ = s;
@@ -8030,7 +8147,7 @@ public final class AnomalyOperationProtos {
         getCoordsBytes() {
       java.lang.Object ref = coords_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         coords_ = b;
@@ -8050,7 +8167,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         name_ = s;
@@ -8064,7 +8181,7 @@ public final class AnomalyOperationProtos {
         getNameBytes() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         name_ = b;
@@ -8422,7 +8539,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeID = 1;</code>
        */
       public Builder setRouteID(int value) {
-        
+
         routeID_ = value;
         onChanged();
         return this;
@@ -8431,7 +8548,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeID = 1;</code>
        */
       public Builder clearRouteID() {
-        
+
         routeID_ = 0;
         onChanged();
         return this;
@@ -8460,7 +8577,7 @@ public final class AnomalyOperationProtos {
           getOriginBytes() {
         java.lang.Object ref = origin_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           origin_ = b;
@@ -8477,7 +8594,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         origin_ = value;
         onChanged();
         return this;
@@ -8486,7 +8603,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string origin = 2;</code>
        */
       public Builder clearOrigin() {
-        
+
         origin_ = getDefaultInstance().getOrigin();
         onChanged();
         return this;
@@ -8500,7 +8617,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         origin_ = value;
         onChanged();
         return this;
@@ -8529,7 +8646,7 @@ public final class AnomalyOperationProtos {
           getDestinationBytes() {
         java.lang.Object ref = destination_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           destination_ = b;
@@ -8546,7 +8663,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         destination_ = value;
         onChanged();
         return this;
@@ -8555,7 +8672,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string destination = 3;</code>
        */
       public Builder clearDestination() {
-        
+
         destination_ = getDefaultInstance().getDestination();
         onChanged();
         return this;
@@ -8569,7 +8686,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         destination_ = value;
         onChanged();
         return this;
@@ -8598,7 +8715,7 @@ public final class AnomalyOperationProtos {
           getCoordsBytes() {
         java.lang.Object ref = coords_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           coords_ = b;
@@ -8615,7 +8732,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         coords_ = value;
         onChanged();
         return this;
@@ -8624,7 +8741,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string coords = 4;</code>
        */
       public Builder clearCoords() {
-        
+
         coords_ = getDefaultInstance().getCoords();
         onChanged();
         return this;
@@ -8638,7 +8755,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         coords_ = value;
         onChanged();
         return this;
@@ -8667,7 +8784,7 @@ public final class AnomalyOperationProtos {
           getNameBytes() {
         java.lang.Object ref = name_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           name_ = b;
@@ -8684,7 +8801,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         name_ = value;
         onChanged();
         return this;
@@ -8693,7 +8810,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string name = 5;</code>
        */
       public Builder clearName() {
-        
+
         name_ = getDefaultInstance().getName();
         onChanged();
         return this;
@@ -8707,7 +8824,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         name_ = value;
         onChanged();
         return this;
@@ -8874,7 +8991,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         leverUpdateDate_ = s;
@@ -8888,7 +9005,7 @@ public final class AnomalyOperationProtos {
         getLeverUpdateDateBytes() {
       java.lang.Object ref = leverUpdateDate_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         leverUpdateDate_ = b;
@@ -9198,7 +9315,7 @@ public final class AnomalyOperationProtos {
        * <code>optional double leverValue = 1;</code>
        */
       public Builder setLeverValue(double value) {
-        
+
         leverValue_ = value;
         onChanged();
         return this;
@@ -9207,7 +9324,7 @@ public final class AnomalyOperationProtos {
        * <code>optional double leverValue = 1;</code>
        */
       public Builder clearLeverValue() {
-        
+
         leverValue_ = 0D;
         onChanged();
         return this;
@@ -9236,7 +9353,7 @@ public final class AnomalyOperationProtos {
           getLeverUpdateDateBytes() {
         java.lang.Object ref = leverUpdateDate_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           leverUpdateDate_ = b;
@@ -9253,7 +9370,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         leverUpdateDate_ = value;
         onChanged();
         return this;
@@ -9262,7 +9379,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string leverUpdateDate = 2;</code>
        */
       public Builder clearLeverUpdateDate() {
-        
+
         leverUpdateDate_ = getDefaultInstance().getLeverUpdateDate();
         onChanged();
         return this;
@@ -9276,7 +9393,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         leverUpdateDate_ = value;
         onChanged();
         return this;
@@ -9701,7 +9818,7 @@ public final class AnomalyOperationProtos {
           java.lang.Integer, java.lang.Integer> defaultEntry =
               com.google.protobuf.MapEntry
               .<java.lang.Integer, java.lang.Integer>newDefaultInstance(
-                  pl.edu.agh.pp.operations.AnomalyOperationProtos.internal_static_BaselineMessage_BaselineEntry_descriptor, 
+                  pl.edu.agh.pp.operations.AnomalyOperationProtos.internal_static_BaselineMessage_BaselineEntry_descriptor,
                   com.google.protobuf.WireFormat.FieldType.INT32,
                   0,
                   com.google.protobuf.WireFormat.FieldType.INT32,
@@ -9731,7 +9848,7 @@ public final class AnomalyOperationProtos {
 
     public boolean containsBaseline(
         int key) {
-      
+
       return internalGetBaseline().getMap().containsKey(key);
     }
     /**
@@ -9763,7 +9880,7 @@ public final class AnomalyOperationProtos {
     public int getBaselineOrDefault(
         int key,
         int defaultValue) {
-      
+
       java.util.Map<java.lang.Integer, java.lang.Integer> map =
           internalGetBaseline().getMap();
       return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -9778,7 +9895,7 @@ public final class AnomalyOperationProtos {
 
     public int getBaselineOrThrow(
         int key) {
-      
+
       java.util.Map<java.lang.Integer, java.lang.Integer> map =
           internalGetBaseline().getMap();
       if (!map.containsKey(key)) {
@@ -9797,7 +9914,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         baselineType_ = s;
@@ -9811,7 +9928,7 @@ public final class AnomalyOperationProtos {
         getBaselineTypeBytes() {
       java.lang.Object ref = baselineType_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         baselineType_ = b;
@@ -10190,7 +10307,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeIdx = 1;</code>
        */
       public Builder setRouteIdx(int value) {
-        
+
         routeIdx_ = value;
         onChanged();
         return this;
@@ -10199,7 +10316,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeIdx = 1;</code>
        */
       public Builder clearRouteIdx() {
-        
+
         routeIdx_ = 0;
         onChanged();
         return this;
@@ -10234,7 +10351,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+
         day_ = value.getNumber();
         onChanged();
         return this;
@@ -10243,7 +10360,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .BaselineMessage.Day day = 2;</code>
        */
       public Builder clearDay() {
-        
+
         day_ = 0;
         onChanged();
         return this;
@@ -10285,7 +10402,7 @@ public final class AnomalyOperationProtos {
 
       public boolean containsBaseline(
           int key) {
-        
+
         return internalGetBaseline().getMap().containsKey(key);
       }
       /**
@@ -10317,7 +10434,7 @@ public final class AnomalyOperationProtos {
       public int getBaselineOrDefault(
           int key,
           int defaultValue) {
-        
+
         java.util.Map<java.lang.Integer, java.lang.Integer> map =
             internalGetBaseline().getMap();
         return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -10332,7 +10449,7 @@ public final class AnomalyOperationProtos {
 
       public int getBaselineOrThrow(
           int key) {
-        
+
         java.util.Map<java.lang.Integer, java.lang.Integer> map =
             internalGetBaseline().getMap();
         if (!map.containsKey(key)) {
@@ -10355,7 +10472,7 @@ public final class AnomalyOperationProtos {
 
       public Builder removeBaseline(
           int key) {
-        
+
         getMutableBaseline().remove(key);
         return this;
       }
@@ -10377,8 +10494,8 @@ public final class AnomalyOperationProtos {
       public Builder putBaseline(
           int key,
           int value) {
-        
-        
+
+
         getMutableBaseline().put(key, value);
         return this;
       }
@@ -10419,7 +10536,7 @@ public final class AnomalyOperationProtos {
           getBaselineTypeBytes() {
         java.lang.Object ref = baselineType_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           baselineType_ = b;
@@ -10436,7 +10553,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         baselineType_ = value;
         onChanged();
         return this;
@@ -10445,7 +10562,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string baselineType = 4;</code>
        */
       public Builder clearBaselineType() {
-        
+
         baselineType_ = getDefaultInstance().getBaselineType();
         onChanged();
         return this;
@@ -10459,7 +10576,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         baselineType_ = value;
         onChanged();
         return this;
@@ -10810,7 +10927,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         baselineType_ = s;
@@ -10824,7 +10941,7 @@ public final class AnomalyOperationProtos {
         getBaselineTypeBytes() {
       java.lang.Object ref = baselineType_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         baselineType_ = b;
@@ -11147,7 +11264,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeIdx = 1;</code>
        */
       public Builder setRouteIdx(int value) {
-        
+
         routeIdx_ = value;
         onChanged();
         return this;
@@ -11156,7 +11273,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeIdx = 1;</code>
        */
       public Builder clearRouteIdx() {
-        
+
         routeIdx_ = 0;
         onChanged();
         return this;
@@ -11191,7 +11308,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+
         day_ = value.getNumber();
         onChanged();
         return this;
@@ -11200,7 +11317,7 @@ public final class AnomalyOperationProtos {
        * <code>optional .DemandBaselineMessage.Day day = 2;</code>
        */
       public Builder clearDay() {
-        
+
         day_ = 0;
         onChanged();
         return this;
@@ -11229,7 +11346,7 @@ public final class AnomalyOperationProtos {
           getBaselineTypeBytes() {
         java.lang.Object ref = baselineType_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           baselineType_ = b;
@@ -11246,7 +11363,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         baselineType_ = value;
         onChanged();
         return this;
@@ -11255,7 +11372,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string baselineType = 3;</code>
        */
       public Builder clearBaselineType() {
-        
+
         baselineType_ = getDefaultInstance().getBaselineType();
         onChanged();
         return this;
@@ -11269,7 +11386,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         baselineType_ = value;
         onChanged();
         return this;
@@ -11825,7 +11942,7 @@ public final class AnomalyOperationProtos {
           java.lang.Integer, java.lang.Integer> defaultEntry =
               com.google.protobuf.MapEntry
               .<java.lang.Integer, java.lang.Integer>newDefaultInstance(
-                  pl.edu.agh.pp.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_RoutesEntry_descriptor, 
+                  pl.edu.agh.pp.operations.AnomalyOperationProtos.internal_static_AvailableRoutes_RoutesEntry_descriptor,
                   com.google.protobuf.WireFormat.FieldType.INT32,
                   0,
                   com.google.protobuf.WireFormat.FieldType.INT32,
@@ -11851,7 +11968,7 @@ public final class AnomalyOperationProtos {
 
     public boolean containsRoutes(
         int key) {
-      
+
       return internalGetRoutes().getMap().containsKey(key);
     }
     /**
@@ -11875,7 +11992,7 @@ public final class AnomalyOperationProtos {
     public int getRoutesOrDefault(
         int key,
         int defaultValue) {
-      
+
       java.util.Map<java.lang.Integer, java.lang.Integer> map =
           internalGetRoutes().getMap();
       return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -11886,7 +12003,7 @@ public final class AnomalyOperationProtos {
 
     public int getRoutesOrThrow(
         int key) {
-      
+
       java.util.Map<java.lang.Integer, java.lang.Integer> map =
           internalGetRoutes().getMap();
       if (!map.containsKey(key)) {
@@ -12233,7 +12350,7 @@ public final class AnomalyOperationProtos {
 
       public boolean containsRoutes(
           int key) {
-        
+
         return internalGetRoutes().getMap().containsKey(key);
       }
       /**
@@ -12257,7 +12374,7 @@ public final class AnomalyOperationProtos {
       public int getRoutesOrDefault(
           int key,
           int defaultValue) {
-        
+
         java.util.Map<java.lang.Integer, java.lang.Integer> map =
             internalGetRoutes().getMap();
         return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -12268,7 +12385,7 @@ public final class AnomalyOperationProtos {
 
       public int getRoutesOrThrow(
           int key) {
-        
+
         java.util.Map<java.lang.Integer, java.lang.Integer> map =
             internalGetRoutes().getMap();
         if (!map.containsKey(key)) {
@@ -12287,7 +12404,7 @@ public final class AnomalyOperationProtos {
 
       public Builder removeRoutes(
           int key) {
-        
+
         getMutableRoutes().remove(key);
         return this;
       }
@@ -12305,8 +12422,8 @@ public final class AnomalyOperationProtos {
       public Builder putRoutes(
           int key,
           int value) {
-        
-        
+
+
         getMutableRoutes().put(key, value);
         return this;
       }
@@ -12527,7 +12644,7 @@ public final class AnomalyOperationProtos {
           java.lang.String, pl.edu.agh.pp.operations.AnomalyOperationProtos.AvailableRoutes> defaultEntry =
               com.google.protobuf.MapEntry
               .<java.lang.String, pl.edu.agh.pp.operations.AnomalyOperationProtos.AvailableRoutes>newDefaultInstance(
-                  pl.edu.agh.pp.operations.AnomalyOperationProtos.internal_static_AvailableHistoricalMessage_AvaiableDateRoutesEntry_descriptor, 
+                  pl.edu.agh.pp.operations.AnomalyOperationProtos.internal_static_AvailableHistoricalMessage_AvaiableDateRoutesEntry_descriptor,
                   com.google.protobuf.WireFormat.FieldType.STRING,
                   "",
                   com.google.protobuf.WireFormat.FieldType.MESSAGE,
@@ -13249,7 +13366,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         date_ = s;
@@ -13263,7 +13380,7 @@ public final class AnomalyOperationProtos {
         getDateBytes() {
       java.lang.Object ref = date_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         date_ = b;
@@ -13570,7 +13687,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeID = 1;</code>
        */
       public Builder setRouteID(int value) {
-        
+
         routeID_ = value;
         onChanged();
         return this;
@@ -13579,7 +13696,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeID = 1;</code>
        */
       public Builder clearRouteID() {
-        
+
         routeID_ = 0;
         onChanged();
         return this;
@@ -13608,7 +13725,7 @@ public final class AnomalyOperationProtos {
           getDateBytes() {
         java.lang.Object ref = date_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           date_ = b;
@@ -13625,7 +13742,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         date_ = value;
         onChanged();
         return this;
@@ -13634,7 +13751,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string date = 2;</code>
        */
       public Builder clearDate() {
-        
+
         date_ = getDefaultInstance().getDate();
         onChanged();
         return this;
@@ -13648,7 +13765,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         date_ = value;
         onChanged();
         return this;
@@ -13873,7 +13990,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         date_ = s;
@@ -13887,7 +14004,7 @@ public final class AnomalyOperationProtos {
         getDateBytes() {
       java.lang.Object ref = date_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         date_ = b;
@@ -13903,7 +14020,7 @@ public final class AnomalyOperationProtos {
           java.lang.Integer, java.lang.Integer> defaultEntry =
               com.google.protobuf.MapEntry
               .<java.lang.Integer, java.lang.Integer>newDefaultInstance(
-                  pl.edu.agh.pp.operations.AnomalyOperationProtos.internal_static_HistoricalMessage_MeasuresEntry_descriptor, 
+                  pl.edu.agh.pp.operations.AnomalyOperationProtos.internal_static_HistoricalMessage_MeasuresEntry_descriptor,
                   com.google.protobuf.WireFormat.FieldType.INT32,
                   0,
                   com.google.protobuf.WireFormat.FieldType.INT32,
@@ -13929,7 +14046,7 @@ public final class AnomalyOperationProtos {
 
     public boolean containsMeasures(
         int key) {
-      
+
       return internalGetMeasures().getMap().containsKey(key);
     }
     /**
@@ -13953,7 +14070,7 @@ public final class AnomalyOperationProtos {
     public int getMeasuresOrDefault(
         int key,
         int defaultValue) {
-      
+
       java.util.Map<java.lang.Integer, java.lang.Integer> map =
           internalGetMeasures().getMap();
       return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -13964,7 +14081,7 @@ public final class AnomalyOperationProtos {
 
     public int getMeasuresOrThrow(
         int key) {
-      
+
       java.util.Map<java.lang.Integer, java.lang.Integer> map =
           internalGetMeasures().getMap();
       if (!map.containsKey(key)) {
@@ -14326,7 +14443,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeID = 1;</code>
        */
       public Builder setRouteID(int value) {
-        
+
         routeID_ = value;
         onChanged();
         return this;
@@ -14335,7 +14452,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeID = 1;</code>
        */
       public Builder clearRouteID() {
-        
+
         routeID_ = 0;
         onChanged();
         return this;
@@ -14364,7 +14481,7 @@ public final class AnomalyOperationProtos {
           getDateBytes() {
         java.lang.Object ref = date_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           date_ = b;
@@ -14381,7 +14498,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         date_ = value;
         onChanged();
         return this;
@@ -14390,7 +14507,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string date = 2;</code>
        */
       public Builder clearDate() {
-        
+
         date_ = getDefaultInstance().getDate();
         onChanged();
         return this;
@@ -14404,7 +14521,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         date_ = value;
         onChanged();
         return this;
@@ -14442,7 +14559,7 @@ public final class AnomalyOperationProtos {
 
       public boolean containsMeasures(
           int key) {
-        
+
         return internalGetMeasures().getMap().containsKey(key);
       }
       /**
@@ -14466,7 +14583,7 @@ public final class AnomalyOperationProtos {
       public int getMeasuresOrDefault(
           int key,
           int defaultValue) {
-        
+
         java.util.Map<java.lang.Integer, java.lang.Integer> map =
             internalGetMeasures().getMap();
         return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -14477,7 +14594,7 @@ public final class AnomalyOperationProtos {
 
       public int getMeasuresOrThrow(
           int key) {
-        
+
         java.util.Map<java.lang.Integer, java.lang.Integer> map =
             internalGetMeasures().getMap();
         if (!map.containsKey(key)) {
@@ -14496,7 +14613,7 @@ public final class AnomalyOperationProtos {
 
       public Builder removeMeasures(
           int key) {
-        
+
         getMutableMeasures().remove(key);
         return this;
       }
@@ -14514,8 +14631,8 @@ public final class AnomalyOperationProtos {
       public Builder putMeasures(
           int key,
           int value) {
-        
-        
+
+
         getMutableMeasures().put(key, value);
         return this;
       }
@@ -14706,7 +14823,7 @@ public final class AnomalyOperationProtos {
           java.lang.Integer, java.lang.Integer> defaultEntry =
               com.google.protobuf.MapEntry
               .<java.lang.Integer, java.lang.Integer>newDefaultInstance(
-                  pl.edu.agh.pp.operations.AnomalyOperationProtos.internal_static_HistoricalAnomalyPresenceMessage_PresenceEntry_descriptor, 
+                  pl.edu.agh.pp.operations.AnomalyOperationProtos.internal_static_HistoricalAnomalyPresenceMessage_PresenceEntry_descriptor,
                   com.google.protobuf.WireFormat.FieldType.INT32,
                   0,
                   com.google.protobuf.WireFormat.FieldType.INT32,
@@ -14732,7 +14849,7 @@ public final class AnomalyOperationProtos {
 
     public boolean containsPresence(
         int key) {
-      
+
       return internalGetPresence().getMap().containsKey(key);
     }
     /**
@@ -14756,7 +14873,7 @@ public final class AnomalyOperationProtos {
     public int getPresenceOrDefault(
         int key,
         int defaultValue) {
-      
+
       java.util.Map<java.lang.Integer, java.lang.Integer> map =
           internalGetPresence().getMap();
       return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -14767,7 +14884,7 @@ public final class AnomalyOperationProtos {
 
     public int getPresenceOrThrow(
         int key) {
-      
+
       java.util.Map<java.lang.Integer, java.lang.Integer> map =
           internalGetPresence().getMap();
       if (!map.containsKey(key)) {
@@ -15114,7 +15231,7 @@ public final class AnomalyOperationProtos {
 
       public boolean containsPresence(
           int key) {
-        
+
         return internalGetPresence().getMap().containsKey(key);
       }
       /**
@@ -15138,7 +15255,7 @@ public final class AnomalyOperationProtos {
       public int getPresenceOrDefault(
           int key,
           int defaultValue) {
-        
+
         java.util.Map<java.lang.Integer, java.lang.Integer> map =
             internalGetPresence().getMap();
         return map.containsKey(key) ? map.get(key) : defaultValue;
@@ -15149,7 +15266,7 @@ public final class AnomalyOperationProtos {
 
       public int getPresenceOrThrow(
           int key) {
-        
+
         java.util.Map<java.lang.Integer, java.lang.Integer> map =
             internalGetPresence().getMap();
         if (!map.containsKey(key)) {
@@ -15168,7 +15285,7 @@ public final class AnomalyOperationProtos {
 
       public Builder removePresence(
           int key) {
-        
+
         getMutablePresence().remove(key);
         return this;
       }
@@ -15186,8 +15303,8 @@ public final class AnomalyOperationProtos {
       public Builder putPresence(
           int key,
           int value) {
-        
-        
+
+
         getMutablePresence().put(key, value);
         return this;
       }
@@ -15362,7 +15479,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         date_ = s;
@@ -15376,7 +15493,7 @@ public final class AnomalyOperationProtos {
         getDateBytes() {
       java.lang.Object ref = date_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         date_ = b;
@@ -15683,7 +15800,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeID = 1;</code>
        */
       public Builder setRouteID(int value) {
-        
+
         routeID_ = value;
         onChanged();
         return this;
@@ -15692,7 +15809,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeID = 1;</code>
        */
       public Builder clearRouteID() {
-        
+
         routeID_ = 0;
         onChanged();
         return this;
@@ -15721,7 +15838,7 @@ public final class AnomalyOperationProtos {
           getDateBytes() {
         java.lang.Object ref = date_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           date_ = b;
@@ -15738,7 +15855,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         date_ = value;
         onChanged();
         return this;
@@ -15747,7 +15864,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string date = 2;</code>
        */
       public Builder clearDate() {
-        
+
         date_ = getDefaultInstance().getDate();
         onChanged();
         return this;
@@ -15761,7 +15878,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         date_ = value;
         onChanged();
         return this;
@@ -15986,7 +16103,7 @@ public final class AnomalyOperationProtos {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         date_ = s;
@@ -16000,7 +16117,7 @@ public final class AnomalyOperationProtos {
         getDateBytes() {
       java.lang.Object ref = date_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         date_ = b;
@@ -16016,7 +16133,7 @@ public final class AnomalyOperationProtos {
           java.lang.String, pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage> defaultEntry =
               com.google.protobuf.MapEntry
               .<java.lang.String, pl.edu.agh.pp.operations.AnomalyOperationProtos.HistoricalAnomalyPresenceMessage>newDefaultInstance(
-                  pl.edu.agh.pp.operations.AnomalyOperationProtos.internal_static_HistoricalAnomaliesMessage_AnomaliesEntry_descriptor, 
+                  pl.edu.agh.pp.operations.AnomalyOperationProtos.internal_static_HistoricalAnomaliesMessage_AnomaliesEntry_descriptor,
                   com.google.protobuf.WireFormat.FieldType.STRING,
                   "",
                   com.google.protobuf.WireFormat.FieldType.MESSAGE,
@@ -16439,7 +16556,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeID = 1;</code>
        */
       public Builder setRouteID(int value) {
-        
+
         routeID_ = value;
         onChanged();
         return this;
@@ -16448,7 +16565,7 @@ public final class AnomalyOperationProtos {
        * <code>optional int32 routeID = 1;</code>
        */
       public Builder clearRouteID() {
-        
+
         routeID_ = 0;
         onChanged();
         return this;
@@ -16477,7 +16594,7 @@ public final class AnomalyOperationProtos {
           getDateBytes() {
         java.lang.Object ref = date_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           date_ = b;
@@ -16494,7 +16611,7 @@ public final class AnomalyOperationProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         date_ = value;
         onChanged();
         return this;
@@ -16503,7 +16620,7 @@ public final class AnomalyOperationProtos {
        * <code>optional string date = 2;</code>
        */
       public Builder clearDate() {
-        
+
         date_ = getDefaultInstance().getDate();
         onChanged();
         return this;
@@ -16517,7 +16634,7 @@ public final class AnomalyOperationProtos {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         date_ = value;
         onChanged();
         return this;
@@ -16692,122 +16809,122 @@ public final class AnomalyOperationProtos {
 
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AnomalyAction_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_AnomalyAction_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AnomalyState_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_AnomalyState_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AnomalyMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_AnomalyMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ManagementMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_ManagementMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_BonjourMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_BonjourMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_SystemGeneralMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_SystemGeneralMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_RouteMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_RouteMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_LeverMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_LeverMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_BaselineMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_BaselineMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_BaselineMessage_BaselineEntry_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_BaselineMessage_BaselineEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_DemandBaselineMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_DemandBaselineMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_DemandAvailableHistoricalMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_DemandAvailableHistoricalMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AvailableRoutes_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_AvailableRoutes_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AvailableRoutes_RoutesEntry_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_AvailableRoutes_RoutesEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AvailableHistoricalMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_AvailableHistoricalMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AvailableHistoricalMessage_AvaiableDateRoutesEntry_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_AvailableHistoricalMessage_AvaiableDateRoutesEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_DemandHistoricalMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_DemandHistoricalMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_HistoricalMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_HistoricalMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_HistoricalMessage_MeasuresEntry_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_HistoricalMessage_MeasuresEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_HistoricalAnomalyPresenceMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_HistoricalAnomalyPresenceMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_HistoricalAnomalyPresenceMessage_PresenceEntry_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_HistoricalAnomalyPresenceMessage_PresenceEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_DemandHistoricalAnomaliesMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_DemandHistoricalAnomaliesMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_HistoricalAnomaliesMessage_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_HistoricalAnomaliesMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_HistoricalAnomaliesMessage_AnomaliesEntry_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_HistoricalAnomaliesMessage_AnomaliesEntry_fieldAccessorTable;
 
@@ -16856,57 +16973,57 @@ public final class AnomalyOperationProtos {
       "ORICALMESSAGE\020\t\022$\n DEMANDHISTORICALANOMA" +
       "LIESMESSAGE\020\n\022\036\n\032HISTORICALANOMALIESMESS" +
       "AGE\020\013\"?\n\016BonjourMessage\022\r\n\005token\030\001 \001(\005\022\014" +
-      "\n\004date\030\002 \001(\t\022\020\n\010userName\030\003 \001(\t\"\375\001\n\024Syste" +
+      "\n\004date\030\002 \001(\t\022\020\n\010userName\030\003 \001(\t\"\221\002\n\024Syste" +
       "mGeneralMessage\022\022\n\nmessageIdx\030\001 \001(\005\022\022\n\nl" +
       "everValue\030\002 \001(\001\022\022\n\nsystemDate\030\003 \001(\t\022\027\n\017a",
       "nomalyLifeTime\030\004 \001(\005\022\032\n\022baselineWindowSi" +
       "ze\030\005 \001(\005\022*\n\005shift\030\006 \001(\0162\033.SystemGeneralM" +
       "essage.Shift\022\014\n\004port\030\007 \001(\005\022\016\n\006routes\030\010 \001" +
-      "(\t\"*\n\005Shift\022\007\n\003DAY\020\000\022\t\n\005NIGHT\020\001\022\r\n\tUNIVE" +
-      "RSAL\020\002\"b\n\014RouteMessage\022\017\n\007routeID\030\001 \001(\005\022" +
-      "\016\n\006origin\030\002 \001(\t\022\023\n\013destination\030\003 \001(\t\022\016\n\006" +
-      "coords\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\";\n\014LeverMessa" +
-      "ge\022\022\n\nleverValue\030\001 \001(\001\022\027\n\017leverUpdateDat" +
-      "e\030\002 \001(\t\"\257\002\n\017BaselineMessage\022\020\n\010routeIdx\030" +
-      "\001 \001(\005\022!\n\003day\030\002 \001(\0162\024.BaselineMessage.Day",
-      "\0220\n\010baseline\030\003 \003(\0132\036.BaselineMessage.Bas" +
-      "elineEntry\022\024\n\014baselineType\030\004 \001(\t\032/\n\rBase" +
-      "lineEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028" +
-      "\001\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY\020\001\022\013\n\007TUE" +
-      "SDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010THURSDAY\020\004\022\n\n\006F" +
-      "RIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY\020\007\"\330\001\n\025De" +
-      "mandBaselineMessage\022\020\n\010routeIdx\030\001 \001(\005\022\'\n" +
-      "\003day\030\002 \001(\0162\032.DemandBaselineMessage.Day\022\024" +
-      "\n\014baselineType\030\003 \001(\t\"n\n\003Day\022\013\n\007NULLDAY\020\000" +
-      "\022\n\n\006MONDAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003",
-      "\022\014\n\010THURSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006" +
-      "\022\n\n\006SUNDAY\020\007\"\"\n DemandAvailableHistorica" +
-      "lMessage\"n\n\017AvailableRoutes\022,\n\006routes\030\001 " +
-      "\003(\0132\034.AvailableRoutes.RoutesEntry\032-\n\013Rou" +
-      "tesEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001" +
-      "\"\272\001\n\032AvailableHistoricalMessage\022O\n\022avaia" +
-      "bleDateRoutes\030\001 \003(\01323.AvailableHistorica" +
-      "lMessage.AvaiableDateRoutesEntry\032K\n\027Avai" +
-      "ableDateRoutesEntry\022\013\n\003key\030\001 \001(\t\022\037\n\005valu" +
-      "e\030\002 \001(\0132\020.AvailableRoutes:\0028\001\"8\n\027DemandH",
-      "istoricalMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004dat" +
-      "e\030\002 \001(\t\"\227\001\n\021HistoricalMessage\022\017\n\007routeID" +
-      "\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\0222\n\010measures\030\003 \003(\0132 " +
-      ".HistoricalMessage.MeasuresEntry\032/\n\rMeas" +
-      "uresEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028" +
-      "\001\"\226\001\n HistoricalAnomalyPresenceMessage\022A" +
-      "\n\010presence\030\001 \003(\0132/.HistoricalAnomalyPres" +
-      "enceMessage.PresenceEntry\032/\n\rPresenceEnt" +
-      "ry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"A\n De" +
-      "mandHistoricalAnomaliesMessage\022\017\n\007routeI",
-      "D\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\317\001\n\032HistoricalAnom" +
-      "aliesMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 " +
-      "\001(\t\022=\n\tanomalies\030\003 \003(\0132*.HistoricalAnoma" +
-      "liesMessage.AnomaliesEntry\032S\n\016AnomaliesE" +
-      "ntry\022\013\n\003key\030\001 \001(\t\0220\n\005value\030\002 \001(\0132!.Histo" +
-      "ricalAnomalyPresenceMessage:\0028\001B2\n\030pl.ed" +
-      "u.agh.pp.operationsB\026AnomalyOperationPro" +
-      "tosb\006proto3"
+      "(\t\022\022\n\nmapsApiKey\030\t \001(\t\"*\n\005Shift\022\007\n\003DAY\020\000" +
+      "\022\t\n\005NIGHT\020\001\022\r\n\tUNIVERSAL\020\002\"b\n\014RouteMessa" +
+      "ge\022\017\n\007routeID\030\001 \001(\005\022\016\n\006origin\030\002 \001(\t\022\023\n\013d" +
+      "estination\030\003 \001(\t\022\016\n\006coords\030\004 \001(\t\022\014\n\004name" +
+      "\030\005 \001(\t\";\n\014LeverMessage\022\022\n\nleverValue\030\001 \001" +
+      "(\001\022\027\n\017leverUpdateDate\030\002 \001(\t\"\257\002\n\017Baseline" +
+      "Message\022\020\n\010routeIdx\030\001 \001(\005\022!\n\003day\030\002 \001(\0162\024",
+      ".BaselineMessage.Day\0220\n\010baseline\030\003 \003(\0132\036" +
+      ".BaselineMessage.BaselineEntry\022\024\n\014baseli" +
+      "neType\030\004 \001(\t\032/\n\rBaselineEntry\022\013\n\003key\030\001 \001" +
+      "(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"n\n\003Day\022\013\n\007NULLDAY\020" +
+      "\000\022\n\n\006MONDAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020" +
+      "\003\022\014\n\010THURSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020" +
+      "\006\022\n\n\006SUNDAY\020\007\"\330\001\n\025DemandBaselineMessage\022" +
+      "\020\n\010routeIdx\030\001 \001(\005\022\'\n\003day\030\002 \001(\0162\032.DemandB" +
+      "aselineMessage.Day\022\024\n\014baselineType\030\003 \001(\t" +
+      "\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY\020\001\022\013\n\007TUES",
+      "DAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010THURSDAY\020\004\022\n\n\006FR" +
+      "IDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY\020\007\"\"\n Dema" +
+      "ndAvailableHistoricalMessage\"n\n\017Availabl" +
+      "eRoutes\022,\n\006routes\030\001 \003(\0132\034.AvailableRoute" +
+      "s.RoutesEntry\032-\n\013RoutesEntry\022\013\n\003key\030\001 \001(" +
+      "\005\022\r\n\005value\030\002 \001(\005:\0028\001\"\272\001\n\032AvailableHistor" +
+      "icalMessage\022O\n\022avaiableDateRoutes\030\001 \003(\0132" +
+      "3.AvailableHistoricalMessage.AvaiableDat" +
+      "eRoutesEntry\032K\n\027AvaiableDateRoutesEntry\022" +
+      "\013\n\003key\030\001 \001(\t\022\037\n\005value\030\002 \001(\0132\020.AvailableR",
+      "outes:\0028\001\"8\n\027DemandHistoricalMessage\022\017\n\007" +
+      "routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\227\001\n\021Historic" +
+      "alMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t" +
+      "\0222\n\010measures\030\003 \003(\0132 .HistoricalMessage.M" +
+      "easuresEntry\032/\n\rMeasuresEntry\022\013\n\003key\030\001 \001" +
+      "(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"\226\001\n HistoricalAnom" +
+      "alyPresenceMessage\022A\n\010presence\030\001 \003(\0132/.H" +
+      "istoricalAnomalyPresenceMessage.Presence" +
+      "Entry\032/\n\rPresenceEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005v" +
+      "alue\030\002 \001(\005:\0028\001\"A\n DemandHistoricalAnomal",
+      "iesMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(" +
+      "\t\"\317\001\n\032HistoricalAnomaliesMessage\022\017\n\007rout" +
+      "eID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\022=\n\tanomalies\030\003 \003" +
+      "(\0132*.HistoricalAnomaliesMessage.Anomalie" +
+      "sEntry\032S\n\016AnomaliesEntry\022\013\n\003key\030\001 \001(\t\0220\n" +
+      "\005value\030\002 \001(\0132!.HistoricalAnomalyPresence" +
+      "Message:\0028\001B2\n\030pl.edu.agh.pp.operationsB" +
+      "\026AnomalyOperationProtosb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -16955,7 +17072,7 @@ public final class AnomalyOperationProtos {
     internal_static_SystemGeneralMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SystemGeneralMessage_descriptor,
-        new java.lang.String[] { "MessageIdx", "LeverValue", "SystemDate", "AnomalyLifeTime", "BaselineWindowSize", "Shift", "Port", "Routes", });
+        new java.lang.String[] { "MessageIdx", "LeverValue", "SystemDate", "AnomalyLifeTime", "BaselineWindowSize", "Shift", "Port", "Routes", "MapsApiKey", });
     internal_static_RouteMessage_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_RouteMessage_fieldAccessorTable = new

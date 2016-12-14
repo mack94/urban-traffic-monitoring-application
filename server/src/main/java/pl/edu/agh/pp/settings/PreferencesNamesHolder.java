@@ -12,7 +12,8 @@ public class PreferencesNamesHolder
     public static String ANOMALY_LIFE_TIME = "AnomalyLifeTime";
     public static String BASELINE_WINDOW_SIZE = "BaselineWindowSize";
     public static String LEVER_VALUE = "LeverValue";
-    public static String API_KEY = "ApiKey";
+    public static String DETECTOR_API_KEY = "DetectorApiKey";
+    public static String MAPS_API_KEY = "MapsApiKey";
     public static String ANOMALY_REPEATER_INTERVAL = "AnomalyRepeaterInterval";
     public static String ANOMALY_EXPIRATION_INTERVAL = "AnomalyExpirationInterval";
     public static String ANOMALY_EXPIRATION_BROADCAST = "AnomalyExpirationBroadcast";

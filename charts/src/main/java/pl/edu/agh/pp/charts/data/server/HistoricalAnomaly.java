@@ -17,15 +17,17 @@ public class HistoricalAnomaly {
     String anomalyID = null;
     Map<Integer, Integer> duration = null;
     List<HistoricalAnomaly> anomalies = null;
-    HistoricalAnomaly(Integer routeID, DateTime date, Map<String,Map<Integer,Integer>> anomalies) {
+
+    HistoricalAnomaly(Integer routeID, DateTime date, Map<String, Map<Integer, Integer>> anomalies) {
         this.routeID = routeID;
         this.date = date;
         this.anomalies = new ArrayList<>();
-        for(String anomalyID: anomalies.keySet()){
-            this.anomalies.add(new HistoricalAnomaly(routeID,date,anomalyID,anomalies.get(anomalyID)));
+        for (String anomalyID : anomalies.keySet()) {
+            this.anomalies.add(new HistoricalAnomaly(routeID, date, anomalyID, anomalies.get(anomalyID)));
         }
     }
-    private HistoricalAnomaly(Integer routeID, DateTime date, String anomalyID,Map<Integer,Integer> duration) {
+
+    private HistoricalAnomaly(Integer routeID, DateTime date, String anomalyID, Map<Integer, Integer> duration) {
         this.routeID = routeID;
         this.date = date;
         this.anomalyID = anomalyID;
@@ -58,7 +60,7 @@ public class HistoricalAnomaly {
             historicalAnomalySeries.getData().add(data);
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        historicalAnomalySeries.setName("Anomaly: " +anomalyID);
+        historicalAnomalySeries.setName("Anomaly: " + anomalyID);
         return historicalAnomalySeries;
     }
 }

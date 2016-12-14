@@ -79,7 +79,7 @@ public class MapRoute {
         stringBuilder.append(",");
         stringBuilder.append(" \"" + routeId + "\"");
         stringBuilder.append(",");
-        stringBuilder.append(" \'" + "#" +Colors.getNextColor().toString().substring(2,8).toUpperCase()+"'");
+        stringBuilder.append(" \'" + "#" + Colors.getNextColor().toString().substring(2, 8).toUpperCase() + "'");
         stringBuilder.append(",");
         stringBuilder.append(" map");
         stringBuilder.append(");");

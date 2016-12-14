@@ -23,16 +23,14 @@ import java.util.Properties;
 public class Connector {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(Connector.class);
+    private final static AnomalyManager anomalyManager = AnomalyManager.getInstance();
     private static boolean isFromConnecting = false;
     private static String address;
     private static String port;
-
     private static MainWindowController mainWindowController;
     private static ChartsController chartsController;
     private static ChannelReceiver client;
     private static ManagementChannelReceiver managementClient;
-    private final static AnomalyManager anomalyManager = AnomalyManager.getInstance();
-
 
     public static void setMainWindowController(MainWindowController mwc) {
         mainWindowController = mwc;
@@ -227,10 +225,9 @@ public class Connector {
         }
     }
 
-    public static void setApiKey(String apiKey){
-        //TODO @Maciek use this
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("API_KEY",apiKey);
+    public static void setMapsApiKey(String apiKey) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("MAPS_API_KEY", apiKey);
         Options.getInstance().setPreferences(map);
     }
 }

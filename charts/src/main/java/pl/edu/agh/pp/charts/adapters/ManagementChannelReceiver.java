@@ -200,6 +200,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                     .SystemGeneralMessage.parseFrom(message.getSystemGeneralMessage().toByteArray());
             String routes = generalMessage.getRoutes();
             double leverValue = generalMessage.getLeverValue();
+            logger.info(generalMessage.getMapsApiKey()); // FIXME: CZEMU TU SIE NIC NIE WYPISUJE?!?!?! CO SIE STALO Z CHARTSAMI :/
+            logger.info("" + generalMessage.getLeverValue()); // FIXME: CZEMU TU SIE NIC NIE WYPISUJE?!?!?! CO SIE STALO Z CHARTSAMI :/
             ServerGeneralInfo.setSystemGeneralMessage(generalMessage);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();

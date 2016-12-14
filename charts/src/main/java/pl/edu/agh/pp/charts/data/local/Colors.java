@@ -21,7 +21,7 @@ public class Colors {
 
     public static Color getNextColor() {
         counter++;
-        if(counter >= KELLY_COLORS.length)
+        if (counter >= KELLY_COLORS.length)
             counter = 0;
         return KELLY_COLORS[counter];
     }

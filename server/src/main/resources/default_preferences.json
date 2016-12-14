@@ -31,9 +31,14 @@
       "value": "8080"
     },
     {
-      "name": "ApiKey",
+      "name": "DetectorApiKey",
       "type": "String",
-      "value": ""
+      "value": "DEFAULT_DETECTOR_API_KEY"
+    },
+    {
+      "name": "MapsApiKey",
+      "type": "String",
+      "value": "DEFAULT_MAPS_API_KEY"
     },
     {
       "name": "AnomalyRepeaterInterval",

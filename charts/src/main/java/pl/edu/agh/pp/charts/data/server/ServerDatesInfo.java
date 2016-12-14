@@ -8,10 +8,12 @@ import java.util.Map;
  */
 public class ServerDatesInfo {
     private static Map<String, List<Integer>> map = null;
-    public static Map<String, List<Integer>> getDates(){
+
+    public static Map<String, List<Integer>> getDates() {
         return map;
     }
-    public static void setMap( Map<String, List<Integer>> arg){
+
+    public static void setMap(Map<String, List<Integer>> arg) {
         map = arg;
     }
 }

@@ -114,6 +114,7 @@ public class ManagementServer extends Server {
         int anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
         int baselineWindowSize = BaselineWindowSizeInfoHelper.getInstance().getBaselineWindowSizeValue();
         double leverValue = LeverInfoHelper.getInstance().getLeverValue();
+        String mapsApiKey = ApisHelper.getInstance().getMapsApiKey();
         //int anomaliesChannelPort = (int) options.getPreference("AnomaliesChannelPort", Integer.class); // FIXME
         int messageID = 1; // FIXME
         AnomalyOperationProtos.SystemGeneralMessage.Shift shift = DayShiftInfoHelper.getInstance().getShiftProtos(); // FIXME
@@ -126,6 +127,7 @@ public class ManagementServer extends Server {
                 .setPort(8079)
                 .setRoutes("")
                 .setShift(shift)
+                .setMapsApiKey(mapsApiKey)
                 .build();
 
         AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()

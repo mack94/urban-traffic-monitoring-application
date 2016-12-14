@@ -25,6 +25,7 @@ public class ServerGeneralInfo {
     private static String routes;
     private static AnomalyOperationProtos.SystemGeneralMessage.Shift shift;
     private static String systemDate;
+    private static String mapsApiKey;
     //TODO: Check whether it's everything
 
     public static void setSystemGeneralMessage(AnomalyOperationProtos.SystemGeneralMessage systemGeneralMessage) {
@@ -35,7 +36,8 @@ public class ServerGeneralInfo {
         //setRoutes(systemGeneralMessage.getRoutes());
         setShift(systemGeneralMessage.getShift());
         setSystemDate(systemGeneralMessage.getSystemDate());
-        informControllerAboutChanges();
+        setMapsApiKey(systemGeneralMessage.getMapsApiKey());
+        informControllerAboutChanges(); // FIXME: redundant??? ~Maciek
     }
 
     public static void addRoute(AnomalyOperationProtos.RouteMessage routeMessage) {
@@ -137,6 +139,11 @@ public class ServerGeneralInfo {
         informControllerAboutChanges();
     }
 
+    public static void setMapsApiKey(String mapsApiKey) {
+        ServerGeneralInfo.mapsApiKey = mapsApiKey;
+        informConnectorAboutNewMapsApiKey();
+    }
+
     public static String getRoutesJSON() {
         String routesJSON = "";
         StringBuffer result = new StringBuffer("");
@@ -158,6 +165,11 @@ public class ServerGeneralInfo {
 
     private static void informControllerAboutChanges() {
         Connector.updateServerInfo(leverValue, anomalyLiveTime, baselineWindowSize, shift, port);
+    }
+
+    private static void informConnectorAboutNewMapsApiKey() {
+        Connector.setMapsApiKey(mapsApiKey);
+        System.out.println("INFORMED");
     }
 
 }

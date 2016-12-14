@@ -26,9 +26,9 @@
       "value": "true"
     },
     {
-      "name": "API_KEY",
+      "name": "MAPS_API_KEY",
       "type": "String",
-      "value": "AIzaSyCsYDVCEI0HyxmPmsSiIbBRVC033odkXGs"
+      "value": ""
     }
   ]
 }

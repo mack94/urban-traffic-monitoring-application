@@ -94,8 +94,9 @@ message SystemGeneralMessage {
     int32 anomalyLifeTime = 4;
     int32 baselineWindowSize = 5;
     Shift shift = 6;
-    int32 port = 7; // bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
-    string routes = 8; // caly routes.json tutaj przesylamy
+    int32 port = 7;
+    string routes = 8; // whole routes.json is 
+    string mapsApiKey = 9;
 
 }
 

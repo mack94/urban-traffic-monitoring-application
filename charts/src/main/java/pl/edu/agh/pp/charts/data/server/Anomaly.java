@@ -46,7 +46,7 @@ public class Anomaly {
         return duration;
     }
 
-    public String  getPreviousDuration() {
+    public String getPreviousDuration() {
         return previousDuration;
     }
 
@@ -88,14 +88,16 @@ public class Anomaly {
 
     public int getTrend() {
         int score = 0;
-        Map.Entry<String,String> currentEntry = percentHistory.lastEntry();
-        if(percentHistory.size()>1) {
-            Map.Entry<String,String> previousEntry = percentHistory.lowerEntry(currentEntry.getKey());
-            if(currentEntry.getValue().compareTo(previousEntry.getValue())>0) score += 2;
-            else if(currentEntry.getValue().compareTo(previousEntry.getValue())<0) score -= 2;
-            if(percentHistory.size()>2) {
-                if(previousEntry.getValue().compareTo(percentHistory.lowerEntry(previousEntry.getKey()).getValue())>0) score += 1;
-                else if(previousEntry.getValue().compareTo(percentHistory.lowerEntry(previousEntry.getKey()).getValue())<0) score -= 1;
+        Map.Entry<String, String> currentEntry = percentHistory.lastEntry();
+        if (percentHistory.size() > 1) {
+            Map.Entry<String, String> previousEntry = percentHistory.lowerEntry(currentEntry.getKey());
+            if (currentEntry.getValue().compareTo(previousEntry.getValue()) > 0) score += 2;
+            else if (currentEntry.getValue().compareTo(previousEntry.getValue()) < 0) score -= 2;
+            if (percentHistory.size() > 2) {
+                if (previousEntry.getValue().compareTo(percentHistory.lowerEntry(previousEntry.getKey()).getValue()) > 0)
+                    score += 1;
+                else if (previousEntry.getValue().compareTo(percentHistory.lowerEntry(previousEntry.getKey()).getValue()) < 0)
+                    score -= 1;
             }
         }
         return score;
@@ -123,7 +125,7 @@ public class Anomaly {
         if (baseline != null) {
             return baseline.getBaselineSeries();
         } else {
-            this.baseline = BaselineManager.getBaseline(Integer.valueOf(routeId), DayOfWeek.of(Integer.parseInt(getDayOfWeek())),"");
+            this.baseline = BaselineManager.getBaseline(Integer.valueOf(routeId), DayOfWeek.of(Integer.parseInt(getDayOfWeek())), "");
             if (baseline != null) {
                 return baseline.getBaselineSeries();
             }

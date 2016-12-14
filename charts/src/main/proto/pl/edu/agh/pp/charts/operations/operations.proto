@@ -96,6 +96,7 @@ message SystemGeneralMessage {
     Shift shift = 6;
     int32 port = 7; // bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
     string routes = 8; // caly routes.json tutaj przesylamy
+    string mapsApiKey = 9;
 
 }
 

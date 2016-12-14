@@ -51,7 +51,7 @@ public class AnomalyManager {
             if (mainWindowController != null) mainWindowController.updateAnomalyInfo(anomaly.getAnomalyId());
         } else {
             anomaly = new Anomaly(anomalyMessage);
-            Connector.demandBaseline(DayOfWeek.of(Integer.parseInt(anomaly.getDayOfWeek())), Integer.parseInt(anomaly.getRouteId()),"");
+            Connector.demandBaseline(DayOfWeek.of(Integer.parseInt(anomaly.getDayOfWeek())), Integer.parseInt(anomaly.getRouteId()), "");
             anomalyList.add(anomaly);
             if (mainWindowController != null) {
                 mainWindowController.addAnomalyToList(anomaly);
@@ -74,9 +74,9 @@ public class AnomalyManager {
         return null;
     }
 
-    public void removeFromList(String id){
+    public void removeFromList(String id) {
         for (Anomaly a : anomalyList) {
-            if (a.getAnomalyId().equals(id)){
+            if (a.getAnomalyId().equals(id)) {
                 anomalyList.remove(a);
                 return;
             }
@@ -149,13 +149,13 @@ public class AnomalyManager {
         return anomaly.getBaselineSeries();
     }
 
-    public XYChart.Series<Number,Number> getPercentChartData(String id) {
+    public XYChart.Series<Number, Number> getPercentChartData(String id) {
         return buildPercentChart(getAnomalyById(id));
     }
 
-    public void clearAnomalies(){
+    public void clearAnomalies() {
         int size = anomalyList.size();
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             Anomaly anomaly = anomalyList.get(0);
             if (anomaly != null) {
                 mainWindowController.removeAnomalyFromList(anomaly.getAnomalyId());

@@ -20,7 +20,7 @@ import java.util.prefs.BackingStoreException;
 
 public class ContextLoader {
 
-    private static final String preferenceName = PreferencesNamesHolder.API_KEY;
+    private static final String preferenceName = PreferencesNamesHolder.DETECTOR_API_KEY;
     private static List<GeoApiContext> contextList = new ArrayList<>();
 
     public GeoApiContext geoApiContextLoader() throws IOException, IllegalPreferenceObjectExpected {
