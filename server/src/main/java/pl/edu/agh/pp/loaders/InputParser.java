@@ -22,8 +22,15 @@ public class InputParser
         record.setDuration(Integer.valueOf(json.getString("duration")));
         record.setDurationInTraffic(Integer.valueOf(json.getString("durationInTraffic")));
         record.setDateTime(convertStringDateToDateTime(json.getString("timeStamp")));
-        record.setWaypoints(json.getString("waypoints"));
         record.setAnomalyID(json.getString("anomalyId"));
+        if (!"default".equals(json.getString("waypoints")))
+        {
+            record.setWaypoints("alternative");
+        }
+        else
+        {
+            record.setWaypoints(json.getString("waypoints"));
+        }
         return record;
     }
 
