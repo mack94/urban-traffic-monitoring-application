@@ -33,7 +33,7 @@
     {
       "name": "DetectorApiKey",
       "type": "String",
-      "value": "AIzaSyBF-aSOFnoC1_pmRbH9-JNstAtcfzbTD-o"
+      "value": "DEFAULT_DETECTOR_API_KEY"
     },
     {
       "name": "MapsApiKey",
