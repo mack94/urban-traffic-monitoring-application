@@ -246,10 +246,10 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
                     .setNormExceed((int) (errorRate * 100) - 100)
                     .build();
         }
-        else if (anomalyTracker.has(routeIdx))
-        {
-            anomalyTracker.remove(routeIdx);
-        }
+//        else if (anomalyTracker.has(routeIdx))
+//        {
+//            anomalyTracker.remove(routeIdx);
+//        }
         return null;
     }
 

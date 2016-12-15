@@ -240,9 +240,10 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
                     .setIsActive(true)
                     .setNormExceed((int) (errorRate * 100) - 100)
                     .build();
-        } else if (anomalyTracker.has(routeIdx)) {
-            anomalyTracker.remove(routeIdx);
         }
+//        } else if (anomalyTracker.has(routeIdx)) {
+//            anomalyTracker.remove(routeIdx);
+//        }
         return null;
     }
 

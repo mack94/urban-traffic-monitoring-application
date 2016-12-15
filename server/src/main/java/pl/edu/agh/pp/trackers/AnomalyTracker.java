@@ -68,6 +68,11 @@ public final class AnomalyTracker implements IAnomalyTracker
 
         DateTime lastAnomalyOnThisRoute = anomalyTime.get(routeID);
 
+        if(dateTime.getMillis() == 1451606400000L) {
+            System.out.println("I RECEIVED BAD DATE");
+            logger.error("I RECEIVED BAD DATE");
+        }
+
         if (lastAnomalyOnThisRoute == null)
             lastAnomalyOnThisRoute = JodaTimeHelper.MINIMUM_ANOMALY_DATE;
 
