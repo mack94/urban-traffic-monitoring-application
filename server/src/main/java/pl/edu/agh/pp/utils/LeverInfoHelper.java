@@ -1,5 +1,7 @@
 package pl.edu.agh.pp.utils;
 
+import java.util.HashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.Connector;
@@ -7,8 +9,6 @@ import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.settings.PreferencesNamesHolder;
-
-import java.util.HashMap;
 
 /**
  * Created by Maciej on 09.11.2016.
@@ -58,6 +58,7 @@ public class LeverInfoHelper {
             updated = false;
             options.setPreferences(newPreference);
         }
+        logger.info("Lever has been set to <{}>", newLeverValue);
         Connector.updateLever(getLeverValue());
 
     }

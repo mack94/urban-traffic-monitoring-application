@@ -11,6 +11,7 @@ import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 import pl.edu.agh.pp.trackers.AnomalyTracker;
 import pl.edu.agh.pp.trackers.IAnomalyTracker;
+import pl.edu.agh.pp.utils.RepeaterIntervalInfoHelper;
 import pl.edu.agh.pp.utils.RequestParams;
 
 import java.util.List;
@@ -60,9 +61,9 @@ public class AnomalyRepeater extends Thread {
                 }
             }
             try {
-                repeaterInterval = (int) Options.getInstance().getPreference(PreferencesNamesHolder.ANOMALY_REPEATER_INTERVAL, Integer.class);
+                repeaterInterval = RepeaterIntervalInfoHelper.getInstance().getRepeaterIntervalValue();
                 Thread.sleep(repeaterInterval * 1000);
-            } catch (InterruptedException | IllegalPreferenceObjectExpected e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }

@@ -61,7 +61,7 @@ public class BaselineWindowSizeInfoHelper {
             updated = false;
             options.setPreferences(newPreference);
         }
-
+        logger.info("Baseline window size has been set to <{}>", newBaselineWindowSizeValue);
         Connector.updateSystem(null);
 
     }

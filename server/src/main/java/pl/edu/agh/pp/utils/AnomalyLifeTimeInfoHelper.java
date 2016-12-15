@@ -61,6 +61,7 @@ public class AnomalyLifeTimeInfoHelper {
             updated = false;
             options.setPreferences(newPreference);
         }
+        logger.info("Anomaly lifetime value has been set to <{}>", newAnomalyLifeTimeValue);
         Connector.updateSystem(null);
 
     }

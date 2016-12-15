@@ -46,13 +46,13 @@ public class DayShiftInfoHelper {
         Calendar currentCalendar = Calendar.getInstance();
 
         try {
-            String string1 = (String) options.getPreference(PreferencesNamesHolder.DAY_SHIFT_START, String.class);
+            String string1 = DayShiftStartInfoHelper.getInstance().getDayShiftStart();
 
             Date time1 = new SimpleDateFormat("HH:mm:ss").parse(string1);
             Calendar calendar1 = Calendar.getInstance();
             calendar1.setTime(time1);
 
-            String string2 = (String) options.getPreference(PreferencesNamesHolder.NIGHT_SHIFT_START, String.class);
+            String string2 = NightShiftStartInfoHelper.getInstance().getNightShiftStart();
 
             Date time2 = new SimpleDateFormat("HH:mm:ss").parse(string2);
             Calendar calendar2 = Calendar.getInstance();

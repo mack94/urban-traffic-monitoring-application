@@ -73,7 +73,7 @@ public class SystemScheduler {
 
         int anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
         final ScheduledFuture<?> cleanerHandle = currentAnomaliesClearScheduler
-                .scheduleWithFixedDelay(cleaner, 30, 3600, TimeUnit.SECONDS);
+                .scheduleWithFixedDelay(cleaner, 3600, 3600, TimeUnit.SECONDS);
     }
 
 }

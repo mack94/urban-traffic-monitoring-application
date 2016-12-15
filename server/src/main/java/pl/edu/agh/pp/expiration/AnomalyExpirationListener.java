@@ -11,6 +11,9 @@ import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.settings.PreferencesNamesHolder;
+import pl.edu.agh.pp.utils.AnomalyLifeTimeInfoHelper;
+import pl.edu.agh.pp.utils.ExpirationBroadcastInfoHelper;
+import pl.edu.agh.pp.utils.ExpirationIntervalInfoHelper;
 
 public class AnomalyExpirationListener extends Thread
 {
@@ -39,20 +42,13 @@ public class AnomalyExpirationListener extends Thread
             {
             }
         }
-        int anomalyLifeTime = 500;
-        int expirationBroadcast = 3600;
+        int anomalyLifeTime;
+        int expirationBroadcast;
         int expirationInterval;
         while (true)
         {
-            try
-            {
-                anomalyLifeTime = (int) Options.getInstance().getPreference(PreferencesNamesHolder.ANOMALY_LIFE_TIME, Integer.class);
-                expirationBroadcast = (int) Options.getInstance().getPreference(PreferencesNamesHolder.ANOMALY_EXPIRATION_BROADCAST, Integer.class);
-            }
-            catch (IllegalPreferenceObjectExpected e)
-            {
-                e.printStackTrace();
-            }
+            anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
+            expirationBroadcast = ExpirationBroadcastInfoHelper.getInstance().getExpirationBroadcastValue();
             int finalAnomalyLifeTime = anomalyLifeTime;
             int finalExpirationBroadcast = expirationBroadcast;
             anomalyID.entrySet()
@@ -73,10 +69,10 @@ public class AnomalyExpirationListener extends Thread
                     });
             try
             {
-                expirationInterval = (int) Options.getInstance().getPreference(PreferencesNamesHolder.ANOMALY_EXPIRATION_INTERVAL, Integer.class);
+                expirationInterval = ExpirationIntervalInfoHelper.getInstance().getExpirationIntervalValue();
                 sleep(expirationInterval * 1000);
             }
-            catch (InterruptedException | IllegalPreferenceObjectExpected e)
+            catch (InterruptedException e)
             {
                 e.printStackTrace();
             }
