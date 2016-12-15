@@ -33,7 +33,6 @@ public class Main {
         System.out.println("Run: 'java -jar server.jar on/off path_to_logs'");
         try {
             options.initialize();
-            options.resetPreferences();
         } catch (BackingStoreException e) {
             e.printStackTrace();
         } catch (IOException e) {

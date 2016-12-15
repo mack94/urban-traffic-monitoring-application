@@ -15,6 +15,7 @@ public class CurrentAnomaliesHelper {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(CurrentAnomaliesHelper.class);
     private static final Object lock = new Object();
+    private static int index = 0;
     protected HashMap<Integer, AnomalyOperationProtos.AnomalyMessage> lastMessages = new HashMap<>();
 
     private CurrentAnomaliesHelper() {
@@ -38,7 +39,11 @@ public class CurrentAnomaliesHelper {
 
     public void putLastMessage(AnomalyOperationProtos.AnomalyMessage anomalyMessage) {
         synchronized (lock) {
-            lastMessages.put(anomalyMessage.getRouteIdx(), anomalyMessage);
+            index++;
+            lastMessages.put(index, anomalyMessage);
+            if (index > 10000) {
+                index = 0;
+            }
         }
     }
 
