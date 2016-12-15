@@ -63,7 +63,7 @@ public class RequestsExecutor
             record = inputParser.parse(logEntry);
         }
 
-        String anomalyId = null;
+        String anomalyId = "";
         if (!requestParams.isMissingHistoricalData())
         {
             anomalyId = detectorManager.isAnomaly(record);

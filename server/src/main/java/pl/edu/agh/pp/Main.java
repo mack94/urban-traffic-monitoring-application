@@ -34,9 +34,7 @@ public class Main {
         try {
             options.initialize();
             options.resetPreferences();
-        } catch (BackingStoreException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (BackingStoreException | IOException e) {
             e.printStackTrace();
         }
 
