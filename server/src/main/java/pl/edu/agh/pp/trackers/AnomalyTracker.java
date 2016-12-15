@@ -17,6 +17,7 @@ import pl.edu.agh.pp.serializers.ISerializer;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.settings.PreferencesNamesHolder;
+import pl.edu.agh.pp.utils.AnomalyLifeTimeInfoHelper;
 import pl.edu.agh.pp.utils.JodaTimeHelper;
 
 /**
@@ -40,14 +41,7 @@ public final class AnomalyTracker implements IAnomalyTracker
 
     private AnomalyTracker()
     {
-        try
-        {
-            lifeTime = Seconds.seconds((Integer) options.getPreference(PreferencesNamesHolder.ANOMALY_LIFE_TIME, Integer.class));
-        }
-        catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected)
-        {
-            logger.error("AnomalyTracker LifeTime illegal preference object expected: " + illegalPreferenceObjectExpected);
-        }
+        lifeTime = Seconds.seconds(AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue());
         this.anomalyExpirationListener = new AnomalyExpirationListener(anomalyID, anomalyTime);
         anomalyExpirationListener.start();
     }

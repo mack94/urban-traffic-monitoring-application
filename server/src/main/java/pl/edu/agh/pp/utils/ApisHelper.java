@@ -64,6 +64,7 @@ public class ApisHelper {
             updatedMaps = false;
             options.setPreferences(newPreference);
         }
+        logger.info("Maps Api key changed to <{}>", newMapsApiKey);
         Connector.updateSystem(null);
 
     }
@@ -97,6 +98,7 @@ public class ApisHelper {
             updatedDetector = false;
             options.setPreferences(newPreference);
         }
+        logger.info("Api key changed to <{}>", newDetectorApiKey);
         Connector.updateSystem(null);
 
     }

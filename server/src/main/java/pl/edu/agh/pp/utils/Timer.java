@@ -40,12 +40,12 @@ public class Timer
     {
         try
         {
-            String string1 = (String) options.getPreference(PreferencesNamesHolder.DAY_SHIFT_START, String.class);
+            String string1 = DayShiftStartInfoHelper.getInstance().getDayShiftStart();
             Date time1 = new SimpleDateFormat("HH:mm:ss").parse(string1);
             Calendar calendar1 = Calendar.getInstance();
             calendar1.setTime(time1);
 
-            String string2 = (String) options.getPreference(PreferencesNamesHolder.NIGHT_SHIFT_START, String.class);
+            String string2 = NightShiftStartInfoHelper.getInstance().getNightShiftStart();
 
             Date time2 = new SimpleDateFormat("HH:mm:ss").parse(string2);
             Calendar calendar2 = Calendar.getInstance();
@@ -62,8 +62,8 @@ public class Timer
             Random random = new Random();
             if (x.after(calendar1.getTime()) && x.before(calendar2.getTime()))
             {
-                int from = (int) Options.getInstance().getPreference(PreferencesNamesHolder.DAY_SHIFT_FREQUENCY_FROM, Integer.class);
-                int to = (int) Options.getInstance().getPreference(PreferencesNamesHolder.DAY_SHIFT_FREQUENCY_TO, Integer.class);
+                int from = DayRequestsFrequencyInfoHelper.getInstance().getMinimalTimeValue();
+                int to = DayRequestsFrequencyInfoHelper.getInstance().getMaximalTimeValue();
                 int diff = to - from;
                 int waitingTime = random.nextInt(diff) + from;
                 logger.info("DAY SHIFT - waiting time is {} seconds", waitingTime);
@@ -71,8 +71,8 @@ public class Timer
             }
             else
             {
-                int from = (int) Options.getInstance().getPreference(PreferencesNamesHolder.NIGHT_SHIFT_FREQUENCY_FROM, Integer.class);
-                int to = (int) Options.getInstance().getPreference(PreferencesNamesHolder.NIGHT_SHIFT_FREQUENCY_TO, Integer.class);
+                int from = NightRequestsFrequencyInfoHelper.getInstance().getMinimalTimeValue();
+                int to = NightRequestsFrequencyInfoHelper.getInstance().getMaximalTimeValue();
                 int diff = to - from;
                 int waitingTime = random.nextInt(diff) + from;
                 logger.info("NIGHT SHIFT- waiting time is {} seconds", waitingTime);

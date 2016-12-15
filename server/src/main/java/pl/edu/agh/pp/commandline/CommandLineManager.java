@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.adapters.Connector;
 import pl.edu.agh.pp.builders.IPatternBuilder;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.loaders.FilesLoader;
@@ -19,8 +18,19 @@ import pl.edu.agh.pp.serializers.FileSerializer;
 import pl.edu.agh.pp.serializers.ISerializer;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
-import pl.edu.agh.pp.settings.PreferencesNamesHolder;
-import pl.edu.agh.pp.utils.*;
+import pl.edu.agh.pp.utils.AnomalyLifeTimeInfoHelper;
+import pl.edu.agh.pp.utils.ApisHelper;
+import pl.edu.agh.pp.utils.AvailableHistoricalInfoHelper;
+import pl.edu.agh.pp.utils.BaselineWindowSizeInfoHelper;
+import pl.edu.agh.pp.utils.ContextLoader;
+import pl.edu.agh.pp.utils.DayRequestsFrequencyInfoHelper;
+import pl.edu.agh.pp.utils.DayShiftStartInfoHelper;
+import pl.edu.agh.pp.utils.ExpirationBroadcastInfoHelper;
+import pl.edu.agh.pp.utils.ExpirationIntervalInfoHelper;
+import pl.edu.agh.pp.utils.LeverInfoHelper;
+import pl.edu.agh.pp.utils.NightRequestsFrequencyInfoHelper;
+import pl.edu.agh.pp.utils.NightShiftStartInfoHelper;
+import pl.edu.agh.pp.utils.RepeaterIntervalInfoHelper;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
 
 /**
@@ -32,9 +42,6 @@ public class CommandLineManager extends Thread
 {
     private static final IPatternBuilder patternBuilder = PolynomialPatternBuilder.getInstance();
     private static final ISerializer baselineSerializer = FileSerializer.getInstance();
-    private static final LeverInfoHelper leverInfoHelper = LeverInfoHelper.getInstance();
-    private static final AnomalyLifeTimeInfoHelper ANOMALY_LIFE_TIME_INFO_HELPER = AnomalyLifeTimeInfoHelper.getInstance();
-    private static final BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
     private static IOptions options = Options.getInstance();
     private final Logger logger = LoggerFactory.getLogger(CommandLineManager.class);
     private final Map<String, DayOfWeek> daysOfWeek = getDaysMap();
@@ -259,7 +266,7 @@ public class CommandLineManager extends Thread
             {
                 throw new IllegalArgumentException("Wrong parameter");
             }
-            leverInfoHelper.setLeverValue(percentLeverValue);
+            LeverInfoHelper.getInstance().setLeverValue(percentLeverValue);
         }
         catch (Exception e)
         {
@@ -278,7 +285,7 @@ public class CommandLineManager extends Thread
             {
                 throw new IllegalArgumentException("Wrong parameter");
             }
-            ANOMALY_LIFE_TIME_INFO_HELPER.setAnomalyLifeTimeValue(secondsAnomalyLifeTime);
+            AnomalyLifeTimeInfoHelper.getInstance().setAnomalyLifeTimeValue(secondsAnomalyLifeTime);
         }
         catch (Exception e)
         {
@@ -297,7 +304,7 @@ public class CommandLineManager extends Thread
             {
                 throw new IllegalArgumentException("Wrong parameter");
             }
-            baselineWindowSizeInfoHelper.setBaselineWindowSizeValue(baselineWindowSize);
+            BaselineWindowSizeInfoHelper.getInstance().setBaselineWindowSizeValue(baselineWindowSize);
         }
         catch (Exception e)
         {
@@ -324,9 +331,7 @@ public class CommandLineManager extends Thread
         {
             String key = StringUtils.removeStart(buffer, "CHANGE_API_KEY ");
             ContextLoader.changeApiKey(key);
-            ApisHelper apisHelper = ApisHelper.getInstance();
-            apisHelper.setDetectorApiKey(key);
-            System.out.println("Api key changed to: " + apisHelper.getDetectorApiKey());
+            ApisHelper.getInstance().setDetectorApiKey(key);
         }
         catch (Exception e)
         {
@@ -339,9 +344,7 @@ public class CommandLineManager extends Thread
         try
         {
             String key = StringUtils.removeStart(buffer, "CHANGE_MAPS_API_KEY ");
-            ApisHelper apisHelper = ApisHelper.getInstance();
-            apisHelper.setMapsApiKey(key);
-            logger.info("Maps Api key changed to {}", apisHelper.getMapsApiKey());
+            ApisHelper.getInstance().setMapsApiKey(key);
         }
         catch (Exception e)
         {
@@ -358,9 +361,7 @@ public class CommandLineManager extends Thread
             {
                 throw new IllegalArgumentException("Interval must be positive");
             }
-            HashMap<String, Object> preference = new HashMap<>();
-            preference.put(PreferencesNamesHolder.ANOMALY_REPEATER_INTERVAL, interval);
-            Options.getInstance().setPreferences(preference);
+            RepeaterIntervalInfoHelper.getInstance().setRepeaterIntervalValue(Integer.valueOf(interval));
         }
         catch (Exception e)
         {
@@ -377,9 +378,7 @@ public class CommandLineManager extends Thread
             {
                 throw new IllegalArgumentException("Interval must be positive");
             }
-            HashMap<String, Object> preference = new HashMap<>();
-            preference.put(PreferencesNamesHolder.ANOMALY_EXPIRATION_INTERVAL, interval);
-            Options.getInstance().setPreferences(preference);
+            ExpirationIntervalInfoHelper.getInstance().setExpirationIntervalValue(Integer.valueOf(interval));
         }
         catch (Exception e)
         {
@@ -396,9 +395,7 @@ public class CommandLineManager extends Thread
             {
                 throw new IllegalArgumentException("Value must be positive");
             }
-            HashMap<String, Object> preference = new HashMap<>();
-            preference.put(PreferencesNamesHolder.ANOMALY_EXPIRATION_BROADCAST, value);
-            Options.getInstance().setPreferences(preference);
+            ExpirationBroadcastInfoHelper.getInstance().setExpirationBroadcastValue(Integer.valueOf(value));
         }
         catch (Exception e)
         {
@@ -422,11 +419,7 @@ public class CommandLineManager extends Thread
             {
                 throw new IllegalArgumentException("Wrong parameters");
             }
-            HashMap<String, Object> preferences = new HashMap<>();
-            preferences.put(PreferencesNamesHolder.DAY_SHIFT_FREQUENCY_FROM, from);
-            preferences.put(PreferencesNamesHolder.DAY_SHIFT_FREQUENCY_TO, to);
-            Options.getInstance().setPreferences(preferences);
-            Connector.updateSystem(null);
+            DayRequestsFrequencyInfoHelper.getInstance().setFrequenciesBounds(from, to);
         }
         catch (Exception e)
         {
@@ -450,11 +443,7 @@ public class CommandLineManager extends Thread
             {
                 throw new IllegalArgumentException("Wrong parameters");
             }
-            HashMap<String, Object> preferences = new HashMap<>();
-            preferences.put(PreferencesNamesHolder.NIGHT_SHIFT_FREQUENCY_FROM, from);
-            preferences.put(PreferencesNamesHolder.NIGHT_SHIFT_FREQUENCY_TO, to);
-            Options.getInstance().setPreferences(preferences);
-            Connector.updateSystem(null);
+            NightRequestsFrequencyInfoHelper.getInstance().setFrequenciesBounds(from, to);
         }
         catch (Exception e)
         {
@@ -468,41 +457,8 @@ public class CommandLineManager extends Thread
         {
             buffer = StringUtils.removeStart(buffer, "SET_DAY_SHIFT_START");
             String[] values = buffer.split(":");
-            if (values.length < 2 && values.length > 3)
-            {
-                throw new IllegalArgumentException("Wrong time format. Expected HH:mm ot HH:mm:ss");
-            }
-            int hour = Integer.valueOf(values[0]);
-            if (hour < 0 || hour > 23)
-            {
-                throw new IllegalArgumentException("Hour must be between <0; 23>");
-            }
-            int minute = Integer.valueOf(values[1]);
-            if (minute < 0 || minute > 59)
-            {
-                throw new IllegalArgumentException("Minute must be between <0; 59>");
-            }
-            int second = 0;
-            if (values.length == 3)
-            {
-                second = Integer.valueOf(values[2]);
-            }
-            if (second < 0 || second > 59)
-            {
-                throw new IllegalArgumentException("Second must be between <0; 59>");
-            }
-            if (values.length == 2)
-            {
-                buffer = new StringBuilder(values[0])
-                        .append(":")
-                        .append(values[1])
-                        .append(":")
-                        .append("00")
-                        .toString();
-            }
-            HashMap<String, Object> preference = new HashMap<>();
-            preference.put(PreferencesNamesHolder.DAY_SHIFT_START, buffer);
-            Options.getInstance().setPreferences(preference);
+            buffer = parseHour(values, buffer);
+            DayShiftStartInfoHelper.getInstance().setDayShiftStart(buffer);
         }
         catch (Exception e)
         {
@@ -516,46 +472,50 @@ public class CommandLineManager extends Thread
         {
             buffer = StringUtils.removeStart(buffer, "SET_NIGHT_SHIFT_START");
             String[] values = buffer.split(":");
-            if (values.length < 2 && values.length > 3)
-            {
-                throw new IllegalArgumentException("Wrong time format. Expected HH:mm ot HH:mm:ss");
-            }
-            int hour = Integer.valueOf(values[0]);
-            if (hour < 0 || hour > 23)
-            {
-                throw new IllegalArgumentException("Hour must be between <0; 23>");
-            }
-            int minute = Integer.valueOf(values[1]);
-            if (minute < 0 || minute > 59)
-            {
-                throw new IllegalArgumentException("Minute must be between <0; 59>");
-            }
-            int second = 0;
-            if (values.length == 3)
-            {
-                second = Integer.valueOf(values[2]);
-            }
-            if (second < 0 || second > 59)
-            {
-                throw new IllegalArgumentException("Second must be between <0; 59>");
-            }
-            if (values.length == 2)
-            {
-                buffer = new StringBuilder(values[0])
-                        .append(":")
-                        .append(values[1])
-                        .append(":")
-                        .append("00")
-                        .toString();
-            }
-            HashMap<String, Object> preference = new HashMap<>();
-            preference.put(PreferencesNamesHolder.NIGHT_SHIFT_START, buffer);
-            Options.getInstance().setPreferences(preference);
+            buffer = parseHour(values, buffer);
+            NightShiftStartInfoHelper.getInstance().setNightShiftStart(buffer);
         }
         catch (Exception e)
         {
             logger.error("Error occurred while setting night shift start", e);
         }
+    }
+
+    private String parseHour(String[] values, String buffer)
+    {
+        if (values.length < 2 && values.length > 3)
+        {
+            throw new IllegalArgumentException("Wrong time format. Expected HH:mm ot HH:mm:ss");
+        }
+        int hour = Integer.valueOf(values[0]);
+        if (hour < 0 || hour > 23)
+        {
+            throw new IllegalArgumentException("Hour must be between <0; 23>");
+        }
+        int minute = Integer.valueOf(values[1]);
+        if (minute < 0 || minute > 59)
+        {
+            throw new IllegalArgumentException("Minute must be between <0; 59>");
+        }
+        int second = 0;
+        if (values.length == 3)
+        {
+            second = Integer.valueOf(values[2]);
+        }
+        if (second < 0 || second > 59)
+        {
+            throw new IllegalArgumentException("Second must be between <0; 59>");
+        }
+        if (values.length == 2)
+        {
+            buffer = new StringBuilder(values[0])
+                    .append(":")
+                    .append(values[1])
+                    .append(":")
+                    .append("00")
+                    .toString();
+        }
+        return buffer;
     }
 
     private DayOfWeek getDayOfWeek(String day)
