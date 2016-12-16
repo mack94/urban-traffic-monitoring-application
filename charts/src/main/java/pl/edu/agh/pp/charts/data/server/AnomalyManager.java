@@ -69,14 +69,14 @@ public class AnomalyManager {
 
     public Anomaly getAnomalyById(String id) {
         for (Anomaly a : anomalyList) {
-            if (a.getAnomalyId().equals(id)) return a;
+            if (a.getAnomalyId().toUpperCase().contains(id.toUpperCase())) return a;
         }
         return null;
     }
 
     public void removeFromList(String id) {
         for (Anomaly a : anomalyList) {
-            if (a.getAnomalyId().equals(id)) {
+            if (a.getAnomalyId().contains(id)) {
                 anomalyList.remove(a);
                 return;
             }

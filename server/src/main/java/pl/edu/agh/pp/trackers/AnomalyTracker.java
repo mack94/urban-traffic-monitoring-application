@@ -32,10 +32,8 @@ public final class AnomalyTracker implements IAnomalyTracker
 
     private final Logger logger = (Logger) LoggerFactory.getLogger(AnomalyTracker.class);
     private ISerializer serializer = FileSerializer.getInstance();
-    // In the future, it can be replaced by the structure in which objects terminates - to make it more memory efficiently.
     private ConcurrentHashMap<Integer, DateTime> anomalyTime = serializer.deserializeAnomalyTime();
     private ConcurrentHashMap<Integer, String> anomalyID = serializer.deserializeAnomalyId();
-    private IOptions options = Options.getInstance();
     private Seconds lifeTime;
     private AnomalyExpirationListener anomalyExpirationListener;
 
@@ -59,6 +57,7 @@ public final class AnomalyTracker implements IAnomalyTracker
                 .filter(entry -> entry.getValue().isAfter(JodaTimeHelper.MINIMUM_ANOMALY_DATE))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
+
         return result;
     }
 
@@ -76,6 +75,7 @@ public final class AnomalyTracker implements IAnomalyTracker
         {
             String newAnomalyID = String.format("%04d", routeID) + "_" + dateTime.toLocalDate() + "_" + dateTime.getHourOfDay() + "-" + dateTime.getMinuteOfHour();
             anomalyID.put(routeID, newAnomalyID);
+            logger.info("NEW ANOMALY ID = " + newAnomalyID);
         }
         anomalyTime.put(routeID, dateTime);
 

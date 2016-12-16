@@ -507,7 +507,7 @@ public class MainWindowController {
         }
         if (isAnomalyOnScreen(anomalyId)){
             for(HBox hbox: anomaliesListView.getItems()){
-                if(hbox.getId().equalsIgnoreCase(anomalyId)){
+                if(hbox.getId().toUpperCase().contains(anomalyId.toUpperCase())){
                     Platform.runLater(() -> {
                         anomaliesListView.getItems().remove(hbox);
                         redrawAllAnomaliesChart();
