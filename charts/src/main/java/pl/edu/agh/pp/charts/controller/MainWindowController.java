@@ -794,7 +794,7 @@ public class MainWindowController {
                         connectedFlag = Connector.isConnectedToTheServer();
                         while(i<10 && !connectedFlag){
                             connectedFlag = Connector.isConnectedToTheServer();
-                            Thread.sleep(500);
+                            Thread.sleep(800);
                             i++;
                         }
                         if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);

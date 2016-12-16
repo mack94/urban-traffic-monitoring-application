@@ -125,7 +125,7 @@ public class ManagementServer extends Server {
                 .setBaselineWindowSize(baselineWindowSize)
                 .setLeverValue(leverValue)
                 .setMessageIdx(messageID)
-                .setPort(8079)
+                .setPort(8080)
                 .setRoutes("")
                 .setShift(shift)
                 .setMapsApiKey(mapsApiKey)
