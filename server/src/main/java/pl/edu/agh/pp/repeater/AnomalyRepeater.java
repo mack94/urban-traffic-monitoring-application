@@ -56,7 +56,7 @@ public class AnomalyRepeater extends Thread {
                             requestsExecutor.execute(context, requestParams);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.printStackTrace(); // FIXME
                     }
                 }
             }

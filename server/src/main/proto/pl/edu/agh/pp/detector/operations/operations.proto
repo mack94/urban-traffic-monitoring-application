@@ -95,7 +95,7 @@ message SystemGeneralMessage {
     int32 baselineWindowSize = 5;
     Shift shift = 6;
     int32 port = 7;
-    string routes = 8; // whole routes.json is 
+    string routes = 8; // whole routes.json is
     string mapsApiKey = 9;
     map<int32, AnomalyMessage> currentAnomalies = 10;
 

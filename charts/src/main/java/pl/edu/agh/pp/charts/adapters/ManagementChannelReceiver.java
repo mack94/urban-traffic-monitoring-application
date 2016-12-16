@@ -46,10 +46,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
         client.receiver(this);
         client.addConnectionListener(this);
         client.start();
-        //TODO remove thread sleep from this thread if possible
-        Thread.sleep(100);
         running = true;
-        byte[] buf = String.format("%s joined\n", name).getBytes();
 
         AnomalyOperationProtos.BonjourMessage bonjourMessage = AnomalyOperationProtos.BonjourMessage.newBuilder()
                 .setUserName(name)
@@ -108,11 +105,9 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
                     parseAvailableHistoricalMessage(message);
                     break;
                 case HISTORICALMESSAGE:
-                    System.out.println("7777");
                     parseHistoricalMessage(message);
                     break;
                 case HISTORICALANOMALIESMESSAGE:
-                    System.out.println("$9999");
                     parseHistoricalAnomaliesMessage(message);
                     break;
                 default:
@@ -151,13 +146,6 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
     }
 
     public boolean isConnected() {
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            logger.error("ChannelReceiver: Sleeping thread error: " + e);
-        }
-
         return running && !((client == null) || !((Client) client).isConnected());
     }
 
@@ -176,9 +164,9 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             ServerGeneralInfo.setSystemGeneralMessage(generalMessage);
 
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // FIXME
         } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-            illegalPreferenceObjectExpected.printStackTrace();
+            illegalPreferenceObjectExpected.printStackTrace(); // FIXME
         }
     }
 

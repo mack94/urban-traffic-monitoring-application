@@ -69,8 +69,17 @@ public class Connector {
 
         managementClient = new ManagementChannelReceiver();
         managementClient.start(server_addr, server_port - 1, nio);
-        client = new ChannelReceiver();
-        client.start(server_addr, server_port, nio);
+        while (!managementClient.isConnected() || !ServerGeneralInfo.isInitialized()){
+            logger.info("Waiting for management channel connection establishment.");
+            Thread.sleep(250);
+        }
+        if (managementClient.isConnected()) {
+            int anomaly_port = ServerGeneralInfo.getPort();
+            client = new ChannelReceiver();
+            client.start(server_addr, anomaly_port, nio);
+        } else {
+            logger.error("Connector:: connect:: An error occurred while connecting to the management channel. ");
+        }
     }
 
     public static String getAddress() {

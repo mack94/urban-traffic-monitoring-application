@@ -28,9 +28,11 @@ public class ServerGeneralInfo {
     private static AnomalyOperationProtos.SystemGeneralMessage.Shift shift;
     private static String systemDate;
     private static String mapsApiKey;
+    private static boolean initialized = false;
     //TODO: Check whether it's everything
 
     public static void setSystemGeneralMessage(AnomalyOperationProtos.SystemGeneralMessage systemGeneralMessage) throws IllegalPreferenceObjectExpected {
+        initialized = false;
         setAnomalyLiveTime(systemGeneralMessage.getAnomalyLiveTime());
         setBaselineWindowSize(systemGeneralMessage.getBaselineWindowSize());
         setLeverValue(systemGeneralMessage.getLeverValue());
@@ -40,6 +42,7 @@ public class ServerGeneralInfo {
         setSystemDate(systemGeneralMessage.getSystemDate());
         setMapsApiKey(systemGeneralMessage.getMapsApiKey());
         setCurrentAnomalies(systemGeneralMessage.getCurrentAnomaliesMap());
+        initialized = true;
         informControllerAboutChanges(); // FIXME: redundant??? ~Maciek
     }
 
@@ -168,6 +171,10 @@ public class ServerGeneralInfo {
         }
 
         return routesJSON;
+    }
+
+    public static boolean isInitialized() {
+        return initialized;
     }
 
     private static void informControllerAboutChanges() {

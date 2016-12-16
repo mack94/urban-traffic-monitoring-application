@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.charts.operations.AnomalyOperationProtos;
 
-import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
@@ -46,37 +45,7 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
         client.receiver(this);
         client.addConnectionListener(this);
         client.start();
-        //TODO remove thread sleep from this thread if possible
-        Thread.sleep(100);
         running = true;
-        byte[] buf = String.format("%s joined\n", name).getBytes();
-//        ((Client)client).send(buf, 0, buf.length);
-//        eventLoop();
-        listenerThread = new Thread(this::eventLoop);
-        listenerThread.start();
-    }
-
-    private void eventLoop() {
-
-        in = new BufferedInputStream(System.in);
-        Thread thisThread = Thread.currentThread();
-
-//        while (running && listenerThread == thisThread) {
-//            // TODO: Place where put stuff to send to server.
-//            try {
-//                byte[] buf = "".getBytes();
-//                ((Client) client).send(buf, 0, buf.length);
-//
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                logger.error("ChannelReceiver :: InterruptedException: " + e);
-//            } catch (IOException e) {
-//                logger.error("ChannelReceiver :: IOException: " + e);
-//            } catch (Exception e) {
-//                logger.error("ChannelReceiver :: Exception: " + e);
-//                break;
-//            }
-//        }
     }
 
     /**
