@@ -12,6 +12,7 @@ import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 import pl.edu.agh.pp.utils.AnomalyLifeTimeInfoHelper;
+import pl.edu.agh.pp.utils.CurrentAnomaliesHelper;
 import pl.edu.agh.pp.utils.ExpirationBroadcastInfoHelper;
 import pl.edu.agh.pp.utils.ExpirationIntervalInfoHelper;
 
@@ -61,6 +62,7 @@ public class AnomalyExpirationListener extends Thread
                         if (lastUpdateInSeconds > finalAnomalyLifeTime)
                         {
                             sendMessage(entry.getKey(), entry.getValue());
+                            CurrentAnomaliesHelper.getInstance().removeAnomaly(entry.getValue());
                             if (lastUpdateInSeconds > finalExpirationBroadcast)
                             {
                                 expiredAnomalies.add(entry.getValue());
@@ -74,7 +76,7 @@ public class AnomalyExpirationListener extends Thread
             }
             catch (InterruptedException e)
             {
-                e.printStackTrace();
+                e.printStackTrace(); // FIXME
             }
         }
     }

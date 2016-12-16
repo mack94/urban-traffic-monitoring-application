@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 
 import java.util.HashMap;
+import java.util.stream.Collector;
 
 /**
  * Created by Maciej on 14.12.2016.
@@ -41,9 +42,18 @@ public class CurrentAnomaliesHelper {
         synchronized (lock) {
             index++;
             lastMessages.put(index, anomalyMessage);
-            if (index > 10000) {
+            if (index > 5200000) {
                 index = 0;
             }
+        }
+    }
+
+    public void removeAnomaly(String anomalyID) {
+        synchronized (lock) {
+            lastMessages.keySet()
+                    .stream()
+                    .filter(m -> lastMessages.get(m).getAnomalyID().toUpperCase().contains(anomalyID.toUpperCase()))
+                    .forEach(m_index -> lastMessages.remove(m_index));
         }
     }
 

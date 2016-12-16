@@ -65,15 +65,15 @@ public class SystemScheduler {
                 7 * 24 * 60 * 60, TimeUnit.SECONDS);
     }
 
-    public void clearCurrentAnomaliesEveryAnomalyLifeTime() {
-        //AnomalyLifeTime
-        final Runnable cleaner = () -> {
-            CurrentAnomaliesHelper.getInstance().clearCurrentAnomalies();
-        };
-
-        int anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
-        final ScheduledFuture<?> cleanerHandle = currentAnomaliesClearScheduler
-                .scheduleWithFixedDelay(cleaner, 3600, 3600, TimeUnit.SECONDS);
-    }
+//    public void clearCurrentAnomaliesEveryAnomalyLifeTime() {
+//        //AnomalyLifeTime
+//        final Runnable cleaner = () -> {
+//            CurrentAnomaliesHelper.getInstance().clearCurrentAnomalies();
+//        };
+//
+//        int anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
+//        final ScheduledFuture<?> cleanerHandle = currentAnomaliesClearScheduler
+//                .scheduleWithFixedDelay(cleaner, 3600, 3600, TimeUnit.SECONDS);
+//    }
 
 }
