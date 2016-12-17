@@ -18,7 +18,8 @@ public class DayRequestsFrequencyInfoHelper
     private static IOptions options = Options.getInstance();
     private static int minimalTime = 0;
     private static int maximalTime = 0;
-    private static boolean updated = false;
+    private static boolean updatedMin = false;
+    private static boolean updatedMax = false;
     private static String minPreferenceName = PreferencesNamesHolder.DAY_SHIFT_FREQUENCY_FROM;
     private static String maxPreferenceName = PreferencesNamesHolder.DAY_SHIFT_FREQUENCY_TO;
 
@@ -35,7 +36,7 @@ public class DayRequestsFrequencyInfoHelper
     {
         synchronized (lock)
         {
-            if (updated)
+            if (updatedMin)
                 return minimalTime;
 
             try
@@ -51,7 +52,7 @@ public class DayRequestsFrequencyInfoHelper
                 logger.error("DayRequestsFrequencyInfoHelper:  minimalTime error! " +
                         "Assigned 0 secs to minimal time due to emergency mode!");
             }
-            updated = true;
+            updatedMin = true;
             return minimalTime;
         }
     }
@@ -60,7 +61,7 @@ public class DayRequestsFrequencyInfoHelper
     {
         synchronized (lock)
         {
-            if (updated)
+            if (updatedMax)
                 return maximalTime;
 
             try
@@ -76,7 +77,7 @@ public class DayRequestsFrequencyInfoHelper
                 logger.error("DayRequestsFrequencyInfoHelper:  maximalTime error! " +
                         "Assigned 0 secs to maximal time due to emergency mode!");
             }
-            updated = true;
+            updatedMax = true;
             return maximalTime;
         }
     }
@@ -90,7 +91,8 @@ public class DayRequestsFrequencyInfoHelper
 
         synchronized (lock)
         {
-            updated = false;
+            updatedMin = false;
+            updatedMax = false;
             options.setPreferences(newPreference);
         }
         logger.info("Day minimal time has been set to <{}>", newMinimalTime);

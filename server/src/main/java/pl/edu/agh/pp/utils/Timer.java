@@ -87,8 +87,8 @@ public class Timer
         }
         catch (Exception e)
         {
-            logger.error("Error during calculating time to download traffic.");
+            logger.error("Error during calculating time to download traffic, returning default value <720>", e);
         }
-        return 720_000;
+        return 720;
     }
 }

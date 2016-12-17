@@ -6,6 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
@@ -18,6 +20,7 @@ import pl.edu.agh.pp.utils.ExpirationIntervalInfoHelper;
 
 public class AnomalyExpirationListener extends Thread
 {
+    private final Logger logger = LoggerFactory.getLogger(AnomalyExpirationListener.class);
     private ConcurrentHashMap<Integer, String> anomalyID;
     private ConcurrentHashMap<Integer, DateTime> anomalyTime;
     private Set<String> expiredAnomalies;
@@ -48,6 +51,7 @@ public class AnomalyExpirationListener extends Thread
         int expirationInterval;
         while (true)
         {
+            logger.info("Checking for expiration started");
             anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
             expirationBroadcast = ExpirationBroadcastInfoHelper.getInstance().getExpirationBroadcastValue();
             int finalAnomalyLifeTime = anomalyLifeTime;
