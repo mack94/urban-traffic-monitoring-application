@@ -129,6 +129,11 @@ public class DetectorManager {
                 anomalyId = anomalyMessage.getAnomalyID();
                 anomaliesServer.send(anomalyMessage.toByteArray());
                 CurrentAnomaliesHelper.getInstance().putLastMessage(anomalyMessage);
+
+                String baseline = BaselineNameHolder.getBaseline(record.getDayOfWeek(), record.getRouteID());
+                baseline = StringUtils.removeStart(baseline, "baseline/");
+                baseline = StringUtils.removeEnd(baseline, ".ser");
+                anomalyId += "#" + baseline;
             }
 
             return anomalyId;
