@@ -89,7 +89,7 @@ public class CronManager
                 {
                     // TODO: Catch this.
                     logger.error("CronManager: Some Exception occured while executing requestsExecutor: " + e, e);
-                    System.out.println("Please, check your API KEY. It's very likely that new key required.");
+                    System.out.println("Please, check your API KEY. It's very likely that new key is required.");
                     Thread.sleep(MANAGMENT_DELAY_SECONDS * 1000);
                 }
             }

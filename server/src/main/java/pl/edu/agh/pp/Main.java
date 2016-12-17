@@ -67,26 +67,41 @@ public class Main {
     }
 
     private static void handleOfflineMode(String[] args) throws Exception {
-        AnomaliesServer anomaliesServer = new AnomaliesServer();
         File logDir;
         if(args.length>=5) {
             if (Objects.equals(args[1], "build")) {
                 logDir = new File(args[args.length-1]);
 
                 if(logDir.isDirectory()) {
-                    new DetectorManager(anomaliesServer,logDir.getAbsolutePath())
+                    new DetectorManager(logDir.getAbsolutePath())
                             .buildAndShowBaseline(Integer.parseInt(args[2]), DayOfWeek.fromValue(Integer.parseInt(args[3])), args[4], Arrays.copyOfRange(args, 5, args.length));
                 }
                 else{
-                    new DetectorManager(anomaliesServer,"")
+                    new DetectorManager("")
                             .buildAndShowBaseline(Integer.parseInt(args[2]), DayOfWeek.fromValue(Integer.parseInt(args[3])), args[4], Arrays.copyOfRange(args, 5, args.length));
                 }
-
+            }
+            else{
+                closeOfflineMode(true);
             }
         }
-        else {
-            logger.error("Run: 'java -jar anomaliesServer.jar off <command> <options>'");
-            System.exit(0);
+        else if(args.length>=2) {
+            if (Objects.equals(args[1], "reset")) {
+                Options options = Options.getInstance();
+                boolean result = options.resetPreferences();
+                logger.info("Preferences reset - ", result);
+                closeOfflineMode(false);
+            }
+            closeOfflineMode(true);
         }
+        else{
+            closeOfflineMode(true);
+        }
+
+    }
+
+    private static void closeOfflineMode(boolean error) {
+        if(error) logger.error("Run: 'java -jar anomaliesServer.jar off <command> <options>'");
+        System.exit(0);
     }
 }
