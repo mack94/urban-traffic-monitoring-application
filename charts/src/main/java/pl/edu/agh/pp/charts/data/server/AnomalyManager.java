@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -74,13 +75,28 @@ public class AnomalyManager {
         return null;
     }
 
-    public void removeFromList(String id) {
-        for (Anomaly a : anomalyList) {
-            if (a.getAnomalyId().contains(id)) {
-                anomalyList.remove(a);
-                return;
+    public void removeFromList(String id)
+    {
+        Iterator<Anomaly> iterator = anomalyList.iterator();
+
+        while (iterator.hasNext())
+        {
+            Anomaly anomaly = iterator.next();
+            if (anomaly.getAnomalyId().toUpperCase().contains(id.toUpperCase()))
+            {
+                iterator.remove();
             }
         }
+//        TODO: Jezeli powyzsze pomoglo z bledem ConcurrentModificationException w watku JGroups
+//        to znaczy ze ponizsze było bledne i bedzie mozna wywalić. Jak nie pomoglo to mozna przywrocic starą wersje.
+//        ~Maciek
+        
+//        for (Anomaly a : anomalyList) {
+//            if (a.getAnomalyId().contains(id)) {
+//                anomalyList.remove(a);
+//                return;
+//            }
+//        }
     }
 
     public void removeAnomaly(String anomalyId) {
