@@ -227,10 +227,6 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
                 errorRate = travelDuration / predictedTravelDuration;
 
             String anomalyID = anomalyTracker.put(routeIdx, DateTime.now());
-            String baseline = BaselineNameHolder.getBaseline(dayOfWeek, routeIdx);
-            baseline = StringUtils.removeStart(baseline, "baseline/");
-            baseline = StringUtils.removeEnd(baseline, ".ser");
-            anomalyID += "#" + baseline;
             int severity = (int) ((Math.abs(predictedTravelDuration / travelDuration) * 3) % 6);
             System.out.println("Exceed - " + errorRate * 100);
             return AnomalyOperationProtos.AnomalyMessage.newBuilder()

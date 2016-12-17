@@ -1,4 +1,3 @@
-/* Copyright 2016 Sabre Holdings */
 package pl.edu.agh.pp.utils;
 
 import java.io.IOException;
