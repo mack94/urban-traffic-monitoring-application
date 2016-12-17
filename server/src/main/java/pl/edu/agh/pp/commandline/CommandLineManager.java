@@ -285,6 +285,11 @@ public class CommandLineManager extends Thread
             {
                 throw new IllegalArgumentException("Wrong parameter");
             }
+            int expirationInterval = ExpirationIntervalInfoHelper.getInstance().getExpirationIntervalValue();
+            if (secondsAnomalyLifeTime <= expirationInterval)
+            {
+                throw new IllegalArgumentException("Anomaly life time cannot be less than anomaly expiration interval");
+            }
             AnomalyLifeTimeInfoHelper.getInstance().setAnomalyLifeTimeValue(secondsAnomalyLifeTime);
         }
         catch (Exception e)
@@ -374,9 +379,15 @@ public class CommandLineManager extends Thread
         try
         {
             String interval = StringUtils.removeStart(buffer, "SET_EXPIRATION_INTERVAL ");
-            if (Integer.valueOf(interval) < 0)
+            int expirationInterval = Integer.valueOf(interval);
+            if (expirationInterval < 0)
             {
                 throw new IllegalArgumentException("Interval must be positive");
+            }
+            int anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
+            if (expirationInterval >= anomalyLifeTime)
+            {
+                throw new IllegalArgumentException("Anomaly expiration interval cannot be greater than anomaly life time");
             }
             ExpirationIntervalInfoHelper.getInstance().setExpirationIntervalValue(Integer.valueOf(interval));
         }
