@@ -822,7 +822,10 @@ public class MainWindowController {
                             Thread.sleep(800);
                             i++;
                         }
-                        if(!connectedFlag) putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
+                        if(!connectedFlag) {
+                            putSystemMessageOnScreen("Failed to connect to " + Connector.getAddressServerInfo(), Color.RED);
+                            Connector.disconnect();
+                        }
                         else putSystemMessageOnScreen("Connected to: " + Connector.getAddressServerInfo());
                         setConnectedState();
                         Connector.setIsFromConnecting(false);

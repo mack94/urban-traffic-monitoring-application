@@ -55,12 +55,12 @@ public class Connector {
     }
 
     public static void setIsFromConnecting(boolean is) {
-        if(is) fromConnecting++;
+        if (is) fromConnecting++;
         else fromConnecting--;
     }
 
     public static boolean isFromConnecting() {
-        if(fromConnecting>0) return true;
+        if (fromConnecting > 0) return true;
         return false;
     }
 
@@ -135,9 +135,12 @@ public class Connector {
     }
 
     public static void disconnect() {
-        client.disconnect();
-        managementClient.disconnect();
-        anomalyManager.clearAnomalies();
+        if (client != null)
+            client.disconnect();
+        if (managementClient != null)
+            managementClient.disconnect();
+        if (anomalyManager != null)
+            anomalyManager.clearAnomalies();
     }
 
     public static String getAddressServerInfo() {
@@ -145,7 +148,7 @@ public class Connector {
     }
 
     public static boolean isConnectedToTheServer() {
-        return client != null && client.isConnected();
+        return managementClient != null && managementClient.isConnected() && client != null && client.isConnected();
     }
 
     public static void killAll() {
