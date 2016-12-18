@@ -1,9 +1,12 @@
 package pl.edu.agh.pp.charts.adapters;
 
+import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.charts.adapters.exceptions.ManagementChannelConnectionException;
+import pl.edu.agh.pp.charts.adapters.exceptions.SystemGeneralInfoInitializationException;
 import pl.edu.agh.pp.charts.controller.ChartsController;
 import pl.edu.agh.pp.charts.controller.MainWindowController;
 import pl.edu.agh.pp.charts.data.local.HtmlBuilder;
@@ -69,24 +72,58 @@ public class Connector {
         InetAddress server_addr = InetAddress.getByName(address);
         int server_port;
         server_port = Integer.valueOf(port);
-        boolean nio = true;
+        boolean nio = true; // FIXME
 
         Properties properties = System.getProperties();
         properties.setProperty("jgroups.addr", server_addr.toString());
 
         managementClient = new ManagementChannelReceiver();
         managementClient.start(server_addr, server_port - 1, nio);
-        while (!managementClient.isConnected() || !ServerGeneralInfo.isInitialized()){
-            logger.info("Waiting for management channel connection establishment.");
-            Thread.sleep(250);
-        }
-        if (managementClient.isConnected()) {
-            int anomaly_port = ServerGeneralInfo.getPort();
-            client = new ChannelReceiver();
-            client.start(server_addr, anomaly_port, nio);
-        } else {
-            logger.error("Connector:: connect:: An error occurred while connecting to the management channel. ");
-        }
+
+        Task<Void> sleeper = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    int limit = 10;
+                    while (!managementClient.isConnected() && limit > 0) {
+                        logger.info("Waiting for management channel connection establishment.");
+                        Thread.sleep((11 - limit) * 60);
+                        limit--;
+                    }
+
+                    if (limit <= 0) {
+                        throw new ManagementChannelConnectionException();
+                    }
+
+                    limit = 10;
+                    while (!ServerGeneralInfo.isInitialized() && limit > 0) {
+                        logger.info("Waiting for ServerGeneralInfo initialization");
+                        Thread.sleep((11 - limit) * 60);
+                        limit--;
+                    }
+
+                    if (limit <= 0) {
+                        throw new SystemGeneralInfoInitializationException();
+                    }
+
+                    if (managementClient.isConnected()) {
+                        int anomaly_port = ServerGeneralInfo.getPort();
+                        client = new ChannelReceiver();
+                        client.start(server_addr, anomaly_port, nio);
+                    } else {
+                        logger.error("Connector:: connect:: An error occurred while connecting to the management channel. ");
+                    }
+                } catch (ManagementChannelConnectionException e) {
+                    logger.error("Error while reconnecting. Management Channel is probably not reachable." + e, e);
+                    // TODO: Maybe some action?
+                } catch (SystemGeneralInfoInitializationException e) {
+                    logger.error("Error while reconnecting. Management Channel reachable but not response. " + e, e);
+                    // TODO: Maybe some action?
+                }
+                return null;
+            }
+        };
+        new Thread(sleeper).start();
     }
 
     public static String getAddress() {

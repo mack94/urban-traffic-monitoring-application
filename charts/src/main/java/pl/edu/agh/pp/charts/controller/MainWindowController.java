@@ -44,13 +44,13 @@ import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -808,7 +808,9 @@ public class MainWindowController {
             else{
                 serverPortTxtField.setStyle("-fx-text-box-border: black;");
             }
+
             Connector.connect(address.trim(), port.trim());
+
             Task<Void> sleeper = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
