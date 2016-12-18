@@ -3,16 +3,14 @@ package pl.edu.agh.pp.expiration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.AnomaliesServer;
-import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
-import pl.edu.agh.pp.settings.Options;
-import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 import pl.edu.agh.pp.utils.AnomalyLifeTimeInfoHelper;
 import pl.edu.agh.pp.utils.CurrentAnomaliesHelper;
 import pl.edu.agh.pp.utils.ExpirationBroadcastInfoHelper;
@@ -25,6 +23,7 @@ public class AnomalyExpirationListener extends Thread
     private ConcurrentHashMap<Integer, DateTime> anomalyTime;
     private Set<String> expiredAnomalies;
     private AnomaliesServer anomaliesServer;
+    private final Set<Anomaly> currentAnomalies = new HashSet<>();
 
     public AnomalyExpirationListener(ConcurrentHashMap<Integer, String> anomalyID, ConcurrentHashMap<Integer, DateTime> anomalyTime)
     {
@@ -51,36 +50,57 @@ public class AnomalyExpirationListener extends Thread
         int expirationInterval;
         while (true)
         {
-            logger.info("Checking for expiration started");
-            anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
-            expirationBroadcast = ExpirationBroadcastInfoHelper.getInstance().getExpirationBroadcastValue();
-            int finalAnomalyLifeTime = anomalyLifeTime;
-            int finalExpirationBroadcast = expirationBroadcast;
-            anomalyID.entrySet()
-                    .stream()
-                    .filter(entry -> !expiredAnomalies.contains(entry.getValue()))
-                    .forEach(entry -> {
-                        DateTime anomaly = anomalyTime.get(entry.getKey());
-                        DateTime now = DateTime.now();
-                        int lastUpdateInSeconds = Seconds.secondsBetween(anomaly, now).getSeconds();
-                        if (lastUpdateInSeconds > finalAnomalyLifeTime)
-                        {
-                            sendMessage(entry.getKey(), entry.getValue());
-                            CurrentAnomaliesHelper.getInstance().removeAnomaly(entry.getValue());
-                            if (lastUpdateInSeconds > finalExpirationBroadcast)
-                            {
-                                expiredAnomalies.add(entry.getValue());
-                            }
-                        }
-                    });
             try
             {
+                logger.info("Checking for expiration started");
+                anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
+                expirationBroadcast = ExpirationBroadcastInfoHelper.getInstance().getExpirationBroadcastValue();
+
+                currentAnomalies.addAll(anomalyID.entrySet()
+                        .stream()
+                        .map(entry -> new Anomaly(entry.getKey(), entry.getValue(), anomalyTime.get(entry.getKey())))
+                        .collect(Collectors.toList()));
+
+                Set<Anomaly> anomaliesThatExpire = new HashSet<>();
+                for (Anomaly anomaly : currentAnomalies)
+                {
+                    int lastUpdateInSeconds = Seconds.secondsBetween(anomaly.getLastUpdate(), DateTime.now()).getSeconds();
+                    if (lastUpdateInSeconds > anomalyLifeTime)
+                    {
+                        sendMessage(anomaly.routeId, anomaly.getId());
+                        CurrentAnomaliesHelper.getInstance().removeAnomaly(anomaly.getId());
+                        if (lastUpdateInSeconds > expirationBroadcast)
+                        {
+                            expiredAnomalies.add(anomaly.getId());
+                            anomaliesThatExpire.add(anomaly);
+                        }
+                    }
+                }
+                currentAnomalies.removeAll(anomaliesThatExpire);
+
+                // anomalyID.entrySet()
+                // .stream()
+                // .filter(entry -> !expiredAnomalies.contains(entry.getValue()))
+                // .forEach(entry -> {
+                // DateTime anomaly = anomalyTime.get(entry.getKey());
+                // DateTime now = DateTime.now();
+                // int lastUpdateInSeconds = Seconds.secondsBetween(anomaly, now).getSeconds();
+                // if (lastUpdateInSeconds > finalAnomalyLifeTime)
+                // {
+                // sendMessage(entry.getKey(), entry.getValue());
+                // CurrentAnomaliesHelper.getInstance().removeAnomaly(entry.getValue());
+                // if (lastUpdateInSeconds > finalExpirationBroadcast)
+                // {
+                // expiredAnomalies.add(entry.getValue());
+                // }
+                // }
+                // });
                 expirationInterval = ExpirationIntervalInfoHelper.getInstance().getExpirationIntervalValue();
                 sleep(expirationInterval * 1000);
             }
-            catch (InterruptedException e)
+            catch (Exception e)
             {
-                e.printStackTrace(); // FIXME
+                logger.error("Error occurred while checking expiration of anomalies", e);
             }
         }
     }
@@ -99,5 +119,64 @@ public class AnomalyExpirationListener extends Thread
     public void setAnomaliesServer(AnomaliesServer anomaliesServer)
     {
         this.anomaliesServer = anomaliesServer;
+    }
+
+    private class Anomaly
+    {
+        private Integer routeId;
+        private String id;
+        private DateTime lastUpdate;
+
+        private Anomaly(Integer routeId, String id, DateTime lastUpdate)
+        {
+            this.routeId = routeId;
+            this.id = id;
+            this.lastUpdate = lastUpdate;
+        }
+
+        private Integer getRouteId()
+        {
+            return routeId;
+        }
+
+        private String getId()
+        {
+            return id;
+        }
+
+        private DateTime getLastUpdate()
+        {
+            return lastUpdate;
+        }
+
+        @Override
+        public boolean equals(Object o)
+        {
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
+
+            Anomaly anomaly = (Anomaly) o;
+
+            if (routeId != null ? !routeId.equals(anomaly.routeId) : anomaly.routeId != null)
+                return false;
+            return id != null ? id.equals(anomaly.id) : anomaly.id == null;
+
+        }
+
+        @Override
+        public int hashCode()
+        {
+            int result = routeId != null ? routeId.hashCode() : 0;
+            result = 31 * result + (id != null ? id.hashCode() : 0);
+            return result;
+        }
+
+        @Override
+        public String toString()
+        {
+            return String.format("Anomaly %s at route %d, last update on %s", id, routeId, lastUpdate);
+        }
     }
 }

@@ -69,18 +69,6 @@ public class DetectorManager {
             }
             baselineFilesLoader = new FilesLoader(newLogFiles);
         } else {
-            folder = new File(logFiles[0]);
-            if (folder.isDirectory() && folder.listFiles() != null) {
-                String newLogFiles[] = new String[folder.listFiles().length];
-                int i = 0;
-                for (File file : folder.listFiles()) {
-                    if (file.isFile() && file.getAbsolutePath().endsWith(".log")) {
-                        newLogFiles[i] = file.getAbsolutePath();
-                        i++;
-                    }
-                }
-                baselineFilesLoader = new FilesLoader(newLogFiles);
-            }
             baselineFilesLoader = new FilesLoader(logFiles);
         }
 
@@ -93,6 +81,29 @@ public class DetectorManager {
         new CommandLineManager().start();
         this.anomaliesServer = anomaliesServer;
         builderContext.setServer(anomaliesServer);
+    }
+
+    public DetectorManager(String dirName){
+        File specifiedDir = new File(dirName);
+        File folder;
+        if(specifiedDir.isDirectory()){
+            folder = specifiedDir;
+        }else{
+            folder = new File(LOG_FILES_DIRECTORY_PATH);
+        }
+
+        listOfFiles = folder.listFiles();
+        if (folder.isDirectory() && folder.listFiles() != null) {
+            String newLogFiles[] = new String[folder.listFiles().length];
+            int i = 0;
+            for (File file : folder.listFiles()) {
+                if (file.isFile() && file.getAbsolutePath().endsWith(".log")) {
+                    newLogFiles[i] = file.getAbsolutePath();
+                    i++;
+                }
+            }
+            baselineFilesLoader = new FilesLoader(newLogFiles);
+        }
     }
 
     public static void computeBaselineFromDefaultLogsLocation() throws IOException {
@@ -181,61 +192,65 @@ public class DetectorManager {
 
     public void buildAndShowBaseline(int routeID, DayOfWeek day, String arg, String[] algorithm_options) throws Exception {
         XYLineChart_AWT chart;
-        if (Objects.equals(arg, "poly") || Objects.equals(arg, "p")) {
-            for (int i = 0; i < algorithm_options.length; i++) {
-                if (Objects.equals(algorithm_options[i], "-d") && algorithm_options.length >= i + 1) {
-                    PolynomialPatternBuilder.setPolymonialDegree(Integer.parseInt(algorithm_options[i + 1]));
-                    i++;
+        try {
+            if (Objects.equals(arg, "poly") || Objects.equals(arg, "p")) {
+                for (int i = 0; i < algorithm_options.length; i++) {
+                    if (Objects.equals(algorithm_options[i], "-d") && algorithm_options.length >= i + 1) {
+                        PolynomialPatternBuilder.setPolymonialDegree(Integer.parseInt(algorithm_options[i + 1]));
+                        i++;
+                    }
                 }
+                logger.info("Building baseline with method: poly");
+                PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
+
+                chart = new XYLineChart_AWT("Polymonial", "Baseline dla trasy " + routeID, PolynomialPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<>());
+                chart.pack();
+                RefineryUtilities.centerFrameOnScreen(chart);
+                chart.setVisible(true);
+                chart.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent we) {
+                        System.exit(0);
+                    }
+                });
+            } else if (Objects.equals(arg, "svr") || Objects.equals(arg, "s")) {
+                for (int i = 0; i < algorithm_options.length; i++) {
+                    if (Objects.equals(algorithm_options[i], "-n") && algorithm_options.length >= i + 2) {
+                        SupportVectorRegressionPatternBuilder.setDayIntervals(Integer.parseInt(algorithm_options[i + 1]));
+                        i++;
+                    }
+                    if (Objects.equals(algorithm_options[i], "-i") && algorithm_options.length >= i + 2) {
+                        SupportVectorRegressionPatternBuilder.setInterval(Integer.parseInt(algorithm_options[i + 1]));
+                        i++;
+                    }
+                }
+                logger.info("Building baseline with method: svr");
+                SupportVectorRegressionPatternBuilder.computeClassifier(baselineFilesLoader.processLineByLine(), true);
+
+                chart = new XYLineChart_AWT("SVR", "Baseline dla trasy " + routeID, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<>());
+                chart.pack();
+                RefineryUtilities.centerFrameOnScreen(chart);
+                chart.setVisible(true);
+                chart.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent we) {
+                        System.exit(0);
+                    }
+                });
+            } else if (Objects.equals(arg, "mean") || Objects.equals(arg, "average") || Objects.equals(arg, "simple")) {
+                logger.info("Building baseline with method: simple historical mean");
+                MeanPatternBuilder.computeFunction(baselineFilesLoader.processLineByLine(), true);
+
+                chart = new XYLineChart_AWT("Historical mean", "Baseline dla trasy " + routeID, MeanPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<>());
+                chart.pack();
+                RefineryUtilities.centerFrameOnScreen(chart);
+                chart.setVisible(true);
+                chart.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent we) {
+                        System.exit(0);
+                    }
+                });
             }
-            logger.info("Building baseline with method: poly");
-            PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
-
-            chart = new XYLineChart_AWT("Polymonial", "Baseline dla trasy " + routeID, PolynomialPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<>());
-            chart.pack();
-            RefineryUtilities.centerFrameOnScreen(chart);
-            chart.setVisible(true);
-            chart.addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent we) {
-                    System.exit(0);
-                }
-            });
-        } else if (Objects.equals(arg, "svr") || Objects.equals(arg, "s")) {
-            for (int i = 0; i < algorithm_options.length; i++) {
-                if (Objects.equals(algorithm_options[i], "-n") && algorithm_options.length >= i + 2) {
-                    SupportVectorRegressionPatternBuilder.setDayIntervals(Integer.parseInt(algorithm_options[i + 1]));
-                    i++;
-                }
-                if (Objects.equals(algorithm_options[i], "-i") && algorithm_options.length >= i + 2) {
-                    SupportVectorRegressionPatternBuilder.setInterval(Integer.parseInt(algorithm_options[i + 1]));
-                    i++;
-                }
-            }
-            logger.info("Building baseline with method: svr");
-            SupportVectorRegressionPatternBuilder.computeClassifier(baselineFilesLoader.processLineByLine(), true);
-
-            chart = new XYLineChart_AWT("SVR", "Baseline dla trasy " + routeID, SupportVectorRegressionPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<>());
-            chart.pack();
-            RefineryUtilities.centerFrameOnScreen(chart);
-            chart.setVisible(true);
-            chart.addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent we) {
-                    System.exit(0);
-                }
-            });
-        } else if (Objects.equals(arg, "mean") || Objects.equals(arg, "average") || Objects.equals(arg, "simple")) {
-            logger.info("Building baseline with method: simple historical mean");
-            MeanPatternBuilder.computeFunction(baselineFilesLoader.processLineByLine(), true);
-
-            chart = new XYLineChart_AWT("Historical mean", "Baseline dla trasy " + routeID, MeanPatternBuilder.getValueForEachMinuteOfDay(day, routeID), new ArrayList<>());
-            chart.pack();
-            RefineryUtilities.centerFrameOnScreen(chart);
-            chart.setVisible(true);
-            chart.addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent we) {
-                    System.exit(0);
-                }
-            });
+        }catch (NullPointerException e) {
+            logger.error("WARNING! Historical data for specified day and route missing. Baseline was not computed.");
         }
     }
 
