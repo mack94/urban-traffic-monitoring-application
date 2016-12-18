@@ -26,7 +26,7 @@ public class Connector {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(Connector.class);
     private final static AnomalyManager anomalyManager = AnomalyManager.getInstance();
-    private static boolean isFromConnecting = false;
+    private static int fromConnecting = 0;
     private static String address;
     private static String port;
     private static MainWindowController mainWindowController;
@@ -52,10 +52,17 @@ public class Connector {
     }
 
     public static void setIsFromConnecting(boolean is) {
-        isFromConnecting = is;
+        if(is) fromConnecting++;
+        else fromConnecting--;
+    }
+
+    public static boolean isFromConnecting() {
+        if(fromConnecting>0) return true;
+        return false;
     }
 
     public static void connect(String addr, String prt) throws Exception {
+        System.out.println("conn");
         address = addr;
         port = prt;
 
@@ -219,7 +226,7 @@ public class Connector {
             mainWindowController.setConnectedFlag();
             mainWindowController.setConnectedState();
             mainWindowController.putSystemMessageOnScreen(message, Color.RED);
-            if (!isFromConnecting)
+            if (!isFromConnecting())
                 mainWindowController.reconnecting();
         }
     }

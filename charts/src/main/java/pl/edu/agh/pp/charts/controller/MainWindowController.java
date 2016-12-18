@@ -363,13 +363,36 @@ public class MainWindowController {
     }
 
     private void drawAnomaliesSummaryChart(){
-        for(HBox hbox: anomaliesListView.getItems()){
-            Platform.runLater(() -> allAnomaliesLineChart.getData().add(anomalyManager.getPercentChartData(hbox.getId())));
-        }
+        Platform.runLater(() ->{
+            for(HBox hbox: anomaliesListView.getItems()){
+                allAnomaliesLineChart.getData().add(anomalyManager.getPercentChartData(hbox.getId()));
+            }
+            createSummaryChartTooltips();
+        });
     }
 
     private void createChartTooltips() {
         for (XYChart.Series<Number, Number> s : lineChart.getData()) {
+            System.out.println(s.getName());
+            for (XYChart.Data<Number, Number> d : s.getData()) {
+                double num = (double) d.getXValue();
+                long iPart;
+                double fPart;
+                iPart = (long) num;
+                fPart = num - iPart;
+                Tooltip.install(d.getNode(), new Tooltip(s.getName()+"\nTime of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuration: " + d.getYValue().toString() + " seconds"));
+
+                //Adding class on hover
+                d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
+
+                //Removing class on exit
+                d.getNode().setOnMouseExited(event -> d.getNode().getStyleClass().remove("onHover"));
+            }
+        }
+    }
+    private void createSummaryChartTooltips() {
+        System.out.println("summary tooltips");
+        for (XYChart.Series<Number, Number> s : allAnomaliesLineChart.getData()) {
             for (XYChart.Data<Number, Number> d : s.getData()) {
                 double num = (double) d.getXValue();
                 long iPart;
