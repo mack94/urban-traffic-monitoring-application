@@ -1,14 +1,16 @@
 package pl.edu.agh.pp.serializers;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
 
 /**
@@ -153,6 +155,86 @@ public class FileSerializer implements ISerializer
         }
         return new ConcurrentHashMap<>();
     }
+
+
+    public Map<DayOfWeek, Map<Integer, PolynomialFunction>> searchAndDeserializeBaseline(String timestamp, int routeID, AnomalyOperationProtos.DemandBaselineMessage.Day day)
+    {
+        FileInputStream fileIn = null;
+        ObjectInputStream in = null;
+        try{
+            File baselineFolder = new File(BASELINE_SERIALIZE_PATH);
+            if(!baselineFolder.isDirectory() || baselineFolder.listFiles().length==0){
+                throw new FileNotFoundException("Baseline serialization folder does not exist or is empty");
+            }
+            File[] files = baselineFolder.listFiles();
+            HashMap<Date, File> serializedBaselinesFiles = new HashMap<>();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+            DateFormat timeStampDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String filename;
+            for (File file : files) {
+                filename = file.getName();
+                if (filename.endsWith(".ser")) {
+                    serializedBaselinesFiles.put(dateFormat.parse(filename.split("\\.")[0]), file);
+                }
+            }
+            Date timeStampDate = timeStampDateFormat.parse(timestamp);
+            Collection<Date> serializedBaselineDates = serializedBaselinesFiles.keySet();
+            List<Date> sortedByDiffDates = asSortedList(serializedBaselineDates, createComparator(timeStampDate));
+            DayOfWeek weekDay = DayOfWeek.fromValue(day.getNumber());
+            int index = 0;
+            Date nearestDate = sortedByDiffDates.get(index);
+            File serializedBaselines = serializedBaselinesFiles.get(nearestDate);
+            fileIn = new FileInputStream(serializedBaselines);
+            in = new ObjectInputStream(fileIn);
+            Map<DayOfWeek, Map<Integer, PolynomialFunction>> baselines;
+            baselines = (Map<DayOfWeek, Map<Integer, PolynomialFunction>>) in.readObject();
+
+
+            while(!doesBaselineFitConditions(baselines, weekDay, routeID)){
+                index++;
+                if(index > sortedByDiffDates.size()-1) break;
+                nearestDate = sortedByDiffDates.get(index);
+                serializedBaselines = serializedBaselinesFiles.get(nearestDate);
+                fileIn = new FileInputStream(serializedBaselines);
+                in = new ObjectInputStream(fileIn);
+                baselines = (Map<DayOfWeek, Map<Integer, PolynomialFunction>>) in.readObject();
+            }
+
+            return baselines;
+        }
+        catch (Exception e)
+        {
+            logger.error("Error occurred while searching for and deserializing baseline", e);
+        }
+        finally {
+            try {
+                fileIn.close();
+                in.close();
+            } catch (Exception e) {
+                logger.error("Error occurred while closing input streams after serialization/deserialization", e);
+            }
+        }
+        return new HashMap<>();
+    }
+
+    private static
+    <T extends Comparable<? super T>> List<T> asSortedList(Collection<T> c, Comparator<T> comp) {
+        List<T> list = new ArrayList<T>(c);
+        java.util.Collections.sort(list, comp);
+        return list;
+    }
+
+    private static Comparator<Date> createComparator(Date targetBaselineDate)
+    {
+        final Date finalDate = targetBaselineDate;
+        return (d0, d1) -> {
+            long finalTime = finalDate.getTime();
+            long dateDiff0 = Math.abs(finalTime - d0.getTime());
+            long dateDiff1 = Math.abs(finalTime - d1.getTime());
+            return Long.compare(dateDiff0, dateDiff1);
+        };
+    }
+
 
     private static class Holder
     {

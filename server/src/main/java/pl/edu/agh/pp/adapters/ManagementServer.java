@@ -260,7 +260,8 @@ public class ManagementServer extends Server {
 
         if (baselineType != null && baselineType.length() > 0) {
             logger.info("It's from deserialization.");
-            Map<DayOfWeek, Map<Integer, PolynomialFunction>> fbs = FileSerializer.getInstance().deserializeBaseline(baselineType);
+            Map<DayOfWeek, Map<Integer, PolynomialFunction>> fbs = FileSerializer.getInstance()
+                    .searchAndDeserializeBaseline(baselineType, routeID, day);
             PolynomialFunction pf = fbs.get(dayOfWeek).get(routeID);
             int second = 0;
             while (second < 86400) {
@@ -281,6 +282,7 @@ public class ManagementServer extends Server {
                 .setRouteIdx(routeID)
                 .putAllBaseline(baselineMap)
                 .setDay(AnomalyOperationProtos.BaselineMessage.Day.forNumber(dayNumber))
+                .setBaselineType(baselineType)
                 .build();
 
         AnomalyOperationProtos.ManagementMessage managementMessage = AnomalyOperationProtos.ManagementMessage.newBuilder()
