@@ -21,7 +21,6 @@ public class AnomalyExpirationListener extends Thread
     private final Logger logger = LoggerFactory.getLogger(AnomalyExpirationListener.class);
     private ConcurrentHashMap<Integer, String> anomalyID;
     private ConcurrentHashMap<Integer, DateTime> anomalyTime;
-    private Set<String> expiredAnomalies;
     private AnomaliesServer anomaliesServer;
     private final Set<Anomaly> currentAnomalies = new HashSet<>();
 
@@ -29,7 +28,6 @@ public class AnomalyExpirationListener extends Thread
     {
         this.anomalyID = anomalyID;
         this.anomalyTime = anomalyTime;
-        this.expiredAnomalies = new HashSet<>();
     }
 
     @Override
@@ -67,12 +65,14 @@ public class AnomalyExpirationListener extends Thread
                     int lastUpdateInSeconds = Seconds.secondsBetween(anomaly.getLastUpdate(), DateTime.now()).getSeconds();
                     if (lastUpdateInSeconds > anomalyLifeTime)
                     {
-                        sendMessage(anomaly.routeId, anomaly.getId());
-                        CurrentAnomaliesHelper.getInstance().removeAnomaly(anomaly.getId());
                         if (lastUpdateInSeconds > expirationBroadcast)
                         {
-                            expiredAnomalies.add(anomaly.getId());
                             anomaliesThatExpire.add(anomaly);
+                        }
+                        else
+                        {
+                            sendMessage(anomaly.routeId, anomaly.getId());
+                            CurrentAnomaliesHelper.getInstance().removeAnomaly(anomaly.getId());
                         }
                     }
                 }
