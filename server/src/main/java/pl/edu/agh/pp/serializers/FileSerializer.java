@@ -135,7 +135,7 @@ public class FileSerializer implements ISerializer
         }
         catch (Exception e)
         {
-            logger.error("Error occurred while reading anomalyTime from file. Returning empty map.");
+            logger.error("Cannot find file containing anomalyTime. Returning empty map.");
         }
         return new ConcurrentHashMap<>();
     }
@@ -151,7 +151,7 @@ public class FileSerializer implements ISerializer
         }
         catch (Exception e)
         {
-            logger.error("Error occurred while reading anomalyId from file. Returning empty map.");
+            logger.error("Cannot find file containing anomalyId. Returning empty map.");
         }
         return new ConcurrentHashMap<>();
     }

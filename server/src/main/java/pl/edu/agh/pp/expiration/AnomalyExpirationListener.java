@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.expiration;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -21,7 +22,6 @@ public class AnomalyExpirationListener extends Thread
     private final Logger logger = LoggerFactory.getLogger(AnomalyExpirationListener.class);
     private ConcurrentHashMap<Integer, String> anomalyID;
     private ConcurrentHashMap<Integer, DateTime> anomalyTime;
-    private Set<String> expiredAnomalies;
     private AnomaliesServer anomaliesServer;
     private final Set<Anomaly> currentAnomalies = new HashSet<>();
 
@@ -29,7 +29,6 @@ public class AnomalyExpirationListener extends Thread
     {
         this.anomalyID = anomalyID;
         this.anomalyTime = anomalyTime;
-        this.expiredAnomalies = new HashSet<>();
     }
 
     @Override
@@ -56,10 +55,12 @@ public class AnomalyExpirationListener extends Thread
                 anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
                 expirationBroadcast = ExpirationBroadcastInfoHelper.getInstance().getExpirationBroadcastValue();
 
-                currentAnomalies.addAll(anomalyID.entrySet()
+                List<Anomaly> newAnomalies = anomalyID.entrySet()
                         .stream()
                         .map(entry -> new Anomaly(entry.getKey(), entry.getValue(), anomalyTime.get(entry.getKey())))
-                        .collect(Collectors.toList()));
+                        .collect(Collectors.toList());
+                currentAnomalies.removeAll(newAnomalies);
+                currentAnomalies.addAll(newAnomalies);
 
                 Set<Anomaly> anomaliesThatExpire = new HashSet<>();
                 for (Anomaly anomaly : currentAnomalies)
@@ -67,12 +68,14 @@ public class AnomalyExpirationListener extends Thread
                     int lastUpdateInSeconds = Seconds.secondsBetween(anomaly.getLastUpdate(), DateTime.now()).getSeconds();
                     if (lastUpdateInSeconds > anomalyLifeTime)
                     {
-                        sendMessage(anomaly.routeId, anomaly.getId());
-                        CurrentAnomaliesHelper.getInstance().removeAnomaly(anomaly.getId());
                         if (lastUpdateInSeconds > expirationBroadcast)
                         {
-                            expiredAnomalies.add(anomaly.getId());
                             anomaliesThatExpire.add(anomaly);
+                        }
+                        else
+                        {
+                            sendMessage(anomaly.routeId, anomaly.getId());
+                            CurrentAnomaliesHelper.getInstance().removeAnomaly(anomaly.getId());
                         }
                     }
                 }
