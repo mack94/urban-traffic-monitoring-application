@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.expiration;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -54,10 +55,12 @@ public class AnomalyExpirationListener extends Thread
                 anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
                 expirationBroadcast = ExpirationBroadcastInfoHelper.getInstance().getExpirationBroadcastValue();
 
-                currentAnomalies.addAll(anomalyID.entrySet()
+                List<Anomaly> newAnomalies = anomalyID.entrySet()
                         .stream()
                         .map(entry -> new Anomaly(entry.getKey(), entry.getValue(), anomalyTime.get(entry.getKey())))
-                        .collect(Collectors.toList()));
+                        .collect(Collectors.toList());
+                currentAnomalies.removeAll(newAnomalies);
+                currentAnomalies.addAll(newAnomalies);
 
                 Set<Anomaly> anomaliesThatExpire = new HashSet<>();
                 for (Anomaly anomaly : currentAnomalies)
