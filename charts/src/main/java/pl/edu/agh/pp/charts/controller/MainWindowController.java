@@ -245,9 +245,13 @@ public class MainWindowController {
             lastDateLabel.setText(anomaly.getLastDate());
             routeIdLabel.setText(anomaly.getRouteId());
             routeDescLabel.setText(anomaly.getRoute());
-            recentDuration.setText(anomaly.getDuration()+" seconds");
+            if(anomaly.getDuration() != null) {
+                recentDuration.setText(anomaly.getDuration() + " seconds");
+            }
             anomaliesNumberLabel.setText(anomaly.getAnomaliesNumber());
-            previousDurationLabel.setText(anomaly.getPreviousDuration()+" seconds");
+            if(anomaly.getPreviousDuration() != null) {
+                previousDurationLabel.setText(anomaly.getPreviousDuration() + " seconds");
+            }
             ExcessLabel.setText(anomaly.getPercent());
 //            trendLabel.setText(anomaly.getTrend());
         } );
