@@ -54,24 +54,24 @@ public class RequestsExecutor
         String logEntry = route.toString();
         Record record = inputParser.parse(logEntry);
 
-        String alternativeLogEntry = null;
-        if (!"default".equals(record.getWaypoints()))
-        {
-            HalfRouteManager halfRouteManager = new HalfRouteManager(record, defaultWaypoints);
-            alternativeLogEntry = logEntry;
-            logEntry = halfRouteManager.splitRoute();
-            record = inputParser.parse(logEntry);
-        }
+//        String alternativeLogEntry = null;
+//        if (!"default".equals(record.getWaypoints()))
+//        {
+//            HalfRouteManager halfRouteManager = new HalfRouteManager(record, defaultWaypoints);
+//            alternativeLogEntry = logEntry;
+//            logEntry = halfRouteManager.splitRoute();
+//            record = inputParser.parse(logEntry);
+//        }
 
         String anomalyId = "";
         if (!requestParams.isMissingHistoricalData())
         {
             anomalyId = detectorManager.isAnomaly(record);
         }
-        if (alternativeLogEntry != null)
-        {
-            addAnomalyIdAndLog(alternativeLogEntry, anomalyId);
-        }
+//        if (alternativeLogEntry != null)
+//        {
+//            addAnomalyIdAndLog(alternativeLogEntry, anomalyId);
+//        }
         addAnomalyIdAndLog(logEntry, anomalyId);
 
     }
