@@ -14,7 +14,7 @@
     </file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <fileNamePattern>
-        logs/TrafficLog.%d{yyyy-MM-dd}.log
+        logs/TrafficLog___%d{EEE_yy-MM-dd}.log
       </fileNamePattern>
     </rollingPolicy>
     <encoder>
