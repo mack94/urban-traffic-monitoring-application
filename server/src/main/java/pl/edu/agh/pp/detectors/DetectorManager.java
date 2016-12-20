@@ -1,8 +1,10 @@
 package pl.edu.agh.pp.detectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.jfree.ui.RefineryUtilities;
 import org.joda.time.DateTime;
+import org.joda.time.Seconds;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -17,8 +19,8 @@ import pl.edu.agh.pp.charts.XYLineChart_AWT;
 import pl.edu.agh.pp.commandline.CommandLineManager;
 import pl.edu.agh.pp.loaders.FilesLoader;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
-import pl.edu.agh.pp.utils.CurrentAnomaliesHelper;
-import pl.edu.agh.pp.utils.Record;
+import pl.edu.agh.pp.serializers.FileSerializer;
+import pl.edu.agh.pp.utils.*;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
 
 import java.awt.event.WindowAdapter;
@@ -40,6 +42,8 @@ public class DetectorManager {
     private static FilesLoader baselineFilesLoader;
     private static File[] listOfFiles;
     private static BuilderContext builderContext;
+    private String prevAnomalyID = "";
+    private int prevSecondOfDay = 0;
     private final Logger logger = LoggerFactory.getLogger(DetectorManager.class);
     private AnomaliesServer anomaliesServer;
 
@@ -166,7 +170,7 @@ public class DetectorManager {
 
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
-                if (file.getName().contains(filenameFormat)) {
+                if (file.getName().contains(filenameFormat) && file.getName().endsWith(".log")) {
                     FilesLoader filesLoader = new FilesLoader();
                     List<Record> records = filesLoader.processFile(file.getPath());
                     for (Record record : records) {
@@ -187,7 +191,78 @@ public class DetectorManager {
             }
         }
         System.out.println(result);
+        if(result.isEmpty()){
+            fillAnomaliesOnHistoricalBaseline(result, date, routeID, dateTime, filenameFormat);
+        }
         return result;
+    }
+
+    private void fillAnomaliesOnHistoricalBaseline(Map<String, Map<Integer, Integer>> result, String date, int routeID, DateTime dateTime, String filenameFormat) throws IOException {
+        AnomalyOperationProtos.DemandBaselineMessage.Day protosFormatDay;
+        protosFormatDay = AnomalyOperationProtos.DemandBaselineMessage.Day.forNumber(dateTime.getDayOfWeek());
+
+        Map<DayOfWeek, Map<Integer, PolynomialFunction>> baselines;
+        baselines = FileSerializer.getInstance().searchAndDeserializeBaseline(date, routeID, protosFormatDay);
+        PolynomialFunction function = baselines.get(DayOfWeek.fromValue(dateTime.getDayOfWeek())).get(routeID);
+        Map<Integer, Integer> newRecord;
+
+        if(function != null) {
+            if (listOfFiles != null) {
+                for (File file : listOfFiles) {
+                    if (file.getName().contains(filenameFormat) && file.getName().endsWith(".log")) {
+                        FilesLoader filesLoader = new FilesLoader();
+                        List<Record> records = filesLoader.processFile(file.getPath());
+                        for (Record record : records) {
+                            if (record.getRouteID() == routeID) {
+                                prevAnomalyID = checkForAnomaly(function, record.getDateTime().getSecondOfDay(), record.getDurationInTraffic(), routeID);
+                                if(!prevAnomalyID.isEmpty()) {
+                                    if (result.containsKey(prevAnomalyID)) {
+                                        Map<Integer, Integer> currentRecord = result.get(prevAnomalyID);
+                                        currentRecord.put(record.getTimeInSeconds(), record.getDurationInTraffic());
+                                        result.replace(prevAnomalyID, currentRecord);
+                                    } else {
+                                        newRecord = new HashMap<>();
+                                        newRecord.put(record.getTimeInSeconds(), record.getDurationInTraffic());
+                                        result.put(prevAnomalyID, newRecord);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        }
+
+    }
+
+    private String checkForAnomaly(PolynomialFunction function, int secondOfDay, int travelDuration, int routeID) {
+        double predictedTravelDuration = function.value(secondOfDay);
+        double errorSensitivity = LeverInfoHelper.getInstance().getLeverValue();
+        double bounds = 0.25 + errorSensitivity; // %
+        double errorDelta = predictedTravelDuration * bounds;
+        int baselineWindowSize = BaselineWindowSizeInfoHelper.getInstance().getBaselineWindowSizeValue();
+        int anomalyLiveTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
+        double predictedTravelDurationMinimum = Double.MAX_VALUE;
+        double predictedTravelDurationMaximum = Double.MIN_VALUE;
+
+        for (int unitDiff = -baselineWindowSize; unitDiff <= baselineWindowSize; unitDiff++) {
+            double tempDuration = function.value(secondOfDay + (unitDiff * 60));
+            predictedTravelDurationMinimum = predictedTravelDurationMinimum < tempDuration ? predictedTravelDurationMinimum : tempDuration;
+            predictedTravelDurationMaximum = predictedTravelDurationMaximum < tempDuration ? tempDuration : predictedTravelDurationMaximum;
+        }
+
+        if ((travelDuration > predictedTravelDurationMaximum + errorDelta)) {
+            DateTime dateTimeNew = DateTime.now().withMillisOfDay(secondOfDay*1000);
+            DateTime dateTimePrev = DateTime.now().withMillisOfDay(prevSecondOfDay*1000);
+            if(!prevAnomalyID.isEmpty() && Seconds.secondsBetween(dateTimeNew, dateTimePrev).getSeconds() < anomalyLiveTime) {
+                return prevAnomalyID;
+            }
+            String newAnomalyID = String.format("%04d", routeID) + "_" + dateTimeNew.toLocalDate() + "_" + dateTimeNew.getHourOfDay() + "-" + dateTimeNew.getMinuteOfHour();
+            return newAnomalyID;
+        }
+        return "";
     }
 
     public void buildAndShowBaseline(int routeID, DayOfWeek day, String arg, String[] algorithm_options) throws Exception {
