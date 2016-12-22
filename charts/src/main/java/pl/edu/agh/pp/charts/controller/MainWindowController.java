@@ -47,6 +47,7 @@ import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -741,6 +742,7 @@ public class MainWindowController {
 
     @FXML
     private void initialize() throws IOException {
+        Locale.setDefault(Locale.ENGLISH);
         systemTab.setGraphic(new Label("System info"));
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");

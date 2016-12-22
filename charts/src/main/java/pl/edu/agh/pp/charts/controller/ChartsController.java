@@ -321,6 +321,7 @@ public class ChartsController {
 
     @FXML
     private void initialize() {
+        Locale.setDefault(Locale.ENGLISH);
         initializeFields();
         setupChart();
         parser = new Parser();
