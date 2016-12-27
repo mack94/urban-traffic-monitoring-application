@@ -66,7 +66,7 @@ public class Timer
                 int to = DayRequestsFrequencyInfoHelper.getInstance().getMaximalTimeValue();
                 int diff = to - from;
                 int waitingTime = random.nextInt(diff) + from;
-                logger.info("DAY SHIFT - waiting time is {} seconds", waitingTime);
+                logger.info("DAY MODE - waiting time is {} seconds", waitingTime);
                 return waitingTime;
             }
             else
@@ -75,7 +75,7 @@ public class Timer
                 int to = NightRequestsFrequencyInfoHelper.getInstance().getMaximalTimeValue();
                 int diff = to - from;
                 int waitingTime = random.nextInt(diff) + from;
-                logger.info("NIGHT SHIFT- waiting time is {} seconds", waitingTime);
+                logger.info("NIGHT MODE- waiting time is {} seconds", waitingTime);
                 if (!Timer.dayOfWeek.equals(DayOfWeek.of(DateTime.now().getDayOfWeek())))
                 {
                     Timer.dayOfWeek = DayOfWeek.of(DateTime.now().getDayOfWeek());

@@ -682,8 +682,8 @@ public class MainWindowController {
                 "current with duration of drive time when detecting anomalies"));
         BaselineWindowSizeLabelText.setTooltip(new Tooltip("Time window of baseline that Server application uses to compare " +
                 "current with duration of drive time when detecting anomalies"));
-        shiftLabel.setTooltip(new Tooltip("Mode which Server application currently uses - Night shift means less frequent API requests"));
-        shiftLabelText.setTooltip(new Tooltip("Mode which Server application currently uses - Night shift means less frequent API requests"));
+        shiftLabel.setTooltip(new Tooltip("Mode which Server application currently uses - Night mode means less frequent API requests"));
+        shiftLabelText.setTooltip(new Tooltip("Mode which Server application currently uses - Night mode means less frequent API requests"));
         anomalyPortNrLabel.setTooltip(new Tooltip("Port used to receive anomalies from Server application"));
         anomalyPortNrLabelText.setTooltip(new Tooltip("Port used to receive anomalies from Server application"));
         serverAddrTxtField.setTooltip(new Tooltip("IP Address of the Server application"));
