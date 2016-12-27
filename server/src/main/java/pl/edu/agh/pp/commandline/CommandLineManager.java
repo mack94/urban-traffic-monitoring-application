@@ -63,10 +63,10 @@ public class CommandLineManager extends Thread
                 continue;
             }
             logger.info("Typed command: {}", buffer);
-            // counts new baseline of files in logs/
-            if (buffer.equals("COUNT_BASELINE"))
+            // counts new baseline of files in data/
+            if (buffer.equals("CALCULATE_BASELINE"))
             {
-                countBaseline();
+                calculateBaseline();
             }
             // loads baseline from file only for given day and route
             else if (buffer.startsWith("LOAD_BASELINE_PARTIALLY"))
@@ -142,7 +142,7 @@ public class CommandLineManager extends Thread
             else if (buffer.equalsIgnoreCase("help") || buffer.equalsIgnoreCase("-help") ||
                     buffer.equalsIgnoreCase("-h") || buffer.equalsIgnoreCase("h"))
             {
-                System.out.println("COUNT_BASELINE - counts new baseline of files in logs directory");
+                System.out.println("COUNT_BASELINE - counts new baseline of files in data/ directory");
                 System.out.println("LOAD_BASELINE_PARTIALLY - loads baseline from file only for given day and route");
                 System.out.println("LOAD_BASELINE - loads baseline from file and replaces in PatternBuilder");
                 System.out.println("UPDATE_BASELINE - updates current baseline with data contained in given file");
@@ -169,13 +169,13 @@ public class CommandLineManager extends Thread
         }
     }
 
-    private void countBaseline()
+    private void calculateBaseline()
     {
         try
         {
-            File baselineDir = new File("logs/");
+            File baselineDir = new File("data/");
             String[] filenames = Arrays.stream(baselineDir.listFiles())
-                    .map(f -> "logs/" + f.getName())
+                    .map(f -> "data/" + f.getName())
                     .toArray(String[]::new);
             FilesLoader filesLoader = new FilesLoader(filenames);
             PolynomialPatternBuilder.computePolynomial(filesLoader.processLineByLine(), false);

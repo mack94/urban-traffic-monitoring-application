@@ -147,7 +147,7 @@ public class CronManager
             if (!missingRoutesID.isEmpty())
             {
                 logger.error("Supplied historical data does not coincide with chosen routes. Check your Routes.json " +
-                        "file and data in logs directory");
+                        "file and data in data directory");
                 logger.error("Routes with missing hitorical data won't be checked for anomalies. Those include(by id): " +
                         Arrays.toString(missingRoutesID.toArray()));
             }
