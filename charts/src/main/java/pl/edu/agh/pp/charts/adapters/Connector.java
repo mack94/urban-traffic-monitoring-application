@@ -78,7 +78,7 @@ public class Connector {
         properties.setProperty("jgroups.addr", server_addr.toString());
 
         managementClient = new ManagementChannelReceiver();
-        managementClient.start(server_addr, server_port - 1, nio);
+        managementClient.start(server_addr, server_port, nio);
 
         Task<Void> sleeper = new Task<Void>() {
             @Override

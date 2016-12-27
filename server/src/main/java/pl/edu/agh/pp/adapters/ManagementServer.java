@@ -113,6 +113,7 @@ public class ManagementServer extends Server {
         int anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
         int baselineWindowSize = BaselineWindowSizeInfoHelper.getInstance().getBaselineWindowSizeValue();
         double leverValue = LeverInfoHelper.getInstance().getLeverValue();
+        int anomalyChannelPort = SystemGeneralInfoHelper.getInstance().getAnomalyChannelPort();
         String mapsApiKey = ApisHelper.getInstance().getMapsApiKey();
         HashMap<Integer, AnomalyOperationProtos.AnomalyMessage> currentAnomalies = CurrentAnomaliesHelper.getInstance()
                 .getCurrentAnomalies();
@@ -125,7 +126,7 @@ public class ManagementServer extends Server {
                 .setBaselineWindowSize(baselineWindowSize)
                 .setLeverValue(leverValue)
                 .setMessageIdx(messageID)
-                .setPort(8080)
+                .setPort(anomalyChannelPort)
                 .setRoutes("")
                 .setShift(shift)
                 .setMapsApiKey(mapsApiKey)

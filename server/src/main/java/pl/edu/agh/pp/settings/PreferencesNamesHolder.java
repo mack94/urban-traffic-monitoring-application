@@ -20,6 +20,7 @@ public class PreferencesNamesHolder {
     public static String DAY_SHIFT_FREQUENCY_TO = "DayModeFrequencyTo";
     public static String NIGHT_SHIFT_FREQUENCY_FROM = "NightModeFrequencyFrom";
     public static String NIGHT_SHIFT_FREQUENCY_TO = "NightModeFrequencyTo";
+    public static String ANOMALY_CHANNEL_PORT = "AnomaliesServerPort";
 
     private PreferencesNamesHolder() {
     }

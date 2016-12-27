@@ -55,21 +55,6 @@ public class FilesLoader {
 
     public final List<Record> processLineByLine() throws IOException {
         List<Record> records = new ArrayList<>();
-//        final List<Record> finalRecords = records; TODO
-//        listFilePath.stream()
-//                .filter(fp -> fp != null)
-//                .forEach(fp -> {
-//                    try {
-//                        Scanner scanner = new Scanner(fp, ENCODING.name());
-//                        while (scanner.hasNextLine()) {
-//                            finalRecords.add(processLine(scanner.nextLine()));
-//                        }
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                });
-//        records = finalRecords;
-//
         for (Path aFilePath : listFilePath) {
             try (Scanner scanner = new Scanner(aFilePath, ENCODING.name())) {
                 while (scanner.hasNextLine()) {
