@@ -25,7 +25,8 @@ public class Timer
     private final static Timer INSTANCE = new Timer();
     private static Logger logger = (Logger) LoggerFactory.getLogger(Timer.class.getClass());
     private static DayOfWeek dayOfWeek = DayOfWeek.of(DateTime.now().getDayOfWeek());
-    private final IOptions options = Options.getInstance();
+    private int frequencyMin = 0;
+    private int frequencyMax = 0;
 
     private Timer()
     {
@@ -58,23 +59,32 @@ public class Timer
             Date d = new SimpleDateFormat("HH:mm:ss").parse(currentTime);
             currentCalendar.setTime(d);
 
+            int from;
+            int to;
+            int diff;
+            int waitingTime;
             Date x = currentCalendar.getTime();
             Random random = new Random();
+
             if (x.after(calendar1.getTime()) && x.before(calendar2.getTime()))
             {
-                int from = DayRequestsFrequencyInfoHelper.getInstance().getMinimalTimeValue();
-                int to = DayRequestsFrequencyInfoHelper.getInstance().getMaximalTimeValue();
-                int diff = to - from;
-                int waitingTime = random.nextInt(diff) + from;
+                from = DayRequestsFrequencyInfoHelper.getInstance().getMinimalTimeValue();
+                frequencyMin = from;
+                to = DayRequestsFrequencyInfoHelper.getInstance().getMaximalTimeValue();
+                frequencyMax = to;
+                diff = to - from;
+                waitingTime = random.nextInt(diff) + from;
                 logger.info("DAY MODE - waiting time is {} seconds", waitingTime);
                 return waitingTime;
             }
             else
             {
-                int from = NightRequestsFrequencyInfoHelper.getInstance().getMinimalTimeValue();
-                int to = NightRequestsFrequencyInfoHelper.getInstance().getMaximalTimeValue();
-                int diff = to - from;
-                int waitingTime = random.nextInt(diff) + from;
+                from = NightRequestsFrequencyInfoHelper.getInstance().getMinimalTimeValue();
+                frequencyMin = from;
+                to = NightRequestsFrequencyInfoHelper.getInstance().getMaximalTimeValue();
+                frequencyMax = to;
+                diff = to - from;
+                waitingTime = random.nextInt(diff) + from;
                 logger.info("NIGHT MODE- waiting time is {} seconds", waitingTime);
                 if (!Timer.dayOfWeek.equals(DayOfWeek.of(DateTime.now().getDayOfWeek())))
                 {
@@ -89,6 +99,22 @@ public class Timer
         {
             logger.error("Error during calculating time to download traffic, returning default value <720>", e);
         }
+
+        frequencyMin = 720;
+        frequencyMax = 720;
+
         return 720;
+    }
+
+    public int getFrequencyMin() {
+        return frequencyMin;
+    }
+
+    public int getFrequencyMax() {
+        return frequencyMax;
+    }
+
+    public String getRequestFrequency() {
+        return String.format("%d - %d", getFrequencyMin()/60, getFrequencyMax()/60);
     }
 }

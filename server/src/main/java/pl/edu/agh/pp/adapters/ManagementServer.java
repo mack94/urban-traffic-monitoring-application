@@ -115,6 +115,7 @@ public class ManagementServer extends Server {
         double leverValue = LeverInfoHelper.getInstance().getLeverValue();
         int anomalyChannelPort = SystemGeneralInfoHelper.getInstance().getAnomalyChannelPort();
         String mapsApiKey = ApisHelper.getInstance().getMapsApiKey();
+        String requestFreq = Timer.getInstance().getRequestFrequency();
         HashMap<Integer, AnomalyOperationProtos.AnomalyMessage> currentAnomalies = CurrentAnomaliesHelper.getInstance()
                 .getCurrentAnomalies();
         //int anomaliesChannelPort = (int) options.getPreference("AnomaliesChannelPort", Integer.class); // FIXME
@@ -130,6 +131,7 @@ public class ManagementServer extends Server {
                 .setRoutes("")
                 .setShift(shift)
                 .setMapsApiKey(mapsApiKey)
+                .setRequestFreq(requestFreq)
                 .putAllCurrentAnomalies(currentAnomalies)
                 .build();
 

@@ -568,7 +568,6 @@ public class MainWindowController {
         if(connectedFlag){
             this.setConnectedLabel(Connector.getAddressServerInfo(), Color.BLACK);
             Platform.runLater(() -> {
-                requestFrequencyLabel.setText("3.5 - 7");
                 connectButton.setDisable(true);
                 disconnectButton.setDisable(false);
             });
@@ -576,7 +575,6 @@ public class MainWindowController {
         else {
             this.setConnectedLabel("NOT CONNECTED", Color.RED);
             Platform.runLater(() -> {
-                requestFrequencyLabel.setText("");
                 connectButton.setDisable(false);
                 disconnectButton.setDisable(true);
                 resetServerInfoLabels();
@@ -594,6 +592,7 @@ public class MainWindowController {
         BaselineWindowSizeLabel.setText("");
         shiftLabel.setText("");
         anomalyPortNrLabel.setText("");
+        requestFrequencyLabel.setText("");
     }
 
     private String formatDate(DateTime date){
@@ -655,13 +654,14 @@ public class MainWindowController {
 
     }
 
-    public void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort){
+    public void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort, String requestFreq){
         Platform.runLater(() -> {
             leverValueLabel.setText(String.valueOf(leverValue*100));
             anomalyLiveTimeLabel.setText(String.valueOf(anomalyLiveTime));
             BaselineWindowSizeLabel.setText(String.valueOf(baselineWindowSize));
             shiftLabel.setText(String.valueOf(shift));
             anomalyPortNrLabel.setText(String.valueOf(anomalyMessagesPort));
+            requestFrequencyLabel.setText(requestFreq);
         } );
     }
 

@@ -98,6 +98,7 @@ message SystemGeneralMessage {
     string routes = 8; // whole routes.json is
     string mapsApiKey = 9;
     map<int32, AnomalyMessage> currentAnomalies = 10;
+    string requestFreq = 11;
 
 }
 

@@ -28,6 +28,8 @@ public class ServerGeneralInfo {
     private static AnomalyOperationProtos.SystemGeneralMessage.Shift shift;
     private static String systemDate;
     private static String mapsApiKey;
+    private static String requestFreq;
+
     private static boolean initialized = false;
     //TODO: Check whether it's everything
 
@@ -42,6 +44,7 @@ public class ServerGeneralInfo {
         setSystemDate(systemGeneralMessage.getSystemDate());
         setMapsApiKey(systemGeneralMessage.getMapsApiKey());
         setCurrentAnomalies(systemGeneralMessage.getCurrentAnomaliesMap());
+        setRequestFreq(systemGeneralMessage.getRequestFreq());
         initialized = true;
         informControllerAboutChanges(); // FIXME: redundant??? ~Maciek
     }
@@ -154,6 +157,11 @@ public class ServerGeneralInfo {
         informConnectorAboutNewMapsApiKey();
     }
 
+    public static void setRequestFreq(String requestFreq) {
+        ServerGeneralInfo.requestFreq = requestFreq;
+        informControllerAboutChanges();
+    }
+
     public static String getRoutesJSON() {
         String routesJSON = "";
         StringBuffer result = new StringBuffer("");
@@ -178,7 +186,7 @@ public class ServerGeneralInfo {
     }
 
     private static void informControllerAboutChanges() {
-        Connector.updateServerInfo(leverValue, anomalyLiveTime, baselineWindowSize, shift, port);
+        Connector.updateServerInfo(leverValue, anomalyLiveTime, baselineWindowSize, shift, port, requestFreq);
     }
 
     private static void informConnectorAboutNewMapsApiKey() throws IllegalPreferenceObjectExpected {
