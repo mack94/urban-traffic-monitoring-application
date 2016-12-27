@@ -47,6 +47,7 @@ import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -403,7 +404,7 @@ public class MainWindowController {
                 double fPart;
                 iPart = (long) num;
                 fPart = num - iPart;
-                Tooltip.install(d.getNode(), new Tooltip(s.getName()+"\nTime of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuration: " + d.getYValue().toString() + " seconds"));
+                Tooltip.install(d.getNode(), new Tooltip(s.getName()+"\nTime of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nExcess: " + d.getYValue().toString() + " %"));
 
                 //Adding class on hover
                 d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
@@ -681,8 +682,8 @@ public class MainWindowController {
                 "current with duration of drive time when detecting anomalies"));
         BaselineWindowSizeLabelText.setTooltip(new Tooltip("Time window of baseline that Server application uses to compare " +
                 "current with duration of drive time when detecting anomalies"));
-        shiftLabel.setTooltip(new Tooltip("Mode which Server application currently uses - Night shift means less frequent API requests"));
-        shiftLabelText.setTooltip(new Tooltip("Mode which Server application currently uses - Night shift means less frequent API requests"));
+        shiftLabel.setTooltip(new Tooltip("Mode which Server application currently uses - Night mode means less frequent API requests"));
+        shiftLabelText.setTooltip(new Tooltip("Mode which Server application currently uses - Night mode means less frequent API requests"));
         anomalyPortNrLabel.setTooltip(new Tooltip("Port used to receive anomalies from Server application"));
         anomalyPortNrLabelText.setTooltip(new Tooltip("Port used to receive anomalies from Server application"));
         serverAddrTxtField.setTooltip(new Tooltip("IP Address of the Server application"));
@@ -741,6 +742,7 @@ public class MainWindowController {
 
     @FXML
     private void initialize() throws IOException {
+        Locale.setDefault(Locale.ENGLISH);
         systemTab.setGraphic(new Label("System info"));
         putSystemMessageOnScreen("NOT CONNECTED",Color.RED);
         systemTab.getGraphic().setStyle("-fx-text-fill: black;");

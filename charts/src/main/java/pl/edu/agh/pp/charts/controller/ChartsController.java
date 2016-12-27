@@ -321,6 +321,7 @@ public class ChartsController {
 
     @FXML
     private void initialize() {
+        Locale.setDefault(Locale.ENGLISH);
         initializeFields();
         setupChart();
         parser = new Parser();
@@ -481,7 +482,7 @@ public class ChartsController {
             Platform.runLater(() -> lineChart.getData().add(historicalData.getHistoricalDataSeries()));
             createTooltips();
         }
-        if (drawBaselineCheckbox.isSelected()) {
+        if (drawBaselineCheckbox.isSelected() && !drawAnomaliesCheckbox.isSelected()) {
             drawBaseline(id, String.valueOf(DateTime.parse(dayForHistoricalData).dayOfWeek().get()), dayForHistoricalData);
         }
         if (drawAnomaliesCheckbox.isSelected()) {
@@ -530,6 +531,9 @@ public class ChartsController {
 
     private void drawHistoricalAnomalies(final String id, final String dayForHistoricalAnomalies) {
         //TODO
+        if (drawBaselineCheckbox.isSelected()) {
+            drawBaseline(id, String.valueOf(DateTime.parse(dayForHistoricalAnomalies).dayOfWeek().get()), dayForHistoricalAnomalies);
+        }
         HistoricalAnomaly historicalAnomaly = HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
         if (historicalAnomaly == null) {
             Connector.demandHistoricalAnomalies(DateTime.parse(dayForHistoricalAnomalies), Integer.valueOf(id));
@@ -580,14 +584,11 @@ public class ChartsController {
                 }
             });
         }
-        if (drawBaselineCheckbox.isSelected()) {
-            drawBaseline(id, String.valueOf(DateTime.parse(dayForHistoricalAnomalies).dayOfWeek().get()), dayForHistoricalAnomalies);
-        }
     }
 
     private void setAnomalyChartStyles() {
         for(XYChart.Series<Number, Number> series: lineChart.getData()){
-            if(series.getName().startsWith("Anomaly")){
+            if(series.getName().contains("Anomaly")){
                 series.nodeProperty().get().setStyle("-fx-stroke-width: 5px; -fx-stroke: red; ");
                 for (XYChart.Data<Number, Number> d : series.getData()) {
                     double num = (double) d.getXValue();
@@ -608,7 +609,7 @@ public class ChartsController {
                     });
                 }
             }
-            else if(series.getName().startsWith("Baseline")){
+            else if(series.getName().contains("Baseline")){
                 series.nodeProperty().get().setStyle("-fx-stroke-width: 2px; -fx-stroke: green;");
                 for (XYChart.Data<Number, Number> d : series.getData()) {
                     double num = (double) d.getXValue();
@@ -629,7 +630,6 @@ public class ChartsController {
                 }
             }
             else {
-                System.out.println(series.getName());
                 series.nodeProperty().get().setStyle("-fx-stroke-width: 2px; -fx-stroke: blue;");
                 for (XYChart.Data<Number, Number> d : series.getData()) {
                     double num = (double) d.getXValue();

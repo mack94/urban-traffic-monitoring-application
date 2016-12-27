@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.builders;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
@@ -205,6 +206,10 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
         double predictedTravelDurationMinimum = Double.MAX_VALUE;
         double predictedTravelDurationMaximum = Double.MIN_VALUE;
         double errorRate;
+
+//        IntStream.iterate(-baselineWindowSize, f -> f++)
+//                .limit(baselineWindowSize)
+//                .forEach();
 
         for (int unitDiff = -baselineWindowSize; unitDiff <= baselineWindowSize; unitDiff++)
         {
