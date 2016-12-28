@@ -115,6 +115,7 @@ public class Timer
     }
 
     public String getRequestFrequency() {
+        getWaitingTime(Calendar.getInstance());
         return String.format("%d - %d", getFrequencyMin()/60, getFrequencyMax()/60);
     }
 }
