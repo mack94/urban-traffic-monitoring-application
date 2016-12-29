@@ -29,7 +29,8 @@ public class HistoricalInfoHelper {
 
         result = records.stream().filter(x -> x.getDateTime().toString("yyyy-MM-dd").compareTo(date) == 0)
                 .filter(x -> x.getRouteID() == routeID)
-                .collect(Collectors.toMap(Record::getTimeInSeconds, Record::getDurationInTraffic));
+                .collect(Collectors.toMap(Record::getTimeInSeconds, Record::getDurationInTraffic,
+                        (t1,t2)->{return t1;})); //fix for duplicate map keys
 
         return result;
     }
