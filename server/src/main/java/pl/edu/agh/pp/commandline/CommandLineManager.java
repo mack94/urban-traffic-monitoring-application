@@ -63,10 +63,10 @@ public class CommandLineManager extends Thread
                 continue;
             }
             logger.info("Typed command: {}", buffer);
-            // counts new baseline of files in logs/
-            if (buffer.equals("COUNT_BASELINE"))
+            // counts new baseline of files in data/
+            if (buffer.equals("CALCULATE_BASELINE"))
             {
-                countBaseline();
+                calculateBaseline();
             }
             // loads baseline from file only for given day and route
             else if (buffer.startsWith("LOAD_BASELINE_PARTIALLY"))
@@ -127,11 +127,11 @@ public class CommandLineManager extends Thread
             {
                 setNightRequestsFrequency(buffer);
             }
-            else if (buffer.startsWith("SET_DAY_SHIFT_START"))
+            else if (buffer.startsWith("SET_DAY_MODE_START"))
             {
                 setDayShiftStart(buffer);
             }
-            else if (buffer.startsWith("SET_NIGHT_SHIFT_START"))
+            else if (buffer.startsWith("SET_NIGHT_MODE_START"))
             {
                 setNightShiftStart(buffer);
             }
@@ -142,7 +142,7 @@ public class CommandLineManager extends Thread
             else if (buffer.equalsIgnoreCase("help") || buffer.equalsIgnoreCase("-help") ||
                     buffer.equalsIgnoreCase("-h") || buffer.equalsIgnoreCase("h"))
             {
-                System.out.println("COUNT_BASELINE - counts new baseline of files in logs directory");
+                System.out.println("COUNT_BASELINE - counts new baseline of files in data/ directory");
                 System.out.println("LOAD_BASELINE_PARTIALLY - loads baseline from file only for given day and route");
                 System.out.println("LOAD_BASELINE - loads baseline from file and replaces in PatternBuilder");
                 System.out.println("UPDATE_BASELINE - updates current baseline with data contained in given file");
@@ -153,10 +153,10 @@ public class CommandLineManager extends Thread
                 System.out.println("AV_H - lists available dates for historical data");
                 System.out.println("CHANGE_API_KEY - changes the key used by Detector module for requests to google APIS");
                 System.out.println("CHANGE_MAPS_API_KEY - changes the key used by Maps module for requests to google APIS");
-                System.out.println("SET_DAY_SHIFT_START - changes the time when day shift starts");
-                System.out.println("SET_NIGHT_SHIFT_START - changes the time when night shift starts");
-                System.out.println("SET_DAY_REQUESTS_FREQ - changes range of time that is base for generating intervals between executing API requests during day shift");
-                System.out.println("SET_NIGHT_REQUESTS_FREQ - changes range of time that is base for generating intervals between executin API requests during night shift");
+                System.out.println("SET_DAY_MODE_START - changes the time when day mode starts");
+                System.out.println("SET_NIGHT_MODE_START - changes the time when night mode starts");
+                System.out.println("SET_DAY_REQUESTS_FREQ - changes range of time that is base for generating intervals between executing API requests during day mode");
+                System.out.println("SET_NIGHT_REQUESTS_FREQ - changes range of time that is base for generating intervals between executin API requests during night mode");
                 System.out.println("SET_REPEATER_INTERVAL - changes interval between execution time of anomaly repeater");
                 System.out.println("SET_EXPIRATION_INTERVAL - changes interval between execution time of expiration listener");
                 System.out.println("SET_EXPIRATION_BROADCAST_TIME - changes time of broadcasting information about anomaly expiration");
@@ -169,13 +169,13 @@ public class CommandLineManager extends Thread
         }
     }
 
-    private void countBaseline()
+    private void calculateBaseline()
     {
         try
         {
-            File baselineDir = new File("logs/");
+            File baselineDir = new File("data/");
             String[] filenames = Arrays.stream(baselineDir.listFiles())
-                    .map(f -> "logs/" + f.getName())
+                    .map(f -> "data/" + f.getName())
                     .toArray(String[]::new);
             FilesLoader filesLoader = new FilesLoader(filenames);
             PolynomialPatternBuilder.computePolynomial(filesLoader.processLineByLine(), false);
@@ -434,7 +434,7 @@ public class CommandLineManager extends Thread
         }
         catch (Exception e)
         {
-            logger.error("Error occurred while setting requests frequency for day shift", e);
+            logger.error("Error occurred while setting requests frequency for day mode", e);
         }
     }
 
@@ -458,7 +458,7 @@ public class CommandLineManager extends Thread
         }
         catch (Exception e)
         {
-            logger.error("Error occurred while setting requests frequency for night shift", e);
+            logger.error("Error occurred while setting requests frequency for night mode", e);
         }
     }
 
@@ -466,14 +466,14 @@ public class CommandLineManager extends Thread
     {
         try
         {
-            buffer = StringUtils.removeStart(buffer, "SET_DAY_SHIFT_START");
+            buffer = StringUtils.removeStart(buffer, "SET_DAY_MODE_START");
             String[] values = buffer.split(":");
             buffer = parseHour(values, buffer);
             DayShiftStartInfoHelper.getInstance().setDayShiftStart(buffer);
         }
         catch (Exception e)
         {
-            logger.error("Error occurred while setting day shift start", e);
+            logger.error("Error occurred while setting day mode start", e);
         }
     }
 
@@ -481,14 +481,14 @@ public class CommandLineManager extends Thread
     {
         try
         {
-            buffer = StringUtils.removeStart(buffer, "SET_NIGHT_SHIFT_START");
+            buffer = StringUtils.removeStart(buffer, "SET_NIGHT_MODE_START");
             String[] values = buffer.split(":");
             buffer = parseHour(values, buffer);
             NightShiftStartInfoHelper.getInstance().setNightShiftStart(buffer);
         }
         catch (Exception e)
         {
-            logger.error("Error occurred while setting night shift start", e);
+            logger.error("Error occurred while setting night mode start", e);
         }
     }
 

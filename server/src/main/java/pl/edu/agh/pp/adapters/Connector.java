@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.CronManager;
 import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
+import pl.edu.agh.pp.utils.SystemGeneralInfoHelper;
 import pl.edu.agh.pp.utils.SystemScheduler;
 
 import java.io.IOException;
@@ -28,8 +29,9 @@ public class Connector {
 
         try {
             // TODO: I am not sure if we should start both management and anomalies channel both at the same time.
-            managementServer.start(bind_addr, port - 1, nio, "management");
-            anomaliesServer.start(bind_addr, port, nio, "anomalies");
+            managementServer.start(bind_addr, port, nio, "management");
+            int anomaly_port = SystemGeneralInfoHelper.getInstance().getAnomalyChannelPort();
+            anomaliesServer.start(bind_addr, anomaly_port, nio, "anomalies");
             logger.info("AnomaliesServer already running.");
         } catch (Exception e) {
             logger.error("Connector :: Exception " + e, e);

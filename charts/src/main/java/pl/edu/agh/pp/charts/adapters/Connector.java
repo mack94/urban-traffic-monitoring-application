@@ -78,7 +78,7 @@ public class Connector {
         properties.setProperty("jgroups.addr", server_addr.toString());
 
         managementClient = new ManagementChannelReceiver();
-        managementClient.start(server_addr, server_port - 1, nio);
+        managementClient.start(server_addr, server_port, nio);
 
         Task<Void> sleeper = new Task<Void>() {
             @Override
@@ -156,8 +156,8 @@ public class Connector {
             client.killConnectionThread();
     }
 
-    public static void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort) {
-        mainWindowController.updateServerInfo(leverValue, anomalyLiveTime, baselineWindowSize, shift, anomalyMessagesPort);
+    public static void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort, String requestFreq) {
+        mainWindowController.updateServerInfo(leverValue, anomalyLiveTime, baselineWindowSize, shift, anomalyMessagesPort, requestFreq);
     }
 
     public static void updateBaseline(Integer routeID, AnomalyOperationProtos.BaselineMessage.Day day, Map<Integer, Integer> baseline, String type) {

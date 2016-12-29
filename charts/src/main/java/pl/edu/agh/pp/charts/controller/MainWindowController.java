@@ -568,7 +568,6 @@ public class MainWindowController {
         if(connectedFlag){
             this.setConnectedLabel(Connector.getAddressServerInfo(), Color.BLACK);
             Platform.runLater(() -> {
-                requestFrequencyLabel.setText("3.5 - 7");
                 connectButton.setDisable(true);
                 disconnectButton.setDisable(false);
             });
@@ -576,7 +575,6 @@ public class MainWindowController {
         else {
             this.setConnectedLabel("NOT CONNECTED", Color.RED);
             Platform.runLater(() -> {
-                requestFrequencyLabel.setText("");
                 connectButton.setDisable(false);
                 disconnectButton.setDisable(true);
                 resetServerInfoLabels();
@@ -594,6 +592,7 @@ public class MainWindowController {
         BaselineWindowSizeLabel.setText("");
         shiftLabel.setText("");
         anomalyPortNrLabel.setText("");
+        requestFrequencyLabel.setText("");
     }
 
     private String formatDate(DateTime date){
@@ -655,13 +654,14 @@ public class MainWindowController {
 
     }
 
-    public void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort){
+    public void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort, String requestFreq){
         Platform.runLater(() -> {
             leverValueLabel.setText(String.valueOf(leverValue*100));
             anomalyLiveTimeLabel.setText(String.valueOf(anomalyLiveTime));
             BaselineWindowSizeLabel.setText(String.valueOf(baselineWindowSize));
             shiftLabel.setText(String.valueOf(shift));
             anomalyPortNrLabel.setText(String.valueOf(anomalyMessagesPort));
+            requestFrequencyLabel.setText(requestFreq);
         } );
     }
 
@@ -682,8 +682,8 @@ public class MainWindowController {
                 "current with duration of drive time when detecting anomalies"));
         BaselineWindowSizeLabelText.setTooltip(new Tooltip("Time window of baseline that Server application uses to compare " +
                 "current with duration of drive time when detecting anomalies"));
-        shiftLabel.setTooltip(new Tooltip("Mode which Server application currently uses - Night shift means less frequent API requests"));
-        shiftLabelText.setTooltip(new Tooltip("Mode which Server application currently uses - Night shift means less frequent API requests"));
+        shiftLabel.setTooltip(new Tooltip("Mode which Server application currently uses - Night mode means less frequent API requests"));
+        shiftLabelText.setTooltip(new Tooltip("Mode which Server application currently uses - Night mode means less frequent API requests"));
         anomalyPortNrLabel.setTooltip(new Tooltip("Port used to receive anomalies from Server application"));
         anomalyPortNrLabelText.setTooltip(new Tooltip("Port used to receive anomalies from Server application"));
         serverAddrTxtField.setTooltip(new Tooltip("IP Address of the Server application"));

@@ -1,8 +1,5 @@
 package pl.edu.agh.pp.builders;
 
-import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoint;
@@ -20,6 +17,8 @@ import pl.edu.agh.pp.trackers.AnomalyTracker;
 import pl.edu.agh.pp.trackers.IAnomalyTracker;
 import pl.edu.agh.pp.utils.*;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
+
+import java.util.*;
 
 /**
  * Created by Maciej on 18.07.2016.
@@ -68,38 +67,39 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
 
             Map<Integer, List<WeightedObservedPoint>> weightedObservedPointsMap = new HashMap<>();
 
-            for (Record record : _records)
-            {
-                // TODO: on production condition should be like the commented one
-                // if (!"".equals(record.getAnomalyID()) || !"default".equals(record.getWaypoints()))
-                if (!"".equals(record.getAnomalyID()))
-                {
-                    continue;
-                }
-
-                int recordRouteID = record.getRouteID();
-                List<WeightedObservedPoint> points = weightedObservedPointsMap.get(recordRouteID);
-                if (points == null)
-                {
-                    weightedObservedPointsMap.put(recordRouteID, new ArrayList<>());
-                    points = weightedObservedPointsMap.get(recordRouteID);
-                }
-                if (record.getDayOfWeek().compareTo(day) == 0)
-                {
-                    points.add(new WeightedObservedPoint(1 - computeWeightDecay(now, record), record.getTimeInSeconds(), record.getDurationInTraffic()));
-                    weightedObservedPointsMap.put(recordRouteID, points);
-                }
-                AvailableHistoricalInfoHelper.addAvailableDateRoute(
-                        record.getDateTime().toString("yyyy-MM-dd"),
-                        record.getRouteID());
-            }
+            _records.stream()
+                    .filter(record -> "".equals(record.getAnomalyID()))
+                    .forEach(record -> {
+                        int recordRouteID = record.getRouteID();
+                        List<WeightedObservedPoint> points = weightedObservedPointsMap.get(recordRouteID);
+                        if (points == null)
+                        {
+                            weightedObservedPointsMap.put(recordRouteID, new ArrayList<>());
+                            points = weightedObservedPointsMap.get(recordRouteID);
+                        }
+                        if (record.getDayOfWeek().compareTo(day) == 0)
+                        {
+                            points.add(
+                                    new WeightedObservedPoint(1 - computeWeightDecay(now, record),
+                                            record.getTimeInSeconds(),
+                                            record.getDurationInTraffic())
+                            );
+                            weightedObservedPointsMap.put(recordRouteID, points);
+                        }
+                        AvailableHistoricalInfoHelper.addAvailableDateRoute(
+                                record.getDateTime().toString("yyyy-MM-dd"),
+                                record.getRouteID());
+                    });
 
             Map<Integer, PolynomialFunction> polynomialFunctionRoutes = new HashMap<>();
 
             weightedObservedPointsMap.keySet()
                     .stream()
                     .filter(routeID -> weightedObservedPointsMap.get(routeID).size() != 0)
-                    .forEach(routeID -> polynomialFunctionRoutes.put(routeID, new PolynomialFunction(fitter.fit(weightedObservedPointsMap.get(routeID)))));
+                    .forEach(routeID -> polynomialFunctionRoutes.put(
+                            routeID,
+                            new PolynomialFunction(fitter.fit(weightedObservedPointsMap.get(routeID)))
+                    ));
 
             baseline.put(day, polynomialFunctionRoutes);
         }
@@ -209,8 +209,12 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
         for (int unitDiff = -baselineWindowSize; unitDiff <= baselineWindowSize; unitDiff++)
         {
             double tempDuration = function(dayOfWeek, routeIdx, (int) secondOfDay + (unitDiff * 60));
-            predictedTravelDurationMinimum = predictedTravelDurationMinimum < tempDuration ? predictedTravelDurationMinimum : tempDuration;
-            predictedTravelDurationMaximum = predictedTravelDurationMaximum < tempDuration ? tempDuration : predictedTravelDurationMaximum;
+            predictedTravelDurationMinimum = predictedTravelDurationMinimum < tempDuration
+                    ? predictedTravelDurationMinimum
+                    : tempDuration;
+            predictedTravelDurationMaximum = predictedTravelDurationMaximum < tempDuration
+                    ? tempDuration
+                    : predictedTravelDurationMaximum;
         }
 
         logger.info("#####################");
@@ -227,14 +231,12 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
                 errorRate = travelDuration / predictedTravelDuration;
 
             String anomalyID = anomalyTracker.put(routeIdx, DateTime.now());
-            int severity = (int) ((Math.abs(predictedTravelDuration / travelDuration) * 3) % 6);
             System.out.println("Exceed - " + errorRate * 100);
             return AnomalyOperationProtos.AnomalyMessage.newBuilder()
                     .setDayOfWeek(dayOfWeek.ordinal())
                     .setRouteIdx(routeIdx)
                     .setSecondOfDay((int) secondOfDay)
                     .setDuration((int) travelDuration)
-                    .setSeverity(1) // TODO: Fix it
                     .setMessage(String.format("Error rate: > %f <", errorRate))
                     .setAnomalyID(anomalyID)
                     .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))
@@ -242,10 +244,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
                     .setNormExceed((int) (errorRate * 100) - 100)
                     .build();
         }
-//        else if (anomalyTracker.has(routeIdx))
-//        {
-//            anomalyTracker.remove(routeIdx);
-//        }
+
         return null;
     }
 

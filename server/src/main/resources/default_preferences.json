@@ -1,12 +1,12 @@
 {
   "preferences": [
     {
-      "name": "DayShiftStart",
+      "name": "DayModeStart",
       "type": "String",
       "value": "05:00:00"
     },
     {
-      "name": "NightShiftStart",
+      "name": "NightModeStart",
       "type": "String",
       "value": "23:00:00"
     },
@@ -56,22 +56,22 @@
       "value": "3600"
     },
     {
-      "name": "DayShiftFrequencyFrom",
+      "name": "DayModeFrequencyFrom",
       "type": "Integer",
       "value": "200"
     },
     {
-      "name": "DayShiftFrequencyTo",
+      "name": "DayModeFrequencyTo",
       "type": "Integer",
       "value": "500"
     },
     {
-      "name": "NightShiftFrequencyFrom",
+      "name": "NightModeFrequencyFrom",
       "type": "Integer",
       "value": "450"
     },
     {
-      "name": "NightShiftFrequencyTo",
+      "name": "NightModeFrequencyTo",
       "type": "Integer",
       "value": "850"
     }

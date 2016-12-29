@@ -171,7 +171,7 @@ public final class AnomalyOperationProtos {
                         "ORICALMESSAGE\020\t\022$\n DEMANDHISTORICALANOMA" +
                         "LIESMESSAGE\020\n\022\036\n\032HISTORICALANOMALIESMESS" +
                         "AGE\020\013\"?\n\016BonjourMessage\022\r\n\005token\030\001 \001(\005\022\014" +
-                        "\n\004date\030\002 \001(\t\022\020\n\010userName\030\003 \001(\t\"\242\003\n\024Syste" +
+                        "\n\004date\030\002 \001(\t\022\020\n\010userName\030\003 \001(\t\"\267\003\n\024Syste" +
                         "mGeneralMessage\022\022\n\nmessageIdx\030\001 \001(\005\022\022\n\nl" +
                         "everValue\030\002 \001(\001\022\022\n\nsystemDate\030\003 \001(\t\022\027\n\017a",
                 "nomalyLiveTime\030\004 \001(\005\022\032\n\022baselineWindowSi" +
@@ -179,53 +179,54 @@ public final class AnomalyOperationProtos {
                         "essage.Shift\022\014\n\004port\030\007 \001(\005\022\016\n\006routes\030\010 \001" +
                         "(\t\022\022\n\nmapsApiKey\030\t \001(\t\022E\n\020currentAnomali" +
                         "es\030\n \003(\0132+.SystemGeneralMessage.CurrentA" +
-                        "nomaliesEntry\032H\n\025CurrentAnomaliesEntry\022\013" +
-                        "\n\003key\030\001 \001(\005\022\036\n\005value\030\002 \001(\0132\017.AnomalyMess" +
-                        "age:\0028\001\"*\n\005Shift\022\007\n\003DAY\020\000\022\t\n\005NIGHT\020\001\022\r\n\t" +
-                        "UNIVERSAL\020\002\"b\n\014RouteMessage\022\017\n\007routeID\030\001" +
-                        " \001(\005\022\016\n\006origin\030\002 \001(\t\022\023\n\013destination\030\003 \001(",
-                "\t\022\016\n\006coords\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\";\n\014Lever" +
-                        "Message\022\022\n\nleverValue\030\001 \001(\001\022\027\n\017leverUpda" +
-                        "teDate\030\002 \001(\t\"\257\002\n\017BaselineMessage\022\020\n\010rout" +
-                        "eIdx\030\001 \001(\005\022!\n\003day\030\002 \001(\0162\024.BaselineMessag" +
-                        "e.Day\0220\n\010baseline\030\003 \003(\0132\036.BaselineMessag" +
-                        "e.BaselineEntry\022\024\n\014baselineType\030\004 \001(\t\032/\n" +
-                        "\rBaselineEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001" +
-                        "(\005:\0028\001\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY\020\001\022\013" +
+                        "nomaliesEntry\022\023\n\013requestFreq\030\013 \001(\t\032H\n\025Cu" +
+                        "rrentAnomaliesEntry\022\013\n\003key\030\001 \001(\005\022\036\n\005valu" +
+                        "e\030\002 \001(\0132\017.AnomalyMessage:\0028\001\"*\n\005Shift\022\007\n" +
+                        "\003DAY\020\000\022\t\n\005NIGHT\020\001\022\r\n\tUNIVERSAL\020\002\"b\n\014Rout" +
+                        "eMessage\022\017\n\007routeID\030\001 \001(\005\022\016\n\006origin\030\002 \001(",
+                "\t\022\023\n\013destination\030\003 \001(\t\022\016\n\006coords\030\004 \001(\t\022\014" +
+                        "\n\004name\030\005 \001(\t\";\n\014LeverMessage\022\022\n\nleverVal" +
+                        "ue\030\001 \001(\001\022\027\n\017leverUpdateDate\030\002 \001(\t\"\257\002\n\017Ba" +
+                        "selineMessage\022\020\n\010routeIdx\030\001 \001(\005\022!\n\003day\030\002" +
+                        " \001(\0162\024.BaselineMessage.Day\0220\n\010baseline\030\003" +
+                        " \003(\0132\036.BaselineMessage.BaselineEntry\022\024\n\014" +
+                        "baselineType\030\004 \001(\t\032/\n\rBaselineEntry\022\013\n\003k" +
+                        "ey\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"n\n\003Day\022\013\n\007NU" +
+                        "LLDAY\020\000\022\n\n\006MONDAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDN" +
+                        "ESDAY\020\003\022\014\n\010THURSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SAT",
+                "URDAY\020\006\022\n\n\006SUNDAY\020\007\"\330\001\n\025DemandBaselineMe" +
+                        "ssage\022\020\n\010routeIdx\030\001 \001(\005\022\'\n\003day\030\002 \001(\0162\032.D" +
+                        "emandBaselineMessage.Day\022\024\n\014baselineType" +
+                        "\030\003 \001(\t\"n\n\003Day\022\013\n\007NULLDAY\020\000\022\n\n\006MONDAY\020\001\022\013" +
                         "\n\007TUESDAY\020\002\022\r\n\tWEDNESDAY\020\003\022\014\n\010THURSDAY\020\004" +
-                        "\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY\020\007\"\330",
-                "\001\n\025DemandBaselineMessage\022\020\n\010routeIdx\030\001 \001" +
-                        "(\005\022\'\n\003day\030\002 \001(\0162\032.DemandBaselineMessage." +
-                        "Day\022\024\n\014baselineType\030\003 \001(\t\"n\n\003Day\022\013\n\007NULL" +
-                        "DAY\020\000\022\n\n\006MONDAY\020\001\022\013\n\007TUESDAY\020\002\022\r\n\tWEDNES" +
-                        "DAY\020\003\022\014\n\010THURSDAY\020\004\022\n\n\006FRIDAY\020\005\022\014\n\010SATUR" +
-                        "DAY\020\006\022\n\n\006SUNDAY\020\007\"\"\n DemandAvailableHist" +
-                        "oricalMessage\"n\n\017AvailableRoutes\022,\n\006rout" +
-                        "es\030\001 \003(\0132\034.AvailableRoutes.RoutesEntry\032-" +
-                        "\n\013RoutesEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(" +
-                        "\005:\0028\001\"\272\001\n\032AvailableHistoricalMessage\022O\n\022",
-                "avaiableDateRoutes\030\001 \003(\01323.AvailableHist" +
-                        "oricalMessage.AvaiableDateRoutesEntry\032K\n" +
-                        "\027AvaiableDateRoutesEntry\022\013\n\003key\030\001 \001(\t\022\037\n" +
-                        "\005value\030\002 \001(\0132\020.AvailableRoutes:\0028\001\"8\n\027De" +
-                        "mandHistoricalMessage\022\017\n\007routeID\030\001 \001(\005\022\014" +
-                        "\n\004date\030\002 \001(\t\"\227\001\n\021HistoricalMessage\022\017\n\007ro" +
-                        "uteID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\0222\n\010measures\030\003 " +
-                        "\003(\0132 .HistoricalMessage.MeasuresEntry\032/\n" +
-                        "\rMeasuresEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001" +
-                        "(\005:\0028\001\"\226\001\n HistoricalAnomalyPresenceMess",
-                "age\022A\n\010presence\030\001 \003(\0132/.HistoricalAnomal" +
-                        "yPresenceMessage.PresenceEntry\032/\n\rPresen" +
-                        "ceEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"" +
-                        "A\n DemandHistoricalAnomaliesMessage\022\017\n\007r" +
-                        "outeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\317\001\n\032Historica" +
-                        "lAnomaliesMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004da" +
-                        "te\030\002 \001(\t\022=\n\tanomalies\030\003 \003(\0132*.Historical" +
-                        "AnomaliesMessage.AnomaliesEntry\032S\n\016Anoma" +
-                        "liesEntry\022\013\n\003key\030\001 \001(\t\0220\n\005value\030\002 \001(\0132!." +
-                        "HistoricalAnomalyPresenceMessage:\0028\001B9\n\037",
-                "pl.edu.agh.pp.charts.operationsB\026Anomaly" +
-                        "OperationProtosb\006proto3"
+                        "\022\n\n\006FRIDAY\020\005\022\014\n\010SATURDAY\020\006\022\n\n\006SUNDAY\020\007\"\"" +
+                        "\n DemandAvailableHistoricalMessage\"n\n\017Av" +
+                        "ailableRoutes\022,\n\006routes\030\001 \003(\0132\034.Availabl" +
+                        "eRoutes.RoutesEntry\032-\n\013RoutesEntry\022\013\n\003ke" +
+                        "y\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"\272\001\n\032Available",
+                "HistoricalMessage\022O\n\022avaiableDateRoutes\030" +
+                        "\001 \003(\01323.AvailableHistoricalMessage.Avaia" +
+                        "bleDateRoutesEntry\032K\n\027AvaiableDateRoutes" +
+                        "Entry\022\013\n\003key\030\001 \001(\t\022\037\n\005value\030\002 \001(\0132\020.Avai" +
+                        "lableRoutes:\0028\001\"8\n\027DemandHistoricalMessa" +
+                        "ge\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\"\227\001\n\021Hi" +
+                        "storicalMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004date" +
+                        "\030\002 \001(\t\0222\n\010measures\030\003 \003(\0132 .HistoricalMes" +
+                        "sage.MeasuresEntry\032/\n\rMeasuresEntry\022\013\n\003k" +
+                        "ey\030\001 \001(\005\022\r\n\005value\030\002 \001(\005:\0028\001\"\226\001\n Historic",
+                "alAnomalyPresenceMessage\022A\n\010presence\030\001 \003" +
+                        "(\0132/.HistoricalAnomalyPresenceMessage.Pr" +
+                        "esenceEntry\032/\n\rPresenceEntry\022\013\n\003key\030\001 \001(" +
+                        "\005\022\r\n\005value\030\002 \001(\005:\0028\001\"A\n DemandHistorical" +
+                        "AnomaliesMessage\022\017\n\007routeID\030\001 \001(\005\022\014\n\004dat" +
+                        "e\030\002 \001(\t\"\317\001\n\032HistoricalAnomaliesMessage\022\017" +
+                        "\n\007routeID\030\001 \001(\005\022\014\n\004date\030\002 \001(\t\022=\n\tanomali" +
+                        "es\030\003 \003(\0132*.HistoricalAnomaliesMessage.An" +
+                        "omaliesEntry\032S\n\016AnomaliesEntry\022\013\n\003key\030\001 " +
+                        "\001(\t\0220\n\005value\030\002 \001(\0132!.HistoricalAnomalyPr",
+                "esenceMessage:\0028\001B9\n\037pl.edu.agh.pp.chart" +
+                        "s.operationsB\026AnomalyOperationProtosb\006pr" +
+                        "oto3"
         };
         com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
                 new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -274,7 +275,7 @@ public final class AnomalyOperationProtos {
         internal_static_SystemGeneralMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_SystemGeneralMessage_descriptor,
-                new java.lang.String[]{"MessageIdx", "LeverValue", "SystemDate", "AnomalyLiveTime", "BaselineWindowSize", "Shift", "Port", "Routes", "MapsApiKey", "CurrentAnomalies",});
+                new java.lang.String[]{"MessageIdx", "LeverValue", "SystemDate", "AnomalyLiveTime", "BaselineWindowSize", "Shift", "Port", "Routes", "MapsApiKey", "CurrentAnomalies", "RequestFreq",});
         internal_static_SystemGeneralMessage_CurrentAnomaliesEntry_descriptor =
                 internal_static_SystemGeneralMessage_descriptor.getNestedTypes().get(0);
         internal_static_SystemGeneralMessage_CurrentAnomaliesEntry_fieldAccessorTable = new
@@ -914,6 +915,17 @@ public final class AnomalyOperationProtos {
 
         pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage getCurrentAnomaliesOrThrow(
                 int key);
+
+        /**
+         * <code>optional string requestFreq = 11;</code>
+         */
+        java.lang.String getRequestFreq();
+
+        /**
+         * <code>optional string requestFreq = 11;</code>
+         */
+        com.google.protobuf.ByteString
+        getRequestFreqBytes();
     }
     public interface RouteMessageOrBuilder extends
             // @@protoc_insertion_point(interface_extends:RouteMessage)
@@ -8016,6 +8028,7 @@ public final class AnomalyOperationProtos {
         public static final int ROUTES_FIELD_NUMBER = 8;
         public static final int MAPSAPIKEY_FIELD_NUMBER = 9;
         public static final int CURRENTANOMALIES_FIELD_NUMBER = 10;
+        public static final int REQUESTFREQ_FIELD_NUMBER = 11;
         private static final long serialVersionUID = 0L;
         // @@protoc_insertion_point(class_scope:SystemGeneralMessage)
         private static final pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage DEFAULT_INSTANCE;
@@ -8045,7 +8058,9 @@ public final class AnomalyOperationProtos {
         private volatile java.lang.Object mapsApiKey_;
         private com.google.protobuf.MapField<
                 java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> currentAnomalies_;
+        private volatile java.lang.Object requestFreq_;
         private byte memoizedIsInitialized = -1;
+
         // Use SystemGeneralMessage.newBuilder() to construct.
         private SystemGeneralMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
@@ -8061,8 +8076,8 @@ public final class AnomalyOperationProtos {
             port_ = 0;
             routes_ = "";
             mapsApiKey_ = "";
+            requestFreq_ = "";
         }
-
         private SystemGeneralMessage(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8142,6 +8157,12 @@ public final class AnomalyOperationProtos {
                                     currentAnomalies = input.readMessage(
                                     CurrentAnomaliesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
                             currentAnomalies_.getMutableMap().put(currentAnomalies.getKey(), currentAnomalies.getValue());
+                            break;
+                        }
+                        case 90: {
+                            java.lang.String s = input.readStringRequireUtf8();
+
+                            requestFreq_ = s;
                             break;
                         }
                     }
@@ -8498,6 +8519,39 @@ public final class AnomalyOperationProtos {
             return map.get(key);
         }
 
+        /**
+         * <code>optional string requestFreq = 11;</code>
+         */
+        public java.lang.String getRequestFreq() {
+            java.lang.Object ref = requestFreq_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                requestFreq_ = s;
+                return s;
+            }
+        }
+
+        /**
+         * <code>optional string requestFreq = 11;</code>
+         */
+        public com.google.protobuf.ByteString
+        getRequestFreqBytes() {
+            java.lang.Object ref = requestFreq_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                requestFreq_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
         public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
             if (isInitialized == 1) return true;
@@ -8544,6 +8598,9 @@ public final class AnomalyOperationProtos {
                         .setValue(entry.getValue())
                         .build();
                 output.writeMessage(10, currentAnomalies);
+            }
+            if (!getRequestFreqBytes().isEmpty()) {
+                com.google.protobuf.GeneratedMessageV3.writeString(output, 11, requestFreq_);
             }
         }
 
@@ -8595,6 +8652,9 @@ public final class AnomalyOperationProtos {
                 size += com.google.protobuf.CodedOutputStream
                         .computeMessageSize(10, currentAnomalies);
             }
+            if (!getRequestFreqBytes().isEmpty()) {
+                size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, requestFreq_);
+            }
             memoizedSize = size;
             return size;
         }
@@ -8631,6 +8691,8 @@ public final class AnomalyOperationProtos {
                     .equals(other.getMapsApiKey());
             result = result && internalGetCurrentAnomalies().equals(
                     other.internalGetCurrentAnomalies());
+            result = result && getRequestFreq()
+                    .equals(other.getRequestFreq());
             return result;
         }
 
@@ -8664,6 +8726,8 @@ public final class AnomalyOperationProtos {
                 hash = (37 * hash) + CURRENTANOMALIES_FIELD_NUMBER;
                 hash = (53 * hash) + internalGetCurrentAnomalies().hashCode();
             }
+            hash = (37 * hash) + REQUESTFREQ_FIELD_NUMBER;
+            hash = (53 * hash) + getRequestFreq().hashCode();
             hash = (29 * hash) + unknownFields.hashCode();
             memoizedHashCode = hash;
             return hash;
@@ -8834,6 +8898,7 @@ public final class AnomalyOperationProtos {
             private java.lang.Object mapsApiKey_ = "";
             private com.google.protobuf.MapField<
                     java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> currentAnomalies_;
+            private java.lang.Object requestFreq_ = "";
 
             // Construct using pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage.newBuilder()
             private Builder() {
@@ -8909,6 +8974,8 @@ public final class AnomalyOperationProtos {
                 mapsApiKey_ = "";
 
                 internalGetMutableCurrentAnomalies().clear();
+                requestFreq_ = "";
+
                 return this;
             }
 
@@ -8944,6 +9011,7 @@ public final class AnomalyOperationProtos {
                 result.mapsApiKey_ = mapsApiKey_;
                 result.currentAnomalies_ = internalGetCurrentAnomalies();
                 result.currentAnomalies_.makeImmutable();
+                result.requestFreq_ = requestFreq_;
                 result.bitField0_ = to_bitField0_;
                 onBuilt();
                 return result;
@@ -9025,6 +9093,10 @@ public final class AnomalyOperationProtos {
                 }
                 internalGetMutableCurrentAnomalies().mergeFrom(
                         other.internalGetCurrentAnomalies());
+                if (!other.getRequestFreq().isEmpty()) {
+                    requestFreq_ = other.requestFreq_;
+                    onChanged();
+                }
                 onChanged();
                 return this;
             }
@@ -9608,6 +9680,78 @@ public final class AnomalyOperationProtos {
             public Builder putAllCurrentAnomalies(
                     java.util.Map<java.lang.Integer, pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.AnomalyMessage> values) {
                 getMutableCurrentAnomalies().putAll(values);
+                return this;
+            }
+
+            /**
+             * <code>optional string requestFreq = 11;</code>
+             */
+            public java.lang.String getRequestFreq() {
+                java.lang.Object ref = requestFreq_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    requestFreq_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
+            }
+
+            /**
+             * <code>optional string requestFreq = 11;</code>
+             */
+            public Builder setRequestFreq(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+
+                requestFreq_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string requestFreq = 11;</code>
+             */
+            public com.google.protobuf.ByteString
+            getRequestFreqBytes() {
+                java.lang.Object ref = requestFreq_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    requestFreq_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>optional string requestFreq = 11;</code>
+             */
+            public Builder setRequestFreqBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+
+                requestFreq_ = value;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>optional string requestFreq = 11;</code>
+             */
+            public Builder clearRequestFreq() {
+
+                requestFreq_ = getDefaultInstance().getRequestFreq();
+                onChanged();
                 return this;
             }
 

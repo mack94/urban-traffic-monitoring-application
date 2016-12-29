@@ -42,6 +42,7 @@ public class LeverInfoHelper {
                 logger.error("LeverInfoHelper:  leverValue error! Could not getPreference LeverValue from registry!" + illegalPreferenceObjectExpected,
                         illegalPreferenceObjectExpected);
                 leverValue = 0.0;
+                setLeverValue((int) leverValue * 100);
                 logger.error("LeverInfoHelper:  leverValue error! Assigned 0.0 (0%) to LeverValue due to emergency mode!");
             }
             updated = true;

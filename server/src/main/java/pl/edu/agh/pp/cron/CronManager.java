@@ -88,7 +88,7 @@ public class CronManager
                 catch (Exception e)
                 {
                     // TODO: Catch this.
-                    logger.error("CronManager: Some Exception occured while executing requestsExecutor: " + e, e);
+                    logger.error("CronManager: Some Exception occurred while executing requestsExecutor: " + e, e);
                     System.out.println("Please, check your API KEY. It's very likely that new key is required.");
                     Thread.sleep(MANAGMENT_DELAY_SECONDS * 1000);
                 }
@@ -147,8 +147,8 @@ public class CronManager
             if (!missingRoutesID.isEmpty())
             {
                 logger.error("Supplied historical data does not coincide with chosen routes. Check your Routes.json " +
-                        "file and data in logs directory");
-                logger.error("Routes with missing hitorical data won't be checked for anomalies. Those include(by id): " +
+                        "file and data in data directory");
+                logger.error("Routes with missing historical data won't be checked for anomalies. Those include(by id): " +
                         Arrays.toString(missingRoutesID.toArray()));
             }
 

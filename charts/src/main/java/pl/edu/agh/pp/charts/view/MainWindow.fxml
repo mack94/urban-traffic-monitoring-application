@@ -77,7 +77,7 @@
                                     <Label fx:id="BaselineWindowSizeLabel" />
                                 </VBox>
                                 <VBox id="spec_set">
-                                    <Label text="Shift: "  fx:id="shiftLabelText"/>
+                                    <Label text="Mode: "  fx:id="shiftLabelText"/>
                                     <Label fx:id="shiftLabel" />
                                 </VBox>
                                 <VBox id="spec_set">

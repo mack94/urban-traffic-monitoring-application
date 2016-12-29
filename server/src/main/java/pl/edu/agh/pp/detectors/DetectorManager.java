@@ -38,7 +38,7 @@ import java.util.*;
  *         Project: detector.
  */
 public class DetectorManager {
-    private static final String LOG_FILES_DIRECTORY_PATH = "./logs";
+    private static final String LOG_FILES_DIRECTORY_PATH = "./data";
     private static FilesLoader baselineFilesLoader;
     private static File[] listOfFiles;
     private static BuilderContext builderContext;
@@ -130,7 +130,7 @@ public class DetectorManager {
             baselineFilesLoader = new FilesLoader(newLogFiles);
             baselineFilesLoader.processLineByLine();
         } else {
-            throw new FileNotFoundException("DetectorManager: logs directory missing or no log files detected inside");
+            throw new FileNotFoundException("DetectorManager: data/ directory missing or no log files detected inside");
         }
     }
 
