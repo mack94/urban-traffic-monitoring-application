@@ -203,7 +203,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
                 errorRate = travelDuration / predictedTravelDuration;
 
             String anomalyID = anomalyTracker.put(routeIdx, DateTime.now());
-            System.out.println("Exceed - " + errorRate * 100);
+
             return AnomalyOperationProtos.AnomalyMessage.newBuilder()
                     .setDayOfWeek(dayOfWeek.ordinal())
                     .setRouteIdx(routeIdx)

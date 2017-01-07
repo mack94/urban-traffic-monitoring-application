@@ -45,16 +45,12 @@ public class ServerRoutesInfo {
                 i++;
             }
 
-//            FileReader fileReader = new FileReader(file);
-//
-//            fileReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         if (foundRoute == null) {
-            System.out.println("############## Error : Route not found!"); // FIXME
-            // new exception (?)
+            System.out.println("############## Error : Route not found!");
         }
 
         return foundRoute;
@@ -147,7 +143,6 @@ public class ServerRoutesInfo {
     }
 
     public static String getId(String screenId) {
-        System.out.println("-----------------");
         return screenId.replaceAll("([\\d]+).*", "$1");
     }
 }

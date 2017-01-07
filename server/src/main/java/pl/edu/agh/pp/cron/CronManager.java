@@ -73,14 +73,13 @@ public class CronManager {
                     Thread.sleep(waitingTime * 1000);
                     reloadRoutes();
                 } catch (Exception e) {
-                    // TODO: Catch this.
                     logger.error("CronManager: Some Exception occurred while executing requestsExecutor: " + e, e);
                     System.out.println("Please, check your API KEY. It's very likely that new key is required.");
                     Thread.sleep(MANAGMENT_DELAY_SECONDS * 1000);
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("CronManager: Exception occurred while getting data from API.");
         }
     }
 

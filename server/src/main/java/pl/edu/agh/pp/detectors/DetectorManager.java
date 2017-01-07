@@ -79,7 +79,7 @@ public class DetectorManager {
         try {
             PolynomialPatternBuilder.computePolynomial(baselineFilesLoader.processLineByLine(), true);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("DetectorManager: Exception in constructor occurred: " + e, e);
         }
         new CommandLineManager().start();
         this.anomaliesServer = anomaliesServer;
@@ -165,7 +165,6 @@ public class DetectorManager {
         int month = dateTime.getMonthOfYear();
         int day = dateTime.getDayOfMonth();
         String filenameFormat = String.format("%d-%d-%d", (year % 2000), month, day);
-        System.out.println("SEARCH DATE FILENAME: " + filenameFormat);
 
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
@@ -189,7 +188,7 @@ public class DetectorManager {
                 }
             }
         }
-        System.out.println(result);
+
         if (result.isEmpty()) {
             fillAnomaliesOnHistoricalBaseline(result, date, routeID, dateTime, filenameFormat);
         }

@@ -65,14 +65,13 @@ public class Connector {
     }
 
     public static void connect(String addr, String prt) throws Exception {
-        System.out.println("conn");
         address = addr;
         port = prt;
 
         InetAddress server_addr = InetAddress.getByName(address);
         int server_port;
         server_port = Integer.valueOf(port);
-        boolean nio = true; // FIXME
+        boolean nio = true;
 
         Properties properties = System.getProperties();
         properties.setProperty("jgroups.addr", server_addr.toString());
@@ -115,10 +114,8 @@ public class Connector {
                     }
                 } catch (ManagementChannelConnectionException e) {
                     logger.error("Error while reconnecting. Management Channel is probably not reachable." + e, e);
-                    // TODO: Maybe some action?
                 } catch (SystemGeneralInfoInitializationException e) {
                     logger.error("Error while reconnecting. Management Channel reachable but not response. " + e, e);
-                    // TODO: Maybe some action?
                 }
                 return null;
             }

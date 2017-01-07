@@ -52,7 +52,6 @@ public class HalfRouteManager {
         return concatResults(first, second);
     }
 
-    // TODO: I really don't like this solution, but can't see any better.
     private String executeRequest(String origin, String destination, String waypoints) throws Exception {
         DistanceMatrix distanceMatrix = DistanceMatrixApi
                 .getDistanceMatrix(context, new String[]{origin}, new String[]{destination})

@@ -533,7 +533,6 @@ public class ChartsController {
     }
 
     private void drawHistoricalAnomalies(final String id, final String dayForHistoricalAnomalies) {
-        //TODO
         if (drawBaselineCheckbox.isSelected()) {
             drawBaseline(id, String.valueOf(DateTime.parse(dayForHistoricalAnomalies).dayOfWeek().get()), dayForHistoricalAnomalies);
         }
@@ -827,7 +826,6 @@ public class ChartsController {
             fillInDaysOfWeek();
         } else if (typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("Historical data")) {
             dayComboBox.getItems().clear();
-            //TODO historical
         }
     }
 

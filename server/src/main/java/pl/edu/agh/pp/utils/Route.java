@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
  * 23:46
  * Project: 1.
  * <p>
- * TODO: Below could be improved.
  * Please, note that the version 1.0 of this application supports only point to point routes.
  * You can only enter route with two points - start and end.
  */

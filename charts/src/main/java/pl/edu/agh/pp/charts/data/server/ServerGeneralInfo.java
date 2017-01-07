@@ -31,7 +31,6 @@ public class ServerGeneralInfo {
     private static String requestFreq;
 
     private static boolean initialized = false;
-    //TODO: Check whether it's everything
 
     public static void setSystemGeneralMessage(AnomalyOperationProtos.SystemGeneralMessage systemGeneralMessage) throws IllegalPreferenceObjectExpected {
         initialized = false;

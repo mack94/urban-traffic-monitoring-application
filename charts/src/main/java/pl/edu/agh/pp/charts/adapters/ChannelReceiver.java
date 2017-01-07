@@ -60,20 +60,9 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
      */
     @Override
     public void receive(Address sender, ByteBuffer buf) {
-        // TODO: Check this.
-        //buf.rewind();
-        // It's for the NIO mode. It is not tested already - but i think that rewind and flip should be removed.
         Util.bufferToArray(sender, buf, this);
         buf.rewind();
         buf.flip();
-//        try {
-//            AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.parseFrom(buf);
-//            Connector.onAnomalyMessage(message);
-//        } catch (InvalidProtocolBufferException e) {
-//            logger.error("ChannelReceiver :: InvalidProtocolBufferException: " + e
-//                    + "\n Buf Array: " + Arrays.toString(buf.array())
-//                    + "\n Message: " + buf);
-//        }
     }
 
     /**
@@ -149,13 +138,6 @@ public class ChannelReceiver extends ReceiverAdapter implements ConnectionListen
             client.removeConnectionListener(this);
             client.stop();
         }
-//        if (anomaliesConnection != null && anomaliesConnection.isConnected() && anomaliesConnection.isOpen())
-//            try {
-//                anomaliesConnection.close();
-//            } catch (IOException ex) {
-//                logger.error("Error while disconnecting from Anomalies channel/connection: " + ex);
-//                // TODO: I am not sure if to handle an exception or throw. Rozkmina needed.
-//            }
     }
 
     public boolean isConnected() {

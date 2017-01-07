@@ -35,7 +35,7 @@ public class SystemScheduler {
         };
 
         int minutesToNewHour = 60 - DateTime.now().getMinuteOfHour();
-        System.out.println("min" + minutesToNewHour);
+
         final ScheduledFuture<?> senderHandle = generalMessageScheduler
                 .scheduleWithFixedDelay(sender, (minutesToNewHour * 60) + 60, 3600, TimeUnit.SECONDS);
     }

@@ -27,7 +27,6 @@ public class Connector {
         anomaliesServer = new AnomaliesServer();
 
         try {
-            // TODO: I am not sure if we should start both management and anomalies channel both at the same time.
             managementServer.start(bind_addr, port, nio, "management");
             int anomaly_port = SystemGeneralInfoHelper.getInstance().getAnomalyChannelPort();
             anomaliesServer.start(bind_addr, anomaly_port, nio, "anomalies");

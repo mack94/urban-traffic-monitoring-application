@@ -33,9 +33,9 @@ public class Main {
         try {
             options.initialize();
         } catch (BackingStoreException e) {
-            e.printStackTrace();
+            logger.error("Main: BackingStoreException in main occurred: " + e, e);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Main: IOException in main occurred: " + e, e);
         }
 
         if (Objects.equals(args[0], "on"))

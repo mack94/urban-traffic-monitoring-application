@@ -382,7 +382,6 @@ public class MainWindowController {
 
     private void createChartTooltips() {
         for (XYChart.Series<Number, Number> s : lineChart.getData()) {
-            System.out.println(s.getName());
             for (XYChart.Data<Number, Number> d : s.getData()) {
                 double num = (double) d.getXValue();
                 long iPart;

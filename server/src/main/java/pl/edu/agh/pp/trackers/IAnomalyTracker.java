@@ -50,7 +50,6 @@ public interface IAnomalyTracker {
     DateTime getLastUpdate(int routeID);
 
     /**
-     * TODO: Verify
      * Check, if there was an anomaly on given route, since server application was started.
      *
      * @param routeID The Index/ID of the route.
@@ -59,7 +58,6 @@ public interface IAnomalyTracker {
     boolean has(int routeID);
 
     /**
-     * TODO: Verify
      * Get list of routes, on which an anomaly was detected, since server application
      * was started.
      *

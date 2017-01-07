@@ -136,7 +136,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             fileWriter = new FileWriter(file, false);
             fileWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("ManagementChannelReceiver: IOException occured while trying to create empty file " +
+                    "with routes and closing it.");
         }
     }
 
@@ -164,9 +165,11 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             ServerGeneralInfo.setSystemGeneralMessage(generalMessage);
 
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace(); // FIXME
-        } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
-            illegalPreferenceObjectExpected.printStackTrace(); // FIXME
+            logger.error("ManagementChannelReceiver: InvalidProtocolBufferException occurred while setting " +
+                    "system general message properties. Error: " + e, e);
+        } catch (IllegalPreferenceObjectExpected e) {
+            logger.error("ManagementChannelReceiver: IllegalPreferenceObjectExpected occurred while setting " +
+                    "system general message properties. Error: " + e, e);
         }
     }
 
@@ -179,7 +182,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             ServerGeneralInfo.setLeverValue(leverValue);
 
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace(); // FIXME
+            logger.error("ManagementChannelReceiver: InvalidProtocolBufferException occurred while setting " +
+                    "lever message properties. Error: " + e, e);
         }
     }
 
@@ -192,7 +196,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             Connector.updateAvailableRoutes();
 
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace(); // FIXME
+            logger.error("ManagementChannelReceiver: InvalidProtocolBufferException occurred while setting " +
+                    "routes message properties. Error: " + e, e);
         }
     }
 
@@ -208,7 +213,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             Connector.updateBaseline(routeID, day, baselineMap, type);
 
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace(); //FIXME
+            logger.error("ManagementChannelReceiver: InvalidProtocolBufferException occurred while parsing " +
+                    "baseline message properties. Error: " + e, e);
         }
     }
 
@@ -233,7 +239,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             Connector.updateAvailableDates(resultMap);
 
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace(); // FIXME
+            logger.error("ManagementChannelReceiver: InvalidProtocolBufferException occurred while parsing " +
+                    "available historical message properties. Error: " + e, e);
         }
     }
 
@@ -248,7 +255,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             Connector.updateHistoricalData(routeID, DateTime.parse(date), historicalMap);
 
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace(); // FIXME
+            logger.error("ManagementChannelReceiver: InvalidProtocolBufferException occurred while parsing " +
+                    "historical message properties. Error: " + e, e);
         }
     }
 
@@ -271,7 +279,8 @@ public class ManagementChannelReceiver extends ReceiverAdapter implements Connec
             Connector.updateHistoricalAnomalies(routeID, DateTime.parse(date), historicalAnomaliesMap);
 
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace(); // FIXME
+            logger.error("ManagementChannelReceiver: InvalidProtocolBufferException occurred while parsing " +
+                    "historical anomalies message properties. Error: " + e, e);
         }
     }
 
