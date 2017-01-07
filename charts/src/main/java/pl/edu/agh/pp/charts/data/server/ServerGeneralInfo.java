@@ -35,18 +35,17 @@ public class ServerGeneralInfo {
 
     public static void setSystemGeneralMessage(AnomalyOperationProtos.SystemGeneralMessage systemGeneralMessage) throws IllegalPreferenceObjectExpected {
         initialized = false;
-        setAnomalyLiveTime(systemGeneralMessage.getAnomalyLiveTime());
+        setAnomalyLiveTime(systemGeneralMessage.getAnomalyLifeTime());
         setBaselineWindowSize(systemGeneralMessage.getBaselineWindowSize());
         setLeverValue(systemGeneralMessage.getLeverValue());
         setPort(systemGeneralMessage.getPort());
-        //setRoutes(systemGeneralMessage.getRoutes());
         setShift(systemGeneralMessage.getShift());
         setSystemDate(systemGeneralMessage.getSystemDate());
         setMapsApiKey(systemGeneralMessage.getMapsApiKey());
         setCurrentAnomalies(systemGeneralMessage.getCurrentAnomaliesMap());
         setRequestFreq(systemGeneralMessage.getRequestFreq());
         initialized = true;
-        informControllerAboutChanges(); // FIXME: redundant??? ~Maciek
+        informControllerAboutChanges();
     }
 
     private static void setCurrentAnomalies(Map<Integer, AnomalyOperationProtos.AnomalyMessage> currentAnomaliesMap) {
@@ -191,7 +190,6 @@ public class ServerGeneralInfo {
 
     private static void informConnectorAboutNewMapsApiKey() throws IllegalPreferenceObjectExpected {
         Connector.setMapsApiKey(mapsApiKey);
-        System.out.println("INFORMED");
     }
 
 }

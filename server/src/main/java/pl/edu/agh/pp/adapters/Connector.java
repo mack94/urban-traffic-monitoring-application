@@ -4,7 +4,6 @@ import org.jgroups.Address;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.cron.CronManager;
-import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.utils.SystemGeneralInfoHelper;
 import pl.edu.agh.pp.utils.SystemScheduler;
 

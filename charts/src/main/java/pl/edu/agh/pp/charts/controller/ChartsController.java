@@ -75,7 +75,7 @@ public class ChartsController {
     private Button button134;
     @FXML
     private Button button578;
-//    @FXML
+    //    @FXML
 //    private Button reverseRouteButton;
     @FXML
     private Label logsListLabel;
@@ -202,7 +202,7 @@ public class ChartsController {
                 double fPart;
                 iPart = (long) num;
                 fPart = num - iPart;
-                Tooltip.install(d.getNode(), new Tooltip(s.getName()+"\nTime of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuration: " + d.getYValue().toString() + " seconds"));
+                Tooltip.install(d.getNode(), new Tooltip(s.getName() + "\nTime of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuration: " + d.getYValue().toString() + " seconds"));
 
                 //Adding class on hover
                 d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
@@ -241,7 +241,7 @@ public class ChartsController {
             List<Integer> routes = map.get(date.toString());
             ObservableList<String> dateRouteIdList = FXCollections.observableArrayList();
             for (Integer id : routes) {
-                dateRouteIdList.add(String.valueOf(id) + " " +  ServerRoutesInfo.getRouteName(id));
+                dateRouteIdList.add(String.valueOf(id) + " " + ServerRoutesInfo.getRouteName(id));
             }
             idComboBox.setItems(dateRouteIdList);
         });
@@ -591,10 +591,10 @@ public class ChartsController {
 
     private void setAnomalyChartStyles() {
         Legend legend = (Legend) findNode(lineChart, Legend.class.getName(), "chart-legend");
-        for(XYChart.Series<Number, Number> series: lineChart.getData()){
-            if(series.getName().contains("Anomaly")){
-                for(Legend.LegendItem legendItem: legend.getItems()){
-                    if(legendItem.getText().contains("Anomaly")){
+        for (XYChart.Series<Number, Number> series : lineChart.getData()) {
+            if (series.getName().contains("Anomaly")) {
+                for (Legend.LegendItem legendItem : legend.getItems()) {
+                    if (legendItem.getText().contains("Anomaly")) {
                         legendItem.getSymbol().setStyle("-fx-background-color: red,white;");
                     }
                 }
@@ -607,7 +607,7 @@ public class ChartsController {
                     fPart = num - iPart;
 //                  d.nodeProperty().get().setStyle("-fx-background-color: red,white;");
                     d.nodeProperty().get().getStyleClass().add("AnomalyNode");
-                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: "+ d.getYValue().toString() + " seconds"));
+                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: " + d.getYValue().toString() + " seconds"));
                     d.nodeProperty().get().setOnMouseEntered(event -> {
                         d.getNode().getStyleClass().remove("AnomalyNode");
                         d.getNode().getStyleClass().add("onHover");
@@ -617,12 +617,11 @@ public class ChartsController {
                         d.getNode().getStyleClass().remove("onHover");
                     });
                 }
-            }
-            else if(series.getName().contains("Baseline")){
+            } else if (series.getName().contains("Baseline")) {
                 series.nodeProperty().get().setStyle("-fx-stroke-width: 2px; -fx-stroke: green;");
 
-                for(Legend.LegendItem legendItem: legend.getItems()){
-                    if(legendItem.getText().contains("Baseline")){
+                for (Legend.LegendItem legendItem : legend.getItems()) {
+                    if (legendItem.getText().contains("Baseline")) {
                         legendItem.getSymbol().setStyle("-fx-background-color: green,white;");
                     }
                 }
@@ -633,7 +632,7 @@ public class ChartsController {
                     iPart = (long) num;
                     fPart = num - iPart;
                     d.nodeProperty().get().getStyleClass().add("BaselineDataNode");
-                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: "+ d.getYValue().toString() + " seconds"));
+                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: " + d.getYValue().toString() + " seconds"));
                     d.nodeProperty().get().setOnMouseEntered(event -> {
                         d.getNode().getStyleClass().remove("BaselineDataNode");
                         d.getNode().getStyleClass().add("onHover");
@@ -643,10 +642,9 @@ public class ChartsController {
                         d.getNode().getStyleClass().remove("onHover");
                     });
                 }
-            }
-            else {
-                for(Legend.LegendItem legendItem: legend.getItems()){
-                    if(!legendItem.getText().contains("Anomaly") && !legendItem.getText().contains("Baseline")){
+            } else {
+                for (Legend.LegendItem legendItem : legend.getItems()) {
+                    if (!legendItem.getText().contains("Anomaly") && !legendItem.getText().contains("Baseline")) {
                         legendItem.getSymbol().setStyle("-fx-background-color: blue,white;");
                     }
                 }
@@ -658,7 +656,7 @@ public class ChartsController {
                     iPart = (long) num;
                     fPart = num - iPart;
                     d.nodeProperty().get().getStyleClass().add("HistoricalDataNode");
-                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: "+ d.getYValue().toString() + " seconds"));
+                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: " + d.getYValue().toString() + " seconds"));
                     d.nodeProperty().get().setOnMouseEntered(event -> {
                         d.getNode().getStyleClass().remove("HistoricalDataNode");
                         d.getNode().getStyleClass().add("onHover");
@@ -671,6 +669,7 @@ public class ChartsController {
             }
         }
     }
+
     private static Node findNode(final Parent aParent, final String aClassname, final String aStyleName) {
         if (null != aParent) {
             final ObservableList<Node> children = aParent.getChildrenUnmodifiable();
@@ -683,8 +682,7 @@ public class ChartsController {
                     if (0 == aClassname.compareToIgnoreCase(className)) {
                         if ((null == aStyleName) || (0 == aStyleName.length())) {
                             return child;
-                        }
-                        else {
+                        } else {
                             final String styleName = child.getStyleClass().toString();
                             if (0 == aStyleName.compareToIgnoreCase(styleName)) {
                                 return child;

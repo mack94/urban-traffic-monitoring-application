@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.AnomaliesServer;
-import pl.edu.agh.pp.adapters.ManagementServer;
 import pl.edu.agh.pp.builders.BuilderContext;
 import pl.edu.agh.pp.builders.MeanPatternBuilder;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
@@ -42,9 +41,9 @@ public class DetectorManager {
     private static FilesLoader baselineFilesLoader;
     private static File[] listOfFiles;
     private static BuilderContext builderContext;
+    private final Logger logger = LoggerFactory.getLogger(DetectorManager.class);
     private String prevAnomalyID = "";
     private int prevSecondOfDay = 0;
-    private final Logger logger = LoggerFactory.getLogger(DetectorManager.class);
     private AnomaliesServer anomaliesServer;
 
     public DetectorManager(AnomaliesServer anomaliesServer) {
@@ -87,12 +86,12 @@ public class DetectorManager {
         builderContext.setServer(anomaliesServer);
     }
 
-    public DetectorManager(String dirName){
+    public DetectorManager(String dirName) {
         File specifiedDir = new File(dirName);
         File folder;
-        if(specifiedDir.isDirectory()){
+        if (specifiedDir.isDirectory()) {
             folder = specifiedDir;
-        }else{
+        } else {
             folder = new File(LOG_FILES_DIRECTORY_PATH);
         }
 
@@ -191,7 +190,7 @@ public class DetectorManager {
             }
         }
         System.out.println(result);
-        if(result.isEmpty()){
+        if (result.isEmpty()) {
             fillAnomaliesOnHistoricalBaseline(result, date, routeID, dateTime, filenameFormat);
         }
         return result;
@@ -206,7 +205,7 @@ public class DetectorManager {
         PolynomialFunction function = baselines.get(DayOfWeek.fromValue(dateTime.getDayOfWeek())).get(routeID);
         Map<Integer, Integer> newRecord;
 
-        if(function != null) {
+        if (function != null) {
             if (listOfFiles != null) {
                 for (File file : listOfFiles) {
                     if (file.getName().contains(filenameFormat) && file.getName().endsWith(".log")) {
@@ -215,7 +214,7 @@ public class DetectorManager {
                         for (Record record : records) {
                             if (record.getRouteID() == routeID) {
                                 prevAnomalyID = checkForAnomaly(function, record.getDateTime().getSecondOfDay(), record.getDurationInTraffic(), routeID);
-                                if(!prevAnomalyID.isEmpty()) {
+                                if (!prevAnomalyID.isEmpty()) {
                                     if (result.containsKey(prevAnomalyID)) {
                                         Map<Integer, Integer> currentRecord = result.get(prevAnomalyID);
                                         currentRecord.put(record.getTimeInSeconds(), record.getDurationInTraffic());
@@ -243,7 +242,7 @@ public class DetectorManager {
         double bounds = 0.25 + errorSensitivity; // %
         double errorDelta = predictedTravelDuration * bounds;
         int baselineWindowSize = BaselineWindowSizeInfoHelper.getInstance().getBaselineWindowSizeValue();
-        int anomalyLiveTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
+        int anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
         double predictedTravelDurationMinimum = Double.MAX_VALUE;
         double predictedTravelDurationMaximum = Double.MIN_VALUE;
 
@@ -254,9 +253,9 @@ public class DetectorManager {
         }
 
         if ((travelDuration > predictedTravelDurationMaximum + errorDelta)) {
-            DateTime dateTimeNew = DateTime.now().withMillisOfDay(secondOfDay*1000);
-            DateTime dateTimePrev = DateTime.now().withMillisOfDay(prevSecondOfDay*1000);
-            if(!prevAnomalyID.isEmpty() && Seconds.secondsBetween(dateTimeNew, dateTimePrev).getSeconds() < anomalyLiveTime) {
+            DateTime dateTimeNew = DateTime.now().withMillisOfDay(secondOfDay * 1000);
+            DateTime dateTimePrev = DateTime.now().withMillisOfDay(prevSecondOfDay * 1000);
+            if (!prevAnomalyID.isEmpty() && Seconds.secondsBetween(dateTimeNew, dateTimePrev).getSeconds() < anomalyLifeTime) {
                 return prevAnomalyID;
             }
             String newAnomalyID = String.format("%04d", routeID) + "_" + dateTimeNew.toLocalDate() + "_" + dateTimeNew.getHourOfDay() + "-" + dateTimeNew.getMinuteOfHour();
@@ -324,7 +323,7 @@ public class DetectorManager {
                     }
                 });
             }
-        }catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             logger.error("WARNING! Historical data for specified day and route missing. Baseline was not computed.");
         }
     }

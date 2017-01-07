@@ -98,7 +98,7 @@ message SystemGeneralMessage {
     int32 messageIdx = 1;
     double leverValue = 2;
     string systemDate = 3;
-    int32 anomalyLiveTime = 4;
+    int32 anomalyLifeTime = 4;
     int32 baselineWindowSize = 5;
     Shift shift = 6;
     int32 port = 7;

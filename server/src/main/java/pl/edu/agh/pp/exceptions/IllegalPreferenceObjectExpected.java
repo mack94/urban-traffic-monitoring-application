@@ -8,6 +8,7 @@ package pl.edu.agh.pp.exceptions;
  *         Project: server.
  */
 public class IllegalPreferenceObjectExpected extends Exception {
+
     public IllegalPreferenceObjectExpected() {
     }
 
@@ -26,4 +27,5 @@ public class IllegalPreferenceObjectExpected extends Exception {
     public IllegalPreferenceObjectExpected(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
+
 }

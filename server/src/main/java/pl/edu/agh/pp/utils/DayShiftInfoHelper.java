@@ -7,7 +7,6 @@ import pl.edu.agh.pp.adapters.Connector;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
-import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 import pl.edu.agh.pp.utils.enums.DayShift;
 
 import java.io.IOException;

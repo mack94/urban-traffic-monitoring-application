@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
  * server
  */
 public class HalfRouteManager {
+
     private final Pattern DISTANCE_PATTERN = Pattern.compile("(\\d+,\\d+) km");
 
     private final Record record;

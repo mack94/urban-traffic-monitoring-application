@@ -10,7 +10,6 @@ import pl.edu.agh.pp.charts.controller.MainWindowController;
 import pl.edu.agh.pp.charts.data.server.AnomalyManager;
 import pl.edu.agh.pp.charts.settings.IOptions;
 import pl.edu.agh.pp.charts.settings.Options;
-import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.File;
 import java.io.FileWriter;

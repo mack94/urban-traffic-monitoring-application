@@ -18,10 +18,10 @@ import java.util.List;
 
 public class HtmlBuilder {
 
+    private static final String MAP_KEY_ATTRIBUTE_NAME = "MAPS_API_KEY"; //do not change this value
+    private static String Google_Maps_Javascript_API_KEY;
     private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass().toString());
     private String rootDir;
-    private static String Google_Maps_Javascript_API_KEY;
-    private static final String MAP_KEY_ATTRIBUTE_NAME = "MAPS_API_KEY"; //do not change this value
 
     public HtmlBuilder() throws IllegalPreferenceObjectExpected {
         this.rootDir = System.getProperty("user.dir");

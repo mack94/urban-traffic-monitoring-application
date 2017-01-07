@@ -1,11 +1,5 @@
 package pl.edu.agh.pp.expiration;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
-
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 import org.slf4j.Logger;
@@ -17,40 +11,40 @@ import pl.edu.agh.pp.utils.CurrentAnomaliesHelper;
 import pl.edu.agh.pp.utils.ExpirationBroadcastInfoHelper;
 import pl.edu.agh.pp.utils.ExpirationIntervalInfoHelper;
 
-public class AnomalyExpirationListener extends Thread
-{
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
+public class AnomalyExpirationListener extends Thread {
     private final Logger logger = LoggerFactory.getLogger(AnomalyExpirationListener.class);
     private ConcurrentHashMap<Integer, String> anomalyID;
     private ConcurrentHashMap<Integer, DateTime> anomalyTime;
     private AnomaliesServer anomaliesServer;
     private final Set<Anomaly> currentAnomalies = new HashSet<>();
 
-    public AnomalyExpirationListener(ConcurrentHashMap<Integer, String> anomalyID, ConcurrentHashMap<Integer, DateTime> anomalyTime)
-    {
+    public AnomalyExpirationListener(ConcurrentHashMap<Integer, String> anomalyID, ConcurrentHashMap<Integer, DateTime> anomalyTime) {
         this.anomalyID = anomalyID;
         this.anomalyTime = anomalyTime;
     }
 
     @Override
-    public void run()
-    {
-        while (anomaliesServer == null)
-        {
-            try
-            {
+    public void run() {
+
+        while (anomaliesServer == null) {
+            try {
                 sleep(10_000);
-            }
-            catch (InterruptedException ignored)
-            {
+            } catch (InterruptedException ignored) {
             }
         }
+
         int anomalyLifeTime;
         int expirationBroadcast;
         int expirationInterval;
-        while (true)
-        {
-            try
-            {
+
+        while (true) {
+            try {
                 logger.info("Checking for expiration started");
                 anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
                 expirationBroadcast = ExpirationBroadcastInfoHelper.getInstance().getExpirationBroadcastValue();
@@ -63,17 +57,12 @@ public class AnomalyExpirationListener extends Thread
                 currentAnomalies.addAll(newAnomalies);
 
                 Set<Anomaly> anomaliesThatExpire = new HashSet<>();
-                for (Anomaly anomaly : currentAnomalies)
-                {
+                for (Anomaly anomaly : currentAnomalies) {
                     int lastUpdateInSeconds = Seconds.secondsBetween(anomaly.getLastUpdate(), DateTime.now()).getSeconds();
-                    if (lastUpdateInSeconds > anomalyLifeTime)
-                    {
-                        if (lastUpdateInSeconds > expirationBroadcast)
-                        {
+                    if (lastUpdateInSeconds > anomalyLifeTime) {
+                        if (lastUpdateInSeconds > expirationBroadcast) {
                             anomaliesThatExpire.add(anomaly);
-                        }
-                        else
-                        {
+                        } else {
                             sendMessage(anomaly.routeId, anomaly.getId());
                             CurrentAnomaliesHelper.getInstance().removeAnomaly(anomaly.getId());
                         }
@@ -100,16 +89,13 @@ public class AnomalyExpirationListener extends Thread
                 // });
                 expirationInterval = ExpirationIntervalInfoHelper.getInstance().getExpirationIntervalValue();
                 sleep(expirationInterval * 1000);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 logger.error("Error occurred while checking expiration of anomalies", e);
             }
         }
     }
 
-    private void sendMessage(int routeId, String anomalyId)
-    {
+    private void sendMessage(int routeId, String anomalyId) {
         AnomalyOperationProtos.AnomalyMessage message = AnomalyOperationProtos.AnomalyMessage.newBuilder()
                 .setAnomalyID(anomalyId)
                 .setRouteIdx(routeId)
@@ -119,42 +105,35 @@ public class AnomalyExpirationListener extends Thread
         anomaliesServer.send(message.toByteArray());
     }
 
-    public void setAnomaliesServer(AnomaliesServer anomaliesServer)
-    {
+    public void setAnomaliesServer(AnomaliesServer anomaliesServer) {
         this.anomaliesServer = anomaliesServer;
     }
 
-    private class Anomaly
-    {
+    private class Anomaly {
         private Integer routeId;
         private String id;
         private DateTime lastUpdate;
 
-        private Anomaly(Integer routeId, String id, DateTime lastUpdate)
-        {
+        private Anomaly(Integer routeId, String id, DateTime lastUpdate) {
             this.routeId = routeId;
             this.id = id;
             this.lastUpdate = lastUpdate;
         }
 
-        private Integer getRouteId()
-        {
+        private Integer getRouteId() {
             return routeId;
         }
 
-        private String getId()
-        {
+        private String getId() {
             return id;
         }
 
-        private DateTime getLastUpdate()
-        {
+        private DateTime getLastUpdate() {
             return lastUpdate;
         }
 
         @Override
-        public boolean equals(Object o)
-        {
+        public boolean equals(Object o) {
             if (this == o)
                 return true;
             if (o == null || getClass() != o.getClass())
@@ -169,16 +148,14 @@ public class AnomalyExpirationListener extends Thread
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             int result = routeId != null ? routeId.hashCode() : 0;
             result = 31 * result + (id != null ? id.hashCode() : 0);
             return result;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return String.format("Anomaly %s at route %d, last update on %s", id, routeId, lastUpdate);
         }
     }

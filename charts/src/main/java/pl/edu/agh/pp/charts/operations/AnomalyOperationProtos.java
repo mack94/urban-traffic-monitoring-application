@@ -174,7 +174,7 @@ public final class AnomalyOperationProtos {
                         "\n\004date\030\002 \001(\t\022\020\n\010userName\030\003 \001(\t\"\267\003\n\024Syste" +
                         "mGeneralMessage\022\022\n\nmessageIdx\030\001 \001(\005\022\022\n\nl" +
                         "everValue\030\002 \001(\001\022\022\n\nsystemDate\030\003 \001(\t\022\027\n\017a",
-                "nomalyLiveTime\030\004 \001(\005\022\032\n\022baselineWindowSi" +
+                "nomalyLifeTime\030\004 \001(\005\022\032\n\022baselineWindowSi" +
                         "ze\030\005 \001(\005\022*\n\005shift\030\006 \001(\0162\033.SystemGeneralM" +
                         "essage.Shift\022\014\n\004port\030\007 \001(\005\022\016\n\006routes\030\010 \001" +
                         "(\t\022\022\n\nmapsApiKey\030\t \001(\t\022E\n\020currentAnomali" +
@@ -275,7 +275,7 @@ public final class AnomalyOperationProtos {
         internal_static_SystemGeneralMessage_fieldAccessorTable = new
                 com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
                 internal_static_SystemGeneralMessage_descriptor,
-                new java.lang.String[]{"MessageIdx", "LeverValue", "SystemDate", "AnomalyLiveTime", "BaselineWindowSize", "Shift", "Port", "Routes", "MapsApiKey", "CurrentAnomalies", "RequestFreq",});
+                new java.lang.String[]{"MessageIdx", "LeverValue", "SystemDate", "AnomalyLifeTime", "BaselineWindowSize", "Shift", "Port", "Routes", "MapsApiKey", "CurrentAnomalies", "RequestFreq",});
         internal_static_SystemGeneralMessage_CurrentAnomaliesEntry_descriptor =
                 internal_static_SystemGeneralMessage_descriptor.getNestedTypes().get(0);
         internal_static_SystemGeneralMessage_CurrentAnomaliesEntry_fieldAccessorTable = new
@@ -822,9 +822,9 @@ public final class AnomalyOperationProtos {
         getSystemDateBytes();
 
         /**
-         * <code>optional int32 anomalyLiveTime = 4;</code>
+         * <code>optional int32 anomalyLifeTime = 4;</code>
          */
-        int getAnomalyLiveTime();
+        int getAnomalyLifeTime();
 
         /**
          * <code>optional int32 baselineWindowSize = 5;</code>
@@ -8034,7 +8034,7 @@ public final class AnomalyOperationProtos {
         public static final int MESSAGEIDX_FIELD_NUMBER = 1;
         public static final int LEVERVALUE_FIELD_NUMBER = 2;
         public static final int SYSTEMDATE_FIELD_NUMBER = 3;
-        public static final int ANOMALYLIVETIME_FIELD_NUMBER = 4;
+        public static final int ANOMALYLIFETIME_FIELD_NUMBER = 4;
         public static final int BASELINEWINDOWSIZE_FIELD_NUMBER = 5;
         public static final int SHIFT_FIELD_NUMBER = 6;
         public static final int PORT_FIELD_NUMBER = 7;
@@ -8063,7 +8063,7 @@ public final class AnomalyOperationProtos {
         private int messageIdx_;
         private double leverValue_;
         private volatile java.lang.Object systemDate_;
-        private int anomalyLiveTime_;
+        private int anomalyLifeTime_;
         private int baselineWindowSize_;
         private int shift_;
         private int port_;
@@ -8083,7 +8083,7 @@ public final class AnomalyOperationProtos {
             messageIdx_ = 0;
             leverValue_ = 0D;
             systemDate_ = "";
-            anomalyLiveTime_ = 0;
+            anomalyLifeTime_ = 0;
             baselineWindowSize_ = 0;
             shift_ = 0;
             port_ = 0;
@@ -8129,7 +8129,7 @@ public final class AnomalyOperationProtos {
                         }
                         case 32: {
 
-                            anomalyLiveTime_ = input.readInt32();
+                            anomalyLifeTime_ = input.readInt32();
                             break;
                         }
                         case 40: {
@@ -8352,10 +8352,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
-         * <code>optional int32 anomalyLiveTime = 4;</code>
+         * <code>optional int32 anomalyLifeTime = 4;</code>
          */
-        public int getAnomalyLiveTime() {
-            return anomalyLiveTime_;
+        public int getAnomalyLifeTime() {
+            return anomalyLifeTime_;
         }
 
         /**
@@ -8573,8 +8573,8 @@ public final class AnomalyOperationProtos {
             if (!getSystemDateBytes().isEmpty()) {
                 com.google.protobuf.GeneratedMessageV3.writeString(output, 3, systemDate_);
             }
-            if (anomalyLiveTime_ != 0) {
-                output.writeInt32(4, anomalyLiveTime_);
+            if (anomalyLifeTime_ != 0) {
+                output.writeInt32(4, anomalyLifeTime_);
             }
             if (baselineWindowSize_ != 0) {
                 output.writeInt32(5, baselineWindowSize_);
@@ -8621,9 +8621,9 @@ public final class AnomalyOperationProtos {
             if (!getSystemDateBytes().isEmpty()) {
                 size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, systemDate_);
             }
-            if (anomalyLiveTime_ != 0) {
+            if (anomalyLifeTime_ != 0) {
                 size += com.google.protobuf.CodedOutputStream
-                        .computeInt32Size(4, anomalyLiveTime_);
+                        .computeInt32Size(4, anomalyLifeTime_);
             }
             if (baselineWindowSize_ != 0) {
                 size += com.google.protobuf.CodedOutputStream
@@ -8679,8 +8679,8 @@ public final class AnomalyOperationProtos {
                             other.getLeverValue()));
             result = result && getSystemDate()
                     .equals(other.getSystemDate());
-            result = result && (getAnomalyLiveTime()
-                    == other.getAnomalyLiveTime());
+            result = result && (getAnomalyLifeTime()
+                    == other.getAnomalyLifeTime());
             result = result && (getBaselineWindowSize()
                     == other.getBaselineWindowSize());
             result = result && shift_ == other.shift_;
@@ -8711,8 +8711,8 @@ public final class AnomalyOperationProtos {
                     java.lang.Double.doubleToLongBits(getLeverValue()));
             hash = (37 * hash) + SYSTEMDATE_FIELD_NUMBER;
             hash = (53 * hash) + getSystemDate().hashCode();
-            hash = (37 * hash) + ANOMALYLIVETIME_FIELD_NUMBER;
-            hash = (53 * hash) + getAnomalyLiveTime();
+            hash = (37 * hash) + ANOMALYLIFETIME_FIELD_NUMBER;
+            hash = (53 * hash) + getAnomalyLifeTime();
             hash = (37 * hash) + BASELINEWINDOWSIZE_FIELD_NUMBER;
             hash = (53 * hash) + getBaselineWindowSize();
             hash = (37 * hash) + SHIFT_FIELD_NUMBER;
@@ -8899,7 +8899,7 @@ public final class AnomalyOperationProtos {
             private int messageIdx_;
             private double leverValue_;
             private java.lang.Object systemDate_ = "";
-            private int anomalyLiveTime_;
+            private int anomalyLifeTime_;
             private int baselineWindowSize_;
             private int shift_ = 0;
             private int port_;
@@ -8970,7 +8970,7 @@ public final class AnomalyOperationProtos {
 
                 systemDate_ = "";
 
-                anomalyLiveTime_ = 0;
+                anomalyLifeTime_ = 0;
 
                 baselineWindowSize_ = 0;
 
@@ -9012,7 +9012,7 @@ public final class AnomalyOperationProtos {
                 result.messageIdx_ = messageIdx_;
                 result.leverValue_ = leverValue_;
                 result.systemDate_ = systemDate_;
-                result.anomalyLiveTime_ = anomalyLiveTime_;
+                result.anomalyLifeTime_ = anomalyLifeTime_;
                 result.baselineWindowSize_ = baselineWindowSize_;
                 result.shift_ = shift_;
                 result.port_ = port_;
@@ -9080,8 +9080,8 @@ public final class AnomalyOperationProtos {
                     systemDate_ = other.systemDate_;
                     onChanged();
                 }
-                if (other.getAnomalyLiveTime() != 0) {
-                    setAnomalyLiveTime(other.getAnomalyLiveTime());
+                if (other.getAnomalyLifeTime() != 0) {
+                    setAnomalyLifeTime(other.getAnomalyLifeTime());
                 }
                 if (other.getBaselineWindowSize() != 0) {
                     setBaselineWindowSize(other.getBaselineWindowSize());
@@ -9259,28 +9259,28 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <code>optional int32 anomalyLiveTime = 4;</code>
+             * <code>optional int32 anomalyLifeTime = 4;</code>
              */
-            public int getAnomalyLiveTime() {
-                return anomalyLiveTime_;
+            public int getAnomalyLifeTime() {
+                return anomalyLifeTime_;
             }
 
             /**
-             * <code>optional int32 anomalyLiveTime = 4;</code>
+             * <code>optional int32 anomalyLifeTime = 4;</code>
              */
-            public Builder setAnomalyLiveTime(int value) {
+            public Builder setAnomalyLifeTime(int value) {
 
-                anomalyLiveTime_ = value;
+                anomalyLifeTime_ = value;
                 onChanged();
                 return this;
             }
 
             /**
-             * <code>optional int32 anomalyLiveTime = 4;</code>
+             * <code>optional int32 anomalyLifeTime = 4;</code>
              */
-            public Builder clearAnomalyLiveTime() {
+            public Builder clearAnomalyLifeTime() {
 
-                anomalyLiveTime_ = 0;
+                anomalyLifeTime_ = 0;
                 onChanged();
                 return this;
             }

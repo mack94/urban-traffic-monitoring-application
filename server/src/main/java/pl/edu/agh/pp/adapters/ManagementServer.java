@@ -10,8 +10,6 @@ import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detectors.DetectorManager;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.serializers.FileSerializer;
-import pl.edu.agh.pp.settings.IOptions;
-import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.utils.*;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
 
@@ -27,8 +25,6 @@ import java.util.Map;
  * Project: server.
  */
 public class ManagementServer extends Server {
-
-    private IOptions options = Options.getInstance();
 
     @Override
     public void receive(Address sender, byte[] buf, int offset, int length) {
@@ -62,7 +58,6 @@ public class ManagementServer extends Server {
             AnomalyOperationProtos.ManagementMessage.Type messageType = message.getType();
             switch (messageType) {
                 case BONJOURMESSAGE:
-                    // TODO: Check the message
                     sendRoutesMessages(sender);
                     sendSystemGeneralMessage(sender);
                     break;
@@ -97,7 +92,6 @@ public class ManagementServer extends Server {
             logger.error("Following bytes received:");
             logger.error("\t\t" + Arrays.toString(buf));
         } catch (IOException e) {
-            e.printStackTrace();
             logger.error("ManagementServer: IOException while receiving message! " + e, e);
         }
 
@@ -118,9 +112,8 @@ public class ManagementServer extends Server {
         String requestFreq = Timer.getInstance().getRequestFrequency();
         HashMap<Integer, AnomalyOperationProtos.AnomalyMessage> currentAnomalies = CurrentAnomaliesHelper.getInstance()
                 .getCurrentAnomalies();
-        //int anomaliesChannelPort = (int) options.getPreference("AnomaliesChannelPort", Integer.class); // FIXME
         int messageID = 1; // FIXME
-        AnomalyOperationProtos.SystemGeneralMessage.Shift shift = DayShiftInfoHelper.getInstance().getShiftProtos(); // FIXME
+        AnomalyOperationProtos.SystemGeneralMessage.Shift shift = DayShiftInfoHelper.getInstance().getShiftProtos();
 
         AnomalyOperationProtos.SystemGeneralMessage msg = AnomalyOperationProtos.SystemGeneralMessage.newBuilder()
                 .setAnomalyLifeTime(anomalyLifeTime)
@@ -146,7 +139,8 @@ public class ManagementServer extends Server {
             logger.info(server.printConnections());
             server.send(destination, messageToSent, 0, messageToSent.length);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("ManagementServer: Error occurred while sending message to the client: " + destination +
+                    ". Error: " + e, e);
         }
     }
 
@@ -337,7 +331,7 @@ public class ManagementServer extends Server {
             server.send(destination, toSend, 0, toSend.length);
             logger.info("Historical anomalies sent");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("ManagementServer: IOException while sending historical anomalies! " + e, e);
         } catch (Exception e) {
             logger.error("ManagementServer: Exception while sending historical anomalies! " + e, e);
         }

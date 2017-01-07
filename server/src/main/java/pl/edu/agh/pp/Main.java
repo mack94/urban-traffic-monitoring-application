@@ -2,7 +2,6 @@ package pl.edu.agh.pp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.agh.pp.adapters.AnomaliesServer;
 import pl.edu.agh.pp.adapters.Connector;
 import pl.edu.agh.pp.detectors.DetectorManager;
 import pl.edu.agh.pp.settings.IOptions;
@@ -68,24 +67,21 @@ public class Main {
 
     private static void handleOfflineMode(String[] args) throws Exception {
         File logDir;
-        if(args.length>=5) {
+        if (args.length >= 5) {
             if (Objects.equals(args[1], "build")) {
-                logDir = new File(args[args.length-1]);
+                logDir = new File(args[args.length - 1]);
 
-                if(logDir.isDirectory()) {
+                if (logDir.isDirectory()) {
                     new DetectorManager(logDir.getAbsolutePath())
                             .buildAndShowBaseline(Integer.parseInt(args[2]), DayOfWeek.fromValue(Integer.parseInt(args[3])), args[4], Arrays.copyOfRange(args, 5, args.length));
-                }
-                else{
+                } else {
                     new DetectorManager("")
                             .buildAndShowBaseline(Integer.parseInt(args[2]), DayOfWeek.fromValue(Integer.parseInt(args[3])), args[4], Arrays.copyOfRange(args, 5, args.length));
                 }
-            }
-            else{
+            } else {
                 closeOfflineMode(true);
             }
-        }
-        else if(args.length>=2) {
+        } else if (args.length >= 2) {
             if (Objects.equals(args[1], "reset")) {
                 Options options = Options.getInstance();
                 boolean result = options.resetPreferences();
@@ -93,15 +89,14 @@ public class Main {
                 closeOfflineMode(false);
             }
             closeOfflineMode(true);
-        }
-        else{
+        } else {
             closeOfflineMode(true);
         }
 
     }
 
     private static void closeOfflineMode(boolean error) {
-        if(error) logger.error("Run: 'java -jar anomaliesServer.jar off <command> <options>'");
+        if (error) logger.error("Run: 'java -jar anomaliesServer.jar off <command> <options>'");
         System.exit(0);
     }
 }

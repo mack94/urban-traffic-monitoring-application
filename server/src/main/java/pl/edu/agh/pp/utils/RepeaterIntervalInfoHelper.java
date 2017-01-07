@@ -11,8 +11,7 @@ import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class RepeaterIntervalInfoHelper
-{
+public class RepeaterIntervalInfoHelper {
     private static final Logger logger = (Logger) LoggerFactory.getLogger(RepeaterIntervalInfoHelper.class);
     private static final Object lock = new Object();
     private static IOptions options = Options.getInstance();
@@ -47,8 +46,7 @@ public class RepeaterIntervalInfoHelper
         }
     }
 
-    public void setRepeaterIntervalValue(int newRepeaterIntervalValue) throws IOException
-    {
+    public void setRepeaterIntervalValue(int newRepeaterIntervalValue) throws IOException {
 
         HashMap<String, Object> newPreference = new HashMap<>();
         newPreference.put(preferenceName, newRepeaterIntervalValue);

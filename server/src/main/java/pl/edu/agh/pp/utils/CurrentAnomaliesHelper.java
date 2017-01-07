@@ -48,16 +48,12 @@ public class CurrentAnomaliesHelper {
         }
     }
 
-    public void removeAnomaly(String anomalyID)
-    {
-        synchronized (lock)
-        {
+    public void removeAnomaly(String anomalyID) {
+        synchronized (lock) {
             Iterator<Integer> iterator = lastMessages.keySet().iterator();
-            while (iterator.hasNext())
-            {
+            while (iterator.hasNext()) {
                 int index = iterator.next();
-                if (lastMessages.get(index).getAnomalyID().toUpperCase().contains(anomalyID.toUpperCase()))
-                {
+                if (lastMessages.get(index).getAnomalyID().toUpperCase().contains(anomalyID.toUpperCase())) {
                     iterator.remove();
                 }
             }

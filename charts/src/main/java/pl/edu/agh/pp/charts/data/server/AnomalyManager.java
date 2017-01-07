@@ -75,15 +75,12 @@ public class AnomalyManager {
         return null;
     }
 
-    public void removeFromList(String id)
-    {
+    public void removeFromList(String id) {
         Iterator<Anomaly> iterator = anomalyList.iterator();
 
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             Anomaly anomaly = iterator.next();
-            if (anomaly.getAnomalyId().toUpperCase().contains(id.toUpperCase()))
-            {
+            if (anomaly.getAnomalyId().toUpperCase().contains(id.toUpperCase())) {
                 iterator.remove();
             }
         }
