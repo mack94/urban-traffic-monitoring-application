@@ -554,7 +554,7 @@ public final class AnomalyOperationProtos {
 
         /**
          * <pre>
-         * Identifies which field is filled in.
+         * Identifies which field will be filled in.
          * </pre>
          * <p>
          * <code>optional .ManagementMessage.Type type = 1;</code>
@@ -563,7 +563,7 @@ public final class AnomalyOperationProtos {
 
         /**
          * <pre>
-         * Identifies which field is filled in.
+         * Identifies which field will be filled in.
          * </pre>
          * <p>
          * <code>optional .ManagementMessage.Type type = 1;</code>
@@ -573,6 +573,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * One of the following will be filled in.
+         * Others will be empty and no space will be used additionally while  sending the message.
          * </pre>
          * <p>
          * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -582,6 +583,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * One of the following will be filled in.
+         * Others will be empty and no space will be used additionally while  sending the message.
          * </pre>
          * <p>
          * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -591,6 +593,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * One of the following will be filled in.
+         * Others will be empty and no space will be used additionally while  sending the message.
          * </pre>
          * <p>
          * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -839,28 +842,16 @@ public final class AnomalyOperationProtos {
         pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.SystemGeneralMessage.Shift getShift();
 
         /**
-         * <pre>
-         * bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
-         * </pre>
-         * <p>
          * <code>optional int32 port = 7;</code>
          */
         int getPort();
 
         /**
-         * <pre>
-         * caly routes.json tutaj przesylamy
-         * </pre>
-         * <p>
          * <code>optional string routes = 8;</code>
          */
         java.lang.String getRoutes();
 
         /**
-         * <pre>
-         * caly routes.json tutaj przesylamy
-         * </pre>
-         * <p>
          * <code>optional string routes = 8;</code>
          */
         com.google.protobuf.ByteString
@@ -1020,19 +1011,11 @@ public final class AnomalyOperationProtos {
         pl.edu.agh.pp.charts.operations.AnomalyOperationProtos.BaselineMessage.Day getDay();
 
         /**
-         * <pre>
-         * string baseline = 3;
-         * </pre>
-         * <p>
          * <code>map&lt;int32, int32&gt; baseline = 3;</code>
          */
         int getBaselineCount();
 
         /**
-         * <pre>
-         * string baseline = 3;
-         * </pre>
-         * <p>
          * <code>map&lt;int32, int32&gt; baseline = 3;</code>
          */
         boolean containsBaseline(
@@ -1046,20 +1029,12 @@ public final class AnomalyOperationProtos {
         getBaseline();
 
         /**
-         * <pre>
-         * string baseline = 3;
-         * </pre>
-         * <p>
          * <code>map&lt;int32, int32&gt; baseline = 3;</code>
          */
         java.util.Map<java.lang.Integer, java.lang.Integer>
         getBaselineMap();
 
         /**
-         * <pre>
-         * string baseline = 3;
-         * </pre>
-         * <p>
          * <code>map&lt;int32, int32&gt; baseline = 3;</code>
          */
 
@@ -1068,10 +1043,6 @@ public final class AnomalyOperationProtos {
                 int defaultValue);
 
         /**
-         * <pre>
-         * string baseline = 3;
-         * </pre>
-         * <p>
          * <code>map&lt;int32, int32&gt; baseline = 3;</code>
          */
 
@@ -1173,7 +1144,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * this is made on map structure, but please be aware of the limits of this solution.
-         * the max size is 8192 i think.
+         * the max size is 8192
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
@@ -1184,7 +1155,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * this is made on map structure, but please be aware of the limits of this solution.
-         * the max size is 8192 i think.
+         * the max size is 8192
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
@@ -1203,7 +1174,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * this is made on map structure, but please be aware of the limits of this solution.
-         * the max size is 8192 i think.
+         * the max size is 8192
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
@@ -1215,7 +1186,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * this is made on map structure, but please be aware of the limits of this solution.
-         * the max size is 8192 i think.
+         * the max size is 8192
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
@@ -1229,7 +1200,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * this is made on map structure, but please be aware of the limits of this solution.
-         * the max size is 8192 i think.
+         * the max size is 8192
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
@@ -3042,6 +3013,10 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * Message which carry some information about the traffic conditions
+     * </pre>
+     * <p>
      * Protobuf type {@code AnomalyMessage}
      */
     public static final class AnomalyMessage extends
@@ -3621,6 +3596,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * Message which carry some information about the traffic conditions
+         * </pre>
+         * <p>
          * Protobuf type {@code AnomalyMessage}
          */
         public static final class Builder extends
@@ -4250,6 +4229,10 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * Message that carry the specific inner-message and the information about the type of this inner-message.
+     * </pre>
+     * <p>
      * Protobuf type {@code ManagementMessage}
      */
     public static final class ManagementMessage extends
@@ -4607,7 +4590,7 @@ public final class AnomalyOperationProtos {
 
         /**
          * <pre>
-         * Identifies which field is filled in.
+         * Identifies which field will be filled in.
          * </pre>
          * <p>
          * <code>optional .ManagementMessage.Type type = 1;</code>
@@ -4618,7 +4601,7 @@ public final class AnomalyOperationProtos {
 
         /**
          * <pre>
-         * Identifies which field is filled in.
+         * Identifies which field will be filled in.
          * </pre>
          * <p>
          * <code>optional .ManagementMessage.Type type = 1;</code>
@@ -4631,6 +4614,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * One of the following will be filled in.
+         * Others will be empty and no space will be used additionally while  sending the message.
          * </pre>
          * <p>
          * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -4642,6 +4626,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * One of the following will be filled in.
+         * Others will be empty and no space will be used additionally while  sending the message.
          * </pre>
          * <p>
          * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -4653,6 +4638,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * One of the following will be filled in.
+         * Others will be empty and no space will be used additionally while  sending the message.
          * </pre>
          * <p>
          * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -5367,6 +5353,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * Message that carry the specific inner-message and the information about the type of this inner-message.
+         * </pre>
+         * <p>
          * Protobuf type {@code ManagementMessage}
          */
         public static final class Builder extends
@@ -5714,7 +5704,7 @@ public final class AnomalyOperationProtos {
 
             /**
              * <pre>
-             * Identifies which field is filled in.
+             * Identifies which field will be filled in.
              * </pre>
              * <p>
              * <code>optional .ManagementMessage.Type type = 1;</code>
@@ -5725,7 +5715,7 @@ public final class AnomalyOperationProtos {
 
             /**
              * <pre>
-             * Identifies which field is filled in.
+             * Identifies which field will be filled in.
              * </pre>
              * <p>
              * <code>optional .ManagementMessage.Type type = 1;</code>
@@ -5738,7 +5728,7 @@ public final class AnomalyOperationProtos {
 
             /**
              * <pre>
-             * Identifies which field is filled in.
+             * Identifies which field will be filled in.
              * </pre>
              * <p>
              * <code>optional .ManagementMessage.Type type = 1;</code>
@@ -5750,7 +5740,7 @@ public final class AnomalyOperationProtos {
 
             /**
              * <pre>
-             * Identifies which field is filled in.
+             * Identifies which field will be filled in.
              * </pre>
              * <p>
              * <code>optional .ManagementMessage.Type type = 1;</code>
@@ -5767,7 +5757,7 @@ public final class AnomalyOperationProtos {
 
             /**
              * <pre>
-             * Identifies which field is filled in.
+             * Identifies which field will be filled in.
              * </pre>
              * <p>
              * <code>optional .ManagementMessage.Type type = 1;</code>
@@ -5782,6 +5772,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * One of the following will be filled in.
+             * Others will be empty and no space will be used additionally while  sending the message.
              * </pre>
              * <p>
              * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -5793,6 +5784,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * One of the following will be filled in.
+             * Others will be empty and no space will be used additionally while  sending the message.
              * </pre>
              * <p>
              * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -5808,6 +5800,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * One of the following will be filled in.
+             * Others will be empty and no space will be used additionally while  sending the message.
              * </pre>
              * <p>
              * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -5827,6 +5820,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * One of the following will be filled in.
+             * Others will be empty and no space will be used additionally while  sending the message.
              * </pre>
              * <p>
              * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -5848,6 +5842,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * One of the following will be filled in.
+             * Others will be empty and no space will be used additionally while  sending the message.
              * </pre>
              * <p>
              * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -5871,6 +5866,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * One of the following will be filled in.
+             * Others will be empty and no space will be used additionally while  sending the message.
              * </pre>
              * <p>
              * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -5890,6 +5886,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * One of the following will be filled in.
+             * Others will be empty and no space will be used additionally while  sending the message.
              * </pre>
              * <p>
              * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -5903,6 +5900,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * One of the following will be filled in.
+             * Others will be empty and no space will be used additionally while  sending the message.
              * </pre>
              * <p>
              * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -5919,6 +5917,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * One of the following will be filled in.
+             * Others will be empty and no space will be used additionally while  sending the message.
              * </pre>
              * <p>
              * <code>optional .BonjourMessage bonjourMessage = 2;</code>
@@ -7296,6 +7295,11 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * The welcome message which is sent by each client to the server
+     * after the creation of the unicast connection between client and server.
+     * </pre>
+     * <p>
      * Protobuf type {@code BonjourMessage}
      */
     public static final class BonjourMessage extends
@@ -7667,6 +7671,11 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The welcome message which is sent by each client to the server
+         * after the creation of the unicast connection between client and server.
+         * </pre>
+         * <p>
          * Protobuf type {@code BonjourMessage}
          */
         public static final class Builder extends
@@ -8012,6 +8021,10 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * The message which contains the environment, connection and server parameters.
+     * </pre>
+     * <p>
      * Protobuf type {@code SystemGeneralMessage}
      */
     public static final class SystemGeneralMessage extends
@@ -8368,10 +8381,6 @@ public final class AnomalyOperationProtos {
         }
 
         /**
-         * <pre>
-         * bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
-         * </pre>
-         * <p>
          * <code>optional int32 port = 7;</code>
          */
         public int getPort() {
@@ -8379,10 +8388,6 @@ public final class AnomalyOperationProtos {
         }
 
         /**
-         * <pre>
-         * caly routes.json tutaj przesylamy
-         * </pre>
-         * <p>
          * <code>optional string routes = 8;</code>
          */
         public java.lang.String getRoutes() {
@@ -8399,10 +8404,6 @@ public final class AnomalyOperationProtos {
         }
 
         /**
-         * <pre>
-         * caly routes.json tutaj przesylamy
-         * </pre>
-         * <p>
          * <code>optional string routes = 8;</code>
          */
         public com.google.protobuf.ByteString
@@ -8759,6 +8760,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The structure that specifies available shifts. (Precisely)
+         * </pre>
+         * <p>
          * Protobuf enum {@code SystemGeneralMessage.Shift}
          */
         public enum Shift
@@ -8880,6 +8885,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The message which contains the environment, connection and server parameters.
+         * </pre>
+         * <p>
          * Protobuf type {@code SystemGeneralMessage}
          */
         public static final class Builder extends
@@ -9351,10 +9360,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
-             * </pre>
-             * <p>
              * <code>optional int32 port = 7;</code>
              */
             public int getPort() {
@@ -9362,10 +9367,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
-             * </pre>
-             * <p>
              * <code>optional int32 port = 7;</code>
              */
             public Builder setPort(int value) {
@@ -9376,10 +9377,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
-             * </pre>
-             * <p>
              * <code>optional int32 port = 7;</code>
              */
             public Builder clearPort() {
@@ -9390,10 +9387,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * caly routes.json tutaj przesylamy
-             * </pre>
-             * <p>
              * <code>optional string routes = 8;</code>
              */
             public java.lang.String getRoutes() {
@@ -9410,10 +9403,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * caly routes.json tutaj przesylamy
-             * </pre>
-             * <p>
              * <code>optional string routes = 8;</code>
              */
             public Builder setRoutes(
@@ -9428,10 +9417,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * caly routes.json tutaj przesylamy
-             * </pre>
-             * <p>
              * <code>optional string routes = 8;</code>
              */
             public com.google.protobuf.ByteString
@@ -9449,10 +9434,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * caly routes.json tutaj przesylamy
-             * </pre>
-             * <p>
              * <code>optional string routes = 8;</code>
              */
             public Builder setRoutesBytes(
@@ -9468,10 +9449,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * caly routes.json tutaj przesylamy
-             * </pre>
-             * <p>
              * <code>optional string routes = 8;</code>
              */
             public Builder clearRoutes() {
@@ -9772,6 +9749,11 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * The message that contains the reference to each single route defined in the server workspace.
+     * Each single route is sent in a single message due to the JGroups message size limits.
+     * </pre>
+     * <p>
      * Protobuf type {@code RouteMessage}
      */
     public static final class RouteMessage extends
@@ -10247,6 +10229,11 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The message that contains the reference to each single route defined in the server workspace.
+         * Each single route is sent in a single message due to the JGroups message size limits.
+         * </pre>
+         * <p>
          * Protobuf type {@code RouteMessage}
          */
         public static final class Builder extends
@@ -10752,6 +10739,10 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * The message which carry the information about the current value of the parameters called sensitivity factor.
+     * </pre>
+     * <p>
      * Protobuf type {@code LeverMessage}
      */
     public static final class LeverMessage extends
@@ -11073,6 +11064,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The message which carry the information about the current value of the parameters called sensitivity factor.
+         * </pre>
+         * <p>
          * Protobuf type {@code LeverMessage}
          */
         public static final class Builder extends
@@ -11338,6 +11333,10 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * The message that contains the baseline for specified day, route and baseline type.
+     * </pre>
+     * <p>
      * Protobuf type {@code BaselineMessage}
      */
     public static final class BaselineMessage extends
@@ -11595,10 +11594,6 @@ public final class AnomalyOperationProtos {
         }
 
         /**
-         * <pre>
-         * string baseline = 3;
-         * </pre>
-         * <p>
          * <code>map&lt;int32, int32&gt; baseline = 3;</code>
          */
 
@@ -11617,10 +11612,6 @@ public final class AnomalyOperationProtos {
         }
 
         /**
-         * <pre>
-         * string baseline = 3;
-         * </pre>
-         * <p>
          * <code>map&lt;int32, int32&gt; baseline = 3;</code>
          */
 
@@ -11629,10 +11620,6 @@ public final class AnomalyOperationProtos {
         }
 
         /**
-         * <pre>
-         * string baseline = 3;
-         * </pre>
-         * <p>
          * <code>map&lt;int32, int32&gt; baseline = 3;</code>
          */
 
@@ -11646,10 +11633,6 @@ public final class AnomalyOperationProtos {
         }
 
         /**
-         * <pre>
-         * string baseline = 3;
-         * </pre>
-         * <p>
          * <code>map&lt;int32, int32&gt; baseline = 3;</code>
          */
 
@@ -11827,6 +11810,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The structure that specifies available days of week. (Precisely)
+         * </pre>
+         * <p>
          * Protobuf enum {@code BaselineMessage.Day}
          */
         public enum Day
@@ -11998,6 +11985,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The message that contains the baseline for specified day, route and baseline type.
+         * </pre>
+         * <p>
          * Protobuf type {@code BaselineMessage}
          */
         public static final class Builder extends
@@ -12291,10 +12282,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * string baseline = 3;
-             * </pre>
-             * <p>
              * <code>map&lt;int32, int32&gt; baseline = 3;</code>
              */
 
@@ -12313,10 +12300,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * string baseline = 3;
-             * </pre>
-             * <p>
              * <code>map&lt;int32, int32&gt; baseline = 3;</code>
              */
 
@@ -12325,10 +12308,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * string baseline = 3;
-             * </pre>
-             * <p>
              * <code>map&lt;int32, int32&gt; baseline = 3;</code>
              */
 
@@ -12342,10 +12321,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * string baseline = 3;
-             * </pre>
-             * <p>
              * <code>map&lt;int32, int32&gt; baseline = 3;</code>
              */
 
@@ -12366,10 +12341,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * string baseline = 3;
-             * </pre>
-             * <p>
              * <code>map&lt;int32, int32&gt; baseline = 3;</code>
              */
 
@@ -12390,10 +12361,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * string baseline = 3;
-             * </pre>
-             * <p>
              * <code>map&lt;int32, int32&gt; baseline = 3;</code>
              */
             public Builder putBaseline(
@@ -12406,10 +12373,6 @@ public final class AnomalyOperationProtos {
             }
 
             /**
-             * <pre>
-             * string baseline = 3;
-             * </pre>
-             * <p>
              * <code>map&lt;int32, int32&gt; baseline = 3;</code>
              */
 
@@ -12508,6 +12471,10 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * The message which is a request for baseline of specified day, route and baseline type.
+     * </pre>
+     * <p>
      * Protobuf type {@code DemandBaselineMessage}
      */
     public static final class DemandBaselineMessage extends
@@ -12860,6 +12827,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The structure that specifies available days of week. (Precisely)
+         * </pre>
+         * <p>
          * Protobuf enum {@code DemandBaselineMessage.Day}
          */
         public enum Day
@@ -13019,6 +12990,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The message which is a request for baseline of specified day, route and baseline type.
+         * </pre>
+         * <p>
          * Protobuf type {@code DemandBaselineMessage}
          */
         public static final class Builder extends
@@ -13339,7 +13314,7 @@ public final class AnomalyOperationProtos {
 
     /**
      * <pre>
-     * the empty message
+     * The message that is the request for all available historical data.
      * </pre>
      * <p>
      * Protobuf type {@code DemandAvailableHistoricalMessage}
@@ -13583,7 +13558,7 @@ public final class AnomalyOperationProtos {
 
         /**
          * <pre>
-         * the empty message
+         * The message that is the request for all available historical data.
          * </pre>
          * <p>
          * Protobuf type {@code DemandAvailableHistoricalMessage}
@@ -13736,6 +13711,10 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * The message that contains all available routes. It's the inner-message of the AvailableHistoricalMessage message.
+     * </pre>
+     * <p>
      * Protobuf type {@code AvailableRoutes}
      */
     public static final class AvailableRoutes extends
@@ -14108,6 +14087,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The message that contains all available routes. It's the inner-message of the AvailableHistoricalMessage message.
+         * </pre>
+         * <p>
          * Protobuf type {@code AvailableRoutes}
          */
         public static final class Builder extends
@@ -14420,6 +14403,10 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * The message that contains all available routes and date in the context of available data.
+     * </pre>
+     * <p>
      * Protobuf type {@code AvailableHistoricalMessage}
      */
     public static final class AvailableHistoricalMessage extends
@@ -14630,7 +14617,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * this is made on map structure, but please be aware of the limits of this solution.
-         * the max size is 8192 i think.
+         * the max size is 8192
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
@@ -14656,7 +14643,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * this is made on map structure, but please be aware of the limits of this solution.
-         * the max size is 8192 i think.
+         * the max size is 8192
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
@@ -14670,7 +14657,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * this is made on map structure, but please be aware of the limits of this solution.
-         * the max size is 8192 i think.
+         * the max size is 8192
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
@@ -14691,7 +14678,7 @@ public final class AnomalyOperationProtos {
         /**
          * <pre>
          * this is made on map structure, but please be aware of the limits of this solution.
-         * the max size is 8192 i think.
+         * the max size is 8192
          * &lt;date, route&gt; so its &lt;string, int32&gt;
          * </pre>
          * <p>
@@ -14822,6 +14809,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The message that contains all available routes and date in the context of available data.
+         * </pre>
+         * <p>
          * Protobuf type {@code AvailableHistoricalMessage}
          */
         public static final class Builder extends
@@ -15019,7 +15010,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * this is made on map structure, but please be aware of the limits of this solution.
-             * the max size is 8192 i think.
+             * the max size is 8192
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
@@ -15045,7 +15036,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * this is made on map structure, but please be aware of the limits of this solution.
-             * the max size is 8192 i think.
+             * the max size is 8192
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
@@ -15059,7 +15050,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * this is made on map structure, but please be aware of the limits of this solution.
-             * the max size is 8192 i think.
+             * the max size is 8192
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
@@ -15080,7 +15071,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * this is made on map structure, but please be aware of the limits of this solution.
-             * the max size is 8192 i think.
+             * the max size is 8192
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
@@ -15108,7 +15099,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * this is made on map structure, but please be aware of the limits of this solution.
-             * the max size is 8192 i think.
+             * the max size is 8192
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
@@ -15136,7 +15127,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * this is made on map structure, but please be aware of the limits of this solution.
-             * the max size is 8192 i think.
+             * the max size is 8192
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
@@ -15158,7 +15149,7 @@ public final class AnomalyOperationProtos {
             /**
              * <pre>
              * this is made on map structure, but please be aware of the limits of this solution.
-             * the max size is 8192 i think.
+             * the max size is 8192
              * &lt;date, route&gt; so its &lt;string, int32&gt;
              * </pre>
              * <p>
@@ -15188,6 +15179,10 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * The message that carry the request for historical data for specified date and route.
+     * </pre>
+     * <p>
      * Protobuf type {@code DemandHistoricalMessage}
      */
     public static final class DemandHistoricalMessage extends
@@ -15506,6 +15501,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The message that carry the request for historical data for specified date and route.
+         * </pre>
+         * <p>
          * Protobuf type {@code DemandHistoricalMessage}
          */
         public static final class Builder extends
@@ -15771,6 +15770,10 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * Message that contains ale the data/measures stored by server for specified route and date.
+     * </pre>
+     * <p>
      * Protobuf type {@code HistoricalMessage}
      */
     public static final class HistoricalMessage extends
@@ -16221,6 +16224,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * Message that contains ale the data/measures stored by server for specified route and date.
+         * </pre>
+         * <p>
          * Protobuf type {@code HistoricalMessage}
          */
         public static final class Builder extends
@@ -16649,6 +16656,10 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * The message that contains the information about the presence of anomalies in specified condition (day).
+     * </pre>
+     * <p>
      * Protobuf type {@code HistoricalAnomalyPresenceMessage}
      */
     public static final class HistoricalAnomalyPresenceMessage extends
@@ -17021,6 +17032,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The message that contains the information about the presence of anomalies in specified condition (day).
+         * </pre>
+         * <p>
          * Protobuf type {@code HistoricalAnomalyPresenceMessage}
          */
         public static final class Builder extends
@@ -17333,6 +17348,10 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * The message that is a historical anomalies request.
+     * </pre>
+     * <p>
      * Protobuf type {@code DemandHistoricalAnomaliesMessage}
      */
     public static final class DemandHistoricalAnomaliesMessage extends
@@ -17651,6 +17670,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The message that is a historical anomalies request.
+         * </pre>
+         * <p>
          * Protobuf type {@code DemandHistoricalAnomaliesMessage}
          */
         public static final class Builder extends
@@ -17916,6 +17939,10 @@ public final class AnomalyOperationProtos {
     }
 
     /**
+     * <pre>
+     * The message that carry the structure with all anomalies that occured in specified conditions (route and date).
+     * </pre>
+     * <p>
      * Protobuf type {@code HistoricalAnomaliesMessage}
      */
     public static final class HistoricalAnomaliesMessage extends
@@ -18372,6 +18399,10 @@ public final class AnomalyOperationProtos {
         }
 
         /**
+         * <pre>
+         * The message that carry the structure with all anomalies that occured in specified conditions (route and date).
+         * </pre>
+         * <p>
          * Protobuf type {@code HistoricalAnomaliesMessage}
          */
         public static final class Builder extends
