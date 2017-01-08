@@ -109,9 +109,6 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
         }
     }
 
-    // It should be discussed.
-    // Firstly whether the function is necessary.
-    // Secondly whether each 'second' or 'minute' or different time interval.
     public static double[] getValueForEachMinuteOfDay(DayOfWeek dayOfWeek, int routeIdx) {
         double[] values = new double[1440];
         int idx = 0;

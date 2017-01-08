@@ -70,23 +70,6 @@ public class AnomalyExpirationListener extends Thread {
                 }
                 currentAnomalies.removeAll(anomaliesThatExpire);
 
-                // anomalyID.entrySet()
-                // .stream()
-                // .filter(entry -> !expiredAnomalies.contains(entry.getValue()))
-                // .forEach(entry -> {
-                // DateTime anomaly = anomalyTime.get(entry.getKey());
-                // DateTime now = DateTime.now();
-                // int lastUpdateInSeconds = Seconds.secondsBetween(anomaly, now).getSeconds();
-                // if (lastUpdateInSeconds > finalAnomalyLifeTime)
-                // {
-                // sendMessage(entry.getKey(), entry.getValue());
-                // CurrentAnomaliesHelper.getInstance().removeAnomaly(entry.getValue());
-                // if (lastUpdateInSeconds > finalExpirationBroadcast)
-                // {
-                // expiredAnomalies.add(entry.getValue());
-                // }
-                // }
-                // });
                 expirationInterval = ExpirationIntervalInfoHelper.getInstance().getExpirationIntervalValue();
                 sleep(expirationInterval * 1000);
             } catch (Exception e) {
