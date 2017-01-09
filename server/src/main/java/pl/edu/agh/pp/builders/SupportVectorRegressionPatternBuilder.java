@@ -38,6 +38,13 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
     private static BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
     private static LeverInfoHelper leverInfoHelper = LeverInfoHelper.getInstance();
 
+    private SupportVectorRegressionPatternBuilder() {
+    }
+
+    public static SupportVectorRegressionPatternBuilder getInstance() {
+        return Holder.INSTANCE;
+    }
+
     private static double classify(DayOfWeek dayOfWeek, int routeIdx, int second) throws Exception {
         LibSVM svr = null;
         int interval = 86400 / DAY_INTERVALS;
@@ -239,5 +246,9 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
     @Override
     public void setServer(Server server) {
         anomalyTracker.setAnomaliesServer((AnomaliesServer) server);
+    }
+
+    public static class Holder {
+        static final SupportVectorRegressionPatternBuilder INSTANCE = new SupportVectorRegressionPatternBuilder();
     }
 }
