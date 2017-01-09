@@ -189,7 +189,7 @@ public class ManagementServer extends Server {
 
     public void sendLeverInfoMessage(double leverValue) {
 
-        String leverUpdateDate = DateTime.now();
+        String leverUpdateDate = DateTime.now().toString();
 
         AnomalyOperationProtos.LeverMessage msg = AnomalyOperationProtos.LeverMessage.newBuilder()
                 .setLeverValue(leverValue)
