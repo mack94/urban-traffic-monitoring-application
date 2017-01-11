@@ -329,7 +329,7 @@ public class CommandLineManager extends Thread {
 
     private void setDayShiftStart(String buffer) {
         try {
-            buffer = StringUtils.removeStart(buffer, "SET_DAY_MODE_START");
+            buffer = StringUtils.removeStart(buffer, "SET_DAY_MODE_START ");
             String[] values = buffer.split(":");
             buffer = parseHour(values, buffer);
             DayShiftStartInfoHelper.getInstance().setDayShiftStart(buffer);
@@ -340,7 +340,7 @@ public class CommandLineManager extends Thread {
 
     private void setNightShiftStart(String buffer) {
         try {
-            buffer = StringUtils.removeStart(buffer, "SET_NIGHT_MODE_START");
+            buffer = StringUtils.removeStart(buffer, "SET_NIGHT_MODE_START ");
             String[] values = buffer.split(":");
             buffer = parseHour(values, buffer);
             NightShiftStartInfoHelper.getInstance().setNightShiftStart(buffer);
