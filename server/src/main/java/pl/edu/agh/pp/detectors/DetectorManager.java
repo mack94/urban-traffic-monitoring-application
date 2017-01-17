@@ -161,10 +161,19 @@ public class DetectorManager {
 
         Map<String, Map<Integer, Integer>> result = new HashMap<>();
         DateTime dateTime = DateTime.parse(date);
+        String monthFormat = "%d";
+        String dayFormat = "%d";
         int year = dateTime.getYear();
         int month = dateTime.getMonthOfYear();
         int day = dateTime.getDayOfMonth();
-        String filenameFormat = String.format("%d-%d-%d", (year % 2000), month, day);
+        if(month < 10){
+            monthFormat = "0%d";
+        }
+        if(day < 10){
+            dayFormat = "0%d";
+        }
+        String format = "%d-" + monthFormat + "-" + dayFormat;
+        String filenameFormat = String.format(format, (year % 2000), month, day);
 
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
