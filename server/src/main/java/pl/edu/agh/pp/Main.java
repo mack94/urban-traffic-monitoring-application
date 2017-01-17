@@ -51,7 +51,7 @@ public class Main {
             } catch (UnknownHostException e) {
                 logger.error("Main :: UnknownHostException " + e);
             }
-            int port = 8079;
+            int port = 8080;
             boolean nio = false;
 
             logger.info("---------------------Running server.--------------------------");

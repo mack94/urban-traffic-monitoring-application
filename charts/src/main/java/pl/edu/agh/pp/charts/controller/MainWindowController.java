@@ -823,7 +823,7 @@ public class MainWindowController {
                     try {
                         int i = 0;
                         connectedFlag = Connector.isConnectedToTheServer();
-                        while (i < 10 && !connectedFlag) {
+                        while (i < 15 && !connectedFlag) {
                             connectedFlag = Connector.isConnectedToTheServer();
                             Thread.sleep(800);
                             i++;

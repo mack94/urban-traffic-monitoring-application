@@ -94,7 +94,7 @@ public class Connector {
                         throw new ManagementChannelConnectionException();
                     }
 
-                    limit = 10;
+                    limit = 15;
                     while (!ServerGeneralInfo.isInitialized() && limit > 0) {
                         logger.info("Waiting for ServerGeneralInfo initialization");
                         Thread.sleep((11 - limit) * 60);

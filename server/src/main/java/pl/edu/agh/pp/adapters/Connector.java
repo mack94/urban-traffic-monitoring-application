@@ -26,13 +26,24 @@ public class Connector {
         managementServer = new ManagementServer();
         anomaliesServer = new AnomaliesServer();
 
+
         try {
             managementServer.start(bind_addr, port, nio, "management");
-            int anomaly_port = SystemGeneralInfoHelper.getInstance().getAnomalyChannelPort();
-            anomaliesServer.start(bind_addr, anomaly_port, nio, "anomalies");
-            logger.info("AnomaliesServer already running.");
+            logger.info("ManagementServer already running.");
         } catch (Exception e) {
             logger.error("Connector :: Exception " + e, e);
+        }
+        int anomaly_port = SystemGeneralInfoHelper.getInstance().getAnomalyChannelPort();
+        boolean success = false;
+        while (!success) {
+            try {
+                anomaliesServer.start(bind_addr, anomaly_port, nio, "anomalies");
+                logger.info("AnomaliesServer already running.");
+                success = true;
+            } catch (Exception e) {
+                SystemGeneralInfoHelper.getInstance().setAnomalyChannelPort(anomaly_port - 1);
+                anomaly_port = SystemGeneralInfoHelper.getInstance().getAnomalyChannelPort();
+            }
         }
 
         Thread.sleep(1000);

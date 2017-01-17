@@ -43,7 +43,7 @@ public class SystemGeneralInfoHelper {
                                 "Could not getPreference AnomalyServerPort from registry!" + illegalPreferenceObjectExpected,
                         illegalPreferenceObjectExpected);
                 anomalyChannelPort = 8080;
-                setLeverValue(anomalyChannelPort);
+                setAnomalyChannelPort(anomalyChannelPort);
                 logger.error("SystemGeneralInfoHelper:  anomaly channel port error! " +
                         "Assigned 8080 to AnomalyServerPort due to emergency mode!");
             }
@@ -52,7 +52,7 @@ public class SystemGeneralInfoHelper {
         }
     }
 
-    public void setLeverValue(int newLeverValue) {
+    public void setAnomalyChannelPort(int newLeverValue) {
 
         HashMap<String, Object> newPreference = new HashMap<>();
         newPreference.put(preferenceName, newLeverValue);
