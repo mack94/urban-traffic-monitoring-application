@@ -4,14 +4,13 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.jgroups.Address;
 import org.jgroups.util.ByteArrayDataInputStream;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import pl.edu.agh.pp.builders.PolynomialPatternBuilder;
 import pl.edu.agh.pp.detectors.DetectorManager;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.serializers.FileSerializer;
-import pl.edu.agh.pp.settings.IOptions;
-import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.utils.*;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
 
@@ -27,8 +26,6 @@ import java.util.Map;
  * Project: server.
  */
 public class ManagementServer extends Server {
-
-    private IOptions options = Options.getInstance();
 
     @Override
     public void receive(Address sender, byte[] buf, int offset, int length) {
@@ -62,7 +59,6 @@ public class ManagementServer extends Server {
             AnomalyOperationProtos.ManagementMessage.Type messageType = message.getType();
             switch (messageType) {
                 case BONJOURMESSAGE:
-                    // TODO: Check the message
                     sendRoutesMessages(sender);
                     sendSystemGeneralMessage(sender);
                     break;
@@ -97,7 +93,6 @@ public class ManagementServer extends Server {
             logger.error("Following bytes received:");
             logger.error("\t\t" + Arrays.toString(buf));
         } catch (IOException e) {
-            e.printStackTrace();
             logger.error("ManagementServer: IOException while receiving message! " + e, e);
         }
 
@@ -113,22 +108,24 @@ public class ManagementServer extends Server {
         int anomalyLifeTime = AnomalyLifeTimeInfoHelper.getInstance().getAnomalyLifeTimeValue();
         int baselineWindowSize = BaselineWindowSizeInfoHelper.getInstance().getBaselineWindowSizeValue();
         double leverValue = LeverInfoHelper.getInstance().getLeverValue();
+        int anomalyChannelPort = SystemGeneralInfoHelper.getInstance().getAnomalyChannelPort();
         String mapsApiKey = ApisHelper.getInstance().getMapsApiKey();
+        String requestFreq = Timer.getInstance().getRequestFrequency();
         HashMap<Integer, AnomalyOperationProtos.AnomalyMessage> currentAnomalies = CurrentAnomaliesHelper.getInstance()
                 .getCurrentAnomalies();
-        //int anomaliesChannelPort = (int) options.getPreference("AnomaliesChannelPort", Integer.class); // FIXME
-        int messageID = 1; // FIXME
-        AnomalyOperationProtos.SystemGeneralMessage.Shift shift = DayShiftInfoHelper.getInstance().getShiftProtos(); // FIXME
+        int messageID = 1;
+        AnomalyOperationProtos.SystemGeneralMessage.Shift shift = DayShiftInfoHelper.getInstance().getShiftProtos();
 
         AnomalyOperationProtos.SystemGeneralMessage msg = AnomalyOperationProtos.SystemGeneralMessage.newBuilder()
                 .setAnomalyLifeTime(anomalyLifeTime)
                 .setBaselineWindowSize(baselineWindowSize)
                 .setLeverValue(leverValue)
                 .setMessageIdx(messageID)
-                .setPort(8080)
+                .setPort(anomalyChannelPort)
                 .setRoutes("")
                 .setShift(shift)
                 .setMapsApiKey(mapsApiKey)
+                .setRequestFreq(requestFreq)
                 .putAllCurrentAnomalies(currentAnomalies)
                 .build();
 
@@ -143,7 +140,8 @@ public class ManagementServer extends Server {
             logger.info(server.printConnections());
             server.send(destination, messageToSent, 0, messageToSent.length);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("ManagementServer: Error occurred while sending message to the client: " + destination +
+                    ". Error: " + e, e);
         }
     }
 
@@ -191,7 +189,7 @@ public class ManagementServer extends Server {
 
     public void sendLeverInfoMessage(double leverValue) {
 
-        String leverUpdateDate = ""; // FIXME
+        String leverUpdateDate = DateTime.now().toString();
 
         AnomalyOperationProtos.LeverMessage msg = AnomalyOperationProtos.LeverMessage.newBuilder()
                 .setLeverValue(leverValue)
@@ -244,7 +242,7 @@ public class ManagementServer extends Server {
         byte[] messageToSent = managementMessage.toByteArray();
 
         try {
-            System.out.println("Send Historical message to: " + destination);
+            logger.info("Send Historical message to: " + destination);
             server.send(destination, messageToSent, 0, messageToSent.length);
         } catch (Exception e) {
             logger.error("ManagementServer: Exception while sending historical message! " + e, e);
@@ -252,8 +250,7 @@ public class ManagementServer extends Server {
     }
 
     private void sendBaselineMessage(Address destination, int routeID, AnomalyOperationProtos.DemandBaselineMessage.Day day, String baselineType) {
-        //TODO: Check if routeID is not -1
-        //TODO: Be careful about sending message too fast - if you send it too fast, when PolynomialPatternBuilder is not loaded, then message will not be send.
+
         int dayNumber = day.getNumber();
         DayOfWeek dayOfWeek = DayOfWeek.fromValue(dayNumber);
         Map<Integer, Integer> baselineMap = new HashMap<>();
@@ -334,7 +331,7 @@ public class ManagementServer extends Server {
             server.send(destination, toSend, 0, toSend.length);
             logger.info("Historical anomalies sent");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("ManagementServer: IOException while sending historical anomalies! " + e, e);
         } catch (Exception e) {
             logger.error("ManagementServer: Exception while sending historical anomalies! " + e, e);
         }

@@ -65,20 +65,19 @@ public class Connector {
     }
 
     public static void connect(String addr, String prt) throws Exception {
-        System.out.println("conn");
         address = addr;
         port = prt;
 
         InetAddress server_addr = InetAddress.getByName(address);
         int server_port;
         server_port = Integer.valueOf(port);
-        boolean nio = true; // FIXME
+        boolean nio = true;
 
         Properties properties = System.getProperties();
         properties.setProperty("jgroups.addr", server_addr.toString());
 
         managementClient = new ManagementChannelReceiver();
-        managementClient.start(server_addr, server_port - 1, nio);
+        managementClient.start(server_addr, server_port, nio);
 
         Task<Void> sleeper = new Task<Void>() {
             @Override
@@ -95,7 +94,7 @@ public class Connector {
                         throw new ManagementChannelConnectionException();
                     }
 
-                    limit = 10;
+                    limit = 15;
                     while (!ServerGeneralInfo.isInitialized() && limit > 0) {
                         logger.info("Waiting for ServerGeneralInfo initialization");
                         Thread.sleep((11 - limit) * 60);
@@ -115,10 +114,8 @@ public class Connector {
                     }
                 } catch (ManagementChannelConnectionException e) {
                     logger.error("Error while reconnecting. Management Channel is probably not reachable." + e, e);
-                    // TODO: Maybe some action?
                 } catch (SystemGeneralInfoInitializationException e) {
                     logger.error("Error while reconnecting. Management Channel reachable but not response. " + e, e);
-                    // TODO: Maybe some action?
                 }
                 return null;
             }
@@ -156,8 +153,8 @@ public class Connector {
             client.killConnectionThread();
     }
 
-    public static void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort) {
-        mainWindowController.updateServerInfo(leverValue, anomalyLiveTime, baselineWindowSize, shift, anomalyMessagesPort);
+    public static void updateServerInfo(double leverValue, int anomalyLiveTime, int baselineWindowSize, AnomalyOperationProtos.SystemGeneralMessage.Shift shift, int anomalyMessagesPort, String requestFreq) {
+        mainWindowController.updateServerInfo(leverValue, anomalyLiveTime, baselineWindowSize, shift, anomalyMessagesPort, requestFreq);
     }
 
     public static void updateBaseline(Integer routeID, AnomalyOperationProtos.BaselineMessage.Day day, Map<Integer, Integer> baseline, String type) {

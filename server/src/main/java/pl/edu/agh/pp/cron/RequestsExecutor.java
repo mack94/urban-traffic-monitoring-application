@@ -20,20 +20,17 @@ import pl.edu.agh.pp.utils.Route;
  * 18:15
  * server
  */
-public class RequestsExecutor
-{
+public class RequestsExecutor {
     private final Logger trafficLogger = LoggerFactory.getLogger("traffic");
     private final Logger logger = LoggerFactory.getLogger(RequestsExecutor.class);
     private final DetectorManager detectorManager;
     private final InputParser inputParser = new InputParser();
 
-    public RequestsExecutor(DetectorManager detectorManager)
-    {
+    public RequestsExecutor(DetectorManager detectorManager) {
         this.detectorManager = detectorManager;
     }
 
-    public synchronized void execute(GeoApiContext context, RequestParams requestParams) throws Exception
-    {
+    public synchronized void execute(GeoApiContext context, RequestParams requestParams) throws Exception {
         DistanceMatrix distanceMatrix = DistanceMatrixApi
                 .getDistanceMatrix(context, requestParams.getOrigins(), requestParams.getDestinations())
                 .mode(requestParams.getTravelMode())
@@ -55,8 +52,7 @@ public class RequestsExecutor
         Record record = inputParser.parse(logEntry);
 
 //        String alternativeLogEntry = null;
-//        if (!"default".equals(record.getWaypoints()))
-//        {
+//        if (!"default".equals(record.getWaypoints())) {
 //            HalfRouteManager halfRouteManager = new HalfRouteManager(record, defaultWaypoints);
 //            alternativeLogEntry = logEntry;
 //            logEntry = halfRouteManager.splitRoute();
@@ -64,20 +60,17 @@ public class RequestsExecutor
 //        }
 
         String anomalyId = "";
-        if (!requestParams.isMissingHistoricalData())
-        {
+        if (!requestParams.isMissingHistoricalData()) {
             anomalyId = detectorManager.isAnomaly(record);
         }
-//        if (alternativeLogEntry != null)
-//        {
+//        if (alternativeLogEntry != null) {
 //            addAnomalyIdAndLog(alternativeLogEntry, anomalyId);
 //        }
         addAnomalyIdAndLog(logEntry, anomalyId);
 
     }
 
-    private void addAnomalyIdAndLog(String entry, String anomalyID)
-    {
+    private void addAnomalyIdAndLog(String entry, String anomalyID) {
         JSONObject jsonObject = new JSONObject(entry);
         jsonObject.put("anomalyId", anomalyID);
 

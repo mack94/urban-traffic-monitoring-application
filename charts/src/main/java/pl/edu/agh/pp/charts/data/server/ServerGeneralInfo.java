@@ -28,22 +28,23 @@ public class ServerGeneralInfo {
     private static AnomalyOperationProtos.SystemGeneralMessage.Shift shift;
     private static String systemDate;
     private static String mapsApiKey;
+    private static String requestFreq;
+
     private static boolean initialized = false;
-    //TODO: Check whether it's everything
 
     public static void setSystemGeneralMessage(AnomalyOperationProtos.SystemGeneralMessage systemGeneralMessage) throws IllegalPreferenceObjectExpected {
         initialized = false;
-        setAnomalyLiveTime(systemGeneralMessage.getAnomalyLiveTime());
+        setAnomalyLiveTime(systemGeneralMessage.getAnomalyLifeTime());
         setBaselineWindowSize(systemGeneralMessage.getBaselineWindowSize());
         setLeverValue(systemGeneralMessage.getLeverValue());
         setPort(systemGeneralMessage.getPort());
-        //setRoutes(systemGeneralMessage.getRoutes());
         setShift(systemGeneralMessage.getShift());
         setSystemDate(systemGeneralMessage.getSystemDate());
         setMapsApiKey(systemGeneralMessage.getMapsApiKey());
         setCurrentAnomalies(systemGeneralMessage.getCurrentAnomaliesMap());
+        setRequestFreq(systemGeneralMessage.getRequestFreq());
         initialized = true;
-        informControllerAboutChanges(); // FIXME: redundant??? ~Maciek
+        informControllerAboutChanges();
     }
 
     private static void setCurrentAnomalies(Map<Integer, AnomalyOperationProtos.AnomalyMessage> currentAnomaliesMap) {
@@ -154,6 +155,11 @@ public class ServerGeneralInfo {
         informConnectorAboutNewMapsApiKey();
     }
 
+    public static void setRequestFreq(String requestFreq) {
+        ServerGeneralInfo.requestFreq = requestFreq;
+        informControllerAboutChanges();
+    }
+
     public static String getRoutesJSON() {
         String routesJSON = "";
         StringBuffer result = new StringBuffer("");
@@ -178,12 +184,11 @@ public class ServerGeneralInfo {
     }
 
     private static void informControllerAboutChanges() {
-        Connector.updateServerInfo(leverValue, anomalyLiveTime, baselineWindowSize, shift, port);
+        Connector.updateServerInfo(leverValue, anomalyLiveTime, baselineWindowSize, shift, port, requestFreq);
     }
 
     private static void informConnectorAboutNewMapsApiKey() throws IllegalPreferenceObjectExpected {
         Connector.setMapsApiKey(mapsApiKey);
-        System.out.println("INFORMED");
     }
 
 }

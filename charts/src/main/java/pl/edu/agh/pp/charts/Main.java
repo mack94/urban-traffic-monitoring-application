@@ -10,7 +10,6 @@ import pl.edu.agh.pp.charts.controller.MainWindowController;
 import pl.edu.agh.pp.charts.data.server.AnomalyManager;
 import pl.edu.agh.pp.charts.settings.IOptions;
 import pl.edu.agh.pp.charts.settings.Options;
-import pl.edu.agh.pp.charts.settings.exceptions.IllegalPreferenceObjectExpected;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -45,7 +44,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // TODO: Na wczesnym etapie, powinnismy miec juz np. zaladowane/przygotowane trasy do routes.json (z SystemGeneralMessage)
         primaryStage.setWidth(1500);
         primaryStage.setHeight(900);
         primaryStage.setMaximized(true);

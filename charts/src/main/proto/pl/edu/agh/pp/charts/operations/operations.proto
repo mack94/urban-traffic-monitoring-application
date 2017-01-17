@@ -21,6 +21,7 @@ message AnomalyState {
 
 }
 
+// Message which carry some information about the traffic conditions
 message AnomalyMessage {
 
     int32 routeIdx = 1;
@@ -36,6 +37,7 @@ message AnomalyMessage {
 
 }
 
+// Message that carry the specific inner-message and the information about the type of this inner-message.
 message ManagementMessage {
 
     enum Type {
@@ -53,10 +55,11 @@ message ManagementMessage {
         HISTORICALANOMALIESMESSAGE = 11;
     }
 
-    // Identifies which field is filled in.
+    // Identifies which field will be filled in.
     Type type = 1;
 
     // One of the following will be filled in.
+    // Others will be empty and no space will be used additionally while  sending the message.
     BonjourMessage bonjourMessage = 2;
     SystemGeneralMessage systemGeneralMessage = 3;
     LeverMessage leverMessage = 4;
@@ -72,6 +75,8 @@ message ManagementMessage {
 
 }
 
+// The welcome message which is sent by each client to the server
+// after the creation of the unicast connection between client and server.
 message BonjourMessage {
 
     int32 token = 1;
@@ -80,8 +85,10 @@ message BonjourMessage {
 
 }
 
+// The message which contains the environment, connection and server parameters.
 message SystemGeneralMessage {
 
+    // The structure that specifies available shifts. (Precisely)
     enum Shift {
         DAY = 0;
         NIGHT = 1;
@@ -91,16 +98,19 @@ message SystemGeneralMessage {
     int32 messageIdx = 1;
     double leverValue = 2;
     string systemDate = 3;
-    int32 anomalyLiveTime = 4;
+    int32 anomalyLifeTime = 4;
     int32 baselineWindowSize = 5;
     Shift shift = 6;
-    int32 port = 7; // bo to tutaj w zasadzie powinien byc podawany port do kanalu z anomaliami /bardziej elastico/
-    string routes = 8; // caly routes.json tutaj przesylamy
+    int32 port = 7;
+    string routes = 8;
     string mapsApiKey = 9;
     map<int32, AnomalyMessage> currentAnomalies = 10;
+    string requestFreq = 11;
 
 }
 
+// The message that contains the reference to each single route defined in the server workspace.
+// Each single route is sent in a single message due to the JGroups message size limits.
 message RouteMessage {
 
     int32 routeID = 1;
@@ -111,6 +121,7 @@ message RouteMessage {
 
 }
 
+// The message which carry the information about the current value of the parameters called sensitivity factor.
 message LeverMessage {
 
     double leverValue = 1;
@@ -118,8 +129,10 @@ message LeverMessage {
 
 }
 
+// The message that contains the baseline for specified day, route and baseline type.
 message BaselineMessage {
 
+    // The structure that specifies available days of week. (Precisely)
     enum Day {
         NULLDAY = 0;
         MONDAY = 1;
@@ -133,14 +146,15 @@ message BaselineMessage {
 
     int32 routeIdx = 1;
     Day day = 2;
-    //string baseline = 3;
     map<int32, int32> baseline = 3;
     string baselineType = 4;
 
 }
 
+// The message which is a request for baseline of specified day, route and baseline type.
 message DemandBaselineMessage {
 
+    // The structure that specifies available days of week. (Precisely)
     enum Day {
         NULLDAY = 0;
         MONDAY = 1;
@@ -158,25 +172,29 @@ message DemandBaselineMessage {
 
 }
 
+// The message that is the request for all available historical data.
 message DemandAvailableHistoricalMessage {
     // the empty message
 }
 
+// The message that contains all available routes. It's the inner-message of the AvailableHistoricalMessage message.
 message AvailableRoutes {
 
     map <int32, int32> routes = 1;
 
 }
 
+// The message that contains all available routes and date in the context of available data.
 message AvailableHistoricalMessage {
 
     // this is made on map structure, but please be aware of the limits of this solution.
-    // the max size is 8192 i think.
+    // the max size is 8192
     // <date, route> so its <string, int32>
     map<string, AvailableRoutes> avaiableDateRoutes = 1;
 
 }
 
+// The message that carry the request for historical data for specified date and route.
 message DemandHistoricalMessage {
 
     int32 routeID = 1;
@@ -184,6 +202,7 @@ message DemandHistoricalMessage {
 
 }
 
+// Message that contains ale the data/measures stored by server for specified route and date.
 message HistoricalMessage {
 
     int32 routeID = 1;
@@ -192,10 +211,12 @@ message HistoricalMessage {
 
 }
 
+// The message that contains the information about the presence of anomalies in specified condition (day).
 message HistoricalAnomalyPresenceMessage {
     map<int32, int32> presence = 1;
 }
 
+// The message that is a historical anomalies request.
 message DemandHistoricalAnomaliesMessage {
 
     int32 routeID = 1;
@@ -203,6 +224,7 @@ message DemandHistoricalAnomaliesMessage {
 
 }
 
+// The message that carry the structure with all anomalies that occured in specified conditions (route and date).
 message HistoricalAnomaliesMessage {
 
     int32 routeID = 1;

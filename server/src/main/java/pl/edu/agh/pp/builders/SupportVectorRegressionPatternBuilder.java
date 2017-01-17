@@ -38,6 +38,13 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
     private static BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
     private static LeverInfoHelper leverInfoHelper = LeverInfoHelper.getInstance();
 
+    private SupportVectorRegressionPatternBuilder() {
+    }
+
+    public static SupportVectorRegressionPatternBuilder getInstance() {
+        return Holder.INSTANCE;
+    }
+
     private static double classify(DayOfWeek dayOfWeek, int routeIdx, int second) throws Exception {
         LibSVM svr = null;
         int interval = 86400 / DAY_INTERVALS;
@@ -109,7 +116,7 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
                 if (record.getDayOfWeek().compareTo(day) == 0) {
                     points.add(new Point2D.Double(record.getTimeInSeconds(), record.getDurationInTraffic()));
                 }
-                //TODO: sprawdzić, czy kod poniżej będzie kompatybilny z nowym baseline, nie jestem tego pewien
+                // sprawdzić, czy kod poniżej będzie kompatybilny z nowym baseline, nie jestem tego pewien
 //                AvailableHistoricalInfoHelper.addAvailableDateRoute(
 //                        record.getDateTime().toString("yyyy-MM-dd"),
 //                        record.getRouteID()
@@ -134,7 +141,8 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
                             try {
                                 classifier.setOptions("-S 3 -K 2 -Z -C 1000 -P 0.01".split(" "));
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                logger.error("SupportVectorRegressionPatternBuilder: Exception occurred while " +
+                                        "computing classifier: " + e, e);
                             }
                         });
 
@@ -145,7 +153,8 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
                         try {
                             for (int i = 0; i < DAY_INTERVALS; i++) classifiers.get(i).buildClassifier(datasets.get(i));
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            logger.error("SupportVectorRegressionPatternBuilder: Exception occurred " +
+                                    "while computing classifier: " + e, e);
                         }
                         svmDatasets.put(classifiers.get(0), datasets.get(0));
                         svmRoutes.put(routeID, classifiers);
@@ -153,14 +162,6 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
             baseline.put(day, svmRoutes);
 
         }
-
-        //TODO: poniższe nie działa, nie zgadzają się typy
-//        String baselineFilename = baselineSerializer.serializeBaseline(baseline);
-//        if (baselineFilename != null) {
-//            logger.info("Baseline has been serialized in {} file", baselineFilename);
-//        } else {
-//            logger.debug("Error occurred while serializing baseline");
-//        }
 
         if (shouldSetAfterComputing)
             svrMap = baseline;
@@ -191,7 +192,7 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
         try {
             predictedTravelDuration = classify(dayOfWeek, routeIdx, (int) secondOfDay);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("SupportVectorRegressionPatternBuilder: Exception occurred while setting interval: " + e, e);
         }
         double errorSensitivity = leverInfoHelper.getLeverValue();
         double bounds = 0.25 + errorSensitivity; // %
@@ -206,7 +207,7 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
             try {
                 tempDuration = classify(dayOfWeek, routeIdx, (int) secondOfDay + (unitDiff * 60));
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("SupportVectorRegressionPatternBuilder: Exception occurred while isAnomaly: " + e, e);
             }
             predictedTravelDurationMinimum = predictedTravelDurationMinimum < tempDuration ? predictedTravelDurationMinimum : tempDuration;
             predictedTravelDurationMaximum = predictedTravelDurationMaximum < tempDuration ? tempDuration : predictedTravelDurationMaximum;
@@ -226,14 +227,11 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
                 errorRate = travelDuration / predictedTravelDuration;
 
             String anomalyID = anomalyTracker.put(routeIdx, DateTime.now());
-            int severity = (int) ((Math.abs(predictedTravelDuration / travelDuration) * 3) % 6);
-            System.out.println("Exceed - " + errorRate * 100);
             return AnomalyOperationProtos.AnomalyMessage.newBuilder()
                     .setDayOfWeek(dayOfWeek.ordinal())
                     .setRouteIdx(routeIdx)
                     .setSecondOfDay((int) secondOfDay)
                     .setDuration((int) travelDuration)
-                    .setSeverity(1) // TODO: Fix it
                     .setMessage(String.format("Error rate: > %f <", errorRate))
                     .setAnomalyID(anomalyID)
                     .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))
@@ -241,14 +239,16 @@ public class SupportVectorRegressionPatternBuilder implements Strategy {
                     .setNormExceed((int) (errorRate * 100) - 100)
                     .build();
         }
-//        } else if (anomalyTracker.has(routeIdx)) {
-//            anomalyTracker.remove(routeIdx);
-//        }
+
         return null;
     }
 
     @Override
     public void setServer(Server server) {
         anomalyTracker.setAnomaliesServer((AnomaliesServer) server);
+    }
+
+    public static class Holder {
+        static final SupportVectorRegressionPatternBuilder INSTANCE = new SupportVectorRegressionPatternBuilder();
     }
 }

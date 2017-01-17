@@ -34,7 +34,6 @@ public class AnomalyTrackerTest {
         oldPreferences = options.getPreferences();
         options.resetPreferences();
         anomalyTracker = AnomalyTracker.getInstance();
-        //TODO use reflection to reset anomalyTracker fields
         resetAnomalyTracker();
     }
 

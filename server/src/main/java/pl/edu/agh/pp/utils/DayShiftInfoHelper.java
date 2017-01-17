@@ -7,7 +7,6 @@ import pl.edu.agh.pp.adapters.Connector;
 import pl.edu.agh.pp.operations.AnomalyOperationProtos;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
-import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 import pl.edu.agh.pp.utils.enums.DayShift;
 
 import java.io.IOException;
@@ -22,10 +21,6 @@ import java.util.Date;
  * Project: server.
  */
 
-// There is one known issue. The dependency between methods getting Shift from the place where the SystemGeneralMessage
-// is being send and with this Connect.updateSystemGeneral ... but i want to have the shift updated on charts whenever
-// somebody will ask about shift or when the Scheduler run though this helper.
-
 public class DayShiftInfoHelper {
 
     private static Logger logger = (Logger) LoggerFactory.getLogger(DayShiftInfoHelper.class.getClass());
@@ -36,10 +31,6 @@ public class DayShiftInfoHelper {
     public static DayShiftInfoHelper getInstance() {
         return Holder.INSTANCE;
     }
-
-    // Be careful. This code is redundant with cron Timer.
-    // Please consider whether it could be merged or not. (I mean especially the UML diagram and program structure)
-    // I don't want to make a spaghetti...
 
     private DayShift getShift() {
 

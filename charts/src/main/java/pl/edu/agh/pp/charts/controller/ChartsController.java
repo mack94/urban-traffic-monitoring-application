@@ -1,6 +1,7 @@
 package pl.edu.agh.pp.charts.controller;
 
 import ch.qos.logback.classic.Logger;
+import com.sun.javafx.charts.Legend;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,6 +9,8 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -72,7 +75,7 @@ public class ChartsController {
     private Button button134;
     @FXML
     private Button button578;
-//    @FXML
+    //    @FXML
 //    private Button reverseRouteButton;
     @FXML
     private Label logsListLabel;
@@ -199,7 +202,7 @@ public class ChartsController {
                 double fPart;
                 iPart = (long) num;
                 fPart = num - iPart;
-                Tooltip.install(d.getNode(), new Tooltip(s.getName()+"\nTime of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuration: " + d.getYValue().toString() + " seconds"));
+                Tooltip.install(d.getNode(), new Tooltip(s.getName() + "\nTime of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuration: " + d.getYValue().toString() + " seconds"));
 
                 //Adding class on hover
                 d.getNode().setOnMouseEntered(event -> d.getNode().getStyleClass().add("onHover"));
@@ -238,7 +241,7 @@ public class ChartsController {
             List<Integer> routes = map.get(date.toString());
             ObservableList<String> dateRouteIdList = FXCollections.observableArrayList();
             for (Integer id : routes) {
-                dateRouteIdList.add(String.valueOf(id) + " " +  ServerRoutesInfo.getRouteName(id));
+                dateRouteIdList.add(String.valueOf(id) + " " + ServerRoutesInfo.getRouteName(id));
             }
             idComboBox.setItems(dateRouteIdList);
         });
@@ -298,7 +301,7 @@ public class ChartsController {
     private void setupChart() {
         lineChart.setTitle("");
         lineChart.setAnimated(false);
-        lineChart.setLegendVisible(false);
+//        lineChart.setLegendVisible(false);
         //Panning works via either secondary (right) mouse or primary with ctrl held down
         ChartPanManager panner = new ChartPanManager(lineChart);
         panner.setMouseFilter(mouseEvent -> {
@@ -321,6 +324,7 @@ public class ChartsController {
 
     @FXML
     private void initialize() {
+        Locale.setDefault(Locale.ENGLISH);
         initializeFields();
         setupChart();
         parser = new Parser();
@@ -481,7 +485,7 @@ public class ChartsController {
             Platform.runLater(() -> lineChart.getData().add(historicalData.getHistoricalDataSeries()));
             createTooltips();
         }
-        if (drawBaselineCheckbox.isSelected()) {
+        if (drawBaselineCheckbox.isSelected() && !drawAnomaliesCheckbox.isSelected()) {
             drawBaseline(id, String.valueOf(DateTime.parse(dayForHistoricalData).dayOfWeek().get()), dayForHistoricalData);
         }
         if (drawAnomaliesCheckbox.isSelected()) {
@@ -529,7 +533,9 @@ public class ChartsController {
     }
 
     private void drawHistoricalAnomalies(final String id, final String dayForHistoricalAnomalies) {
-        //TODO
+        if (drawBaselineCheckbox.isSelected()) {
+            drawBaseline(id, String.valueOf(DateTime.parse(dayForHistoricalAnomalies).dayOfWeek().get()), dayForHistoricalAnomalies);
+        }
         HistoricalAnomaly historicalAnomaly = HistoricalAnomalyManager.getHistoricalAnomalies(Integer.valueOf(id), DateTime.parse(dayForHistoricalAnomalies));
         if (historicalAnomaly == null) {
             Connector.demandHistoricalAnomalies(DateTime.parse(dayForHistoricalAnomalies), Integer.valueOf(id));
@@ -580,14 +586,17 @@ public class ChartsController {
                 }
             });
         }
-        if (drawBaselineCheckbox.isSelected()) {
-            drawBaseline(id, String.valueOf(DateTime.parse(dayForHistoricalAnomalies).dayOfWeek().get()), dayForHistoricalAnomalies);
-        }
     }
 
     private void setAnomalyChartStyles() {
-        for(XYChart.Series<Number, Number> series: lineChart.getData()){
-            if(series.getName().startsWith("Anomaly")){
+        Legend legend = (Legend) findNode(lineChart, Legend.class.getName(), "chart-legend");
+        for (XYChart.Series<Number, Number> series : lineChart.getData()) {
+            if (series.getName().contains("Anomaly")) {
+                for (Legend.LegendItem legendItem : legend.getItems()) {
+                    if (legendItem.getText().contains("Anomaly")) {
+                        legendItem.getSymbol().setStyle("-fx-background-color: red,white;");
+                    }
+                }
                 series.nodeProperty().get().setStyle("-fx-stroke-width: 5px; -fx-stroke: red; ");
                 for (XYChart.Data<Number, Number> d : series.getData()) {
                     double num = (double) d.getXValue();
@@ -597,7 +606,7 @@ public class ChartsController {
                     fPart = num - iPart;
 //                  d.nodeProperty().get().setStyle("-fx-background-color: red,white;");
                     d.nodeProperty().get().getStyleClass().add("AnomalyNode");
-                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: "+ d.getYValue().toString() + " seconds"));
+                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: " + d.getYValue().toString() + " seconds"));
                     d.nodeProperty().get().setOnMouseEntered(event -> {
                         d.getNode().getStyleClass().remove("AnomalyNode");
                         d.getNode().getStyleClass().add("onHover");
@@ -607,9 +616,14 @@ public class ChartsController {
                         d.getNode().getStyleClass().remove("onHover");
                     });
                 }
-            }
-            else if(series.getName().startsWith("Baseline")){
+            } else if (series.getName().contains("Baseline")) {
                 series.nodeProperty().get().setStyle("-fx-stroke-width: 2px; -fx-stroke: green;");
+
+                for (Legend.LegendItem legendItem : legend.getItems()) {
+                    if (legendItem.getText().contains("Baseline")) {
+                        legendItem.getSymbol().setStyle("-fx-background-color: green,white;");
+                    }
+                }
                 for (XYChart.Data<Number, Number> d : series.getData()) {
                     double num = (double) d.getXValue();
                     long iPart;
@@ -617,7 +631,7 @@ public class ChartsController {
                     iPart = (long) num;
                     fPart = num - iPart;
                     d.nodeProperty().get().getStyleClass().add("BaselineDataNode");
-                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: "+ d.getYValue().toString() + " seconds"));
+                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: " + d.getYValue().toString() + " seconds"));
                     d.nodeProperty().get().setOnMouseEntered(event -> {
                         d.getNode().getStyleClass().remove("BaselineDataNode");
                         d.getNode().getStyleClass().add("onHover");
@@ -627,9 +641,12 @@ public class ChartsController {
                         d.getNode().getStyleClass().remove("onHover");
                     });
                 }
-            }
-            else {
-                System.out.println(series.getName());
+            } else {
+                for (Legend.LegendItem legendItem : legend.getItems()) {
+                    if (!legendItem.getText().contains("Anomaly") && !legendItem.getText().contains("Baseline")) {
+                        legendItem.getSymbol().setStyle("-fx-background-color: blue,white;");
+                    }
+                }
                 series.nodeProperty().get().setStyle("-fx-stroke-width: 2px; -fx-stroke: blue;");
                 for (XYChart.Data<Number, Number> d : series.getData()) {
                     double num = (double) d.getXValue();
@@ -638,7 +655,7 @@ public class ChartsController {
                     iPart = (long) num;
                     fPart = num - iPart;
                     d.nodeProperty().get().getStyleClass().add("HistoricalDataNode");
-                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: "+ d.getYValue().toString() + " seconds"));
+                    Tooltip.install(d.getNode(), new Tooltip(series.getName() + "\n Time of the day: " + iPart + "h " + (long) (fPart * 60) + "min" + "\nDuaration: " + d.getYValue().toString() + " seconds"));
                     d.nodeProperty().get().setOnMouseEntered(event -> {
                         d.getNode().getStyleClass().remove("HistoricalDataNode");
                         d.getNode().getStyleClass().add("onHover");
@@ -650,6 +667,39 @@ public class ChartsController {
                 }
             }
         }
+    }
+
+    private static Node findNode(final Parent aParent, final String aClassname, final String aStyleName) {
+        if (null != aParent) {
+            final ObservableList<Node> children = aParent.getChildrenUnmodifiable();
+            if (null != children) {
+                for (final Node child : children) {
+                    String className = child.getClass().getName();
+                    if (className.contains("$")) {
+                        className = className.substring(0, className.indexOf("$"));
+                    }
+                    if (0 == aClassname.compareToIgnoreCase(className)) {
+                        if ((null == aStyleName) || (0 == aStyleName.length())) {
+                            return child;
+                        } else {
+                            final String styleName = child.getStyleClass().toString();
+                            if (0 == aStyleName.compareToIgnoreCase(styleName)) {
+                                return child;
+                            }
+                        }
+                    }
+                    if (child instanceof Parent) {
+                        final Node node = findNode((Parent) child, aClassname, aStyleName);
+
+                        if (null != node) {
+                            return node;
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     @FXML
@@ -776,7 +826,6 @@ public class ChartsController {
             fillInDaysOfWeek();
         } else if (typeComboBox.getSelectionModel().getSelectedItem().equalsIgnoreCase("Historical data")) {
             dayComboBox.getItems().clear();
-            //TODO historical
         }
     }
 

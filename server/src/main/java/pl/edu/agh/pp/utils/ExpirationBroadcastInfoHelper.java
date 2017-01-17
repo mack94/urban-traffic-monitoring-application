@@ -11,8 +11,7 @@ import pl.edu.agh.pp.settings.PreferencesNamesHolder;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class ExpirationBroadcastInfoHelper
-{
+public class ExpirationBroadcastInfoHelper {
     private static final Logger logger = (Logger) LoggerFactory.getLogger(ExpirationBroadcastInfoHelper.class);
     private static final Object lock = new Object();
     private static IOptions options = Options.getInstance();
@@ -20,28 +19,21 @@ public class ExpirationBroadcastInfoHelper
     private static boolean updated = false;
     private static String preferenceName = PreferencesNamesHolder.ANOMALY_EXPIRATION_BROADCAST;
 
-    private ExpirationBroadcastInfoHelper()
-    {
+    private ExpirationBroadcastInfoHelper() {
     }
 
-    public static ExpirationBroadcastInfoHelper getInstance()
-    {
+    public static ExpirationBroadcastInfoHelper getInstance() {
         return ExpirationBroadcastInfoHelper.Holder.INSTANCE;
     }
 
-    public int getExpirationBroadcastValue()
-    {
-        synchronized (lock)
-        {
+    public int getExpirationBroadcastValue() {
+        synchronized (lock) {
             if (updated)
                 return expirationBroadcast;
 
-            try
-            {
+            try {
                 expirationBroadcast = ((int) options.getPreference(preferenceName, Integer.class));
-            }
-            catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected)
-            {
+            } catch (IllegalPreferenceObjectExpected illegalPreferenceObjectExpected) {
                 logger.error("ExpirationBroadcastInfoHelper:  expirationBroadcast error! " +
                                 "Could not getPreference AnomalyExpirationBroadcast from registry!" + illegalPreferenceObjectExpected,
                         illegalPreferenceObjectExpected);
@@ -54,14 +46,12 @@ public class ExpirationBroadcastInfoHelper
         }
     }
 
-    public void setExpirationBroadcastValue(int newExpirationBroadcastValue) throws IOException
-    {
+    public void setExpirationBroadcastValue(int newExpirationBroadcastValue) throws IOException {
 
         HashMap<String, Object> newPreference = new HashMap<>();
         newPreference.put(preferenceName, newExpirationBroadcastValue);
 
-        synchronized (lock)
-        {
+        synchronized (lock) {
             updated = false;
             options.setPreferences(newPreference);
         }
@@ -70,8 +60,7 @@ public class ExpirationBroadcastInfoHelper
 
     }
 
-    public static class Holder
-    {
+    public static class Holder {
         static final ExpirationBroadcastInfoHelper INSTANCE = new ExpirationBroadcastInfoHelper();
     }
 }

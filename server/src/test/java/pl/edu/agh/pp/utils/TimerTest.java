@@ -36,46 +36,46 @@ public class TimerTest {
         testCalendar.set(2016, 1, 2, 15, 1);
         consoleOutputCapturer.start();
         timer.getWaitingTime(testCalendar);
-        assertEquals("DAY SHIFT-----------------------------------------------\r\n", consoleOutputCapturer.stop());
+        assertTrue(consoleOutputCapturer.stop().contains("DAY MODE"));
 
 
         testCalendar.set(2016, 1, 2, 22, 59, 59);
         consoleOutputCapturer.start();
         timer.getWaitingTime(testCalendar);
-        assertEquals("DAY SHIFT-----------------------------------------------\r\n", consoleOutputCapturer.stop());
+        assertTrue(consoleOutputCapturer.stop().contains("DAY MODE"));
 
 
         testCalendar.set(2016, 1, 2, 23, 0, 0);
         consoleOutputCapturer.start();
         timer.getWaitingTime(testCalendar);
-        assertEquals("NIGHT SHIFT----------------------------------------------\r\n", consoleOutputCapturer.stop());
+        assertTrue(consoleOutputCapturer.stop().contains("NIGHT MODE"));
 
 
         testCalendar.set(2016, 1, 3, 2, 0, 0);
         consoleOutputCapturer.start();
         timer.getWaitingTime(testCalendar);
-        assertEquals("NIGHT SHIFT----------------------------------------------\r\n", consoleOutputCapturer.stop());
+        assertTrue(consoleOutputCapturer.stop().contains("NIGHT MODE"));
 
 
         testCalendar.set(2016, 1, 3, 2, 22, 48);
         consoleOutputCapturer.start();
         timer.getWaitingTime(testCalendar);
-        assertEquals("NIGHT SHIFT----------------------------------------------\r\n", consoleOutputCapturer.stop());
+        assertTrue(consoleOutputCapturer.stop().contains("NIGHT MODE"));
 
         testCalendar.set(2016, 1, 3, 4, 59);
         consoleOutputCapturer.start();
         timer.getWaitingTime(testCalendar);
-        assertEquals("NIGHT SHIFT----------------------------------------------\r\n", consoleOutputCapturer.stop());
+        assertTrue(consoleOutputCapturer.stop().contains("NIGHT MODE"));
 
         testCalendar.set(2016, 1, 3, 5, 00, 00);
         consoleOutputCapturer.start();
         timer.getWaitingTime(testCalendar);
-        assertEquals("NIGHT SHIFT----------------------------------------------\r\n", consoleOutputCapturer.stop());
+        assertTrue(consoleOutputCapturer.stop().contains("NIGHT MODE"));
 
         testCalendar.set(2016, 1, 3, 5, 00, 01);
         consoleOutputCapturer.start();
         timer.getWaitingTime(testCalendar);
-        assertEquals("DAY SHIFT-----------------------------------------------\r\n", consoleOutputCapturer.stop());
+        assertTrue(consoleOutputCapturer.stop().contains("DAY MODE"));
     }
 
 }

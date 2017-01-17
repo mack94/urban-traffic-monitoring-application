@@ -1,7 +1,5 @@
 package pl.edu.agh.pp.utils;
 
-import java.util.HashMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.pp.adapters.Connector;
@@ -9,6 +7,8 @@ import pl.edu.agh.pp.exceptions.IllegalPreferenceObjectExpected;
 import pl.edu.agh.pp.settings.IOptions;
 import pl.edu.agh.pp.settings.Options;
 import pl.edu.agh.pp.settings.PreferencesNamesHolder;
+
+import java.util.HashMap;
 
 /**
  * Created by Maciej on 09.11.2016.
@@ -42,6 +42,7 @@ public class LeverInfoHelper {
                 logger.error("LeverInfoHelper:  leverValue error! Could not getPreference LeverValue from registry!" + illegalPreferenceObjectExpected,
                         illegalPreferenceObjectExpected);
                 leverValue = 0.0;
+                setLeverValue((int) leverValue * 100);
                 logger.error("LeverInfoHelper:  leverValue error! Assigned 0.0 (0%) to LeverValue due to emergency mode!");
             }
             updated = true;

@@ -16,7 +16,8 @@ public class AnomaliesServer extends Server {
         try {
             server.send(null, buf, offset, length);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("AnomaliesServer: Error occurred while receiving and sending message by the anomalies channel. "
+                    + "Info: {}", e);
         }
     }
 
@@ -25,7 +26,8 @@ public class AnomaliesServer extends Server {
         try {
             server.send(null, buf);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("AnomaliesServer: Error occurred while receiving and sending message by the anomalies channel. "
+                    + "Info: {}", e);
         }
     }
 }

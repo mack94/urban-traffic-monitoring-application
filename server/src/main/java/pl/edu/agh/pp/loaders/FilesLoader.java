@@ -24,7 +24,6 @@ public class FilesLoader {
     private final Logger logger = (Logger) LoggerFactory.getLogger(FilesLoader.class);
 
     /**
-     * TODO: Load all selected files.
      * Regex could be useful in accessing the day of week (the log files has date und day of week)
      * This could be parsed and well set.
      * Regex could be also useful in reading each data from files.

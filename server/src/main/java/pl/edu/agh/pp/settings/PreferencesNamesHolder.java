@@ -6,8 +6,8 @@ package pl.edu.agh.pp.settings;
  * server
  */
 public class PreferencesNamesHolder {
-    public static String DAY_SHIFT_START = "DayShiftStart";
-    public static String NIGHT_SHIFT_START = "NightShiftStart";
+    public static String DAY_SHIFT_START = "DayModeStart";
+    public static String NIGHT_SHIFT_START = "NightModeStart";
     public static String ANOMALY_LIFE_TIME = "AnomalyLifeTime";
     public static String BASELINE_WINDOW_SIZE = "BaselineWindowSize";
     public static String LEVER_VALUE = "LeverValue";
@@ -16,10 +16,11 @@ public class PreferencesNamesHolder {
     public static String ANOMALY_REPEATER_INTERVAL = "AnomalyRepeaterInterval";
     public static String ANOMALY_EXPIRATION_INTERVAL = "AnomalyExpirationInterval";
     public static String ANOMALY_EXPIRATION_BROADCAST = "AnomalyExpirationBroadcast";
-    public static String DAY_SHIFT_FREQUENCY_FROM = "DayShiftFrequencyFrom";
-    public static String DAY_SHIFT_FREQUENCY_TO = "DayShiftFrequencyTo";
-    public static String NIGHT_SHIFT_FREQUENCY_FROM = "NightShiftFrequencyFrom";
-    public static String NIGHT_SHIFT_FREQUENCY_TO = "NightShiftFrequencyTo";
+    public static String DAY_SHIFT_FREQUENCY_FROM = "DayModeFrequencyFrom";
+    public static String DAY_SHIFT_FREQUENCY_TO = "DayModeFrequencyTo";
+    public static String NIGHT_SHIFT_FREQUENCY_FROM = "NightModeFrequencyFrom";
+    public static String NIGHT_SHIFT_FREQUENCY_TO = "NightModeFrequencyTo";
+    public static String ANOMALY_CHANNEL_PORT = "AnomaliesServerPort";
 
     private PreferencesNamesHolder() {
     }

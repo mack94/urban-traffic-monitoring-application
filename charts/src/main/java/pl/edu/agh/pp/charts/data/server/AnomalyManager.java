@@ -75,28 +75,15 @@ public class AnomalyManager {
         return null;
     }
 
-    public void removeFromList(String id)
-    {
+    public void removeFromList(String id) {
         Iterator<Anomaly> iterator = anomalyList.iterator();
 
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             Anomaly anomaly = iterator.next();
-            if (anomaly.getAnomalyId().toUpperCase().contains(id.toUpperCase()))
-            {
+            if (anomaly.getAnomalyId().toUpperCase().contains(id.toUpperCase())) {
                 iterator.remove();
             }
         }
-//        TODO: Jezeli powyzsze pomoglo z bledem ConcurrentModificationException w watku JGroups
-//        to znaczy ze ponizsze było bledne i bedzie mozna wywalić. Jak nie pomoglo to mozna przywrocic starą wersje.
-//        ~Maciek
-
-//        for (Anomaly a : anomalyList) {
-//            if (a.getAnomalyId().contains(id)) {
-//                anomalyList.remove(a);
-//                return;
-//            }
-//        }
     }
 
     public void removeAnomaly(String anomalyId) {

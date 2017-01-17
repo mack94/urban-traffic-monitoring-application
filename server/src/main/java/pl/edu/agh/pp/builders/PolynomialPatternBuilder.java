@@ -1,8 +1,5 @@
 package pl.edu.agh.pp.builders;
 
-import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoint;
@@ -21,13 +18,14 @@ import pl.edu.agh.pp.trackers.IAnomalyTracker;
 import pl.edu.agh.pp.utils.*;
 import pl.edu.agh.pp.utils.enums.DayOfWeek;
 
+import java.util.*;
+
 /**
  * Created by Maciej on 18.07.2016.
  * 21:35
  * Project: detector.
  */
-public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
-{
+public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
     private static final double DECAY_STEP = 0.05;
@@ -39,22 +37,18 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
     private static BaselineWindowSizeInfoHelper baselineWindowSizeInfoHelper = BaselineWindowSizeInfoHelper.getInstance();
     private static int polymonialDegree = 17;
 
-    private PolynomialPatternBuilder()
-    {
+    private PolynomialPatternBuilder() {
     }
 
-    public static PolynomialPatternBuilder getInstance()
-    {
+    public static PolynomialPatternBuilder getInstance() {
         return Holder.INSTANCE;
     }
 
-    private static double function(DayOfWeek dayOfWeek, int routeIdx, int second)
-    {
+    private static double function(DayOfWeek dayOfWeek, int routeIdx, int second) {
         return polynomialFunctions.get(dayOfWeek).get(routeIdx).value(second);
     }
 
-    public static void computePolynomial(List<Record> records, boolean shouldSetAfterComputing)
-    {
+    public static void computePolynomial(List<Record> records, boolean shouldSetAfterComputing) {
         Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline = new HashMap<>();
         PolynomialCurveFitter fitter = PolynomialCurveFitter.create(polymonialDegree);
 
@@ -63,73 +57,62 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
         HistoricalInfoHelper.addRecords(_records);
         DateTime now = DateTime.now();
 
-        for (DayOfWeek day : DayOfWeek.values())
-        {
+        for (DayOfWeek day : DayOfWeek.values()) {
 
             Map<Integer, List<WeightedObservedPoint>> weightedObservedPointsMap = new HashMap<>();
 
-            for (Record record : _records)
-            {
-                // TODO: on production condition should be like the commented one
-                // if (!"".equals(record.getAnomalyID()) || !"default".equals(record.getWaypoints()))
-                if (!"".equals(record.getAnomalyID()))
-                {
-                    continue;
-                }
-
-                int recordRouteID = record.getRouteID();
-                List<WeightedObservedPoint> points = weightedObservedPointsMap.get(recordRouteID);
-                if (points == null)
-                {
-                    weightedObservedPointsMap.put(recordRouteID, new ArrayList<>());
-                    points = weightedObservedPointsMap.get(recordRouteID);
-                }
-                if (record.getDayOfWeek().compareTo(day) == 0)
-                {
-                    points.add(new WeightedObservedPoint(1 - computeWeightDecay(now, record), record.getTimeInSeconds(), record.getDurationInTraffic()));
-                    weightedObservedPointsMap.put(recordRouteID, points);
-                }
-                AvailableHistoricalInfoHelper.addAvailableDateRoute(
-                        record.getDateTime().toString("yyyy-MM-dd"),
-                        record.getRouteID());
-            }
+            _records.stream()
+                    .filter(record -> "".equals(record.getAnomalyID()))
+                    .forEach(record -> {
+                        int recordRouteID = record.getRouteID();
+                        List<WeightedObservedPoint> points = weightedObservedPointsMap.get(recordRouteID);
+                        if (points == null) {
+                            weightedObservedPointsMap.put(recordRouteID, new ArrayList<>());
+                            points = weightedObservedPointsMap.get(recordRouteID);
+                        }
+                        if (record.getDayOfWeek().compareTo(day) == 0) {
+                            points.add(
+                                    new WeightedObservedPoint(1 - computeWeightDecay(now, record),
+                                            record.getTimeInSeconds(),
+                                            record.getDurationInTraffic())
+                            );
+                            weightedObservedPointsMap.put(recordRouteID, points);
+                        }
+                        AvailableHistoricalInfoHelper.addAvailableDateRoute(
+                                record.getDateTime().toString("yyyy-MM-dd"),
+                                record.getRouteID());
+                    });
 
             Map<Integer, PolynomialFunction> polynomialFunctionRoutes = new HashMap<>();
 
             weightedObservedPointsMap.keySet()
                     .stream()
                     .filter(routeID -> weightedObservedPointsMap.get(routeID).size() != 0)
-                    .forEach(routeID -> polynomialFunctionRoutes.put(routeID, new PolynomialFunction(fitter.fit(weightedObservedPointsMap.get(routeID)))));
+                    .forEach(routeID -> polynomialFunctionRoutes.put(
+                            routeID,
+                            new PolynomialFunction(fitter.fit(weightedObservedPointsMap.get(routeID)))
+                    ));
 
             baseline.put(day, polynomialFunctionRoutes);
         }
 
         String baselineFilename = baselineSerializer.serializeBaseline(baseline);
-        if (baselineFilename != null)
-        {
+        if (baselineFilename != null) {
             logger.info("Baseline has been serialized in {} file", baselineFilename);
-        }
-        else
-        {
+        } else {
             logger.debug("Error occurred while serializing baseline");
         }
 
-        if (shouldSetAfterComputing)
-        {
+        if (shouldSetAfterComputing) {
             polynomialFunctions = baseline;
             setBaselineNames(baseline, baselineFilename);
         }
     }
 
-    // It should be discussed.
-    // Firstly whether the function is necessary.
-    // Secondly whether each 'second' or 'minute' or different time interval.
-    public static double[] getValueForEachMinuteOfDay(DayOfWeek dayOfWeek, int routeIdx)
-    {
+    public static double[] getValueForEachMinuteOfDay(DayOfWeek dayOfWeek, int routeIdx) {
         double[] values = new double[1440];
         int idx = 0;
-        for (int i = 0; i < 86400; i = i + 60)
-        {
+        for (int i = 0; i < 86400; i = i + 60) {
             double value = function(dayOfWeek, routeIdx, i);
             values[idx] = value;
             idx++;
@@ -137,12 +120,10 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
         return values;
     }
 
-    private static double computeWeightDecay(DateTime now, Record record)
-    {
+    private static double computeWeightDecay(DateTime now, Record record) {
         int dayDiff = Days.daysBetween(record.getDateTime(), now).getDays();
         int counter = -1;
-        while (dayDiff > 0)
-        {
+        while (dayDiff > 0) {
             dayDiff -= 7;
             counter++;
         }
@@ -150,53 +131,43 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
         return DECAY_STEP * counter < MAX_DECAY ? DECAY_STEP * counter : MAX_DECAY;
     }
 
-    private static void setBaselineNames(Map<DayOfWeek, Map<Integer, PolynomialFunction>> map, String filename)
-    {
+    private static void setBaselineNames(Map<DayOfWeek, Map<Integer, PolynomialFunction>> map, String filename) {
         BaselineNameHolder.clear();
-        for (DayOfWeek day : map.keySet())
-        {
-            for (Integer route : map.get(day).keySet())
-            {
+        for (DayOfWeek day : map.keySet()) {
+            for (Integer route : map.get(day).keySet()) {
                 BaselineNameHolder.addBaseline(day, route, filename);
             }
         }
     }
 
-    public static void setPolymonialDegree(int newDegree)
-    {
+    public static void setPolymonialDegree(int newDegree) {
         polymonialDegree = newDegree;
     }
 
     @Override
-    public void setBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline, String filename)
-    {
+    public void setBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline, String filename) {
         polynomialFunctions = baseline;
         setBaselineNames(baseline, filename);
     }
 
     @Override
-    public void setPartialBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline, DayOfWeek dayOfWeek, int id, String filename)
-    {
+    public void setPartialBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline, DayOfWeek dayOfWeek, int id, String filename) {
         PolynomialFunction function = baseline.get(dayOfWeek).get(id);
         polynomialFunctions.get(dayOfWeek).put(id, function);
         BaselineNameHolder.addBaseline(dayOfWeek, id, filename);
     }
 
     @Override
-    public void updateBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline, String filename)
-    {
-        for (DayOfWeek dayOfWeek : baseline.keySet())
-        {
-            for (Map.Entry<Integer, PolynomialFunction> entry : baseline.get(dayOfWeek).entrySet())
-            {
+    public void updateBaseline(Map<DayOfWeek, Map<Integer, PolynomialFunction>> baseline, String filename) {
+        for (DayOfWeek dayOfWeek : baseline.keySet()) {
+            for (Map.Entry<Integer, PolynomialFunction> entry : baseline.get(dayOfWeek).entrySet()) {
                 polynomialFunctions.get(dayOfWeek).put(entry.getKey(), entry.getValue());
                 BaselineNameHolder.addBaseline(dayOfWeek, entry.getKey(), filename);
             }
         }
     }
 
-    public AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration)
-    {
+    public AnomalyOperationProtos.AnomalyMessage isAnomaly(DayOfWeek dayOfWeek, int routeIdx, long secondOfDay, long travelDuration) {
         double predictedTravelDuration = function(dayOfWeek, routeIdx, (int) secondOfDay);
         double errorSensitivity = leverInfoHelper.getLeverValue();
         double bounds = 0.25 + errorSensitivity; // %
@@ -206,11 +177,14 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
         double predictedTravelDurationMaximum = Double.MIN_VALUE;
         double errorRate;
 
-        for (int unitDiff = -baselineWindowSize; unitDiff <= baselineWindowSize; unitDiff++)
-        {
+        for (int unitDiff = -baselineWindowSize; unitDiff <= baselineWindowSize; unitDiff++) {
             double tempDuration = function(dayOfWeek, routeIdx, (int) secondOfDay + (unitDiff * 60));
-            predictedTravelDurationMinimum = predictedTravelDurationMinimum < tempDuration ? predictedTravelDurationMinimum : tempDuration;
-            predictedTravelDurationMaximum = predictedTravelDurationMaximum < tempDuration ? tempDuration : predictedTravelDurationMaximum;
+            predictedTravelDurationMinimum = predictedTravelDurationMinimum < tempDuration
+                    ? predictedTravelDurationMinimum
+                    : tempDuration;
+            predictedTravelDurationMaximum = predictedTravelDurationMaximum < tempDuration
+                    ? tempDuration
+                    : predictedTravelDurationMaximum;
         }
 
         logger.info("#####################");
@@ -218,8 +192,7 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
         logger.info(String.valueOf(predictedTravelDurationMinimum - errorDelta));
         logger.info(String.valueOf(predictedTravelDurationMaximum + errorDelta));
 
-        if ((travelDuration > predictedTravelDurationMaximum + errorDelta))
-        {
+        if ((travelDuration > predictedTravelDurationMaximum + errorDelta)) {
 
             if (travelDuration > predictedTravelDuration + errorDelta)
                 errorRate = travelDuration / predictedTravelDuration;
@@ -227,14 +200,12 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
                 errorRate = travelDuration / predictedTravelDuration;
 
             String anomalyID = anomalyTracker.put(routeIdx, DateTime.now());
-            int severity = (int) ((Math.abs(predictedTravelDuration / travelDuration) * 3) % 6);
-            System.out.println("Exceed - " + errorRate * 100);
+
             return AnomalyOperationProtos.AnomalyMessage.newBuilder()
                     .setDayOfWeek(dayOfWeek.ordinal())
                     .setRouteIdx(routeIdx)
                     .setSecondOfDay((int) secondOfDay)
                     .setDuration((int) travelDuration)
-                    .setSeverity(1) // TODO: Fix it
                     .setMessage(String.format("Error rate: > %f <", errorRate))
                     .setAnomalyID(anomalyID)
                     .setDate(DateTime.now().toString("yyyy-MM-dd HH:mm:ss"))
@@ -242,21 +213,16 @@ public final class PolynomialPatternBuilder implements IPatternBuilder, Strategy
                     .setNormExceed((int) (errorRate * 100) - 100)
                     .build();
         }
-//        else if (anomalyTracker.has(routeIdx))
-//        {
-//            anomalyTracker.remove(routeIdx);
-//        }
+
         return null;
     }
 
     @Override
-    public void setServer(Server server)
-    {
+    public void setServer(Server server) {
         anomalyTracker.setAnomaliesServer((AnomaliesServer) server);
     }
 
-    public static class Holder
-    {
+    public static class Holder {
         static final PolynomialPatternBuilder INSTANCE = new PolynomialPatternBuilder();
     }
 }

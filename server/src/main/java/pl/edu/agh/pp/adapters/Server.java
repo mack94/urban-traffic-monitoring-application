@@ -21,8 +21,8 @@ import java.nio.ByteBuffer;
  */
 public abstract class Server extends ReceiverAdapter implements IServer {
 
-    protected BaseServer server;
     protected final Logger logger = (Logger) LoggerFactory.getLogger(Server.class);
+    protected BaseServer server;
     protected String serverName;
 
     @Override

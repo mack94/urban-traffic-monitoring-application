@@ -19,6 +19,7 @@ public class MeanPatternBuilder implements Strategy {
 
     private static Map<DayOfWeek, Map<Integer, PolynomialSplineFunction>> meanMap = new HashMap<>();
     private final Logger logger = (Logger) LoggerFactory.getLogger(IPatternBuilder.class);
+    private static double lastValue;
 
     public static void computeFunction(List<Record> records, boolean shouldSetAfterComputing) throws Exception {
         Map<DayOfWeek, Map<Integer, PolynomialSplineFunction>> baseline = new HashMap<>();
@@ -95,10 +96,12 @@ public class MeanPatternBuilder implements Strategy {
     }
 
     private static double function(DayOfWeek dayOfWeek, int routeIdx, int second) {
-        if (meanMap.get(dayOfWeek).get(routeIdx).isValidPoint(second))
+        if (meanMap.get(dayOfWeek).get(routeIdx).isValidPoint(second)) {
+            lastValue = meanMap.get(dayOfWeek).get(routeIdx).value(second);
             return meanMap.get(dayOfWeek).get(routeIdx).value(second);
+        }
         else {
-            return -1;
+            return lastValue;
         }
     }
 
